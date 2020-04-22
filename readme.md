@@ -15,7 +15,7 @@ This repository WILL CONTAIN all of the source code required to compile and run 
 
 MOVES uses MariaDB, Java, and Go. At minimum, you will need the following:
 
-* [MariaDB](https://mariadb.org/download/) (10.2 or greater) or MySQL (5.6-5.8)
+* [MariaDB](https://mariadb.org/download/) (10.2 or greater) or MySQL (5.5-5.7)
 * [Java JDK](//TODO: Figure out jdk and put link here) (1.8 or greater)
 * [GO](https://golang.org/dl/) (version 1.5 or greater)
 
