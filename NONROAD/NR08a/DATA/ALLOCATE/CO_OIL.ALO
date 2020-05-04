@@ -1,0 +1,89 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent EMPLOYEES IN OIL & GAS EXTRACTION, AND DRILLING OIL & GAS WELLS
+CBP NAICS 211/// and 213111; pre-2002 CBP SIC 1300
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+OIL  08000      2002                5859     CO
+OIL  08001      2002                 252     Adams
+OIL  08003      2002                   0     Alamosa
+OIL  08005      2002                 311     Arapahoe
+OIL  08007      2002                  19     Archuleta
+OIL  08009      2002                  19     Baca
+OIL  08011      2002                   0     Bent
+OIL  08013      2002                  46     Boulder
+OIL  08014      2002                   0     Broomfield
+OIL  08015      2002                   0     Chaffee
+OIL  08017      2002                 277     Cheyenne
+OIL  08019      2002                   0     Clear Creek
+OIL  08021      2002                   0     Conejos
+OIL  08023      2002                   0     Costilla
+OIL  08025      2002                   0     Crowley
+OIL  08027      2002                   0     Custer
+OIL  08029      2002                  27     Delta
+OIL  08031      2002                2457     Denver
+OIL  08033      2002                   0     Dolores
+OIL  08035      2002                  33     Douglas
+OIL  08037      2002                   0     Eagle
+OIL  08039      2002                   0     Elbert
+OIL  08041      2002                 501     El Paso
+OIL  08043      2002                   0     Fremont
+OIL  08045      2002                 118     Garfield
+OIL  08047      2002                   0     Gilpin
+OIL  08049      2002                   0     Grand
+OIL  08051      2002                   0     Gunnison
+OIL  08053      2002                   0     Hinsdale
+OIL  08055      2002                  19     Huerfano
+OIL  08057      2002                  27     Jackson
+OIL  08059      2002                 266     Jefferson
+OIL  08061      2002                   0     Kiowa
+OIL  08063      2002                   0     Kit Carson
+OIL  08065      2002                   0     Lake
+OIL  08067      2002                 165     La Plata
+OIL  08069      2002                  34     Larimer
+OIL  08071      2002                  46     Las Animas
+OIL  08073      2002                   0     Lincoln
+OIL  08075      2002                 182     Logan
+OIL  08077      2002                  93     Mesa
+OIL  08079      2002                   0     Mineral
+OIL  08081      2002                   0     Moffat
+OIL  08083      2002                  19     Montezuma
+OIL  08085      2002                  19     Montrose
+OIL  08087      2002                  27     Morgan
+OIL  08089      2002                   0     Otero
+OIL  08091      2002                   0     Ouray
+OIL  08093      2002                   0     Park
+OIL  08095      2002                   0     Phillips
+OIL  08097      2002                  15     Pitkin
+OIL  08099      2002                   0     Prowers
+OIL  08101      2002                  46     Pueblo
+OIL  08103      2002                 269     Rio Blanco
+OIL  08105      2002                   0     Rio Grande
+OIL  08107      2002                  19     Routt
+OIL  08109      2002                   0     Saguache
+OIL  08111      2002                   0     San Juan
+OIL  08113      2002                   0     San Miguel
+OIL  08115      2002                   0     Sedgwick
+OIL  08117      2002                   0     Summit
+OIL  08119      2002                  27     Teller
+OIL  08121      2002                  19     Washington
+OIL  08123      2002                 329     Weld
+OIL  08125      2002                 178     Yuma
+/END/

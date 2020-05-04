@@ -1,0 +1,117 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent NUMBER OF EMPLOYEES IN MANUFACTURING
+CBP NAICS 31----, 321///, 322///, 323///, 324///, 325///, 326///, 327///, 331///,
+332///, 333///, 334///, 335///, 336///, 337///, 339///, and 5111//; pre-2002 CBP SIC 20--
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+MFG  18000      2002             1075981     IN
+MFG  18001      2002               10395     Adams
+MFG  18003      2002               56750     Allen
+MFG  18005      2002               21815     Bartholomew
+MFG  18007      2002                 942     Benton
+MFG  18009      2002                3903     Blackford
+MFG  18011      2002                3982     Boone
+MFG  18013      2002                 280     Brown
+MFG  18015      2002                2946     Carroll
+MFG  18017      2002               10051     Cass
+MFG  18019      2002               13710     Clark
+MFG  18021      2002                2559     Clay
+MFG  18023      2002                7018     Clinton
+MFG  18025      2002                  95     Crawford
+MFG  18027      2002                2487     Daviess
+MFG  18029      2002                2190     Dearborn
+MFG  18031      2002               11165     Decatur
+MFG  18033      2002               22294     De Kalb
+MFG  18035      2002               15772     Delaware
+MFG  18037      2002               23375     Dubois
+MFG  18039      2002              106580     Elkhart
+MFG  18041      2002                7606     Fayette
+MFG  18043      2002               12149     Floyd
+MFG  18045      2002                3719     Fountain
+MFG  18047      2002                1422     Franklin
+MFG  18049      2002                4655     Fulton
+MFG  18051      2002                8944     Gibson
+MFG  18053      2002               13676     Grant
+MFG  18055      2002                1120     Greene
+MFG  18057      2002               10932     Hamilton
+MFG  18059      2002                5357     Hancock
+MFG  18061      2002                4570     Harrison
+MFG  18063      2002                3357     Hendricks
+MFG  18065      2002                5633     Henry
+MFG  18067      2002               29272     Howard
+MFG  18069      2002                9944     Huntington
+MFG  18071      2002               13639     Jackson
+MFG  18073      2002                2630     Jasper
+MFG  18075      2002                5301     Jay
+MFG  18077      2002                6992     Jefferson
+MFG  18079      2002                4266     Jennings
+MFG  18081      2002               13697     Johnson
+MFG  18083      2002                2507     Knox
+MFG  18085      2002               26720     Kosciusko
+MFG  18087      2002               11431     Lagrange
+MFG  18089      2002               53098     Lake
+MFG  18091      2002               16691     La Porte
+MFG  18093      2002                7907     Lawrence
+MFG  18095      2002               12109     Madison
+MFG  18097      2002              112346     Marion
+MFG  18099      2002               11630     Marshall
+MFG  18101      2002                1121     Martin
+MFG  18103      2002                6827     Miami
+MFG  18105      2002               14961     Monroe
+MFG  18107      2002               11824     Montgomery
+MFG  18109      2002                4579     Morgan
+MFG  18111      2002                2712     Newton
+MFG  18113      2002               20239     Noble
+MFG  18115      2002                  24     Ohio
+MFG  18117      2002                3077     Orange
+MFG  18119      2002                3633     Owen
+MFG  18121      2002                1470     Parke
+MFG  18123      2002                3340     Perry
+MFG  18125      2002                 322     Pike
+MFG  18127      2002               21972     Porter
+MFG  18129      2002                4705     Posey
+MFG  18131      2002                1853     Pulaski
+MFG  18133      2002                5624     Putnam
+MFG  18135      2002                6271     Randolph
+MFG  18137      2002                6137     Ripley
+MFG  18139      2002                2631     Rush
+MFG  18141      2002               36768     St. Joseph
+MFG  18143      2002                4505     Scott
+MFG  18145      2002               12387     Shelby
+MFG  18147      2002                4173     Spencer
+MFG  18149      2002                1942     Starke
+MFG  18151      2002               11328     Steuben
+MFG  18153      2002                 780     Sullivan
+MFG  18155      2002                 344     Switzerland
+MFG  18157      2002               32708     Tippecanoe
+MFG  18159      2002                1815     Tipton
+MFG  18161      2002                 136     Union
+MFG  18163      2002               31002     Vanderburgh
+MFG  18165      2002                3027     Vermillion
+MFG  18167      2002               15539     Vigo
+MFG  18169      2002                9276     Wabash
+MFG  18171      2002                 690     Warren
+MFG  18173      2002                6270     Warrick
+MFG  18175      2002                4574     Washington
+MFG  18177      2002               14912     Wayne
+MFG  18179      2002                5693     Wells
+MFG  18181      2002                4592     White
+MFG  18183      2002                8569     Whitley
+/END/

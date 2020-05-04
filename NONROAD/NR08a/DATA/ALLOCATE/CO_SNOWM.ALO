@@ -1,0 +1,89 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RELATIVE NUMBER OF SNOWMOBILES
+Allocated to counties using snowfall limit of 40" and inverse human population; Alaska uses direct human population
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+SNM  08000      2002                8194     CO
+SNM  08001      2002                   0     Adams
+SNM  08003      2002                  66     Alamosa
+SNM  08005      2002                   0     Arapahoe
+SNM  08007      2002                  90     Archuleta
+SNM  08009      2002                   0     Baca
+SNM  08011      2002                   0     Bent
+SNM  08013      2002                   0     Boulder
+SNM  08014      2002                   0     Broomfield
+SNM  08015      2002                  59     Chaffee
+SNM  08017      2002                   0     Cheyenne
+SNM  08019      2002                 105     Clear Creek
+SNM  08021      2002                 119     Conejos
+SNM  08023      2002                 276     Costilla
+SNM  08025      2002                   0     Crowley
+SNM  08027      2002                 273     Custer
+SNM  08029      2002                  34     Delta
+SNM  08031      2002                   0     Denver
+SNM  08033      2002                 539     Dolores
+SNM  08035      2002                   5     Douglas
+SNM  08037      2002                  23     Eagle
+SNM  08039      2002                   0     Elbert
+SNM  08041      2002                   0     El Paso
+SNM  08043      2002                  21     Fremont
+SNM  08045      2002                  21     Garfield
+SNM  08047      2002                   0     Gilpin
+SNM  08049      2002                  78     Grand
+SNM  08051      2002                  71     Gunnison
+SNM  08053      2002                1282     Hinsdale
+SNM  08055      2002                 126     Huerfano
+SNM  08057      2002                 651     Jackson
+SNM  08059      2002                   0     Jefferson
+SNM  08061      2002                   0     Kiowa
+SNM  08063      2002                   0     Kit Carson
+SNM  08065      2002                 128     Lake
+SNM  08067      2002                  22     La Plata
+SNM  08069      2002                   4     Larimer
+SNM  08071      2002                  65     Las Animas
+SNM  08073      2002                   0     Lincoln
+SNM  08075      2002                   0     Logan
+SNM  08077      2002                   0     Mesa
+SNM  08079      2002                1167     Mineral
+SNM  08081      2002                  75     Moffat
+SNM  08083      2002                  42     Montezuma
+SNM  08085      2002                  28     Montrose
+SNM  08087      2002                   0     Morgan
+SNM  08089      2002                   0     Otero
+SNM  08091      2002                 252     Ouray
+SNM  08093      2002                  62     Park
+SNM  08095      2002                   0     Phillips
+SNM  08097      2002                  67     Pitkin
+SNM  08099      2002                   0     Prowers
+SNM  08101      2002                   0     Pueblo
+SNM  08103      2002                 167     Rio Blanco
+SNM  08105      2002                  82     Rio Grande
+SNM  08107      2002                  49     Routt
+SNM  08109      2002                 155     Saguache
+SNM  08111      2002                1764     San Juan
+SNM  08113      2002                 140     San Miguel
+SNM  08115      2002                   0     Sedgwick
+SNM  08117      2002                  40     Summit
+SNM  08119      2002                  46     Teller
+SNM  08121      2002                   0     Washington
+SNM  08123      2002                   0     Weld
+SNM  08125      2002                   0     Yuma
+/END/

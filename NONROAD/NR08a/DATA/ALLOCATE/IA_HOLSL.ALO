@@ -1,0 +1,124 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WHOLESALE ESTABLISHMENTS
+CBP NAICS 42----; pre-2002 CBP SIC 50--
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+COM  19000      2002                5003     IA
+COM  19001      2002                  11     Adair
+COM  19003      2002                   8     Adams
+COM  19005      2002                  31     Allamakee
+COM  19007      2002                  12     Appanoose
+COM  19009      2002                  17     Audubon
+COM  19011      2002                  34     Benton
+COM  19013      2002                 151     Black Hawk
+COM  19015      2002                  24     Boone
+COM  19017      2002                  40     Bremer
+COM  19019      2002                  27     Buchanan
+COM  19021      2002                  38     Buena Vista
+COM  19023      2002                  41     Butler
+COM  19025      2002                  16     Calhoun
+COM  19027      2002                  55     Carroll
+COM  19029      2002                  34     Cass
+COM  19031      2002                  40     Cedar
+COM  19033      2002                  99     Cerro Gordo
+COM  19035      2002                  16     Cherokee
+COM  19037      2002                  26     Chickasaw
+COM  19039      2002                   6     Clarke
+COM  19041      2002                  58     Clay
+COM  19043      2002                  36     Clayton
+COM  19045      2002                  60     Clinton
+COM  19047      2002                  21     Crawford
+COM  19049      2002                  57     Dallas
+COM  19051      2002                  14     Davis
+COM  19053      2002                   8     Decatur
+COM  19055      2002                  33     Delaware
+COM  19057      2002                  69     Des Moines
+COM  19059      2002                  26     Dickinson
+COM  19061      2002                 168     Dubuque
+COM  19063      2002                  21     Emmet
+COM  19065      2002                  32     Fayette
+COM  19067      2002                  28     Floyd
+COM  19069      2002                  20     Franklin
+COM  19071      2002                  11     Fremont
+COM  19073      2002                  17     Greene
+COM  19075      2002                  22     Grundy
+COM  19077      2002                  18     Guthrie
+COM  19079      2002                  31     Hamilton
+COM  19081      2002                  26     Hancock
+COM  19083      2002                  45     Hardin
+COM  19085      2002                  27     Harrison
+COM  19087      2002                  43     Henry
+COM  19089      2002                  20     Howard
+COM  19091      2002                  46     Humboldt
+COM  19093      2002                  22     Ida
+COM  19095      2002                  24     Iowa
+COM  19097      2002                  32     Jackson
+COM  19099      2002                  41     Jasper
+COM  19101      2002                  47     Jefferson
+COM  19103      2002                  97     Johnson
+COM  19105      2002                  36     Jones
+COM  19107      2002                  23     Keokuk
+COM  19109      2002                  42     Kossuth
+COM  19111      2002                  45     Lee
+COM  19113      2002                 360     Linn
+COM  19115      2002                  13     Louisa
+COM  19117      2002                  12     Lucas
+COM  19119      2002                  27     Lyon
+COM  19121      2002                  18     Madison
+COM  19123      2002                  35     Mahaska
+COM  19125      2002                  46     Marion
+COM  19127      2002                  49     Marshall
+COM  19129      2002                  17     Mills
+COM  19131      2002                  27     Mitchell
+COM  19133      2002                  18     Monona
+COM  19135      2002                  11     Monroe
+COM  19137      2002                  19     Montgomery
+COM  19139      2002                  66     Muscatine
+COM  19141      2002                  42     O'Brien
+COM  19143      2002                  12     Osceola
+COM  19145      2002                  26     Page
+COM  19147      2002                  18     Palo Alto
+COM  19149      2002                  37     Plymouth
+COM  19151      2002                  17     Pocahontas
+COM  19153      2002                 822     Polk
+COM  19155      2002                  90     Pottawattamie
+COM  19157      2002                  34     Poweshiek
+COM  19159      2002                   7     Ringgold
+COM  19161      2002                  31     Sac
+COM  19163      2002                 336     Scott
+COM  19165      2002                  29     Shelby
+COM  19167      2002                  80     Sioux
+COM  19169      2002                  84     Story
+COM  19171      2002                  26     Tama
+COM  19173      2002                  10     Taylor
+COM  19175      2002                  19     Union
+COM  19177      2002                   6     Van Buren
+COM  19179      2002                  42     Wapello
+COM  19181      2002                  47     Warren
+COM  19183      2002                  34     Washington
+COM  19185      2002                  13     Wayne
+COM  19187      2002                  65     Webster
+COM  19189      2002                  22     Winnebago
+COM  19191      2002                  39     Winneshiek
+COM  19193      2002                 176     Woodbury
+COM  19195      2002                  10     Worth
+COM  19197      2002                  19     Wright
+/END/

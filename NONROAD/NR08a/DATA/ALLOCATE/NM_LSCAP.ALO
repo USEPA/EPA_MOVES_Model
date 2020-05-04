@@ -1,0 +1,58 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent EMPLOYEES IN LANDSCAPING SERVICES
+CBP NAICS 561730; pre-2002 CBP SIC 0780
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+LSC  35000      2002                1980     NM
+LSC  35001      2002                1321     Bernalillo
+LSC  35003      2002                   0     Catron
+LSC  35005      2002                  21     Chaves
+LSC  35006      2002                   0     Cibola
+LSC  35007      2002                   4     Colfax
+LSC  35009      2002                  18     Curry
+LSC  35011      2002                   0     De Baca
+LSC  35013      2002                 151     Dona Ana
+LSC  35015      2002                   4     Eddy
+LSC  35017      2002                   4     Grant
+LSC  35019      2002                   0     Guadalupe
+LSC  35021      2002                   0     Harding
+LSC  35023      2002                   0     Hidalgo
+LSC  35025      2002                   8     Lea
+LSC  35027      2002                   4     Lincoln
+LSC  35028      2002                   0     Los Alamos
+LSC  35029      2002                   4     Luna
+LSC  35031      2002                   4     McKinley
+LSC  35033      2002                   0     Mora
+LSC  35035      2002                  19     Otero
+LSC  35037      2002                   0     Quay
+LSC  35039      2002                   4     Rio Arriba
+LSC  35041      2002                   4     Roosevelt
+LSC  35043      2002                  18     Sandoval
+LSC  35045      2002                   4     San Juan
+LSC  35047      2002                  10     San Miguel
+LSC  35049      2002                 304     Santa Fe
+LSC  35051      2002                   4     Sierra
+LSC  35053      2002                   0     Socorro
+LSC  35055      2002                   4     Taos
+LSC  35057      2002                   4     Torrance
+LSC  35059      2002                   0     Union
+LSC  35061      2002                  62     Valencia
+/END/

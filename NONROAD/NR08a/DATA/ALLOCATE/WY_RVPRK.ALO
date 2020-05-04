@@ -1,0 +1,48 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RECREATIONAL VEHICLE PARKS AND CAMPGROUNDS
+CBP NAICS 72121/; pre-2002 CBP SIC 7030
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+RVP  56000      2002                 108     WY
+RVP  56001      2002                   7     Albany
+RVP  56003      2002                   1     Big Horn
+RVP  56005      2002                   2     Campbell
+RVP  56007      2002                   4     Carbon
+RVP  56009      2002                   1     Converse
+RVP  56011      2002                   1     Crook
+RVP  56013      2002                   8     Fremont
+RVP  56015      2002                   0     Goshen
+RVP  56017      2002                   1     Hot Springs
+RVP  56019      2002                   8     Johnson
+RVP  56021      2002                   5     Laramie
+RVP  56023      2002                   4     Lincoln
+RVP  56025      2002                   5     Natrona
+RVP  56027      2002                   0     Niobrara
+RVP  56029      2002                  14     Park
+RVP  56031      2002                   1     Platte
+RVP  56033      2002                   7     Sheridan
+RVP  56035      2002                   8     Sublette
+RVP  56037      2002                   3     Sweetwater
+RVP  56039      2002                  24     Teton
+RVP  56041      2002                   1     Uinta
+RVP  56043      2002                   2     Washakie
+RVP  56045      2002                   1     Weston
+/END/

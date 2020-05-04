@@ -1,0 +1,78 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RELATIVE NUMBER OF COMMERCIAL SNOWBLOWERS
+Same as LSCAP allocation factors, with value set to 0 for counties with snowfall < 15"
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+SBC  38000      2002                 284     ND
+SBC  38001      2002                   0     Adams
+SBC  38003      2002                   6     Barnes
+SBC  38005      2002                   0     Benson
+SBC  38007      2002                   0     Billings
+SBC  38009      2002                   3     Bottineau
+SBC  38011      2002                   2     Bowman
+SBC  38013      2002                   0     Burke
+SBC  38015      2002                  35     Burleigh
+SBC  38017      2002                  83     Cass
+SBC  38019      2002                   0     Cavalier
+SBC  38021      2002                   3     Dickey
+SBC  38023      2002                   0     Divide
+SBC  38025      2002                   0     Dunn
+SBC  38027      2002                   0     Eddy
+SBC  38029      2002                   0     Emmons
+SBC  38031      2002                   0     Foster
+SBC  38033      2002                   0     Golden Valley
+SBC  38035      2002                  26     Grand Forks
+SBC  38037      2002                   0     Grant
+SBC  38039      2002                   0     Griggs
+SBC  38041      2002                   0     Hettinger
+SBC  38043      2002                   0     Kidder
+SBC  38045      2002                   0     LaMoure
+SBC  38047      2002                   0     Logan
+SBC  38049      2002                   3     McHenry
+SBC  38051      2002                   2     McIntosh
+SBC  38053      2002                   3     McKenzie
+SBC  38055      2002                   5     McLean
+SBC  38057      2002                   4     Mercer
+SBC  38059      2002                  17     Morton
+SBC  38061      2002                   0     Mountrail
+SBC  38063      2002                   0     Nelson
+SBC  38065      2002                   1     Oliver
+SBC  38067      2002                   4     Pembina
+SBC  38069      2002                   0     Pierce
+SBC  38071      2002                   6     Ramsey
+SBC  38073      2002                   0     Ransom
+SBC  38075      2002                   1     Renville
+SBC  38077      2002                  21     Richland
+SBC  38079      2002                   7     Rolette
+SBC  38081      2002                   0     Sargent
+SBC  38083      2002                   0     Sheridan
+SBC  38085      2002                   2     Sioux
+SBC  38087      2002                   0     Slope
+SBC  38089      2002                   7     Stark
+SBC  38091      2002                   1     Steele
+SBC  38093      2002                   4     Stutsman
+SBC  38095      2002                   0     Towner
+SBC  38097      2002                   4     Traill
+SBC  38099      2002                   1     Walsh
+SBC  38101      2002                  29     Ward
+SBC  38103      2002                   0     Wells
+SBC  38105      2002                   4     Williams
+/END/

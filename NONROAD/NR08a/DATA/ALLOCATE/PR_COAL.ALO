@@ -1,0 +1,103 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent UNDERGROUND COAL PRODUCTION TONS
+DOE/EIA 2002 Annual Coal Report
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+MIN  72000      2002                   0     PR
+MIN  72001      2002                   0     Adjuntas
+MIN  72003      2002                   0     Aguada
+MIN  72005      2002                   0     Aguadilla
+MIN  72007      2002                   0     Aguas Buenas
+MIN  72009      2002                   0     Aibonito
+MIN  72011      2002                   0     Añasco
+MIN  72013      2002                   0     Arecibo
+MIN  72015      2002                   0     Arroyo
+MIN  72017      2002                   0     Barceloneta
+MIN  72019      2002                   0     Barranquitas
+MIN  72021      2002                   0     Bayamón
+MIN  72023      2002                   0     Cabo Rojo
+MIN  72025      2002                   0     Caguas
+MIN  72027      2002                   0     Camuy
+MIN  72029      2002                   0     Canóvanas
+MIN  72031      2002                   0     Carolina
+MIN  72033      2002                   0     Cataño
+MIN  72035      2002                   0     Cayey
+MIN  72037      2002                   0     Ceiba
+MIN  72039      2002                   0     Ciales
+MIN  72041      2002                   0     Cidra
+MIN  72043      2002                   0     Coamo
+MIN  72045      2002                   0     Comerío
+MIN  72047      2002                   0     Corozal
+MIN  72049      2002                   0     Culebra
+MIN  72051      2002                   0     Dorado
+MIN  72053      2002                   0     Fajardo
+MIN  72054      2002                   0     Florida
+MIN  72055      2002                   0     Guánica
+MIN  72057      2002                   0     Guayama
+MIN  72059      2002                   0     Guayanilla
+MIN  72061      2002                   0     Guaynabo
+MIN  72063      2002                   0     Gurabo
+MIN  72065      2002                   0     Hatillo
+MIN  72067      2002                   0     Hormigueros
+MIN  72069      2002                   0     Humacao
+MIN  72071      2002                   0     Isabela
+MIN  72073      2002                   0     Jayuya
+MIN  72075      2002                   0     Juana Díaz
+MIN  72077      2002                   0     Juncos
+MIN  72079      2002                   0     Lajas
+MIN  72081      2002                   0     Lares
+MIN  72083      2002                   0     Las Marías
+MIN  72085      2002                   0     Las Piedras
+MIN  72087      2002                   0     Loíza
+MIN  72089      2002                   0     Luquillo
+MIN  72091      2002                   0     Manatí
+MIN  72093      2002                   0     Maricao
+MIN  72095      2002                   0     Maunabo
+MIN  72097      2002                   0     Mayagüez
+MIN  72099      2002                   0     Moca
+MIN  72101      2002                   0     Morovis
+MIN  72103      2002                   0     Naguabo
+MIN  72105      2002                   0     Naranjito
+MIN  72107      2002                   0     Orocovis
+MIN  72109      2002                   0     Patillas
+MIN  72111      2002                   0     Peñuelas
+MIN  72113      2002                   0     Ponce
+MIN  72115      2002                   0     Quebradillas
+MIN  72117      2002                   0     Rincón
+MIN  72119      2002                   0     Río Grande
+MIN  72121      2002                   0     Sabana Grande
+MIN  72123      2002                   0     Salinas
+MIN  72125      2002                   0     San Germán
+MIN  72127      2002                   0     San Juan
+MIN  72129      2002                   0     San Lorenzo
+MIN  72131      2002                   0     San Sebastián
+MIN  72133      2002                   0     Santa Isabel
+MIN  72135      2002                   0     Toa Alta
+MIN  72137      2002                   0     Toa Baja
+MIN  72139      2002                   0     Trujillo Alto
+MIN  72141      2002                   0     Utuado
+MIN  72143      2002                   0     Vega Alta
+MIN  72145      2002                   0     Vega Baja
+MIN  72147      2002                   0     Vieques
+MIN  72149      2002                   0     Villalba
+MIN  72151      2002                   0     Yabucoa
+MIN  72153      2002                   0     Yauco
+/END/

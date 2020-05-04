@@ -1,0 +1,87 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RELATIVE NUMBER OF SNOWMOBILES
+Allocated to counties using snowfall limit of 40" and inverse human population; Alaska uses direct human population
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+SNM  36000      2002                 921     NY
+SNM  36001      2002                   0     Albany
+SNM  36003      2002                  20     Allegany
+SNM  36005      2002                   0     Bronx
+SNM  36007      2002                   0     Broome
+SNM  36009      2002                  12     Cattaraugus
+SNM  36011      2002                  12     Cayuga
+SNM  36013      2002                   7     Chautauqua
+SNM  36015      2002                  11     Chemung
+SNM  36017      2002                  19     Chenango
+SNM  36019      2002                  12     Clinton
+SNM  36021      2002                  16     Columbia
+SNM  36023      2002                  21     Cortland
+SNM  36025      2002                  21     Delaware
+SNM  36027      2002                   0     Dutchess
+SNM  36029      2002                   0     Erie
+SNM  36031      2002                  26     Essex
+SNM  36033      2002                  20     Franklin
+SNM  36035      2002                  18     Fulton
+SNM  36037      2002                  17     Genesee
+SNM  36039      2002                  21     Greene
+SNM  36041      2002                 190     Hamilton
+SNM  36043      2002                  16     Herkimer
+SNM  36045      2002                   9     Jefferson
+SNM  36047      2002                   0     Kings
+SNM  36049      2002                  38     Lewis
+SNM  36051      2002                  15     Livingston
+SNM  36053      2002                  14     Madison
+SNM  36055      2002                   0     Monroe
+SNM  36057      2002                  20     Montgomery
+SNM  36059      2002                   0     Nassau
+SNM  36061      2002                   0     New York
+SNM  36063      2002                   5     Niagara
+SNM  36065      2002                   4     Oneida
+SNM  36067      2002                   0     Onondaga
+SNM  36069      2002                  10     Ontario
+SNM  36071      2002                   0     Orange
+SNM  36073      2002                  23     Orleans
+SNM  36075      2002                   8     Oswego
+SNM  36077      2002                  16     Otsego
+SNM  36079      2002                   0     Putnam
+SNM  36081      2002                   0     Queens
+SNM  36083      2002                   7     Rensselaer
+SNM  36085      2002                   2     Richmond
+SNM  36087      2002                   0     Rockland
+SNM  36089      2002                   9     St. Lawrence
+SNM  36091      2002                   5     Saratoga
+SNM  36093      2002                   0     Schenectady
+SNM  36095      2002                  32     Schoharie
+SNM  36097      2002                  51     Schuyler
+SNM  36099      2002                  29     Seneca
+SNM  36101      2002                  10     Steuben
+SNM  36103      2002                   0     Suffolk
+SNM  36105      2002                  13     Sullivan
+SNM  36107      2002                  19     Tioga
+SNM  36109      2002                  10     Tompkins
+SNM  36111      2002                   6     Ulster
+SNM  36113      2002                  16     Warren
+SNM  36115      2002                  16     Washington
+SNM  36117      2002                  11     Wayne
+SNM  36119      2002                   0     Westchester
+SNM  36121      2002                  23     Wyoming
+SNM  36123      2002                  41     Yates
+/END/

@@ -1,0 +1,61 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RELATIVE NUMBER OF COMMERCIAL SNOWBLOWERS
+Same as LSCAP allocation factors, with value set to 0 for counties with snowfall < 15"
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+SBC  41000      2002                5200     OR
+SBC  41001      2002                   5     Baker
+SBC  41003      2002                 140     Benton
+SBC  41005      2002                1198     Clackamas
+SBC  41007      2002                  48     Clatsop
+SBC  41009      2002                  24     Columbia
+SBC  41011      2002                  16     Coos
+SBC  41013      2002                   6     Crook
+SBC  41015      2002                  13     Curry
+SBC  41017      2002                 141     Deschutes
+SBC  41019      2002                  74     Douglas
+SBC  41021      2002                   0     Gilliam
+SBC  41023      2002                   0     Grant
+SBC  41025      2002                   0     Harney
+SBC  41027      2002                  22     Hood River
+SBC  41029      2002                 241     Jackson
+SBC  41031      2002                   6     Jefferson
+SBC  41033      2002                  59     Josephine
+SBC  41035      2002                  17     Klamath
+SBC  41037      2002                   2     Lake
+SBC  41039      2002                 275     Lane
+SBC  41041      2002                  35     Lincoln
+SBC  41043      2002                 168     Linn
+SBC  41045      2002                   7     Malheur
+SBC  41047      2002                 388     Marion
+SBC  41049      2002                   0     Morrow
+SBC  41051      2002                 626     Multnomah
+SBC  41053      2002                  31     Polk
+SBC  41055      2002                   0     Sherman
+SBC  41057      2002                   7     Tillamook
+SBC  41059      2002                  70     Umatilla
+SBC  41061      2002                   7     Union
+SBC  41063      2002                   2     Wallowa
+SBC  41065      2002                   8     Wasco
+SBC  41067      2002                1483     Washington
+SBC  41069      2002                   0     Wheeler
+SBC  41071      2002                  81     Yamhill
+/END/

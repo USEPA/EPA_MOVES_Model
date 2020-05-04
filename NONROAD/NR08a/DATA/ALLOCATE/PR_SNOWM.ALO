@@ -1,0 +1,103 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RELATIVE NUMBER OF SNOWMOBILES
+Allocated to counties using snowfall limit of 40" and inverse human population; Alaska uses direct human population
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+SNM  72000      2002                   0     PR
+SNM  72001      2002                   0     Adjuntas
+SNM  72003      2002                   0     Aguada
+SNM  72005      2002                   0     Aguadilla
+SNM  72007      2002                   0     Aguas Buenas
+SNM  72009      2002                   0     Aibonito
+SNM  72011      2002                   0     Añasco
+SNM  72013      2002                   0     Arecibo
+SNM  72015      2002                   0     Arroyo
+SNM  72017      2002                   0     Barceloneta
+SNM  72019      2002                   0     Barranquitas
+SNM  72021      2002                   0     Bayamón
+SNM  72023      2002                   0     Cabo Rojo
+SNM  72025      2002                   0     Caguas
+SNM  72027      2002                   0     Camuy
+SNM  72029      2002                   0     Canóvanas
+SNM  72031      2002                   0     Carolina
+SNM  72033      2002                   0     Cataño
+SNM  72035      2002                   0     Cayey
+SNM  72037      2002                   0     Ceiba
+SNM  72039      2002                   0     Ciales
+SNM  72041      2002                   0     Cidra
+SNM  72043      2002                   0     Coamo
+SNM  72045      2002                   0     Comerío
+SNM  72047      2002                   0     Corozal
+SNM  72049      2002                   0     Culebra
+SNM  72051      2002                   0     Dorado
+SNM  72053      2002                   0     Fajardo
+SNM  72054      2002                   0     Florida
+SNM  72055      2002                   0     Guánica
+SNM  72057      2002                   0     Guayama
+SNM  72059      2002                   0     Guayanilla
+SNM  72061      2002                   0     Guaynabo
+SNM  72063      2002                   0     Gurabo
+SNM  72065      2002                   0     Hatillo
+SNM  72067      2002                   0     Hormigueros
+SNM  72069      2002                   0     Humacao
+SNM  72071      2002                   0     Isabela
+SNM  72073      2002                   0     Jayuya
+SNM  72075      2002                   0     Juana Díaz
+SNM  72077      2002                   0     Juncos
+SNM  72079      2002                   0     Lajas
+SNM  72081      2002                   0     Lares
+SNM  72083      2002                   0     Las Marías
+SNM  72085      2002                   0     Las Piedras
+SNM  72087      2002                   0     Loíza
+SNM  72089      2002                   0     Luquillo
+SNM  72091      2002                   0     Manatí
+SNM  72093      2002                   0     Maricao
+SNM  72095      2002                   0     Maunabo
+SNM  72097      2002                   0     Mayagüez
+SNM  72099      2002                   0     Moca
+SNM  72101      2002                   0     Morovis
+SNM  72103      2002                   0     Naguabo
+SNM  72105      2002                   0     Naranjito
+SNM  72107      2002                   0     Orocovis
+SNM  72109      2002                   0     Patillas
+SNM  72111      2002                   0     Peñuelas
+SNM  72113      2002                   0     Ponce
+SNM  72115      2002                   0     Quebradillas
+SNM  72117      2002                   0     Rincón
+SNM  72119      2002                   0     Río Grande
+SNM  72121      2002                   0     Sabana Grande
+SNM  72123      2002                   0     Salinas
+SNM  72125      2002                   0     San Germán
+SNM  72127      2002                   0     San Juan
+SNM  72129      2002                   0     San Lorenzo
+SNM  72131      2002                   0     San Sebastián
+SNM  72133      2002                   0     Santa Isabel
+SNM  72135      2002                   0     Toa Alta
+SNM  72137      2002                   0     Toa Baja
+SNM  72139      2002                   0     Trujillo Alto
+SNM  72141      2002                   0     Utuado
+SNM  72143      2002                   0     Vega Alta
+SNM  72145      2002                   0     Vega Baja
+SNM  72147      2002                   0     Vieques
+SNM  72149      2002                   0     Villalba
+SNM  72151      2002                   0     Yabucoa
+SNM  72153      2002                   0     Yauco
+/END/

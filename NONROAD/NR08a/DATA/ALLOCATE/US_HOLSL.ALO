@@ -1,0 +1,77 @@
+This is the allocation indicator file used by the NONROAD model.
+This file is used to allocate from US to state level equipment
+populations.
+
+These data represent WHOLESALE ESTABLISHMENTS
+CBP NAICS 42----; pre-2002 CBP SIC 50-- (50xx & 51xx)
+
+8/8/2005 EPA adds data for Puerto Rico & Virgin Islands.
+8/19/05  epa: TEST "US" total does not include PR or VI.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+------------------------------------------------------------------------
+/INDICATORS/
+COM  00000      2002              436882     US         439765   439765
+COM  01000      2002                5792     AL
+COM  02000      2002                 748     AK
+COM  04000      2002                6636     AZ
+COM  05000      2002                3535     AR
+COM  06000      2002               58700     CA
+COM  08000      2002                7458     CO
+COM  09000      2002                4796     CT
+COM  10000      2002                 953     DE
+COM  11000      2002                 338     DC
+COM  12000      2002               30759     FL
+COM  13000      2002               13617     GA
+COM  15000      2002                1828     HI
+COM  16000      2002                1977     ID
+COM  17000      2002               20597     IL
+COM  18000      2002                8439     IN
+COM  19000      2002                5003     IA
+COM  20000      2002                4719     KS
+COM  21000      2002                4713     KY
+COM  22000      2002                5965     LA
+COM  23000      2002                1706     ME
+COM  24000      2002                6022     MD
+COM  25000      2002                9439     MA
+COM  26000      2002               13055     MI
+COM  27000      2002                9166     MN
+COM  28000      2002                2967     MS
+COM  29000      2002                8700     MO
+COM  30000      2002                1566     MT
+COM  31000      2002                2972     NE
+COM  32000      2002                2586     NV
+COM  33000      2002                2045     NH
+COM  34000      2002               16547     NJ
+COM  35000      2002                2089     NM
+COM  36000      2002               35628     NY
+COM  37000      2002               12070     NC
+COM  38000      2002                1517     ND
+COM  39000      2002               16202     OH
+COM  40000      2002                4835     OK
+COM  41000      2002                5815     OR
+COM  42000      2002               16272     PA
+COM  44000      2002                1481     RI
+COM  45000      2002                4939     SC
+COM  46000      2002                1342     SD
+COM  47000      2002                7613     TN
+COM  48000      2002               31874     TX
+COM  49000      2002                3346     UT
+COM  50000      2002                 869     VT
+COM  51000      2002                7635     VA
+COM  53000      2002                9671     WA
+COM  54000      2002                1707     WV
+COM  55000      2002                7800     WI
+COM  56000      2002                 833     WY
+COM  72000      2002                2809     PR
+COM  78000      2002                  74     VI
+/END/

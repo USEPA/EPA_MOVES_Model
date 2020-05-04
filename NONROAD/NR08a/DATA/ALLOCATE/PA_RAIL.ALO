@@ -1,0 +1,94 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent LOCOMOTIVE NOx TONS
+from Draft 2002 NEI
+
+9/1/05 epa: Modifies to treat PR & VI as additional to US Total.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+RR   42000      2002           18518.820     PA
+RR   42001      2002              12.250     Adams
+RR   42003      2002            1499.010     Allegheny
+RR   42005      2002               8.670     Armstrong
+RR   42007      2002            1125.510     Beaver
+RR   42009      2002             175.670     Bedford
+RR   42011      2002             702.800     Berks
+RR   42013      2002             507.260     Blair
+RR   42015      2002              30.260     Bradford
+RR   42017      2002              75.010     Bucks
+RR   42019      2002              16.350     Butler
+RR   42021      2002             482.270     Cambria
+RR   42023      2002              52.070     Cameron
+RR   42025      2002              12.880     Carbon
+RR   42027      2002               0.000     Centre
+RR   42029      2002             365.820     Chester
+RR   42031      2002               0.000     Clarion
+RR   42033      2002               0.000     Clearfield
+RR   42035      2002              70.620     Clinton
+RR   42037      2002              16.340     Columbia
+RR   42039      2002              14.460     Crawford
+RR   42041      2002             346.350     Cumberland
+RR   42043      2002            1358.770     Dauphin
+RR   42045      2002             146.640     Delaware
+RR   42047      2002               0.000     Elk
+RR   42049      2002             958.260     Erie
+RR   42051      2002             639.930     Fayette
+RR   42053      2002               0.000     Forest
+RR   42055      2002              69.790     Franklin
+RR   42057      2002               0.000     Fulton
+RR   42059      2002             662.890     Greene
+RR   42061      2002             638.680     Huntingdon
+RR   42063      2002             382.270     Indiana
+RR   42065      2002               8.230     Jefferson
+RR   42067      2002             596.180     Juniata
+RR   42069      2002              70.960     Lackawanna
+RR   42071      2002             656.650     Lancaster
+RR   42073      2002             404.400     Lawrence
+RR   42075      2002             563.240     Lebanon
+RR   42077      2002             193.570     Lehigh
+RR   42079      2002              39.700     Luzerne
+RR   42081      2002              43.080     Lycoming
+RR   42083      2002              51.130     McKean
+RR   42085      2002              17.940     Mercer
+RR   42087      2002             868.420     Mifflin
+RR   42089      2002               2.030     Monroe
+RR   42091      2002             289.390     Montgomery
+RR   42093      2002              11.190     Montour
+RR   42095      2002              87.460     Northampton
+RR   42097      2002              61.620     Northumberland
+RR   42099      2002             864.340     Perry
+RR   42101      2002             223.610     Philadelphia
+RR   42103      2002              38.790     Pike
+RR   42105      2002              22.650     Potter
+RR   42107      2002               0.000     Schuylkill
+RR   42109      2002               5.180     Snyder
+RR   42111      2002             412.780     Somerset
+RR   42113      2002               0.000     Sullivan
+RR   42115      2002              81.530     Susquehanna
+RR   42117      2002               0.000     Tioga
+RR   42119      2002               0.860     Union
+RR   42121      2002               9.840     Venango
+RR   42123      2002               5.510     Warren
+RR   42125      2002             815.520     Washington
+RR   42127      2002               0.000     Wayne
+RR   42129      2002            1397.280     Westmoreland
+RR   42131      2002              74.200     Wyoming
+RR   42133      2002             230.710     York
+/END/

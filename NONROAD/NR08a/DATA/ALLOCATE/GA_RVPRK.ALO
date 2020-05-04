@@ -1,0 +1,184 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RECREATIONAL VEHICLE PARKS AND CAMPGROUNDS
+CBP NAICS 72121/; pre-2002 CBP SIC 7030
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+RVP  13000      2002                  92     GA
+RVP  13001      2002                   0     Appling
+RVP  13003      2002                   0     Atkinson
+RVP  13005      2002                   0     Bacon
+RVP  13007      2002                   0     Baker
+RVP  13009      2002                   0     Baldwin
+RVP  13011      2002                   0     Banks
+RVP  13013      2002                   0     Barrow
+RVP  13015      2002                   1     Bartow
+RVP  13017      2002                   0     Ben Hill
+RVP  13019      2002                   0     Berrien
+RVP  13021      2002                   3     Bibb
+RVP  13023      2002                   0     Bleckley
+RVP  13025      2002                   0     Brantley
+RVP  13027      2002                   0     Brooks
+RVP  13029      2002                   1     Bryan
+RVP  13031      2002                   1     Bulloch
+RVP  13033      2002                   0     Burke
+RVP  13035      2002                   0     Butts
+RVP  13037      2002                   1     Calhoun
+RVP  13039      2002                   0     Camden
+RVP  13043      2002                   0     Candler
+RVP  13045      2002                   1     Carroll
+RVP  13047      2002                   2     Catoosa
+RVP  13049      2002                   0     Charlton
+RVP  13051      2002                   4     Chatham
+RVP  13053      2002                   0     Chattahoochee
+RVP  13055      2002                   2     Chattooga
+RVP  13057      2002                   2     Cherokee
+RVP  13059      2002                   0     Clarke
+RVP  13061      2002                   0     Clay
+RVP  13063      2002                   0     Clayton
+RVP  13065      2002                   0     Clinch
+RVP  13067      2002                   4     Cobb
+RVP  13069      2002                   0     Coffee
+RVP  13071      2002                   2     Colquitt
+RVP  13073      2002                   0     Columbia
+RVP  13075      2002                   0     Cook
+RVP  13077      2002                   0     Coweta
+RVP  13079      2002                   0     Crawford
+RVP  13081      2002                   1     Crisp
+RVP  13083      2002                   0     Dade
+RVP  13085      2002                   0     Dawson
+RVP  13087      2002                   0     Decatur
+RVP  13089      2002                   3     DeKalb
+RVP  13091      2002                   0     Dodge
+RVP  13093      2002                   1     Dooly
+RVP  13095      2002                   1     Dougherty
+RVP  13097      2002                   0     Douglas
+RVP  13099      2002                   0     Early
+RVP  13101      2002                   0     Echols
+RVP  13103      2002                   2     Effingham
+RVP  13105      2002                   1     Elbert
+RVP  13107      2002                   0     Emanuel
+RVP  13109      2002                   0     Evans
+RVP  13111      2002                   1     Fannin
+RVP  13113      2002                   0     Fayette
+RVP  13115      2002                   2     Floyd
+RVP  13117      2002                   0     Forsyth
+RVP  13119      2002                   0     Franklin
+RVP  13121      2002                   6     Fulton
+RVP  13123      2002                   0     Gilmer
+RVP  13125      2002                   0     Glascock
+RVP  13127      2002                   0     Glynn
+RVP  13129      2002                   1     Gordon
+RVP  13131      2002                   0     Grady
+RVP  13133      2002                   1     Greene
+RVP  13135      2002                   1     Gwinnett
+RVP  13137      2002                   2     Habersham
+RVP  13139      2002                   3     Hall
+RVP  13141      2002                   0     Hancock
+RVP  13143      2002                   0     Haralson
+RVP  13145      2002                   1     Harris
+RVP  13147      2002                   1     Hart
+RVP  13149      2002                   2     Heard
+RVP  13151      2002                   1     Henry
+RVP  13153      2002                   2     Houston
+RVP  13155      2002                   0     Irwin
+RVP  13157      2002                   0     Jackson
+RVP  13159      2002                   0     Jasper
+RVP  13161      2002                   0     Jeff Davis
+RVP  13163      2002                   0     Jefferson
+RVP  13165      2002                   0     Jenkins
+RVP  13167      2002                   0     Johnson
+RVP  13169      2002                   0     Jones
+RVP  13171      2002                   0     Lamar
+RVP  13173      2002                   1     Lanier
+RVP  13175      2002                   0     Laurens
+RVP  13177      2002                   0     Lee
+RVP  13179      2002                   0     Liberty
+RVP  13181      2002                   0     Lincoln
+RVP  13183      2002                   0     Long
+RVP  13185      2002                   3     Lowndes
+RVP  13187      2002                   1     Lumpkin
+RVP  13189      2002                   1     McDuffie
+RVP  13191      2002                   1     McIntosh
+RVP  13193      2002                   0     Macon
+RVP  13195      2002                   0     Madison
+RVP  13197      2002                   0     Marion
+RVP  13199      2002                   0     Meriwether
+RVP  13201      2002                   0     Miller
+RVP  13205      2002                   2     Mitchell
+RVP  13207      2002                   1     Monroe
+RVP  13209      2002                   0     Montgomery
+RVP  13211      2002                   1     Morgan
+RVP  13213      2002                   0     Murray
+RVP  13215      2002                   0     Muscogee
+RVP  13217      2002                   0     Newton
+RVP  13219      2002                   0     Oconee
+RVP  13221      2002                   0     Oglethorpe
+RVP  13223      2002                   0     Paulding
+RVP  13225      2002                   1     Peach
+RVP  13227      2002                   1     Pickens
+RVP  13229      2002                   0     Pierce
+RVP  13231      2002                   0     Pike
+RVP  13233      2002                   1     Polk
+RVP  13235      2002                   0     Pulaski
+RVP  13237      2002                   0     Putnam
+RVP  13239      2002                   0     Quitman
+RVP  13241      2002                   5     Rabun
+RVP  13243      2002                   1     Randolph
+RVP  13245      2002                   0     Richmond
+RVP  13247      2002                   0     Rockdale
+RVP  13249      2002                   0     Schley
+RVP  13251      2002                   0     Screven
+RVP  13253      2002                   1     Seminole
+RVP  13255      2002                   1     Spalding
+RVP  13257      2002                   1     Stephens
+RVP  13259      2002                   0     Stewart
+RVP  13261      2002                   0     Sumter
+RVP  13263      2002                   0     Talbot
+RVP  13265      2002                   0     Taliaferro
+RVP  13267      2002                   0     Tattnall
+RVP  13269      2002                   0     Taylor
+RVP  13271      2002                   0     Telfair
+RVP  13273      2002                   0     Terrell
+RVP  13275      2002                   1     Thomas
+RVP  13277      2002                   0     Tift
+RVP  13279      2002                   0     Toombs
+RVP  13281      2002                   1     Towns
+RVP  13283      2002                   0     Treutlen
+RVP  13285      2002                   3     Troup
+RVP  13287      2002                   0     Turner
+RVP  13289      2002                   0     Twiggs
+RVP  13291      2002                   0     Union
+RVP  13293      2002                   0     Upson
+RVP  13295      2002                   0     Walker
+RVP  13297      2002                   0     Walton
+RVP  13299      2002                   1     Ware
+RVP  13301      2002                   0     Warren
+RVP  13303      2002                   0     Washington
+RVP  13305      2002                   1     Wayne
+RVP  13307      2002                   0     Webster
+RVP  13309      2002                   0     Wheeler
+RVP  13311      2002                   3     White
+RVP  13313      2002                   1     Whitfield
+RVP  13315      2002                   0     Wilcox
+RVP  13317      2002                   0     Wilkes
+RVP  13319      2002                   0     Wilkinson
+RVP  13321      2002                   1     Worth
+/END/

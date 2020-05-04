@@ -1,0 +1,7 @@
+Copyright U.S. Environmental Protection Agency
+
+Licensed for use pursuant to the GNU General Public License (GPL)
+
+For information about the GPL see http://www.gnu.org/licenses/gpl.html
+
+

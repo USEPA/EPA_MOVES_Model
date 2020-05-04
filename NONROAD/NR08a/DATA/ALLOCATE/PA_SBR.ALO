@@ -1,0 +1,92 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RELATIVE NUMBER OF RESIDENTIAL SNOWBLOWERS
+Same as HOUSE allocation factors, with value set to 0 for counties with snowfall < 15"
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+SBR  42000      2002             5328266     PA
+SBR  42001      2002               37158     Adams
+SBR  42003      2002              587705     Allegheny
+SBR  42005      2002               32730     Armstrong
+SBR  42007      2002               78643     Beaver
+SBR  42009      2002               23932     Bedford
+SBR  42011      2002              153983     Berks
+SBR  42013      2002               55460     Blair
+SBR  42015      2002               29056     Bradford
+SBR  42017      2002              230876     Bucks
+SBR  42019      2002               72445     Butler
+SBR  42021      2002               66077     Cambria
+SBR  42023      2002                4612     Cameron
+SBR  42025      2002               30878     Carbon
+SBR  42027      2002               54718     Centre
+SBR  42029      2002              170150     Chester
+SBR  42031      2002               19712     Clarion
+SBR  42033      2002               38306     Clearfield
+SBR  42035      2002               18491     Clinton
+SBR  42037      2002               28220     Columbia
+SBR  42039      2002               42969     Crawford
+SBR  42041      2002               89241     Cumberland
+SBR  42043      2002              112706     Dauphin
+SBR  42045      2002              219262     Delaware
+SBR  42047      2002               18274     Elk
+SBR  42049      2002              115747     Erie
+SBR  42051      2002               67170     Fayette
+SBR  42053      2002                8828     Forest
+SBR  42055      2002               55370     Franklin
+SBR  42057      2002                6944     Fulton
+SBR  42059      2002               16950     Greene
+SBR  42061      2002               21451     Huntingdon
+SBR  42063      2002               37927     Indiana
+SBR  42065      2002               22392     Jefferson
+SBR  42067      2002               10174     Juniata
+SBR  42069      2002               95942     Lackawanna
+SBR  42071      2002              184383     Lancaster
+SBR  42073      2002               40142     Lawrence
+SBR  42075      2002               50437     Lebanon
+SBR  42077      2002              131759     Lehigh
+SBR  42079      2002              145454     Luzerne
+SBR  42081      2002               53109     Lycoming
+SBR  42083      2002               21775     McKean
+SBR  42085      2002               50654     Mercer
+SBR  42087      2002               20995     Mifflin
+SBR  42089      2002               70844     Monroe
+SBR  42091      2002              303322     Montgomery
+SBR  42093      2002                7755     Montour
+SBR  42095      2002              109527     Northampton
+SBR  42097      2002               43374     Northumberland
+SBR  42099      2002               19306     Perry
+SBR  42101      2002              660450     Philadelphia
+SBR  42103      2002               35737     Pike
+SBR  42105      2002               12362     Potter
+SBR  42107      2002               68231     Schuylkill
+SBR  42109      2002               15169     Snyder
+SBR  42111      2002               37689     Somerset
+SBR  42113      2002                6043     Sullivan
+SBR  42115      2002               22114     Susquehanna
+SBR  42117      2002               20327     Tioga
+SBR  42119      2002               14914     Union
+SBR  42121      2002               27155     Venango
+SBR  42123      2002               23243     Warren
+SBR  42125      2002               89074     Washington
+SBR  42127      2002               31081     Wayne
+SBR  42129      2002              163191     Westmoreland
+SBR  42131      2002               12951     Wyoming
+SBR  42133      2002              161200     York
+/END/

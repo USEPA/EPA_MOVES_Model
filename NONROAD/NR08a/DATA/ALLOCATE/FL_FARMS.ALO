@@ -1,0 +1,92 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent HARVESTED CROPLAND
+2002 USDA Census of Agriculture
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+FRM  12000      2002             2313537     FL
+FRM  12001      2002               39281     Alachua
+FRM  12003      2002                1844     Baker
+FRM  12005      2002                1256     Bay
+FRM  12007      2002                5410     Bradford
+FRM  12009      2002               15651     Brevard
+FRM  12011      2002                4385     Broward
+FRM  12013      2002               19186     Calhoun
+FRM  12015      2002               20003     Charlotte
+FRM  12017      2002                4051     Citrus
+FRM  12019      2002                2904     Clay
+FRM  12021      2002               20003     Collier
+FRM  12023      2002                9636     Columbia
+FRM  12027      2002               87005     DeSoto
+FRM  12029      2002                2874     Dixie
+FRM  12031      2002                4368     Duval
+FRM  12033      2002               28456     Escambia
+FRM  12035      2002                5292     Flagler
+FRM  12037      2002               20003     Franklin
+FRM  12039      2002                7616     Gadsden
+FRM  12041      2002               14651     Gilchrist
+FRM  12043      2002               52786     Glades
+FRM  12045      2002                 114     Gulf
+FRM  12047      2002                8465     Hamilton
+FRM  12049      2002               70728     Hardee
+FRM  12051      2002              203203     Hendry
+FRM  12053      2002               12139     Hernando
+FRM  12055      2002               99362     Highlands
+FRM  12057      2002               59342     Hillsborough
+FRM  12059      2002               17694     Holmes
+FRM  12061      2002               65311     Indian River
+FRM  12063      2002               73936     Jackson
+FRM  12065      2002               16347     Jefferson
+FRM  12067      2002                7044     Lafayette
+FRM  12069      2002               35899     Lake
+FRM  12071      2002               25762     Lee
+FRM  12073      2002                3705     Leon
+FRM  12075      2002               39122     Levy
+FRM  12077      2002                 223     Liberty
+FRM  12079      2002               21744     Madison
+FRM  12081      2002               60900     Manatee
+FRM  12083      2002               30601     Marion
+FRM  12085      2002               55470     Martin
+FRM  12086      2002               55142     Miami-Dade
+FRM  12087      2002               20003     Monroe
+FRM  12089      2002                2699     Nassau
+FRM  12091      2002               10739     Okaloosa
+FRM  12093      2002               38984     Okeechobee
+FRM  12095      2002               16904     Orange
+FRM  12097      2002               27448     Osceola
+FRM  12099      2002              428683     Palm Beach
+FRM  12101      2002               21332     Pasco
+FRM  12103      2002                 319     Pinellas
+FRM  12105      2002              134101     Polk
+FRM  12107      2002                9177     Putnam
+FRM  12109      2002               22236     St. Johns
+FRM  12111      2002               97929     St. Lucie
+FRM  12113      2002               45057     Santa Rosa
+FRM  12115      2002                6418     Sarasota
+FRM  12117      2002                2564     Seminole
+FRM  12119      2002               18131     Sumter
+FRM  12121      2002               40012     Suwannee
+FRM  12123      2002                 870     Taylor
+FRM  12125      2002                6395     Union
+FRM  12127      2002               12522     Volusia
+FRM  12129      2002                1018     Wakulla
+FRM  12131      2002               12570     Walton
+FRM  12133      2002                8512     Washington
+/END/

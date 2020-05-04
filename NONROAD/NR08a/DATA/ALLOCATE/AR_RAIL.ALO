@@ -1,0 +1,102 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent LOCOMOTIVE NOx TONS
+from Draft 2002 NEI
+
+9/1/05 epa: Modifies to treat PR & VI as additional to US Total.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+RR   05000      2002           22131.830     AR
+RR   05001      2002             228.720     Arkansas
+RR   05003      2002             156.330     Ashley
+RR   05005      2002               0.000     Baxter
+RR   05007      2002             524.110     Benton
+RR   05009      2002               0.000     Boone
+RR   05011      2002               0.000     Bradley
+RR   05013      2002             128.730     Calhoun
+RR   05015      2002               0.000     Carroll
+RR   05017      2002              91.030     Chicot
+RR   05019      2002             586.990     Clark
+RR   05021      2002             560.980     Clay
+RR   05023      2002               0.000     Cleburne
+RR   05025      2002             257.740     Cleveland
+RR   05027      2002             301.970     Columbia
+RR   05029      2002             475.330     Conway
+RR   05031      2002             524.990     Craighead
+RR   05033      2002             368.710     Crawford
+RR   05035      2002            1074.740     Crittenden
+RR   05037      2002             633.700     Cross
+RR   05039      2002             386.480     Dallas
+RR   05041      2002             261.820     Desha
+RR   05043      2002             297.260     Drew
+RR   05045      2002             497.040     Faulkner
+RR   05047      2002             358.950     Franklin
+RR   05049      2002             437.390     Fulton
+RR   05051      2002               0.000     Garland
+RR   05053      2002               0.000     Grant
+RR   05055      2002             752.130     Greene
+RR   05057      2002             559.820     Hempstead
+RR   05059      2002             409.970     Hot Spring
+RR   05061      2002              22.850     Howard
+RR   05063      2002             189.100     Independence
+RR   05065      2002               0.000     Izard
+RR   05067      2002             446.340     Jackson
+RR   05069      2002             808.300     Jefferson
+RR   05071      2002             252.600     Johnson
+RR   05073      2002             426.760     Lafayette
+RR   05075      2002            1022.210     Lawrence
+RR   05077      2002              10.180     Lee
+RR   05079      2002             231.480     Lincoln
+RR   05081      2002             511.560     Little River
+RR   05083      2002               0.000     Logan
+RR   05085      2002             710.590     Lonoke
+RR   05087      2002               0.000     Madison
+RR   05089      2002               0.000     Marion
+RR   05091      2002             712.980     Miller
+RR   05093      2002             106.790     Mississippi
+RR   05095      2002             266.250     Monroe
+RR   05097      2002               0.000     Montgomery
+RR   05099      2002             354.140     Nevada
+RR   05101      2002               0.000     Newton
+RR   05103      2002             402.610     Ouachita
+RR   05105      2002               0.000     Perry
+RR   05107      2002              22.260     Phillips
+RR   05109      2002               0.000     Pike
+RR   05111      2002             492.910     Poinsett
+RR   05113      2002             352.740     Polk
+RR   05115      2002             228.480     Pope
+RR   05117      2002             136.440     Prairie
+RR   05119      2002            1731.370     Pulaski
+RR   05121      2002             543.690     Randolph
+RR   05123      2002              76.880     St. Francis
+RR   05125      2002             546.900     Saline
+RR   05127      2002              10.370     Scott
+RR   05129      2002               0.000     Searcy
+RR   05131      2002              13.200     Sebastian
+RR   05133      2002             290.860     Sevier
+RR   05135      2002             262.550     Sharp
+RR   05137      2002               0.000     Stone
+RR   05139      2002              10.560     Union
+RR   05141      2002               0.000     Van Buren
+RR   05143      2002               0.000     Washington
+RR   05145      2002             849.660     White
+RR   05147      2002             213.290     Woodruff
+RR   05149      2002               0.000     Yell
+/END/

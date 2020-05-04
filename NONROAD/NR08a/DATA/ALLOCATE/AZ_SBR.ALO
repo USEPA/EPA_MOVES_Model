@@ -1,0 +1,40 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RELATIVE NUMBER OF RESIDENTIAL SNOWBLOWERS
+Same as HOUSE allocation factors, with value set to 0 for counties with snowfall < 15"
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+SBR  04000      2002              223051     AZ
+SBR  04001      2002               31800     Apache
+SBR  04003      2002                   0     Cochise
+SBR  04005      2002               55162     Coconino
+SBR  04007      2002                   0     Gila
+SBR  04009      2002                   0     Graham
+SBR  04011      2002                   0     Greenlee
+SBR  04012      2002                   0     La Paz
+SBR  04013      2002                   0     Maricopa
+SBR  04015      2002                   0     Mohave
+SBR  04017      2002               48813     Navajo
+SBR  04019      2002                   0     Pima
+SBR  04021      2002                   0     Pinal
+SBR  04023      2002                   0     Santa Cruz
+SBR  04025      2002               87276     Yavapai
+SBR  04027      2002                   0     Yuma
+/END/

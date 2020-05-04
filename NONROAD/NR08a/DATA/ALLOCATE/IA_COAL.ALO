@@ -1,0 +1,124 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent UNDERGROUND COAL PRODUCTION TONS
+DOE/EIA 2002 Annual Coal Report
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+MIN  19000      2002                   0     IA
+MIN  19001      2002                   0     Adair
+MIN  19003      2002                   0     Adams
+MIN  19005      2002                   0     Allamakee
+MIN  19007      2002                   0     Appanoose
+MIN  19009      2002                   0     Audubon
+MIN  19011      2002                   0     Benton
+MIN  19013      2002                   0     Black Hawk
+MIN  19015      2002                   0     Boone
+MIN  19017      2002                   0     Bremer
+MIN  19019      2002                   0     Buchanan
+MIN  19021      2002                   0     Buena Vista
+MIN  19023      2002                   0     Butler
+MIN  19025      2002                   0     Calhoun
+MIN  19027      2002                   0     Carroll
+MIN  19029      2002                   0     Cass
+MIN  19031      2002                   0     Cedar
+MIN  19033      2002                   0     Cerro Gordo
+MIN  19035      2002                   0     Cherokee
+MIN  19037      2002                   0     Chickasaw
+MIN  19039      2002                   0     Clarke
+MIN  19041      2002                   0     Clay
+MIN  19043      2002                   0     Clayton
+MIN  19045      2002                   0     Clinton
+MIN  19047      2002                   0     Crawford
+MIN  19049      2002                   0     Dallas
+MIN  19051      2002                   0     Davis
+MIN  19053      2002                   0     Decatur
+MIN  19055      2002                   0     Delaware
+MIN  19057      2002                   0     Des Moines
+MIN  19059      2002                   0     Dickinson
+MIN  19061      2002                   0     Dubuque
+MIN  19063      2002                   0     Emmet
+MIN  19065      2002                   0     Fayette
+MIN  19067      2002                   0     Floyd
+MIN  19069      2002                   0     Franklin
+MIN  19071      2002                   0     Fremont
+MIN  19073      2002                   0     Greene
+MIN  19075      2002                   0     Grundy
+MIN  19077      2002                   0     Guthrie
+MIN  19079      2002                   0     Hamilton
+MIN  19081      2002                   0     Hancock
+MIN  19083      2002                   0     Hardin
+MIN  19085      2002                   0     Harrison
+MIN  19087      2002                   0     Henry
+MIN  19089      2002                   0     Howard
+MIN  19091      2002                   0     Humboldt
+MIN  19093      2002                   0     Ida
+MIN  19095      2002                   0     Iowa
+MIN  19097      2002                   0     Jackson
+MIN  19099      2002                   0     Jasper
+MIN  19101      2002                   0     Jefferson
+MIN  19103      2002                   0     Johnson
+MIN  19105      2002                   0     Jones
+MIN  19107      2002                   0     Keokuk
+MIN  19109      2002                   0     Kossuth
+MIN  19111      2002                   0     Lee
+MIN  19113      2002                   0     Linn
+MIN  19115      2002                   0     Louisa
+MIN  19117      2002                   0     Lucas
+MIN  19119      2002                   0     Lyon
+MIN  19121      2002                   0     Madison
+MIN  19123      2002                   0     Mahaska
+MIN  19125      2002                   0     Marion
+MIN  19127      2002                   0     Marshall
+MIN  19129      2002                   0     Mills
+MIN  19131      2002                   0     Mitchell
+MIN  19133      2002                   0     Monona
+MIN  19135      2002                   0     Monroe
+MIN  19137      2002                   0     Montgomery
+MIN  19139      2002                   0     Muscatine
+MIN  19141      2002                   0     O'Brien
+MIN  19143      2002                   0     Osceola
+MIN  19145      2002                   0     Page
+MIN  19147      2002                   0     Palo Alto
+MIN  19149      2002                   0     Plymouth
+MIN  19151      2002                   0     Pocahontas
+MIN  19153      2002                   0     Polk
+MIN  19155      2002                   0     Pottawattamie
+MIN  19157      2002                   0     Poweshiek
+MIN  19159      2002                   0     Ringgold
+MIN  19161      2002                   0     Sac
+MIN  19163      2002                   0     Scott
+MIN  19165      2002                   0     Shelby
+MIN  19167      2002                   0     Sioux
+MIN  19169      2002                   0     Story
+MIN  19171      2002                   0     Tama
+MIN  19173      2002                   0     Taylor
+MIN  19175      2002                   0     Union
+MIN  19177      2002                   0     Van Buren
+MIN  19179      2002                   0     Wapello
+MIN  19181      2002                   0     Warren
+MIN  19183      2002                   0     Washington
+MIN  19185      2002                   0     Wayne
+MIN  19187      2002                   0     Webster
+MIN  19189      2002                   0     Winnebago
+MIN  19191      2002                   0     Winneshiek
+MIN  19193      2002                   0     Woodbury
+MIN  19195      2002                   0     Worth
+MIN  19197      2002                   0     Wright
+/END/

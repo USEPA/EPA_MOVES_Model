@@ -1,0 +1,91 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2002 Timber Product Output (cu ft)
+from US Forest Service TPO database. http://www.fia.fs.fed.us/program-features/tpo/
+
+10/19/05 epa: use TPO data instead of CBP employee data.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+LOG  08000      2002            59159870     CO
+LOG  08001      2002                   0     Adams
+LOG  08003      2002              698134     Alamosa
+LOG  08005      2002                   0     Arapahoe
+LOG  08007      2002              144546     Archuleta
+LOG  08009      2002                   0     Baca
+LOG  08011      2002                   0     Bent
+LOG  08013      2002              255271     Boulder
+LOG  08014      2002                   0     Broomfield
+LOG  08015      2002                1085     Chaffee
+LOG  08017      2002                   0     Cheyenne
+LOG  08019      2002             1003606     Clear Creek
+LOG  08021      2002             4968795     Conejos
+LOG  08023      2002                   0     Costilla
+LOG  08025      2002                   0     Crowley
+LOG  08027      2002              289338     Custer
+LOG  08029      2002              719454     Delta
+LOG  08031      2002                   0     Denver
+LOG  08033      2002             1032095     Dolores
+LOG  08035      2002              322393     Douglas
+LOG  08037      2002             1080640     Eagle
+LOG  08039      2002                6000     Elbert
+LOG  08041      2002             3840376     El Paso
+LOG  08043      2002              651826     Fremont
+LOG  08045      2002             2017283     Garfield
+LOG  08047      2002                   0     Gilpin
+LOG  08049      2002             4433498     Grand
+LOG  08051      2002             1608572     Gunnison
+LOG  08053      2002              221931     Hinsdale
+LOG  08055      2002              810095     Huerfano
+LOG  08057      2002             1158981     Jackson
+LOG  08059      2002             1972350     Jefferson
+LOG  08061      2002                   0     Kiowa
+LOG  08063      2002                   0     Kit Carson
+LOG  08065      2002               30523     Lake
+LOG  08067      2002             1096482     La Plata
+LOG  08069      2002             1556666     Larimer
+LOG  08071      2002             1475853     Las Animas
+LOG  08073      2002                   0     Lincoln
+LOG  08075      2002                   0     Logan
+LOG  08077      2002             3556236     Mesa
+LOG  08079      2002             2187762     Mineral
+LOG  08081      2002               20600     Moffat
+LOG  08083      2002             2760183     Montezuma
+LOG  08085      2002             5968527     Montrose
+LOG  08087      2002                   0     Morgan
+LOG  08089      2002                   0     Otero
+LOG  08091      2002             1931400     Ouray
+LOG  08093      2002              354520     Park
+LOG  08095      2002                   0     Phillips
+LOG  08097      2002              387106     Pitkin
+LOG  08099      2002                   0     Prowers
+LOG  08101      2002              763041     Pueblo
+LOG  08103      2002             2891516     Rio Blanco
+LOG  08105      2002              313886     Rio Grande
+LOG  08107      2002             1975089     Routt
+LOG  08109      2002             1753924     Saguache
+LOG  08111      2002                   0     San Juan
+LOG  08113      2002              479486     San Miguel
+LOG  08115      2002                   0     Sedgwick
+LOG  08117      2002             1609992     Summit
+LOG  08119      2002              810806     Teller
+LOG  08121      2002                   0     Washington
+LOG  08123      2002                   0     Weld
+LOG  08125      2002                   0     Yuma
+/END/

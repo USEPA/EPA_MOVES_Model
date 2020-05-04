@@ -1,0 +1,112 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent SINGLE AND DOUBLE (DUPLEX) FAMILY HOMES
+
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+HOU  27000      2002             2132669     MN
+HOU  27001      2002               14603     Aitkin
+HOU  27003      2002              113055     Anoka
+HOU  27005      2002               17009     Becker
+HOU  27007      2002               17431     Beltrami
+HOU  27009      2002               14510     Benton
+HOU  27011      2002                3168     Big Stone
+HOU  27013      2002               22733     Blue Earth
+HOU  27015      2002               11215     Brown
+HOU  27017      2002               14274     Carlton
+HOU  27019      2002               27658     Carver
+HOU  27021      2002               22090     Cass
+HOU  27023      2002                5906     Chippewa
+HOU  27025      2002               16962     Chisago
+HOU  27027      2002               20226     Clay
+HOU  27029      2002                4179     Clearwater
+HOU  27031      2002                4910     Cook
+HOU  27033      2002                5392     Cottonwood
+HOU  27035      2002               35052     Crow Wing
+HOU  27037      2002              140709     Dakota
+HOU  27039      2002                7045     Dodge
+HOU  27041      2002               17561     Douglas
+HOU  27043      2002                7221     Faribault
+HOU  27045      2002                9160     Fillmore
+HOU  27047      2002               14083     Freeborn
+HOU  27049      2002               18502     Goodhue
+HOU  27051      2002                3114     Grant
+HOU  27053      2002              477060     Hennepin
+HOU  27055      2002                8286     Houston
+HOU  27057      2002               12470     Hubbard
+HOU  27059      2002               13207     Isanti
+HOU  27061      2002               25214     Itasca
+HOU  27063      2002                5098     Jackson
+HOU  27065      2002                7087     Kanabec
+HOU  27067      2002               18777     Kandiyohi
+HOU  27069      2002                2728     Kittson
+HOU  27071      2002                7830     Koochiching
+HOU  27073      2002                3764     Lac qui Parle
+HOU  27075      2002                7033     Lake
+HOU  27077      2002                3321     Lake of the Woods
+HOU  27079      2002               11332     Le Sueur
+HOU  27081      2002                3058     Lincoln
+HOU  27083      2002               10490     Lyon
+HOU  27085      2002               14500     McLeod
+HOU  27087      2002                2743     Mahnomen
+HOU  27089      2002                4850     Marshall
+HOU  27091      2002                9894     Martin
+HOU  27093      2002               10118     Meeker
+HOU  27095      2002               10890     Mille Lacs
+HOU  27097      2002               14510     Morrison
+HOU  27099      2002               16536     Mower
+HOU  27101      2002                4406     Murray
+HOU  27103      2002               11554     Nicollet
+HOU  27105      2002                8481     Nobles
+HOU  27107      2002                3454     Norman
+HOU  27109      2002               52844     Olmsted
+HOU  27111      2002               34257     Otter Tail
+HOU  27113      2002                6153     Pennington
+HOU  27115      2002               15652     Pine
+HOU  27117      2002                4457     Pipestone
+HOU  27119      2002               14143     Polk
+HOU  27121      2002                6278     Pope
+HOU  27123      2002              208016     Ramsey
+HOU  27125      2002                1906     Red Lake
+HOU  27127      2002                7276     Redwood
+HOU  27129      2002                7428     Renville
+HOU  27131      2002               20922     Rice
+HOU  27133      2002                4163     Rock
+HOU  27135      2002                7275     Roseau
+HOU  27137      2002               96265     St. Louis
+HOU  27139      2002               36131     Scott
+HOU  27141      2002               25516     Sherburne
+HOU  27143      2002                6122     Sibley
+HOU  27145      2002               52199     Stearns
+HOU  27147      2002               13671     Steele
+HOU  27149      2002                4108     Stevens
+HOU  27151      2002                4838     Swift
+HOU  27153      2002               12075     Todd
+HOU  27155      2002                2207     Traverse
+HOU  27157      2002                9336     Wabasha
+HOU  27159      2002                6470     Wadena
+HOU  27161      2002                7552     Waseca
+HOU  27163      2002               78213     Washington
+HOU  27165      2002                5040     Watonwan
+HOU  27167      2002                3128     Wilkin
+HOU  27169      2002               19838     Winona
+HOU  27171      2002               37842     Wright
+HOU  27173      2002                4889     Yellow Medicine
+/END/

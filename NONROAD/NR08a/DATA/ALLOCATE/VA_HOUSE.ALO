@@ -1,0 +1,165 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent SINGLE AND DOUBLE (DUPLEX) FAMILY HOMES
+from US Census data
+
+9/23/05 epa: 2001 & 2002 Clifton Forge & Alleghany values allocated from 2002 with 1997 ratios.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+HOU  51000      2002             3006526     VA                     3006526
+HOU  51001      2002               19798     Accomack               3006526
+HOU  51003      2002               35143     Albemarle
+HOU  51005      2001                5740     Alleghany       0.191%0.725757
+HOU  51005      2002                7909     Alleghany       0.263%
+HOU  51007      2002                4746     Amelia
+HOU  51009      2002               13188     Amherst
+HOU  51011      2002                5975     Appomattox
+HOU  51013      2002               91848     Arlington
+HOU  51015      2002               27679     Augusta
+HOU  51017      2002                2944     Bath
+HOU  51019      2002               27837     Bedford
+HOU  51021      2002                3271     Bland
+HOU  51023      2002               12937     Botetourt
+HOU  51025      2002                7648     Brunswick
+HOU  51027      2002               12017     Buchanan
+HOU  51029      2002                6420     Buckingham
+HOU  51031      2002               22685     Campbell
+HOU  51033      2002                9137     Caroline
+HOU  51035      2002               15035     Carroll
+HOU  51036      2002                2994     Charles City
+HOU  51037      2002                5929     Charlotte
+HOU  51041      2002              102925     Chesterfield
+HOU  51043      2002                5580     Clarke
+HOU  51045      2002                2627     Craig
+HOU  51047      2002               13601     Culpeper
+HOU  51049      2002                4170     Cumberland
+HOU  51051      2002                7767     Dickenson
+HOU  51053      2002               10072     Dinwiddie
+HOU  51057      2002                5060     Essex
+HOU  51059      2002              372209     Fairfax
+HOU  51061      2002               22377     Fauquier
+HOU  51063      2002                6950     Floyd
+HOU  51065      2002                8795     Fluvanna
+HOU  51067      2002               23643     Franklin
+HOU  51069      2002               24484     Frederick
+HOU  51071      2002                7876     Giles
+HOU  51073      2002               14888     Gloucester
+HOU  51075      2002                7026     Goochland
+HOU  51077      2002                9381     Grayson
+HOU  51079      2002                6407     Greene
+HOU  51081      2002                3892     Greensville
+HOU  51083      2002               17117     Halifax
+HOU  51085      2002               34157     Hanover
+HOU  51087      2002              116905     Henrico
+HOU  51089      2002               26250     Henry
+HOU  51091      2002                1826     Highland
+HOU  51093      2002               12704     Isle of Wight
+HOU  51095      2002               22965     James City
+HOU  51097      2002                3061     King and Queen
+HOU  51099      2002                7156     King George
+HOU  51101      2002                5398     King William
+HOU  51103      2002                6609     Lancaster
+HOU  51105      2002               11222     Lee
+HOU  51107      2002               74235     Loudoun
+HOU  51109      2002               12405     Louisa
+HOU  51111      2002                5766     Lunenburg
+HOU  51113      2002                5427     Madison
+HOU  51115      2002                5372     Mathews
+HOU  51117      2002               17750     Mecklenburg
+HOU  51119      2002                6479     Middlesex
+HOU  51121      2002               33417     Montgomery
+HOU  51125      2002                8690     Nelson
+HOU  51127      2002                5568     New Kent
+HOU  51131      2002                6670     Northampton
+HOU  51133      2002                8251     Northumberland
+HOU  51135      2002                6465     Nottoway
+HOU  51137      2002               11868     Orange
+HOU  51139      2002               10674     Page
+HOU  51141      2002               10037     Patrick
+HOU  51143      2002               28662     Pittsylvania
+HOU  51145      2002                8052     Powhatan
+HOU  51147      2002                7904     Prince Edward
+HOU  51149      2002               11141     Prince George
+HOU  51153      2002              108004     Prince William
+HOU  51155      2002               16559     Pulaski
+HOU  51157      2002                3370     Rappahannock
+HOU  51159      2002                3560     Richmond
+HOU  51161      2002               37314     Roanoke
+HOU  51163      2002                9964     Rockbridge
+HOU  51165      2002               28147     Rockingham
+HOU  51167      2002               13370     Russell
+HOU  51169      2002               11514     Scott
+HOU  51171      2002               17145     Shenandoah
+HOU  51173      2002               15276     Smyth
+HOU  51175      2002                7190     Southampton
+HOU  51177      2002               37164     Spotsylvania
+HOU  51179      2002               34931     Stafford
+HOU  51181      2002                3383     Surry
+HOU  51183      2002                4683     Sussex
+HOU  51185      2002               20602     Tazewell
+HOU  51187      2002               13721     Warren
+HOU  51191      2002               23464     Washington
+HOU  51193      2002                9389     Westmoreland
+HOU  51195      2002               17986     Wise
+HOU  51197      2002               12962     Wythe
+HOU  51199      2002               22143     York
+HOU  51510      2002               66615     Alexandria
+HOU  51515      2002                2714     Bedford
+HOU  51520      2002                8512     Bristol
+HOU  51530      2002                2753     Buena Vista
+HOU  51540      2002               17573     Charlottesville
+HOU  51550      2002               75196     Chesapeake
+HOU  51560      2001                2169     Clifton Forge   0.072%
+HOU  51560      2002                   0     Clifton Forge   0.000%
+HOU  51570      2002                7508     Colonial Heights
+HOU  51580      2002                3174     Covington
+HOU  51590      2002               23072     Danville
+HOU  51595      2002                2557     Emporia
+HOU  51600      2002                8588     Fairfax
+HOU  51610      2002                4705     Falls Church
+HOU  51620      2002                3809     Franklin
+HOU  51630      2002                8928     Fredericksburg
+HOU  51640      2002                3231     Galax
+HOU  51650      2002               57857     Hampton
+HOU  51660      2002               14027     Harrisonburg
+HOU  51670      2002                9842     Hopewell
+HOU  51678      2002                2370     Lexington
+HOU  51680      2002               28142     Lynchburg
+HOU  51683      2002               12317     Manassas
+HOU  51685      2002                3645     Manassas Park
+HOU  51690      2002                7288     Martinsville
+HOU  51700      2002               75028     Newport News
+HOU  51710      2002               95094     Norfolk
+HOU  51720      2002                1950     Norton
+HOU  51730      2002               15868     Petersburg
+HOU  51735      2002                4362     Poquoson
+HOU  51740      2002               41860     Portsmouth
+HOU  51750      2002                6137     Radford
+HOU  51760      2002               91808     Richmond
+HOU  51770      2002               45565     Roanoke
+HOU  51775      2002               10504     Salem
+HOU  51780      2002                   0     South Boston
+HOU  51790      2002               10465     Staunton
+HOU  51800      2002               26826     Suffolk
+HOU  51810      2002              165710     Virginia Beach
+HOU  51820      2002                9027     Waynesboro
+HOU  51830      2002                4242     Williamsburg
+HOU  51840      2002               10743     Winchester
+/END/

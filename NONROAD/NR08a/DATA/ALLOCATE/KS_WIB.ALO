@@ -1,0 +1,130 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WATER SURFACE AREA FOR INBOARD RECREATIONAL MARINE CRAFT (sq km navigable water)
+1990 GICS (inland water area); GIS analysis of coast lengths (coastal navigable water)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+WIB  20000      1990                1192     KS
+WIB  20001      1990                   6     Allen
+WIB  20003      1990                   4     Anderson
+WIB  20005      1990                   7     Atchison
+WIB  20007      1990                   5     Barber
+WIB  20009      1990                  17     Barton
+WIB  20011      1990                   4     Bourbon
+WIB  20013      1990                   4     Brown
+WIB  20015      1990                  47     Butler
+WIB  20017      1990                   5     Chase
+WIB  20019      1990                   8     Chautauqua
+WIB  20021      1990                  10     Cherokee
+WIB  20023      1990                   2     Cheyenne
+WIB  20025      1990                   7     Clark
+WIB  20027      1990                  30     Clay
+WIB  20029      1990                   7     Cloud
+WIB  20031      1990                  63     Coffey
+WIB  20033      1990                   4     Comanche
+WIB  20035      1990                  16     Cowley
+WIB  20037      1990                   6     Crawford
+WIB  20039      1990                   2     Decatur
+WIB  20041      1990                  11     Dickinson
+WIB  20043      1990                  13     Doniphan
+WIB  20045      1990                  45     Douglas
+WIB  20047      1990                   0     Edwards
+WIB  20049      1990                   7     Elk
+WIB  20051      1990                   1     Ellis
+WIB  20053      1990                  20     Ellsworth
+WIB  20055      1990                   7     Finney
+WIB  20057      1990                   2     Ford
+WIB  20059      1990                   7     Franklin
+WIB  20061      1990                  51     Geary
+WIB  20063      1990                   0     Gove
+WIB  20065      1990                   1     Graham
+WIB  20067      1990                   0     Grant
+WIB  20069      1990                   1     Gray
+WIB  20071      1990                   0     Greeley
+WIB  20073      1990                  33     Greenwood
+WIB  20075      1990                   3     Hamilton
+WIB  20077      1990                   4     Harper
+WIB  20079      1990                   3     Harvey
+WIB  20081      1990                   1     Haskell
+WIB  20083      1990                   1     Hodgeman
+WIB  20085      1990                   3     Jackson
+WIB  20087      1990                  54     Jefferson
+WIB  20089      1990                  14     Jewell
+WIB  20091      1990                   9     Johnson
+WIB  20093      1990                   4     Kearny
+WIB  20095      1990                   8     Kingman
+WIB  20097      1990                   1     Kiowa
+WIB  20099      1990                  12     Labette
+WIB  20101      1990                   1     Lane
+WIB  20103      1990                  13     Leavenworth
+WIB  20105      1990                   3     Lincoln
+WIB  20107      1990                  20     Linn
+WIB  20109      1990                   0     Logan
+WIB  20111      1990                  11     Lyon
+WIB  20113      1990                   4     McPherson
+WIB  20115      1990                  27     Marion
+WIB  20117      1990                   5     Marshall
+WIB  20119      1990                   3     Meade
+WIB  20121      1990                  35     Miami
+WIB  20123      1990                  49     Mitchell
+WIB  20125      1990                  16     Montgomery
+WIB  20127      1990                  14     Morris
+WIB  20129      1990                   0     Morton
+WIB  20131      1990                   1     Nemaha
+WIB  20133      1990                  16     Neosho
+WIB  20135      1990                   1     Ness
+WIB  20137      1990                   9     Norton
+WIB  20139      1990                  41     Osage
+WIB  20141      1990                   4     Osborne
+WIB  20143      1990                   2     Ottawa
+WIB  20145      1990                   1     Pawnee
+WIB  20147      1990                  22     Phillips
+WIB  20149      1990                  46     Pottawatomie
+WIB  20151      1990                   2     Pratt
+WIB  20153      1990                   0     Rawlins
+WIB  20155      1990                  44     Reno
+WIB  20157      1990                  10     Republic
+WIB  20159      1990                   4     Rice
+WIB  20161      1990                  32     Riley
+WIB  20163      1990                  18     Rooks
+WIB  20165      1990                   1     Rush
+WIB  20167      1990                  37     Russell
+WIB  20169      1990                   4     Saline
+WIB  20171      1990                   0     Scott
+WIB  20173      1990                  24     Sedgwick
+WIB  20175      1990                   3     Seward
+WIB  20177      1990                  17     Shawnee
+WIB  20179      1990                   1     Sheridan
+WIB  20181      1990                   1     Sherman
+WIB  20183      1990                   3     Smith
+WIB  20185      1990                   7     Stafford
+WIB  20187      1990                   0     Stanton
+WIB  20189      1990                   0     Stevens
+WIB  20191      1990                   8     Sumner
+WIB  20193      1990                   0     Thomas
+WIB  20195      1990                  28     Trego
+WIB  20197      1990                   6     Wabaunsee
+WIB  20199      1990                   0     Wallace
+WIB  20201      1990                   1     Washington
+WIB  20203      1990                   0     Wichita
+WIB  20205      1990                   3     Wilson
+WIB  20207      1990                  13     Woodson
+WIB  20209      1990                  11     Wyandotte
+/END/

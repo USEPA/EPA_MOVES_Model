@@ -1,0 +1,140 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RELATIVE NUMBER OF RESIDENTIAL SNOWBLOWERS
+Same as HOUSE allocation factors, with value set to 0 for counties with snowfall < 15"
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+SBR  29000      2002             2102506     MO
+SBR  29001      2002               11060     Adair
+SBR  29003      2002                6802     Andrew
+SBR  29005      2002                3114     Atchison
+SBR  29007      2002               10990     Audrain
+SBR  29009      2002                   0     Barry
+SBR  29011      2002                   0     Barton
+SBR  29013      2002                7374     Bates
+SBR  29015      2002               12927     Benton
+SBR  29017      2002                   0     Bollinger
+SBR  29019      2002               59471     Boone
+SBR  29021      2002               36836     Buchanan
+SBR  29023      2002                   0     Butler
+SBR  29025      2002                4555     Caldwell
+SBR  29027      2002               16706     Callaway
+SBR  29029      2002               34076     Camden
+SBR  29031      2002                   0     Cape Girardeau
+SBR  29033      2002                4933     Carroll
+SBR  29035      2002                   0     Carter
+SBR  29037      2002               33720     Cass
+SBR  29039      2002                6943     Cedar
+SBR  29041      2002                4302     Chariton
+SBR  29043      2002                   0     Christian
+SBR  29045      2002                3539     Clark
+SBR  29047      2002               78728     Clay
+SBR  29049      2002                8203     Clinton
+SBR  29051      2002               30175     Cole
+SBR  29053      2002                6846     Cooper
+SBR  29055      2002               11094     Crawford
+SBR  29057      2002                3810     Dade
+SBR  29059      2002                7100     Dallas
+SBR  29061      2002                3911     Daviess
+SBR  29063      2002                3930     DeKalb
+SBR  29065      2002                7131     Dent
+SBR  29067      2002                   0     Douglas
+SBR  29069      2002                   0     Dunklin
+SBR  29071      2002               39689     Franklin
+SBR  29073      2002                7955     Gasconade
+SBR  29075      2002                3240     Gentry
+SBR  29077      2002              108416     Greene
+SBR  29079      2002                5153     Grundy
+SBR  29081      2002                4366     Harrison
+SBR  29083      2002               10460     Henry
+SBR  29085      2002                6380     Hickory
+SBR  29087      2002                2952     Holt
+SBR  29089      2002                4412     Howard
+SBR  29091      2002                   0     Howell
+SBR  29093      2002                   0     Iron
+SBR  29095      2002              295560     Jackson
+SBR  29097      2002                   0     Jasper
+SBR  29099      2002               78978     Jefferson
+SBR  29101      2002               19387     Johnson
+SBR  29103      2002                2341     Knox
+SBR  29105      2002               14822     Laclede
+SBR  29107      2002               13833     Lafayette
+SBR  29109      2002               15062     Lawrence
+SBR  29111      2002                4692     Lewis
+SBR  29113      2002               16105     Lincoln
+SBR  29115      2002                6590     Linn
+SBR  29117      2002                6548     Livingston
+SBR  29119      2002                   0     McDonald
+SBR  29121      2002                7587     Macon
+SBR  29123      2002                   0     Madison
+SBR  29125      2002                4247     Maries
+SBR  29127      2002               12571     Marion
+SBR  29129      2002                2159     Mercer
+SBR  29131      2002               11606     Miller
+SBR  29133      2002                   0     Mississippi
+SBR  29135      2002                5842     Moniteau
+SBR  29137      2002                4659     Monroe
+SBR  29139      2002                5862     Montgomery
+SBR  29141      2002               14169     Morgan
+SBR  29143      2002                   0     New Madrid
+SBR  29145      2002                   0     Newton
+SBR  29147      2002                9100     Nodaway
+SBR  29149      2002                   0     Oregon
+SBR  29151      2002                5999     Osage
+SBR  29153      2002                   0     Ozark
+SBR  29155      2002                   0     Pemiscot
+SBR  29157      2002                   0     Perry
+SBR  29159      2002               17107     Pettis
+SBR  29161      2002               18211     Phelps
+SBR  29163      2002                7591     Pike
+SBR  29165      2002               32661     Platte
+SBR  29167      2002               11544     Polk
+SBR  29169      2002               15749     Pulaski
+SBR  29171      2002                2955     Putnam
+SBR  29173      2002                4655     Ralls
+SBR  29175      2002               10871     Randolph
+SBR  29177      2002                9584     Ray
+SBR  29179      2002                   0     Reynolds
+SBR  29181      2002                   0     Ripley
+SBR  29183      2002              114238     St. Charles
+SBR  29185      2002                5334     St. Clair
+SBR  29186      2002                   0     Ste. Genevieve
+SBR  29187      2002                   0     St. Francois
+SBR  29189      2002              428355     St. Louis
+SBR  29195      2002               10162     Saline
+SBR  29197      2002                2077     Schuyler
+SBR  29199      2002                2313     Scotland
+SBR  29201      2002                   0     Scott
+SBR  29203      2002                3950     Shannon
+SBR  29205      2002                3279     Shelby
+SBR  29207      2002                   0     Stoddard
+SBR  29209      2002                   0     Stone
+SBR  29211      2002                3417     Sullivan
+SBR  29213      2002                   0     Taney
+SBR  29215      2002               11025     Texas
+SBR  29217      2002                   0     Vernon
+SBR  29219      2002               11808     Warren
+SBR  29221      2002               10197     Washington
+SBR  29223      2002                   0     Wayne
+SBR  29225      2002               12458     Webster
+SBR  29227      2002                1249     Worth
+SBR  29229      2002                8057     Wright
+SBR  29510      2002              174641     St. Louis
+/END/

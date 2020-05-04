@@ -1,0 +1,92 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WATER SURFACE AREA FOR OUTBOARD RECREATIONAL MARINE CRAFT (sq km navigable water)
+1990 GICS (inland water area); GIS analysis of coast lengths (coastal navigable water)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+WOB  01000      1990                2632     AL
+WOB  01001      1990                  22     Autauga
+WOB  01003      1990                 317     Baldwin
+WOB  01005      1990                  51     Barbour
+WOB  01007      1990                   8     Bibb
+WOB  01009      1990                  13     Blount
+WOB  01011      1990                   3     Bullock
+WOB  01013      1990                   3     Butler
+WOB  01015      1990                  10     Calhoun
+WOB  01017      1990                  15     Chambers
+WOB  01019      1990                 121     Cherokee
+WOB  01021      1990                  17     Chilton
+WOB  01023      1990                  19     Choctaw
+WOB  01025      1990                  37     Clarke
+WOB  01027      1990                   2     Clay
+WOB  01029      1990                   2     Cleburne
+WOB  01031      1990                   3     Coffee
+WOB  01033      1990                  75     Colbert
+WOB  01035      1990                   4     Conecuh
+WOB  01037      1990                  36     Coosa
+WOB  01039      1990                  24     Covington
+WOB  01041      1990                   3     Crenshaw
+WOB  01043      1990                  42     Cullman
+WOB  01045      1990                   4     Dale
+WOB  01047      1990                  33     Dallas
+WOB  01049      1990                   2     DeKalb
+WOB  01051      1990                  92     Elmore
+WOB  01053      1990                  14     Escambia
+WOB  01055      1990                  36     Etowah
+WOB  01057      1990                   4     Fayette
+WOB  01059      1990                  28     Franklin
+WOB  01061      1990                   7     Geneva
+WOB  01063      1990                  36     Greene
+WOB  01065      1990                  33     Hale
+WOB  01067      1990                  17     Henry
+WOB  01069      1990                   3     Houston
+WOB  01071      1990                 124     Jackson
+WOB  01073      1990                  29     Jefferson
+WOB  01075      1990                   2     Lamar
+WOB  01077      1990                 128     Lauderdale
+WOB  01079      1990                  64     Lawrence
+WOB  01081      1990                  18     Lee
+WOB  01083      1990                 101     Limestone
+WOB  01085      1990                  18     Lowndes
+WOB  01087      1990                   7     Macon
+WOB  01089      1990                  21     Madison
+WOB  01091      1990                  15     Marengo
+WOB  01093      1990                   6     Marion
+WOB  01095      1990                 145     Marshall
+WOB  01097      1990                 164     Mobile
+WOB  01099      1990                  22     Monroe
+WOB  01101      1990                  26     Montgomery
+WOB  01103      1990                  44     Morgan
+WOB  01105      1990                  12     Perry
+WOB  01107      1990                  22     Pickens
+WOB  01109      1990                   3     Pike
+WOB  01111      1990                   8     Randolph
+WOB  01113      1990                  16     Russell
+WOB  01115      1990                  51     St. Clair
+WOB  01117      1990                  38     Shelby
+WOB  01119      1990                  22     Sumter
+WOB  01121      1990                  54     Talladega
+WOB  01123      1990                 125     Tallapoosa
+WOB  01125      1990                  69     Tuscaloosa
+WOB  01127      1990                  28     Walker
+WOB  01129      1990                  20     Washington
+WOB  01131      1990                  49     Wilcox
+WOB  01133      1990                  45     Winston
+/END/

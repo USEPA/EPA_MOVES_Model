@@ -1,0 +1,142 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2003 DOLLAR VALUE of CONSTRUCTION
+adjusted for relative geographic cost of construction materials.
+   Const_Dollars * (1-(1/(1+100/Area_Mod_Factor)))
+from McGraw-Hill Construction (values) and Craftsman (cost adj)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+CON  29000      2003             9549378     MO
+CON  29001      2003               47278     Adair
+CON  29003      2003               21430     Andrew
+CON  29005      2003                3245     Atchison
+CON  29007      2003               19946     Audrain
+CON  29009      2003               43018     Barry
+CON  29011      2003               14068     Barton
+CON  29013      2003               13467     Bates
+CON  29015      2003               18182     Benton
+CON  29017      2003                8566     Bollinger
+CON  29019      2003              472813     Boone
+CON  29021      2003               92399     Buchanan
+CON  29023      2003               25048     Butler
+CON  29025      2003                5941     Caldwell
+CON  29027      2003               33581     Callaway
+CON  29029      2003               43735     Camden
+CON  29031      2003              146006     Cape Girardeau
+CON  29033      2003               27153     Carroll
+CON  29035      2003               20895     Carter
+CON  29037      2003              174585     Cass
+CON  29039      2003                7204     Cedar
+CON  29041      2003                6394     Chariton
+CON  29043      2003              134616     Christian
+CON  29045      2003               17230     Clark
+CON  29047      2003              284500     Clay
+CON  29049      2003               37420     Clinton
+CON  29051      2003              138795     Cole
+CON  29053      2003               17477     Cooper
+CON  29055      2003               12336     Crawford
+CON  29057      2003                6369     Dade
+CON  29059      2003               13325     Dallas
+CON  29061      2003               11371     Daviess
+CON  29063      2003                7153     DeKalb
+CON  29065      2003                8208     Dent
+CON  29067      2003               13228     Douglas
+CON  29069      2003               23560     Dunklin
+CON  29071      2003              166523     Franklin
+CON  29073      2003                6497     Gasconade
+CON  29075      2003                4703     Gentry
+CON  29077      2003              550441     Greene
+CON  29079      2003               10169     Grundy
+CON  29081      2003                4969     Harrison
+CON  29083      2003               12998     Henry
+CON  29085      2003                7917     Hickory
+CON  29087      2003               10200     Holt
+CON  29089      2003               23658     Howard
+CON  29091      2003               48324     Howell
+CON  29093      2003                8103     Iron
+CON  29095      2003             1785548     Jackson
+CON  29097      2003              146390     Jasper
+CON  29099      2003              347881     Jefferson
+CON  29101      2003               57930     Johnson
+CON  29103      2003                3478     Knox
+CON  29105      2003               19865     Laclede
+CON  29107      2003               45386     Lafayette
+CON  29109      2003               17954     Lawrence
+CON  29111      2003               22451     Lewis
+CON  29113      2003               65118     Lincoln
+CON  29115      2003               14701     Linn
+CON  29117      2003               14514     Livingston
+CON  29119      2003               39994     McDonald
+CON  29121      2003               12286     Macon
+CON  29123      2003                7153     Madison
+CON  29125      2003                7516     Maries
+CON  29127      2003               23966     Marion
+CON  29129      2003                7428     Mercer
+CON  29131      2003               22571     Miller
+CON  29133      2003                4919     Mississippi
+CON  29135      2003               10110     Moniteau
+CON  29137      2003                8497     Monroe
+CON  29139      2003               10291     Montgomery
+CON  29141      2003               23056     Morgan
+CON  29143      2003               13263     New Madrid
+CON  29145      2003               34196     Newton
+CON  29147      2003               38971     Nodaway
+CON  29149      2003                8665     Oregon
+CON  29151      2003               11148     Osage
+CON  29153      2003                6666     Ozark
+CON  29155      2003               13891     Pemiscot
+CON  29157      2003               12050     Perry
+CON  29159      2003               14847     Pettis
+CON  29161      2003               67706     Phelps
+CON  29163      2003               10752     Pike
+CON  29165      2003              163620     Platte
+CON  29167      2003               35019     Polk
+CON  29169      2003               78809     Pulaski
+CON  29171      2003               13289     Putnam
+CON  29173      2003                5805     Ralls
+CON  29175      2003               25090     Randolph
+CON  29177      2003               40171     Ray
+CON  29179      2003                7827     Reynolds
+CON  29181      2003               11245     Ripley
+CON  29183      2003              858135     St. Charles
+CON  29185      2003                8706     St. Clair
+CON  29186      2003               16553     Ste. Genevieve
+CON  29187      2003               53595     St. Francois
+CON  29189      2003             2083375     St. Louis
+CON  29195      2003               13227     Saline
+CON  29197      2003               10605     Schuyler
+CON  29199      2003                4377     Scotland
+CON  29201      2003               23816     Scott
+CON  29203      2003                5579     Shannon
+CON  29205      2003                5493     Shelby
+CON  29207      2003               19374     Stoddard
+CON  29209      2003               17578     Stone
+CON  29211      2003                8518     Sullivan
+CON  29213      2003               71524     Taney
+CON  29215      2003               17975     Texas
+CON  29217      2003               12248     Vernon
+CON  29219      2003               79283     Warren
+CON  29221      2003               16355     Washington
+CON  29223      2003               16831     Wayne
+CON  29225      2003               38602     Webster
+CON  29227      2003                1439     Worth
+CON  29229      2003                9110     Wright
+CON  29510      2003                   0     St. Louis
+/END/

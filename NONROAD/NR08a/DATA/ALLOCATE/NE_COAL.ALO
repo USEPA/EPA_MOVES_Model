@@ -1,0 +1,118 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent UNDERGROUND COAL PRODUCTION TONS
+DOE/EIA 2002 Annual Coal Report
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+MIN  31000      2002                   0     NE
+MIN  31001      2002                   0     Adams
+MIN  31003      2002                   0     Antelope
+MIN  31005      2002                   0     Arthur
+MIN  31007      2002                   0     Banner
+MIN  31009      2002                   0     Blaine
+MIN  31011      2002                   0     Boone
+MIN  31013      2002                   0     Box Butte
+MIN  31015      2002                   0     Boyd
+MIN  31017      2002                   0     Brown
+MIN  31019      2002                   0     Buffalo
+MIN  31021      2002                   0     Burt
+MIN  31023      2002                   0     Butler
+MIN  31025      2002                   0     Cass
+MIN  31027      2002                   0     Cedar
+MIN  31029      2002                   0     Chase
+MIN  31031      2002                   0     Cherry
+MIN  31033      2002                   0     Cheyenne
+MIN  31035      2002                   0     Clay
+MIN  31037      2002                   0     Colfax
+MIN  31039      2002                   0     Cuming
+MIN  31041      2002                   0     Custer
+MIN  31043      2002                   0     Dakota
+MIN  31045      2002                   0     Dawes
+MIN  31047      2002                   0     Dawson
+MIN  31049      2002                   0     Deuel
+MIN  31051      2002                   0     Dixon
+MIN  31053      2002                   0     Dodge
+MIN  31055      2002                   0     Douglas
+MIN  31057      2002                   0     Dundy
+MIN  31059      2002                   0     Fillmore
+MIN  31061      2002                   0     Franklin
+MIN  31063      2002                   0     Frontier
+MIN  31065      2002                   0     Furnas
+MIN  31067      2002                   0     Gage
+MIN  31069      2002                   0     Garden
+MIN  31071      2002                   0     Garfield
+MIN  31073      2002                   0     Gosper
+MIN  31075      2002                   0     Grant
+MIN  31077      2002                   0     Greeley
+MIN  31079      2002                   0     Hall
+MIN  31081      2002                   0     Hamilton
+MIN  31083      2002                   0     Harlan
+MIN  31085      2002                   0     Hayes
+MIN  31087      2002                   0     Hitchcock
+MIN  31089      2002                   0     Holt
+MIN  31091      2002                   0     Hooker
+MIN  31093      2002                   0     Howard
+MIN  31095      2002                   0     Jefferson
+MIN  31097      2002                   0     Johnson
+MIN  31099      2002                   0     Kearney
+MIN  31101      2002                   0     Keith
+MIN  31103      2002                   0     Keya Paha
+MIN  31105      2002                   0     Kimball
+MIN  31107      2002                   0     Knox
+MIN  31109      2002                   0     Lancaster
+MIN  31111      2002                   0     Lincoln
+MIN  31113      2002                   0     Logan
+MIN  31115      2002                   0     Loup
+MIN  31117      2002                   0     McPherson
+MIN  31119      2002                   0     Madison
+MIN  31121      2002                   0     Merrick
+MIN  31123      2002                   0     Morrill
+MIN  31125      2002                   0     Nance
+MIN  31127      2002                   0     Nemaha
+MIN  31129      2002                   0     Nuckolls
+MIN  31131      2002                   0     Otoe
+MIN  31133      2002                   0     Pawnee
+MIN  31135      2002                   0     Perkins
+MIN  31137      2002                   0     Phelps
+MIN  31139      2002                   0     Pierce
+MIN  31141      2002                   0     Platte
+MIN  31143      2002                   0     Polk
+MIN  31145      2002                   0     Red Willow
+MIN  31147      2002                   0     Richardson
+MIN  31149      2002                   0     Rock
+MIN  31151      2002                   0     Saline
+MIN  31153      2002                   0     Sarpy
+MIN  31155      2002                   0     Saunders
+MIN  31157      2002                   0     Scotts Bluff
+MIN  31159      2002                   0     Seward
+MIN  31161      2002                   0     Sheridan
+MIN  31163      2002                   0     Sherman
+MIN  31165      2002                   0     Sioux
+MIN  31167      2002                   0     Stanton
+MIN  31169      2002                   0     Thayer
+MIN  31171      2002                   0     Thomas
+MIN  31173      2002                   0     Thurston
+MIN  31175      2002                   0     Valley
+MIN  31177      2002                   0     Washington
+MIN  31179      2002                   0     Wayne
+MIN  31181      2002                   0     Webster
+MIN  31183      2002                   0     Wheeler
+MIN  31185      2002                   0     York
+/END/

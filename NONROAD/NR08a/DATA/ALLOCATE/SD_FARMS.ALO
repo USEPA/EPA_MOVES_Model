@@ -1,0 +1,91 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent HARVESTED CROPLAND
+2002 USDA Census of Agriculture
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+FRM  46000      2002            13492286     SD
+FRM  46003      2002              163575     Aurora
+FRM  46005      2002              431619     Beadle
+FRM  46007      2002              134293     Bennett
+FRM  46009      2002              245633     Bon Homme
+FRM  46011      2002              268574     Brookings
+FRM  46013      2002              708183     Brown
+FRM  46015      2002              184954     Brule
+FRM  46017      2002               31111     Buffalo
+FRM  46019      2002              114687     Butte
+FRM  46021      2002              133638     Campbell
+FRM  46023      2002              409350     Charles Mix
+FRM  46025      2002              271595     Clark
+FRM  46027      2002              325684     Clay
+FRM  46029      2002              237686     Codington
+FRM  46031      2002              104588     Corson
+FRM  46033      2002               20566     Custer
+FRM  46035      2002              178991     Davison
+FRM  46037      2002              267862     Day
+FRM  46039      2002              159806     Deuel
+FRM  46041      2002               53126     Dewey
+FRM  46043      2002              159401     Douglas
+FRM  46045      2002              302424     Edmunds
+FRM  46047      2002               50214     Fall River
+FRM  46049      2002              278158     Faulk
+FRM  46051      2002              225564     Grant
+FRM  46053      2002              225600     Gregory
+FRM  46055      2002              104797     Haakon
+FRM  46057      2002              210281     Hamlin
+FRM  46059      2002              339596     Hand
+FRM  46061      2002              184346     Hanson
+FRM  46063      2002               37048     Harding
+FRM  46065      2002              101441     Hughes
+FRM  46067      2002              365953     Hutchinson
+FRM  46069      2002               92820     Hyde
+FRM  46071      2002               76114     Jackson
+FRM  46073      2002              133642     Jerauld
+FRM  46075      2002               77183     Jones
+FRM  46077      2002              322736     Kingsbury
+FRM  46079      2002              227586     Lake
+FRM  46081      2002               17861     Lawrence
+FRM  46083      2002              266005     Lincoln
+FRM  46085      2002              211234     Lyman
+FRM  46087      2002              251961     McCook
+FRM  46089      2002              175150     McPherson
+FRM  46091      2002              250770     Marshall
+FRM  46093      2002              204793     Meade
+FRM  46095      2002               58623     Mellette
+FRM  46097      2002              167112     Miner
+FRM  46099      2002              327595     Minnehaha
+FRM  46101      2002              209051     Moody
+FRM  46103      2002              158373     Pennington
+FRM  46105      2002               98540     Perkins
+FRM  46107      2002              165419     Potter
+FRM  46109      2002              364578     Roberts
+FRM  46111      2002              183772     Sanborn
+FRM  46113      2002               32745     Shannon
+FRM  46115      2002              618985     Spink
+FRM  46117      2002               66985     Stanley
+FRM  46119      2002              240483     Sully
+FRM  46121      2002              132227     Todd
+FRM  46123      2002              343637     Tripp
+FRM  46125      2002              284849     Turner
+FRM  46127      2002              236679     Union
+FRM  46129      2002              153671     Walworth
+FRM  46135      2002              269915     Yankton
+FRM  46137      2002               40848     Ziebach
+/END/

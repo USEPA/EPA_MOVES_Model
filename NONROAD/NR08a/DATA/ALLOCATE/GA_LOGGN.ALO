@@ -1,0 +1,186 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2002 Timber Product Output (cu ft)
+from US Forest Service TPO database. http://www.fia.fs.fed.us/program-features/tpo/
+
+10/19/05 epa: use TPO data instead of CBP employee data.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+LOG  13000      2002          1596560108     GA
+LOG  13001      2002            18970523     Appling
+LOG  13003      2002             7005648     Atkinson
+LOG  13005      2002            10037905     Bacon
+LOG  13007      2002             3662741     Baker
+LOG  13009      2002            10170144     Baldwin
+LOG  13011      2002             4350798     Banks
+LOG  13013      2002             2404822     Barrow
+LOG  13015      2002            10747992     Bartow
+LOG  13017      2002             9295504     Ben Hill
+LOG  13019      2002            10565096     Berrien
+LOG  13021      2002             5352978     Bibb
+LOG  13023      2002             4209480     Bleckley
+LOG  13025      2002            24419829     Brantley
+LOG  13027      2002            12162805     Brooks
+LOG  13029      2002             6575473     Bryan
+LOG  13031      2002            13091028     Bulloch
+LOG  13033      2002            31862488     Burke
+LOG  13035      2002             5978497     Butts
+LOG  13037      2002             6657112     Calhoun
+LOG  13039      2002            23375101     Camden
+LOG  13043      2002            11675119     Candler
+LOG  13045      2002            17729477     Carroll
+LOG  13047      2002             1353638     Catoosa
+LOG  13049      2002            24082618     Charlton
+LOG  13051      2002             3337076     Chatham
+LOG  13053      2002             4111690     Chattahoochee
+LOG  13055      2002             6452594     Chattooga
+LOG  13057      2002             7913515     Cherokee
+LOG  13059      2002             1609730     Clarke
+LOG  13061      2002             5215846     Clay
+LOG  13063      2002             1990019     Clayton
+LOG  13065      2002            37749451     Clinch
+LOG  13067      2002             3684663     Cobb
+LOG  13069      2002            12364653     Coffee
+LOG  13071      2002            17273313     Colquitt
+LOG  13073      2002             8243288     Columbia
+LOG  13075      2002             6377029     Cook
+LOG  13077      2002            11201634     Coweta
+LOG  13079      2002            12673856     Crawford
+LOG  13081      2002             6509817     Crisp
+LOG  13083      2002              948831     Dade
+LOG  13085      2002             2834670     Dawson
+LOG  13087      2002            17280010     Decatur
+LOG  13089      2002             2856060     DeKalb
+LOG  13091      2002            14024001     Dodge
+LOG  13093      2002             4071486     Dooly
+LOG  13095      2002             6954591     Dougherty
+LOG  13097      2002             1852369     Douglas
+LOG  13099      2002            10471284     Early
+LOG  13101      2002            21959524     Echols
+LOG  13103      2002            18072149     Effingham
+LOG  13105      2002            13476435     Elbert
+LOG  13107      2002            20612330     Emanuel
+LOG  13109      2002             5985241     Evans
+LOG  13111      2002              809920     Fannin
+LOG  13113      2002             4124966     Fayette
+LOG  13115      2002            18343626     Floyd
+LOG  13117      2002             2209438     Forsyth
+LOG  13119      2002             3388286     Franklin
+LOG  13121      2002            11829514     Fulton
+LOG  13123      2002             3410983     Gilmer
+LOG  13125      2002             3943107     Glascock
+LOG  13127      2002            18060197     Glynn
+LOG  13129      2002             6204150     Gordon
+LOG  13131      2002            13983788     Grady
+LOG  13133      2002             9250334     Greene
+LOG  13135      2002             5408533     Gwinnett
+LOG  13137      2002             2290853     Habersham
+LOG  13139      2002             2633912     Hall
+LOG  13141      2002            14961325     Hancock
+LOG  13143      2002             9299657     Haralson
+LOG  13145      2002            16429654     Harris
+LOG  13147      2002              269277     Hart
+LOG  13149      2002             8888249     Heard
+LOG  13151      2002             8610400     Henry
+LOG  13153      2002             8324136     Houston
+LOG  13155      2002             7977917     Irwin
+LOG  13157      2002             8470080     Jackson
+LOG  13159      2002             9292641     Jasper
+LOG  13161      2002            15428603     Jeff Davis
+LOG  13163      2002            17916835     Jefferson
+LOG  13165      2002             8784394     Jenkins
+LOG  13167      2002             9903280     Johnson
+LOG  13169      2002            10060558     Jones
+LOG  13171      2002             5954210     Lamar
+LOG  13173      2002             6363610     Lanier
+LOG  13175      2002            17380697     Laurens
+LOG  13177      2002             5332393     Lee
+LOG  13179      2002            18862778     Liberty
+LOG  13181      2002            12354972     Lincoln
+LOG  13183      2002            23605980     Long
+LOG  13185      2002            11210953     Lowndes
+LOG  13187      2002             1823217     Lumpkin
+LOG  13189      2002             8200662     McDuffie
+LOG  13191      2002            17440843     McIntosh
+LOG  13193      2002             5345251     Macon
+LOG  13195      2002             6466730     Madison
+LOG  13197      2002             8167729     Marion
+LOG  13199      2002            17205097     Meriwether
+LOG  13201      2002             4068777     Miller
+LOG  13205      2002            13758662     Mitchell
+LOG  13207      2002            13679503     Monroe
+LOG  13209      2002             7842516     Montgomery
+LOG  13211      2002            12411539     Morgan
+LOG  13213      2002            14534680     Murray
+LOG  13215      2002             3520035     Muscogee
+LOG  13217      2002            10081036     Newton
+LOG  13219      2002             2723814     Oconee
+LOG  13221      2002            17856903     Oglethorpe
+LOG  13223      2002            13186720     Paulding
+LOG  13225      2002              266650     Peach
+LOG  13227      2002             3223288     Pickens
+LOG  13229      2002            12772618     Pierce
+LOG  13231      2002             3457945     Pike
+LOG  13233      2002             7350719     Polk
+LOG  13235      2002             1291393     Pulaski
+LOG  13237      2002            10815661     Putnam
+LOG  13239      2002             8678469     Quitman
+LOG  13241      2002              732162     Rabun
+LOG  13243      2002            16190374     Randolph
+LOG  13245      2002             7049702     Richmond
+LOG  13247      2002             1819219     Rockdale
+LOG  13249      2002             3627290     Schley
+LOG  13251      2002            19025467     Screven
+LOG  13253      2002             2461799     Seminole
+LOG  13255      2002             3204730     Spalding
+LOG  13257      2002             1929519     Stephens
+LOG  13259      2002            27833240     Stewart
+LOG  13261      2002            12059677     Sumter
+LOG  13263      2002            13903888     Talbot
+LOG  13265      2002            11734247     Taliaferro
+LOG  13267      2002            13413459     Tattnall
+LOG  13269      2002            11180999     Taylor
+LOG  13271      2002            13375675     Telfair
+LOG  13273      2002             6543617     Terrell
+LOG  13275      2002            16360754     Thomas
+LOG  13277      2002             3180966     Tift
+LOG  13279      2002            11255232     Toombs
+LOG  13281      2002              193414     Towns
+LOG  13283      2002             4108172     Treutlen
+LOG  13285      2002            16293489     Troup
+LOG  13287      2002             6271794     Turner
+LOG  13289      2002             9211551     Twiggs
+LOG  13291      2002              616859     Union
+LOG  13293      2002             7203424     Upson
+LOG  13295      2002             3851318     Walker
+LOG  13297      2002             5603365     Walton
+LOG  13299      2002            25696961     Ware
+LOG  13301      2002            14722342     Warren
+LOG  13303      2002            15434790     Washington
+LOG  13305      2002            25917079     Wayne
+LOG  13307      2002             9356297     Webster
+LOG  13309      2002             7830179     Wheeler
+LOG  13311      2002             3927104     White
+LOG  13313      2002             4541968     Whitfield
+LOG  13315      2002            18198809     Wilcox
+LOG  13317      2002            23944952     Wilkes
+LOG  13319      2002            26472776     Wilkinson
+LOG  13321      2002            18692813     Worth
+/END/

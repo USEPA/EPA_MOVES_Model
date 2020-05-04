@@ -1,0 +1,83 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WATER SURFACE AREA FOR OUTBOARD RECREATIONAL MARINE CRAFT (sq km navigable water)
+1990 GICS (inland water area); GIS analysis of coast lengths (coastal navigable water)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+WOB  06000      1990                7651     CA
+WOB  06001      1990                 231     Alameda
+WOB  06003      1990                  12     Alpine
+WOB  06005      1990                  30     Amador
+WOB  06007      1990                  97     Butte
+WOB  06009      1990                  43     Calaveras
+WOB  06011      1990                  14     Colusa
+WOB  06013      1990                 224     Contra Costa
+WOB  06015      1990                  56     Del Norte
+WOB  06017      1990                 207     El Dorado
+WOB  06019      1990                 142     Fresno
+WOB  06021      1990                  32     Glenn
+WOB  06023      1990                 183     Humboldt
+WOB  06025      1990                 795     Imperial
+WOB  06027      1990                  92     Inyo
+WOB  06029      1990                  53     Kern
+WOB  06031      1990                   5     Kings
+WOB  06033      1990                 184     Lake
+WOB  06035      1990                 422     Lassen
+WOB  06037      1990                 154     Los Angeles
+WOB  06039      1990                  39     Madera
+WOB  06041      1990                 281     Marin
+WOB  06043      1990                  30     Mariposa
+WOB  06045      1990                  84     Mendocino
+WOB  06047      1990                 112     Merced
+WOB  06049      1990                 671     Modoc
+WOB  06051      1990                 226     Mono
+WOB  06053      1990                 118     Monterey
+WOB  06055      1990                  90     Napa
+WOB  06057      1990                  44     Nevada
+WOB  06059      1990                  50     Orange
+WOB  06061      1990                 248     Placer
+WOB  06063      1990                 155     Plumas
+WOB  06065      1990                 248     Riverside
+WOB  06067      1990                  81     Sacramento
+WOB  06069      1990                   4     San Benito
+WOB  06071      1990                 116     San Bernardino
+WOB  06073      1990                 185     San Diego
+WOB  06075      1990                 155     San Francisco
+WOB  06077      1990                  72     San Joaquin
+WOB  06079      1990                 100     San Luis Obispo
+WOB  06081      1990                 317     San Mateo
+WOB  06083      1990                  95     Santa Barbara
+WOB  06085      1990                  35     Santa Clara
+WOB  06087      1990                  31     Santa Cruz
+WOB  06089      1990                 160     Shasta
+WOB  06091      1990                  22     Sierra
+WOB  06093      1990                 157     Siskiyou
+WOB  06095      1990                 215     Solano
+WOB  06097      1990                 104     Sonoma
+WOB  06099      1990                  52     Stanislaus
+WOB  06101      1990                  16     Sutter
+WOB  06103      1990                  29     Tehama
+WOB  06105      1990                  75     Trinity
+WOB  06107      1990                  39     Tulare
+WOB  06109      1990                 101     Tuolumne
+WOB  06111      1990                  57     Ventura
+WOB  06113      1990                  27     Yolo
+WOB  06115      1990                  34     Yuba
+/END/

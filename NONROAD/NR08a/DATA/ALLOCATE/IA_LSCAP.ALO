@@ -1,0 +1,124 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent EMPLOYEES IN LANDSCAPING SERVICES
+CBP NAICS 561730; pre-2002 CBP SIC 0780
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+LSC  19000      2002                2577     IA
+LSC  19001      2002                   5     Adair
+LSC  19003      2002                   0     Adams
+LSC  19005      2002                   5     Allamakee
+LSC  19007      2002                   0     Appanoose
+LSC  19009      2002                   5     Audubon
+LSC  19011      2002                   5     Benton
+LSC  19013      2002                  60     Black Hawk
+LSC  19015      2002                   6     Boone
+LSC  19017      2002                  16     Bremer
+LSC  19019      2002                   5     Buchanan
+LSC  19021      2002                   8     Buena Vista
+LSC  19023      2002                   5     Butler
+LSC  19025      2002                   5     Calhoun
+LSC  19027      2002                   5     Carroll
+LSC  19029      2002                   4     Cass
+LSC  19031      2002                   5     Cedar
+LSC  19033      2002                  36     Cerro Gordo
+LSC  19035      2002                   5     Cherokee
+LSC  19037      2002                   5     Chickasaw
+LSC  19039      2002                   5     Clarke
+LSC  19041      2002                   5     Clay
+LSC  19043      2002                   5     Clayton
+LSC  19045      2002                  13     Clinton
+LSC  19047      2002                   5     Crawford
+LSC  19049      2002                  82     Dallas
+LSC  19051      2002                   5     Davis
+LSC  19053      2002                   0     Decatur
+LSC  19055      2002                   5     Delaware
+LSC  19057      2002                  34     Des Moines
+LSC  19059      2002                  36     Dickinson
+LSC  19061      2002                  48     Dubuque
+LSC  19063      2002                   5     Emmet
+LSC  19065      2002                   4     Fayette
+LSC  19067      2002                   5     Floyd
+LSC  19069      2002                   5     Franklin
+LSC  19071      2002                   5     Fremont
+LSC  19073      2002                   5     Greene
+LSC  19075      2002                   5     Grundy
+LSC  19077      2002                   5     Guthrie
+LSC  19079      2002                   5     Hamilton
+LSC  19081      2002                   0     Hancock
+LSC  19083      2002                   5     Hardin
+LSC  19085      2002                   5     Harrison
+LSC  19087      2002                   9     Henry
+LSC  19089      2002                   0     Howard
+LSC  19091      2002                   5     Humboldt
+LSC  19093      2002                   5     Ida
+LSC  19095      2002                   5     Iowa
+LSC  19097      2002                   5     Jackson
+LSC  19099      2002                  56     Jasper
+LSC  19101      2002                   3     Jefferson
+LSC  19103      2002                 124     Johnson
+LSC  19105      2002                   3     Jones
+LSC  19107      2002                   5     Keokuk
+LSC  19109      2002                   5     Kossuth
+LSC  19111      2002                   7     Lee
+LSC  19113      2002                 314     Linn
+LSC  19115      2002                   0     Louisa
+LSC  19117      2002                   0     Lucas
+LSC  19119      2002                   5     Lyon
+LSC  19121      2002                  11     Madison
+LSC  19123      2002                   3     Mahaska
+LSC  19125      2002                  36     Marion
+LSC  19127      2002                   5     Marshall
+LSC  19129      2002                   5     Mills
+LSC  19131      2002                   5     Mitchell
+LSC  19133      2002                   5     Monona
+LSC  19135      2002                   5     Monroe
+LSC  19137      2002                   5     Montgomery
+LSC  19139      2002                  31     Muscatine
+LSC  19141      2002                   5     O'Brien
+LSC  19143      2002                   0     Osceola
+LSC  19145      2002                   5     Page
+LSC  19147      2002                   5     Palo Alto
+LSC  19149      2002                   5     Plymouth
+LSC  19151      2002                   0     Pocahontas
+LSC  19153      2002                 615     Polk
+LSC  19155      2002                  26     Pottawattamie
+LSC  19157      2002                   5     Poweshiek
+LSC  19159      2002                   0     Ringgold
+LSC  19161      2002                   0     Sac
+LSC  19163      2002                 261     Scott
+LSC  19165      2002                   4     Shelby
+LSC  19167      2002                  43     Sioux
+LSC  19169      2002                 214     Story
+LSC  19171      2002                   5     Tama
+LSC  19173      2002                   0     Taylor
+LSC  19175      2002                   5     Union
+LSC  19177      2002                   5     Van Buren
+LSC  19179      2002                   5     Wapello
+LSC  19181      2002                  36     Warren
+LSC  19183      2002                   5     Washington
+LSC  19185      2002                   0     Wayne
+LSC  19187      2002                   6     Webster
+LSC  19189      2002                   5     Winnebago
+LSC  19191      2002                  35     Winneshiek
+LSC  19193      2002                 129     Woodbury
+LSC  19195      2002                   5     Worth
+LSC  19197      2002                   4     Wright
+/END/

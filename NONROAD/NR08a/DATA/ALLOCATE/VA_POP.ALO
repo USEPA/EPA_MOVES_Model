@@ -1,0 +1,165 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent HUMAN POPULATION
+from US Census
+
+9/23/05 epa: 2001 & 2002 Clifton Forge & Alleghany values allocated from 2002 with 2000 ratios.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+POP  51000      2002             7273572     VA                     7273572
+POP  51001      2002               38883     Accomack
+POP  51003      2002               86464     Albemarle
+POP  51005      2001               12748     Alleghany       0.175%0.750857
+POP  51005      2002               16978     Alleghany       0.233%
+POP  51007      2002               11721     Amelia
+POP  51009      2002               31815     Amherst
+POP  51011      2002               13753     Appomattox
+POP  51013      2002              188690     Arlington
+POP  51015      2002               66863     Augusta
+POP  51017      2002                5040     Bath
+POP  51019      2002               61874     Bedford
+POP  51021      2002                6906     Bland
+POP  51023      2002               31167     Botetourt
+POP  51025      2002               18358     Brunswick
+POP  51027      2002               26044     Buchanan
+POP  51029      2002               15830     Buckingham
+POP  51031      2002               51422     Campbell
+POP  51033      2002               22616     Caroline
+POP  51035      2002               29289     Carroll
+POP  51036      2002                7065     Charles City
+POP  51037      2002               12496     Charlotte
+POP  51041      2002              270772     Chesterfield
+POP  51043      2002               13221     Clarke
+POP  51045      2002                5077     Craig
+POP  51047      2002               36904     Culpeper
+POP  51049      2002                9037     Cumberland
+POP  51051      2002               16230     Dickenson
+POP  51053      2002               24651     Dinwiddie
+POP  51057      2002               10120     Essex
+POP  51059      2002              992361     Fairfax
+POP  51061      2002               59484     Fauquier
+POP  51063      2002               14259     Floyd
+POP  51065      2002               22008     Fluvanna
+POP  51067      2002               48533     Franklin
+POP  51069      2002               62959     Frederick
+POP  51071      2002               16921     Giles
+POP  51073      2002               35913     Gloucester
+POP  51075      2002               17695     Goochland
+POP  51077      2002               16694     Grayson
+POP  51079      2002               16304     Greene
+POP  51081      2002               11580     Greensville
+POP  51083      2002               36878     Halifax
+POP  51085      2002               91878     Hanover
+POP  51087      2002              268050     Henrico
+POP  51089      2002               57363     Henry
+POP  51091      2002                2467     Highland
+POP  51093      2002               30934     Isle of Wight
+POP  51095      2002               51380     James City
+POP  51097      2002                6579     King and Queen
+POP  51099      2002               17816     King George
+POP  51101      2002               13793     King William
+POP  51103      2002               11981     Lancaster
+POP  51105      2002               23597     Lee
+POP  51107      2002              203818     Loudoun
+POP  51109      2002               27114     Louisa
+POP  51111      2002               13184     Lunenburg
+POP  51113      2002               12984     Madison
+POP  51115      2002                9244     Mathews
+POP  51117      2002               32477     Mecklenburg
+POP  51119      2002               10095     Middlesex
+POP  51121      2002               83798     Montgomery
+POP  51125      2002               14709     Nelson
+POP  51127      2002               14281     New Kent
+POP  51131      2002               13062     Northampton
+POP  51133      2002               12597     Northumberland
+POP  51135      2002               15682     Nottoway
+POP  51137      2002               27292     Orange
+POP  51139      2002               23364     Page
+POP  51141      2002               19313     Patrick
+POP  51143      2002               61765     Pittsylvania
+POP  51145      2002               24263     Powhatan
+POP  51147      2002               20034     Prince Edward
+POP  51149      2002               33985     Prince George
+POP  51153      2002              310828     Prince William
+POP  51155      2002               34977     Pulaski
+POP  51157      2002                7151     Rappahannock
+POP  51159      2002                8982     Richmond
+POP  51161      2002               86508     Roanoke
+POP  51163      2002               20853     Rockbridge
+POP  51165      2002               68990     Rockingham
+POP  51167      2002               28963     Russell
+POP  51169      2002               23096     Scott
+POP  51171      2002               36418     Shenandoah
+POP  51173      2002               32822     Smyth
+POP  51175      2002               17363     Southampton
+POP  51177      2002              102565     Spotsylvania
+POP  51179      2002              104269     Stafford
+POP  51181      2002                6963     Surry
+POP  51183      2002               12127     Sussex
+POP  51185      2002               44298     Tazewell
+POP  51187      2002               33064     Warren
+POP  51191      2002               51330     Washington
+POP  51193      2002               16735     Westmoreland
+POP  51195      2002               41829     Wise
+POP  51197      2002               27834     Wythe
+POP  51199      2002               59292     York
+POP  51510      2002              129772     Alexandria
+POP  51515      2002                6280     Bedford
+POP  51520      2002               17097     Bristol
+POP  51530      2002                6297     Buena Vista
+POP  51540      2002               38720     Charlottesville
+POP  51550      2002              205533     Chesapeake
+POP  51560      2001                4230     Clifton Forge   0.058%
+POP  51560      2002                   0     Clifton Forge   0.000%
+POP  51570      2002               17145     Colonial Heights
+POP  51580      2002                6337     Covington
+POP  51590      2002               47311     Danville
+POP  51595      2002                5708     Emporia
+POP  51600      2002               21778     Fairfax
+POP  51610      2002               10626     Falls Church
+POP  51620      2002                8185     Franklin
+POP  51630      2002               20017     Fredericksburg
+POP  51640      2002                6652     Galax
+POP  51650      2002              144852     Hampton
+POP  51660      2002               40976     Harrisonburg
+POP  51670      2002               22443     Hopewell
+POP  51678      2002                6901     Lexington
+POP  51680      2002               64952     Lynchburg
+POP  51683      2002               36622     Manassas
+POP  51685      2002               10930     Manassas Park
+POP  51690      2002               15160     Martinsville
+POP  51700      2002              179704     Newport News
+POP  51710      2002              238343     Norfolk
+POP  51720      2002                3927     Norton
+POP  51730      2002               33132     Petersburg
+POP  51735      2002               11613     Poquoson
+POP  51740      2002               99369     Portsmouth
+POP  51750      2002               15332     Radford
+POP  51760      2002              196303     Richmond
+POP  51770      2002               93173     Roanoke
+POP  51775      2002               24785     Salem
+POP  51780      2002                   0     South Boston
+POP  51790      2002               23797     Staunton
+POP  51800      2002               69821     Suffolk
+POP  51810      2002              430909     Virginia Beach
+POP  51820      2002               20145     Waynesboro
+POP  51830      2002               11544     Williamsburg
+POP  51840      2002               24350     Winchester
+/END/

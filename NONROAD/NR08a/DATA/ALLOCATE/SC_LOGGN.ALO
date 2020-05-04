@@ -1,0 +1,73 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2002 Timber Product Output (cu ft)
+from US Forest Service TPO database. http://www.fia.fs.fed.us/program-features/tpo/
+
+10/19/05 epa: use TPO data instead of CBP employee data.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+LOG  45000      2002           799937880     SC
+LOG  45001      2002            15430806     Abbeville
+LOG  45003      2002            20220173     Aiken
+LOG  45005      2002             8901648     Allendale
+LOG  45007      2002            12878696     Anderson
+LOG  45009      2002            11801270     Bamberg
+LOG  45011      2002            10541339     Barnwell
+LOG  45013      2002             4577408     Beaufort
+LOG  45015      2002            15310212     Berkeley
+LOG  45017      2002             6178402     Calhoun
+LOG  45019      2002             8033576     Charleston
+LOG  45021      2002            11676564     Cherokee
+LOG  45023      2002            18240464     Chester
+LOG  45025      2002            18424878     Chesterfield
+LOG  45027      2002            10062654     Clarendon
+LOG  45029      2002            37152345     Colleton
+LOG  45031      2002            14738448     Darlington
+LOG  45033      2002            10505748     Dillon
+LOG  45035      2002            17757281     Dorchester
+LOG  45037      2002            17138262     Edgefield
+LOG  45039      2002            27515843     Fairfield
+LOG  45041      2002            25563660     Florence
+LOG  45043      2002            26708661     Georgetown
+LOG  45045      2002             8811698     Greenville
+LOG  45047      2002            36049488     Greenwood
+LOG  45049      2002            24626357     Hampton
+LOG  45051      2002            36226070     Horry
+LOG  45053      2002            18132986     Jasper
+LOG  45055      2002            21476043     Kershaw
+LOG  45057      2002            14831429     Lancaster
+LOG  45059      2002            19558183     Laurens
+LOG  45061      2002             5590868     Lee
+LOG  45063      2002            11356859     Lexington
+LOG  45065      2002             9914328     McCormick
+LOG  45067      2002            20678072     Marion
+LOG  45069      2002            24753017     Marlboro
+LOG  45071      2002            26443594     Newberry
+LOG  45073      2002            12352520     Oconee
+LOG  45075      2002            24982267     Orangeburg
+LOG  45077      2002            13485429     Pickens
+LOG  45079      2002            20721092     Richland
+LOG  45081      2002            19764435     Saluda
+LOG  45083      2002            12480568     Spartanburg
+LOG  45085      2002             7824490     Sumter
+LOG  45087      2002            15305478     Union
+LOG  45089      2002            26141067     Williamsburg
+LOG  45091      2002            19073207     York
+/END/

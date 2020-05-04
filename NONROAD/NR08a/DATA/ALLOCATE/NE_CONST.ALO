@@ -1,0 +1,120 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2003 DOLLAR VALUE of CONSTRUCTION
+adjusted for relative geographic cost of construction materials.
+   Const_Dollars * (1-(1/(1+100/Area_Mod_Factor)))
+from McGraw-Hill Construction (values) and Craftsman (cost adj)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+CON  31000      2003             3497260     NE
+CON  31001      2003               31600     Adams
+CON  31003      2003               12348     Antelope
+CON  31005      2003                   0     Arthur
+CON  31007      2003                   0     Banner
+CON  31009      2003                2672     Blaine
+CON  31011      2003                4404     Boone
+CON  31013      2003               13381     Box Butte
+CON  31015      2003               10842     Boyd
+CON  31017      2003                2507     Brown
+CON  31019      2003               75669     Buffalo
+CON  31021      2003                6825     Burt
+CON  31023      2003               10427     Butler
+CON  31025      2003               30507     Cass
+CON  31027      2003                5881     Cedar
+CON  31029      2003                1039     Chase
+CON  31031      2003                5545     Cherry
+CON  31033      2003               17926     Cheyenne
+CON  31035      2003                3325     Clay
+CON  31037      2003               11158     Colfax
+CON  31039      2003               17635     Cuming
+CON  31041      2003               15122     Custer
+CON  31043      2003               15673     Dakota
+CON  31045      2003                6377     Dawes
+CON  31047      2003               23317     Dawson
+CON  31049      2003                8967     Deuel
+CON  31051      2003                6665     Dixon
+CON  31053      2003               37990     Dodge
+CON  31055      2003             1128776     Douglas
+CON  31057      2003                3808     Dundy
+CON  31059      2003                4300     Fillmore
+CON  31061      2003                2914     Franklin
+CON  31063      2003                5918     Frontier
+CON  31065      2003                2231     Furnas
+CON  31067      2003              260607     Gage
+CON  31069      2003                 684     Garden
+CON  31071      2003                1313     Garfield
+CON  31073      2003                 703     Gosper
+CON  31075      2003                   0     Grant
+CON  31077      2003                2449     Greeley
+CON  31079      2003               79126     Hall
+CON  31081      2003                9660     Hamilton
+CON  31083      2003                3576     Harlan
+CON  31085      2003                2437     Hayes
+CON  31087      2003                3048     Hitchcock
+CON  31089      2003               13790     Holt
+CON  31091      2003                 151     Hooker
+CON  31093      2003                4017     Howard
+CON  31095      2003                7723     Jefferson
+CON  31097      2003                4741     Johnson
+CON  31099      2003               42380     Kearney
+CON  31101      2003                6840     Keith
+CON  31103      2003                2965     Keya Paha
+CON  31105      2003                3023     Kimball
+CON  31107      2003                5059     Knox
+CON  31109      2003              663251     Lancaster
+CON  31111      2003               35004     Lincoln
+CON  31113      2003                   0     Logan
+CON  31115      2003                   0     Loup
+CON  31117      2003                   0     McPherson
+CON  31119      2003               60729     Madison
+CON  31121      2003               64840     Merrick
+CON  31123      2003                3384     Morrill
+CON  31125      2003                4216     Nance
+CON  31127      2003                5391     Nemaha
+CON  31129      2003                2523     Nuckolls
+CON  31131      2003               14275     Otoe
+CON  31133      2003                1290     Pawnee
+CON  31135      2003                1226     Perkins
+CON  31137      2003                5421     Phelps
+CON  31139      2003                2958     Pierce
+CON  31141      2003               33692     Platte
+CON  31143      2003                3133     Polk
+CON  31145      2003                7289     Red Willow
+CON  31147      2003                4919     Richardson
+CON  31149      2003                1700     Rock
+CON  31151      2003               19840     Saline
+CON  31153      2003              406140     Sarpy
+CON  31155      2003               24377     Saunders
+CON  31157      2003               32565     Scotts Bluff
+CON  31159      2003               22311     Seward
+CON  31161      2003                5286     Sheridan
+CON  31163      2003                2064     Sherman
+CON  31165      2003                8560     Sioux
+CON  31167      2003                2243     Stanton
+CON  31169      2003                3563     Thayer
+CON  31171      2003                   0     Thomas
+CON  31173      2003                6674     Thurston
+CON  31175      2003                2057     Valley
+CON  31177      2003               31089     Washington
+CON  31179      2003               14193     Wayne
+CON  31181      2003                2683     Webster
+CON  31183      2003                 641     Wheeler
+CON  31185      2003               17687     York
+/END/

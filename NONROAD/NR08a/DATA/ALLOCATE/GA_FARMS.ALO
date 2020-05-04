@@ -1,0 +1,184 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent HARVESTED CROPLAND
+2002 USDA Census of Agriculture
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+FRM  13000      2002             3245784     GA
+FRM  13001      2002               53566     Appling
+FRM  13003      2002               20723     Atkinson
+FRM  13005      2002               23775     Bacon
+FRM  13007      2002               42516     Baker
+FRM  13009      2002                3385     Baldwin
+FRM  13011      2002                7343     Banks
+FRM  13013      2002                5471     Barrow
+FRM  13015      2002               17563     Bartow
+FRM  13017      2002               26343     Ben Hill
+FRM  13019      2002               46092     Berrien
+FRM  13021      2002                5821     Bibb
+FRM  13023      2002               23012     Bleckley
+FRM  13025      2002                4786     Brantley
+FRM  13027      2002               77060     Brooks
+FRM  13029      2002                3856     Bryan
+FRM  13031      2002               92843     Bulloch
+FRM  13033      2002               64164     Burke
+FRM  13035      2002                3160     Butts
+FRM  13037      2002               55438     Calhoun
+FRM  13039      2002                 207     Camden
+FRM  13043      2002               19430     Candler
+FRM  13045      2002               14005     Carroll
+FRM  13047      2002                6879     Catoosa
+FRM  13049      2002                1663     Charlton
+FRM  13051      2002                 727     Chatham
+FRM  13053      2002                  60     Chattahoochee
+FRM  13055      2002               10897     Chattooga
+FRM  13057      2002                4037     Cherokee
+FRM  13059      2002                2094     Clarke
+FRM  13061      2002               19160     Clay
+FRM  13063      2002                 668     Clayton
+FRM  13065      2002                1392     Clinch
+FRM  13067      2002                1000     Cobb
+FRM  13069      2002               71155     Coffee
+FRM  13071      2002              117539     Colquitt
+FRM  13073      2002                1860     Columbia
+FRM  13075      2002               34519     Cook
+FRM  13077      2002                7777     Coweta
+FRM  13079      2002               10602     Crawford
+FRM  13081      2002               62052     Crisp
+FRM  13083      2002                4937     Dade
+FRM  13085      2002                2005     Dawson
+FRM  13087      2002               76170     Decatur
+FRM  13089      2002                 114     DeKalb
+FRM  13091      2002               29830     Dodge
+FRM  13093      2002              106258     Dooly
+FRM  13095      2002               25242     Dougherty
+FRM  13097      2002                1635     Douglas
+FRM  13099      2002               71544     Early
+FRM  13101      2002                8151     Echols
+FRM  13103      2002               11976     Effingham
+FRM  13105      2002               12794     Elbert
+FRM  13107      2002               36881     Emanuel
+FRM  13109      2002               12007     Evans
+FRM  13111      2002                2338     Fannin
+FRM  13113      2002                2564     Fayette
+FRM  13115      2002               16357     Floyd
+FRM  13117      2002                4539     Forsyth
+FRM  13119      2002               14569     Franklin
+FRM  13121      2002                2899     Fulton
+FRM  13123      2002                3875     Gilmer
+FRM  13125      2002                3856     Glascock
+FRM  13127      2002                 274     Glynn
+FRM  13129      2002               21311     Gordon
+FRM  13131      2002               44911     Grady
+FRM  13133      2002                8281     Greene
+FRM  13135      2002                1637     Gwinnett
+FRM  13137      2002                6246     Habersham
+FRM  13139      2002                8867     Hall
+FRM  13141      2002                3490     Hancock
+FRM  13143      2002                4723     Haralson
+FRM  13145      2002                4771     Harris
+FRM  13147      2002               16439     Hart
+FRM  13149      2002                2973     Heard
+FRM  13151      2002                6534     Henry
+FRM  13153      2002               31172     Houston
+FRM  13155      2002               69249     Irwin
+FRM  13157      2002               15315     Jackson
+FRM  13159      2002                5720     Jasper
+FRM  13161      2002               22836     Jeff Davis
+FRM  13163      2002               51660     Jefferson
+FRM  13165      2002               27057     Jenkins
+FRM  13167      2002               16014     Johnson
+FRM  13169      2002                4507     Jones
+FRM  13171      2002               11621     Lamar
+FRM  13173      2002               17418     Lanier
+FRM  13175      2002               37468     Laurens
+FRM  13177      2002               46273     Lee
+FRM  13179      2002                 483     Liberty
+FRM  13181      2002                3189     Lincoln
+FRM  13183      2002                3527     Long
+FRM  13185      2002               23127     Lowndes
+FRM  13187      2002                2367     Lumpkin
+FRM  13189      2002                6888     McDuffie
+FRM  13191      2002                  96     McIntosh
+FRM  13193      2002               47497     Macon
+FRM  13195      2002               12672     Madison
+FRM  13197      2002                8209     Marion
+FRM  13199      2002                9636     Meriwether
+FRM  13201      2002               61047     Miller
+FRM  13205      2002               94378     Mitchell
+FRM  13207      2002                4821     Monroe
+FRM  13209      2002                9710     Montgomery
+FRM  13211      2002               17934     Morgan
+FRM  13213      2002                9022     Murray
+FRM  13215      2002                2084     Muscogee
+FRM  13217      2002                6591     Newton
+FRM  13219      2002                9640     Oconee
+FRM  13221      2002                7990     Oglethorpe
+FRM  13223      2002                2024     Paulding
+FRM  13225      2002               18949     Peach
+FRM  13227      2002                2968     Pickens
+FRM  13229      2002               33011     Pierce
+FRM  13231      2002                6816     Pike
+FRM  13233      2002                9809     Polk
+FRM  13235      2002               39237     Pulaski
+FRM  13237      2002                7212     Putnam
+FRM  13239      2002                3510     Quitman
+FRM  13241      2002                2266     Rabun
+FRM  13243      2002               38267     Randolph
+FRM  13245      2002                2541     Richmond
+FRM  13247      2002                1382     Rockdale
+FRM  13249      2002                6500     Schley
+FRM  13251      2002               54320     Screven
+FRM  13253      2002               46094     Seminole
+FRM  13255      2002                3953     Spalding
+FRM  13257      2002                3820     Stephens
+FRM  13259      2002                9215     Stewart
+FRM  13261      2002               67587     Sumter
+FRM  13263      2002                3691     Talbot
+FRM  13265      2002                2251     Taliaferro
+FRM  13267      2002               41133     Tattnall
+FRM  13269      2002               19544     Taylor
+FRM  13271      2002               15148     Telfair
+FRM  13273      2002               57052     Terrell
+FRM  13275      2002               50301     Thomas
+FRM  13277      2002               48873     Tift
+FRM  13279      2002               25362     Toombs
+FRM  13281      2002                2264     Towns
+FRM  13283      2002                6624     Treutlen
+FRM  13285      2002                5077     Troup
+FRM  13287      2002               52877     Turner
+FRM  13289      2002                8947     Twiggs
+FRM  13291      2002                5346     Union
+FRM  13293      2002                5287     Upson
+FRM  13295      2002               18155     Walker
+FRM  13297      2002               13251     Walton
+FRM  13299      2002               14904     Ware
+FRM  13301      2002                5567     Warren
+FRM  13303      2002               26441     Washington
+FRM  13305      2002               19933     Wayne
+FRM  13307      2002               22528     Webster
+FRM  13309      2002                9389     Wheeler
+FRM  13311      2002                6219     White
+FRM  13313      2002                8535     Whitfield
+FRM  13315      2002               43853     Wilcox
+FRM  13317      2002               12195     Wilkes
+FRM  13319      2002                3859     Wilkinson
+FRM  13321      2002               88841     Worth
+/END/

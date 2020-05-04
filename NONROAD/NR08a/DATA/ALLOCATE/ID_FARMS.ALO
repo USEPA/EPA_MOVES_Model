@@ -1,0 +1,69 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent HARVESTED CROPLAND
+2002 USDA Census of Agriculture
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+FRM  16000      2002             4313288     ID
+FRM  16001      2002               56228     Ada
+FRM  16003      2002               11380     Adams
+FRM  16005      2002              107780     Bannock
+FRM  16007      2002               66239     Bear Lake
+FRM  16009      2002               70768     Benewah
+FRM  16011      2002              307120     Bingham
+FRM  16013      2002               33114     Blaine
+FRM  16015      2002                1853     Boise
+FRM  16017      2002               18052     Bonner
+FRM  16019      2002              214851     Bonneville
+FRM  16021      2002               40440     Boundary
+FRM  16023      2002               47715     Butte
+FRM  16025      2002               63323     Camas
+FRM  16027      2002              170465     Canyon
+FRM  16029      2002              137693     Caribou
+FRM  16031      2002              284954     Cassia
+FRM  16033      2002               31335     Clark
+FRM  16035      2002               29550     Clearwater
+FRM  16037      2002               28311     Custer
+FRM  16039      2002               84571     Elmore
+FRM  16041      2002               65785     Franklin
+FRM  16043      2002              131698     Fremont
+FRM  16045      2002               24132     Gem
+FRM  16047      2002              100711     Gooding
+FRM  16049      2002              153105     Idaho
+FRM  16051      2002              191500     Jefferson
+FRM  16053      2002              131177     Jerome
+FRM  16055      2002               45977     Kootenai
+FRM  16057      2002              186646     Latah
+FRM  16059      2002               39027     Lemhi
+FRM  16061      2002              140002     Lewis
+FRM  16063      2002               49096     Lincoln
+FRM  16065      2002              132623     Madison
+FRM  16067      2002              194423     Minidoka
+FRM  16069      2002              164422     Nez Perce
+FRM  16071      2002              105660     Oneida
+FRM  16073      2002              107343     Owyhee
+FRM  16075      2002               41482     Payette
+FRM  16077      2002              154951     Power
+FRM  16079      2002                 414     Shoshone
+FRM  16081      2002               68768     Teton
+FRM  16083      2002              217786     Twin Falls
+FRM  16085      2002                5027     Valley
+FRM  16087      2002               55791     Washington
+/END/

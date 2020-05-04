@@ -1,0 +1,142 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent AIRCRAFT NOx TONS
+from Draft 2002 NEI
+
+9/1/05 epa: Modifies to treat PR & VI as additional to US Total.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+AIR  29000      2002            2487.690     MO
+AIR  29001      2002               0.080     Adair
+AIR  29003      2002               0.000     Andrew
+AIR  29005      2002               0.000     Atchison
+AIR  29007      2002               0.030     Audrain
+AIR  29009      2002               0.034     Barry
+AIR  29011      2002               0.020     Barton
+AIR  29013      2002               0.060     Bates
+AIR  29015      2002               0.000     Benton
+AIR  29017      2002               0.000     Bollinger
+AIR  29019      2002               1.430     Boone
+AIR  29021      2002               0.756     Buchanan
+AIR  29023      2002               0.050     Butler
+AIR  29025      2002               0.000     Caldwell
+AIR  29027      2002               0.600     Callaway
+AIR  29029      2002               0.120     Camden
+AIR  29031      2002               0.000     Cape Girardeau
+AIR  29033      2002               0.000     Carroll
+AIR  29035      2002               0.000     Carter
+AIR  29037      2002               0.000     Cass
+AIR  29039      2002               0.000     Cedar
+AIR  29041      2002               0.000     Chariton
+AIR  29043      2002               0.000     Christian
+AIR  29045      2002               0.000     Clark
+AIR  29047      2002               1.700     Clay
+AIR  29049      2002               0.060     Clinton
+AIR  29051      2002               0.000     Cole
+AIR  29053      2002               0.060     Cooper
+AIR  29055      2002               0.061     Crawford
+AIR  29057      2002               0.000     Dade
+AIR  29059      2002               0.000     Dallas
+AIR  29061      2002               0.000     Daviess
+AIR  29063      2002               0.000     DeKalb
+AIR  29065      2002               0.000     Dent
+AIR  29067      2002               0.000     Douglas
+AIR  29069      2002               0.059     Dunklin
+AIR  29071      2002               0.000     Franklin
+AIR  29073      2002               0.000     Gasconade
+AIR  29075      2002               0.000     Gentry
+AIR  29077      2002              60.160     Greene
+AIR  29079      2002               0.041     Grundy
+AIR  29081      2002               0.000     Harrison
+AIR  29083      2002               0.065     Henry
+AIR  29085      2002               0.000     Hickory
+AIR  29087      2002               0.000     Holt
+AIR  29089      2002               0.000     Howard
+AIR  29091      2002               0.059     Howell
+AIR  29093      2002               0.000     Iron
+AIR  29095      2002               0.311     Jackson
+AIR  29097      2002               0.416     Jasper
+AIR  29099      2002               0.000     Jefferson
+AIR  29101      2002               0.079     Johnson
+AIR  29103      2002               0.000     Knox
+AIR  29105      2002               0.030     Laclede
+AIR  29107      2002               0.000     Lafayette
+AIR  29109      2002               0.030     Lawrence
+AIR  29111      2002               0.000     Lewis
+AIR  29113      2002               0.000     Lincoln
+AIR  29115      2002               0.000     Linn
+AIR  29117      2002               0.020     Livingston
+AIR  29119      2002               0.000     McDonald
+AIR  29121      2002               0.010     Macon
+AIR  29123      2002               0.031     Madison
+AIR  29125      2002               0.089     Maries
+AIR  29127      2002               0.060     Marion
+AIR  29129      2002               0.000     Mercer
+AIR  29131      2002               0.109     Miller
+AIR  29133      2002               0.000     Mississippi
+AIR  29135      2002               0.000     Moniteau
+AIR  29137      2002               0.000     Monroe
+AIR  29139      2002               0.000     Montgomery
+AIR  29141      2002               0.000     Morgan
+AIR  29143      2002               0.010     New Madrid
+AIR  29145      2002               0.040     Newton
+AIR  29147      2002               0.020     Nodaway
+AIR  29149      2002               0.000     Oregon
+AIR  29151      2002               0.000     Osage
+AIR  29153      2002               0.000     Ozark
+AIR  29155      2002               0.000     Pemiscot
+AIR  29157      2002               0.039     Perry
+AIR  29159      2002               0.020     Pettis
+AIR  29161      2002               0.000     Phelps
+AIR  29163      2002               0.018     Pike
+AIR  29165      2002             790.260     Platte
+AIR  29167      2002               0.000     Polk
+AIR  29169      2002               0.000     Pulaski
+AIR  29171      2002               0.000     Putnam
+AIR  29173      2002               0.000     Ralls
+AIR  29175      2002               0.019     Randolph
+AIR  29177      2002               0.000     Ray
+AIR  29179      2002               0.000     Reynolds
+AIR  29181      2002               0.000     Ripley
+AIR  29183      2002               0.180     St. Charles
+AIR  29185      2002               0.000     St. Clair
+AIR  29186      2002               0.000     Ste. Genevieve
+AIR  29187      2002               0.030     St. Francois
+AIR  29189      2002            1630.030     St. Louis
+AIR  29195      2002               0.097     Saline
+AIR  29197      2002               0.000     Schuyler
+AIR  29199      2002               0.000     Scotland
+AIR  29201      2002               0.238     Scott
+AIR  29203      2002               0.000     Shannon
+AIR  29205      2002               0.000     Shelby
+AIR  29207      2002               0.030     Stoddard
+AIR  29209      2002               0.000     Stone
+AIR  29211      2002               0.000     Sullivan
+AIR  29213      2002               0.000     Taney
+AIR  29215      2002               0.010     Texas
+AIR  29217      2002               0.020     Vernon
+AIR  29219      2002               0.000     Warren
+AIR  29221      2002               0.000     Washington
+AIR  29223      2002               0.000     Wayne
+AIR  29225      2002               0.000     Webster
+AIR  29227      2002               0.000     Worth
+AIR  29229      2002               0.000     Wright
+AIR  29510      2002               0.000     St. Louis
+/END/

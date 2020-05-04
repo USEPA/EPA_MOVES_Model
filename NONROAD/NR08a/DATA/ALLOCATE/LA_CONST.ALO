@@ -1,0 +1,91 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2003 DOLLAR VALUE of CONSTRUCTION
+adjusted for relative geographic cost of construction materials.
+   Const_Dollars * (1-(1/(1+100/Area_Mod_Factor)))
+from McGraw-Hill Construction (values) and Craftsman (cost adj)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+CON  22000      2003             6608336     LA
+CON  22001      2003               37048     Acadia
+CON  22003      2003                9627     Allen
+CON  22005      2003              185445     Ascension
+CON  22007      2003               21371     Assumption
+CON  22009      2003               28370     Avoyelles
+CON  22011      2003               73126     Beauregard
+CON  22013      2003                6347     Bienville
+CON  22015      2003              326028     Bossier
+CON  22017      2003              378365     Caddo
+CON  22019      2003              439974     Calcasieu
+CON  22021      2003               23923     Caldwell
+CON  22023      2003               15362     Cameron
+CON  22025      2003                9656     Catahoula
+CON  22027      2003               10058     Claiborn
+CON  22029      2003               20970     Concordia
+CON  22031      2003                6278     De Soto
+CON  22033      2003              788560     E. Baton Rouge
+CON  22035      2003               11021     E. Carroll
+CON  22037      2003               20356     E. Feliciana
+CON  22039      2003               17349     Evangeline
+CON  22041      2003               15231     Franklin
+CON  22043      2003               32540     Grant
+CON  22045      2003              117867     Iberia
+CON  22047      2003               39936     Iberville
+CON  22049      2003               14868     Jackson
+CON  22051      2003              505624     Jefferson
+CON  22053      2003               71210     Jefferson Davis
+CON  22055      2003              435760     Lafayette
+CON  22057      2003               73692     Lafourche
+CON  22059      2003               11983     La Salle
+CON  22061      2003               71555     Lincoln
+CON  22063      2003              174017     Livingston
+CON  22065      2003               16702     Madison
+CON  22067      2003               12833     Morehouse
+CON  22069      2003               52013     Natchitoches
+CON  22071      2003              446505     Orleans
+CON  22073      2003              190630     Ouachita
+CON  22075      2003               49698     Plaquemines
+CON  22077      2003               16828     Pointe Coupee
+CON  22079      2003              175299     Rapides
+CON  22081      2003               10863     Red River
+CON  22083      2003               15179     Richland
+CON  22085      2003               33235     Sabine
+CON  22087      2003               48355     St. Bernard
+CON  22089      2003               72710     St. Charles
+CON  22091      2003                3398     St. Helena
+CON  22093      2003               10933     St. James
+CON  22095      2003               64764     St. John the Baptist
+CON  22097      2003               94617     St. Landry
+CON  22099      2003               51394     St. Martin
+CON  22101      2003               33425     St. Mary
+CON  22103      2003              645767     St. Tammany
+CON  22105      2003              120199     Tangipahoa
+CON  22107      2003                8174     Tensas
+CON  22109      2003              150161     Terrebonne
+CON  22111      2003               28963     Union
+CON  22113      2003               38119     Vermilion
+CON  22115      2003               87577     Vernon
+CON  22117      2003               29470     Washington
+CON  22119      2003               31354     Webster
+CON  22121      2003               28256     W. Baton Rouge
+CON  22123      2003                3561     W. Carroll
+CON  22125      2003               36839     W. Feliciana
+CON  22127      2003                7001     Winn
+/END/

@@ -1,0 +1,122 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2003 DOLLAR VALUE of CONSTRUCTION
+adjusted for relative geographic cost of construction materials.
+   Const_Dollars * (1-(1/(1+100/Area_Mod_Factor)))
+from McGraw-Hill Construction (values) and Craftsman (cost adj)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+CON  47000      2003            10662234     TN
+CON  47001      2003              109751     Anderson
+CON  47003      2003               69339     Bedford
+CON  47005      2003                8896     Benton
+CON  47007      2003                9053     Bledsoe
+CON  47009      2003              162786     Blount
+CON  47011      2003              130840     Bradley
+CON  47013      2003               18896     Campbell
+CON  47015      2003                9072     Cannon
+CON  47017      2003               14290     Carroll
+CON  47019      2003               31872     Carter
+CON  47021      2003               56013     Cheatham
+CON  47023      2003               10470     Chester
+CON  47025      2003               28928     Claiborne
+CON  47027      2003                7398     Clay
+CON  47029      2003               17421     Cocke
+CON  47031      2003               70287     Coffee
+CON  47033      2003                9973     Crockett
+CON  47035      2003               56717     Cumberland
+CON  47037      2003             1401203     Davidson
+CON  47039      2003                6599     Decatur
+CON  47041      2003               15007     DeKalb
+CON  47043      2003               50049     Dickson
+CON  47045      2003               30013     Dyer
+CON  47047      2003               52500     Fayette
+CON  47049      2003               26249     Fentress
+CON  47051      2003               35178     Franklin
+CON  47053      2003               25946     Gibson
+CON  47055      2003               16739     Giles
+CON  47057      2003               13442     Grainger
+CON  47059      2003               64302     Greene
+CON  47061      2003               10185     Grundy
+CON  47063      2003               65322     Hamblen
+CON  47065      2003              660184     Hamilton
+CON  47067      2003                3452     Hancock
+CON  47069      2003               23388     Hardeman
+CON  47071      2003               20229     Hardin
+CON  47073      2003               31901     Hawkins
+CON  47075      2003               17052     Haywood
+CON  47077      2003               24592     Henderson
+CON  47079      2003               39507     Henry
+CON  47081      2003                9230     Hickman
+CON  47083      2003                3515     Houston
+CON  47085      2003               15132     Humphreys
+CON  47087      2003               11704     Jackson
+CON  47089      2003               74512     Jefferson
+CON  47091      2003                7765     Johnson
+CON  47093      2003             1052185     Knox
+CON  47095      2003                3030     Lake
+CON  47097      2003               16762     Lauderdale
+CON  47099      2003               21509     Lawrence
+CON  47101      2003                5610     Lewis
+CON  47103      2003               20772     Lincoln
+CON  47105      2003               80681     Loudon
+CON  47107      2003               67878     McMinn
+CON  47109      2003               14260     McNairy
+CON  47111      2003               51785     Macon
+CON  47113      2003              185495     Madison
+CON  47115      2003               27002     Marion
+CON  47117      2003               24722     Marshall
+CON  47119      2003              195384     Maury
+CON  47121      2003                5020     Meigs
+CON  47123      2003               15941     Monroe
+CON  47125      2003              287688     Montgomery
+CON  47127      2003                8673     Moore
+CON  47129      2003               32554     Morgan
+CON  47131      2003               17977     Obion
+CON  47133      2003                9661     Overton
+CON  47135      2003               16469     Perry
+CON  47137      2003                3305     Pickett
+CON  47139      2003                2399     Polk
+CON  47141      2003               88388     Putnam
+CON  47143      2003               24426     Rhea
+CON  47145      2003               57920     Roane
+CON  47147      2003               85584     Robertson
+CON  47149      2003              996477     Rutherford
+CON  47151      2003               13035     Scott
+CON  47153      2003               30546     Sequatchie
+CON  47155      2003              153223     Sevier
+CON  47157      2003             1632933     Shelby
+CON  47159      2003               11737     Smith
+CON  47161      2003                5919     Stewart
+CON  47163      2003              173950     Sullivan
+CON  47165      2003              341200     Sumner
+CON  47167      2003               72958     Tipton
+CON  47169      2003                5186     Trousdale
+CON  47171      2003                3325     Unicoi
+CON  47173      2003               30099     Union
+CON  47175      2003                3427     Van Buren
+CON  47177      2003               23355     Warren
+CON  47179      2003              135558     Washington
+CON  47181      2003                8804     Wayne
+CON  47183      2003               37054     Weakley
+CON  47185      2003               16490     White
+CON  47187      2003              681781     Williamson
+CON  47189      2003              285199     Wilson
+/END/

@@ -1,0 +1,94 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent LOCOMOTIVE NOx TONS
+from Draft 2002 NEI
+
+9/1/05 epa: Modifies to treat PR & VI as additional to US Total.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+RR   01000      2002           17264.340     AL
+RR   01001      2002             395.460     Autauga
+RR   01003      2002             403.730     Baldwin
+RR   01005      2002               0.000     Barbour
+RR   01007      2002             218.910     Bibb
+RR   01009      2002             312.970     Blount
+RR   01011      2002               0.000     Bullock
+RR   01013      2002             236.420     Butler
+RR   01015      2002             358.180     Calhoun
+RR   01017      2002             335.400     Chambers
+RR   01019      2002               0.000     Cherokee
+RR   01021      2002             325.870     Chilton
+RR   01023      2002               0.000     Choctaw
+RR   01025      2002              72.510     Clarke
+RR   01027      2002             292.990     Clay
+RR   01029      2002             196.080     Cleburne
+RR   01031      2002               0.000     Coffee
+RR   01033      2002             401.070     Colbert
+RR   01035      2002             184.710     Conecuh
+RR   01037      2002              39.500     Coosa
+RR   01039      2002               0.000     Covington
+RR   01041      2002               0.000     Crenshaw
+RR   01043      2002             320.070     Cullman
+RR   01045      2002              97.740     Dale
+RR   01047      2002             200.730     Dallas
+RR   01049      2002             317.990     DeKalb
+RR   01051      2002             356.760     Elmore
+RR   01053      2002             408.200     Escambia
+RR   01055      2002             354.470     Etowah
+RR   01057      2002             153.020     Fayette
+RR   01059      2002             168.870     Franklin
+RR   01061      2002               0.000     Geneva
+RR   01063      2002             306.220     Greene
+RR   01065      2002             258.030     Hale
+RR   01067      2002               0.000     Henry
+RR   01069      2002              67.890     Houston
+RR   01071      2002             658.520     Jackson
+RR   01073      2002            2041.790     Jefferson
+RR   01075      2002             101.770     Lamar
+RR   01077      2002               2.080     Lauderdale
+RR   01079      2002             144.220     Lawrence
+RR   01081      2002             287.560     Lee
+RR   01083      2002             360.040     Limestone
+RR   01085      2002             180.180     Lowndes
+RR   01087      2002             184.100     Macon
+RR   01089      2002             350.570     Madison
+RR   01091      2002             142.520     Marengo
+RR   01093      2002             338.190     Marion
+RR   01095      2002               9.500     Marshall
+RR   01097      2002             580.910     Mobile
+RR   01099      2002               0.000     Monroe
+RR   01101      2002             474.470     Montgomery
+RR   01103      2002             313.070     Morgan
+RR   01105      2002              12.070     Perry
+RR   01107      2002              74.470     Pickens
+RR   01109      2002             172.060     Pike
+RR   01111      2002             183.860     Randolph
+RR   01113      2002              33.620     Russell
+RR   01115      2002             559.500     St. Clair
+RR   01117      2002            1068.380     Shelby
+RR   01119      2002             377.410     Sumter
+RR   01121      2002             462.400     Talladega
+RR   01123      2002              68.470     Tallapoosa
+RR   01125      2002             504.760     Tuscaloosa
+RR   01127      2002             424.370     Walker
+RR   01129      2002              77.930     Washington
+RR   01131      2002             119.780     Wilcox
+RR   01133      2002             171.980     Winston
+/END/

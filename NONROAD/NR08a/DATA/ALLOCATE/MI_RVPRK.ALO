@@ -1,0 +1,108 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RECREATIONAL VEHICLE PARKS AND CAMPGROUNDS
+CBP NAICS 72121/; pre-2002 CBP SIC 7030
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+RVP  26000      2002                 279     MI
+RVP  26001      2002                   0     Alcona
+RVP  26003      2002                   1     Alger
+RVP  26005      2002                   5     Allegan
+RVP  26007      2002                   2     Alpena
+RVP  26009      2002                   1     Antrim
+RVP  26011      2002                   2     Arenac
+RVP  26013      2002                   0     Baraga
+RVP  26015      2002                   5     Barry
+RVP  26017      2002                   1     Bay
+RVP  26019      2002                   4     Benzie
+RVP  26021      2002                   7     Berrien
+RVP  26023      2002                   1     Branch
+RVP  26025      2002                   2     Calhoun
+RVP  26027      2002                   5     Cass
+RVP  26029      2002                   5     Charlevoix
+RVP  26031      2002                   5     Cheboygan
+RVP  26033      2002                   3     Chippewa
+RVP  26035      2002                   5     Clare
+RVP  26037      2002                   1     Clinton
+RVP  26039      2002                   5     Crawford
+RVP  26041      2002                   2     Delta
+RVP  26043      2002                   1     Dickinson
+RVP  26045      2002                   1     Eaton
+RVP  26047      2002                   4     Emmet
+RVP  26049      2002                   2     Genesee
+RVP  26051      2002                   2     Gladwin
+RVP  26053      2002                   1     Gogebic
+RVP  26055      2002                   3     Grand Traverse
+RVP  26057      2002                   0     Gratiot
+RVP  26059      2002                   4     Hillsdale
+RVP  26061      2002                   1     Houghton
+RVP  26063      2002                   3     Huron
+RVP  26065      2002                   4     Ingham
+RVP  26067      2002                   1     Ionia
+RVP  26069      2002                   2     Iosco
+RVP  26071      2002                   2     Iron
+RVP  26073      2002                   1     Isabella
+RVP  26075      2002                  10     Jackson
+RVP  26077      2002                   2     Kalamazoo
+RVP  26079      2002                   0     Kalkaska
+RVP  26081      2002                   8     Kent
+RVP  26083      2002                   1     Keweenaw
+RVP  26085      2002                   2     Lake
+RVP  26087      2002                   7     Lapeer
+RVP  26089      2002                   6     Leelanau
+RVP  26091      2002                   2     Lenawee
+RVP  26093      2002                   4     Livingston
+RVP  26095      2002                   1     Luce
+RVP  26097      2002                   3     Mackinac
+RVP  26099      2002                   4     Macomb
+RVP  26101      2002                   9     Manistee
+RVP  26103      2002                   1     Marquette
+RVP  26105      2002                   9     Mason
+RVP  26107      2002                   1     Mecosta
+RVP  26109      2002                   0     Menominee
+RVP  26111      2002                   1     Midland
+RVP  26113      2002                   1     Missaukee
+RVP  26115      2002                   7     Monroe
+RVP  26117      2002                   5     Montcalm
+RVP  26119      2002                   0     Montmorency
+RVP  26121      2002                   9     Muskegon
+RVP  26123      2002                   3     Newaygo
+RVP  26125      2002                  15     Oakland
+RVP  26127      2002                  12     Oceana
+RVP  26129      2002                   6     Ogemaw
+RVP  26131      2002                   1     Ontonagon
+RVP  26133      2002                   3     Osceola
+RVP  26135      2002                   3     Oscoda
+RVP  26137      2002                   2     Otsego
+RVP  26139      2002                   5     Ottawa
+RVP  26141      2002                   0     Presque Isle
+RVP  26143      2002                   2     Roscommon
+RVP  26145      2002                   2     Saginaw
+RVP  26147      2002                   5     St. Clair
+RVP  26149      2002                   6     St. Joseph
+RVP  26151      2002                   4     Sanilac
+RVP  26153      2002                   2     Schoolcraft
+RVP  26155      2002                   3     Shiawassee
+RVP  26157      2002                   2     Tuscola
+RVP  26159      2002                   4     Van Buren
+RVP  26161      2002                   6     Washtenaw
+RVP  26163      2002                   3     Wayne
+RVP  26165      2002                   3     Wexford
+/END/

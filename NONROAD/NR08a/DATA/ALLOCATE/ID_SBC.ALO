@@ -1,0 +1,69 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RELATIVE NUMBER OF COMMERCIAL SNOWBLOWERS
+Same as LSCAP allocation factors, with value set to 0 for counties with snowfall < 15"
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+SBC  16000      2002                1813     ID
+SBC  16001      2002                 712     Ada
+SBC  16003      2002                   1     Adams
+SBC  16005      2002                  63     Bannock
+SBC  16007      2002                   0     Bear Lake
+SBC  16009      2002                   0     Benewah
+SBC  16011      2002                  14     Bingham
+SBC  16013      2002                 467     Blaine
+SBC  16015      2002                   3     Boise
+SBC  16017      2002                  13     Bonner
+SBC  16019      2002                  54     Bonneville
+SBC  16021      2002                   4     Boundary
+SBC  16023      2002                   0     Butte
+SBC  16025      2002                   0     Camas
+SBC  16027      2002                 147     Canyon
+SBC  16029      2002                   0     Caribou
+SBC  16031      2002                   8     Cassia
+SBC  16033      2002                   0     Clark
+SBC  16035      2002                   3     Clearwater
+SBC  16037      2002                   0     Custer
+SBC  16039      2002                  10     Elmore
+SBC  16041      2002                   4     Franklin
+SBC  16043      2002                   4     Fremont
+SBC  16045      2002                   6     Gem
+SBC  16047      2002                   5     Gooding
+SBC  16049      2002                   0     Idaho
+SBC  16051      2002                   7     Jefferson
+SBC  16053      2002                   7     Jerome
+SBC  16055      2002                 101     Kootenai
+SBC  16057      2002                  12     Latah
+SBC  16059      2002                   3     Lemhi
+SBC  16061      2002                   0     Lewis
+SBC  16063      2002                   2     Lincoln
+SBC  16065      2002                  10     Madison
+SBC  16067      2002                   0     Minidoka
+SBC  16069      2002                  13     Nez Perce
+SBC  16071      2002                   0     Oneida
+SBC  16073      2002                   4     Owyhee
+SBC  16075      2002                  67     Payette
+SBC  16077      2002                   3     Power
+SBC  16079      2002                   5     Shoshone
+SBC  16081      2002                   2     Teton
+SBC  16083      2002                  46     Twin Falls
+SBC  16085      2002                   9     Valley
+SBC  16087      2002                   4     Washington
+/END/

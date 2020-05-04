@@ -1,0 +1,94 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2003 DOLLAR VALUE of CONSTRUCTION
+adjusted for relative geographic cost of construction materials.
+   Const_Dollars * (1-(1/(1+100/Area_Mod_Factor)))
+from McGraw-Hill Construction (values) and Craftsman (cost adj)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+CON  42000      2003            15095829     PA
+CON  42001      2003              144450     Adams
+CON  42003      2003             1838321     Allegheny
+CON  42005      2003               53332     Armstrong
+CON  42007      2003              125273     Beaver
+CON  42009      2003               29788     Bedford
+CON  42011      2003              531586     Berks
+CON  42013      2003              189723     Blair
+CON  42015      2003               65376     Bradford
+CON  42017      2003              704981     Bucks
+CON  42019      2003              267976     Butler
+CON  42021      2003              120604     Cambria
+CON  42023      2003                2390     Cameron
+CON  42025      2003               61108     Carbon
+CON  42027      2003              416627     Centre
+CON  42029      2003             1015957     Chester
+CON  42031      2003               47559     Clarion
+CON  42033      2003               50148     Clearfield
+CON  42035      2003               46490     Clinton
+CON  42037      2003               66005     Columbia
+CON  42039      2003               81637     Crawford
+CON  42041      2003              314195     Cumberland
+CON  42043      2003              351012     Dauphin
+CON  42045      2003              348608     Delaware
+CON  42047      2003               24827     Elk
+CON  42049      2003              265547     Erie
+CON  42051      2003              174345     Fayette
+CON  42053      2003               10079     Forest
+CON  42055      2003              135754     Franklin
+CON  42057      2003               20854     Fulton
+CON  42059      2003               18389     Greene
+CON  42061      2003               49799     Huntingdon
+CON  42063      2003               81425     Indiana
+CON  42065      2003               44478     Jefferson
+CON  42067      2003               10244     Juniata
+CON  42069      2003               99846     Lackawanna
+CON  42071      2003              653665     Lancaster
+CON  42073      2003               72553     Lawrence
+CON  42075      2003              257833     Lebanon
+CON  42077      2003              508019     Lehigh
+CON  42079      2003              234212     Luzerne
+CON  42081      2003               91557     Lycoming
+CON  42083      2003               15344     McKean
+CON  42085      2003              162694     Mercer
+CON  42087      2003               48333     Mifflin
+CON  42089      2003              387404     Monroe
+CON  42091      2003             1055428     Montgomery
+CON  42093      2003               18086     Montour
+CON  42095      2003              427680     Northampton
+CON  42097      2003               74957     Northumberland
+CON  42099      2003               19667     Perry
+CON  42101      2003             1109319     Philadelphia
+CON  42103      2003              190424     Pike
+CON  42105      2003               32160     Potter
+CON  42107      2003               71529     Schuylkill
+CON  42109      2003               21820     Snyder
+CON  42111      2003               81952     Somerset
+CON  42113      2003                6260     Sullivan
+CON  42115      2003               33898     Susquehanna
+CON  42117      2003               72324     Tioga
+CON  42119      2003               29713     Union
+CON  42121      2003               34655     Venango
+CON  42123      2003               53529     Warren
+CON  42125      2003              304473     Washington
+CON  42127      2003              117032     Wayne
+CON  42129      2003              301984     Westmoreland
+CON  42131      2003               12449     Wyoming
+CON  42133      2003              786142     York
+/END/

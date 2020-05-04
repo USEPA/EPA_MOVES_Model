@@ -1,0 +1,94 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2003 DOLLAR VALUE of CONSTRUCTION
+adjusted for relative geographic cost of construction materials.
+   Const_Dollars * (1-(1/(1+100/Area_Mod_Factor)))
+from McGraw-Hill Construction (values) and Craftsman (cost adj)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+CON  12000      2003            50926810     FL
+CON  12001      2003              332379     Alachua
+CON  12003      2003               20159     Baker
+CON  12005      2003              586539     Bay
+CON  12007      2003               11605     Bradford
+CON  12009      2003             1551806     Brevard
+CON  12011      2003             2785839     Broward
+CON  12013      2003                4043     Calhoun
+CON  12015      2003              760822     Charlotte
+CON  12017      2003              378994     Citrus
+CON  12019      2003              402627     Clay
+CON  12021      2003             1564094     Collier
+CON  12023      2003               53806     Columbia
+CON  12027      2003               91810     DeSoto
+CON  12029      2003               10121     Dixie
+CON  12031      2003             2266078     Duval
+CON  12033      2003              575061     Escambia
+CON  12035      2003              694519     Flagler
+CON  12037      2003               49042     Franklin
+CON  12039      2003               26767     Gadsden
+CON  12041      2003               12639     Gilchrist
+CON  12043      2003               14851     Glades
+CON  12045      2003               66229     Gulf
+CON  12047      2003               10275     Hamilton
+CON  12049      2003               19239     Hardee
+CON  12051      2003               19381     Hendry
+CON  12053      2003              383988     Hernando
+CON  12055      2003              122577     Highlands
+CON  12057      2003             3530915     Hillsborough
+CON  12059      2003               17898     Holmes
+CON  12061      2003              628325     Indian River
+CON  12063      2003               32698     Jackson
+CON  12065      2003               39075     Jefferson
+CON  12067      2003                4996     Lafayette
+CON  12069      2003              910625     Lake
+CON  12071      2003             3379239     Lee
+CON  12073      2003              794176     Leon
+CON  12075      2003               22792     Levy
+CON  12077      2003                9148     Liberty
+CON  12079      2003                9831     Madison
+CON  12081      2003             1889839     Manatee
+CON  12083      2003             1333154     Marion
+CON  12085      2003             1054186     Martin
+CON  12086      2003             3678098     Miami-Dade
+CON  12087      2003              196691     Monroe
+CON  12089      2003              205741     Nassau
+CON  12091      2003              546044     Okaloosa
+CON  12093      2003               63622     Okeechobee
+CON  12095      2003             3203776     Orange
+CON  12097      2003             1265835     Osceola
+CON  12099      2003             3972919     Palm Beach
+CON  12101      2003             1261516     Pasco
+CON  12103      2003             1499402     Pinellas
+CON  12105      2003             1152946     Polk
+CON  12107      2003               59391     Putnam
+CON  12109      2003             1114911     St. Johns
+CON  12111      2003              959016     St. Lucie
+CON  12113      2003              354421     Santa Rosa
+CON  12115      2003             1471369     Sarasota
+CON  12117      2003             1128739     Seminole
+CON  12119      2003              319458     Sumter
+CON  12121      2003                9793     Suwannee
+CON  12123      2003               17741     Taylor
+CON  12125      2003                6914     Union
+CON  12127      2003             1497114     Volusia
+CON  12129      2003               36215     Wakulla
+CON  12131      2003              413933     Walton
+CON  12133      2003               19022     Washington
+/END/

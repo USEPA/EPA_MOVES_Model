@@ -1,0 +1,102 @@
+This is the allocation indicator file used by the NONROAD model.
+This file is used to allocate from US to state level equipment
+populations.
+
+The data in this file are the 1997 dollars spent on construction
+not adjusted for relative costs of construction.
+
+8/25/05  epa: Update per 1997 Economic Census of Outlying Areas - Puerto Rico.
+
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+------------------------------------------------------------------------
+/INDICATORS/
+CON  72000      1997                3965     PR                3965
+CON  72001      1997                   3     Adjuntas
+CON  72003      1997                  21     Aguada
+CON  72005      1997                  19     Aguadilla
+CON  72007      1997                   4     Aguas Buenas
+CON  72009      1997                   5     Aibonito
+CON  72011      1997                  11     Añasco
+CON  72013      1997                  35     Arecibo
+CON  72015      1997                   1     Arroyo
+CON  72017      1997                  20     Barceloneta
+CON  72019      1997                   7     Barranquitas
+CON  72021      1997                 143     Bayamón
+CON  72023      1997                  14     Cabo Rojo
+CON  72025      1997                  77     Caguas
+CON  72027      1997                   9     Camuy
+CON  72029      1997                   6     Canóvanas
+CON  72031      1997                 129     Carolina
+CON  72033      1997                  31     Cataño
+CON  72035      1997                   4     Cayey
+CON  72037      1997                   1     Ceiba
+CON  72039      1997                   5     Ciales
+CON  72041      1997                   4     Cidra
+CON  72043      1997                  10     Coamo
+CON  72045      1997                   2     Comerío
+CON  72047      1997                   5     Corozal
+CON  72049      1997                 0.4     Culebra
+CON  72051      1997                  23     Dorado
+CON  72053      1997                  25     Fajardo
+CON  72054      1997                   3     Florida
+CON  72055      1997                   7     Guánica
+CON  72057      1997                  14     Guayama
+CON  72059      1997                   5     Guayanilla
+CON  72061      1997                 705     Guaynabo
+CON  72063      1997                  15     Gurabo
+CON  72065      1997                  10     Hatillo
+CON  72067      1997                  18     Hormigueros
+CON  72069      1997                  20     Humacao
+CON  72071      1997                   5     Isabela
+CON  72073      1997                   4     Jayuya
+CON  72075      1997                  10     Juana Díaz
+CON  72077      1997                  14     Juncos
+CON  72079      1997                  32     Lajas
+CON  72081      1997                   2     Lares
+CON  72083      1997                   4     Las Marías
+CON  72085      1997                  95     Las Piedras
+CON  72087      1997                   8     Loíza
+CON  72089      1997                   2     Luquillo
+CON  72091      1997                  10     Manatí
+CON  72093      1997                   1     Maricao
+CON  72095      1997                   3     Maunabo
+CON  72097      1997                 140     Mayagüez
+CON  72099      1997                  17     Moca
+CON  72101      1997                  10     Morovis
+CON  72103      1997                  22     Naguabo
+CON  72105      1997                  32     Naranjito
+CON  72107      1997                   4     Orocovis
+CON  72109      1997                   5     Patillas
+CON  72111      1997                  26     Peñuelas
+CON  72113      1997                 232     Ponce
+CON  72115      1997                   8     Quebradillas
+CON  72117      1997                   2     Rincón
+CON  72119      1997                   3     Río Grande
+CON  72121      1997                   5     Sabana Grande
+CON  72123      1997                   7     Salinas
+CON  72125      1997                  15     San Germán
+CON  72127      1997                1497     San Juan
+CON  72129      1997                  15     San Lorenzo
+CON  72131      1997                  10     San Sebastián
+CON  72133      1997                  15     Santa Isabel
+CON  72135      1997                   2     Toa Alta
+CON  72137      1997                  95     Toa Baja
+CON  72139      1997                 129     Trujillo Alto
+CON  72141      1997                   1     Utuado
+CON  72143      1997                  12     Vega Alta
+CON  72145      1997                  32     Vega Baja
+CON  72147      1997                   2     Vieques
+CON  72149      1997                   7     Villalba
+CON  72151      1997                   9     Yabucoa
+CON  72153      1997                  11     Yauco
+/END/

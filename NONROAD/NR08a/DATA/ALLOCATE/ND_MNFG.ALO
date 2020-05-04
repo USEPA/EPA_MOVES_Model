@@ -1,0 +1,78 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent NUMBER OF EMPLOYEES IN MANUFACTURING
+CBP NAICS 31----, 321///, 322///, 323///, 324///, 325///, 326///, 327///, 331///,
+332///, 333///, 334///, 335///, 336///, 337///, 339///, and 5111//; pre-2002 CBP SIC 20--
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+MFG  38000      2002               39922     ND
+MFG  38001      2002                  22     Adams
+MFG  38003      2002                 784     Barnes
+MFG  38005      2002                 231     Benson
+MFG  38007      2002                   0     Billings
+MFG  38009      2002                 176     Bottineau
+MFG  38011      2002                  56     Bowman
+MFG  38013      2002                   6     Burke
+MFG  38015      2002                2831     Burleigh
+MFG  38017      2002               12953     Cass
+MFG  38019      2002                  76     Cavalier
+MFG  38021      2002                 188     Dickey
+MFG  38023      2002                  56     Divide
+MFG  38025      2002                 315     Dunn
+MFG  38027      2002                  56     Eddy
+MFG  38029      2002                  43     Emmons
+MFG  38031      2002                 336     Foster
+MFG  38033      2002                  14     Golden Valley
+MFG  38035      2002                2149     Grand Forks
+MFG  38037      2002                 104     Grant
+MFG  38039      2002                 193     Griggs
+MFG  38041      2002                  14     Hettinger
+MFG  38043      2002                  29     Kidder
+MFG  38045      2002                 216     LaMoure
+MFG  38047      2002                  20     Logan
+MFG  38049      2002                 116     McHenry
+MFG  38051      2002                 188     McIntosh
+MFG  38053      2002                  79     McKenzie
+MFG  38055      2002                  80     McLean
+MFG  38057      2002                  79     Mercer
+MFG  38059      2002                1380     Morton
+MFG  38061      2002                 116     Mountrail
+MFG  38063      2002                 121     Nelson
+MFG  38065      2002                  49     Oliver
+MFG  38067      2002                1919     Pembina
+MFG  38069      2002                 121     Pierce
+MFG  38071      2002                 347     Ramsey
+MFG  38073      2002                 257     Ransom
+MFG  38075      2002                  31     Renville
+MFG  38077      2002                3692     Richland
+MFG  38079      2002                1003     Rolette
+MFG  38081      2002                3059     Sargent
+MFG  38083      2002                  65     Sheridan
+MFG  38085      2002                   0     Sioux
+MFG  38087      2002                   0     Slope
+MFG  38089      2002                1593     Stark
+MFG  38091      2002                 140     Steele
+MFG  38093      2002                1428     Stutsman
+MFG  38095      2002                 265     Towner
+MFG  38097      2002                 407     Traill
+MFG  38099      2002                1035     Walsh
+MFG  38101      2002                1000     Ward
+MFG  38103      2002                  74     Wells
+MFG  38105      2002                 410     Williams
+/END/

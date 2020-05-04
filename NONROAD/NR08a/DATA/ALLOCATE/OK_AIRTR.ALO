@@ -1,0 +1,104 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent AIRCRAFT NOx TONS
+from Draft 2002 NEI
+
+9/1/05 epa: Modifies to treat PR & VI as additional to US Total.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+AIR  40000      2002             504.578     OK
+AIR  40001      2002               0.000     Adair
+AIR  40003      2002               0.000     Alfalfa
+AIR  40005      2002               0.000     Atoka
+AIR  40007      2002               0.000     Beaver
+AIR  40009      2002               0.014     Beckham
+AIR  40011      2002               0.000     Blaine
+AIR  40013      2002               0.022     Bryan
+AIR  40015      2002               0.000     Caddo
+AIR  40017      2002               0.247     Canadian
+AIR  40019      2002               0.404     Carter
+AIR  40021      2002               0.044     Cherokee
+AIR  40023      2002               0.019     Choctaw
+AIR  40025      2002               0.011     Cimarron
+AIR  40027      2002               0.490     Cleveland
+AIR  40029      2002               0.000     Coal
+AIR  40031      2002               0.250     Comanche
+AIR  40033      2002               0.000     Cotton
+AIR  40035      2002               0.000     Craig
+AIR  40037      2002               0.020     Creek
+AIR  40039      2002               0.074     Custer
+AIR  40041      2002               0.082     Delaware
+AIR  40043      2002               0.000     Dewey
+AIR  40045      2002               0.000     Ellis
+AIR  40047      2002               3.490     Garfield
+AIR  40049      2002               0.080     Garvin
+AIR  40051      2002               0.319     Grady
+AIR  40053      2002               0.000     Grant
+AIR  40055      2002               0.000     Greer
+AIR  40057      2002               0.000     Harmon
+AIR  40059      2002               0.000     Harper
+AIR  40061      2002               0.000     Haskell
+AIR  40063      2002               0.015     Hughes
+AIR  40065      2002               0.050     Jackson
+AIR  40067      2002               0.000     Jefferson
+AIR  40069      2002               0.000     Johnston
+AIR  40071      2002               9.300     Kay
+AIR  40073      2002               0.000     Kingfisher
+AIR  40075      2002               0.020     Kiowa
+AIR  40077      2002               0.000     Latimer
+AIR  40079      2002               0.010     Le Flore
+AIR  40081      2002               0.017     Lincoln
+AIR  40083      2002               0.054     Logan
+AIR  40085      2002               0.000     Love
+AIR  40087      2002               0.000     McClain
+AIR  40089      2002               0.074     McCurtain
+AIR  40091      2002               0.000     McIntosh
+AIR  40093      2002               0.010     Major
+AIR  40095      2002               0.011     Marshall
+AIR  40097      2002               0.067     Mayes
+AIR  40099      2002               0.000     Murray
+AIR  40101      2002               0.065     Muskogee
+AIR  40103      2002               0.013     Noble
+AIR  40105      2002               0.000     Nowata
+AIR  40107      2002               0.000     Okfuskee
+AIR  40109      2002             271.210     Oklahoma
+AIR  40111      2002               0.154     Okmulgee
+AIR  40113      2002               0.183     Osage
+AIR  40115      2002               0.035     Ottawa
+AIR  40117      2002               0.000     Pawnee
+AIR  40119      2002               1.830     Payne
+AIR  40121      2002               0.165     Pittsburg
+AIR  40123      2002               0.042     Pontotoc
+AIR  40125      2002               0.082     Pottawatomie
+AIR  40127      2002               0.022     Pushmataha
+AIR  40129      2002               0.000     Roger Mills
+AIR  40131      2002               0.000     Rogers
+AIR  40133      2002               0.020     Seminole
+AIR  40135      2002               0.014     Sequoyah
+AIR  40137      2002               0.054     Stephens
+AIR  40139      2002               0.082     Texas
+AIR  40141      2002               2.610     Tillman
+AIR  40143      2002             211.590     Tulsa
+AIR  40145      2002               0.000     Wagoner
+AIR  40147      2002               0.000     Washington
+AIR  40149      2002               1.100     Washita
+AIR  40151      2002               0.030     Woods
+AIR  40153      2002               0.081     Woodward
+/END/

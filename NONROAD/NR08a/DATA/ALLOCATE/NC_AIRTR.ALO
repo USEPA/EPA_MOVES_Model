@@ -1,0 +1,127 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent AIRCRAFT NOx TONS
+from Draft 2002 NEI
+
+9/1/05 epa: Modifies to treat PR & VI as additional to US Total.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+AIR  37000      2002            2413.449     NC
+AIR  37001      2002               0.180     Alamance
+AIR  37003      2002               0.000     Alexander
+AIR  37005      2002               0.000     Alleghany
+AIR  37007      2002               0.000     Anson
+AIR  37009      2002               0.000     Ashe
+AIR  37011      2002               0.000     Avery
+AIR  37013      2002               0.170     Beaufort
+AIR  37015      2002               0.000     Bertie
+AIR  37017      2002               0.090     Bladen
+AIR  37019      2002               0.170     Brunswick
+AIR  37021      2002              25.330     Buncombe
+AIR  37023      2002               0.430     Burke
+AIR  37025      2002               0.000     Cabarrus
+AIR  37027      2002               0.100     Caldwell
+AIR  37029      2002               0.000     Camden
+AIR  37031      2002               0.140     Carteret
+AIR  37033      2002               0.000     Caswell
+AIR  37035      2002               0.000     Catawba
+AIR  37037      2002               0.180     Chatham
+AIR  37039      2002               0.000     Cherokee
+AIR  37041      2002               0.079     Chowan
+AIR  37043      2002               0.000     Clay
+AIR  37045      2002               0.099     Cleveland
+AIR  37047      2002               0.110     Columbus
+AIR  37049      2002               0.750     Craven
+AIR  37051      2002              22.860     Cumberland
+AIR  37053      2002               0.000     Currituck
+AIR  37055      2002               0.340     Dare
+AIR  37057      2002               0.050     Davidson
+AIR  37059      2002               0.000     Davie
+AIR  37061      2002               0.140     Duplin
+AIR  37063      2002               0.000     Durham
+AIR  37065      2002               0.050     Edgecombe
+AIR  37067      2002               0.775     Forsyth
+AIR  37069      2002               0.000     Franklin
+AIR  37071      2002               0.000     Gaston
+AIR  37073      2002               0.000     Gates
+AIR  37075      2002               0.000     Graham
+AIR  37077      2002               0.114     Granville
+AIR  37079      2002               0.000     Greene
+AIR  37081      2002             188.140     Guilford
+AIR  37083      2002               0.260     Halifax
+AIR  37085      2002               0.000     Harnett
+AIR  37087      2002               0.000     Haywood
+AIR  37089      2002               0.000     Henderson
+AIR  37091      2002               0.109     Hertford
+AIR  37093      2002               0.109     Hoke
+AIR  37095      2002               0.024     Hyde
+AIR  37097      2002               0.159     Iredell
+AIR  37099      2002               0.000     Jackson
+AIR  37101      2002               0.240     Johnston
+AIR  37103      2002               0.000     Jones
+AIR  37105      2002               0.000     Lee
+AIR  37107      2002               1.090     Lenoir
+AIR  37109      2002               0.000     Lincoln
+AIR  37111      2002               0.000     McDowell
+AIR  37113      2002               0.000     Macon
+AIR  37115      2002               0.000     Madison
+AIR  37117      2002               0.070     Martin
+AIR  37119      2002            1334.550     Mecklenburg
+AIR  37121      2002               0.000     Mitchell
+AIR  37123      2002               0.000     Montgomery
+AIR  37125      2002               0.400     Moore
+AIR  37127      2002              19.940     Nash
+AIR  37129      2002              22.890     New Hanover
+AIR  37131      2002               0.000     Northampton
+AIR  37133      2002               1.450     Onslow
+AIR  37135      2002               0.000     Orange
+AIR  37137      2002               0.000     Pamlico
+AIR  37139      2002               1.900     Pasquotank
+AIR  37141      2002               0.067     Pender
+AIR  37143      2002               0.000     Perquimans
+AIR  37145      2002               0.000     Person
+AIR  37147      2002              57.010     Pitt
+AIR  37149      2002               0.000     Polk
+AIR  37151      2002               0.000     Randolph
+AIR  37153      2002               0.053     Richmond
+AIR  37155      2002               0.300     Robeson
+AIR  37157      2002               0.000     Rockingham
+AIR  37159      2002               0.000     Rowan
+AIR  37161      2002               0.000     Rutherford
+AIR  37163      2002               0.120     Sampson
+AIR  37165      2002               0.430     Scotland
+AIR  37167      2002               0.000     Stanly
+AIR  37169      2002               0.000     Stokes
+AIR  37171      2002               0.150     Surry
+AIR  37173      2002               0.000     Swain
+AIR  37175      2002               0.000     Transylvania
+AIR  37177      2002               0.000     Tyrrell
+AIR  37179      2002               0.350     Union
+AIR  37181      2002               0.000     Vance
+AIR  37183      2002             731.130     Wake
+AIR  37185      2002               0.000     Warren
+AIR  37187      2002               0.033     Washington
+AIR  37189      2002               0.000     Watauga
+AIR  37191      2002               0.170     Wayne
+AIR  37193      2002               0.150     Wilkes
+AIR  37195      2002               0.000     Wilson
+AIR  37197      2002               0.000     Yadkin
+AIR  37199      2002               0.000     Yancey
+/END/

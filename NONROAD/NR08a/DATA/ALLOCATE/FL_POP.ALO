@@ -1,0 +1,92 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent HUMAN POPULATION
+
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+POP  12000      2002            16681144     FL
+POP  12001      2002              220839     Alachua
+POP  12003      2002               23236     Baker
+POP  12005      2002              152233     Bay
+POP  12007      2002               26208     Bradford
+POP  12009      2002              495799     Brevard
+POP  12011      2002             1704132     Broward
+POP  12013      2002               12777     Calhoun
+POP  12015      2002              149903     Charlotte
+POP  12017      2002              123735     Citrus
+POP  12019      2002              151648     Clay
+POP  12021      2002              275706     Collier
+POP  12023      2002               58461     Columbia
+POP  12027      2002               32944     DeSoto
+POP  12029      2002               13976     Dixie
+POP  12031      2002              802064     Duval
+POP  12033      2002              296798     Escambia
+POP  12035      2002               57720     Flagler
+POP  12037      2002               10017     Franklin
+POP  12039      2002               45502     Gadsden
+POP  12041      2002               15061     Gilchrist
+POP  12043      2002               10933     Glades
+POP  12045      2002               13185     Gulf
+POP  12047      2002               13758     Hamilton
+POP  12049      2002               27537     Hardee
+POP  12051      2002               36788     Hendry
+POP  12053      2002              138338     Hernando
+POP  12055      2002               90064     Highlands
+POP  12057      2002             1051329     Hillsborough
+POP  12059      2002               18725     Holmes
+POP  12061      2002              117977     Indian River
+POP  12063      2002               46518     Jackson
+POP  12065      2002               13772     Jefferson
+POP  12067      2002                7287     Lafayette
+POP  12069      2002              235022     Lake
+POP  12071      2002              475542     Lee
+POP  12073      2002              239793     Leon
+POP  12075      2002               35859     Levy
+POP  12077      2002                7193     Liberty
+POP  12079      2002               18703     Madison
+POP  12081      2002              280216     Manatee
+POP  12083      2002              272518     Marion
+POP  12085      2002              131815     Martin
+POP  12086      2002             2314229     Miami-Dade
+POP  12087      2002               79047     Monroe
+POP  12089      2002               60563     Nassau
+POP  12091      2002              175236     Okaloosa
+POP  12093      2002               36997     Okeechobee
+POP  12095      2002              944756     Orange
+POP  12097      2002              194077     Osceola
+POP  12099      2002             1187457     Palm Beach
+POP  12101      2002              373041     Pasco
+POP  12103      2002              924781     Pinellas
+POP  12105      2002              500194     Polk
+POP  12107      2002               71188     Putnam
+POP  12109      2002              136358     St. Johns
+POP  12111      2002              205340     St. Lucie
+POP  12113      2002              127346     Santa Rosa
+POP  12115      2002              340077     Sarasota
+POP  12117      2002              381039     Seminole
+POP  12119      2002               57774     Sumter
+POP  12121      2002               36195     Suwannee
+POP  12123      2002               19355     Taylor
+POP  12125      2002               13917     Union
+POP  12127      2002              459480     Volusia
+POP  12129      2002               25186     Wakulla
+POP  12131      2002               44489     Walton
+POP  12133      2002               21391     Washington
+/END/

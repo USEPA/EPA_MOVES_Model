@@ -1,0 +1,107 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent NUMBER OF EMPLOYEES IN MANUFACTURING
+CBP NAICS 31----, 321///, 322///, 323///, 324///, 325///, 326///, 327///, 331///,
+332///, 333///, 334///, 335///, 336///, 337///, 339///, and 5111//; pre-2002 CBP SIC 20--
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+MFG  28000      2002              328327     MS
+MFG  28001      2002                2087     Adams
+MFG  28003      2002                6867     Alcorn
+MFG  28005      2002                1475     Amite
+MFG  28007      2002                1910     Attala
+MFG  28009      2002                 580     Benton
+MFG  28011      2002                3927     Bolivar
+MFG  28013      2002                2642     Calhoun
+MFG  28015      2002                  26     Carroll
+MFG  28017      2002                7654     Chickasaw
+MFG  28019      2002                 444     Choctaw
+MFG  28021      2002                1031     Claiborne
+MFG  28023      2002                1937     Clarke
+MFG  28025      2002                5086     Clay
+MFG  28027      2002                1831     Coahoma
+MFG  28029      2002                3922     Copiah
+MFG  28031      2002                1824     Covington
+MFG  28033      2002               10434     DeSoto
+MFG  28035      2002                7524     Forrest
+MFG  28037      2002                 297     Franklin
+MFG  28039      2002                 656     George
+MFG  28041      2002                 146     Greene
+MFG  28043      2002                5504     Grenada
+MFG  28045      2002                1377     Hancock
+MFG  28047      2002                6845     Harrison
+MFG  28049      2002               13167     Hinds
+MFG  28051      2002                 614     Holmes
+MFG  28053      2002                1077     Humphreys
+MFG  28055      2002                   0     Issaquena
+MFG  28057      2002                2086     Itawamba
+MFG  28059      2002               28664     Jackson
+MFG  28061      2002                2255     Jasper
+MFG  28063      2002                  16     Jefferson
+MFG  28065      2002                  25     Jefferson Davis
+MFG  28067      2002               10852     Jones
+MFG  28069      2002                 650     Kemper
+MFG  28071      2002                3629     Lafayette
+MFG  28073      2002                1216     Lamar
+MFG  28075      2002                7570     Lauderdale
+MFG  28077      2002                1582     Lawrence
+MFG  28079      2002                4338     Leake
+MFG  28081      2002               28608     Lee
+MFG  28083      2002                3834     Leflore
+MFG  28085      2002                1606     Lincoln
+MFG  28087      2002               10595     Lowndes
+MFG  28089      2002                5253     Madison
+MFG  28091      2002                1871     Marion
+MFG  28093      2002                2736     Marshall
+MFG  28095      2002                7146     Monroe
+MFG  28097      2002                1300     Montgomery
+MFG  28099      2002                1769     Neshoba
+MFG  28101      2002                4118     Newton
+MFG  28103      2002                1947     Noxubee
+MFG  28105      2002                2909     Oktibbeha
+MFG  28107      2002                3818     Panola
+MFG  28109      2002                1464     Pearl River
+MFG  28111      2002                1557     Perry
+MFG  28113      2002                4434     Pike
+MFG  28115      2002               13621     Pontotoc
+MFG  28117      2002                6547     Prentiss
+MFG  28119      2002                 209     Quitman
+MFG  28121      2002                9304     Rankin
+MFG  28123      2002                7181     Scott
+MFG  28125      2002                  93     Sharkey
+MFG  28127      2002                 882     Simpson
+MFG  28129      2002                2247     Smith
+MFG  28131      2002                1156     Stone
+MFG  28133      2002                1090     Sunflower
+MFG  28135      2002                 344     Tallahatchie
+MFG  28137      2002                2659     Tate
+MFG  28139      2002                5924     Tippah
+MFG  28141      2002                4523     Tishomingo
+MFG  28143      2002                 787     Tunica
+MFG  28145      2002                6939     Union
+MFG  28147      2002                1474     Walthall
+MFG  28149      2002                8644     Warren
+MFG  28151      2002                5151     Washington
+MFG  28153      2002                1865     Wayne
+MFG  28155      2002                1528     Webster
+MFG  28157      2002                 310     Wilkinson
+MFG  28159      2002                2146     Winston
+MFG  28161      2002                2120     Yalobusha
+MFG  28163      2002                2851     Yazoo
+/END/

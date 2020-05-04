@@ -1,0 +1,66 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2003 DOLLAR VALUE of CONSTRUCTION
+adjusted for relative geographic cost of construction materials.
+   Const_Dollars * (1-(1/(1+100/Area_Mod_Factor)))
+from McGraw-Hill Construction (values) and Craftsman (cost adj)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+CON  53000      2003            12131890     WA
+CON  53001      2003               10608     Adams
+CON  53003      2003               13171     Asotin
+CON  53005      2003              321284     Benton
+CON  53007      2003              128091     Chelan
+CON  53009      2003               90529     Clallam
+CON  53011      2003              945409     Clark
+CON  53013      2003                2417     Columbia
+CON  53015      2003              118429     Cowlitz
+CON  53017      2003               55321     Douglas
+CON  53019      2003                9929     Ferry
+CON  53021      2003              195691     Franklin
+CON  53023      2003                4438     Garfield
+CON  53025      2003               79175     Grant
+CON  53027      2003               73454     Grays Harbor
+CON  53029      2003              136957     Island
+CON  53031      2003              148836     Jefferson
+CON  53033      2003             3515205     King
+CON  53035      2003              500923     Kitsap
+CON  53037      2003               99655     Kittitas
+CON  53039      2003               28855     Klickitat
+CON  53041      2003               86236     Lewis
+CON  53043      2003                5485     Lincoln
+CON  53045      2003               75859     Mason
+CON  53047      2003               38424     Okanogan
+CON  53049      2003               17165     Pacific
+CON  53051      2003               14438     Pend Oreille
+CON  53053      2003             2187842     Pierce
+CON  53055      2003               51897     San Juan
+CON  53057      2003              216747     Skagit
+CON  53059      2003               15861     Skamania
+CON  53061      2003             1044445     Snohomish
+CON  53063      2003              529751     Spokane
+CON  53065      2003               38764     Stevens
+CON  53067      2003              537225     Thurston
+CON  53069      2003                2847     Wahkiakum
+CON  53071      2003               98818     Walla Walla
+CON  53073      2003              361277     Whatcom
+CON  53075      2003              114638     Whitman
+CON  53077      2003              215799     Yakima
+/END/

@@ -1,0 +1,33 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent HARVESTED CROPLAND
+2002 USDA Census of Agriculture
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+FRM  09000      2002              131248     CT
+FRM  09001      2002                3795     Fairfield
+FRM  09003      2002               22066     Hartford
+FRM  09005      2002               33023     Litchfield
+FRM  09007      2002                6419     Middlesex
+FRM  09009      2002               10101     New Haven
+FRM  09011      2002               19289     New London
+FRM  09013      2002               14209     Tolland
+FRM  09015      2002               22346     Windham
+/END/

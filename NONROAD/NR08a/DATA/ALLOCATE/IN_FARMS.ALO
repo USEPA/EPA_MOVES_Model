@@ -1,0 +1,117 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent HARVESTED CROPLAND
+2002 USDA Census of Agriculture
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+FRM  18000      2002            11937370     IN
+FRM  18001      2002              196318     Adams
+FRM  18003      2002              242035     Allen
+FRM  18005      2002              135056     Bartholomew
+FRM  18007      2002              232820     Benton
+FRM  18009      2002               84923     Blackford
+FRM  18011      2002              207304     Boone
+FRM  18013      2002                7221     Brown
+FRM  18015      2002              181069     Carroll
+FRM  18017      2002              177944     Cass
+FRM  18019      2002               58499     Clark
+FRM  18021      2002              118413     Clay
+FRM  18023      2002              228090     Clinton
+FRM  18025      2002               12787     Crawford
+FRM  18027      2002              154929     Daviess
+FRM  18029      2002               27444     Dearborn
+FRM  18031      2002              170249     Decatur
+FRM  18033      2002              123955     De Kalb
+FRM  18035      2002              170946     Delaware
+FRM  18037      2002              125599     Dubois
+FRM  18039      2002              163189     Elkhart
+FRM  18041      2002               78795     Fayette
+FRM  18043      2002               11355     Floyd
+FRM  18045      2002              174131     Fountain
+FRM  18047      2002               78837     Franklin
+FRM  18049      2002              166899     Fulton
+FRM  18051      2002              178777     Gibson
+FRM  18053      2002              178631     Grant
+FRM  18055      2002               89589     Greene
+FRM  18057      2002              124448     Hamilton
+FRM  18059      2002              148365     Hancock
+FRM  18061      2002               81872     Harrison
+FRM  18063      2002              159707     Hendricks
+FRM  18065      2002              148562     Henry
+FRM  18067      2002              144122     Howard
+FRM  18069      2002              174807     Huntington
+FRM  18071      2002              145671     Jackson
+FRM  18073      2002              251006     Jasper
+FRM  18075      2002              159676     Jay
+FRM  18077      2002               57505     Jefferson
+FRM  18079      2002               95744     Jennings
+FRM  18081      2002              115422     Johnson
+FRM  18083      2002              256905     Knox
+FRM  18085      2002              205882     Kosciusko
+FRM  18087      2002              125058     Lagrange
+FRM  18089      2002              112505     Lake
+FRM  18091      2002              208829     La Porte
+FRM  18093      2002               56679     Lawrence
+FRM  18095      2002              220034     Madison
+FRM  18097      2002               17203     Marion
+FRM  18099      2002              167884     Marshall
+FRM  18101      2002               34452     Martin
+FRM  18103      2002              162117     Miami
+FRM  18105      2002               20176     Monroe
+FRM  18107      2002              237652     Montgomery
+FRM  18109      2002               80817     Morgan
+FRM  18111      2002              164916     Newton
+FRM  18113      2002              130179     Noble
+FRM  18115      2002                9194     Ohio
+FRM  18117      2002               48359     Orange
+FRM  18119      2002               49672     Owen
+FRM  18121      2002              114657     Parke
+FRM  18123      2002               27151     Perry
+FRM  18125      2002               56138     Pike
+FRM  18127      2002              126847     Porter
+FRM  18129      2002              170564     Posey
+FRM  18131      2002              196831     Pulaski
+FRM  18133      2002              134983     Putnam
+FRM  18135      2002              227913     Randolph
+FRM  18137      2002              112155     Ripley
+FRM  18139      2002              198804     Rush
+FRM  18141      2002              141091     St. Joseph
+FRM  18143      2002               44947     Scott
+FRM  18145      2002              178708     Shelby
+FRM  18147      2002              112223     Spencer
+FRM  18149      2002              102830     Starke
+FRM  18151      2002               68330     Steuben
+FRM  18153      2002              140754     Sullivan
+FRM  18155      2002               20780     Switzerland
+FRM  18157      2002              194532     Tippecanoe
+FRM  18159      2002              141678     Tipton
+FRM  18161      2002               67714     Union
+FRM  18163      2002               73102     Vanderburgh
+FRM  18165      2002               93387     Vermillion
+FRM  18167      2002               96733     Vigo
+FRM  18169      2002              176395     Wabash
+FRM  18171      2002              144827     Warren
+FRM  18173      2002               68699     Warrick
+FRM  18175      2002               92762     Washington
+FRM  18177      2002              126453     Wayne
+FRM  18179      2002              206423     Wells
+FRM  18181      2002              253541     White
+FRM  18183      2002              134194     Whitley
+/END/

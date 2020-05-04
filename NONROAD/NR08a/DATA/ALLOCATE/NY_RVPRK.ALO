@@ -1,0 +1,87 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RECREATIONAL VEHICLE PARKS AND CAMPGROUNDS
+CBP NAICS 72121/; pre-2002 CBP SIC 7030
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+RVP  36000      2002                 398     NY
+RVP  36001      2002                   3     Albany
+RVP  36003      2002                   1     Allegany
+RVP  36005      2002                   1     Bronx
+RVP  36007      2002                   5     Broome
+RVP  36009      2002                   8     Cattaraugus
+RVP  36011      2002                   6     Cayuga
+RVP  36013      2002                  13     Chautauqua
+RVP  36015      2002                   1     Chemung
+RVP  36017      2002                   2     Chenango
+RVP  36019      2002                   6     Clinton
+RVP  36021      2002                   9     Columbia
+RVP  36023      2002                   1     Cortland
+RVP  36025      2002                   7     Delaware
+RVP  36027      2002                  14     Dutchess
+RVP  36029      2002                   8     Erie
+RVP  36031      2002                  12     Essex
+RVP  36033      2002                   9     Franklin
+RVP  36035      2002                   1     Fulton
+RVP  36037      2002                   4     Genesee
+RVP  36039      2002                   6     Greene
+RVP  36041      2002                   6     Hamilton
+RVP  36043      2002                   6     Herkimer
+RVP  36045      2002                   6     Jefferson
+RVP  36047      2002                   4     Kings
+RVP  36049      2002                   5     Lewis
+RVP  36051      2002                   8     Livingston
+RVP  36053      2002                   2     Madison
+RVP  36055      2002                   6     Monroe
+RVP  36057      2002                   2     Montgomery
+RVP  36059      2002                   8     Nassau
+RVP  36061      2002                  11     New York
+RVP  36063      2002                   4     Niagara
+RVP  36065      2002                   7     Oneida
+RVP  36067      2002                   8     Onondaga
+RVP  36069      2002                   5     Ontario
+RVP  36071      2002                   9     Orange
+RVP  36073      2002                   2     Orleans
+RVP  36075      2002                  13     Oswego
+RVP  36077      2002                   3     Otsego
+RVP  36079      2002                   5     Putnam
+RVP  36081      2002                   1     Queens
+RVP  36083      2002                   2     Rensselaer
+RVP  36085      2002                   1     Richmond
+RVP  36087      2002                   7     Rockland
+RVP  36089      2002                   4     St. Lawrence
+RVP  36091      2002                  11     Saratoga
+RVP  36093      2002                   2     Schenectady
+RVP  36095      2002                   2     Schoharie
+RVP  36097      2002                   1     Schuyler
+RVP  36099      2002                   1     Seneca
+RVP  36101      2002                   7     Steuben
+RVP  36103      2002                   9     Suffolk
+RVP  36105      2002                  36     Sullivan
+RVP  36107      2002                   2     Tioga
+RVP  36109      2002                   4     Tompkins
+RVP  36111      2002                  13     Ulster
+RVP  36113      2002                  30     Warren
+RVP  36115      2002                   1     Washington
+RVP  36117      2002                   3     Wayne
+RVP  36119      2002                  15     Westchester
+RVP  36121      2002                   7     Wyoming
+RVP  36123      2002                   2     Yates
+/END/

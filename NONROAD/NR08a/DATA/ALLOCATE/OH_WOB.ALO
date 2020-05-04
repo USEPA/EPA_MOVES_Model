@@ -1,0 +1,113 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WATER SURFACE AREA FOR OUTBOARD RECREATIONAL MARINE CRAFT (sq km navigable water)
+1990 GICS (inland water area); GIS analysis of coast lengths (coastal navigable water)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+WOB  39000      1990                1156     OH
+WOB  39001      1990                   5     Adams
+WOB  39003      1990                   6     Allen
+WOB  39005      1990                   6     Ashland
+WOB  39007      1990                  38     Ashtabula
+WOB  39009      1990                   5     Athens
+WOB  39011      1990                   1     Auglaize
+WOB  39013      1990                  11     Belmont
+WOB  39015      1990                   9     Brown
+WOB  39017      1990                   8     Butler
+WOB  39019      1990                  11     Carroll
+WOB  39021      1990                   3     Champaign
+WOB  39023      1990                  10     Clark
+WOB  39025      1990                  15     Clermont
+WOB  39027      1990                   4     Clinton
+WOB  39029      1990                   7     Columbiana
+WOB  39031      1990                   9     Coshocton
+WOB  39033      1990                   1     Crawford
+WOB  39035      1990                  22     Cuyahoga
+WOB  39037      1990                   1     Darke
+WOB  39039      1990                   8     Defiance
+WOB  39041      1990                  35     Delaware
+WOB  39043      1990                 112     Erie
+WOB  39045      1990                   7     Fairfield
+WOB  39047      1990                   1     Fayette
+WOB  39049      1990                   9     Franklin
+WOB  39051      1990                   1     Fulton
+WOB  39053      1990                   6     Gallia
+WOB  39055      1990                  12     Geauga
+WOB  39057      1990                   3     Greene
+WOB  39059      1990                  16     Guernsey
+WOB  39061      1990                  14     Hamilton
+WOB  39063      1990                   6     Hancock
+WOB  39065      1990                   1     Hardin
+WOB  39067      1990                  19     Harrison
+WOB  39069      1990                   9     Henry
+WOB  39071      1990                  12     Highland
+WOB  39073      1990                   2     Hocking
+WOB  39075      1990                   3     Holmes
+WOB  39077      1990                   5     Huron
+WOB  39079      1990                   3     Jackson
+WOB  39081      1990                   3     Jefferson
+WOB  39083      1990                   6     Knox
+WOB  39085      1990                  29     Lake
+WOB  39087      1990                   5     Lawrence
+WOB  39089      1990                   5     Licking
+WOB  39091      1990                  22     Logan
+WOB  39093      1990                  20     Lorain
+WOB  39095      1990                  43     Lucas
+WOB  39097      1990                   2     Madison
+WOB  39099      1990                  21     Mahoning
+WOB  39101      1990                   1     Marion
+WOB  39103      1990                   4     Medina
+WOB  39105      1990                   8     Meigs
+WOB  39107      1990                  26     Mercer
+WOB  39109      1990                   6     Miami
+WOB  39111      1990                   5     Monroe
+WOB  39113      1990                   7     Montgomery
+WOB  39115      1990                  11     Morgan
+WOB  39117      1990                   5     Morrow
+WOB  39119      1990                  21     Muskingum
+WOB  39121      1990                  14     Noble
+WOB  39123      1990                 144     Ottawa
+WOB  39125      1990                   7     Paulding
+WOB  39127      1990                   7     Perry
+WOB  39129      1990                  12     Pickaway
+WOB  39131      1990                   6     Pike
+WOB  39133      1990                  38     Portage
+WOB  39135      1990                   4     Preble
+WOB  39137      1990                   1     Putnam
+WOB  39139      1990                   9     Richland
+WOB  39141      1990                  12     Ross
+WOB  39143      1990                  34     Sandusky
+WOB  39145      1990                  10     Scioto
+WOB  39147      1990                   5     Seneca
+WOB  39149      1990                   5     Shelby
+WOB  39151      1990                  12     Stark
+WOB  39153      1990                  19     Summit
+WOB  39155      1990                  47     Trumbull
+WOB  39157      1990                  10     Tuscarawas
+WOB  39159      1990                   1     Union
+WOB  39161      1990                   1     Van Wert
+WOB  39163      1990                   2     Vinton
+WOB  39165      1990                  19     Warren
+WOB  39167      1990                  13     Washington
+WOB  39169      1990                   2     Wayne
+WOB  39171      1990                   3     Williams
+WOB  39173      1990                   8     Wood
+WOB  39175      1990                   5     Wyandot
+/END/

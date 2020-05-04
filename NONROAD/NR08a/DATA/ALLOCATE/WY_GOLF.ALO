@@ -1,0 +1,48 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent GOLF COURSES AND COUNTRY CLUBS
+CBP NAICS 713910; pre-2002 CBP SIC 7992
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+GC   56000      2002                  41     WY
+GC   56001      2002                   1     Albany
+GC   56003      2002                   2     Big Horn
+GC   56005      2002                   3     Campbell
+GC   56007      2002                   1     Carbon
+GC   56009      2002                   2     Converse
+GC   56011      2002                   3     Crook
+GC   56013      2002                   4     Fremont
+GC   56015      2002                   0     Goshen
+GC   56017      2002                   1     Hot Springs
+GC   56019      2002                   2     Johnson
+GC   56021      2002                   3     Laramie
+GC   56023      2002                   2     Lincoln
+GC   56025      2002                   3     Natrona
+GC   56027      2002                   0     Niobrara
+GC   56029      2002                   3     Park
+GC   56031      2002                   2     Platte
+GC   56033      2002                   2     Sheridan
+GC   56035      2002                   1     Sublette
+GC   56037      2002                   1     Sweetwater
+GC   56039      2002                   2     Teton
+GC   56041      2002                   0     Uinta
+GC   56043      2002                   2     Washakie
+GC   56045      2002                   1     Weston
+/END/

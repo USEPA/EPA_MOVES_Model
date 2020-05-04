@@ -1,0 +1,80 @@
+This is the allocation indicator file used by the NONROAD model.
+This file is used to allocate from US to state level equipment
+populations.
+
+These data represent 2003 DOLLAR VALUE of CONSTRUCTION
+adjusted for relative geographic cost of construction materials.
+   Const_Dollars * (1-(1/(1+100/Area_Mod_Factor)))
+from McGraw-Hill Construction (values) and Craftsman (cost adj)
+
+8/5/05: Add Puerto Rico & Virgin Islands per Economic Census data
+       (without adjustment for relative costs)
+8/19/05  epa: "US" total does not include PR or VI.
+10/17/05  epa: Correct Const geo adjustment formula.
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+------------------------------------------------------------------------
+/INDICATORS/
+CON  00000      2003           531654255     US      535904837
+CON  01000      2003             7825362     AL
+CON  02000      2003             1329604     AK
+CON  04000      2003            17593001     AZ
+CON  05000      2003             4105039     AR
+CON  06000      2003            57853378     CA
+CON  08000      2003            11523481     CO
+CON  09000      2003             4722042     CT
+CON  10000      2003             1592310     DE
+CON  11000      2003             1814698     DC
+CON  12000      2003            50926810     FL
+CON  13000      2003            20183128     GA
+CON  15000      2003             1805222     HI
+CON  16000      2003             3024820     ID
+CON  17000      2003            19816529     IL
+CON  18000      2003            12998779     IN
+CON  19000      2003             6467683     IA
+CON  20000      2003             4522130     KS
+CON  21000      2003             7225832     KY
+CON  22000      2003             6608336     LA
+CON  23000      2003             2013458     ME
+CON  24000      2003             9412890     MD
+CON  25000      2003             8362815     MA
+CON  26000      2003            14505437     MI
+CON  27000      2003            10636156     MN
+CON  28000      2003             3767705     MS
+CON  29000      2003             9549378     MO
+CON  30000      2003              972483     MT
+CON  31000      2003             3497260     NE
+CON  32000      2003             9654015     NV
+CON  33000      2003             2172522     NH
+CON  34000      2003            11650051     NJ
+CON  35000      2003             3194307     NM
+CON  36000      2003            20715717     NY
+CON  37000      2003            19174805     NC
+CON  38000      2003             1111321     ND
+CON  39000      2003            16520456     OH
+CON  40000      2003             5230108     OK
+CON  41000      2003             7098860     OR
+CON  42000      2003            15095829     PA
+CON  44000      2003             1152141     RI
+CON  45000      2003             9889541     SC
+CON  46000      2003             1215618     SD
+CON  47000      2003            10662234     TN
+CON  48000      2003            45936058     TX
+CON  49000      2003             5094545     UT
+CON  50000      2003              883892     VT
+CON  51000      2003            15269033     VA
+CON  53000      2003            12131890     WA
+CON  54000      2003             1751944     WV
+CON  55000      2003            10360606     WI
+CON  56000      2003             1032996     WY
+CON  72000      2003             3965000     PR
+CON  78000      2003              285582     VI
+/END/

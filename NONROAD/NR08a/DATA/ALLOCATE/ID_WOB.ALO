@@ -1,0 +1,69 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WATER SURFACE AREA FOR OUTBOARD RECREATIONAL MARINE CRAFT (sq km navigable water)
+1990 GICS (inland water area); GIS analysis of coast lengths (coastal navigable water)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+WOB  16000      1990                2133     ID
+WOB  16001      1990                  14     Ada
+WOB  16003      1990                  14     Adams
+WOB  16005      1990                  89     Bannock
+WOB  16007      1990                 202     Bear Lake
+WOB  16009      1990                  21     Benewah
+WOB  16011      1990                  66     Bingham
+WOB  16013      1990                  42     Blaine
+WOB  16015      1990                  11     Boise
+WOB  16017      1990                 471     Bonner
+WOB  16019      1990                  83     Bonneville
+WOB  16021      1990                  24     Boundary
+WOB  16023      1990                   2     Butte
+WOB  16025      1990                  11     Camas
+WOB  16027      1990                  36     Canyon
+WOB  16029      1990                  84     Caribou
+WOB  16031      1990                  36     Cassia
+WOB  16033      1990                   2     Clark
+WOB  16035      1990                  69     Clearwater
+WOB  16037      1990                  29     Custer
+WOB  16039      1990                  59     Elmore
+WOB  16041      1990                   8     Franklin
+WOB  16043      1990                  75     Fremont
+WOB  16045      1990                   8     Gem
+WOB  16047      1990                   8     Gooding
+WOB  16049      1990                  46     Idaho
+WOB  16051      1990                  27     Jefferson
+WOB  16053      1990                   5     Jerome
+WOB  16055      1990                 183     Kootenai
+WOB  16057      1990                   1     Latah
+WOB  16059      1990                  14     Lemhi
+WOB  16061      1990                   2     Lewis
+WOB  16063      1990                   1     Lincoln
+WOB  16065      1990                   5     Madison
+WOB  16067      1990                   9     Minidoka
+WOB  16069      1990                  19     Nez Perce
+WOB  16071      1990                   3     Oneida
+WOB  16073      1990                  48     Owyhee
+WOB  16075      1990                   7     Payette
+WOB  16077      1990                  96     Power
+WOB  16079      1990                   4     Shoshone
+WOB  16081      1990                   1     Teton
+WOB  16083      1990                   9     Twin Falls
+WOB  16085      1990                 144     Valley
+WOB  16087      1990                  45     Washington
+/END/

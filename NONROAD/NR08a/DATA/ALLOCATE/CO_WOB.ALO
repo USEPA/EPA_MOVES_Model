@@ -1,0 +1,98 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WATER SURFACE AREA FOR OUTBOARD RECREATIONAL MARINE CRAFT (sq km navigable water)
+1990 GICS (inland water area); GIS analysis of coast lengths (coastal navigable water)
+
+9/23/05 epa: Corrects Broomfield water area and allocates to pre-2001 counties.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/                                                 961.00
+WOB  08000      1990                 961     CO              961.00
+WOB  08001      1990               15.00     Adams                               15
+WOB  08001      2001               14.75     Adams                    14.75
+WOB  08003      1990                   2     Alamosa
+WOB  08005      1990                   6     Arapahoe
+WOB  08007      1990                  14     Archuleta
+WOB  08009      1990                   4     Baca
+WOB  08011      1990                  71     Bent
+WOB  08013      1990               23.00     Boulder                             23
+WOB  08013      2001               22.75     Boulder                  22.75
+WOB  08014      1990                   0     Broomfield                           0
+WOB  08014      2001                   1     Broomfield                   1
+WOB  08015      1990                   4     Chaffee
+WOB  08017      1990                   0     Cheyenne
+WOB  08019      1990                   3     Clear Creek
+WOB  08021      1990                   9     Conejos
+WOB  08023      1990                   9     Costilla
+WOB  08025      1990                  29     Crowley
+WOB  08027      1990                   3     Custer
+WOB  08029      1990                  17     Delta
+WOB  08031      1990                   4     Denver
+WOB  08033      1990                   3     Dolores
+WOB  08035      1990                   7     Douglas
+WOB  08037      1990                  10     Eagle
+WOB  08039      1990                   0     Elbert
+WOB  08041      1990                   8     El Paso
+WOB  08043      1990                   3     Fremont
+WOB  08045      1990                  22     Garfield
+WOB  08047      1990                   1     Gilpin
+WOB  08049      1990                  52     Grand
+WOB  08051      1990                  54     Gunnison
+WOB  08053      1990                  14     Hinsdale
+WOB  08055      1990                   6     Huerfano
+WOB  08057      1990                  20     Jackson
+WOB  08059      1990               15.50     Jefferson                         15.5
+WOB  08059      2001               15.25     Jefferson                15.25
+WOB  08061      1990                  38     Kiowa
+WOB  08063      1990                   2     Kit Carson
+WOB  08065      1990                  18     Lake
+WOB  08067      1990                  20     La Plata
+WOB  08069      1990                  84     Larimer
+WOB  08071      1990                   7     Las Animas
+WOB  08073      1990                   1     Lincoln
+WOB  08075      1990                  16     Logan
+WOB  08077      1990                  35     Mesa
+WOB  08079      1990                   5     Mineral
+WOB  08081      1990                  22     Moffat
+WOB  08083      1990                   8     Montezuma
+WOB  08085      1990                   5     Montrose
+WOB  08087      1990                  22     Morgan
+WOB  08089      1990                  18     Otero
+WOB  08091      1990                   1     Ouray
+WOB  08093      1990                  26     Park
+WOB  08095      1990                   0     Phillips
+WOB  08097      1990                   7     Pitkin
+WOB  08099      1990                  10     Prowers
+WOB  08101      1990                  23     Pueblo
+WOB  08103      1990                   5     Rio Blanco
+WOB  08105      1990                   1     Rio Grande
+WOB  08107      1990                  17     Routt
+WOB  08109      1990                   5     Saguache
+WOB  08111      1990                   2     San Juan
+WOB  08113      1990                   5     San Miguel
+WOB  08115      1990                   4     Sedgwick
+WOB  08117      1990                  29     Summit
+WOB  08119      1990                   5     Teller
+WOB  08121      1990                   8     Washington
+WOB  08123      1990               75.50     Weld                              75.5
+WOB  08123      2001               75.25     Weld                     75.25
+WOB  08125      1990                   8     Yuma
+/END/
+
+                                                                     129.00  129.00

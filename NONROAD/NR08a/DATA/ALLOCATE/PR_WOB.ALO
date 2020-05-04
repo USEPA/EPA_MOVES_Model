@@ -1,0 +1,104 @@
+This is the allocation indicator file used by the NONROAD model.
+This file is used to allocate from US to state level equipment
+populations.
+
+These data represent WATER SURFACE AREA FOR OUTBOARD RECREATIONAL MARINE CRAFT (sq km navigable water)
+1990 GICS (inland water area); GIS analysis of coast lengths (coastal navigable water)
+
+It is used for State-to-County allocation only.  Not for US-to-State.
+
+9/13/05 epa: Update to add non-inland water from GICS data.
+
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+------------------------------------------------------------------------
+/INDICATORS/
+WOB  72000      1990               465.6     PR               465.6
+WOB  72001      1990                1.08     Adjuntas
+WOB  72003      1990                2.39     Aguada
+WOB  72005      1990                6.39     Aguadilla
+WOB  72007      1990                0.00     Aguas Buenas
+WOB  72009      1990                0.05     Aibonito
+WOB  72011      1990                1.55     Añasco
+WOB  72013      1990                9.69     Arecibo
+WOB  72015      1990                3.35     Arroyo
+WOB  72017      1990                2.25     Barceloneta
+WOB  72019      1990                0.03     Barranquitas
+WOB  72021      1990                0.37     Bayamón
+WOB  72023      1990               24.36     Cabo Rojo
+WOB  72025      1990                1.03     Caguas
+WOB  72027      1990                2.54     Camuy
+WOB  72029      1990                0.32     Canóvanas
+WOB  72031      1990                8.27     Carolina
+WOB  72033      1990                5.74     Cataño
+WOB  72035      1990                0.03     Cayey
+WOB  72037      1990               34.35     Ceiba
+WOB  72039      1990                0.43     Ciales
+WOB  72041      1990                1.09     Cidra
+WOB  72043      1990                0.02     Coamo
+WOB  72045      1990                0.34     Comerío
+WOB  72047      1990                0.01     Corozal
+WOB  72049      1990               39.25     Culebra
+WOB  72051      1990                5.29     Dorado
+WOB  72053      1990               16.40     Fajardo
+WOB  72054      1990                0.00     Florida
+WOB  72055      1990               12.11     Guánica
+WOB  72057      1990               17.35     Guayama
+WOB  72059      1990                6.68     Guayanilla
+WOB  72061      1990                0.14     Guaynabo
+WOB  72063      1990                1.14     Gurabo
+WOB  72065      1990                2.84     Hatillo
+WOB  72067      1990                0.00     Hormigueros
+WOB  72069      1990                5.07     Humacao
+WOB  72071      1990                6.07     Isabela
+WOB  72073      1990                0.00     Jayuya
+WOB  72075      1990                8.45     Juana Díaz
+WOB  72077      1990                0.03     Juncos
+WOB  72079      1990               10.83     Lajas
+WOB  72081      1990                0.48     Lares
+WOB  72083      1990                0.39     Las Marías
+WOB  72085      1990                0.01     Las Piedras
+WOB  72087      1990               10.22     Loíza
+WOB  72089      1990                3.49     Luquillo
+WOB  72091      1990                6.48     Manatí
+WOB  72093      1990                0.00     Maricao
+WOB  72095      1990                2.84     Maunabo
+WOB  72097      1990               32.10     Mayagüez
+WOB  72099      1990                0.00     Moca
+WOB  72101      1990                0.13     Morovis
+WOB  72103      1990                6.12     Naguabo
+WOB  72105      1990                1.22     Naranjito
+WOB  72107      1990                0.44     Orocovis
+WOB  72109      1990                5.89     Patillas
+WOB  72111      1990                5.29     Peñuelas
+WOB  72113      1990               15.02     Ponce
+WOB  72115      1990                2.99     Quebradillas
+WOB  72117      1990                6.50     Rincón
+WOB  72119      1990                7.05     Río Grande
+WOB  72121      1990                0.01     Sabana Grande
+WOB  72123      1990               21.14     Salinas
+WOB  72125      1990                0.00     San Germán
+WOB  72127      1990               15.72     San Juan
+WOB  72129      1990                0.18     San Lorenzo
+WOB  72131      1990                1.99     San Sebastián
+WOB  72133      1990                8.86     Santa Isabel
+WOB  72135      1990                0.50     Toa Alta
+WOB  72137      1990                4.16     Toa Baja
+WOB  72139      1990                1.55     Trujillo Alto
+WOB  72141      1990                4.00     Utuado
+WOB  72143      1990                1.59     Vega Alta
+WOB  72145      1990                7.57     Vega Baja
+WOB  72147      1990               43.84     Vieques
+WOB  72149      1990                4.17     Villalba
+WOB  72151      1990                5.04     Yabucoa
+WOB  72153      1990                1.36     Yauco
+/END/

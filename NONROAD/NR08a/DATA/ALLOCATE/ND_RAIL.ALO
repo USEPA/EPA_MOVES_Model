@@ -1,0 +1,80 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent LOCOMOTIVE NOx TONS
+from Draft 2002 NEI
+
+9/1/05 epa: Modifies to treat PR & VI as additional to US Total.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+RR   38000      2002           17144.320     ND
+RR   38001      2002             117.120     Adams
+RR   38003      2002            1326.220     Barnes
+RR   38005      2002              23.220     Benson
+RR   38007      2002             658.560     Billings
+RR   38009      2002              22.120     Bottineau
+RR   38011      2002             194.050     Bowman
+RR   38013      2002             167.340     Burke
+RR   38015      2002            1117.450     Burleigh
+RR   38017      2002            1186.770     Cass
+RR   38019      2002              45.060     Cavalier
+RR   38021      2002              13.360     Dickey
+RR   38023      2002              48.190     Divide
+RR   38025      2002               0.000     Dunn
+RR   38027      2002             521.650     Eddy
+RR   38029      2002               0.000     Emmons
+RR   38031      2002             608.280     Foster
+RR   38033      2002            1083.140     Golden Valley
+RR   38035      2002             130.340     Grand Forks
+RR   38037      2002               0.000     Grant
+RR   38039      2002             559.190     Griggs
+RR   38041      2002               0.000     Hettinger
+RR   38043      2002             869.350     Kidder
+RR   38045      2002               0.000     LaMoure
+RR   38047      2002               0.000     Logan
+RR   38049      2002             826.190     McHenry
+RR   38051      2002               0.000     McIntosh
+RR   38053      2002              11.440     McKenzie
+RR   38055      2002              26.410     McLean
+RR   38057      2002              37.280     Mercer
+RR   38059      2002             577.350     Morton
+RR   38061      2002             474.710     Mountrail
+RR   38063      2002              53.660     Nelson
+RR   38065      2002              21.420     Oliver
+RR   38067      2002              33.780     Pembina
+RR   38069      2002             334.930     Pierce
+RR   38071      2002              42.520     Ramsey
+RR   38073      2002             166.070     Ransom
+RR   38075      2002              99.650     Renville
+RR   38077      2002             300.570     Richland
+RR   38079      2002               6.630     Rolette
+RR   38081      2002              19.500     Sargent
+RR   38083      2002             109.340     Sheridan
+RR   38085      2002              15.770     Sioux
+RR   38087      2002             231.280     Slope
+RR   38089      2002             969.420     Stark
+RR   38091      2002             242.480     Steele
+RR   38093      2002            1246.390     Stutsman
+RR   38095      2002              15.990     Towner
+RR   38097      2002              85.080     Traill
+RR   38099      2002              77.950     Walsh
+RR   38101      2002            1079.880     Ward
+RR   38103      2002             653.270     Wells
+RR   38105      2002             693.950     Williams
+/END/

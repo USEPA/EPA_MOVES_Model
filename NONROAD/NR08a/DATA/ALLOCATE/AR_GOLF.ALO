@@ -1,0 +1,100 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent GOLF COURSES AND COUNTRY CLUBS
+CBP NAICS 713910; pre-2002 CBP SIC 7992
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+GC   05000      2002                 156     AR
+GC   05001      2002                   2     Arkansas
+GC   05003      2002                   1     Ashley
+GC   05005      2002                   2     Baxter
+GC   05007      2002                   8     Benton
+GC   05009      2002                   2     Boone
+GC   05011      2002                   1     Bradley
+GC   05013      2002                   0     Calhoun
+GC   05015      2002                   1     Carroll
+GC   05017      2002                   2     Chicot
+GC   05019      2002                   2     Clark
+GC   05021      2002                   1     Clay
+GC   05023      2002                   2     Cleburne
+GC   05025      2002                   0     Cleveland
+GC   05027      2002                   1     Columbia
+GC   05029      2002                   1     Conway
+GC   05031      2002                   8     Craighead
+GC   05033      2002                   5     Crawford
+GC   05035      2002                   1     Crittenden
+GC   05037      2002                   1     Cross
+GC   05039      2002                   1     Dallas
+GC   05041      2002                   2     Desha
+GC   05043      2002                   2     Drew
+GC   05045      2002                   4     Faulkner
+GC   05047      2002                   0     Franklin
+GC   05049      2002                   0     Fulton
+GC   05051      2002                   5     Garland
+GC   05053      2002                   1     Grant
+GC   05055      2002                   2     Greene
+GC   05057      2002                   1     Hempstead
+GC   05059      2002                   1     Hot Spring
+GC   05061      2002                   1     Howard
+GC   05063      2002                   1     Independence
+GC   05065      2002                   2     Izard
+GC   05067      2002                   2     Jackson
+GC   05069      2002                   3     Jefferson
+GC   05071      2002                   1     Johnson
+GC   05073      2002                   0     Lafayette
+GC   05075      2002                   1     Lawrence
+GC   05077      2002                   1     Lee
+GC   05079      2002                   0     Lincoln
+GC   05081      2002                   3     Little River
+GC   05083      2002                   2     Logan
+GC   05085      2002                   3     Lonoke
+GC   05087      2002                   1     Madison
+GC   05089      2002                   0     Marion
+GC   05091      2002                   4     Miller
+GC   05093      2002                   4     Mississippi
+GC   05095      2002                   4     Monroe
+GC   05097      2002                   0     Montgomery
+GC   05099      2002                   1     Nevada
+GC   05101      2002                   0     Newton
+GC   05103      2002                   1     Ouachita
+GC   05105      2002                   0     Perry
+GC   05107      2002                   1     Phillips
+GC   05109      2002                   1     Pike
+GC   05111      2002                   2     Poinsett
+GC   05113      2002                   1     Polk
+GC   05115      2002                   2     Pope
+GC   05117      2002                   1     Prairie
+GC   05119      2002                  15     Pulaski
+GC   05121      2002                   2     Randolph
+GC   05123      2002                   3     St. Francis
+GC   05125      2002                   4     Saline
+GC   05127      2002                   1     Scott
+GC   05129      2002                   0     Searcy
+GC   05131      2002                   5     Sebastian
+GC   05133      2002                   1     Sevier
+GC   05135      2002                   0     Sharp
+GC   05137      2002                   0     Stone
+GC   05139      2002                   3     Union
+GC   05141      2002                   2     Van Buren
+GC   05143      2002                  12     Washington
+GC   05145      2002                   2     White
+GC   05147      2002                   1     Woodruff
+GC   05149      2002                   2     Yell
+/END/

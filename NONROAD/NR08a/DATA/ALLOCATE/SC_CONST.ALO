@@ -1,0 +1,73 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2003 DOLLAR VALUE of CONSTRUCTION
+adjusted for relative geographic cost of construction materials.
+   Const_Dollars * (1-(1/(1+100/Area_Mod_Factor)))
+from McGraw-Hill Construction (values) and Craftsman (cost adj)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+CON  45000      2003             9889541     SC
+CON  45001      2003               51181     Abbeville
+CON  45003      2003              221925     Aiken
+CON  45005      2003               10123     Allendale
+CON  45007      2003              295398     Anderson
+CON  45009      2003               13786     Bamberg
+CON  45011      2003               22391     Barnwell
+CON  45013      2003              830344     Beaufort
+CON  45015      2003              225707     Berkeley
+CON  45017      2003               17375     Calhoun
+CON  45019      2003             1072063     Charleston
+CON  45021      2003               64259     Cherokee
+CON  45023      2003               49472     Chester
+CON  45025      2003               28710     Chesterfield
+CON  45027      2003               55498     Clarendon
+CON  45029      2003               40946     Colleton
+CON  45031      2003               30497     Darlington
+CON  45033      2003               19166     Dillon
+CON  45035      2003              224663     Dorchester
+CON  45037      2003               28388     Edgefield
+CON  45039      2003               21602     Fairfield
+CON  45041      2003              154908     Florence
+CON  45043      2003              157412     Georgetown
+CON  45045      2003             1076001     Greenville
+CON  45047      2003               79571     Greenwood
+CON  45049      2003               12720     Hampton
+CON  45051      2003             1113838     Horry
+CON  45053      2003               44357     Jasper
+CON  45055      2003               69138     Kershaw
+CON  45057      2003               76098     Lancaster
+CON  45059      2003               63712     Laurens
+CON  45061      2003               11002     Lee
+CON  45063      2003              474955     Lexington
+CON  45065      2003               42219     McCormick
+CON  45067      2003               13932     Marion
+CON  45069      2003               12685     Marlboro
+CON  45071      2003               69272     Newberry
+CON  45073      2003              170840     Oconee
+CON  45075      2003               77312     Orangeburg
+CON  45077      2003              227690     Pickens
+CON  45079      2003             1141866     Richland
+CON  45081      2003               15495     Saluda
+CON  45083      2003              568778     Spartanburg
+CON  45085      2003              139653     Sumter
+CON  45087      2003               15847     Union
+CON  45089      2003               40175     Williamsburg
+CON  45091      2003              696568     York
+/END/

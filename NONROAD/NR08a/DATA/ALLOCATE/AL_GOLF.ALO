@@ -1,0 +1,92 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent GOLF COURSES AND COUNTRY CLUBS
+CBP NAICS 713910; pre-2002 CBP SIC 7992
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+GC   01000      2002                 177     AL
+GC   01001      2002                   2     Autauga
+GC   01003      2002                   8     Baldwin
+GC   01005      2002                   2     Barbour
+GC   01007      2002                   0     Bibb
+GC   01009      2002                   1     Blount
+GC   01011      2002                   1     Bullock
+GC   01013      2002                   3     Butler
+GC   01015      2002                   7     Calhoun
+GC   01017      2002                   1     Chambers
+GC   01019      2002                   1     Cherokee
+GC   01021      2002                   2     Chilton
+GC   01023      2002                   1     Choctaw
+GC   01025      2002                   1     Clarke
+GC   01027      2002                   0     Clay
+GC   01029      2002                   0     Cleburne
+GC   01031      2002                   2     Coffee
+GC   01033      2002                   3     Colbert
+GC   01035      2002                   1     Conecuh
+GC   01037      2002                   1     Coosa
+GC   01039      2002                   4     Covington
+GC   01041      2002                   1     Crenshaw
+GC   01043      2002                   2     Cullman
+GC   01045      2002                   1     Dale
+GC   01047      2002                   2     Dallas
+GC   01049      2002                   4     DeKalb
+GC   01051      2002                   4     Elmore
+GC   01053      2002                   2     Escambia
+GC   01055      2002                   4     Etowah
+GC   01057      2002                   1     Fayette
+GC   01059      2002                   2     Franklin
+GC   01061      2002                   1     Geneva
+GC   01063      2002                   0     Greene
+GC   01065      2002                   1     Hale
+GC   01067      2002                   1     Henry
+GC   01069      2002                   4     Houston
+GC   01071      2002                   4     Jackson
+GC   01073      2002                  19     Jefferson
+GC   01075      2002                   1     Lamar
+GC   01077      2002                   5     Lauderdale
+GC   01079      2002                   0     Lawrence
+GC   01081      2002                   4     Lee
+GC   01083      2002                   3     Limestone
+GC   01085      2002                   0     Lowndes
+GC   01087      2002                   0     Macon
+GC   01089      2002                  11     Madison
+GC   01091      2002                   3     Marengo
+GC   01093      2002                   1     Marion
+GC   01095      2002                   6     Marshall
+GC   01097      2002                   3     Mobile
+GC   01099      2002                   1     Monroe
+GC   01101      2002                   7     Montgomery
+GC   01103      2002                   5     Morgan
+GC   01105      2002                   0     Perry
+GC   01107      2002                   1     Pickens
+GC   01109      2002                   2     Pike
+GC   01111      2002                   1     Randolph
+GC   01113      2002                   1     Russell
+GC   01115      2002                   2     St. Clair
+GC   01117      2002                   7     Shelby
+GC   01119      2002                   2     Sumter
+GC   01121      2002                   3     Talladega
+GC   01123      2002                   2     Tallapoosa
+GC   01125      2002                   7     Tuscaloosa
+GC   01127      2002                   3     Walker
+GC   01129      2002                   1     Washington
+GC   01131      2002                   0     Wilcox
+GC   01133      2002                   1     Winston
+/END/

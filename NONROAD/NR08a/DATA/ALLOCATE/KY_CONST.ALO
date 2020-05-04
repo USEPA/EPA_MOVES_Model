@@ -1,0 +1,147 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2003 DOLLAR VALUE of CONSTRUCTION
+adjusted for relative geographic cost of construction materials.
+   Const_Dollars * (1-(1/(1+100/Area_Mod_Factor)))
+from McGraw-Hill Construction (values) and Craftsman (cost adj)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+CON  21000      2003             7225832     KY
+CON  21001      2003                2285     Adair
+CON  21003      2003               36938     Allen
+CON  21005      2003               27085     Anderson
+CON  21007      2003                5159     Ballard
+CON  21009      2003               33824     Barren
+CON  21011      2003               23553     Bath
+CON  21013      2003               14512     Bell
+CON  21015      2003              326257     Boone
+CON  21017      2003               18567     Bourbon
+CON  21019      2003               36894     Boyd
+CON  21021      2003               52026     Boyle
+CON  21023      2003               13803     Bracken
+CON  21025      2003               21145     Breathitt
+CON  21027      2003                7684     Breckinridge
+CON  21029      2003              157394     Bullitt
+CON  21031      2003                4600     Butler
+CON  21033      2003               11690     Caldwell
+CON  21035      2003               37573     Calloway
+CON  21037      2003              107044     Campbell
+CON  21039      2003                4205     Carlisle
+CON  21041      2003               10183     Carroll
+CON  21043      2003               37528     Carter
+CON  21045      2003                8212     Casey
+CON  21047      2003              118104     Christian
+CON  21049      2003               90100     Clark
+CON  21051      2003               32522     Clay
+CON  21053      2003                2614     Clinton
+CON  21055      2003                5492     Crittenden
+CON  21057      2003                1004     Cumberland
+CON  21059      2003              187096     Daviess
+CON  21061      2003                6481     Edmonson
+CON  21063      2003               10307     Elliott
+CON  21065      2003               14428     Estill
+CON  21067      2003              578897     Fayette
+CON  21069      2003               10319     Fleming
+CON  21071      2003               70181     Floyd
+CON  21073      2003               64625     Franklin
+CON  21075      2003                3504     Fulton
+CON  21077      2003                5335     Gallatin
+CON  21079      2003                7360     Garrard
+CON  21081      2003               26996     Grant
+CON  21083      2003               29177     Graves
+CON  21085      2003               27201     Grayson
+CON  21087      2003                2608     Green
+CON  21089      2003               28546     Greenup
+CON  21091      2003                9473     Hancock
+CON  21093      2003              179603     Hardin
+CON  21095      2003               26498     Harlan
+CON  21097      2003               10530     Harrison
+CON  21099      2003                9258     Hart
+CON  21101      2003               90380     Henderson
+CON  21103      2003               22800     Henry
+CON  21105      2003                6705     Hickman
+CON  21107      2003               39035     Hopkins
+CON  21109      2003                8511     Jackson
+CON  21111      2003             1724147     Jefferson
+CON  21113      2003               89705     Jessamine
+CON  21115      2003               30942     Johnson
+CON  21117      2003              279875     Kenton
+CON  21119      2003               31571     Knott
+CON  21121      2003               70209     Knox
+CON  21123      2003                9177     Larue
+CON  21125      2003               37491     Laurel
+CON  21127      2003               21279     Lawrence
+CON  21129      2003                8088     Lee
+CON  21131      2003               12146     Leslie
+CON  21133      2003               23156     Letcher
+CON  21135      2003               18005     Lewis
+CON  21137      2003               24333     Lincoln
+CON  21139      2003                7303     Livingston
+CON  21141      2003                6485     Logan
+CON  21143      2003               18776     Lyon
+CON  21145      2003               70734     McCracken
+CON  21147      2003               27635     McCreary
+CON  21149      2003               11209     McLean
+CON  21151      2003              141488     Madison
+CON  21153      2003               16521     Magoffin
+CON  21155      2003               14767     Marion
+CON  21157      2003               22347     Marshall
+CON  21159      2003               12576     Martin
+CON  21161      2003               22825     Mason
+CON  21163      2003               12433     Meade
+CON  21165      2003                6361     Menifee
+CON  21167      2003               27601     Mercer
+CON  21169      2003                6521     Metcalfe
+CON  21171      2003               10587     Monroe
+CON  21173      2003               52670     Montgomery
+CON  21175      2003               21608     Morgan
+CON  21177      2003               33647     Muhlenberg
+CON  21179      2003               88577     Nelson
+CON  21181      2003                2970     Nicholas
+CON  21183      2003               25597     Ohio
+CON  21185      2003              195629     Oldham
+CON  21187      2003               13568     Owen
+CON  21189      2003                3632     Owsley
+CON  21191      2003               11210     Pendleton
+CON  21193      2003               29486     Perry
+CON  21195      2003              137805     Pike
+CON  21197      2003                5276     Powell
+CON  21199      2003               64799     Pulaski
+CON  21201      2003                1297     Robertson
+CON  21203      2003               20980     Rockcastle
+CON  21205      2003               20470     Rowan
+CON  21207      2003               24988     Russell
+CON  21209      2003              149474     Scott
+CON  21211      2003               99758     Shelby
+CON  21213      2003               17720     Simpson
+CON  21215      2003               46464     Spencer
+CON  21217      2003               15295     Taylor
+CON  21219      2003                6968     Todd
+CON  21221      2003               10215     Trigg
+CON  21223      2003              174421     Trimble
+CON  21225      2003                6112     Union
+CON  21227      2003              262322     Warren
+CON  21229      2003               26900     Washington
+CON  21231      2003                2117     Wayne
+CON  21233      2003                6410     Webster
+CON  21235      2003               20760     Whitley
+CON  21237      2003               10137     Wolfe
+CON  21239      2003               76402     Woodford
+/END/

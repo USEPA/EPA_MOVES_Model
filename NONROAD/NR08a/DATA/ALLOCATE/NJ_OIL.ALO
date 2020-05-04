@@ -1,0 +1,46 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent EMPLOYEES IN OIL & GAS EXTRACTION, AND DRILLING OIL & GAS WELLS
+CBP NAICS 211/// and 213111; pre-2002 CBP SIC 1300
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+OIL  34000      2002                  57     NJ
+OIL  34001      2002                   3     Atlantic
+OIL  34003      2002                   6     Bergen
+OIL  34005      2002                   4     Burlington
+OIL  34007      2002                   0     Camden
+OIL  34009      2002                   2     Cape May
+OIL  34011      2002                   0     Cumberland
+OIL  34013      2002                   0     Essex
+OIL  34015      2002                   0     Gloucester
+OIL  34017      2002                   0     Hudson
+OIL  34019      2002                   0     Hunterdon
+OIL  34021      2002                   0     Mercer
+OIL  34023      2002                  28     Middlesex
+OIL  34025      2002                   2     Monmouth
+OIL  34027      2002                   4     Morris
+OIL  34029      2002                   6     Ocean
+OIL  34031      2002                   0     Passaic
+OIL  34033      2002                   0     Salem
+OIL  34035      2002                   0     Somerset
+OIL  34037      2002                   0     Sussex
+OIL  34039      2002                   0     Union
+OIL  34041      2002                   2     Warren
+/END/

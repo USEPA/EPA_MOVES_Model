@@ -1,0 +1,66 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent AIRCRAFT NOx TONS
+from Draft 2002 NEI
+
+9/1/05 epa: Modifies to treat PR & VI as additional to US Total.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+AIR  53000      2002            1690.312     WA
+AIR  53001      2002               0.000     Adams
+AIR  53003      2002               0.000     Asotin
+AIR  53005      2002               0.080     Benton
+AIR  53007      2002               0.000     Chelan
+AIR  53009      2002              22.680     Clallam
+AIR  53011      2002               0.000     Clark
+AIR  53013      2002               0.000     Columbia
+AIR  53015      2002               0.230     Cowlitz
+AIR  53017      2002               0.750     Douglas
+AIR  53019      2002               0.000     Ferry
+AIR  53021      2002              16.350     Franklin
+AIR  53023      2002               0.000     Garfield
+AIR  53025      2002               5.590     Grant
+AIR  53027      2002               0.111     Grays Harbor
+AIR  53029      2002               0.000     Island
+AIR  53031      2002               0.000     Jefferson
+AIR  53033      2002            1369.560     King
+AIR  53035      2002               8.900     Kitsap
+AIR  53037      2002               0.164     Kittitas
+AIR  53039      2002               0.120     Klickitat
+AIR  53041      2002               0.000     Lewis
+AIR  53043      2002               0.000     Lincoln
+AIR  53045      2002               1.085     Mason
+AIR  53047      2002               0.000     Okanogan
+AIR  53049      2002               0.000     Pacific
+AIR  53051      2002               0.000     Pend Oreille
+AIR  53053      2002               0.510     Pierce
+AIR  53055      2002               0.920     San Juan
+AIR  53057      2002               0.364     Skagit
+AIR  53059      2002               0.000     Skamania
+AIR  53061      2002              18.400     Snohomish
+AIR  53063      2002             235.800     Spokane
+AIR  53065      2002               0.000     Stevens
+AIR  53067      2002               0.530     Thurston
+AIR  53069      2002               0.000     Wahkiakum
+AIR  53071      2002               0.227     Walla Walla
+AIR  53073      2002               3.560     Whatcom
+AIR  53075      2002               0.941     Whitman
+AIR  53077      2002               3.440     Yakima
+/END/

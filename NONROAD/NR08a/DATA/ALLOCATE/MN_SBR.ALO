@@ -1,0 +1,112 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RELATIVE NUMBER OF RESIDENTIAL SNOWBLOWERS
+Same as HOUSE allocation factors, with value set to 0 for counties with snowfall < 15"
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+SBR  27000      2002             2132669     MN
+SBR  27001      2002               14603     Aitkin
+SBR  27003      2002              113055     Anoka
+SBR  27005      2002               17009     Becker
+SBR  27007      2002               17431     Beltrami
+SBR  27009      2002               14510     Benton
+SBR  27011      2002                3168     Big Stone
+SBR  27013      2002               22733     Blue Earth
+SBR  27015      2002               11215     Brown
+SBR  27017      2002               14274     Carlton
+SBR  27019      2002               27658     Carver
+SBR  27021      2002               22090     Cass
+SBR  27023      2002                5906     Chippewa
+SBR  27025      2002               16962     Chisago
+SBR  27027      2002               20226     Clay
+SBR  27029      2002                4179     Clearwater
+SBR  27031      2002                4910     Cook
+SBR  27033      2002                5392     Cottonwood
+SBR  27035      2002               35052     Crow Wing
+SBR  27037      2002              140709     Dakota
+SBR  27039      2002                7045     Dodge
+SBR  27041      2002               17561     Douglas
+SBR  27043      2002                7221     Faribault
+SBR  27045      2002                9160     Fillmore
+SBR  27047      2002               14083     Freeborn
+SBR  27049      2002               18502     Goodhue
+SBR  27051      2002                3114     Grant
+SBR  27053      2002              477060     Hennepin
+SBR  27055      2002                8286     Houston
+SBR  27057      2002               12470     Hubbard
+SBR  27059      2002               13207     Isanti
+SBR  27061      2002               25214     Itasca
+SBR  27063      2002                5098     Jackson
+SBR  27065      2002                7087     Kanabec
+SBR  27067      2002               18777     Kandiyohi
+SBR  27069      2002                2728     Kittson
+SBR  27071      2002                7830     Koochiching
+SBR  27073      2002                3764     Lac qui Parle
+SBR  27075      2002                7033     Lake
+SBR  27077      2002                3321     Lake of the Woods
+SBR  27079      2002               11332     Le Sueur
+SBR  27081      2002                3058     Lincoln
+SBR  27083      2002               10490     Lyon
+SBR  27085      2002               14500     McLeod
+SBR  27087      2002                2743     Mahnomen
+SBR  27089      2002                4850     Marshall
+SBR  27091      2002                9894     Martin
+SBR  27093      2002               10118     Meeker
+SBR  27095      2002               10890     Mille Lacs
+SBR  27097      2002               14510     Morrison
+SBR  27099      2002               16536     Mower
+SBR  27101      2002                4406     Murray
+SBR  27103      2002               11554     Nicollet
+SBR  27105      2002                8481     Nobles
+SBR  27107      2002                3454     Norman
+SBR  27109      2002               52844     Olmsted
+SBR  27111      2002               34257     Otter Tail
+SBR  27113      2002                6153     Pennington
+SBR  27115      2002               15652     Pine
+SBR  27117      2002                4457     Pipestone
+SBR  27119      2002               14143     Polk
+SBR  27121      2002                6278     Pope
+SBR  27123      2002              208016     Ramsey
+SBR  27125      2002                1906     Red Lake
+SBR  27127      2002                7276     Redwood
+SBR  27129      2002                7428     Renville
+SBR  27131      2002               20922     Rice
+SBR  27133      2002                4163     Rock
+SBR  27135      2002                7275     Roseau
+SBR  27137      2002               96265     St. Louis
+SBR  27139      2002               36131     Scott
+SBR  27141      2002               25516     Sherburne
+SBR  27143      2002                6122     Sibley
+SBR  27145      2002               52199     Stearns
+SBR  27147      2002               13671     Steele
+SBR  27149      2002                4108     Stevens
+SBR  27151      2002                4838     Swift
+SBR  27153      2002               12075     Todd
+SBR  27155      2002                2207     Traverse
+SBR  27157      2002                9336     Wabasha
+SBR  27159      2002                6470     Wadena
+SBR  27161      2002                7552     Waseca
+SBR  27163      2002               78213     Washington
+SBR  27165      2002                5040     Watonwan
+SBR  27167      2002                3128     Wilkin
+SBR  27169      2002               19838     Winona
+SBR  27171      2002               37842     Wright
+SBR  27173      2002                4889     Yellow Medicine
+/END/

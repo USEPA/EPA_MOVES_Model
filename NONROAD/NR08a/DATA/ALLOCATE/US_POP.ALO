@@ -1,0 +1,77 @@
+This is the allocation indicator file used by the NONROAD model.
+This file is used to allocate from US to state level equipment
+populations.
+
+These data represent HUMAN POPULATION
+ per US Census data
+
+
+8/19/05  epa: TEST "US" total does not include PR or VI.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+------------------------------------------------------------------------
+/INDICATORS/
+POP  00000      2002           287941220     US      291909438291909438
+POP  01000      2002             4481078     AL
+POP  02000      2002              640841     AK
+POP  04000      2002             5439091     AZ
+POP  05000      2002             2707509     AR
+POP  06000      2002            34988261     CA
+POP  08000      2002             4498077     CO
+POP  09000      2002             3459006     CT
+POP  10000      2002              806105     DE
+POP  11000      2002              564643     DC
+POP  12000      2002            16681144     FL
+POP  13000      2002             8539735     GA
+POP  15000      2002             1234514     HI
+POP  16000      2002             1343194     ID
+POP  17000      2002            12585204     IL
+POP  18000      2002             6158327     IN
+POP  19000      2002             2934776     IA
+POP  20000      2002             2712896     KS
+POP  21000      2002             4089985     KY
+POP  22000      2002             4477042     LA
+POP  23000      2002             1297750     ME
+POP  24000      2002             5441531     MD
+POP  25000      2002             6412554     MA
+POP  26000      2002            10042495     MI
+POP  27000      2002             5025081     MN
+POP  28000      2002             2867635     MS
+POP  29000      2002             5679770     MO
+POP  30000      2002              910670     MT
+POP  31000      2002             1726437     NE
+POP  32000      2002             2168304     NV
+POP  33000      2002             1275607     NH
+POP  34000      2002             8577250     NJ
+POP  35000      2002             1855143     NM
+POP  36000      2002            19151066     NY
+POP  37000      2002             8311899     NC
+POP  38000      2002              633799     ND
+POP  39000      2002            11410396     OH
+POP  40000      2002             3488201     OK
+POP  41000      2002             3523281     OR
+POP  42000      2002            12328459     PA
+POP  44000      2002             1068897     RI
+POP  45000      2002             4105848     SC
+POP  46000      2002              760452     SD
+POP  47000      2002             5792297     TN
+POP  48000      2002            21723220     TX
+POP  49000      2002             2319743     UT
+POP  50000      2002              616500     VT
+POP  51000      2002             7273572     VA
+POP  53000      2002             6067146     WA
+POP  54000      2002             1805230     WV
+POP  55000      2002             5440367     WI
+POP  56000      2002              499192     WY
+POP  72000      2002             3859606     PR
+POP  78000      2002              108612     VI
+/END/

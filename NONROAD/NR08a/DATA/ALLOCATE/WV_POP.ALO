@@ -1,0 +1,80 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent HUMAN POPULATION
+
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+POP  54000      2002             1805230     WV
+POP  54001      2002               15541     Barbour
+POP  54003      2002               81462     Berkeley
+POP  54005      2002               25667     Boone
+POP  54007      2002               14809     Braxton
+POP  54009      2002               25053     Brooke
+POP  54011      2002               95432     Cabell
+POP  54013      2002                7372     Calhoun
+POP  54015      2002               10398     Clay
+POP  54017      2002                7452     Doddridge
+POP  54019      2002               47153     Fayette
+POP  54021      2002                7016     Gilmer
+POP  54023      2002               11353     Grant
+POP  54025      2002               34609     Greenbrier
+POP  54027      2002               20969     Hampshire
+POP  54029      2002               32070     Hancock
+POP  54031      2002               12841     Hardy
+POP  54033      2002               68001     Harrison
+POP  54035      2002               28239     Jackson
+POP  54037      2002               44972     Jefferson
+POP  54039      2002              196109     Kanawha
+POP  54041      2002               16909     Lewis
+POP  54043      2002               22325     Lincoln
+POP  54045      2002               37010     Logan
+POP  54047      2002               26062     McDowell
+POP  54049      2002               56334     Marion
+POP  54051      2002               35022     Marshall
+POP  54053      2002               26056     Mason
+POP  54055      2002               62170     Mercer
+POP  54057      2002               27115     Mineral
+POP  54059      2002               27735     Mingo
+POP  54061      2002               82723     Monongalia
+POP  54063      2002               13330     Monroe
+POP  54065      2002               15327     Morgan
+POP  54067      2002               26381     Nicholas
+POP  54069      2002               46273     Ohio
+POP  54071      2002                7939     Pendleton
+POP  54073      2002                7541     Pleasants
+POP  54075      2002                8959     Pocahontas
+POP  54077      2002               29650     Preston
+POP  54079      2002               52309     Putnam
+POP  54081      2002               79252     Raleigh
+POP  54083      2002               28388     Randolph
+POP  54085      2002               10423     Ritchie
+POP  54087      2002               15299     Roane
+POP  54089      2002               14009     Summers
+POP  54091      2002               16138     Taylor
+POP  54093      2002                7237     Tucker
+POP  54095      2002                9413     Tyler
+POP  54097      2002               23402     Upshur
+POP  54099      2002               42439     Wayne
+POP  54101      2002                9749     Webster
+POP  54103      2002               17264     Wetzel
+POP  54105      2002                5851     Wirt
+POP  54107      2002               87731     Wood
+POP  54109      2002               24947     Wyoming
+/END/

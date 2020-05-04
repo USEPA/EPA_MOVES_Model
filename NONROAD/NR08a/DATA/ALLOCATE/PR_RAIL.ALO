@@ -1,0 +1,105 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent LOCOMOTIVE NOx TONS
+from Draft 2002 NEI
+
+9/1/05 epa: Modifies to treat PR & VI as additional to US Total.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+RR   72000      2002               0.000     PR
+RR   72001      2002               0.000     Adjuntas
+RR   72003      2002               0.000     Aguada
+RR   72005      2002               0.000     Aguadilla
+RR   72007      2002               0.000     Aguas Buenas
+RR   72009      2002               0.000     Aibonito
+RR   72011      2002               0.000     Añasco
+RR   72013      2002               0.000     Arecibo
+RR   72015      2002               0.000     Arroyo
+RR   72017      2002               0.000     Barceloneta
+RR   72019      2002               0.000     Barranquitas
+RR   72021      2002               0.000     Bayamón
+RR   72023      2002               0.000     Cabo Rojo
+RR   72025      2002               0.000     Caguas
+RR   72027      2002               0.000     Camuy
+RR   72029      2002               0.000     Canóvanas
+RR   72031      2002               0.000     Carolina
+RR   72033      2002               0.000     Cataño
+RR   72035      2002               0.000     Cayey
+RR   72037      2002               0.000     Ceiba
+RR   72039      2002               0.000     Ciales
+RR   72041      2002               0.000     Cidra
+RR   72043      2002               0.000     Coamo
+RR   72045      2002               0.000     Comerío
+RR   72047      2002               0.000     Corozal
+RR   72049      2002               0.000     Culebra
+RR   72051      2002               0.000     Dorado
+RR   72053      2002               0.000     Fajardo
+RR   72054      2002               0.000     Florida
+RR   72055      2002               0.000     Guánica
+RR   72057      2002               0.000     Guayama
+RR   72059      2002               0.000     Guayanilla
+RR   72061      2002               0.000     Guaynabo
+RR   72063      2002               0.000     Gurabo
+RR   72065      2002               0.000     Hatillo
+RR   72067      2002               0.000     Hormigueros
+RR   72069      2002               0.000     Humacao
+RR   72071      2002               0.000     Isabela
+RR   72073      2002               0.000     Jayuya
+RR   72075      2002               0.000     Juana Díaz
+RR   72077      2002               0.000     Juncos
+RR   72079      2002               0.000     Lajas
+RR   72081      2002               0.000     Lares
+RR   72083      2002               0.000     Las Marías
+RR   72085      2002               0.000     Las Piedras
+RR   72087      2002               0.000     Loíza
+RR   72089      2002               0.000     Luquillo
+RR   72091      2002               0.000     Manatí
+RR   72093      2002               0.000     Maricao
+RR   72095      2002               0.000     Maunabo
+RR   72097      2002               0.000     Mayagüez
+RR   72099      2002               0.000     Moca
+RR   72101      2002               0.000     Morovis
+RR   72103      2002               0.000     Naguabo
+RR   72105      2002               0.000     Naranjito
+RR   72107      2002               0.000     Orocovis
+RR   72109      2002               0.000     Patillas
+RR   72111      2002               0.000     Peñuelas
+RR   72113      2002               0.000     Ponce
+RR   72115      2002               0.000     Quebradillas
+RR   72117      2002               0.000     Rincón
+RR   72119      2002               0.000     Río Grande
+RR   72121      2002               0.000     Sabana Grande
+RR   72123      2002               0.000     Salinas
+RR   72125      2002               0.000     San Germán
+RR   72127      2002               0.000     San Juan
+RR   72129      2002               0.000     San Lorenzo
+RR   72131      2002               0.000     San Sebastián
+RR   72133      2002               0.000     Santa Isabel
+RR   72135      2002               0.000     Toa Alta
+RR   72137      2002               0.000     Toa Baja
+RR   72139      2002               0.000     Trujillo Alto
+RR   72141      2002               0.000     Utuado
+RR   72143      2002               0.000     Vega Alta
+RR   72145      2002               0.000     Vega Baja
+RR   72147      2002               0.000     Vieques
+RR   72149      2002               0.000     Villalba
+RR   72151      2002               0.000     Yabucoa
+RR   72153      2002               0.000     Yauco
+/END/

@@ -1,0 +1,134 @@
+This file contains deterioration factors data for exhaust CO
+emissions.  The deterioration factors are specified by tech 
+type.  The values are actually the coefficients of the 
+deterioration equation: 
+               DF = 1 + A * (age)**b
+                      where:
+                            DF = new deterioation factor
+                            A  = coefficient specified here
+                            age = age of the engine
+            (cum. hours * load factor / median life in hours)
+                            b  = coefficient specified here
+An ALL in the tech type field will apply to all technology 
+types. 
+Any tech type not listed in this file will assume to have
+no deterioration on the emission factor.
+
+9/28/07 16e: like 16c but change dsl recmarine Base, T0, T1 to BaseM, T0M, T1M; 
+  & RecEq TechTypes to RM2, RM4, RM40 (closed crankcase), RM21, RM41, RSxx (snowmobile), RAxx (ATV), etc. for MOVES. 
+
+--------------------------------------------------------------
+The format is as follows:
+       1-10  character     -- technology type code
+      21-30  real          -- A coefficient in the equation
+      31-40  real          -- b coefficient in the equation
+      41-50  real          -- emissions cap (in median life units)
+      51-60  character     -- pollutant name
+--------------------------------------------------------------
+
+/DETFAC/
+G2H3                       0.2       1.0       1.0        CO
+G2H31                     0.24       1.0       1.0        CO
+G2H3C1                    0.24       1.0       1.0        CO
+G2H32                     0.24       1.0       1.0        CO
+G2H3C2                    0.24       1.0       1.0        CO
+G2H4                       0.2       1.0       1.0        CO
+G2H41                     0.24       1.0       1.0        CO
+G2H4C1                    0.24       1.0       1.0        CO
+G4H41                     0.90       0.5       1.0        CO
+G2H42                     0.24       1.0       1.0        CO
+G2H4C2                    0.24       1.0       1.0        CO
+G4H42                     0.90       0.5       1.0        CO
+G2H5                       0.2       1.0       1.0        CO
+G2H51                    0.231       1.0       1.0        CO
+G2H5C1                   0.231       1.0       1.0        CO
+G2H52                    0.231       1.0       1.0        CO
+G2H5C2                   0.231       1.0       1.0        CO
+G2N1                     0.199       1.0       2.0        CO
+G4N1S                     0.90       0.5       2.0        CO
+G4N1O                     0.90       0.5       2.0        CO
+G2N1                     0.231       1.0       2.0        CO
+G4N1S1                   1.109       0.5       2.0        CO
+G4N1O1                   1.051       0.5       2.0        CO
+G4N1SC1                  1.109       0.5       2.0        CO
+G4N1S2                   0.070       0.5       2.0        CO
+G4N1O2                   0.070       0.5       2.0        CO
+G4N1S3                   0.070       0.5       2.0        CO
+G4N1O3                   0.070       0.5       2.0        CO
+G2N2                     0.199       1.0       2.0        CO
+G4N2S                     0.90       0.5       2.0        CO
+G4N2O                     0.90       0.5       2.0        CO
+G4N2S1                   0.887       0.5       2.0        CO
+G4N2O1                   1.307       0.5       2.0        CO
+G4N2S2                   0.080       0.5       2.0        CO
+G4N2O2                   0.080       0.5       2.0        CO
+G4N23                    0.080       0.5       2.0        CO
+G4N23a                   0.080       0.5       2.0        CO
+G4N23b                   0.080       0.5       2.0        CO
+G2GT25                   0.199       1.0       1.0        CO
+G4GT25                    0.35       1.0       1.0        CO
+G4GT251                   0.36       1.0       1.0        CO
+G4GT252                   0.36       1.0       1.0        CO
+RM2                      0.199       1.0       1.0        CO
+RM21                     0.199       1.0       1.0        CO
+RS2                      0.199       1.0       1.0        CO
+RS21                     0.199       1.0       1.0        CO
+RS22                     0.199       1.0       1.0        CO
+RA2                      0.199       1.0       1.0        CO
+RA21                     0.199       1.0       1.0        CO
+RM4                       0.17       0.5       1.0        CO
+RM40                      0.17       0.5       1.0        CO
+RM41                      0.17       0.5       1.0        CO
+RM42                      0.17       0.5       1.0        CO
+RS4                       0.17       0.5       1.0        CO
+RS40                      0.17       0.5       1.0        CO
+RS41                      0.17       0.5       1.0        CO
+RS42                      0.17       0.5       1.0        CO
+RA4                       0.17       0.5       1.0        CO
+RA40                      0.17       0.5       1.0        CO
+RA41                      0.17       0.5       1.0        CO
+RA42                      0.17       0.5       1.0        CO
+LGT25                     0.35       1.0       1.0        CO
+LGT251                    0.36       1.0       1.0        CO
+LGT252                    0.36       1.0       1.0        CO
+NGT25                     0.35       1.0       1.0        CO
+NGT251                    0.36       1.0       1.0        CO
+NGT252                    0.36       1.0       1.0        CO
+Base                     0.185       1.0       1.0        CO
+T0                       0.185       1.0       1.0        CO
+T1                       0.101       1.0       1.0        CO
+T2                       0.101       1.0       1.0        CO
+T3                       0.151       1.0       1.0        CO
+T3B                      0.151       1.0       1.0        CO
+T4A                      0.151       1.0       1.0        CO
+T4B                      0.151       1.0       1.0        CO
+T4                       0.151       1.0       1.0        CO
+T4N1                     0.151       1.0       1.0        CO
+T4N                      0.151       1.0       1.0        CO
+BaseM                    0.185       1.0       1.0        CO
+T0M                      0.185       1.0       1.0        CO
+T1M                      0.101       1.0       1.0        CO
+T2M                      0.101       1.0       1.0        CO
+T3M                      0.101       1.0       1.0        CO
+T4M                      0.101       1.0       1.0        CO
+MO2C                       0.0       1.0       1.0        CO
+MO2I                      0.03       1.0       1.0        CO
+MO2D                      0.03       1.0       1.0        CO
+MO4C                      0.05       1.0       1.0        CO
+MO4I                      0.03       1.0       1.0        CO
+MO4D                      0.03       1.0       1.0        CO
+MOC1                      0.05       1.0       1.0        CO
+MOC2                      0.05       1.0       1.0        CO
+MP2C                       0.0       1.0       1.0        CO
+MP2CA                     0.26       1.0       1.0        CO
+MP2I                      0.03       1.0       1.0        CO
+MP2D                      0.03       1.0       1.0        CO
+MP4C                      0.05       1.0       1.0        CO
+MP4I                      0.03       1.0       1.0        CO
+MP4D                      0.03       1.0       1.0        CO
+MPC1                      0.05       1.0       1.0        CO
+MS4C                      0.35       1.0       1.0        CO
+MS4D                      0.35       1.0       1.0        CO
+MSC1                      0.36       1.0       1.0        CO
+MS4X                      0.35       1.0       1.0        CO
+/END/

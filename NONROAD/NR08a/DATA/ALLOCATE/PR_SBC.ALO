@@ -1,0 +1,103 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RELATIVE NUMBER OF COMMERCIAL SNOWBLOWERS
+Same as LSCAP allocation factors, with value set to 0 for counties with snowfall < 15"
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+SBC  72000      2002                   0     PR
+SBC  72001      2002                   0     Adjuntas
+SBC  72003      2002                   0     Aguada
+SBC  72005      2002                   0     Aguadilla
+SBC  72007      2002                   0     Aguas Buenas
+SBC  72009      2002                   0     Aibonito
+SBC  72011      2002                   0     Añasco
+SBC  72013      2002                   0     Arecibo
+SBC  72015      2002                   0     Arroyo
+SBC  72017      2002                   0     Barceloneta
+SBC  72019      2002                   0     Barranquitas
+SBC  72021      2002                   0     Bayamón
+SBC  72023      2002                   0     Cabo Rojo
+SBC  72025      2002                   0     Caguas
+SBC  72027      2002                   0     Camuy
+SBC  72029      2002                   0     Canóvanas
+SBC  72031      2002                   0     Carolina
+SBC  72033      2002                   0     Cataño
+SBC  72035      2002                   0     Cayey
+SBC  72037      2002                   0     Ceiba
+SBC  72039      2002                   0     Ciales
+SBC  72041      2002                   0     Cidra
+SBC  72043      2002                   0     Coamo
+SBC  72045      2002                   0     Comerío
+SBC  72047      2002                   0     Corozal
+SBC  72049      2002                   0     Culebra
+SBC  72051      2002                   0     Dorado
+SBC  72053      2002                   0     Fajardo
+SBC  72054      2002                   0     Florida
+SBC  72055      2002                   0     Guánica
+SBC  72057      2002                   0     Guayama
+SBC  72059      2002                   0     Guayanilla
+SBC  72061      2002                   0     Guaynabo
+SBC  72063      2002                   0     Gurabo
+SBC  72065      2002                   0     Hatillo
+SBC  72067      2002                   0     Hormigueros
+SBC  72069      2002                   0     Humacao
+SBC  72071      2002                   0     Isabela
+SBC  72073      2002                   0     Jayuya
+SBC  72075      2002                   0     Juana Díaz
+SBC  72077      2002                   0     Juncos
+SBC  72079      2002                   0     Lajas
+SBC  72081      2002                   0     Lares
+SBC  72083      2002                   0     Las Marías
+SBC  72085      2002                   0     Las Piedras
+SBC  72087      2002                   0     Loíza
+SBC  72089      2002                   0     Luquillo
+SBC  72091      2002                   0     Manatí
+SBC  72093      2002                   0     Maricao
+SBC  72095      2002                   0     Maunabo
+SBC  72097      2002                   0     Mayagüez
+SBC  72099      2002                   0     Moca
+SBC  72101      2002                   0     Morovis
+SBC  72103      2002                   0     Naguabo
+SBC  72105      2002                   0     Naranjito
+SBC  72107      2002                   0     Orocovis
+SBC  72109      2002                   0     Patillas
+SBC  72111      2002                   0     Peñuelas
+SBC  72113      2002                   0     Ponce
+SBC  72115      2002                   0     Quebradillas
+SBC  72117      2002                   0     Rincón
+SBC  72119      2002                   0     Río Grande
+SBC  72121      2002                   0     Sabana Grande
+SBC  72123      2002                   0     Salinas
+SBC  72125      2002                   0     San Germán
+SBC  72127      2002                   0     San Juan
+SBC  72129      2002                   0     San Lorenzo
+SBC  72131      2002                   0     San Sebastián
+SBC  72133      2002                   0     Santa Isabel
+SBC  72135      2002                   0     Toa Alta
+SBC  72137      2002                   0     Toa Baja
+SBC  72139      2002                   0     Trujillo Alto
+SBC  72141      2002                   0     Utuado
+SBC  72143      2002                   0     Vega Alta
+SBC  72145      2002                   0     Vega Baja
+SBC  72147      2002                   0     Vieques
+SBC  72149      2002                   0     Villalba
+SBC  72151      2002                   0     Yabucoa
+SBC  72153      2002                   0     Yauco
+/END/

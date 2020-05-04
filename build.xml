@@ -1,0 +1,1092 @@
+<project name="MOVES" default="targets" basedir=".">
+	<target name="targets">
+		<echo message=""/>
+		<echo message="ant build file for MOVES"/>
+		<echo message=""/>
+		<echo message="Available targets:"/>
+		<echo message="targets      - this listing of targets"/>
+		<echo message="all          - recompile and retest *everything*"/>
+		<echo message="alltests     - all tests"/>
+		<echo message="clean        - delete previously built .class files"/>
+		<echo message="cleantests   - delete all previously built test results"/>
+		<echo message="compile      - compile changed Java classes"/>
+		<echo message="compileall   - compile all Java classes"/>
+		<echo message="docs         - generate Java docs"/>
+		<echo message="go           - compile the Go-based calculator"/>
+		<echo message="fasttests    - all fast tests"/>
+		<echo message="guitests     - all GUI unit tests in testdata/abbot/production"/>
+		<echo message="inprogressguitests - all GUI unit tests in testdata/abbot/inprogress"/>
+		<echo message="rungui       - display the MOVES Master user interface"/>
+		<echo message="runworker    - display the MOVES Worker user interface"/>
+		<echo message="crungui      - compile and run the MOVES Master user interface"/>
+		<echo message="crunworker   - compile and run the MOVES Worker user interface"/>
+		<echo message="slowtests    - all slow tests"/>
+		<echo message="unittests    - all unit tests (except GUI tests)"/>
+		<echo message="recenttests  - recent tests, as set by development"/>
+		<echo message="geotools     - run GeoTools Demonstration application" />
+		<echo message="gistests     - run GIS tests" />
+		<echo message="slowqueries  - analyze MySQL slow queries" />
+		<echo message="errormessages- Generate error message RTF file" />
+		<echo message="algorithms   - Generate algorithm HTML file" />
+		<echo message="costello     - run the Costello tool for building GUI test scripts" />
+		<echo message="fueltest     - run tests on the FuelEffectsGenerator" />
+		<echo message="startmysql   - start a local copy of MySQL" />
+		<echo message="stopmysql    - stop the local copy of MySQL" />
+		<echo message="1worker      - start a local copy of MySQL and 1 local worker" />
+		<echo message="               using the manyworkers.txt configuration file." />
+		<echo message="               The worker will shutdown after there have been" />
+		<echo message="               no TODO or InProgress files present for 2 minutes." />
+		<echo message="               After the worker stops, the local copy of MySQL" />
+		<echo message="               is stopped as well." />
+		<echo message="               Before using, edit manyworkers.txt to use your" />
+		<echo message="               system's sharedDistributedFolderPath." />
+		<echo message="               If the MySQL daemon is already running, a local" />
+		<echo message="               copy of MySQL will not be started nor will the" />
+		<echo message="               the daemon be stopped, but the worker(s) will still" />
+		<echo message="               be started." />
+		<echo message="               The ANT flag -Dnoshutdown=1 may be given to start" />
+		<echo message="               the worker but never shut it down even when work" />
+		<echo message="               is no longer available." />
+		<echo message="2workers     - like 1worker but with 2 concurrent workers and" />
+		<echo message="               1 MySQL instance" />
+		<echo message="4workers     - like 2workers but with 4 concurrent workers" />
+		<echo message="6workers     - like 2workers but with 6 concurrent workers" />
+		<echo message="8workers     - like 2workers but with 8 concurrent workers" />
+		<echo message="12workers    - like 2workers but with 12 concurrent workers" />
+		<echo message="14workers    - like 2workers but with 14 concurrent workers" />
+		<echo message="20workers    - like 2workers but with 20 concurrent workers" />
+		<echo message="24workers    - like 2workers but with 24 concurrent workers" />
+		<echo message="28workers    - like 2workers but with 28 concurrent workers" />
+		<echo message="32workers    - like 2workers but with 32 concurrent workers" />
+		<echo message="maketodo     - start a local copy of MySQL and 1 master," />
+		<echo message="               set to only generate TODO files without getting" />
+		<echo message="               DONE files or deleting TODO, DONE, or InProgress" />
+		<echo message="               files upon exiting.  Use -Drunspec= to name the" />
+		<echo message="               one runspec that will be used. Before using," />
+		<echo message="               edit maketodo.txt to use your system's" />
+		<echo message="               system's sharedDistributedFolderPath." />
+		<echo message="               If the MySQL daemon is already running, a local" />
+		<echo message="               copy of MySQL will not be started nor will the" />
+		<echo message="               the daemon be stopped, but the master will still" />
+		<echo message="               be started. IMPORTANT: Use setlogin first." />
+		<echo message="    ant -Drunspec=c:\myrunspecs\runspec1.mrs maketodo" />
+		<echo message="master1worker -start a local copy of MySQL and 1 master," />
+		<echo message="               set to start a single worker and wait for its" />
+		<echo message="               DONE files.  Like maketodo, use -Drunspec= to" />
+		<echo message="               specify the runspec.  Before using edit both" />
+		<echo message="               maketodo.txt and manyworkers.txt for your" />
+		<echo message="               system's master and worker path settings." />
+		<echo message="               If the MySQL daemon is already running, a local" />
+		<echo message="               copy of MySQL will not be started nor will the" />
+		<echo message="               the daemon be stopped, but the master, and its" />
+		<echo message="               will still be started. IMPORTANT: Use setlogin first." />
+		<echo message="pickup       - start a local copy of MySQL and a master" />
+		<echo message="               that will pickup DONE files.  Use -Dpdspec= to" />
+		<echo message="               name the PDSpec XML file that will be used." />
+		<echo message="               Before using, edit maketodo.txt to use your system's" />
+		<echo message="               system's sharedDistributedFolderPath." />
+		<echo message="               If the MySQL daemon is already running, a local" />
+		<echo message="               copy of MySQL will not be started nor will the" />
+		<echo message="               the daemon be stopped, but the master will still" />
+		<echo message="               be started. IMPORTANT: Use setlogin first." />
+		<echo message="    ant -Dpdspec=c:\myinfo\filestoget.xml pickup" />
+		<echo message="makeamazon   - create amazon/movesamazon.jar utilities" />
+		<echo message="jarcode      - create a jar of the current code for use with Amazon" />
+		<echo message="    ant -Dbuild=20101011 jarcode" />
+		<echo message="    above makes code_20101011.jar" />
+		<echo message="convert      - run a database conversion script. IMPORTANT: Use setlogin first." />
+		<echo message="    ant -Dinput=2014input -Doutput=2014Ainput -Dscript=Convert2014_CDM_PDM.sql convert" />
+		<echo message="run          - Execute a runspec. IMPORTANT: Use setlogin first." />
+		<echo message="               Use -Drunspec= to name the one runspec that will be used." />
+		<echo message="    ant -Drunspec=c:\myrunspecs\runspec1.mrs run" />
+		<echo message="setlogin     - store database user and password" />
+		<echo message="    ant -Duser=moves -Dpassword=secret setlogin" />
+	</target>
+
+	<path id="classpath">
+		<pathelement location="." />
+		<pathelement location="libs/poi/xmlbeans-2.3.0.jar" />
+		<pathelement location="libs/jlfgr-1_0.jar" />
+		<pathelement location="libs/junit-4.5.jar" />
+		<pathelement location="libs/mysql-connector-java-5.1.17-bin.jar" />
+		<pathelement location="libs/jaxp-api.jar" />
+		<pathelement location="libs/xercesImpl.jar" />
+		<pathelement location="libs/xml-apis.jar" />
+		<pathelement location="libs/sax.jar" />
+		<pathelement location="libs/jakarta-regexp-1.3.jar" />
+		<pathelement location="libs/jai_core.jar" />
+		<pathelement location="libs/jai_codec.jar" />
+		<pathelement location="libs/commons-lang-2.2.jar" />
+		<pathelement location="libs/geotools/gt-api-2.5.4.jar" />
+		<pathelement location="libs/geotools/gt-coverage-2.5.4.jar" />
+		<pathelement location="libs/geotools/gt-main-2.5.4.jar" />
+		<pathelement location="libs/geotools/gt-render-2.5.4.jar" />
+		<pathelement location="libs/geotools/gt-wfs-2.5.4.jar" />
+		<pathelement location="libs/geotools/gt-wms-2.5.4.jar" />
+		<pathelement location="libs/geotools/gt2-mappane-2.3.0.jar" />
+		<pathelement location="libs/geotools/gt-referencing-2.5.4.jar" />
+		<pathelement location="libs/geotools/jsr-275-1.0-beta-2.jar" />
+		<pathelement location="libs/geotools/gt-shapefile-2.5.4.jar" />
+		<pathelement location="libs/geotools/gt-shapefile-renderer-2.5.4.jar" />
+		<pathelement location="libs/geotools/jts-1.9.jar" />
+		<pathelement location="libs/geotools/geoapi-2.2-M1.jar" />
+		<pathelement location="libs/geotools/gt-metadata-2.5.4.jar" />
+		<pathelement location="libs/abbot/abbot.jar" />
+		<pathelement location="libs/abbot/bsh-2.0b4.jar" />
+		<pathelement location="libs/abbot/costello.jar" />
+		<pathelement location="libs/abbot/gnu-regexp-1.1.0.jar" />
+		<pathelement location="libs/abbot/jdom-1.0.jar" />
+		<pathelement location="libs/poi/commons-codec-1.5.jar" />
+		<pathelement location="libs/poi/commons-logging-1.1.jar" />
+		<pathelement location="libs/poi/dom4j-1.6.1.jar" />
+		<pathelement location="libs/poi/log4j-1.2.13.jar" />
+		<pathelement location="libs/poi/poi-3.9-20121203.jar" />
+		<pathelement location="libs/poi/poi-ooxml-3.9-20121203.jar" />
+		<pathelement location="libs/poi/poi-ooxml-schemas-3.9-20121203.jar" />
+		<pathelement location="libs/poi/stax-api-1.0.1.jar" />
+		<pathelement location="amazon/libs/aws-java-sdk-1.1.4.jar" />
+		<pathelement location="amazon/libs/commons-codec-1.3.jar" />
+		<pathelement location="amazon/libs/commons-httpclient-3.0.1.jar" />
+		<pathelement location="amazon/libs/commons-logging-1.1.1.jar" />
+		<pathelement location="amazon/libs/jackson-core-asl-1.4.3.jar" />
+		<pathelement location="amazon/libs/mail-1.4.3.jar" />
+		<pathelement location="amazon/libs/stax-1.2.0.jar" />
+		<pathelement location="amazon/libs/stax-api-1.0.1.jar" />
+	</path>
+
+	<target name="init">
+	</target>
+
+	<target name="all" depends="compileall,docs,alltests">
+	</target>
+
+	<target name="alltests" depends="compile,cleantests,unittests,fasttests,guitests,slowtests">
+	</target>
+
+	<target name="clean" depends="init">
+		<delete>
+			<fileset dir="." includes="**/*.class"/>
+		</delete>
+	</target>
+
+	<target name="cleantests" depends="init">
+		<delete dir="./junitreports" quiet="true" />
+	</target>
+
+	<target name="compile" depends="init">
+		<javac srcdir="." includes="**/*.java" debug="on" deprecation="on">
+			<classpath refid="classpath" />
+		</javac>
+	</target>
+
+	<target name="compileall" depends="clean,compile">
+	</target>
+
+	<target name="docs" depends="init">
+		<delete dir="./javadocs" quiet="true" />
+		<mkdir dir="./javadocs" />
+		<javadoc destdir="./javadocs" author="true" version="true" private="true" windowtitle="MOVES">
+			<doctitle><![CDATA[<br>MOVES</br>]]></doctitle>
+			<packageset dir="." defaultexcludes="yes">
+				<include name="gov/epa/otaq/gis/**" />
+				<include name="gov/epa/otaq/moves/**" />
+			</packageset>
+		</javadoc>
+	</target>
+
+	<target name="fasttests" depends="compile">
+		<mkdir dir="./junitreports" />
+		<mkdir dir="./junitreports/html" />
+		<junit fork="yes" printsummary="yes" haltonerror="no" haltonfailure="no">
+			<classpath refid="classpath" />
+			<classpath>
+				<pathelement path="${java.class.path}" />
+			</classpath>
+			<formatter type="xml" />
+			<batchtest fork="yes" todir="./junitreports">
+				<fileset dir="./">
+					<include name="**/gov/epa/otaq/moves/systemtests/fast/*Test.java" />
+				</fileset>
+			</batchtest>
+		</junit>
+		<junitreport todir="./junitreports">
+			<fileset dir="./junitreports">
+				<include name="TEST-*.xml"/>
+			</fileset>
+			<report format="frames" todir="./junitreports/html"/>
+		</junitreport>
+	</target>
+
+	<target name="guitests" depends="compile">
+		<mkdir dir="./junitreports" />
+		<mkdir dir="./junitreports/html" />
+		<junit fork="yes" printsummary="withOutAndErr" haltonerror="no" haltonfailure="no">
+			<sysproperty key="abbot.testsuite.path" value="testdata/abbot/production"/>
+			<test name="gov.epa.otaq.moves.common.ScriptTestSuite" fork="yes" todir="./junitreports"/>
+			<formatter type="xml" />
+			<classpath refid="classpath" />
+			<classpath>
+				<pathelement path="${java.class.path}" />
+			</classpath>
+		</junit>
+		<junitreport todir="./junitreports">
+			<fileset dir="./junitreports">
+				<include name="TEST-*.xml"/>
+			</fileset>
+			<report format="frames" todir="./junitreports/html"/>
+		</junitreport>
+	</target>
+
+	<target name="inprogressguitests" depends="compile">
+		<mkdir dir="./junitreports" />
+		<mkdir dir="./junitreports/html" />
+		<junit fork="yes" printsummary="withOutAndErr" haltonerror="no" haltonfailure="no">
+			<sysproperty key="abbot.testsuite.path" value="testdata/abbot/inprogress"/>
+			<test name="gov.epa.otaq.moves.common.ScriptTestSuite" fork="yes" todir="./junitreports"/>
+			<formatter type="xml" />
+			<classpath refid="classpath" />
+			<classpath>
+				<pathelement path="${java.class.path}" />
+			</classpath>
+		</junit>
+		<junitreport todir="./junitreports">
+			<fileset dir="./junitreports">
+				<include name="TEST-*.xml"/>
+			</fileset>
+			<report format="frames" todir="./junitreports/html"/>
+		</junitreport>
+	</target>
+
+	<target name="crungui" depends="compile">
+		<java classname="gov.epa.otaq.moves.master.gui.MOVESGUI" fork="yes" maxmemory="512m">
+			<classpath refid="classpath" />
+		</java>
+	</target>
+
+	<target name="crunworker" depends="compile">
+		<java classname="gov.epa.otaq.moves.worker.gui.WorkerGUI" fork="yes" maxmemory="512m">
+			<classpath refid="classpath" />
+		</java>
+	</target>
+
+	<target name="rungui" depends="">
+		<java classname="gov.epa.otaq.moves.master.gui.MOVESGUI" fork="yes" maxmemory="512m">
+			<classpath refid="classpath" />
+		</java>
+	</target>
+
+	<target name="runworker" depends="">
+		<java classname="gov.epa.otaq.moves.worker.gui.WorkerGUI" fork="yes" maxmemory="512m">
+			<classpath refid="classpath" />
+		</java>
+	</target>
+
+	<target name="slowtests" depends="compile">
+		<mkdir dir="./junitreports" />
+		<mkdir dir="./junitreports/html" />
+		<junit fork="yes" printsummary="yes" haltonerror="no" haltonfailure="no">
+			<classpath refid="classpath" />
+			<classpath>
+				<pathelement path="${java.class.path}" />
+			</classpath>
+			<formatter type="xml" />
+			<batchtest fork="yes" todir="./junitreports">
+				<fileset dir="./">
+					<include name="**/gov/epa/otaq/moves/systemtests/slow/*Test.java" />
+				</fileset>
+			</batchtest>
+		</junit>
+		<junitreport todir="./junitreports">
+			<fileset dir="./junitreports">
+				<include name="TEST-*.xml"/>
+			</fileset>
+			<report format="frames" todir="./junitreports/html"/>
+		</junitreport>
+	</target>
+
+	<target name="unittests" depends="compile">
+		<mkdir dir="./junitreports" />
+		<mkdir dir="./junitreports/html" />
+		<junit fork="yes" printsummary="yes" haltonerror="no" haltonfailure="no">
+			<classpath refid="classpath" />
+			<classpath>
+				<pathelement path="${java.class.path}" />
+			</classpath>
+			<formatter type="xml" />
+			<batchtest fork="yes" todir="./junitreports">
+				<fileset dir="./">
+					<include name="**/gov/epa/otaq/moves/master/runspec/*Test.java" />
+					<include name="**/gov/epa/otaq/moves/master/framework/*Test.java" />
+					<include name="**/gov/epa/otaq/moves/master/commandline/*Test.java" />
+					<include name="**/gov/epa/otaq/moves/master/implementation/*Test.java" />
+					<include name="**/gov/epa/otaq/moves/master/implementation/ghg/*Test.java" />
+					<include name="**/gov/epa/otaq/moves/worker/commandline/*Test.java" />
+					<include name="**/gov/epa/otaq/moves/worker/framework/*Test.java" />
+					<include name="**/gov/epa/otaq/moves/common/*Test.java" />
+					<include name="**/gov/epa/otaq/gis/common/*Test.java" />
+					<include name="**/gov/epa/otaq/gis/api/*Test.java" />
+				</fileset>
+			</batchtest>
+		</junit>
+		<junitreport todir="./junitreports">
+			<fileset dir="./junitreports">
+				<include name="TEST-*.xml"/>
+			</fileset>
+			<report format="frames" todir="./junitreports/html"/>
+		</junitreport>
+	</target>
+
+	<target name="recenttests" depends="compile">
+		<mkdir dir="./junitreports" />
+		<mkdir dir="./junitreports/html" />
+		<junit fork="yes" printsummary="yes" haltonerror="no" haltonfailure="no">
+			<classpath refid="classpath" />
+			<classpath>
+				<pathelement path="${java.class.path}" />
+			</classpath>
+			<formatter type="xml" />
+			<batchtest fork="yes" todir="./junitreports">
+				<fileset dir="./">
+					<include name="**/gov/epa/otaq/moves/master/implementation/ghg/BaseRateGeneratorTest.java" />
+				</fileset>
+			</batchtest>
+		</junit>
+		<junitreport todir="./junitreports">
+			<fileset dir="./junitreports">
+				<include name="TEST-*.xml"/>
+			</fileset>
+			<report format="frames" todir="./junitreports/html"/>
+		</junitreport>
+	</target>
+
+	<target name="oldrecenttests" depends="compile">
+		<mkdir dir="./junitreports" />
+		<mkdir dir="./junitreports/html" />
+		<junit fork="yes" printsummary="yes" haltonerror="no" haltonfailure="no">
+			<classpath refid="classpath" />
+			<classpath>
+				<pathelement path="${java.class.path}" />
+			</classpath>
+			<formatter type="xml" />
+			<batchtest fork="yes" todir="./junitreports">
+				<fileset dir="./">
+					<include name="**/gov/epa/otaq/moves/common/PermutationCreatorTest.java" />
+					<include name="**/gov/epa/otaq/moves/common/WildcardMatcherTest.java" />
+					<include name="**/gov/epa/otaq/moves/common/StringUtilitiesTest.java" />
+					<include name="**/gov/epa/otaq/moves/master/implementation/ghg/FuelEffectsGeneratorTest.java" />
+					<include name="**/gov/epa/otaq/moves/master/implementation/ghg/SulfurModelTest.java" />
+					<include name="**/gov/epa/otaq/moves/common/expression/TokenizerTest.java" />
+					<include name="**/gov/epa/otaq/moves/common/expression/ExpressionParserTest.java" />
+					<include name="**/gov/epa/otaq/moves/common/DistributedWorkFilePurposeTest.java" />
+					<include name="**/gov/epa/otaq/moves/common/DistributedWorkFileNameTest.java" />
+				</fileset>
+			</batchtest>
+		</junit>
+		<junitreport todir="./junitreports">
+			<fileset dir="./junitreports">
+				<include name="TEST-*.xml"/>
+			</fileset>
+			<report format="frames" todir="./junitreports/html"/>
+		</junitreport>
+	</target>
+
+	<target name="geotools" depends="">
+		<java classname="org.geotools.demo.introduction.DemoBase" fork="yes">
+			<classpath refid="classpath" />
+			<classpath>
+				<pathelement path="${java.class.path}" />
+			</classpath>
+		</java>
+	</target>
+
+	<target name="gistests" depends="compile">
+		<mkdir dir="./junitreports" />
+		<mkdir dir="./junitreports/html" />
+		<junit fork="yes" printsummary="yes" haltonerror="no" haltonfailure="no">
+			<classpath refid="classpath" />
+			<classpath>
+				<pathelement path="${java.class.path}" />
+			</classpath>
+			<formatter type="xml" />
+			<batchtest fork="yes" todir="./junitreports">
+				<fileset dir="./">
+					<include name="**/gov/epa/otaq/gis/common/*Test.java" />
+					<include name="**/gov/epa/otaq/gis/api/*Test.java" />
+				</fileset>
+			</batchtest>
+		</junit>
+		<junitreport todir="./junitreports">
+			<fileset dir="./junitreports">
+				<include name="TEST-*.xml"/>
+			</fileset>
+			<report format="frames" todir="./junitreports/html"/>
+		</junitreport>
+	</target>
+
+	<target name="slowqueries" depends="compile">
+		<java classname="gov.epa.otaq.moves.tools.MySQLSlowQueryAnalyzer" fork="yes" maxmemory="1000m">
+			<classpath refid="classpath" />
+			<classpath>
+				<pathelement path="${java.class.path}" />
+			</classpath>
+		</java>
+	</target>
+
+	<target name="errormessages" depends="compile">
+		<java classname="gov.epa.otaq.moves.tools.messages.MessageDocumentor" fork="yes" maxmemory="512m">
+			<classpath refid="classpath" />
+			<classpath>
+				<pathelement path="${java.class.path}" />
+			</classpath>
+			<arg value="MOVESMessages.rtf" />
+			<arg value="gov" />
+		</java>
+	</target>
+
+	<target name="errormessagesauto" depends="compile">
+		<java classname="gov.epa.otaq.moves.tools.messages.MessageDocumentor" fork="yes" maxmemory="512m" output="errormessages.txt">
+			<classpath refid="classpath" />
+			<classpath>
+				<pathelement path="${java.class.path}" />
+			</classpath>
+			<arg value="MOVESMessages.rtf" />
+			<arg value="gov" />
+		</java>
+	</target>
+
+	<target name="algorithms" depends="compile">
+		<java classname="gov.epa.otaq.moves.tools.messages.DocumentBuilder" fork="yes" maxmemory="512m">
+			<classpath refid="classpath" />
+			<classpath>
+				<pathelement path="${java.class.path}" />
+			</classpath>
+			<arg value="MOVESAlgorithms.html" />
+			<arg value="database" />
+			<arg value="gov" />
+			<arg value="calc" />
+		</java>
+	</target>
+
+	<target name="costello" depends="compile">
+		<java classname="abbot.editor.Costello" fork="yes" maxmemory="512m">
+			<classpath refid="classpath" />
+			<classpath>
+				<pathelement path="${java.class.path}" />
+			</classpath>
+		</java>
+	</target>
+
+	<target name="fueltest" depends="compile">
+		<java classname="gov.epa.otaq.moves.master.implementation.ghg.FuelEffectsGenerator" fork="yes">
+			<classpath refid="classpath" />
+			<classpath>
+				<pathelement path="${java.class.path}" />
+			</classpath>
+		</java>
+	</target>
+
+	<taskdef resource="net/sf/antcontrib/antcontrib.properties">
+		<classpath>
+			<pathelement location="libs/ant-contrib-1.0b3.jar"/>
+		</classpath>
+	</taskdef>
+
+	<macrodef name="appendworkercsv">
+		<sequential>
+			<math result="workercondition" operand1="${workercounter}" operation="min" operand2="1" datatype="int" />
+			<math result="workercountertemp" operand1="${workercounter}" operation="-" operand2="1" datatype="int" />
+			<var name="workercounter" value="${workercountertemp}" />
+			<if>
+				<equals arg1="${workercondition}" arg2="1" />
+				<then>
+					<if>
+						<equals arg1="${workercsv}" arg2="" />
+						<then>
+							<var name="workercsv" value="w" />
+						</then>
+						<else>
+							<var name="workercsv" value="${workercsv},w" />
+						</else>
+					</if>
+				</then>
+			</if>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="makeworkerlist">
+		<sequential>
+			<var name="workercounter" value="${maxworkers}" />
+			<var name="workercsv" value="" />
+			<var name="workercondition" value="0" />
+			<var name="workercountertemp" value="" />
+			<appendworkercsv/>
+			<appendworkercsv/>
+			<appendworkercsv/>
+			<appendworkercsv/>
+			<appendworkercsv/>
+			<appendworkercsv/>
+			<appendworkercsv/>
+			<appendworkercsv/>
+			<appendworkercsv/>
+			<appendworkercsv/>
+			<appendworkercsv/>
+			<appendworkercsv/>
+			<appendworkercsv/>
+			<appendworkercsv/>
+			<appendworkercsv/>
+			<appendworkercsv/>
+			<appendworkercsv/>
+			<appendworkercsv/>
+			<appendworkercsv/>
+			<appendworkercsv/>
+			<appendworkercsv/>
+			<appendworkercsv/>
+			<appendworkercsv/>
+			<appendworkercsv/>
+			<appendworkercsv/>
+			<appendworkercsv/>
+			<appendworkercsv/>
+			<appendworkercsv/>
+			<appendworkercsv/>
+			<appendworkercsv/>
+			<appendworkercsv/>
+			<appendworkercsv/>
+			<appendworkercsv/>
+			<appendworkercsv/>
+			<appendworkercsv/>
+			<appendworkercsv/>
+			<appendworkercsv/>
+			<appendworkercsv/>
+			<appendworkercsv/>
+			<appendworkercsv/>
+			<appendworkercsv/>
+			<appendworkercsv/>
+			<appendworkercsv/>
+			<appendworkercsv/>
+			<appendworkercsv/>
+			<appendworkercsv/>
+			<appendworkercsv/>
+			<appendworkercsv/>
+			<echo>maxworkers = ${maxworkers}</echo>
+			<!-- <echo>workercsv = ${workercsv}</echo> -->
+		</sequential>
+	</macrodef>
+
+	<target name="subworker">
+		<echo>Launching a worker...</echo>
+		<if>
+			<isset property="noshutdown" />
+			<then>
+				<java classname="gov.epa.otaq.moves.worker.WorkerCommandLine" fork="yes" maxmemory="512m" spawn="false">
+					<classpath refid="classpath" />
+					<arg value="-config=manyworkers.txt" />
+				</java>
+			</then>
+			<else>
+				<java classname="gov.epa.otaq.moves.worker.WorkerCommandLine" fork="yes" maxmemory="512m" spawn="false">
+					<classpath refid="classpath" />
+					<arg value="-autoshutdown" />
+					<arg value="-config=manyworkers.txt" />
+				</java>
+			</else>
+		</if>
+		<echo>Worker finished.</echo>
+	</target>
+
+	<target name="1worker" depends="">
+		<var name="maxworkers" value="1" />
+		<antcall target="manyworkers" />
+	</target>
+
+	<target name="2workers" depends="">
+		<var name="maxworkers" value="2" />
+		<antcall target="manyworkers" />
+	</target>
+
+	<target name="3workers" depends="">
+		<var name="maxworkers" value="3" />
+		<antcall target="manyworkers" />
+	</target>
+
+	<target name="4workers" depends="">
+		<var name="maxworkers" value="4" />
+		<antcall target="manyworkers" />
+	</target>
+
+	<target name="5workers" depends="">
+		<var name="maxworkers" value="5" />
+		<antcall target="manyworkers" />
+	</target>
+
+	<target name="6workers" depends="">
+		<var name="maxworkers" value="6" />
+		<antcall target="manyworkers" />
+	</target>
+
+	<target name="7workers" depends="">
+		<var name="maxworkers" value="7" />
+		<antcall target="manyworkers" />
+	</target>
+
+	<target name="8workers" depends="">
+		<var name="maxworkers" value="8" />
+		<antcall target="manyworkers" />
+	</target>
+
+	<target name="12workers" depends="">
+		<var name="maxworkers" value="12" />
+		<antcall target="manyworkers" />
+	</target>
+
+	<target name="14workers" depends="">
+		<var name="maxworkers" value="14" />
+		<antcall target="manyworkers" />
+	</target>
+
+	<target name="20workers" depends="">
+		<var name="maxworkers" value="20" />
+		<antcall target="manyworkers" />
+	</target>
+
+	<target name="24workers" depends="">
+		<var name="maxworkers" value="24" />
+		<antcall target="manyworkers" />
+	</target>
+
+	<target name="28workers" depends="">
+		<var name="maxworkers" value="28" />
+		<antcall target="manyworkers" />
+	</target>
+
+	<target name="32workers" depends="">
+		<var name="maxworkers" value="32" />
+		<antcall target="manyworkers" />
+	</target>
+
+	<target name="manyworkers">
+		<makeworkerlist/>
+		<delete dir="manyworkers" />
+		<mkdir dir="manyworkers" />
+		<mkdir dir="manyworkers/workerfolder" />
+		<var name="didstartmysql" value="0" />
+		<sleep seconds="5" /> <!-- allow any external MySQL daemon a chance to startup before we go looking for it -->
+		<if>
+			<socket server="127.0.0.1" port="3306"/>
+			<then>
+				<echo>MySQL is already running and will not be automatically shutdown by this instance.</echo>
+			</then>
+			<else>
+				<echo>Starting mysqld...</echo>
+				<mkdir dir="mysql/data/mysqltemp" />
+				<exec executable="mysql/bin/mysqld" spawn="true">
+					<arg value="--defaults-file=mysql/my.ini" />
+					<arg value="--bind-address=127.0.0.1" />
+					<arg value="--console" />
+					<arg value="--skip-grant-tables" />
+					<arg value="--standalone" />
+					<arg value="--tmpdir=mysqltemp" />
+				</exec>
+				<waitfor maxwait="30" maxwaitunit="second">
+					<socket server="127.0.0.1" port="3306"/>
+				</waitfor>
+				<echo>Confirmed MySQL started because its socket has been found.</echo>
+				<var name="didstartmysql" value="1" />
+			</else>
+		</if>
+		<foreach list="${workercsv}" target="subworker" param="workerfortemp" delimiter="," parallel="true" maxthreads="${maxworkers}" />
+		<if>
+			<equals arg1="${didstartmysql}" arg2="1" />
+			<then>
+				<echo>Stopping mysqld via the mysqladmin tool...</echo>
+				<exec executable="mysql/bin/mysqladmin" spawn="false">
+					<arg value="--defaults-file=mysql/my.ini" />
+					<arg value="--no-beep" />
+					<arg value="--shutdown_timeout=30" />
+					<arg value="shutdown" />
+				</exec>
+				<echo>Workers and mysql have been shutdown.</echo>
+			</then>
+			<else>
+				<echo>Workers have been shutdown, but not MySQL since it was already running.</echo>
+			</else>
+		</if>
+	</target>
+
+	<target name="startmysql">
+		<if>
+			<socket server="127.0.0.1" port="3306"/>
+			<then>
+				<echo>MySQL is already running.</echo>
+			</then>
+			<else>
+				<echo>Starting mysqld...</echo>
+				<mkdir dir="mysql/data/mysqltemp" />
+				<exec executable="mysql/bin/mysqld" spawn="true">
+					<arg value="--defaults-file=mysql/my.ini" />
+					<arg value="--bind-address=127.0.0.1" />
+					<arg value="--console" />
+					<arg value="--skip-grant-tables" />
+					<arg value="--standalone" />
+					<arg value="--tmpdir=mysqltemp" />
+				</exec>
+				<waitfor maxwait="30" maxwaitunit="second">
+					<socket server="127.0.0.1" port="3306"/>
+				</waitfor>
+				<echo>Confirmed MySQL started because its socket has been found.</echo>
+			</else>
+		</if>
+	</target>
+	
+	<target name="stopmysql">
+		<echo>Stopping mysqld via the mysqladmin tool...</echo>
+		<exec executable="mysql/bin/mysqladmin" spawn="false">
+			<arg value="--defaults-file=mysql/my.ini" />
+			<arg value="--no-beep" />
+			<arg value="--shutdown_timeout=30" />
+			<arg value="shutdown" />
+		</exec>
+		<echo>MySQL has been shutdown.</echo>
+	</target>
+
+	<target name="maketodo" depends="">
+		<if>
+			<and>
+				<isset property="runspec" />
+				<not>
+					<equals arg1="${runspec}" arg2="" />
+				</not>
+			</and>
+			<then>
+				<var name="didstartmysql" value="0" />
+				<sleep seconds="5" /> <!-- allow any external MySQL daemon a chance to startup before we go looking for it -->
+				<if>
+					<socket server="127.0.0.1" port="3306"/>
+					<then>
+						<echo>MySQL is already running and will not be automatically shutdown by this instance.</echo>
+					</then>
+					<else>
+						<echo>Starting mysqld...</echo>
+						<mkdir dir="mysql/data/mysqltemp" />
+						<exec executable="mysql/bin/mysqld" spawn="true">
+							<arg value="--defaults-file=mysql/my.ini" />
+							<arg value="--bind-address=127.0.0.1" />
+							<arg value="--console" />
+							<arg value="--skip-grant-tables" />
+							<arg value="--standalone" />
+							<arg value="--tmpdir=mysqltemp" />
+						</exec>
+						<waitfor maxwait="30" maxwaitunit="second">
+							<socket server="127.0.0.1" port="3306"/>
+						</waitfor>
+						<echo>Confirmed MySQL started because its socket has been found.</echo>
+						<var name="didstartmysql" value="1" />
+					</else>
+				</if>
+				<echo>Launching the master...</echo>
+				<java classname="gov.epa.otaq.moves.master.commandline.MOVESCommandLine" fork="yes" maxmemory="512m" spawn="false">
+					<sysproperty key="MOVES_CONFIGURATION_FILE_NAME" value="maketodo.txt" />
+					<classpath refid="classpath" />
+					<arg value="-onlytodo" />
+					<arg value="-r" />
+					<arg value="${runspec}" />
+				</java>
+				<echo>Master finished.</echo>
+				<if>
+					<equals arg1="${didstartmysql}" arg2="1" />
+					<then>
+						<echo>Stopping mysqld via the mysqladmin tool...</echo>
+						<exec executable="mysql/bin/mysqladmin" spawn="false">
+							<arg value="--defaults-file=mysql/my.ini" />
+							<arg value="--no-beep" />
+							<arg value="--shutdown_timeout=30" />
+							<arg value="shutdown" />
+						</exec>
+						<echo>Master and mysql have been shutdown.</echo>
+					</then>
+					<else>
+						<echo>Master has been shutdown, but not MySQL since it was already running.</echo>
+					</else>
+				</if>
+			</then>
+			<else>
+				<echo>ERROR: A runspec was not provided.  Use -Drunspec=somefile.mrs</echo>
+			</else>
+		</if>
+	</target>
+
+	<target name="master1worker" depends="">
+		<delete dir="manyworkers" />
+		<mkdir dir="manyworkers" />
+		<mkdir dir="manyworkers/workerfolder" />
+		<if>
+			<and>
+				<isset property="runspec" />
+				<not>
+					<equals arg1="${runspec}" arg2="" />
+				</not>
+			</and>
+			<then>
+				<var name="didstartmysql" value="0" />
+				<sleep seconds="5" /> <!-- allow any external MySQL daemon a chance to startup before we go looking for it -->
+				<if>
+					<socket server="127.0.0.1" port="3306"/>
+					<then>
+						<echo>MySQL is already running and will not be automatically shutdown by this instance.</echo>
+					</then>
+					<else>
+						<echo>Starting mysqld...</echo>
+						<mkdir dir="mysql/data/mysqltemp" />
+						<exec executable="mysql/bin/mysqld" spawn="true">
+							<arg value="--defaults-file=mysql/my.ini" />
+							<arg value="--bind-address=127.0.0.1" />
+							<arg value="--console" />
+							<arg value="--skip-grant-tables" />
+							<arg value="--standalone" />
+							<arg value="--tmpdir=mysqltemp" />
+						</exec>
+						<waitfor maxwait="30" maxwaitunit="second">
+							<socket server="127.0.0.1" port="3306"/>
+						</waitfor>
+						<echo>Confirmed MySQL started because its socket has been found.</echo>
+						<var name="didstartmysql" value="1" />
+					</else>
+				</if>
+				<echo>Launching the master, which will launch a worker...</echo>
+				<java classname="gov.epa.otaq.moves.master.commandline.MOVESCommandLine" fork="yes" maxmemory="512m" spawn="false">
+					<sysproperty key="MOVES_CONFIGURATION_FILE_NAME" value="maketodo.txt" />
+					<classpath refid="classpath" />
+					<arg value="-workerconfig=manyworkers.txt" />
+					<arg value="-r" />
+					<arg value="${runspec}" />
+				</java>
+				<echo>Master and 1 worker finished.</echo>
+				<if>
+					<equals arg1="${didstartmysql}" arg2="1" />
+					<then>
+						<echo>Stopping mysqld via the mysqladmin tool...</echo>
+						<exec executable="mysql/bin/mysqladmin" spawn="false">
+							<arg value="--defaults-file=mysql/my.ini" />
+							<arg value="--no-beep" />
+							<arg value="--shutdown_timeout=30" />
+							<arg value="shutdown" />
+						</exec>
+						<echo>Master and mysql have been shutdown.</echo>
+					</then>
+					<else>
+						<echo>Master has been shutdown, but not MySQL since it was already running.</echo>
+					</else>
+				</if>
+			</then>
+			<else>
+				<echo>ERROR: A runspec was not provided.  Use -Drunspec=somefile.mrs</echo>
+			</else>
+		</if>
+	</target>
+
+	<target name="pickup" depends="">
+		<if>
+			<and>
+				<isset property="pdspec" />
+				<not>
+					<equals arg1="${pdspec}" arg2="" />
+				</not>
+			</and>
+			<then>
+				<var name="didstartmysql" value="0" />
+				<sleep seconds="5" /> <!-- allow any external MySQL daemon a chance to startup before we go looking for it -->
+				<if>
+					<socket server="127.0.0.1" port="3306"/>
+					<then>
+						<echo>MySQL is already running and will not be automatically shutdown by this instance.</echo>
+					</then>
+					<else>
+						<echo>Starting mysqld...</echo>
+						<mkdir dir="mysql/data/mysqltemp" />
+						<exec executable="mysql/bin/mysqld" spawn="true">
+							<arg value="--defaults-file=mysql/my.ini" />
+							<arg value="--bind-address=127.0.0.1" />
+							<arg value="--console" />
+							<arg value="--skip-grant-tables" />
+							<arg value="--standalone" />
+							<arg value="--tmpdir=mysqltemp" />
+						</exec>
+						<waitfor maxwait="30" maxwaitunit="second">
+							<socket server="127.0.0.1" port="3306"/>
+						</waitfor>
+						<echo>Confirmed MySQL started because its socket has been found.</echo>
+						<var name="didstartmysql" value="1" />
+					</else>
+				</if>
+				<echo>Launching the master...</echo>
+				<java classname="gov.epa.otaq.moves.master.commandline.MOVESCommandLine" fork="yes" maxmemory="512m" spawn="false">
+					<sysproperty key="MOVES_CONFIGURATION_FILE_NAME" value="maketodo.txt" />
+					<classpath refid="classpath" />
+					<arg value="-p" />
+					<arg value="${pdspec}" />
+				</java>
+				<echo>Master finished.</echo>
+				<if>
+					<equals arg1="${didstartmysql}" arg2="1" />
+					<then>
+						<echo>Stopping mysqld via the mysqladmin tool...</echo>
+						<exec executable="mysql/bin/mysqladmin" spawn="false">
+							<arg value="--defaults-file=mysql/my.ini" />
+							<arg value="--no-beep" />
+							<arg value="--shutdown_timeout=30" />
+							<arg value="shutdown" />
+						</exec>
+						<echo>Master and mysql have been shutdown.</echo>
+					</then>
+					<else>
+						<echo>Master has been shutdown, but not MySQL since it was already running.</echo>
+					</else>
+				</if>
+			</then>
+			<else>
+				<echo>ERROR: A pdspec was not provided.  Use -Dpdspec=somefile.xml</echo>
+			</else>
+		</if>
+	</target>
+
+	<path id="amazonclasspath">
+		<pathelement location="movesamazon.jar" />
+		<pathelement location="libs/amazon/aws-java-sdk-1.1.4.jar" />
+		<pathelement location="libs/amazon/commons-codec-1.3.jar" />
+		<pathelement location="libs/amazon/commons-httpclient-3.0.1.jar" />
+		<pathelement location="libs/amazon/commons-logging-1.1.1.jar" />
+		<pathelement location="libs/amazon/jackson-core-asl-1.4.3.jar" />
+		<pathelement location="libs/amazon/mail-1.4.3.jar" />
+		<pathelement location="libs/amazon/stax-1.2.0.jar" />
+		<pathelement location="libs/amazon/stax-api-1.0.1.jar" />
+	</path>
+
+	<target name="makeamazon" depends="compile">
+		<jar destfile="amazon/movesamazon.jar" update="true">
+			<fileset dir="./">
+				<include name="gov/epa/otaq/moves/tools/amazon/**/*.class" />
+				<exclude name="**/*Test.class" />
+				<exclude name="**/*.java" />
+			</fileset>
+		</jar>
+	</target>
+
+	<target name="jarcode" depends="compile">
+		<jar destfile="code_${build}.jar" update="true">
+			<fileset dir="./">
+				<include name="ant/**" />
+				<include name="calc/**" />
+				<include name="database/**" />
+				<include name="gov/**" />
+				<include name="libs/**" />
+				<include name="build.xml" />
+				<include name="maketodo.txt" />
+				<include name="manyworkers.txt" />
+				<include name="MOVESConfiguration.txt" />
+				<include name="WorkerConfiguration.txt" />
+				<include name="NonroadTableFilter.csv" />
+			</fileset>
+		</jar>
+	</target>
+
+	<target name="convert" depends="">
+		<java classname="gov.epa.otaq.moves.master.commandline.DatabaseConverter" fork="yes" maxmemory="512m">
+			<classpath refid="classpath" />
+			<arg value="-input=${input}" />
+			<arg value="-output=${output}" />
+			<arg value="-script=${script}" />
+		</java>
+	</target>
+
+	<target name="setlogin" depends="">
+		<java classname="gov.epa.otaq.moves.master.commandline.SetLogin" fork="yes" maxmemory="512m">
+			<classpath refid="classpath" />
+			<arg value="-user=${user}" />
+			<arg value="-password=${password}" />
+		</java>
+	</target>
+
+	<target name="devtest" depends="compile">
+		<java classname="gov.epa.otaq.moves.tools.CompareRuns" fork="yes" maxmemory="512m">
+			<classpath refid="classpath" />
+		</java>
+	</target>
+
+	<target name="run" depends="">
+		<if>
+			<and>
+				<isset property="runspec" />
+				<not>
+					<equals arg1="${runspec}" arg2="" />
+				</not>
+			</and>
+			<then>
+				<java classname="gov.epa.otaq.moves.master.commandline.MOVESCommandLine" fork="yes" maxmemory="512m" spawn="false">
+					<classpath refid="classpath" />
+					<arg value="-r" />
+					<arg value="${runspec}" />
+				</java>
+			</then>
+			<else>
+				<echo>ERROR: A runspec was not provided.  Use -Drunspec=somefile.mrs</echo>
+			</else>
+		</if>
+	</target>
+	
+	<target name="go" depends="">
+		<!-- Build the default version on a Linux operating system -->
+		<echo message="Building for Linux and some Windows systems. Expect error messages if not one of these or if no installed Go compiler."/>
+		<exec executable="go" spawn="false" dir="${user.dir}/calc/go/" output="golinuxoutput.txt" failifexecutionfails="false">
+			<env key="GOPATH" value="${user.dir}/calc/go/"/>
+			<env key="GOMAXPROCS" value="4"/>
+			<arg value="build" />
+			<arg value="-o" />
+			<arg value="externalcalculatorgo" />
+			<arg value="src/externalcalculatorgo.go" />
+		</exec>
+		<!-- Build the default version on the current operating system -->
+		<echo message="Building the default 32/64 version for the pre-installed Go compiler. Expect errors if no Go compiler has been installed."/>
+		<exec executable="go.exe" spawn="false" dir="${user.dir}/calc/go/" output="godefaultoutput.txt" failifexecutionfails="false">
+			<env key="GOPATH" value="${user.dir}/calc/go/"/>
+			<env key="GOMAXPROCS" value="4"/>
+			<arg value="build" />
+			<arg value="-o" />
+			<arg value="externalcalculatorgo.exe" />
+			<arg value="src/externalcalculatorgo.go" />
+		</exec>
+		<!-- Build the 64-bit version, will fail on 32-bit systems -->
+		<echo message="Building the 64-bit version for the pre-installed Go compiler. Expect errors if no Go compiler has been installed or on 32-bit systems."/>
+		<exec executable="go.exe" spawn="false" dir="${user.dir}/calc/go/" output="go64output.txt" failifexecutionfails="false">
+			<env key="GOARCH" value="amd64"/>
+			<env key="GOPATH" value="${user.dir}/calc/go/"/>
+			<env key="GOMAXPROCS" value="4"/>
+			<arg value="build" />
+			<arg value="-o" />
+			<arg value="externalcalculatorgo64.exe" />
+			<arg value="src/externalcalculatorgo.go" />
+		</exec>
+		<!-- Build the 32-bit version, will fail on 64-bit systems -->
+		<echo message="Building the 32-bit version for the pre-installed Go compiler. Expect errors if no Go compiler has been installed or on 64-bit systems."/>
+		<exec executable="go.exe" spawn="false" dir="${user.dir}/calc/go/" output="go32output.txt" failifexecutionfails="false">
+			<env key="GOARCH" value="386"/>
+			<env key="GOMAXPROCS" value="4"/>
+			<env key="GOPATH" value="${user.dir}/calc/go/"/>
+			<arg value="build" />
+			<arg value="-o" />
+			<arg value="externalcalculatorgo32.exe" />
+			<arg value="src/externalcalculatorgo.go" />
+		</exec>
+		<!-- Build the 32-bit version using the local 32-bit go compiler -->
+		<echo message="Building the 32-bit version for default go32 compiler. Expect errors if no \go32 directory exists."/>
+		<exec executable="${user.dir}\go32\bin\go.exe" spawn="false" dir="${user.dir}/calc/go/" output="go32localoutput.txt" failifexecutionfails="false">
+ 			<env key="Path" value="${user.dir}\go32\bin\;${env.Path}" />
+ 			<env key="GOARCH" value="386"/>
+			<env key="GOMAXPROCS" value="4"/>
+			<env key="GOPATH" value="${user.dir}/calc/go/"/>
+			<env key="GOROOT" value="${user.dir}\go32\" />
+			<arg value="build" />
+			<arg value="-o" />
+			<arg value="externalcalculatorgo32.exe" />
+			<arg value="src/externalcalculatorgo.go" />
+		</exec>
+	</target>
+</project>

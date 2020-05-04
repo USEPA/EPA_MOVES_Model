@@ -1,0 +1,29 @@
+This is the allocation indicator file used by the NONROAD model.
+This file is used to allocate from US to state level equipment
+populations.
+
+These data represent WATER SURFACE AREA FOR INBOARD RECREATIONAL MARINE CRAFT (sq km navigable water)
+1990 GICS (inland water area); GIS analysis of coast lengths (coastal navigable water)
+
+It is used for State-to-County allocation only.  Not for US-to-State.
+
+9/13/05 epa: Update to add non-inland water from GICS data.
+1/13/06 epa: Fix indicator from "WOB" to "WIB"
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+------------------------------------------------------------------------
+/INDICATORS/
+WIB  78000      2002               803.8     VI               803.8
+WIB  78010      2002               326.0     St. Croix
+WIB  78020      2002               101.5     St. John
+WIB  78030      2002               376.3     St. Thomas
+/END/

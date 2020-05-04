@@ -1,0 +1,113 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent NUMBER OF EMPLOYEES IN MANUFACTURING
+CBP NAICS 31----, 321///, 322///, 323///, 324///, 325///, 326///, 327///, 331///,
+332///, 333///, 334///, 335///, 336///, 337///, 339///, and 5111//; pre-2002 CBP SIC 20--
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+MFG  39000      2002             1623160     OH
+MFG  39001      2002                1494     Adams
+MFG  39003      2002               17029     Allen
+MFG  39005      2002               11225     Ashland
+MFG  39007      2002               17755     Ashtabula
+MFG  39009      2002                1938     Athens
+MFG  39011      2002               12106     Auglaize
+MFG  39013      2002                3080     Belmont
+MFG  39015      2002                1063     Brown
+MFG  39017      2002               36462     Butler
+MFG  39019      2002                3300     Carroll
+MFG  39021      2002                6211     Champaign
+MFG  39023      2002               18374     Clark
+MFG  39025      2002               15145     Clermont
+MFG  39027      2002                9199     Clinton
+MFG  39029      2002               13498     Columbiana
+MFG  39031      2002                6306     Coshocton
+MFG  39033      2002               11651     Crawford
+MFG  39035      2002              181696     Cuyahoga
+MFG  39037      2002                9149     Darke
+MFG  39039      2002               12399     Defiance
+MFG  39041      2002               11134     Delaware
+MFG  39043      2002               11973     Erie
+MFG  39045      2002                9924     Fairfield
+MFG  39047      2002                5082     Fayette
+MFG  39049      2002               87241     Franklin
+MFG  39051      2002               17377     Fulton
+MFG  39053      2002                1957     Gallia
+MFG  39055      2002               19108     Geauga
+MFG  39057      2002                8232     Greene
+MFG  39059      2002                6446     Guernsey
+MFG  39061      2002              116996     Hamilton
+MFG  39063      2002               23066     Hancock
+MFG  39065      2002                4365     Hardin
+MFG  39067      2002                1539     Harrison
+MFG  39069      2002                5924     Henry
+MFG  39071      2002                6340     Highland
+MFG  39073      2002                2644     Hocking
+MFG  39075      2002                9141     Holmes
+MFG  39077      2002               15583     Huron
+MFG  39079      2002                4447     Jackson
+MFG  39081      2002                7449     Jefferson
+MFG  39083      2002                8953     Knox
+MFG  39085      2002               45619     Lake
+MFG  39087      2002                1807     Lawrence
+MFG  39089      2002               15314     Licking
+MFG  39091      2002               11558     Logan
+MFG  39093      2002               47213     Lorain
+MFG  39095      2002               50458     Lucas
+MFG  39097      2002                5811     Madison
+MFG  39099      2002               19658     Mahoning
+MFG  39101      2002               13707     Marion
+MFG  39103      2002               18472     Medina
+MFG  39105      2002                 171     Meigs
+MFG  39107      2002                5100     Mercer
+MFG  39109      2002               25567     Miami
+MFG  39111      2002                3599     Monroe
+MFG  39113      2002               79593     Montgomery
+MFG  39115      2002                 971     Morgan
+MFG  39117      2002                2354     Morrow
+MFG  39119      2002               14190     Muskingum
+MFG  39121      2002                1259     Noble
+MFG  39123      2002                4755     Ottawa
+MFG  39125      2002                3022     Paulding
+MFG  39127      2002                3011     Perry
+MFG  39129      2002                8216     Pickaway
+MFG  39131      2002                6697     Pike
+MFG  39133      2002               22560     Portage
+MFG  39135      2002                6338     Preble
+MFG  39137      2002                7792     Putnam
+MFG  39139      2002               25383     Richland
+MFG  39141      2002                7201     Ross
+MFG  39143      2002               18979     Sandusky
+MFG  39145      2002                3726     Scioto
+MFG  39147      2002               10658     Seneca
+MFG  39149      2002               24471     Shelby
+MFG  39151      2002               72213     Stark
+MFG  39153      2002               69368     Summit
+MFG  39155      2002               39739     Trumbull
+MFG  39157      2002               16695     Tuscarawas
+MFG  39159      2002               16691     Union
+MFG  39161      2002                6959     Van Wert
+MFG  39163      2002                 957     Vinton
+MFG  39165      2002               24973     Warren
+MFG  39167      2002               10181     Washington
+MFG  39169      2002               26401     Wayne
+MFG  39171      2002               15407     Williams
+MFG  39173      2002               26868     Wood
+MFG  39175      2002                7477     Wyandot
+/END/

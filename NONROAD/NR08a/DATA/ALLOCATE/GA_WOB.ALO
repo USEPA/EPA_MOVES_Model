@@ -1,0 +1,184 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WATER SURFACE AREA FOR OUTBOARD RECREATIONAL MARINE CRAFT (sq km navigable water)
+1990 GICS (inland water area); GIS analysis of coast lengths (coastal navigable water)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+WOB  13000      1990                2753     GA
+WOB  13001      1990                   9     Appling
+WOB  13003      1990                  16     Atkinson
+WOB  13005      1990                   3     Bacon
+WOB  13007      1990                  15     Baker
+WOB  13009      1990                  23     Baldwin
+WOB  13011      1990                   1     Banks
+WOB  13013      1990                   2     Barrow
+WOB  13015      1990                  28     Bartow
+WOB  13017      1990                   6     Ben Hill
+WOB  13019      1990                  14     Berrien
+WOB  13021      1990                  13     Bibb
+WOB  13023      1990                   4     Bleckley
+WOB  13025      1990                   8     Brantley
+WOB  13027      1990                  11     Brooks
+WOB  13029      1990                  30     Bryan
+WOB  13031      1990                  16     Bulloch
+WOB  13033      1990                  12     Burke
+WOB  13035      1990                   9     Butts
+WOB  13037      1990                   9     Calhoun
+WOB  13039      1990                 168     Camden
+WOB  13043      1990                   5     Candler
+WOB  13045      1990                  12     Carroll
+WOB  13047      1990                   1     Catoosa
+WOB  13049      1990                   6     Charlton
+WOB  13051      1990                 186     Chatham
+WOB  13053      1990                   6     Chattahoochee
+WOB  13055      1990                   1     Chattooga
+WOB  13057      1990                  27     Cherokee
+WOB  13059      1990                   1     Clarke
+WOB  13061      1990                  56     Clay
+WOB  13063      1990                   4     Clayton
+WOB  13065      1990                  39     Clinch
+WOB  13067      1990                  11     Cobb
+WOB  13069      1990                   9     Coffee
+WOB  13071      1990                  11     Colquitt
+WOB  13073      1990                  46     Columbia
+WOB  13075      1990                  11     Cook
+WOB  13077      1990                   8     Coweta
+WOB  13079      1990                   3     Crawford
+WOB  13081      1990                  19     Crisp
+WOB  13083      1990                   0     Dade
+WOB  13085      1990                   8     Dawson
+WOB  13087      1990                  68     Decatur
+WOB  13089      1990                   7     DeKalb
+WOB  13091      1990                   7     Dodge
+WOB  13093      1990                  11     Dooly
+WOB  13095      1990                  13     Dougherty
+WOB  13097      1990                   2     Douglas
+WOB  13099      1990                  13     Early
+WOB  13101      1990                  43     Echols
+WOB  13103      1990                   9     Effingham
+WOB  13105      1990                  15     Elbert
+WOB  13107      1990                  11     Emanuel
+WOB  13109      1990                   5     Evans
+WOB  13111      1990                  15     Fannin
+WOB  13113      1990                   5     Fayette
+WOB  13115      1990                  14     Floyd
+WOB  13117      1990                  56     Forsyth
+WOB  13119      1990                   8     Franklin
+WOB  13121      1990                  15     Fulton
+WOB  13123      1990                  13     Gilmer
+WOB  13125      1990                   1     Glascock
+WOB  13127      1990                 147     Glynn
+WOB  13129      1990                   6     Gordon
+WOB  13131      1990                   6     Grady
+WOB  13133      1990                  46     Greene
+WOB  13135      1990                  10     Gwinnett
+WOB  13137      1990                   3     Habersham
+WOB  13139      1990                  92     Hall
+WOB  13141      1990                  14     Hancock
+WOB  13143      1990                   3     Haralson
+WOB  13145      1990                  24     Harris
+WOB  13147      1990                  63     Hart
+WOB  13149      1990                  13     Heard
+WOB  13151      1990                   5     Henry
+WOB  13153      1990                   8     Houston
+WOB  13155      1990                  15     Irwin
+WOB  13157      1990                   2     Jackson
+WOB  13159      1990                   8     Jasper
+WOB  13161      1990                   5     Jeff Davis
+WOB  13163      1990                   5     Jefferson
+WOB  13165      1990                   7     Jenkins
+WOB  13167      1990                   5     Johnson
+WOB  13169      1990                   4     Jones
+WOB  13171      1990                   3     Lamar
+WOB  13173      1990                  34     Lanier
+WOB  13175      1990                  15     Laurens
+WOB  13177      1990                  16     Lee
+WOB  13179      1990                  72     Liberty
+WOB  13181      1990                 120     Lincoln
+WOB  13183      1990                   6     Long
+WOB  13185      1990                  17     Lowndes
+WOB  13187      1990                   1     Lumpkin
+WOB  13189      1990                  17     McDuffie
+WOB  13191      1990                 160     McIntosh
+WOB  13193      1990                   7     Macon
+WOB  13195      1990                   3     Madison
+WOB  13197      1990                   1     Marion
+WOB  13199      1990                   5     Meriwether
+WOB  13201      1990                   2     Miller
+WOB  13205      1990                   5     Mitchell
+WOB  13207      1990                   6     Monroe
+WOB  13209      1990                   5     Montgomery
+WOB  13211      1990                  13     Morgan
+WOB  13213      1990                   6     Murray
+WOB  13215      1990                  12     Muscogee
+WOB  13217      1990                   7     Newton
+WOB  13219      1990                   1     Oconee
+WOB  13221      1990                   3     Oglethorpe
+WOB  13223      1990                   4     Paulding
+WOB  13225      1990                   1     Peach
+WOB  13227      1990                   2     Pickens
+WOB  13229      1990                   2     Pierce
+WOB  13231      1990                   3     Pike
+WOB  13233      1990                   3     Polk
+WOB  13235      1990                   6     Pulaski
+WOB  13237      1990                  42     Putnam
+WOB  13239      1990                  24     Quitman
+WOB  13241      1990                  15     Rabun
+WOB  13243      1990                   4     Randolph
+WOB  13245      1990                  11     Richmond
+WOB  13247      1990                   4     Rockdale
+WOB  13249      1990                   1     Schley
+WOB  13251      1990                  18     Screven
+WOB  13253      1990                  48     Seminole
+WOB  13255      1990                   4     Spalding
+WOB  13257      1990                  13     Stephens
+WOB  13259      1990                  12     Stewart
+WOB  13261      1990                  19     Sumter
+WOB  13263      1990                   4     Talbot
+WOB  13265      1990                   0     Taliaferro
+WOB  13267      1990                  12     Tattnall
+WOB  13269      1990                   6     Taylor
+WOB  13271      1990                   8     Telfair
+WOB  13273      1990                   6     Terrell
+WOB  13275      1990                  10     Thomas
+WOB  13277      1990                  10     Tift
+WOB  13279      1990                   5     Toombs
+WOB  13281      1990                  14     Towns
+WOB  13283      1990                   4     Treutlen
+WOB  13285      1990                  83     Troup
+WOB  13287      1990                  10     Turner
+WOB  13289      1990                   7     Twiggs
+WOB  13291      1990                  17     Union
+WOB  13293      1990                   6     Upson
+WOB  13295      1990                   1     Walker
+WOB  13297      1990                   2     Walton
+WOB  13299      1990                  10     Ware
+WOB  13301      1990                   3     Warren
+WOB  13303      1990                  10     Washington
+WOB  13305      1990                  11     Wayne
+WOB  13307      1990                   2     Webster
+WOB  13309      1990                   6     Wheeler
+WOB  13311      1990                   1     White
+WOB  13313      1990                   2     Whitfield
+WOB  13315      1990                   8     Wilcox
+WOB  13317      1990                   7     Wilkes
+WOB  13319      1990                  14     Wilkinson
+WOB  13321      1990                  12     Worth
+/END/

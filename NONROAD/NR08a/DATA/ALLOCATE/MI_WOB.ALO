@@ -1,0 +1,108 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WATER SURFACE AREA FOR OUTBOARD RECREATIONAL MARINE CRAFT (sq km navigable water)
+1990 GICS (inland water area); GIS analysis of coast lengths (coastal navigable water)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+WOB  26000      1990                5779     MI
+WOB  26001      1990                  68     Alcona
+WOB  26003      1990                 126     Alger
+WOB  26005      1990                  56     Allegan
+WOB  26007      1990                 341     Alpena
+WOB  26009      1990                 141     Antrim
+WOB  26011      1990                  34     Arenac
+WOB  26013      1990                 107     Baraga
+WOB  26015      1990                  54     Barry
+WOB  26017      1990                  36     Bay
+WOB  26019      1990                  84     Benzie
+WOB  26021      1990                  51     Berrien
+WOB  26023      1990                  31     Branch
+WOB  26025      1990                  25     Calhoun
+WOB  26027      1990                  42     Cass
+WOB  26029      1990                 117     Charlevoix
+WOB  26031      1990                 232     Cheboygan
+WOB  26033      1990                 392     Chippewa
+WOB  26035      1990                  22     Clare
+WOB  26037      1990                   8     Clinton
+WOB  26039      1990                  14     Crawford
+WOB  26041      1990                 162     Delta
+WOB  26043      1990                  28     Dickinson
+WOB  26045      1990                   7     Eaton
+WOB  26047      1990                  82     Emmet
+WOB  26049      1990                  25     Genesee
+WOB  26051      1990                  25     Gladwin
+WOB  26053      1990                 128     Gogebic
+WOB  26055      1990                 102     Grand Traverse
+WOB  26057      1990                   4     Gratiot
+WOB  26059      1990                  22     Hillsdale
+WOB  26061      1990                 122     Houghton
+WOB  26063      1990                  76     Huron
+WOB  26065      1990                   5     Ingham
+WOB  26067      1990                  18     Ionia
+WOB  26069      1990                  67     Iosco
+WOB  26071      1990                 116     Iron
+WOB  26073      1990                   9     Isabella
+WOB  26075      1990                  44     Jackson
+WOB  26077      1990                  47     Kalamazoo
+WOB  26079      1990                  25     Kalkaska
+WOB  26081      1990                  41     Kent
+WOB  26083      1990                 177     Keweenaw
+WOB  26085      1990                  18     Lake
+WOB  26087      1990                  23     Lapeer
+WOB  26089      1990                 143     Leelanau
+WOB  26091      1990                  28     Lenawee
+WOB  26093      1990                  44     Livingston
+WOB  26095      1990                  83     Luce
+WOB  26097      1990                 271     Mackinac
+WOB  26099      1990                  24     Macomb
+WOB  26101      1990                  56     Manistee
+WOB  26103      1990                 177     Marquette
+WOB  26105      1990                  60     Mason
+WOB  26107      1990                  40     Mecosta
+WOB  26109      1990                  48     Menominee
+WOB  26111      1990                  17     Midland
+WOB  26113      1990                  18     Missaukee
+WOB  26115      1990                  64     Monroe
+WOB  26117      1990                  33     Montcalm
+WOB  26119      1990                  38     Montmorency
+WOB  26121      1990                  79     Muskegon
+WOB  26123      1990                  49     Newaygo
+WOB  26125      1990                  92     Oakland
+WOB  26127      1990                  35     Oceana
+WOB  26129      1990                  27     Ogemaw
+WOB  26131      1990                  79     Ontonagon
+WOB  26133      1990                  18     Osceola
+WOB  26135      1990                  17     Oscoda
+WOB  26137      1990                  30     Otsego
+WOB  26139      1990                  55     Ottawa
+WOB  26141      1990                 113     Presque Isle
+WOB  26143      1990                 151     Roscommon
+WOB  26145      1990                  18     Saginaw
+WOB  26147      1990                 101     St. Clair
+WOB  26149      1990                  45     St. Joseph
+WOB  26151      1990                  25     Sanilac
+WOB  26153      1990                 142     Schoolcraft
+WOB  26155      1990                   5     Shiawassee
+WOB  26157      1990                  23     Tuscola
+WOB  26159      1990                  40     Van Buren
+WOB  26161      1990                  32     Washtenaw
+WOB  26163      1990                  78     Wayne
+WOB  26165      1990                  27     Wexford
+/END/

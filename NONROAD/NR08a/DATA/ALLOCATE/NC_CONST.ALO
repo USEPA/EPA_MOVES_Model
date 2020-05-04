@@ -1,0 +1,127 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2003 DOLLAR VALUE of CONSTRUCTION
+adjusted for relative geographic cost of construction materials.
+   Const_Dollars * (1-(1/(1+100/Area_Mod_Factor)))
+from McGraw-Hill Construction (values) and Craftsman (cost adj)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+CON  37000      2003            19174805     NC
+CON  37001      2003              197017     Alamance
+CON  37003      2003               39778     Alexander
+CON  37005      2003               18778     Alleghany
+CON  37007      2003               10909     Anson
+CON  37009      2003               49831     Ashe
+CON  37011      2003               60710     Avery
+CON  37013      2003               64428     Beaufort
+CON  37015      2003               11904     Bertie
+CON  37017      2003               15942     Bladen
+CON  37019      2003              351355     Brunswick
+CON  37021      2003              430522     Buncombe
+CON  37023      2003               57164     Burke
+CON  37025      2003              375049     Cabarrus
+CON  37027      2003               80122     Caldwell
+CON  37029      2003               30964     Camden
+CON  37031      2003              158323     Carteret
+CON  37033      2003               15745     Caswell
+CON  37035      2003              211006     Catawba
+CON  37037      2003              198498     Chatham
+CON  37039      2003               58670     Cherokee
+CON  37041      2003               10019     Chowan
+CON  37043      2003               29906     Clay
+CON  37045      2003              115119     Cleveland
+CON  37047      2003               27318     Columbus
+CON  37049      2003              125567     Craven
+CON  37051      2003              382192     Cumberland
+CON  37053      2003              212043     Currituck
+CON  37055      2003              248172     Dare
+CON  37057      2003              143721     Davidson
+CON  37059      2003               63706     Davie
+CON  37061      2003               31045     Duplin
+CON  37063      2003              961454     Durham
+CON  37065      2003               31639     Edgecombe
+CON  37067      2003              558519     Forsyth
+CON  37069      2003               62895     Franklin
+CON  37071      2003              273382     Gaston
+CON  37073      2003                5274     Gates
+CON  37075      2003                9088     Graham
+CON  37077      2003              194359     Granville
+CON  37079      2003               14476     Greene
+CON  37081      2003             1270828     Guilford
+CON  37083      2003               27023     Halifax
+CON  37085      2003               94022     Harnett
+CON  37087      2003              123111     Haywood
+CON  37089      2003              198182     Henderson
+CON  37091      2003               14472     Hertford
+CON  37093      2003               53273     Hoke
+CON  37095      2003                4124     Hyde
+CON  37097      2003              356967     Iredell
+CON  37099      2003              147648     Jackson
+CON  37101      2003              300441     Johnston
+CON  37103      2003                3954     Jones
+CON  37105      2003              147379     Lee
+CON  37107      2003               31813     Lenoir
+CON  37109      2003              100626     Lincoln
+CON  37111      2003               39852     McDowell
+CON  37113      2003               90665     Macon
+CON  37115      2003               22000     Madison
+CON  37117      2003                7808     Martin
+CON  37119      2003             3184534     Mecklenburg
+CON  37121      2003               11619     Mitchell
+CON  37123      2003               39362     Montgomery
+CON  37125      2003              163322     Moore
+CON  37127      2003               97594     Nash
+CON  37129      2003              638164     New Hanover
+CON  37131      2003               10731     Northampton
+CON  37133      2003              202473     Onslow
+CON  37135      2003              417039     Orange
+CON  37137      2003               22004     Pamlico
+CON  37139      2003               72398     Pasquotank
+CON  37141      2003               76483     Pender
+CON  37143      2003               13993     Perquimans
+CON  37145      2003               56408     Person
+CON  37147      2003              261398     Pitt
+CON  37149      2003               29564     Polk
+CON  37151      2003              126040     Randolph
+CON  37153      2003               77555     Richmond
+CON  37155      2003               77510     Robeson
+CON  37157      2003               74950     Rockingham
+CON  37159      2003              117121     Rowan
+CON  37161      2003               62696     Rutherford
+CON  37163      2003               39711     Sampson
+CON  37165      2003               14182     Scotland
+CON  37167      2003               61894     Stanly
+CON  37169      2003               50344     Stokes
+CON  37171      2003               77393     Surry
+CON  37173      2003               50613     Swain
+CON  37175      2003               84751     Transylvania
+CON  37177      2003                3704     Tyrrell
+CON  37179      2003              667125     Union
+CON  37181      2003               63556     Vance
+CON  37183      2003             2656798     Wake
+CON  37185      2003               21027     Warren
+CON  37187      2003               13590     Washington
+CON  37189      2003              218563     Watauga
+CON  37191      2003              129744     Wayne
+CON  37193      2003               51640     Wilkes
+CON  37195      2003              121432     Wilson
+CON  37197      2003               36745     Yadkin
+CON  37199      2003                8240     Yancey
+/END/

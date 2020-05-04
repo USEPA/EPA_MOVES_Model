@@ -1,0 +1,82 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2002 Timber Product Output (cu ft)
+from US Forest Service TPO database. http://www.fia.fs.fed.us/program-features/tpo/
+
+10/19/05 epa: use TPO data instead of CBP employee data.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+LOG  54000      2002           276799438     WV
+LOG  54001      2002             3778350     Barbour
+LOG  54003      2002             2625157     Berkeley
+LOG  54005      2002             5841175     Boone
+LOG  54007      2002             7801806     Braxton
+LOG  54009      2002             1333373     Brooke
+LOG  54011      2002             2090004     Cabell
+LOG  54013      2002             3109339     Calhoun
+LOG  54015      2002             7578973     Clay
+LOG  54017      2002             2584914     Doddridge
+LOG  54019      2002             9024096     Fayette
+LOG  54021      2002             4680890     Gilmer
+LOG  54023      2002             3177836     Grant
+LOG  54025      2002            21786270     Greenbrier
+LOG  54027      2002             5329517     Hampshire
+LOG  54029      2002             1321317     Hancock
+LOG  54031      2002             5044902     Hardy
+LOG  54033      2002             2524413     Harrison
+LOG  54035      2002             2062443     Jackson
+LOG  54037      2002             2202558     Jefferson
+LOG  54039      2002             6226889     Kanawha
+LOG  54041      2002             4297031     Lewis
+LOG  54043      2002             2561237     Lincoln
+LOG  54045      2002             2788871     Logan
+LOG  54047      2002             2707882     McDowell
+LOG  54049      2002             3725036     Marion
+LOG  54051      2002             1491044     Marshall
+LOG  54053      2002             5408623     Mason
+LOG  54055      2002             3014663     Mercer
+LOG  54057      2002             4441809     Mineral
+LOG  54059      2002             3544526     Mingo
+LOG  54061      2002             4397613     Monongalia
+LOG  54063      2002             6934384     Monroe
+LOG  54065      2002             2737214     Morgan
+LOG  54067      2002            22895799     Nicholas
+LOG  54069      2002             1333373     Ohio
+LOG  54071      2002             2727209     Pendleton
+LOG  54073      2002             1345322     Pleasants
+LOG  54075      2002             2805174     Pocahontas
+LOG  54077      2002             9687961     Preston
+LOG  54079      2002             3960824     Putnam
+LOG  54081      2002            10454106     Raleigh
+LOG  54083      2002            18020011     Randolph
+LOG  54085      2002             5160896     Ritchie
+LOG  54087      2002             2462284     Roane
+LOG  54089      2002             2942979     Summers
+LOG  54091      2002             3483948     Taylor
+LOG  54093      2002             3954668     Tucker
+LOG  54095      2002             2766580     Tyler
+LOG  54097      2002             5211221     Upshur
+LOG  54099      2002             3395160     Wayne
+LOG  54101      2002            13189448     Webster
+LOG  54103      2002             2629971     Wetzel
+LOG  54105      2002             2287389     Wirt
+LOG  54107      2002             3542010     Wood
+LOG  54109      2002             4368952     Wyoming
+/END/

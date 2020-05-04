@@ -1,0 +1,52 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent HUMAN POPULATION
+
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+POP  02000      2002              640841     AK
+POP  02013      2002                2664     Aleutians East
+POP  02016      2002                5140     Aleutians West
+POP  02020      2002              267769     Anchorage
+POP  02050      2002               16618     Bethel
+POP  02060      2002                1148     Bristol Bay
+POP  02068      2002                1862     Denali
+POP  02070      2002                4974     Dillingham
+POP  02090      2002               84768     Fairbanks North Star
+POP  02100      2002                2301     Haines
+POP  02110      2002               30692     Juneau
+POP  02122      2002               51033     Kenai Peninsula
+POP  02130      2002               13576     Ketchikan Gateway
+POP  02150      2002               13684     Kodiak Island
+POP  02164      2002                1590     Lake and Peninsula
+POP  02170      2002               65113     Matanuska-Susitna
+POP  02180      2002                9141     Nome
+POP  02185      2002                7173     North Slope
+POP  02188      2002                7317     Northwest Arctic
+POP  02201      2002                5756     Prince of Wales-Outer Ketchikan
+POP  02220      2002                8858     Sitka
+POP  02232      2002                3281     Skagway-Hoonah-Angoon
+POP  02240      2002                5626     Southeast Fairbanks
+POP  02261      2002               10069     Valdez-Cordova
+POP  02270      2002                7163     Wade Hampton
+POP  02280      2002                6455     Wrangell-Petersburg
+POP  02282      2002                 741     Yakutat
+POP  02290      2002                6329     Yukon-Koyukuk
+/END/

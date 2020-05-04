@@ -1,0 +1,140 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent GOLF COURSES AND COUNTRY CLUBS
+CBP NAICS 713910; pre-2002 CBP SIC 7992
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+GC   29000      2002                 262     MO
+GC   29001      2002                   1     Adair
+GC   29003      2002                   1     Andrew
+GC   29005      2002                   2     Atchison
+GC   29007      2002                   3     Audrain
+GC   29009      2002                   4     Barry
+GC   29011      2002                   1     Barton
+GC   29013      2002                   1     Bates
+GC   29015      2002                   0     Benton
+GC   29017      2002                   0     Bollinger
+GC   29019      2002                   5     Boone
+GC   29021      2002                   1     Buchanan
+GC   29023      2002                   1     Butler
+GC   29025      2002                   1     Caldwell
+GC   29027      2002                   3     Callaway
+GC   29029      2002                   7     Camden
+GC   29031      2002                   2     Cape Girardeau
+GC   29033      2002                   1     Carroll
+GC   29035      2002                   0     Carter
+GC   29037      2002                   6     Cass
+GC   29039      2002                   3     Cedar
+GC   29041      2002                   1     Chariton
+GC   29043      2002                   3     Christian
+GC   29045      2002                   0     Clark
+GC   29047      2002                   4     Clay
+GC   29049      2002                   2     Clinton
+GC   29051      2002                   2     Cole
+GC   29053      2002                   2     Cooper
+GC   29055      2002                   2     Crawford
+GC   29057      2002                   0     Dade
+GC   29059      2002                   1     Dallas
+GC   29061      2002                   1     Daviess
+GC   29063      2002                   1     DeKalb
+GC   29065      2002                   1     Dent
+GC   29067      2002                   1     Douglas
+GC   29069      2002                   3     Dunklin
+GC   29071      2002                   5     Franklin
+GC   29073      2002                   1     Gasconade
+GC   29075      2002                   3     Gentry
+GC   29077      2002                   8     Greene
+GC   29079      2002                   1     Grundy
+GC   29081      2002                   1     Harrison
+GC   29083      2002                   2     Henry
+GC   29085      2002                   1     Hickory
+GC   29087      2002                   1     Holt
+GC   29089      2002                   0     Howard
+GC   29091      2002                   1     Howell
+GC   29093      2002                   3     Iron
+GC   29095      2002                  23     Jackson
+GC   29097      2002                   6     Jasper
+GC   29099      2002                   8     Jefferson
+GC   29101      2002                   1     Johnson
+GC   29103      2002                   1     Knox
+GC   29105      2002                   2     Laclede
+GC   29107      2002                   1     Lafayette
+GC   29109      2002                   1     Lawrence
+GC   29111      2002                   2     Lewis
+GC   29113      2002                   3     Lincoln
+GC   29115      2002                   2     Linn
+GC   29117      2002                   1     Livingston
+GC   29119      2002                   1     McDonald
+GC   29121      2002                   1     Macon
+GC   29123      2002                   1     Madison
+GC   29125      2002                   0     Maries
+GC   29127      2002                   4     Marion
+GC   29129      2002                   1     Mercer
+GC   29131      2002                   0     Miller
+GC   29133      2002                   1     Mississippi
+GC   29135      2002                   2     Moniteau
+GC   29137      2002                   2     Monroe
+GC   29139      2002                   1     Montgomery
+GC   29141      2002                   2     Morgan
+GC   29143      2002                   1     New Madrid
+GC   29145      2002                   0     Newton
+GC   29147      2002                   1     Nodaway
+GC   29149      2002                   2     Oregon
+GC   29151      2002                   1     Osage
+GC   29153      2002                   1     Ozark
+GC   29155      2002                   1     Pemiscot
+GC   29157      2002                   1     Perry
+GC   29159      2002                   1     Pettis
+GC   29161      2002                   2     Phelps
+GC   29163      2002                   2     Pike
+GC   29165      2002                   1     Platte
+GC   29167      2002                   2     Polk
+GC   29169      2002                   2     Pulaski
+GC   29171      2002                   1     Putnam
+GC   29173      2002                   0     Ralls
+GC   29175      2002                   2     Randolph
+GC   29177      2002                   1     Ray
+GC   29179      2002                   0     Reynolds
+GC   29181      2002                   1     Ripley
+GC   29183      2002                  16     St. Charles
+GC   29185      2002                   0     St. Clair
+GC   29186      2002                   1     Ste. Genevieve
+GC   29187      2002                   3     St. Francois
+GC   29189      2002                  32     St. Louis
+GC   29195      2002                   2     Saline
+GC   29197      2002                   1     Schuyler
+GC   29199      2002                   1     Scotland
+GC   29201      2002                   3     Scott
+GC   29203      2002                   0     Shannon
+GC   29205      2002                   0     Shelby
+GC   29207      2002                   2     Stoddard
+GC   29209      2002                   1     Stone
+GC   29211      2002                   1     Sullivan
+GC   29213      2002                   4     Taney
+GC   29215      2002                   0     Texas
+GC   29217      2002                   1     Vernon
+GC   29219      2002                   2     Warren
+GC   29221      2002                   1     Washington
+GC   29223      2002                   1     Wayne
+GC   29225      2002                   1     Webster
+GC   29227      2002                   0     Worth
+GC   29229      2002                   1     Wright
+GC   29510      2002                   4     St. Louis
+/END/

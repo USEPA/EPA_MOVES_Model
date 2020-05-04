@@ -1,0 +1,99 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent AIRCRAFT NOx TONS
+from Draft 2002 NEI
+
+9/1/05 epa: Modifies to treat PR & VI as additional to US Total.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+AIR  55000      2002             638.164     WI
+AIR  55001      2002               0.000     Adams
+AIR  55003      2002               0.072     Ashland
+AIR  55005      2002               0.000     Barron
+AIR  55007      2002               0.120     Bayfield
+AIR  55009      2002              40.732     Brown
+AIR  55011      2002               0.000     Buffalo
+AIR  55013      2002               0.057     Burnett
+AIR  55015      2002               0.046     Calumet
+AIR  55017      2002               0.970     Chippewa
+AIR  55019      2002               0.051     Clark
+AIR  55021      2002               0.082     Columbia
+AIR  55023      2002               0.052     Crawford
+AIR  55025      2002              79.000     Dane
+AIR  55027      2002               0.200     Dodge
+AIR  55029      2002              12.060     Door
+AIR  55031      2002               0.102     Douglas
+AIR  55033      2002               0.000     Dunn
+AIR  55035      2002               0.000     Eau Claire
+AIR  55037      2002               0.000     Florence
+AIR  55039      2002               0.327     Fond du Lac
+AIR  55041      2002               0.000     Forest
+AIR  55043      2002               0.062     Grant
+AIR  55045      2002               0.000     Green
+AIR  55047      2002               0.000     Green Lake
+AIR  55049      2002               0.000     Iowa
+AIR  55051      2002               0.000     Iron
+AIR  55053      2002               0.058     Jackson
+AIR  55055      2002               0.410     Jefferson
+AIR  55057      2002               0.000     Juneau
+AIR  55059      2002               0.663     Kenosha
+AIR  55061      2002               0.000     Kewaunee
+AIR  55063      2002               9.740     La Crosse
+AIR  55065      2002               0.000     Lafayette
+AIR  55067      2002               0.142     Langlade
+AIR  55069      2002               0.172     Lincoln
+AIR  55071      2002               0.017     Manitowoc
+AIR  55073      2002               4.600     Marathon
+AIR  55075      2002               0.000     Marinette
+AIR  55077      2002               0.000     Marquette
+AIR  55078      2002               0.000     Menominee
+AIR  55079      2002             429.760     Milwaukee
+AIR  55081      2002               1.045     Monroe
+AIR  55083      2002               0.081     Oconto
+AIR  55085      2002              42.451     Oneida
+AIR  55087      2002               0.000     Outagamie
+AIR  55089      2002               0.000     Ozaukee
+AIR  55091      2002               0.000     Pepin
+AIR  55093      2002               0.000     Pierce
+AIR  55095      2002               0.170     Polk
+AIR  55097      2002               0.217     Portage
+AIR  55099      2002               0.164     Price
+AIR  55101      2002               0.240     Racine
+AIR  55103      2002               0.038     Richland
+AIR  55105      2002               3.836     Rock
+AIR  55107      2002               0.041     Rusk
+AIR  55109      2002               0.200     St. Croix
+AIR  55111      2002               0.079     Sauk
+AIR  55113      2002               0.108     Sawyer
+AIR  55115      2002               0.000     Shawano
+AIR  55117      2002               0.580     Sheboygan
+AIR  55119      2002               0.061     Taylor
+AIR  55121      2002               0.000     Trempealeau
+AIR  55123      2002               0.000     Vernon
+AIR  55125      2002               6.164     Vilas
+AIR  55127      2002               0.250     Walworth
+AIR  55129      2002               0.112     Washburn
+AIR  55131      2002               1.010     Washington
+AIR  55133      2002               0.482     Waukesha
+AIR  55135      2002               0.391     Waupaca
+AIR  55137      2002               0.000     Waushara
+AIR  55139      2002               0.650     Winnebago
+AIR  55141      2002               0.298     Wood
+/END/

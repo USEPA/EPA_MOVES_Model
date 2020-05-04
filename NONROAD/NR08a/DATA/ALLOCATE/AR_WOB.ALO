@@ -1,0 +1,100 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WATER SURFACE AREA FOR OUTBOARD RECREATIONAL MARINE CRAFT (sq km navigable water)
+1990 GICS (inland water area); GIS analysis of coast lengths (coastal navigable water)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+WOB  05000      1990                2867     AR
+WOB  05001      1990                 117     Arkansas
+WOB  05003      1990                  46     Ashley
+WOB  05005      1990                  84     Baxter
+WOB  05007      1990                  87     Benton
+WOB  05009      1990                  28     Boone
+WOB  05011      1990                  10     Bradley
+WOB  05013      1990                  11     Calhoun
+WOB  05015      1990                  22     Carroll
+WOB  05017      1990                 121     Chicot
+WOB  05019      1990                  44     Clark
+WOB  05021      1990                   5     Clay
+WOB  05023      1990                 101     Cleburne
+WOB  05025      1990                   3     Cleveland
+WOB  05027      1990                   2     Columbia
+WOB  05029      1990                  27     Conway
+WOB  05031      1990                   6     Craighead
+WOB  05033      1990                  23     Crawford
+WOB  05035      1990                  68     Crittenden
+WOB  05037      1990                  17     Cross
+WOB  05039      1990                   2     Dallas
+WOB  05041      1990                 141     Desha
+WOB  05043      1990                  19     Drew
+WOB  05045      1990                  43     Faulkner
+WOB  05047      1990                  26     Franklin
+WOB  05049      1990                   6     Fulton
+WOB  05051      1990                 146     Garland
+WOB  05053      1990                   3     Grant
+WOB  05055      1990                   6     Greene
+WOB  05057      1990                  33     Hempstead
+WOB  05059      1990                  19     Hot Spring
+WOB  05061      1990                  20     Howard
+WOB  05063      1990                  20     Independence
+WOB  05065      1990                   9     Izard
+WOB  05067      1990                  21     Jackson
+WOB  05069      1990                  75     Jefferson
+WOB  05071      1990                  53     Johnson
+WOB  05073      1990                  48     Lafayette
+WOB  05075      1990                  15     Lawrence
+WOB  05077      1990                  46     Lee
+WOB  05079      1990                  28     Lincoln
+WOB  05081      1990                  86     Little River
+WOB  05083      1990                  56     Logan
+WOB  05085      1990                  96     Lonoke
+WOB  05087      1990                   0     Madison
+WOB  05089      1990                 110     Marion
+WOB  05091      1990                  35     Miller
+WOB  05093      1990                  56     Mississippi
+WOB  05095      1990                  38     Monroe
+WOB  05097      1990                  50     Montgomery
+WOB  05099      1990                   2     Nevada
+WOB  05101      1990                   1     Newton
+WOB  05103      1990                  19     Ouachita
+WOB  05105      1990                  25     Perry
+WOB  05107      1990                  90     Phillips
+WOB  05109      1990                  28     Pike
+WOB  05111      1990                  15     Poinsett
+WOB  05113      1990                   8     Polk
+WOB  05115      1990                  49     Pope
+WOB  05117      1990                  77     Prairie
+WOB  05119      1990                  96     Pulaski
+WOB  05121      1990                  11     Randolph
+WOB  05123      1990                  22     St. Francis
+WOB  05125      1990                  15     Saline
+WOB  05127      1990                  11     Scott
+WOB  05129      1990                   4     Searcy
+WOB  05131      1990                  25     Sebastian
+WOB  05133      1990                  45     Sevier
+WOB  05135      1990                   5     Sharp
+WOB  05137      1990                   7     Stone
+WOB  05139      1990                  42     Union
+WOB  05141      1990                  33     Van Buren
+WOB  05143      1990                  15     Washington
+WOB  05145      1990                  21     White
+WOB  05147      1990                  19     Woodruff
+WOB  05149      1990                  54     Yell
+/END/

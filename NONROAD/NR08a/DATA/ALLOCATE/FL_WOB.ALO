@@ -1,0 +1,92 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WATER SURFACE AREA FOR OUTBOARD RECREATIONAL MARINE CRAFT (sq km navigable water)
+1990 GICS (inland water area); GIS analysis of coast lengths (coastal navigable water)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+WOB  12000      1990               13584     FL
+WOB  12001      1990                 246     Alachua
+WOB  12003      1990                  10     Baker
+WOB  12005      1990                 354     Bay
+WOB  12007      1990                  18     Bradford
+WOB  12009      1990                 794     Brevard
+WOB  12011      1990                  35     Broward
+WOB  12013      1990                  18     Calhoun
+WOB  12015      1990                 342     Charlotte
+WOB  12017      1990                 232     Citrus
+WOB  12019      1990                 110     Clay
+WOB  12021      1990                 283     Collier
+WOB  12023      1990                  10     Columbia
+WOB  12027      1990                   6     DeSoto
+WOB  12029      1990                  78     Dixie
+WOB  12031      1990                 211     Duval
+WOB  12033      1990                 264     Escambia
+WOB  12035      1990                  69     Flagler
+WOB  12037      1990                 160     Franklin
+WOB  12039      1990                  32     Gadsden
+WOB  12041      1990                  17     Gilchrist
+WOB  12043      1990                 551     Glades
+WOB  12045      1990                  74     Gulf
+WOB  12047      1990                  12     Hamilton
+WOB  12049      1990                   3     Hardee
+WOB  12051      1990                  96     Hendry
+WOB  12053      1990                  78     Hernando
+WOB  12055      1990                 202     Highlands
+WOB  12057      1990                 137     Hillsborough
+WOB  12059      1990                  16     Holmes
+WOB  12061      1990                 112     Indian River
+WOB  12063      1990                 101     Jackson
+WOB  12065      1990                  44     Jefferson
+WOB  12067      1990                  13     Lafayette
+WOB  12069      1990                 527     Lake
+WOB  12071      1990                 675     Lee
+WOB  12073      1990                  91     Leon
+WOB  12075      1990                 168     Levy
+WOB  12077      1990                  19     Liberty
+WOB  12079      1990                  62     Madison
+WOB  12081      1990                 166     Manatee
+WOB  12083      1990                 218     Marion
+WOB  12085      1990                 330     Martin
+WOB  12086      1990                 262     Miami-Dade
+WOB  12087      1990                1473     Monroe
+WOB  12089      1990                  62     Nassau
+WOB  12091      1990                 181     Okaloosa
+WOB  12093      1990                 305     Okeechobee
+WOB  12095      1990                 250     Orange
+WOB  12097      1990                 478     Osceola
+WOB  12099      1990                 689     Palm Beach
+WOB  12101      1990                  76     Pasco
+WOB  12103      1990                 219     Pinellas
+WOB  12105      1990                 350     Polk
+WOB  12107      1990                 272     Putnam
+WOB  12109      1990                 192     St. Johns
+WOB  12111      1990                 130     St. Lucie
+WOB  12113      1990                 357     Santa Rosa
+WOB  12115      1990                 111     Sarasota
+WOB  12117      1990                  95     Seminole
+WOB  12119      1990                  90     Sumter
+WOB  12121      1990                  11     Suwannee
+WOB  12123      1990                  66     Taylor
+WOB  12125      1990                  24     Union
+WOB  12127      1990                 445     Volusia
+WOB  12129      1990                 105     Wakulla
+WOB  12131      1990                 264     Walton
+WOB  12133      1990                  93     Washington
+/END/

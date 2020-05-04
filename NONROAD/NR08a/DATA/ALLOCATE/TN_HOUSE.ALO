@@ -1,0 +1,120 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent SINGLE AND DOUBLE (DUPLEX) FAMILY HOMES
+
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+HOU  47000      2002             2519715     TN
+HOU  47001      2002               33007     Anderson
+HOU  47003      2002               15392     Bedford
+HOU  47005      2002                8793     Benton
+HOU  47007      2002                5263     Bledsoe
+HOU  47009      2002               48074     Blount
+HOU  47011      2002               38054     Bradley
+HOU  47013      2002               18766     Campbell
+HOU  47015      2002                5532     Cannon
+HOU  47017      2002               13275     Carroll
+HOU  47019      2002               26392     Carter
+HOU  47021      2002               14131     Cheatham
+HOU  47023      2002                6393     Chester
+HOU  47025      2002               13991     Claiborne
+HOU  47027      2002                4061     Clay
+HOU  47029      2002               16192     Cocke
+HOU  47031      2002               21321     Coffee
+HOU  47033      2002                6231     Crockett
+HOU  47035      2002               23065     Cumberland
+HOU  47037      2002              259346     Davidson
+HOU  47039      2002                6579     Decatur
+HOU  47041      2002                8531     DeKalb
+HOU  47043      2002               18480     Dickson
+HOU  47045      2002               16579     Dyer
+HOU  47047      2002               11619     Fayette
+HOU  47049      2002                7765     Fentress
+HOU  47051      2002               17488     Franklin
+HOU  47053      2002               21431     Gibson
+HOU  47055      2002               13397     Giles
+HOU  47057      2002                9999     Grainger
+HOU  47059      2002               28925     Greene
+HOU  47061      2002                6413     Grundy
+HOU  47063      2002               25435     Hamblen
+HOU  47065      2002              137674     Hamilton
+HOU  47067      2002                3322     Hancock
+HOU  47069      2002               10972     Hardeman
+HOU  47071      2002               13053     Hardin
+HOU  47073      2002               25078     Hawkins
+HOU  47075      2002                8269     Haywood
+HOU  47077      2002               11746     Henderson
+HOU  47079      2002               16107     Henry
+HOU  47081      2002                9084     Hickman
+HOU  47083      2002                3992     Houston
+HOU  47085      2002                8672     Humphreys
+HOU  47087      2002                5267     Jackson
+HOU  47089      2002               20187     Jefferson
+HOU  47091      2002                8132     Johnson
+HOU  47093      2002              177358     Knox
+HOU  47095      2002                2723     Lake
+HOU  47097      2002               10830     Lauderdale
+HOU  47099      2002               17053     Lawrence
+HOU  47101      2002                4935     Lewis
+HOU  47103      2002               14193     Lincoln
+HOU  47105      2002               17788     Loudon
+HOU  47107      2002               22016     McMinn
+HOU  47109      2002               11448     McNairy
+HOU  47111      2002                9121     Macon
+HOU  47113      2002               39667     Madison
+HOU  47115      2002               12744     Marion
+HOU  47117      2002               11719     Marshall
+HOU  47119      2002               30030     Maury
+HOU  47121      2002                5334     Meigs
+HOU  47123      2002               17757     Monroe
+HOU  47125      2002               55316     Montgomery
+HOU  47127      2002                2656     Moore
+HOU  47129      2002                7894     Morgan
+HOU  47131      2002               14691     Obion
+HOU  47133      2002                9368     Overton
+HOU  47135      2002                4207     Perry
+HOU  47137      2002                3011     Pickett
+HOU  47139      2002                7530     Polk
+HOU  47141      2002               27556     Putnam
+HOU  47143      2002               12969     Rhea
+HOU  47145      2002               23804     Roane
+HOU  47147      2002               22316     Robertson
+HOU  47149      2002               78216     Rutherford
+HOU  47151      2002                9110     Scott
+HOU  47153      2002                5057     Sequatchie
+HOU  47155      2002               38706     Sevier
+HOU  47157      2002              374598     Shelby
+HOU  47159      2002                7825     Smith
+HOU  47161      2002                6105     Stewart
+HOU  47163      2002               70405     Sullivan
+HOU  47165      2002               54325     Sumner
+HOU  47167      2002               20215     Tipton
+HOU  47169      2002                3178     Trousdale
+HOU  47171      2002                8334     Unicoi
+HOU  47173      2002                8277     Union
+HOU  47175      2002                2515     Van Buren
+HOU  47177      2002               17004     Warren
+HOU  47179      2002               48727     Washington
+HOU  47181      2002                6876     Wayne
+HOU  47183      2002               15283     Weakley
+HOU  47185      2002               10429     White
+HOU  47187      2002               50209     Williamson
+HOU  47189      2002               36812     Wilson
+/END/

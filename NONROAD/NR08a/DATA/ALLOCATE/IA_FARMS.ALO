@@ -1,0 +1,124 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent HARVESTED CROPLAND
+2002 USDA Census of Agriculture
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+FRM  19000      2002            23994343     IA
+FRM  19001      2002              242912     Adair
+FRM  19003      2002              134308     Adams
+FRM  19005      2002              144612     Allamakee
+FRM  19007      2002               88565     Appanoose
+FRM  19009      2002              205216     Audubon
+FRM  19011      2002              331805     Benton
+FRM  19013      2002              241295     Black Hawk
+FRM  19015      2002              267212     Boone
+FRM  19017      2002              218189     Bremer
+FRM  19019      2002              298590     Buchanan
+FRM  19021      2002              305632     Buena Vista
+FRM  19023      2002              277250     Butler
+FRM  19025      2002              309225     Calhoun
+FRM  19027      2002              310612     Carroll
+FRM  19029      2002              254695     Cass
+FRM  19031      2002              273846     Cedar
+FRM  19033      2002              291508     Cerro Gordo
+FRM  19035      2002              271900     Cherokee
+FRM  19037      2002              224672     Chickasaw
+FRM  19039      2002               82352     Clarke
+FRM  19041      2002              270329     Clay
+FRM  19043      2002              248030     Clayton
+FRM  19045      2002              313542     Clinton
+FRM  19047      2002              360907     Crawford
+FRM  19049      2002              252414     Dallas
+FRM  19051      2002              128895     Davis
+FRM  19053      2002               96216     Decatur
+FRM  19055      2002              271184     Delaware
+FRM  19057      2002              136795     Des Moines
+FRM  19059      2002              179208     Dickinson
+FRM  19061      2002              201526     Dubuque
+FRM  19063      2002              208352     Emmet
+FRM  19065      2002              326110     Fayette
+FRM  19067      2002              251429     Floyd
+FRM  19069      2002              302363     Franklin
+FRM  19071      2002              256220     Fremont
+FRM  19073      2002              304668     Greene
+FRM  19075      2002              295797     Grundy
+FRM  19077      2002              220536     Guthrie
+FRM  19079      2002              313870     Hamilton
+FRM  19081      2002              298798     Hancock
+FRM  19083      2002              286019     Hardin
+FRM  19085      2002              337240     Harrison
+FRM  19087      2002              165337     Henry
+FRM  19089      2002              212139     Howard
+FRM  19091      2002              246764     Humboldt
+FRM  19093      2002              224135     Ida
+FRM  19095      2002              217380     Iowa
+FRM  19097      2002              170281     Jackson
+FRM  19099      2002              320456     Jasper
+FRM  19101      2002              135215     Jefferson
+FRM  19103      2002              220101     Johnson
+FRM  19105      2002              224933     Jones
+FRM  19107      2002              211257     Keokuk
+FRM  19109      2002              543736     Kossuth
+FRM  19111      2002              170119     Lee
+FRM  19113      2002              262452     Linn
+FRM  19115      2002              148070     Louisa
+FRM  19117      2002               72176     Lucas
+FRM  19119      2002              294141     Lyon
+FRM  19121      2002              154993     Madison
+FRM  19123      2002              231055     Mahaska
+FRM  19125      2002              168055     Marion
+FRM  19127      2002              279661     Marshall
+FRM  19129      2002              203926     Mills
+FRM  19131      2002              249796     Mitchell
+FRM  19133      2002              309621     Monona
+FRM  19135      2002               95718     Monroe
+FRM  19137      2002              179055     Montgomery
+FRM  19139      2002              176389     Muscatine
+FRM  19141      2002              321700     O'Brien
+FRM  19143      2002              231467     Osceola
+FRM  19145      2002              228710     Page
+FRM  19147      2002              292988     Palo Alto
+FRM  19149      2002              438153     Plymouth
+FRM  19151      2002              325178     Pocahontas
+FRM  19153      2002              190229     Polk
+FRM  19155      2002              442923     Pottawattamie
+FRM  19157      2002              248601     Poweshiek
+FRM  19159      2002              119277     Ringgold
+FRM  19161      2002              303104     Sac
+FRM  19163      2002              201417     Scott
+FRM  19165      2002              298959     Shelby
+FRM  19167      2002              447482     Sioux
+FRM  19169      2002              310483     Story
+FRM  19171      2002              331855     Tama
+FRM  19173      2002              159970     Taylor
+FRM  19175      2002              116889     Union
+FRM  19177      2002              121039     Van Buren
+FRM  19179      2002              117295     Wapello
+FRM  19181      2002              160435     Warren
+FRM  19183      2002              236858     Washington
+FRM  19185      2002              144768     Wayne
+FRM  19187      2002              371464     Webster
+FRM  19189      2002              212573     Winnebago
+FRM  19191      2002              251757     Winneshiek
+FRM  19193      2002              332515     Woodbury
+FRM  19195      2002              197858     Worth
+FRM  19197      2002              316591     Wright
+/END/

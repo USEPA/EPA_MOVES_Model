@@ -1,0 +1,107 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WATER SURFACE AREA FOR OUTBOARD RECREATIONAL MARINE CRAFT (sq km navigable water)
+1990 GICS (inland water area); GIS analysis of coast lengths (coastal navigable water)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+WOB  28000      1990                2148     MS
+WOB  28001      1990                  67     Adams
+WOB  28003      1990                   4     Alcorn
+WOB  28005      1990                   5     Amite
+WOB  28007      1990                   5     Attala
+WOB  28009      1990                   5     Benton
+WOB  28011      1990                  76     Bolivar
+WOB  28013      1990                   4     Calhoun
+WOB  28015      1990                  18     Carroll
+WOB  28017      1990                   7     Chickasaw
+WOB  28019      1990                   2     Choctaw
+WOB  28021      1990                  38     Claiborne
+WOB  28023      1990                   6     Clarke
+WOB  28025      1990                  19     Clay
+WOB  28027      1990                  75     Coahoma
+WOB  28029      1990                   7     Copiah
+WOB  28031      1990                   3     Covington
+WOB  28033      1990                  48     DeSoto
+WOB  28035      1990                   9     Forrest
+WOB  28037      1990                   6     Franklin
+WOB  28039      1990                  14     George
+WOB  28041      1990                  15     Greene
+WOB  28043      1990                  71     Grenada
+WOB  28045      1990                  35     Hancock
+WOB  28047      1990                  99     Harrison
+WOB  28049      1990                  21     Hinds
+WOB  28051      1990                  21     Holmes
+WOB  28053      1990                  34     Humphreys
+WOB  28055      1990                  74     Issaquena
+WOB  28057      1990                  21     Itawamba
+WOB  28059      1990                 117     Jackson
+WOB  28061      1990                   4     Jasper
+WOB  28063      1990                  20     Jefferson
+WOB  28065      1990                   2     Jefferson Davis
+WOB  28067      1990                  15     Jones
+WOB  28069      1990                   2     Kemper
+WOB  28071      1990                 125     Lafayette
+WOB  28073      1990                   8     Lamar
+WOB  28075      1990                  30     Lauderdale
+WOB  28077      1990                  13     Lawrence
+WOB  28079      1990                   7     Leake
+WOB  28081      1990                   9     Lee
+WOB  28083      1990                  37     Leflore
+WOB  28085      1990                   6     Lincoln
+WOB  28087      1990                  37     Lowndes
+WOB  28089      1990                  59     Madison
+WOB  28091      1990                  16     Marion
+WOB  28093      1990                   9     Marshall
+WOB  28095      1990                  20     Monroe
+WOB  28097      1990                   3     Montgomery
+WOB  28099      1990                   4     Neshoba
+WOB  28101      1990                   4     Newton
+WOB  28103      1990                  14     Noxubee
+WOB  28105      1990                  11     Oktibbeha
+WOB  28107      1990                  54     Panola
+WOB  28109      1990                  19     Pearl River
+WOB  28111      1990                   8     Perry
+WOB  28113      1990                   5     Pike
+WOB  28115      1990                   9     Pontotoc
+WOB  28117      1990                   9     Prentiss
+WOB  28119      1990                   4     Quitman
+WOB  28121      1990                  82     Rankin
+WOB  28123      1990                   3     Scott
+WOB  28125      1990                  19     Sharkey
+WOB  28127      1990                   5     Simpson
+WOB  28129      1990                   4     Smith
+WOB  28131      1990                   7     Stone
+WOB  28133      1990                  35     Sunflower
+WOB  28135      1990                  21     Tallahatchie
+WOB  28137      1990                  17     Tate
+WOB  28139      1990                   5     Tippah
+WOB  28141      1990                  53     Tishomingo
+WOB  28143      1990                  67     Tunica
+WOB  28145      1990                   4     Union
+WOB  28147      1990                   2     Walthall
+WOB  28149      1990                  83     Warren
+WOB  28151      1990                  97     Washington
+WOB  28153      1990                   8     Wayne
+WOB  28155      1990                   1     Webster
+WOB  28157      1990                  28     Wilkinson
+WOB  28159      1990                   8     Winston
+WOB  28161      1990                  72     Yalobusha
+WOB  28163      1990                  38     Yazoo
+/END/

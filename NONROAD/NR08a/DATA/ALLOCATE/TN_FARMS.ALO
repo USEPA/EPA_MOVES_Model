@@ -1,0 +1,120 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent HARVESTED CROPLAND
+2002 USDA Census of Agriculture
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+FRM  47000      2002             4365360     TN
+FRM  47001      2002               11351     Anderson
+FRM  47003      2002               61360     Bedford
+FRM  47005      2002               17778     Benton
+FRM  47007      2002               23884     Bledsoe
+FRM  47009      2002               35985     Blount
+FRM  47011      2002               24977     Bradley
+FRM  47013      2002                9326     Campbell
+FRM  47015      2002               30714     Cannon
+FRM  47017      2002               90801     Carroll
+FRM  47019      2002               10138     Carter
+FRM  47021      2002               19766     Cheatham
+FRM  47023      2002               24686     Chester
+FRM  47025      2002               27840     Claiborne
+FRM  47027      2002               15853     Clay
+FRM  47029      2002               19634     Cocke
+FRM  47031      2002               66618     Coffee
+FRM  47033      2002              106999     Crockett
+FRM  47035      2002               32859     Cumberland
+FRM  47037      2002                9836     Davidson
+FRM  47039      2002               18665     Decatur
+FRM  47041      2002               23020     DeKalb
+FRM  47043      2002               32908     Dickson
+FRM  47045      2002              173489     Dyer
+FRM  47047      2002              124163     Fayette
+FRM  47049      2002               19059     Fentress
+FRM  47051      2002               82074     Franklin
+FRM  47053      2002              238337     Gibson
+FRM  47055      2002               63457     Giles
+FRM  47057      2002               21482     Grainger
+FRM  47059      2002               80936     Greene
+FRM  47061      2002               10682     Grundy
+FRM  47063      2002               20221     Hamblen
+FRM  47065      2002               14780     Hamilton
+FRM  47067      2002               10544     Hancock
+FRM  47069      2002               46826     Hardeman
+FRM  47071      2002               40099     Hardin
+FRM  47073      2002               40728     Hawkins
+FRM  47075      2002              158806     Haywood
+FRM  47077      2002               46627     Henderson
+FRM  47079      2002               91846     Henry
+FRM  47081      2002               29828     Hickman
+FRM  47083      2002               11147     Houston
+FRM  47085      2002               34578     Humphreys
+FRM  47087      2002               11964     Jackson
+FRM  47089      2002               34733     Jefferson
+FRM  47091      2002               12371     Johnson
+FRM  47093      2002               27337     Knox
+FRM  47095      2002               84153     Lake
+FRM  47097      2002              159821     Lauderdale
+FRM  47099      2002               70524     Lawrence
+FRM  47101      2002                7312     Lewis
+FRM  47103      2002               87240     Lincoln
+FRM  47105      2002               28339     Loudon
+FRM  47107      2002               39942     McMinn
+FRM  47109      2002               40160     McNairy
+FRM  47111      2002               37434     Macon
+FRM  47113      2002               93071     Madison
+FRM  47115      2002               15945     Marion
+FRM  47117      2002               40385     Marshall
+FRM  47119      2002               62144     Maury
+FRM  47121      2002               12074     Meigs
+FRM  47123      2002               32228     Monroe
+FRM  47125      2002               55288     Montgomery
+FRM  47127      2002               12986     Moore
+FRM  47129      2002               12854     Morgan
+FRM  47131      2002              191962     Obion
+FRM  47133      2002               28622     Overton
+FRM  47135      2002                9767     Perry
+FRM  47137      2002               11272     Pickett
+FRM  47139      2002               10110     Polk
+FRM  47141      2002               27625     Putnam
+FRM  47143      2002               17578     Rhea
+FRM  47145      2002               15027     Roane
+FRM  47147      2002              121444     Robertson
+FRM  47149      2002               54981     Rutherford
+FRM  47151      2002                7103     Scott
+FRM  47153      2002                6055     Sequatchie
+FRM  47155      2002               16611     Sevier
+FRM  47157      2002               62992     Shelby
+FRM  47159      2002               28069     Smith
+FRM  47161      2002               11781     Stewart
+FRM  47163      2002               29081     Sullivan
+FRM  47165      2002               63088     Sumner
+FRM  47167      2002              128028     Tipton
+FRM  47169      2002               12544     Trousdale
+FRM  47171      2002                2315     Unicoi
+FRM  47173      2002               10542     Union
+FRM  47175      2002                5807     Van Buren
+FRM  47177      2002               61775     Warren
+FRM  47179      2002               52626     Washington
+FRM  47181      2002               22119     Wayne
+FRM  47183      2002              153793     Weakley
+FRM  47185      2002               38798     White
+FRM  47187      2002               56753     Williamson
+FRM  47189      2002               54080     Wilson
+/END/

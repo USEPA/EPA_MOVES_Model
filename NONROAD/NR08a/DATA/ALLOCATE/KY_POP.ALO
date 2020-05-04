@@ -1,0 +1,145 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent HUMAN POPULATION
+
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+POP  21000      2002             4089985     KY
+POP  21001      2002               17399     Adair
+POP  21003      2002               18150     Allen
+POP  21005      2002               19560     Anderson
+POP  21007      2002                8134     Ballard
+POP  21009      2002               38748     Barren
+POP  21011      2002               11419     Bath
+POP  21013      2002               29989     Bell
+POP  21015      2002               93596     Boone
+POP  21017      2002               19502     Bourbon
+POP  21019      2002               49704     Boyd
+POP  21021      2002               27697     Boyle
+POP  21023      2002                8455     Bracken
+POP  21025      2002               15915     Breathitt
+POP  21027      2002               18948     Breckinridge
+POP  21029      2002               63756     Bullitt
+POP  21031      2002               13151     Butler
+POP  21033      2002               12878     Caldwell
+POP  21035      2002               34217     Calloway
+POP  21037      2002               88332     Campbell
+POP  21039      2002                5360     Carlisle
+POP  21041      2002               10268     Carroll
+POP  21043      2002               27107     Carter
+POP  21045      2002               15834     Casey
+POP  21047      2002               71815     Christian
+POP  21049      2002               33590     Clark
+POP  21051      2002               24422     Clay
+POP  21053      2002                9633     Clinton
+POP  21055      2002                9166     Crittenden
+POP  21057      2002                7162     Cumberland
+POP  21059      2002               91891     Daviess
+POP  21061      2002               11833     Edmonson
+POP  21063      2002                6792     Elliott
+POP  21065      2002               15356     Estill
+POP  21067      2002              262706     Fayette
+POP  21069      2002               14175     Fleming
+POP  21071      2002               42374     Floyd
+POP  21073      2002               48127     Franklin
+POP  21075      2002                7576     Fulton
+POP  21077      2002                7818     Gallatin
+POP  21079      2002               15625     Garrard
+POP  21081      2002               23582     Grant
+POP  21083      2002               37128     Graves
+POP  21085      2002               24283     Grayson
+POP  21087      2002               11680     Green
+POP  21089      2002               36830     Greenup
+POP  21091      2002                8451     Hancock
+POP  21093      2002               95317     Hardin
+POP  21095      2002               32542     Harlan
+POP  21097      2002               18107     Harrison
+POP  21099      2002               17697     Hart
+POP  21101      2002               45059     Henderson
+POP  21103      2002               15329     Henry
+POP  21105      2002                5237     Hickman
+POP  21107      2002               46459     Hopkins
+POP  21109      2002               13642     Jackson
+POP  21111      2002              696068     Jefferson
+POP  21113      2002               40705     Jessamine
+POP  21115      2002               23482     Johnson
+POP  21117      2002              151766     Kenton
+POP  21119      2002               17769     Knott
+POP  21121      2002               31671     Knox
+POP  21123      2002               13451     Larue
+POP  21125      2002               54434     Laurel
+POP  21127      2002               15878     Lawrence
+POP  21129      2002                7896     Lee
+POP  21131      2002               12271     Leslie
+POP  21133      2002               24932     Letcher
+POP  21135      2002               13833     Lewis
+POP  21137      2002               24154     Lincoln
+POP  21139      2002                9828     Livingston
+POP  21141      2002               26744     Logan
+POP  21143      2002                8142     Lyon
+POP  21145      2002               64805     McCracken
+POP  21147      2002               17131     McCreary
+POP  21149      2002                9978     McLean
+POP  21151      2002               73229     Madison
+POP  21153      2002               13323     Magoffin
+POP  21155      2002               18492     Marion
+POP  21157      2002               30262     Marshall
+POP  21159      2002               12543     Martin
+POP  21161      2002               16889     Mason
+POP  21163      2002               27418     Meade
+POP  21165      2002                6718     Menifee
+POP  21167      2002               21086     Mercer
+POP  21169      2002               10016     Metcalfe
+POP  21171      2002               11737     Monroe
+POP  21173      2002               23244     Montgomery
+POP  21175      2002               14250     Morgan
+POP  21177      2002               31716     Muhlenberg
+POP  21179      2002               38960     Nelson
+POP  21181      2002                6928     Nicholas
+POP  21183      2002               23223     Ohio
+POP  21185      2002               49201     Oldham
+POP  21187      2002               11015     Owen
+POP  21189      2002                4765     Owsley
+POP  21191      2002               14835     Pendleton
+POP  21193      2002               29498     Perry
+POP  21195      2002               67821     Pike
+POP  21197      2002               13313     Powell
+POP  21199      2002               57353     Pulaski
+POP  21201      2002                2306     Robertson
+POP  21203      2002               16720     Rockcastle
+POP  21205      2002               22251     Rowan
+POP  21207      2002               16504     Russell
+POP  21209      2002               35458     Scott
+POP  21211      2002               35027     Shelby
+POP  21213      2002               16641     Simpson
+POP  21215      2002               13591     Spencer
+POP  21217      2002               23273     Taylor
+POP  21219      2002               12006     Todd
+POP  21221      2002               12746     Trigg
+POP  21223      2002                8658     Trimble
+POP  21225      2002               15641     Union
+POP  21227      2002               94198     Warren
+POP  21229      2002               11150     Washington
+POP  21231      2002               20092     Wayne
+POP  21233      2002               14093     Webster
+POP  21235      2002               36810     Whitley
+POP  21237      2002                6992     Wolfe
+POP  21239      2002               23532     Woodford
+/END/

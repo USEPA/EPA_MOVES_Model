@@ -1,0 +1,92 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent LOCOMOTIVE NOx TONS
+from Draft 2002 NEI
+
+9/1/05 epa: Modifies to treat PR & VI as additional to US Total.
+9/26/05 epa: Assume Broomfield has negligible Rail activity. 
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+RR   08000      2002           13647.230     CO
+RR   08001      2002            1045.070     Adams
+RR   08003      2002              20.120     Alamosa
+RR   08005      2002             408.710     Arapahoe
+RR   08007      2002               0.000     Archuleta
+RR   08009      2002             181.160     Baca
+RR   08011      2002             283.770     Bent
+RR   08013      2002             364.350     Boulder
+RR   08014      2002               0.000     Broomfield
+RR   08015      2002               0.000     Chaffee
+RR   08017      2002             206.790     Cheyenne
+RR   08019      2002               0.000     Clear Creek
+RR   08021      2002               9.240     Conejos
+RR   08023      2002              23.490     Costilla
+RR   08025      2002               0.000     Crowley
+RR   08027      2002               0.000     Custer
+RR   08029      2002             207.070     Delta
+RR   08031      2002             244.230     Denver
+RR   08033      2002               0.000     Dolores
+RR   08035      2002             497.070     Douglas
+RR   08037      2002             466.990     Eagle
+RR   08039      2002              89.870     Elbert
+RR   08041      2002             775.190     El Paso
+RR   08043      2002              12.500     Fremont
+RR   08045      2002             435.710     Garfield
+RR   08047      2002             204.310     Gilpin
+RR   08049      2002             491.240     Grand
+RR   08051      2002              78.440     Gunnison
+RR   08053      2002               0.000     Hinsdale
+RR   08055      2002             577.690     Huerfano
+RR   08057      2002               0.000     Jackson
+RR   08059      2002             311.780     Jefferson
+RR   08061      2002               0.000     Kiowa
+RR   08063      2002               0.000     Kit Carson
+RR   08065      2002              22.130     Lake
+RR   08067      2002               0.000     La Plata
+RR   08069      2002              71.030     Larimer
+RR   08071      2002             642.480     Las Animas
+RR   08073      2002             226.270     Lincoln
+RR   08075      2002             575.830     Logan
+RR   08077      2002             389.160     Mesa
+RR   08079      2002              16.460     Mineral
+RR   08081      2002              87.440     Moffat
+RR   08083      2002               0.000     Montezuma
+RR   08085      2002              44.870     Montrose
+RR   08087      2002            1009.560     Morgan
+RR   08089      2002             281.020     Otero
+RR   08091      2002               0.000     Ouray
+RR   08093      2002               0.000     Park
+RR   08095      2002               0.000     Phillips
+RR   08097      2002               0.000     Pitkin
+RR   08099      2002              97.580     Prowers
+RR   08101      2002             816.760     Pueblo
+RR   08103      2002               0.000     Rio Blanco
+RR   08105      2002              22.400     Rio Grande
+RR   08107      2002             193.580     Routt
+RR   08109      2002               0.000     Saguache
+RR   08111      2002               0.000     San Juan
+RR   08113      2002               0.000     San Miguel
+RR   08115      2002             128.140     Sedgwick
+RR   08117      2002               0.000     Summit
+RR   08119      2002               0.000     Teller
+RR   08121      2002             501.420     Washington
+RR   08123      2002            1374.250     Weld
+RR   08125      2002             212.060     Yuma
+/END/

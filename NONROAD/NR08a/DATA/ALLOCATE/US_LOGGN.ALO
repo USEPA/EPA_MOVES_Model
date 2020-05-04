@@ -1,0 +1,80 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2002 Timber Product Output (cu ft)
+from US Forest Service TPO database. http://www.fia.fs.fed.us/program-features/tpo/
+
+10/19/05 epa: use TPO data instead of CBP employee data.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+LOG  00000      2002         20205692831     US
+LOG  01000      2002          1445844371     AL
+LOG  02000      2002           169927987     AK
+LOG  04000      2002            17362391     AZ
+LOG  05000      2002           950904275     AR
+LOG  06000      2002           831902932     CA
+LOG  08000      2002            59159870     CO
+LOG  09000      2002            33614777     CT
+LOG  10000      2002            13594991     DE
+LOG  11000      2002                   0     DC
+LOG  12000      2002           654558274     FL
+LOG  13000      2002          1596560108     GA
+LOG  15000      2002                   0     HI
+LOG  16000      2002           342693740     ID
+LOG  17000      2002           120253302     IL
+LOG  18000      2002           165096196     IN
+LOG  19000      2002            63279873     IA
+LOG  20000      2002            30048782     KS
+LOG  21000      2002           391249290     KY
+LOG  22000      2002          1093426902     LA
+LOG  23000      2002           764033653     ME
+LOG  24000      2002           121798484     MD
+LOG  25000      2002           117454672     MA
+LOG  26000      2002           466969286     MI
+LOG  27000      2002           494351073     MN
+LOG  28000      2002          1319490827     MS
+LOG  29000      2002           325957681     MO
+LOG  30000      2002           224467391     MT
+LOG  31000      2002            22686434     NE
+LOG  32000      2002             4128840     NV
+LOG  33000      2002           246582044     NH
+LOG  34000      2002            86214778     NJ
+LOG  35000      2002            24216145     NM
+LOG  36000      2002           303998463     NY
+LOG  37000      2002          1092905817     NC
+LOG  38000      2002             4084082     ND
+LOG  39000      2002           176198232     OH
+LOG  40000      2002           182262278     OK
+LOG  41000      2002           965581468     OR
+LOG  42000      2002           373187390     PA
+LOG  44000      2002             9365007     RI
+LOG  45000      2002           799937880     SC
+LOG  46000      2002            32202418     SD
+LOG  47000      2002           453988379     TN
+LOG  48000      2002           870303833     TX
+LOG  49000      2002            18805737     UT
+LOG  50000      2002           143277562     VT
+LOG  51000      2002           737995829     VA
+LOG  53000      2002           968163394     WA
+LOG  54000      2002           276799438     WV
+LOG  55000      2002           569478138     WI
+LOG  56000      2002            29328118     WY
+LOG  72000      2002                   0     PR
+LOG  78000      2002                   0     VI
+/END/

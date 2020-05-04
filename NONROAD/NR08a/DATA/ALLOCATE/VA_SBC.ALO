@@ -1,0 +1,163 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RELATIVE NUMBER OF COMMERCIAL SNOWBLOWERS
+Same as LSCAP allocation factors, with value set to 0 for counties with snowfall < 15"
+
+9/23/05 epa: checked Clifton Forge pre-2002 (1996), but was no LSCAP then.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+SBC  51000      2002                9931     VA
+SBC  51001      2002                   0     Accomack
+SBC  51003      2002                 207     Albemarle
+SBC  51005      2002                  18     Alleghany
+SBC  51007      2002                   0     Amelia
+SBC  51009      2002                  34     Amherst
+SBC  51011      2002                  10     Appomattox
+SBC  51013      2002                 138     Arlington
+SBC  51015      2002                 114     Augusta
+SBC  51017      2002                   5     Bath
+SBC  51019      2002                  73     Bedford
+SBC  51021      2002                   0     Bland
+SBC  51023      2002                  56     Botetourt
+SBC  51025      2002                   0     Brunswick
+SBC  51027      2002                  28     Buchanan
+SBC  51029      2002                  17     Buckingham
+SBC  51031      2002                  55     Campbell
+SBC  51033      2002                   0     Caroline
+SBC  51035      2002                  32     Carroll
+SBC  51036      2002                   0     Charles City
+SBC  51037      2002                   0     Charlotte
+SBC  51041      2002                   0     Chesterfield
+SBC  51043      2002                  38     Clarke
+SBC  51045      2002                   0     Craig
+SBC  51047      2002                  95     Culpeper
+SBC  51049      2002                   0     Cumberland
+SBC  51051      2002                  17     Dickenson
+SBC  51053      2002                   0     Dinwiddie
+SBC  51057      2002                   0     Essex
+SBC  51059      2002                3074     Fairfax
+SBC  51061      2002                 136     Fauquier
+SBC  51063      2002                  15     Floyd
+SBC  51065      2002                  31     Fluvanna
+SBC  51067      2002                  64     Franklin
+SBC  51069      2002                1293     Frederick
+SBC  51071      2002                   0     Giles
+SBC  51073      2002                   0     Gloucester
+SBC  51075      2002                   0     Goochland
+SBC  51077      2002                  18     Grayson
+SBC  51079      2002                  33     Greene
+SBC  51081      2002                   0     Greensville
+SBC  51083      2002                   0     Halifax
+SBC  51085      2002                   0     Hanover
+SBC  51087      2002                   0     Henrico
+SBC  51089      2002                   0     Henry
+SBC  51091      2002                   0     Highland
+SBC  51093      2002                   0     Isle of Wight
+SBC  51095      2002                   0     James City
+SBC  51097      2002                   0     King and Queen
+SBC  51099      2002                  10     King George
+SBC  51101      2002                   0     King William
+SBC  51103      2002                   0     Lancaster
+SBC  51105      2002                   0     Lee
+SBC  51107      2002                1624     Loudoun
+SBC  51109      2002                  29     Louisa
+SBC  51111      2002                   0     Lunenburg
+SBC  51113      2002                   9     Madison
+SBC  51115      2002                   0     Mathews
+SBC  51117      2002                   0     Mecklenburg
+SBC  51119      2002                   0     Middlesex
+SBC  51121      2002                 109     Montgomery
+SBC  51125      2002                  64     Nelson
+SBC  51127      2002                   0     New Kent
+SBC  51131      2002                   0     Northampton
+SBC  51133      2002                   0     Northumberland
+SBC  51135      2002                   0     Nottoway
+SBC  51137      2002                  14     Orange
+SBC  51139      2002                 128     Page
+SBC  51141      2002                   0     Patrick
+SBC  51143      2002                   0     Pittsylvania
+SBC  51145      2002                   0     Powhatan
+SBC  51147      2002                   0     Prince Edward
+SBC  51149      2002                   0     Prince George
+SBC  51153      2002                 831     Prince William
+SBC  51155      2002                  38     Pulaski
+SBC  51157      2002                   8     Rappahannock
+SBC  51159      2002                   0     Richmond
+SBC  51161      2002                  61     Roanoke
+SBC  51163      2002                  22     Rockbridge
+SBC  51165      2002                  31     Rockingham
+SBC  51167      2002                  31     Russell
+SBC  51169      2002                  25     Scott
+SBC  51171      2002                  39     Shenandoah
+SBC  51173      2002                  35     Smyth
+SBC  51175      2002                   0     Southampton
+SBC  51177      2002                  64     Spotsylvania
+SBC  51179      2002                 108     Stafford
+SBC  51181      2002                   0     Surry
+SBC  51183      2002                   0     Sussex
+SBC  51185      2002                  48     Tazewell
+SBC  51187      2002                  15     Warren
+SBC  51191      2002                  65     Washington
+SBC  51193      2002                   0     Westmoreland
+SBC  51195      2002                  45     Wise
+SBC  51197      2002                  30     Wythe
+SBC  51199      2002                   0     York
+SBC  51510      2002                 183     Alexandria
+SBC  51515      2002                   7     Bedford
+SBC  51520      2002                  18     Bristol
+SBC  51530      2002                   0     Buena Vista
+SBC  51540      2002                  42     Charlottesville
+SBC  51550      2002                   0     Chesapeake
+SBC  51560      2002                   0     Clifton Forge
+SBC  51570      2002                   0     Colonial Heights
+SBC  51580      2002                   0     Covington
+SBC  51590      2002                   0     Danville
+SBC  51595      2002                   0     Emporia
+SBC  51600      2002                   0     Fairfax
+SBC  51610      2002                  74     Falls Church
+SBC  51620      2002                   0     Franklin
+SBC  51630      2002                   0     Fredericksburg
+SBC  51640      2002                   7     Galax
+SBC  51650      2002                   0     Hampton
+SBC  51660      2002                  44     Harrisonburg
+SBC  51670      2002                   0     Hopewell
+SBC  51678      2002                   0     Lexington
+SBC  51680      2002                  70     Lynchburg
+SBC  51683      2002                  28     Manassas
+SBC  51685      2002                  70     Manassas Park
+SBC  51690      2002                  16     Martinsville
+SBC  51700      2002                   0     Newport News
+SBC  51710      2002                   0     Norfolk
+SBC  51720      2002                   0     Norton
+SBC  51730      2002                   0     Petersburg
+SBC  51735      2002                   0     Poquoson
+SBC  51740      2002                   0     Portsmouth
+SBC  51750      2002                  16     Radford
+SBC  51760      2002                   0     Richmond
+SBC  51770      2002                 102     Roanoke
+SBC  51775      2002                  83     Salem
+SBC  51780      2002                   0     South Boston
+SBC  51790      2002                  39     Staunton
+SBC  51800      2002                   0     Suffolk
+SBC  51810      2002                   0     Virginia Beach
+SBC  51820      2002                  22     Waynesboro
+SBC  51830      2002                   0     Williamsburg
+SBC  51840      2002                  26     Winchester
+/END/

@@ -1,0 +1,91 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RECREATIONAL VEHICLE PARKS AND CAMPGROUNDS
+CBP NAICS 72121/; pre-2002 CBP SIC 7030
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+RVP  46000      2002                  61     SD
+RVP  46003      2002                   0     Aurora
+RVP  46005      2002                   0     Beadle
+RVP  46007      2002                   0     Bennett
+RVP  46009      2002                   0     Bon Homme
+RVP  46011      2002                   0     Brookings
+RVP  46013      2002                   0     Brown
+RVP  46015      2002                   3     Brule
+RVP  46017      2002                   0     Buffalo
+RVP  46019      2002                   1     Butte
+RVP  46021      2002                   2     Campbell
+RVP  46023      2002                   0     Charles Mix
+RVP  46025      2002                   0     Clark
+RVP  46027      2002                   0     Clay
+RVP  46029      2002                   1     Codington
+RVP  46031      2002                   0     Corson
+RVP  46033      2002                   6     Custer
+RVP  46035      2002                   2     Davison
+RVP  46037      2002                   1     Day
+RVP  46039      2002                   0     Deuel
+RVP  46041      2002                   0     Dewey
+RVP  46043      2002                   0     Douglas
+RVP  46045      2002                   0     Edmunds
+RVP  46047      2002                   1     Fall River
+RVP  46049      2002                   0     Faulk
+RVP  46051      2002                   0     Grant
+RVP  46053      2002                   0     Gregory
+RVP  46055      2002                   1     Haakon
+RVP  46057      2002                   0     Hamlin
+RVP  46059      2002                   0     Hand
+RVP  46061      2002                   0     Hanson
+RVP  46063      2002                   0     Harding
+RVP  46065      2002                   1     Hughes
+RVP  46067      2002                   0     Hutchinson
+RVP  46069      2002                   0     Hyde
+RVP  46071      2002                   2     Jackson
+RVP  46073      2002                   0     Jerauld
+RVP  46075      2002                   0     Jones
+RVP  46077      2002                   0     Kingsbury
+RVP  46079      2002                   0     Lake
+RVP  46081      2002                   6     Lawrence
+RVP  46083      2002                   1     Lincoln
+RVP  46085      2002                   2     Lyman
+RVP  46087      2002                   0     McCook
+RVP  46089      2002                   0     McPherson
+RVP  46091      2002                   1     Marshall
+RVP  46093      2002                   8     Meade
+RVP  46095      2002                   0     Mellette
+RVP  46097      2002                   0     Miner
+RVP  46099      2002                   2     Minnehaha
+RVP  46101      2002                   0     Moody
+RVP  46103      2002                  16     Pennington
+RVP  46105      2002                   0     Perkins
+RVP  46107      2002                   0     Potter
+RVP  46109      2002                   0     Roberts
+RVP  46111      2002                   0     Sanborn
+RVP  46113      2002                   0     Shannon
+RVP  46115      2002                   1     Spink
+RVP  46117      2002                   1     Stanley
+RVP  46119      2002                   1     Sully
+RVP  46121      2002                   0     Todd
+RVP  46123      2002                   0     Tripp
+RVP  46125      2002                   0     Turner
+RVP  46127      2002                   1     Union
+RVP  46129      2002                   0     Walworth
+RVP  46135      2002                   0     Yankton
+RVP  46137      2002                   0     Ziebach
+/END/

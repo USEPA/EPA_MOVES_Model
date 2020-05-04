@@ -1,0 +1,78 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RELATIVE NUMBER OF RESIDENTIAL SNOWBLOWERS
+Same as HOUSE allocation factors, with value set to 0 for counties with snowfall < 15"
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+SBR  00000      2002            66261867     US
+SBR  01000      2002                   0     AL
+SBR  02000      2002              253216     AK
+SBR  04000      2002              223051     AZ
+SBR  05000      2002                   0     AR
+SBR  06000      2002             1281847     CA
+SBR  08000      2002             1928962     CO
+SBR  09000      2002             1402657     CT
+SBR  10000      2002                   0     DE
+SBR  11000      2002              272636     DC
+SBR  12000      2002                   0     FL
+SBR  13000      2002               17469     GA
+SBR  15000      2002                   0     HI
+SBR  16000      2002              552115     ID
+SBR  17000      2002             4953214     IL
+SBR  18000      2002             2412097     IN
+SBR  19000      2002             1257458     IA
+SBR  20000      2002             1050315     KS
+SBR  21000      2002              934912     KY
+SBR  22000      2002                   0     LA
+SBR  23000      2002              664633     ME
+SBR  24000      2002             2041686     MD
+SBR  25000      2002             2648992     MA
+SBR  26000      2002             4340564     MI
+SBR  27000      2002             2132669     MN
+SBR  28000      2002                   0     MS
+SBR  29000      2002             2102506     MO
+SBR  30000      2002              417106     MT
+SBR  31000      2002              738896     NE
+SBR  32000      2002              218587     NV
+SBR  33000      2002              561179     NH
+SBR  34000      2002             3108801     NJ
+SBR  35000      2002              591767     NM
+SBR  36000      2002             7762795     NY
+SBR  37000      2002              347697     NC
+SBR  38000      2002              294175     ND
+SBR  39000      2002             4876698     OH
+SBR  40000      2002               14400     OK
+SBR  41000      2002             1495593     OR
+SBR  42000      2002             5328266     PA
+SBR  44000      2002              443761     RI
+SBR  45000      2002                   0     SC
+SBR  46000      2002              332361     SD
+SBR  47000      2002              492650     TN
+SBR  48000      2002               95221     TX
+SBR  49000      2002              808633     UT
+SBR  50000      2002              299580     VT
+SBR  51000      2002             1655233     VA
+SBR  53000      2002             2440583     WA
+SBR  54000      2002              852101     WV
+SBR  55000      2002             2386857     WI
+SBR  56000      2002              227928     WY
+SBR  72000      2002                   0     PR
+SBR  78000      2002                   0     VI
+/END/

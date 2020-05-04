@@ -1,0 +1,89 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent EMPLOYEES IN LANDSCAPING SERVICES
+CBP NAICS 561730; pre-2002 CBP SIC 0780
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+LSC  22000      2002                3318     LA
+LSC  22001      2002                   5     Acadia
+LSC  22003      2002                   0     Allen
+LSC  22005      2002                  58     Ascension
+LSC  22007      2002                   6     Assumption
+LSC  22009      2002                  32     Avoyelles
+LSC  22011      2002                  23     Beauregard
+LSC  22013      2002                   0     Bienville
+LSC  22015      2002                  61     Bossier
+LSC  22017      2002                 728     Caddo
+LSC  22019      2002                 150     Calcasieu
+LSC  22021      2002                   0     Caldwell
+LSC  22023      2002                   0     Cameron
+LSC  22025      2002                   6     Catahoula
+LSC  22027      2002                   6     Claiborn
+LSC  22029      2002                   6     Concordia
+LSC  22031      2002                  33     De Soto
+LSC  22033      2002                 429     E. Baton Rouge
+LSC  22035      2002                   0     E. Carroll
+LSC  22037      2002                   0     E. Feliciana
+LSC  22039      2002                   6     Evangeline
+LSC  22041      2002                   6     Franklin
+LSC  22043      2002                   6     Grant
+LSC  22045      2002                   6     Iberia
+LSC  22047      2002                   6     Iberville
+LSC  22049      2002                   6     Jackson
+LSC  22051      2002                 427     Jefferson
+LSC  22053      2002                   6     Jefferson Davis
+LSC  22055      2002                 195     Lafayette
+LSC  22057      2002                  14     Lafourche
+LSC  22059      2002                   0     La Salle
+LSC  22061      2002                  50     Lincoln
+LSC  22063      2002                  25     Livingston
+LSC  22065      2002                   6     Madison
+LSC  22067      2002                   6     Morehouse
+LSC  22069      2002                   6     Natchitoches
+LSC  22071      2002                 177     Orleans
+LSC  22073      2002                  97     Ouachita
+LSC  22075      2002                  15     Plaquemines
+LSC  22077      2002                  33     Pointe Coupee
+LSC  22079      2002                  76     Rapides
+LSC  22081      2002                   6     Red River
+LSC  22083      2002                   0     Richland
+LSC  22085      2002                   6     Sabine
+LSC  22087      2002                   6     St. Bernard
+LSC  22089      2002                  26     St. Charles
+LSC  22091      2002                   0     St. Helena
+LSC  22093      2002                  24     St. James
+LSC  22095      2002                  33     St. John the Baptist
+LSC  22097      2002                  29     St. Landry
+LSC  22099      2002                   6     St. Martin
+LSC  22101      2002                   6     St. Mary
+LSC  22103      2002                 181     St. Tammany
+LSC  22105      2002                  56     Tangipahoa
+LSC  22107      2002                   0     Tensas
+LSC  22109      2002                  34     Terrebonne
+LSC  22111      2002                  34     Union
+LSC  22113      2002                  32     Vermilion
+LSC  22115      2002                   6     Vernon
+LSC  22117      2002                   0     Washington
+LSC  22119      2002                  12     Webster
+LSC  22121      2002                  97     W. Baton Rouge
+LSC  22123      2002                   6     W. Carroll
+LSC  22125      2002                   6     W. Feliciana
+LSC  22127      2002                   0     Winn
+/END/

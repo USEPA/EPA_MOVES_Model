@@ -1,0 +1,97 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RELATIVE NUMBER OF SNOWMOBILES
+Allocated to counties using snowfall limit of 40" and inverse human population; Alaska uses direct human population
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+SNM  55000      2002                2740     WI
+SNM  55001      2002                  49     Adams
+SNM  55003      2002                  60     Ashland
+SNM  55005      2002                  22     Barron
+SNM  55007      2002                  66     Bayfield
+SNM  55009      2002                   0     Brown
+SNM  55011      2002                  72     Buffalo
+SNM  55013      2002                  62     Burnett
+SNM  55015      2002                  24     Calumet
+SNM  55017      2002                  18     Chippewa
+SNM  55019      2002                  30     Clark
+SNM  55021      2002                  19     Columbia
+SNM  55023      2002                  59     Crawford
+SNM  55025      2002                   0     Dane
+SNM  55027      2002                  12     Dodge
+SNM  55029      2002                  35     Door
+SNM  55031      2002                  23     Douglas
+SNM  55033      2002                  25     Dunn
+SNM  55035      2002                  11     Eau Claire
+SNM  55037      2002                 195     Florence
+SNM  55039      2002                  10     Fond du Lac
+SNM  55041      2002                 101     Forest
+SNM  55043      2002                  20     Grant
+SNM  55045      2002                  29     Green
+SNM  55047      2002                  52     Green Lake
+SNM  55049      2002                  43     Iowa
+SNM  55051      2002                 147     Iron
+SNM  55053      2002                  52     Jackson
+SNM  55055      2002                  13     Jefferson
+SNM  55057      2002                  40     Juneau
+SNM  55059      2002                   0     Kenosha
+SNM  55061      2002                  49     Kewaunee
+SNM  55063      2002                   9     La Crosse
+SNM  55065      2002                  61     Lafayette
+SNM  55067      2002                  48     Langlade
+SNM  55069      2002                  33     Lincoln
+SNM  55071      2002                  12     Manitowoc
+SNM  55073      2002                   8     Marathon
+SNM  55075      2002                  23     Marinette
+SNM  55077      2002                  68     Marquette
+SNM  55078      2002                 216     Menominee
+SNM  55079      2002                   0     Milwaukee
+SNM  55081      2002                  24     Monroe
+SNM  55083      2002                  27     Oconto
+SNM  55085      2002                  27     Oneida
+SNM  55087      2002                   6     Outagamie
+SNM  55089      2002                   0     Ozaukee
+SNM  55091      2002                 136     Pepin
+SNM  55093      2002                  27     Pierce
+SNM  55095      2002                  23     Polk
+SNM  55097      2002                  15     Portage
+SNM  55099      2002                  65     Price
+SNM  55101      2002                   0     Racine
+SNM  55103      2002                  55     Richland
+SNM  55105      2002                   6     Rock
+SNM  55107      2002                  65     Rusk
+SNM  55109      2002                  15     St. Croix
+SNM  55111      2002                  18     Sauk
+SNM  55113      2002                  60     Sawyer
+SNM  55115      2002                  24     Shawano
+SNM  55117      2002                   9     Sheboygan
+SNM  55119      2002                  51     Taylor
+SNM  55121      2002                  37     Trempealeau
+SNM  55123      2002                  35     Vernon
+SNM  55125      2002                  46     Vilas
+SNM  55127      2002                  11     Walworth
+SNM  55129      2002                  61     Washburn
+SNM  55131      2002                   0     Washington
+SNM  55133      2002                   0     Waukesha
+SNM  55135      2002                  19     Waupaca
+SNM  55137      2002                  43     Waushara
+SNM  55139      2002                   6     Winnebago
+SNM  55141      2002                  13     Wood
+/END/

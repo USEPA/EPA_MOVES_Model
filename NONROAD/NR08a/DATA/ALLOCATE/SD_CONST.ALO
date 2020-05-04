@@ -1,0 +1,93 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2003 DOLLAR VALUE of CONSTRUCTION
+adjusted for relative geographic cost of construction materials.
+   Const_Dollars * (1-(1/(1+100/Area_Mod_Factor)))
+from McGraw-Hill Construction (values) and Craftsman (cost adj)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+CON  46000      2003             1215618     SD
+CON  46003      2003                2797     Aurora
+CON  46005      2003                9322     Beadle
+CON  46007      2003                3842     Bennett
+CON  46009      2003                4074     Bon Homme
+CON  46011      2003               19532     Brookings
+CON  46013      2003               45242     Brown
+CON  46015      2003                3649     Brule
+CON  46017      2003                1963     Buffalo
+CON  46019      2003                5018     Butte
+CON  46021      2003                1136     Campbell
+CON  46023      2003                5295     Charles Mix
+CON  46025      2003                3171     Clark
+CON  46027      2003               30610     Clay
+CON  46029      2003               38593     Codington
+CON  46031      2003                1702     Corson
+CON  46033      2003               21740     Custer
+CON  46035      2003               12501     Davison
+CON  46037      2003               13744     Day
+CON  46039      2003                4632     Deuel
+CON  46041      2003                4973     Dewey
+CON  46043      2003                1830     Douglas
+CON  46045      2003                4938     Edmunds
+CON  46047      2003                9897     Fall River
+CON  46049      2003                2268     Faulk
+CON  46051      2003                5479     Grant
+CON  46053      2003                8216     Gregory
+CON  46055      2003                1272     Haakon
+CON  46057      2003                7685     Hamlin
+CON  46059      2003                6052     Hand
+CON  46061      2003               15242     Hanson
+CON  46063      2003                1313     Harding
+CON  46065      2003               19787     Hughes
+CON  46067      2003                2258     Hutchinson
+CON  46069      2003               45914     Hyde
+CON  46071      2003                7083     Jackson
+CON  46073      2003                2590     Jerauld
+CON  46075      2003               10109     Jones
+CON  46077      2003                6891     Kingsbury
+CON  46079      2003                6199     Lake
+CON  46081      2003               41754     Lawrence
+CON  46083      2003               57054     Lincoln
+CON  46085      2003                6863     Lyman
+CON  46087      2003                5616     McCook
+CON  46089      2003                1214     McPherson
+CON  46091      2003                3260     Marshall
+CON  46093      2003               46354     Meade
+CON  46095      2003                3321     Mellette
+CON  46097      2003                1482     Miner
+CON  46099      2003              330451     Minnehaha
+CON  46101      2003                2983     Moody
+CON  46103      2003              151047     Pennington
+CON  46105      2003               11563     Perkins
+CON  46107      2003                1669     Potter
+CON  46109      2003               11808     Roberts
+CON  46111      2003               12442     Sanborn
+CON  46113      2003               14315     Shannon
+CON  46115      2003                8241     Spink
+CON  46117      2003               17760     Stanley
+CON  46119      2003                   0     Sully
+CON  46121      2003                6196     Todd
+CON  46123      2003                6129     Tripp
+CON  46125      2003                3751     Turner
+CON  46127      2003               25960     Union
+CON  46129      2003                2052     Walworth
+CON  46135      2003               38745     Yankton
+CON  46137      2003                5027     Ziebach
+/END/

@@ -1,0 +1,102 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RECREATIONAL VEHICLE PARKS AND CAMPGROUNDS
+CBP NAICS 72121/; pre-2002 CBP SIC 7030
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+RVP  40000      2002                  54     OK
+RVP  40001      2002                   0     Adair
+RVP  40003      2002                   0     Alfalfa
+RVP  40005      2002                   0     Atoka
+RVP  40007      2002                   0     Beaver
+RVP  40009      2002                   2     Beckham
+RVP  40011      2002                   0     Blaine
+RVP  40013      2002                   1     Bryan
+RVP  40015      2002                   0     Caddo
+RVP  40017      2002                   0     Canadian
+RVP  40019      2002                   0     Carter
+RVP  40021      2002                   3     Cherokee
+RVP  40023      2002                   0     Choctaw
+RVP  40025      2002                   1     Cimarron
+RVP  40027      2002                   1     Cleveland
+RVP  40029      2002                   0     Coal
+RVP  40031      2002                   2     Comanche
+RVP  40033      2002                   0     Cotton
+RVP  40035      2002                   1     Craig
+RVP  40037      2002                   2     Creek
+RVP  40039      2002                   0     Custer
+RVP  40041      2002                   6     Delaware
+RVP  40043      2002                   0     Dewey
+RVP  40045      2002                   0     Ellis
+RVP  40047      2002                   0     Garfield
+RVP  40049      2002                   1     Garvin
+RVP  40051      2002                   1     Grady
+RVP  40053      2002                   0     Grant
+RVP  40055      2002                   0     Greer
+RVP  40057      2002                   0     Harmon
+RVP  40059      2002                   0     Harper
+RVP  40061      2002                   0     Haskell
+RVP  40063      2002                   0     Hughes
+RVP  40065      2002                   0     Jackson
+RVP  40067      2002                   0     Jefferson
+RVP  40069      2002                   0     Johnston
+RVP  40071      2002                   0     Kay
+RVP  40073      2002                   0     Kingfisher
+RVP  40075      2002                   0     Kiowa
+RVP  40077      2002                   0     Latimer
+RVP  40079      2002                   0     Le Flore
+RVP  40081      2002                   0     Lincoln
+RVP  40083      2002                   1     Logan
+RVP  40085      2002                   1     Love
+RVP  40087      2002                   0     McClain
+RVP  40089      2002                   1     McCurtain
+RVP  40091      2002                   4     McIntosh
+RVP  40093      2002                   0     Major
+RVP  40095      2002                   2     Marshall
+RVP  40097      2002                   0     Mayes
+RVP  40099      2002                   2     Murray
+RVP  40101      2002                   2     Muskogee
+RVP  40103      2002                   1     Noble
+RVP  40105      2002                   0     Nowata
+RVP  40107      2002                   0     Okfuskee
+RVP  40109      2002                   6     Oklahoma
+RVP  40111      2002                   1     Okmulgee
+RVP  40113      2002                   1     Osage
+RVP  40115      2002                   2     Ottawa
+RVP  40117      2002                   0     Pawnee
+RVP  40119      2002                   0     Payne
+RVP  40121      2002                   0     Pittsburg
+RVP  40123      2002                   0     Pontotoc
+RVP  40125      2002                   0     Pottawatomie
+RVP  40127      2002                   0     Pushmataha
+RVP  40129      2002                   0     Roger Mills
+RVP  40131      2002                   1     Rogers
+RVP  40133      2002                   0     Seminole
+RVP  40135      2002                   1     Sequoyah
+RVP  40137      2002                   1     Stephens
+RVP  40139      2002                   0     Texas
+RVP  40141      2002                   0     Tillman
+RVP  40143      2002                   2     Tulsa
+RVP  40145      2002                   2     Wagoner
+RVP  40147      2002                   0     Washington
+RVP  40149      2002                   1     Washita
+RVP  40151      2002                   1     Woods
+RVP  40153      2002                   0     Woodward
+/END/

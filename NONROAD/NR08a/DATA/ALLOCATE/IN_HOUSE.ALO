@@ -1,0 +1,117 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent SINGLE AND DOUBLE (DUPLEX) FAMILY HOMES
+
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+HOU  18000      2002             2615834     IN
+HOU  18001      2002               12599     Adams
+HOU  18003      2002              143089     Allen
+HOU  18005      2002               30410     Bartholomew
+HOU  18007      2002                3842     Benton
+HOU  18009      2002                6288     Blackford
+HOU  18011      2002               19172     Boone
+HOU  18013      2002                7464     Brown
+HOU  18015      2002                8845     Carroll
+HOU  18017      2002               16881     Cass
+HOU  18019      2002               43318     Clark
+HOU  18021      2002               11356     Clay
+HOU  18023      2002               13391     Clinton
+HOU  18025      2002                5294     Crawford
+HOU  18027      2002               12079     Daviess
+HOU  18029      2002               18545     Dearborn
+HOU  18031      2002               10219     Decatur
+HOU  18033      2002               16540     De Kalb
+HOU  18035      2002               51739     Delaware
+HOU  18037      2002               15987     Dubois
+HOU  18039      2002               72488     Elkhart
+HOU  18041      2002               11110     Fayette
+HOU  18043      2002               29885     Floyd
+HOU  18045      2002                7792     Fountain
+HOU  18047      2002                8854     Franklin
+HOU  18049      2002                9289     Fulton
+HOU  18051      2002               14607     Gibson
+HOU  18053      2002               31130     Grant
+HOU  18055      2002               15466     Greene
+HOU  18057      2002               78813     Hamilton
+HOU  18059      2002               23570     Hancock
+HOU  18061      2002               14221     Harrison
+HOU  18063      2002               43880     Hendricks
+HOU  18065      2002               21007     Henry
+HOU  18067      2002               38349     Howard
+HOU  18069      2002               15525     Huntington
+HOU  18071      2002               17676     Jackson
+HOU  18073      2002               11825     Jasper
+HOU  18075      2002                9219     Jay
+HOU  18077      2002               13798     Jefferson
+HOU  18079      2002               12140     Jennings
+HOU  18081      2002               48364     Johnson
+HOU  18083      2002               17396     Knox
+HOU  18085      2002               33204     Kosciusko
+HOU  18087      2002               13413     Lagrange
+HOU  18089      2002              198668     Lake
+HOU  18091      2002               46420     La Porte
+HOU  18093      2002               20922     Lawrence
+HOU  18095      2002               57582     Madison
+HOU  18097      2002              398676     Marion
+HOU  18099      2002               18629     Marshall
+HOU  18101      2002                4865     Martin
+HOU  18103      2002               15543     Miami
+HOU  18105      2002               52521     Monroe
+HOU  18107      2002               15999     Montgomery
+HOU  18109      2002               27169     Morgan
+HOU  18111      2002                5898     Newton
+HOU  18113      2002               18754     Noble
+HOU  18115      2002                2485     Ohio
+HOU  18117      2002                8575     Orange
+HOU  18119      2002               10131     Owen
+HOU  18121      2002                7672     Parke
+HOU  18123      2002                8364     Perry
+HOU  18125      2002                5835     Pike
+HOU  18127      2002               60355     Porter
+HOU  18129      2002               11303     Posey
+HOU  18131      2002                6101     Pulaski
+HOU  18133      2002               13724     Putnam
+HOU  18135      2002               11860     Randolph
+HOU  18137      2002               10961     Ripley
+HOU  18139      2002                7426     Rush
+HOU  18141      2002              109463     St. Joseph
+HOU  18143      2002               10278     Scott
+HOU  18145      2002               17901     Shelby
+HOU  18147      2002                8673     Spencer
+HOU  18149      2002               10431     Starke
+HOU  18151      2002               17958     Steuben
+HOU  18153      2002                8979     Sullivan
+HOU  18155      2002                4542     Switzerland
+HOU  18157      2002               61778     Tippecanoe
+HOU  18159      2002                6941     Tipton
+HOU  18161      2002                3188     Union
+HOU  18163      2002               77770     Vanderburgh
+HOU  18165      2002                7478     Vermillion
+HOU  18167      2002               45766     Vigo
+HOU  18169      2002               14195     Wabash
+HOU  18171      2002                3624     Warren
+HOU  18173      2002               21513     Warrick
+HOU  18175      2002               11595     Washington
+HOU  18177      2002               30631     Wayne
+HOU  18179      2002               11227     Wells
+HOU  18181      2002               12427     White
+HOU  18183      2002               12959     Whitley
+/END/

@@ -1,0 +1,97 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent HARVESTED CROPLAND
+2002 USDA Census of Agriculture
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+FRM  55000      2002             8928083     WI
+FRM  55001      2002               78655     Adams
+FRM  55003      2002               22536     Ashland
+FRM  55005      2002              196231     Barron
+FRM  55007      2002               44490     Bayfield
+FRM  55009      2002              152034     Brown
+FRM  55011      2002              132891     Buffalo
+FRM  55013      2002               40095     Burnett
+FRM  55015      2002              120213     Calumet
+FRM  55017      2002              193797     Chippewa
+FRM  55019      2002              263652     Clark
+FRM  55021      2002              236490     Columbia
+FRM  55023      2002               88583     Crawford
+FRM  55025      2002              360910     Dane
+FRM  55027      2002              310475     Dodge
+FRM  55029      2002               82284     Door
+FRM  55031      2002               25626     Douglas
+FRM  55033      2002              204923     Dunn
+FRM  55035      2002               97693     Eau Claire
+FRM  55037      2002                6816     Florence
+FRM  55039      2002              257908     Fond du Lac
+FRM  55041      2002                9156     Forest
+FRM  55043      2002              297206     Grant
+FRM  55045      2002              211087     Green
+FRM  55047      2002               97692     Green Lake
+FRM  55049      2002              152826     Iowa
+FRM  55051      2002                2144     Iron
+FRM  55053      2002              107491     Jackson
+FRM  55055      2002              172669     Jefferson
+FRM  55057      2002               91115     Juneau
+FRM  55059      2002               70943     Kenosha
+FRM  55061      2002              126151     Kewaunee
+FRM  55063      2002               77831     La Crosse
+FRM  55065      2002              226310     Lafayette
+FRM  55067      2002               73915     Langlade
+FRM  55069      2002               39291     Lincoln
+FRM  55071      2002              185068     Manitowoc
+FRM  55073      2002              286103     Marathon
+FRM  55075      2002               73645     Marinette
+FRM  55077      2002               73071     Marquette
+FRM  55078      2002                2144     Menominee
+FRM  55079      2002                3489     Milwaukee
+FRM  55081      2002              147513     Monroe
+FRM  55083      2002              123549     Oconto
+FRM  55085      2002                9110     Oneida
+FRM  55087      2002              188303     Outagamie
+FRM  55089      2002               51444     Ozaukee
+FRM  55091      2002               59689     Pepin
+FRM  55093      2002              145023     Pierce
+FRM  55095      2002              144177     Polk
+FRM  55097      2002              184123     Portage
+FRM  55099      2002               37470     Price
+FRM  55101      2002              100730     Racine
+FRM  55103      2002               94613     Richland
+FRM  55105      2002              276933     Rock
+FRM  55107      2002               67779     Rusk
+FRM  55109      2002              176568     St. Croix
+FRM  55111      2002              185927     Sauk
+FRM  55113      2002               21716     Sawyer
+FRM  55115      2002              164162     Shawano
+FRM  55117      2002              151070     Sheboygan
+FRM  55119      2002              105330     Taylor
+FRM  55121      2002              162850     Trempealeau
+FRM  55123      2002              165768     Vernon
+FRM  55125      2002                2461     Vilas
+FRM  55127      2002              173940     Walworth
+FRM  55129      2002               35484     Washburn
+FRM  55131      2002               96704     Washington
+FRM  55133      2002               70543     Waukesha
+FRM  55135      2002              145444     Waupaca
+FRM  55137      2002              116566     Waushara
+FRM  55139      2002              115451     Winnebago
+FRM  55141      2002              111994     Wood
+/END/

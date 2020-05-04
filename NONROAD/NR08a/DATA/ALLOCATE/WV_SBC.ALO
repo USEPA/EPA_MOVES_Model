@@ -1,0 +1,80 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RELATIVE NUMBER OF COMMERCIAL SNOWBLOWERS
+Same as LSCAP allocation factors, with value set to 0 for counties with snowfall < 15"
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+SBC  54000      2002                1498     WV
+SBC  54001      2002                   5     Barbour
+SBC  54003      2002                  31     Berkeley
+SBC  54005      2002                   8     Boone
+SBC  54007      2002                   5     Braxton
+SBC  54009      2002                   8     Brooke
+SBC  54011      2002                  33     Cabell
+SBC  54013      2002                   2     Calhoun
+SBC  54015      2002                   0     Clay
+SBC  54017      2002                   2     Doddridge
+SBC  54019      2002                  15     Fayette
+SBC  54021      2002                   0     Gilmer
+SBC  54023      2002                   0     Grant
+SBC  54025      2002                  20     Greenbrier
+SBC  54027      2002                   7     Hampshire
+SBC  54029      2002                  10     Hancock
+SBC  54031      2002                   0     Hardy
+SBC  54033      2002                  48     Harrison
+SBC  54035      2002                   9     Jackson
+SBC  54037      2002                  14     Jefferson
+SBC  54039      2002                 798     Kanawha
+SBC  54041      2002                   5     Lewis
+SBC  54043      2002                   0     Lincoln
+SBC  54045      2002                  12     Logan
+SBC  54047      2002                   8     McDowell
+SBC  54049      2002                  13     Marion
+SBC  54051      2002                  11     Marshall
+SBC  54053      2002                   0     Mason
+SBC  54055      2002                  20     Mercer
+SBC  54057      2002                   3     Mineral
+SBC  54059      2002                   9     Mingo
+SBC  54061      2002                  23     Monongalia
+SBC  54063      2002                   4     Monroe
+SBC  54065      2002                   5     Morgan
+SBC  54067      2002                  19     Nicholas
+SBC  54069      2002                  30     Ohio
+SBC  54071      2002                   3     Pendleton
+SBC  54073      2002                   0     Pleasants
+SBC  54075      2002                   0     Pocahontas
+SBC  54077      2002                  11     Preston
+SBC  54079      2002                  85     Putnam
+SBC  54081      2002                  88     Raleigh
+SBC  54083      2002                   6     Randolph
+SBC  54085      2002                   3     Ritchie
+SBC  54087      2002                   0     Roane
+SBC  54089      2002                   0     Summers
+SBC  54091      2002                   5     Taylor
+SBC  54093      2002                   2     Tucker
+SBC  54095      2002                   3     Tyler
+SBC  54097      2002                   6     Upshur
+SBC  54099      2002                  14     Wayne
+SBC  54101      2002                   0     Webster
+SBC  54103      2002                   0     Wetzel
+SBC  54105      2002                   0     Wirt
+SBC  54107      2002                  87     Wood
+SBC  54109      2002                   8     Wyoming
+/END/

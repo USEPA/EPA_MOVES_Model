@@ -1,0 +1,186 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2003 DOLLAR VALUE of CONSTRUCTION
+adjusted for relative geographic cost of construction materials.
+   Const_Dollars * (1-(1/(1+100/Area_Mod_Factor)))
+from McGraw-Hill Construction (values) and Craftsman (cost adj)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+CON  13000      2003            20183128     GA
+CON  13001      2003               26044     Appling
+CON  13003      2003                7639     Atkinson
+CON  13005      2003                6102     Bacon
+CON  13007      2003                3990     Baker
+CON  13009      2003               74253     Baldwin
+CON  13011      2003               29715     Banks
+CON  13013      2003              135543     Barrow
+CON  13015      2003              256531     Bartow
+CON  13017      2003               23312     Ben Hill
+CON  13019      2003                9105     Berrien
+CON  13021      2003              288723     Bibb
+CON  13023      2003               22313     Bleckley
+CON  13025      2003                9588     Brantley
+CON  13027      2003                9815     Brooks
+CON  13029      2003               95994     Bryan
+CON  13031      2003               80213     Bulloch
+CON  13033      2003               34258     Burke
+CON  13035      2003               52243     Butts
+CON  13037      2003                4749     Calhoun
+CON  13039      2003               64994     Camden
+CON  13043      2003                4356     Candler
+CON  13045      2003              281365     Carroll
+CON  13047      2003              113375     Catoosa
+CON  13049      2003                5355     Charlton
+CON  13051      2003              753912     Chatham
+CON  13053      2003               42165     Chattahoochee
+CON  13055      2003               21347     Chattooga
+CON  13057      2003              648736     Cherokee
+CON  13059      2003              318923     Clarke
+CON  13061      2003                1385     Clay
+CON  13063      2003              637337     Clayton
+CON  13065      2003               14471     Clinch
+CON  13067      2003             1276424     Cobb
+CON  13069      2003               36428     Coffee
+CON  13071      2003               39546     Colquitt
+CON  13073      2003              351716     Columbia
+CON  13075      2003               13826     Cook
+CON  13077      2003              290942     Coweta
+CON  13079      2003               19383     Crawford
+CON  13081      2003               12607     Crisp
+CON  13083      2003               18271     Dade
+CON  13085      2003               77758     Dawson
+CON  13087      2003               31784     Decatur
+CON  13089      2003             1111453     DeKalb
+CON  13091      2003               37286     Dodge
+CON  13093      2003                4699     Dooly
+CON  13095      2003               99892     Dougherty
+CON  13097      2003              227480     Douglas
+CON  13099      2003               10375     Early
+CON  13101      2003                6899     Echols
+CON  13103      2003              625133     Effingham
+CON  13105      2003               14075     Elbert
+CON  13107      2003               25345     Emanuel
+CON  13109      2003                6162     Evans
+CON  13111      2003              120752     Fannin
+CON  13113      2003              286491     Fayette
+CON  13115      2003              132927     Floyd
+CON  13117      2003              460414     Forsyth
+CON  13119      2003               15316     Franklin
+CON  13121      2003             2411826     Fulton
+CON  13123      2003               66658     Gilmer
+CON  13125      2003                1970     Glascock
+CON  13127      2003              183878     Glynn
+CON  13129      2003              105931     Gordon
+CON  13131      2003                9852     Grady
+CON  13133      2003               56079     Greene
+CON  13135      2003             2046469     Gwinnett
+CON  13137      2003               85684     Habersham
+CON  13139      2003              373649     Hall
+CON  13141      2003                7495     Hancock
+CON  13143      2003               12875     Haralson
+CON  13145      2003               96786     Harris
+CON  13147      2003               20992     Hart
+CON  13149      2003               28432     Heard
+CON  13151      2003              671429     Henry
+CON  13153      2003              320422     Houston
+CON  13155      2003                7786     Irwin
+CON  13157      2003              237435     Jackson
+CON  13159      2003               23893     Jasper
+CON  13161      2003                5377     Jeff Davis
+CON  13163      2003               20884     Jefferson
+CON  13165      2003               14346     Jenkins
+CON  13167      2003                6342     Johnson
+CON  13169      2003               51974     Jones
+CON  13171      2003               27924     Lamar
+CON  13173      2003                2608     Lanier
+CON  13175      2003               40114     Laurens
+CON  13177      2003               54542     Lee
+CON  13179      2003              103848     Liberty
+CON  13181      2003               16909     Lincoln
+CON  13183      2003               10505     Long
+CON  13185      2003              200742     Lowndes
+CON  13187      2003               68181     Lumpkin
+CON  13189      2003               16790     McDuffie
+CON  13191      2003               16197     McIntosh
+CON  13193      2003                5105     Macon
+CON  13195      2003               15956     Madison
+CON  13197      2003                6222     Marion
+CON  13199      2003               28210     Meriwether
+CON  13201      2003                5700     Miller
+CON  13205      2003               17871     Mitchell
+CON  13207      2003               35265     Monroe
+CON  13209      2003               14474     Montgomery
+CON  13211      2003               40603     Morgan
+CON  13213      2003               33854     Murray
+CON  13215      2003              342703     Muscogee
+CON  13217      2003              299639     Newton
+CON  13219      2003              137147     Oconee
+CON  13221      2003               18968     Oglethorpe
+CON  13223      2003              288672     Paulding
+CON  13225      2003               32174     Peach
+CON  13227      2003               95889     Pickens
+CON  13229      2003               24676     Pierce
+CON  13231      2003               26450     Pike
+CON  13233      2003               28260     Polk
+CON  13235      2003               12180     Pulaski
+CON  13237      2003               41845     Putnam
+CON  13239      2003                1918     Quitman
+CON  13241      2003               37701     Rabun
+CON  13243      2003                3444     Randolph
+CON  13245      2003              325739     Richmond
+CON  13247      2003              175386     Rockdale
+CON  13249      2003                2456     Schley
+CON  13251      2003               12177     Screven
+CON  13253      2003                5003     Seminole
+CON  13255      2003               83114     Spalding
+CON  13257      2003               17255     Stephens
+CON  13259      2003               47080     Stewart
+CON  13261      2003               30208     Sumter
+CON  13263      2003               10786     Talbot
+CON  13265      2003                1575     Taliaferro
+CON  13267      2003                4936     Tattnall
+CON  13269      2003                4656     Taylor
+CON  13271      2003                9446     Telfair
+CON  13273      2003               17128     Terrell
+CON  13275      2003               64564     Thomas
+CON  13277      2003               73183     Tift
+CON  13279      2003               13371     Toombs
+CON  13281      2003               40305     Towns
+CON  13283      2003               14211     Treutlen
+CON  13285      2003               71078     Troup
+CON  13287      2003               10773     Turner
+CON  13289      2003                4211     Twiggs
+CON  13291      2003               72356     Union
+CON  13293      2003               18887     Upson
+CON  13295      2003               54653     Walker
+CON  13297      2003              259878     Walton
+CON  13299      2003               61800     Ware
+CON  13301      2003                5979     Warren
+CON  13303      2003               11874     Washington
+CON  13305      2003               19048     Wayne
+CON  13307      2003                2260     Webster
+CON  13309      2003                6604     Wheeler
+CON  13311      2003               51094     White
+CON  13313      2003               89583     Whitfield
+CON  13315      2003                8059     Wilcox
+CON  13317      2003                8492     Wilkes
+CON  13319      2003                8441     Wilkinson
+CON  13321      2003               12495     Worth
+/END/

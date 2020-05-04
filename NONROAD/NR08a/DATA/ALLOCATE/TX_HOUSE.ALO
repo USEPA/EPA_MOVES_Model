@@ -1,0 +1,279 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent SINGLE AND DOUBLE (DUPLEX) FAMILY HOMES
+
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+HOU  48000      2002             8501936     TX
+HOU  48001      2002               18845     Anderson
+HOU  48003      2002                5491     Andrews
+HOU  48005      2002               33160     Angelina
+HOU  48007      2002               13256     Aransas
+HOU  48009      2002                3898     Archer
+HOU  48011      2002                 920     Armstrong
+HOU  48013      2002               15270     Atascosa
+HOU  48015      2002               10481     Austin
+HOU  48017      2002                2737     Bailey
+HOU  48019      2002                9689     Bandera
+HOU  48021      2002               22964     Bastrop
+HOU  48023      2002                2796     Baylor
+HOU  48025      2002               11041     Bee
+HOU  48027      2002               97602     Bell
+HOU  48029      2002              542104     Bexar
+HOU  48031      2002                4094     Blanco
+HOU  48033      2002                 439     Borden
+HOU  48035      2002                8721     Bosque
+HOU  48037      2002               37230     Bowie
+HOU  48039      2002               95732     Brazoria
+HOU  48041      2002               62339     Brazos
+HOU  48043      2002                4711     Brewster
+HOU  48045      2002                1012     Briscoe
+HOU  48047      2002                3227     Brooks
+HOU  48049      2002               18068     Brown
+HOU  48051      2002                8380     Burleson
+HOU  48053      2002               16970     Burnet
+HOU  48055      2002               12471     Caldwell
+HOU  48057      2002               10395     Calhoun
+HOU  48059      2002                6008     Callahan
+HOU  48061      2002              126673     Cameron
+HOU  48063      2002                5295     Camp
+HOU  48065      2002                2845     Carson
+HOU  48067      2002               14131     Cass
+HOU  48069      2002                3204     Castro
+HOU  48071      2002               11144     Chambers
+HOU  48073      2002               19534     Cherokee
+HOU  48075      2002                3034     Childress
+HOU  48077      2002                5059     Clay
+HOU  48079      2002                1594     Cochran
+HOU  48081      2002                2880     Coke
+HOU  48083      2002                5250     Coleman
+HOU  48085      2002              218462     Collin
+HOU  48087      2002                1701     Collingsworth
+HOU  48089      2002                9514     Colorado
+HOU  48091      2002               35368     Comal
+HOU  48093      2002                7167     Comanche
+HOU  48095      2002                1496     Concho
+HOU  48097      2002               15304     Cooke
+HOU  48099      2002               22092     Coryell
+HOU  48101      2002                1075     Cottle
+HOU  48103      2002                1596     Crane
+HOU  48105      2002                2073     Crockett
+HOU  48107      2002                3195     Crosby
+HOU  48109      2002                1344     Culberson
+HOU  48111      2002                2732     Dallam
+HOU  48113      2002              879108     Dallas
+HOU  48115      2002                5507     Dawson
+HOU  48117      2002                6925     Deaf Smith
+HOU  48119      2002                2431     Delta
+HOU  48121      2002              185261     Denton
+HOU  48123      2002                8840     DeWitt
+HOU  48125      2002                1369     Dickens
+HOU  48127      2002                4149     Dimmit
+HOU  48129      2002                2399     Donley
+HOU  48131      2002                5632     Duval
+HOU  48133      2002                9547     Eastland
+HOU  48135      2002               50577     Ector
+HOU  48137      2002                1221     Edwards
+HOU  48139      2002               41977     Ellis
+HOU  48141      2002              232138     El Paso
+HOU  48143      2002               14590     Erath
+HOU  48145      2002                7701     Falls
+HOU  48147      2002               13070     Fannin
+HOU  48149      2002               11150     Fayette
+HOU  48151      2002                2280     Fisher
+HOU  48153      2002                3209     Floyd
+HOU  48155      2002                 848     Foard
+HOU  48157      2002              124164     Fort Bend
+HOU  48159      2002                5182     Franklin
+HOU  48161      2002                8327     Freestone
+HOU  48163      2002                5745     Frio
+HOU  48165      2002                5492     Gaines
+HOU  48167      2002              117038     Galveston
+HOU  48169      2002                1934     Garza
+HOU  48171      2002               10085     Gillespie
+HOU  48173      2002                 666     Glasscock
+HOU  48175      2002                3479     Goliad
+HOU  48177      2002                8274     Gonzales
+HOU  48179      2002               10547     Gray
+HOU  48181      2002               49015     Grayson
+HOU  48183      2002               46911     Gregg
+HOU  48185      2002                9657     Grimes
+HOU  48187      2002               34976     Guadalupe
+HOU  48189      2002               13712     Hale
+HOU  48191      2002                1968     Hall
+HOU  48193      2002                4468     Hamilton
+HOU  48195      2002                2329     Hansford
+HOU  48197      2002                2341     Hardeman
+HOU  48199      2002               20330     Hardin
+HOU  48201      2002             1352145     Harris
+HOU  48203      2002               26669     Harrison
+HOU  48205      2002                1782     Hartley
+HOU  48207      2002                3549     Haskell
+HOU  48209      2002               39246     Hays
+HOU  48211      2002                1542     Hemphill
+HOU  48213      2002               36845     Henderson
+HOU  48215      2002              207599     Hidalgo
+HOU  48217      2002               14778     Hill
+HOU  48219      2002                9263     Hockley
+HOU  48221      2002               19554     Hood
+HOU  48223      2002               14249     Hopkins
+HOU  48225      2002               10843     Houston
+HOU  48227      2002               13640     Howard
+HOU  48229      2002                1506     Hudspeth
+HOU  48231      2002               33001     Hunt
+HOU  48233      2002               10927     Hutchinson
+HOU  48235      2002                 919     Irion
+HOU  48237      2002                3691     Jack
+HOU  48239      2002                6600     Jackson
+HOU  48241      2002               16888     Jasper
+HOU  48243      2002                1424     Jeff Davis
+HOU  48245      2002              103285     Jefferson
+HOU  48247      2002                2338     Jim Hogg
+HOU  48249      2002               14994     Jim Wells
+HOU  48251      2002               48174     Johnson
+HOU  48253      2002                7327     Jones
+HOU  48255      2002                5523     Karnes
+HOU  48257      2002               27348     Kaufman
+HOU  48259      2002               10310     Kendall
+HOU  48261      2002                 282     Kenedy
+HOU  48263      2002                 557     Kent
+HOU  48265      2002               20753     Kerr
+HOU  48267      2002                2996     Kimble
+HOU  48269      2002                 175     King
+HOU  48271      2002                1920     Kinney
+HOU  48273      2002               12770     Kleberg
+HOU  48275      2002                2135     Knox
+HOU  48277      2002               21413     Lamar
+HOU  48279      2002                6300     Lamb
+HOU  48281      2002                7721     Lampasas
+HOU  48283      2002                2448     La Salle
+HOU  48285      2002                9702     Lavaca
+HOU  48287      2002                6979     Lee
+HOU  48289      2002                8468     Leon
+HOU  48291      2002               27174     Liberty
+HOU  48293      2002                9818     Limestone
+HOU  48295      2002                1534     Lipscomb
+HOU  48297      2002                6268     Live Oak
+HOU  48299      2002               12162     Llano
+HOU  48301      2002                  71     Loving
+HOU  48303      2002              103702     Lubbock
+HOU  48305      2002                2677     Lynn
+HOU  48307      2002                4184     McCulloch
+HOU  48309      2002               86675     McLennan
+HOU  48311      2002                 600     McMullen
+HOU  48313      2002                4887     Madison
+HOU  48315      2002                6503     Marion
+HOU  48317      2002                1950     Martin
+HOU  48319      2002                2364     Mason
+HOU  48321      2002               18804     Matagorda
+HOU  48323      2002               15454     Maverick
+HOU  48325      2002               15160     Medina
+HOU  48327      2002                1612     Menard
+HOU  48329      2002               48628     Midland
+HOU  48331      2002               10949     Milam
+HOU  48333      2002                2708     Mills
+HOU  48335      2002                4180     Mitchell
+HOU  48337      2002                9984     Montague
+HOU  48339      2002              122843     Montgomery
+HOU  48341      2002                7573     Moore
+HOU  48343      2002                6087     Morris
+HOU  48345      2002                 836     Motley
+HOU  48347      2002               25700     Nacogdoches
+HOU  48349      2002               18632     Navarro
+HOU  48351      2002                7488     Newton
+HOU  48353      2002                7085     Nolan
+HOU  48355      2002              125064     Nueces
+HOU  48357      2002                3814     Ochiltree
+HOU  48359      2002                 820     Oldham
+HOU  48361      2002               35414     Orange
+HOU  48363      2002               14199     Palo Pinto
+HOU  48365      2002               10734     Panola
+HOU  48367      2002               35347     Parker
+HOU  48369      2002                3761     Parmer
+HOU  48371      2002                6392     Pecos
+HOU  48373      2002               21472     Polk
+HOU  48375      2002               45586     Potter
+HOU  48377      2002                3449     Presidio
+HOU  48379      2002                4612     Rains
+HOU  48381      2002               44130     Randall
+HOU  48383      2002                1473     Reagan
+HOU  48385      2002                2056     Real
+HOU  48387      2002                6999     Red River
+HOU  48389      2002                5045     Reeves
+HOU  48391      2002                3660     Refugio
+HOU  48393      2002                 447     Roberts
+HOU  48395      2002                7987     Robertson
+HOU  48397      2002               18008     Rockwall
+HOU  48399      2002                5378     Runnels
+HOU  48401      2002               20124     Rusk
+HOU  48403      2002                7826     Sabine
+HOU  48405      2002                5452     San Augustine
+HOU  48407      2002               11769     San Jacinto
+HOU  48409      2002               25650     San Patricio
+HOU  48411      2002                2989     San Saba
+HOU  48413      2002                1380     Schleicher
+HOU  48415      2002                7140     Scurry
+HOU  48417      2002                1618     Shackelford
+HOU  48419      2002               12195     Shelby
+HOU  48421      2002                1319     Sherman
+HOU  48423      2002               73517     Smith
+HOU  48425      2002                2860     Somervell
+HOU  48427      2002               17804     Starr
+HOU  48429      2002                4903     Stephens
+HOU  48431      2002                 639     Sterling
+HOU  48433      2002                 942     Stonewall
+HOU  48435      2002                2005     Sutton
+HOU  48437      2002                3321     Swisher
+HOU  48439      2002              592938     Tarrant
+HOU  48441      2002               53019     Taylor
+HOU  48443      2002                1001     Terrell
+HOU  48445      2002                5101     Terry
+HOU  48447      2002                1069     Throckmorton
+HOU  48449      2002               10858     Titus
+HOU  48451      2002               44463     Tom Green
+HOU  48453      2002              363506     Travis
+HOU  48455      2002                8306     Trinity
+HOU  48457      2002               10591     Tyler
+HOU  48459      2002               15235     Upshur
+HOU  48461      2002                1614     Upton
+HOU  48463      2002               10295     Uvalde
+HOU  48465      2002               16689     Val Verde
+HOU  48467      2002               21332     Van Zandt
+HOU  48469      2002               33471     Victoria
+HOU  48471      2002               21665     Walker
+HOU  48473      2002               12737     Waller
+HOU  48475      2002                4865     Ward
+HOU  48477      2002               13383     Washington
+HOU  48479      2002               59425     Webb
+HOU  48481      2002               16880     Wharton
+HOU  48483      2002                2673     Wheeler
+HOU  48485      2002               53781     Wichita
+HOU  48487      2002                6348     Wilbarger
+HOU  48489      2002                6824     Willacy
+HOU  48491      2002              103606     Williamson
+HOU  48493      2002               12475     Wilson
+HOU  48495      2002                3208     Winkler
+HOU  48497      2002               19820     Wise
+HOU  48499      2002               18197     Wood
+HOU  48501      2002                3014     Yoakum
+HOU  48503      2002                8547     Young
+HOU  48505      2002                6326     Zapata
+HOU  48507      2002                4122     Zavala
+/END/

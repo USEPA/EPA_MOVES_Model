@@ -1,0 +1,78 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent UNDERGROUND COAL PRODUCTION TONS
+DOE/EIA 2002 Annual Coal Report
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+MIN  00000      2002              312309     US
+MIN  01000      2002               14916     AL
+MIN  02000      2002                   0     AK
+MIN  04000      2002                   0     AZ
+MIN  05000      2002                   1     AR
+MIN  06000      2002                   0     CA
+MIN  08000      2002               25331     CO
+MIN  09000      2002                   0     CT
+MIN  10000      2002                   0     DE
+MIN  11000      2002                   0     DC
+MIN  12000      2002                   0     FL
+MIN  13000      2002                   0     GA
+MIN  15000      2002                   0     HI
+MIN  16000      2002                   0     ID
+MIN  17000      2002               26930     IL
+MIN  18000      2002                7910     IN
+MIN  19000      2002                   0     IA
+MIN  20000      2002                   0     KS
+MIN  21000      2002               75587     KY
+MIN  22000      2002                   0     LA
+MIN  23000      2002                   0     ME
+MIN  24000      2002                3328     MD
+MIN  25000      2002                   0     MA
+MIN  26000      2002                   0     MI
+MIN  27000      2002                   0     MN
+MIN  28000      2002                   0     MS
+MIN  29000      2002                   0     MO
+MIN  30000      2002                   0     MT
+MIN  31000      2002                   0     NE
+MIN  32000      2002                   0     NV
+MIN  33000      2002                   0     NH
+MIN  34000      2002                   0     NJ
+MIN  35000      2002                1753     NM
+MIN  36000      2002                   0     NY
+MIN  37000      2002                   0     NC
+MIN  38000      2002                   0     ND
+MIN  39000      2002               10851     OH
+MIN  40000      2002                 463     OK
+MIN  41000      2002                   0     OR
+MIN  42000      2002               55781     PA
+MIN  44000      2002                   0     RI
+MIN  45000      2002                   0     SC
+MIN  46000      2002                   0     SD
+MIN  47000      2002                1086     TN
+MIN  48000      2002                   0     TX
+MIN  49000      2002               25035     UT
+MIN  50000      2002                   0     VT
+MIN  51000      2002               20491     VA
+MIN  53000      2002                   0     WA
+MIN  54000      2002               42846     WV
+MIN  55000      2002                   0     WI
+MIN  56000      2002                   0     WY
+MIN  72000      2002                   0     PR
+MIN  78000      2002                   0     VI
+/END/

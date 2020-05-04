@@ -1,0 +1,279 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent NUMBER OF EMPLOYEES IN MANUFACTURING
+CBP NAICS 31----, 321///, 322///, 323///, 324///, 325///, 326///, 327///, 331///,
+332///, 333///, 334///, 335///, 336///, 337///, 339///, and 5111//; pre-2002 CBP SIC 20--
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+MFG  48000      2002             1602760     TX
+MFG  48001      2002                 683     Anderson
+MFG  48003      2002                 780     Andrews
+MFG  48005      2002                9946     Angelina
+MFG  48007      2002                 208     Aransas
+MFG  48009      2002                  33     Archer
+MFG  48011      2002                  18     Armstrong
+MFG  48013      2002                 989     Atascosa
+MFG  48015      2002                3639     Austin
+MFG  48017      2002                 194     Bailey
+MFG  48019      2002                 198     Bandera
+MFG  48021      2002                2058     Bastrop
+MFG  48023      2002                 118     Baylor
+MFG  48025      2002                 504     Bee
+MFG  48027      2002               14275     Bell
+MFG  48029      2002               62354     Bexar
+MFG  48031      2002                 185     Blanco
+MFG  48033      2002                   0     Borden
+MFG  48035      2002                 808     Bosque
+MFG  48037      2002                7035     Bowie
+MFG  48039      2002               25178     Brazoria
+MFG  48041      2002                8099     Brazos
+MFG  48043      2002                  88     Brewster
+MFG  48045      2002                  26     Briscoe
+MFG  48047      2002                  41     Brooks
+MFG  48049      2002                6220     Brown
+MFG  48051      2002                 674     Burleson
+MFG  48053      2002                1720     Burnet
+MFG  48055      2002                 725     Caldwell
+MFG  48057      2002                6322     Calhoun
+MFG  48059      2002                 216     Callahan
+MFG  48061      2002               14456     Cameron
+MFG  48063      2002                 364     Camp
+MFG  48065      2002                 134     Carson
+MFG  48067      2002                1193     Cass
+MFG  48069      2002                 206     Castro
+MFG  48071      2002                1448     Chambers
+MFG  48073      2002                6249     Cherokee
+MFG  48075      2002                  34     Childress
+MFG  48077      2002                 402     Clay
+MFG  48079      2002                  17     Cochran
+MFG  48081      2002                  17     Coke
+MFG  48083      2002                 142     Coleman
+MFG  48085      2002               48077     Collin
+MFG  48087      2002                  26     Collingsworth
+MFG  48089      2002                1197     Colorado
+MFG  48091      2002                7974     Comal
+MFG  48093      2002                 314     Comanche
+MFG  48095      2002                  25     Concho
+MFG  48097      2002                7042     Cooke
+MFG  48099      2002                 916     Coryell
+MFG  48101      2002                  17     Cottle
+MFG  48103      2002                 114     Crane
+MFG  48105      2002                   8     Crockett
+MFG  48107      2002                  67     Crosby
+MFG  48109      2002                 104     Culberson
+MFG  48111      2002                 113     Dallam
+MFG  48113      2002              255726     Dallas
+MFG  48115      2002                 232     Dawson
+MFG  48117      2002                1005     Deaf Smith
+MFG  48119      2002                 339     Delta
+MFG  48121      2002               22078     Denton
+MFG  48123      2002                1153     DeWitt
+MFG  48125      2002                   8     Dickens
+MFG  48127      2002                  25     Dimmit
+MFG  48129      2002                  81     Donley
+MFG  48131      2002                  42     Duval
+MFG  48133      2002                1677     Eastland
+MFG  48135      2002                8641     Ector
+MFG  48137      2002                   8     Edwards
+MFG  48139      2002               18924     Ellis
+MFG  48141      2002               43740     El Paso
+MFG  48143      2002                2790     Erath
+MFG  48145      2002                 567     Falls
+MFG  48147      2002                1748     Fannin
+MFG  48149      2002                1960     Fayette
+MFG  48151      2002                 121     Fisher
+MFG  48153      2002                 125     Floyd
+MFG  48155      2002                  56     Foard
+MFG  48157      2002               20501     Fort Bend
+MFG  48159      2002                 251     Franklin
+MFG  48161      2002                 239     Freestone
+MFG  48163      2002                 123     Frio
+MFG  48165      2002                 251     Gaines
+MFG  48167      2002               13637     Galveston
+MFG  48169      2002                  65     Garza
+MFG  48171      2002                 953     Gillespie
+MFG  48173      2002                   0     Glasscock
+MFG  48175      2002                 122     Goliad
+MFG  48177      2002                1071     Gonzales
+MFG  48179      2002                2324     Gray
+MFG  48181      2002               13555     Grayson
+MFG  48183      2002               20335     Gregg
+MFG  48185      2002                4288     Grimes
+MFG  48187      2002               10934     Guadalupe
+MFG  48189      2002                3190     Hale
+MFG  48191      2002                  81     Hall
+MFG  48193      2002                 355     Hamilton
+MFG  48195      2002                  17     Hansford
+MFG  48197      2002                 328     Hardeman
+MFG  48199      2002                1922     Hardin
+MFG  48201      2002              285493     Harris
+MFG  48203      2002                5169     Harrison
+MFG  48205      2002                  60     Hartley
+MFG  48207      2002                  89     Haskell
+MFG  48209      2002                5859     Hays
+MFG  48211      2002                  33     Hemphill
+MFG  48213      2002                3761     Henderson
+MFG  48215      2002               13677     Hidalgo
+MFG  48217      2002                2263     Hill
+MFG  48219      2002                 463     Hockley
+MFG  48221      2002                 917     Hood
+MFG  48223      2002                2163     Hopkins
+MFG  48225      2002                1629     Houston
+MFG  48227      2002                1996     Howard
+MFG  48229      2002                   0     Hudspeth
+MFG  48231      2002                4941     Hunt
+MFG  48233      2002                3876     Hutchinson
+MFG  48235      2002                   9     Irion
+MFG  48237      2002                  27     Jack
+MFG  48239      2002                3185     Jackson
+MFG  48241      2002                4168     Jasper
+MFG  48243      2002                   8     Jeff Davis
+MFG  48245      2002               23366     Jefferson
+MFG  48247      2002                  89     Jim Hogg
+MFG  48249      2002                 541     Jim Wells
+MFG  48251      2002                9467     Johnson
+MFG  48253      2002                 314     Jones
+MFG  48255      2002                 252     Karnes
+MFG  48257      2002                8176     Kaufman
+MFG  48259      2002                1539     Kendall
+MFG  48261      2002                   0     Kenedy
+MFG  48263      2002                   0     Kent
+MFG  48265      2002                1787     Kerr
+MFG  48267      2002                 579     Kimble
+MFG  48269      2002                   0     King
+MFG  48271      2002                  17     Kinney
+MFG  48273      2002                 374     Kleberg
+MFG  48275      2002                  18     Knox
+MFG  48277      2002                7413     Lamar
+MFG  48279      2002                 796     Lamb
+MFG  48281      2002                 597     Lampasas
+MFG  48283      2002                   0     La Salle
+MFG  48285      2002                3282     Lavaca
+MFG  48287      2002                 825     Lee
+MFG  48289      2002                 896     Leon
+MFG  48291      2002                2182     Liberty
+MFG  48293      2002                1614     Limestone
+MFG  48295      2002                 179     Lipscomb
+MFG  48297      2002                 706     Live Oak
+MFG  48299      2002                 227     Llano
+MFG  48301      2002                   0     Loving
+MFG  48303      2002               10519     Lubbock
+MFG  48305      2002                  60     Lynn
+MFG  48307      2002                 490     McCulloch
+MFG  48309      2002               23453     McLennan
+MFG  48311      2002                   0     McMullen
+MFG  48313      2002                  93     Madison
+MFG  48315      2002                 380     Marion
+MFG  48317      2002                   0     Martin
+MFG  48319      2002                  52     Mason
+MFG  48321      2002                 944     Matagorda
+MFG  48323      2002                 451     Maverick
+MFG  48325      2002                1011     Medina
+MFG  48327      2002                  26     Menard
+MFG  48329      2002                3057     Midland
+MFG  48331      2002                3698     Milam
+MFG  48333      2002                 165     Mills
+MFG  48335      2002                  26     Mitchell
+MFG  48337      2002                 580     Montague
+MFG  48339      2002               13118     Montgomery
+MFG  48341      2002                3922     Moore
+MFG  48343      2002                4464     Morris
+MFG  48345      2002                  27     Motley
+MFG  48347      2002                6325     Nacogdoches
+MFG  48349      2002                4782     Navarro
+MFG  48351      2002                 697     Newton
+MFG  48353      2002                1608     Nolan
+MFG  48355      2002               15727     Nueces
+MFG  48357      2002                  55     Ochiltree
+MFG  48359      2002                  27     Oldham
+MFG  48361      2002               10645     Orange
+MFG  48363      2002                2332     Palo Pinto
+MFG  48365      2002                1979     Panola
+MFG  48367      2002                4299     Parker
+MFG  48369      2002                1652     Parmer
+MFG  48371      2002                 109     Pecos
+MFG  48373      2002                2886     Polk
+MFG  48375      2002                8460     Potter
+MFG  48377      2002                  34     Presidio
+MFG  48379      2002                 194     Rains
+MFG  48381      2002                3412     Randall
+MFG  48383      2002                  34     Reagan
+MFG  48385      2002                  40     Real
+MFG  48387      2002                1361     Red River
+MFG  48389      2002                 763     Reeves
+MFG  48391      2002                  34     Refugio
+MFG  48393      2002                   0     Roberts
+MFG  48395      2002                 555     Robertson
+MFG  48397      2002                2151     Rockwall
+MFG  48399      2002                1944     Runnels
+MFG  48401      2002                2329     Rusk
+MFG  48403      2002                 729     Sabine
+MFG  48405      2002                 212     San Augustine
+MFG  48407      2002                 116     San Jacinto
+MFG  48409      2002                3574     San Patricio
+MFG  48411      2002                  72     San Saba
+MFG  48413      2002                  34     Schleicher
+MFG  48415      2002                 388     Scurry
+MFG  48417      2002                  35     Shackelford
+MFG  48419      2002                2794     Shelby
+MFG  48421      2002                  56     Sherman
+MFG  48423      2002               20598     Smith
+MFG  48425      2002                 388     Somervell
+MFG  48427      2002                 186     Starr
+MFG  48429      2002                 790     Stephens
+MFG  48431      2002                   0     Sterling
+MFG  48433      2002                   8     Stonewall
+MFG  48435      2002                  26     Sutton
+MFG  48437      2002                 261     Swisher
+MFG  48439      2002              161316     Tarrant
+MFG  48441      2002                5236     Taylor
+MFG  48443      2002                   0     Terrell
+MFG  48445      2002                  80     Terry
+MFG  48447      2002                  19     Throckmorton
+MFG  48449      2002                5742     Titus
+MFG  48451      2002                7097     Tom Green
+MFG  48453      2002               84422     Travis
+MFG  48455      2002                 307     Trinity
+MFG  48457      2002                 531     Tyler
+MFG  48459      2002                1239     Upshur
+MFG  48461      2002                   8     Upton
+MFG  48463      2002                 442     Uvalde
+MFG  48465      2002                 965     Val Verde
+MFG  48467      2002                1165     Van Zandt
+MFG  48469      2002                5845     Victoria
+MFG  48471      2002                1821     Walker
+MFG  48473      2002                3743     Waller
+MFG  48475      2002                  48     Ward
+MFG  48477      2002                4363     Washington
+MFG  48479      2002                2681     Webb
+MFG  48481      2002                3571     Wharton
+MFG  48483      2002                  81     Wheeler
+MFG  48485      2002               13582     Wichita
+MFG  48487      2002                1209     Wilbarger
+MFG  48489      2002                  17     Willacy
+MFG  48491      2002               14907     Williamson
+MFG  48493      2002                 503     Wilson
+MFG  48495      2002                   8     Winkler
+MFG  48497      2002                2432     Wise
+MFG  48499      2002                1542     Wood
+MFG  48501      2002                 111     Yoakum
+MFG  48503      2002                1451     Young
+MFG  48505      2002                  25     Zapata
+MFG  48507      2002                 414     Zavala
+/END/

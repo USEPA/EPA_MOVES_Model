@@ -1,0 +1,119 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2003 DOLLAR VALUE of CONSTRUCTION
+adjusted for relative geographic cost of construction materials.
+   Const_Dollars * (1-(1/(1+100/Area_Mod_Factor)))
+from McGraw-Hill Construction (values) and Craftsman (cost adj)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+CON  18000      2003            12998779     IN
+CON  18001      2003               83242     Adams
+CON  18003      2003              807434     Allen
+CON  18005      2003              143127     Bartholomew
+CON  18007      2003                7627     Benton
+CON  18009      2003               20540     Blackford
+CON  18011      2003              211779     Boone
+CON  18013      2003               24758     Brown
+CON  18015      2003               13038     Carroll
+CON  18017      2003               45440     Cass
+CON  18019      2003              192368     Clark
+CON  18021      2003               26002     Clay
+CON  18023      2003               22313     Clinton
+CON  18025      2003               16810     Crawford
+CON  18027      2003               31403     Daviess
+CON  18029      2003               88593     Dearborn
+CON  18031      2003               38775     Decatur
+CON  18033      2003               82838     De Kalb
+CON  18035      2003              136780     Delaware
+CON  18037      2003               83949     Dubois
+CON  18039      2003              396615     Elkhart
+CON  18041      2003                7488     Fayette
+CON  18043      2003              241507     Floyd
+CON  18045      2003               10604     Fountain
+CON  18047      2003               23865     Franklin
+CON  18049      2003               19257     Fulton
+CON  18051      2003               65486     Gibson
+CON  18053      2003               81767     Grant
+CON  18055      2003               27802     Greene
+CON  18057      2003             1441195     Hamilton
+CON  18059      2003              215565     Hancock
+CON  18061      2003               51288     Harrison
+CON  18063      2003              816628     Hendricks
+CON  18065      2003               42967     Henry
+CON  18067      2003               83217     Howard
+CON  18069      2003               46179     Huntington
+CON  18071      2003               71530     Jackson
+CON  18073      2003               31859     Jasper
+CON  18075      2003               21755     Jay
+CON  18077      2003               62121     Jefferson
+CON  18079      2003               24770     Jennings
+CON  18081      2003              355723     Johnson
+CON  18083      2003               36520     Knox
+CON  18085      2003               92620     Kosciusko
+CON  18087      2003               29157     Lagrange
+CON  18089      2003              839198     Lake
+CON  18091      2003              113699     La Porte
+CON  18093      2003              133606     Lawrence
+CON  18095      2003              215598     Madison
+CON  18097      2003             2103500     Marion
+CON  18099      2003               53064     Marshall
+CON  18101      2003               15726     Martin
+CON  18103      2003               18807     Miami
+CON  18105      2003              295651     Monroe
+CON  18107      2003               56142     Montgomery
+CON  18109      2003              118173     Morgan
+CON  18111      2003               13145     Newton
+CON  18113      2003               61115     Noble
+CON  18115      2003                7508     Ohio
+CON  18117      2003               12745     Orange
+CON  18119      2003               35794     Owen
+CON  18121      2003               13530     Parke
+CON  18123      2003               14005     Perry
+CON  18125      2003                8586     Pike
+CON  18127      2003              309547     Porter
+CON  18129      2003               35487     Posey
+CON  18131      2003               19764     Pulaski
+CON  18133      2003               62805     Putnam
+CON  18135      2003               18768     Randolph
+CON  18137      2003               25589     Ripley
+CON  18139      2003               14644     Rush
+CON  18141      2003              439894     St. Joseph
+CON  18143      2003               25900     Scott
+CON  18145      2003               69674     Shelby
+CON  18147      2003               35089     Spencer
+CON  18149      2003                9827     Starke
+CON  18151      2003               83337     Steuben
+CON  18153      2003               15567     Sullivan
+CON  18155      2003               48597     Switzerland
+CON  18157      2003              349566     Tippecanoe
+CON  18159      2003               12638     Tipton
+CON  18161      2003               13685     Union
+CON  18163      2003              346574     Vanderburgh
+CON  18165      2003               12344     Vermillion
+CON  18167      2003              142751     Vigo
+CON  18169      2003               18807     Wabash
+CON  18171      2003                8807     Warren
+CON  18173      2003              128400     Warrick
+CON  18175      2003               44017     Washington
+CON  18177      2003               90181     Wayne
+CON  18179      2003               24733     Wells
+CON  18181      2003               22349     White
+CON  18183      2003               65546     Whitley
+/END/

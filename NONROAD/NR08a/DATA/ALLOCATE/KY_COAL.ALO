@@ -1,0 +1,145 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent UNDERGROUND COAL PRODUCTION TONS
+DOE/EIA 2002 Annual Coal Report
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+MIN  21000      2002               75587     KY
+MIN  21001      2002                   0     Adair
+MIN  21003      2002                   0     Allen
+MIN  21005      2002                   0     Anderson
+MIN  21007      2002                   0     Ballard
+MIN  21009      2002                   0     Barren
+MIN  21011      2002                   0     Bath
+MIN  21013      2002                1277     Bell
+MIN  21015      2002                   0     Boone
+MIN  21017      2002                   0     Bourbon
+MIN  21019      2002                   0     Boyd
+MIN  21021      2002                   0     Boyle
+MIN  21023      2002                   0     Bracken
+MIN  21025      2002                   0     Breathitt
+MIN  21027      2002                   0     Breckinridge
+MIN  21029      2002                   0     Bullitt
+MIN  21031      2002                   0     Butler
+MIN  21033      2002                   0     Caldwell
+MIN  21035      2002                   0     Calloway
+MIN  21037      2002                   0     Campbell
+MIN  21039      2002                   0     Carlisle
+MIN  21041      2002                   0     Carroll
+MIN  21043      2002                   0     Carter
+MIN  21045      2002                   0     Casey
+MIN  21047      2002                   0     Christian
+MIN  21049      2002                   0     Clark
+MIN  21051      2002                  39     Clay
+MIN  21053      2002                   0     Clinton
+MIN  21055      2002                   0     Crittenden
+MIN  21057      2002                   0     Cumberland
+MIN  21059      2002                   0     Daviess
+MIN  21061      2002                   0     Edmonson
+MIN  21063      2002                   0     Elliott
+MIN  21065      2002                   0     Estill
+MIN  21067      2002                   0     Fayette
+MIN  21069      2002                   0     Fleming
+MIN  21071      2002                1797     Floyd
+MIN  21073      2002                   0     Franklin
+MIN  21075      2002                   0     Fulton
+MIN  21077      2002                   0     Gallatin
+MIN  21079      2002                   0     Garrard
+MIN  21081      2002                   0     Grant
+MIN  21083      2002                   0     Graves
+MIN  21085      2002                   0     Grayson
+MIN  21087      2002                   0     Green
+MIN  21089      2002                   0     Greenup
+MIN  21091      2002                   0     Hancock
+MIN  21093      2002                   0     Hardin
+MIN  21095      2002                8576     Harlan
+MIN  21097      2002                   0     Harrison
+MIN  21099      2002                   0     Hart
+MIN  21101      2002                1462     Henderson
+MIN  21103      2002                   0     Henry
+MIN  21105      2002                   0     Hickman
+MIN  21107      2002                2294     Hopkins
+MIN  21109      2002                   0     Jackson
+MIN  21111      2002                   0     Jefferson
+MIN  21113      2002                   0     Jessamine
+MIN  21115      2002                 467     Johnson
+MIN  21117      2002                   0     Kenton
+MIN  21119      2002                5544     Knott
+MIN  21121      2002                 273     Knox
+MIN  21123      2002                   0     Larue
+MIN  21125      2002                   0     Laurel
+MIN  21127      2002                 580     Lawrence
+MIN  21129      2002                   0     Lee
+MIN  21131      2002                4192     Leslie
+MIN  21133      2002                5716     Letcher
+MIN  21135      2002                   0     Lewis
+MIN  21137      2002                   0     Lincoln
+MIN  21139      2002                   0     Livingston
+MIN  21141      2002                   0     Logan
+MIN  21143      2002                   0     Lyon
+MIN  21145      2002                   0     McCracken
+MIN  21147      2002                   0     McCreary
+MIN  21149      2002                   0     McLean
+MIN  21151      2002                   0     Madison
+MIN  21153      2002                   0     Magoffin
+MIN  21155      2002                   0     Marion
+MIN  21157      2002                   0     Marshall
+MIN  21159      2002                4550     Martin
+MIN  21161      2002                   0     Mason
+MIN  21163      2002                   0     Meade
+MIN  21165      2002                   0     Menifee
+MIN  21167      2002                   0     Mercer
+MIN  21169      2002                   0     Metcalfe
+MIN  21171      2002                   0     Monroe
+MIN  21173      2002                   0     Montgomery
+MIN  21175      2002                   0     Morgan
+MIN  21177      2002                3257     Muhlenberg
+MIN  21179      2002                   0     Nelson
+MIN  21181      2002                   0     Nicholas
+MIN  21183      2002                 345     Ohio
+MIN  21185      2002                   0     Oldham
+MIN  21187      2002                   0     Owen
+MIN  21189      2002                   0     Owsley
+MIN  21191      2002                   0     Pendleton
+MIN  21193      2002                4762     Perry
+MIN  21195      2002               18501     Pike
+MIN  21197      2002                   0     Powell
+MIN  21199      2002                   0     Pulaski
+MIN  21201      2002                   0     Robertson
+MIN  21203      2002                   0     Rockcastle
+MIN  21205      2002                   0     Rowan
+MIN  21207      2002                   0     Russell
+MIN  21209      2002                   0     Scott
+MIN  21211      2002                   0     Shelby
+MIN  21213      2002                   0     Simpson
+MIN  21215      2002                   0     Spencer
+MIN  21217      2002                   0     Taylor
+MIN  21219      2002                   0     Todd
+MIN  21221      2002                   0     Trigg
+MIN  21223      2002                   0     Trimble
+MIN  21225      2002                3819     Union
+MIN  21227      2002                   0     Warren
+MIN  21229      2002                   0     Washington
+MIN  21231      2002                   0     Wayne
+MIN  21233      2002                7999     Webster
+MIN  21235      2002                 137     Whitley
+MIN  21237      2002                   0     Wolfe
+MIN  21239      2002                   0     Woodford
+/END/

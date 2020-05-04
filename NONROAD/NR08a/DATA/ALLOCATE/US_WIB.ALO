@@ -1,0 +1,82 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+The data in this file is relative RECREATIONAL MARINE CRAFT (based on
+ORNL fuel consumption data).
+
+8/10/05 EPA: added Puerto Rico & Virgin Islands, based on number
+       of boats in these islands relative to Florida, according to
+       US Coast Guard 2002 data:
+       [Numbered_Boats_2002_FINAL(US Coast Guard).xls]
+8/19/05  epa: TEST "US" total does not include PR or VI.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+------------------------------------------------------------------------
+/INDICATORS/                                         1.007974
+WIB  00000      1992              893864     US        900991  900991
+WIB  01000      1992               21513     AL      0.024067
+WIB  02000      1992                2939     AK      0.003288
+WIB  04000      1992               10871     AZ      0.012162
+WIB  05000      1992               11717     AR      0.013108
+WIB  06000      1992               64317     CA      0.071954
+WIB  08000      1992                4855     CO      0.005431
+WIB  09000      1992               12544     CT      0.014033
+WIB  10000      1992                6498     DE       0.00727
+WIB  11000      1992                 390     DC      0.000436
+WIB  12000      1992              104051     FL      0.116406
+WIB  13000      1992               20367     GA      0.022785
+WIB  15000      1992                2656     HI      0.002971
+WIB  16000      1992                5417     ID       0.00606
+WIB  17000      1992               22732     IL      0.025431
+WIB  18000      1992                9617     IN      0.010759
+WIB  19000      1992                8655     IA      0.009683
+WIB  20000      1992                4155     KS      0.004648
+WIB  21000      1992               13287     KY      0.014865
+WIB  22000      1992               29218     LA      0.032687
+WIB  23000      1992                7495     ME      0.008385
+WIB  24000      1992               17746     MD      0.019853
+WIB  25000      1992               19675     MA      0.022011
+WIB  26000      1992               48478     MI      0.054234
+WIB  27000      1992               32004     MN      0.035804
+WIB  28000      1992               14762     MS      0.016515
+WIB  29000      1992               22634     MO      0.025322
+WIB  30000      1992                2393     MT      0.002677
+WIB  31000      1992                3457     NE      0.003867
+WIB  32000      1992                4310     NV      0.004822
+WIB  33000      1992                7455     NH       0.00834
+WIB  34000      1992               30663     NJ      0.034304
+WIB  35000      1992                2998     NM      0.003354
+WIB  36000      1992               51285     NY      0.057374
+WIB  37000      1992               27547     NC      0.030818
+WIB  38000      1992                2189     ND      0.002449
+WIB  39000      1992               30015     OH      0.033579
+WIB  40000      1992               12970     OK       0.01451
+WIB  41000      1992               11906     OR       0.01332
+WIB  42000      1992               19725     PA      0.022067
+WIB  44000      1992                2856     RI      0.003195
+WIB  45000      1992               19190     SC      0.021469
+WIB  46000      1992                2516     SD      0.002815
+WIB  47000      1992               19857     TN      0.022215
+WIB  48000      1992               45659     TX       0.05108
+WIB  49000      1992                5798     UT      0.006486
+WIB  50000      1992                2023     VT      0.002263
+WIB  51000      1992               20489     VA      0.022922
+WIB  53000      1992               21371     WA      0.023909
+WIB  54000      1992                3709     WV      0.004149
+WIB  55000      1992               23134     WI      0.025881
+WIB  56000      1992                1756     WY      0.001965
+WIB  72000      1992                6659     PR       0.00745
+WIB  78000      1992                 468     VI      0.000524
+/END/

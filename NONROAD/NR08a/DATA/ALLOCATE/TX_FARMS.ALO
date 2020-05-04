@@ -1,0 +1,279 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent HARVESTED CROPLAND
+2002 USDA Census of Agriculture
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+FRM  48000      2002            17750938     TX
+FRM  48001      2002               51309     Anderson
+FRM  48003      2002               34149     Andrews
+FRM  48005      2002               14047     Angelina
+FRM  48007      2002                 321     Aransas
+FRM  48009      2002               43383     Archer
+FRM  48011      2002               34149     Armstrong
+FRM  48013      2002               55452     Atascosa
+FRM  48015      2002               58471     Austin
+FRM  48017      2002              131703     Bailey
+FRM  48019      2002                7115     Bandera
+FRM  48021      2002               44287     Bastrop
+FRM  48023      2002               49833     Baylor
+FRM  48025      2002               68033     Bee
+FRM  48027      2002              144185     Bell
+FRM  48029      2002               74204     Bexar
+FRM  48031      2002               10143     Blanco
+FRM  48033      2002               30895     Borden
+FRM  48035      2002               46538     Bosque
+FRM  48037      2002               61559     Bowie
+FRM  48039      2002               84348     Brazoria
+FRM  48041      2002               48579     Brazos
+FRM  48043      2002               34149     Brewster
+FRM  48045      2002               54199     Briscoe
+FRM  48047      2002                6714     Brooks
+FRM  48049      2002               45519     Brown
+FRM  48051      2002               66466     Burleson
+FRM  48053      2002               15133     Burnet
+FRM  48055      2002               43961     Caldwell
+FRM  48057      2002               48600     Calhoun
+FRM  48059      2002               37230     Callahan
+FRM  48061      2002              151923     Cameron
+FRM  48063      2002               13712     Camp
+FRM  48065      2002              105259     Carson
+FRM  48067      2002               31877     Cass
+FRM  48069      2002              227906     Castro
+FRM  48071      2002               34143     Chambers
+FRM  48073      2002               52378     Cherokee
+FRM  48075      2002               63879     Childress
+FRM  48077      2002               55871     Clay
+FRM  48079      2002              155239     Cochran
+FRM  48081      2002               11784     Coke
+FRM  48083      2002               71634     Coleman
+FRM  48085      2002              130915     Collin
+FRM  48087      2002               89709     Collingsworth
+FRM  48089      2002               77404     Colorado
+FRM  48091      2002               12495     Comal
+FRM  48093      2002              102541     Comanche
+FRM  48095      2002               79597     Concho
+FRM  48097      2002              101470     Cooke
+FRM  48099      2002               68258     Coryell
+FRM  48101      2002               34149     Cottle
+FRM  48103      2002               34149     Crane
+FRM  48105      2002                 360     Crockett
+FRM  48107      2002              214709     Crosby
+FRM  48109      2002                4446     Culberson
+FRM  48111      2002              250350     Dallam
+FRM  48113      2002               28952     Dallas
+FRM  48115      2002              262706     Dawson
+FRM  48117      2002               34149     Deaf Smith
+FRM  48119      2002               48545     Delta
+FRM  48121      2002               92283     Denton
+FRM  48123      2002               47628     DeWitt
+FRM  48125      2002               46988     Dickens
+FRM  48127      2002                4053     Dimmit
+FRM  48129      2002               37271     Donley
+FRM  48131      2002               31581     Duval
+FRM  48133      2002               62926     Eastland
+FRM  48135      2002               34149     Ector
+FRM  48137      2002                1843     Edwards
+FRM  48139      2002              172088     Ellis
+FRM  48141      2002               40721     El Paso
+FRM  48143      2002               86406     Erath
+FRM  48145      2002              134925     Falls
+FRM  48147      2002              160625     Fannin
+FRM  48149      2002               84210     Fayette
+FRM  48151      2002               98490     Fisher
+FRM  48153      2002              220235     Floyd
+FRM  48155      2002               51233     Foard
+FRM  48157      2002              130526     Fort Bend
+FRM  48159      2002               24190     Franklin
+FRM  48161      2002               35193     Freestone
+FRM  48163      2002               45749     Frio
+FRM  48165      2002              316324     Gaines
+FRM  48167      2002                7441     Galveston
+FRM  48169      2002               41810     Garza
+FRM  48171      2002               33664     Gillespie
+FRM  48173      2002               88011     Glasscock
+FRM  48175      2002               26832     Goliad
+FRM  48177      2002               53768     Gonzales
+FRM  48179      2002               58177     Gray
+FRM  48181      2002              145332     Grayson
+FRM  48183      2002                6962     Gregg
+FRM  48185      2002               40017     Grimes
+FRM  48187      2002              101367     Guadalupe
+FRM  48189      2002              345270     Hale
+FRM  48191      2002               99041     Hall
+FRM  48193      2002               47635     Hamilton
+FRM  48195      2002              127477     Hansford
+FRM  48197      2002               68135     Hardeman
+FRM  48199      2002                7358     Hardin
+FRM  48201      2002               44493     Harris
+FRM  48203      2002               29910     Harrison
+FRM  48205      2002              159433     Hartley
+FRM  48207      2002              229991     Haskell
+FRM  48209      2002               16344     Hays
+FRM  48211      2002               16331     Hemphill
+FRM  48213      2002               57415     Henderson
+FRM  48215      2002              277406     Hidalgo
+FRM  48217      2002              211217     Hill
+FRM  48219      2002              289009     Hockley
+FRM  48221      2002               27690     Hood
+FRM  48223      2002               94439     Hopkins
+FRM  48225      2002               59280     Houston
+FRM  48227      2002               92487     Howard
+FRM  48229      2002               34699     Hudspeth
+FRM  48231      2002              124895     Hunt
+FRM  48233      2002               34149     Hutchinson
+FRM  48235      2002                2258     Irion
+FRM  48237      2002               18178     Jack
+FRM  48239      2002              159270     Jackson
+FRM  48241      2002                9545     Jasper
+FRM  48243      2002                 881     Jeff Davis
+FRM  48245      2002               36967     Jefferson
+FRM  48247      2002               34149     Jim Hogg
+FRM  48249      2002              106079     Jim Wells
+FRM  48251      2002               80868     Johnson
+FRM  48253      2002              198863     Jones
+FRM  48255      2002               52272     Karnes
+FRM  48257      2002               79920     Kaufman
+FRM  48259      2002               10381     Kendall
+FRM  48261      2002               34149     Kenedy
+FRM  48263      2002               34149     Kent
+FRM  48265      2002               10705     Kerr
+FRM  48267      2002                3564     Kimble
+FRM  48269      2002                7283     King
+FRM  48271      2002                1573     Kinney
+FRM  48273      2002               75775     Kleberg
+FRM  48275      2002              125275     Knox
+FRM  48277      2002              136905     Lamar
+FRM  48279      2002              299230     Lamb
+FRM  48281      2002               20748     Lampasas
+FRM  48283      2002                6798     La Salle
+FRM  48285      2002               65630     Lavaca
+FRM  48287      2002               34295     Lee
+FRM  48289      2002               55085     Leon
+FRM  48291      2002               70158     Liberty
+FRM  48293      2002               60169     Limestone
+FRM  48295      2002               34149     Lipscomb
+FRM  48297      2002               33566     Live Oak
+FRM  48299      2002                8242     Llano
+FRM  48301      2002                   0     Loving
+FRM  48303      2002              311542     Lubbock
+FRM  48305      2002              289420     Lynn
+FRM  48307      2002               54548     McCulloch
+FRM  48309      2002              187338     McLennan
+FRM  48311      2002                7127     McMullen
+FRM  48313      2002               25779     Madison
+FRM  48315      2002                7188     Marion
+FRM  48317      2002              112709     Martin
+FRM  48319      2002               13081     Mason
+FRM  48321      2002              135809     Matagorda
+FRM  48323      2002                9959     Maverick
+FRM  48325      2002              123848     Medina
+FRM  48327      2002                7489     Menard
+FRM  48329      2002               15195     Midland
+FRM  48331      2002              127795     Milam
+FRM  48333      2002               26792     Mills
+FRM  48335      2002               81827     Mitchell
+FRM  48337      2002               49748     Montague
+FRM  48339      2002               19189     Montgomery
+FRM  48341      2002              147854     Moore
+FRM  48343      2002               14654     Morris
+FRM  48345      2002               33572     Motley
+FRM  48347      2002               29663     Nacogdoches
+FRM  48349      2002               97398     Navarro
+FRM  48351      2002                4415     Newton
+FRM  48353      2002               68909     Nolan
+FRM  48355      2002              320801     Nueces
+FRM  48357      2002               34149     Ochiltree
+FRM  48359      2002               14541     Oldham
+FRM  48361      2002                4326     Orange
+FRM  48363      2002               29024     Palo Pinto
+FRM  48365      2002               25446     Panola
+FRM  48367      2002               60099     Parker
+FRM  48369      2002              226271     Parmer
+FRM  48371      2002               20397     Pecos
+FRM  48373      2002               15162     Polk
+FRM  48375      2002               34149     Potter
+FRM  48377      2002                1390     Presidio
+FRM  48379      2002               19811     Rains
+FRM  48381      2002               71410     Randall
+FRM  48383      2002               34149     Reagan
+FRM  48385      2002                1565     Real
+FRM  48387      2002               60040     Red River
+FRM  48389      2002               11007     Reeves
+FRM  48391      2002               73921     Refugio
+FRM  48393      2002               15535     Roberts
+FRM  48395      2002               73565     Robertson
+FRM  48397      2002               14158     Rockwall
+FRM  48399      2002              186354     Runnels
+FRM  48401      2002               32782     Rusk
+FRM  48403      2002                3436     Sabine
+FRM  48405      2002                7509     San Augustine
+FRM  48407      2002                9775     San Jacinto
+FRM  48409      2002              223648     San Patricio
+FRM  48411      2002               34381     San Saba
+FRM  48413      2002               13729     Schleicher
+FRM  48415      2002              102377     Scurry
+FRM  48417      2002               24178     Shackelford
+FRM  48419      2002               21110     Shelby
+FRM  48421      2002              186873     Sherman
+FRM  48423      2002               55400     Smith
+FRM  48425      2002                6736     Somervell
+FRM  48427      2002               41759     Starr
+FRM  48429      2002               15509     Stephens
+FRM  48431      2002                 726     Sterling
+FRM  48433      2002               40323     Stonewall
+FRM  48435      2002                1670     Sutton
+FRM  48437      2002              145315     Swisher
+FRM  48439      2002               24129     Tarrant
+FRM  48441      2002               94860     Taylor
+FRM  48443      2002               34149     Terrell
+FRM  48445      2002              245693     Terry
+FRM  48447      2002               38581     Throckmorton
+FRM  48449      2002               22734     Titus
+FRM  48451      2002              157403     Tom Green
+FRM  48453      2002               53960     Travis
+FRM  48455      2002               17352     Trinity
+FRM  48457      2002               12505     Tyler
+FRM  48459      2002               27788     Upshur
+FRM  48461      2002               11944     Upton
+FRM  48463      2002               77882     Uvalde
+FRM  48465      2002                3147     Val Verde
+FRM  48467      2002               78654     Van Zandt
+FRM  48469      2002               85578     Victoria
+FRM  48471      2002               18883     Walker
+FRM  48473      2002               53308     Waller
+FRM  48475      2002                 419     Ward
+FRM  48477      2002               54740     Washington
+FRM  48479      2002                7075     Webb
+FRM  48481      2002              297315     Wharton
+FRM  48483      2002               47346     Wheeler
+FRM  48485      2002               83181     Wichita
+FRM  48487      2002              154971     Wilbarger
+FRM  48489      2002              103761     Willacy
+FRM  48491      2002              217331     Williamson
+FRM  48493      2002               75049     Wilson
+FRM  48495      2002               34149     Winkler
+FRM  48497      2002               84846     Wise
+FRM  48499      2002               46468     Wood
+FRM  48501      2002              134425     Yoakum
+FRM  48503      2002               36372     Young
+FRM  48505      2002                6068     Zapata
+FRM  48507      2002               32135     Zavala
+/END/

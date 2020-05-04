@@ -1,0 +1,145 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RECREATIONAL VEHICLE PARKS AND CAMPGROUNDS
+CBP NAICS 72121/; pre-2002 CBP SIC 7030
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+RVP  21000      2002                  56     KY
+RVP  21001      2002                   0     Adair
+RVP  21003      2002                   0     Allen
+RVP  21005      2002                   0     Anderson
+RVP  21007      2002                   0     Ballard
+RVP  21009      2002                   3     Barren
+RVP  21011      2002                   0     Bath
+RVP  21013      2002                   0     Bell
+RVP  21015      2002                   2     Boone
+RVP  21017      2002                   0     Bourbon
+RVP  21019      2002                   0     Boyd
+RVP  21021      2002                   0     Boyle
+RVP  21023      2002                   0     Bracken
+RVP  21025      2002                   0     Breathitt
+RVP  21027      2002                   0     Breckinridge
+RVP  21029      2002                   2     Bullitt
+RVP  21031      2002                   0     Butler
+RVP  21033      2002                   0     Caldwell
+RVP  21035      2002                   2     Calloway
+RVP  21037      2002                   0     Campbell
+RVP  21039      2002                   0     Carlisle
+RVP  21041      2002                   1     Carroll
+RVP  21043      2002                   0     Carter
+RVP  21045      2002                   0     Casey
+RVP  21047      2002                   0     Christian
+RVP  21049      2002                   0     Clark
+RVP  21051      2002                   0     Clay
+RVP  21053      2002                   2     Clinton
+RVP  21055      2002                   0     Crittenden
+RVP  21057      2002                   1     Cumberland
+RVP  21059      2002                   1     Daviess
+RVP  21061      2002                   2     Edmonson
+RVP  21063      2002                   0     Elliott
+RVP  21065      2002                   0     Estill
+RVP  21067      2002                   4     Fayette
+RVP  21069      2002                   1     Fleming
+RVP  21071      2002                   0     Floyd
+RVP  21073      2002                   0     Franklin
+RVP  21075      2002                   0     Fulton
+RVP  21077      2002                   0     Gallatin
+RVP  21079      2002                   0     Garrard
+RVP  21081      2002                   1     Grant
+RVP  21083      2002                   0     Graves
+RVP  21085      2002                   1     Grayson
+RVP  21087      2002                   0     Green
+RVP  21089      2002                   0     Greenup
+RVP  21091      2002                   0     Hancock
+RVP  21093      2002                   2     Hardin
+RVP  21095      2002                   1     Harlan
+RVP  21097      2002                   0     Harrison
+RVP  21099      2002                   1     Hart
+RVP  21101      2002                   0     Henderson
+RVP  21103      2002                   0     Henry
+RVP  21105      2002                   0     Hickman
+RVP  21107      2002                   0     Hopkins
+RVP  21109      2002                   0     Jackson
+RVP  21111      2002                   1     Jefferson
+RVP  21113      2002                   0     Jessamine
+RVP  21115      2002                   0     Johnson
+RVP  21117      2002                   0     Kenton
+RVP  21119      2002                   0     Knott
+RVP  21121      2002                   0     Knox
+RVP  21123      2002                   0     Larue
+RVP  21125      2002                   0     Laurel
+RVP  21127      2002                   1     Lawrence
+RVP  21129      2002                   1     Lee
+RVP  21131      2002                   0     Leslie
+RVP  21133      2002                   0     Letcher
+RVP  21135      2002                   0     Lewis
+RVP  21137      2002                   0     Lincoln
+RVP  21139      2002                   0     Livingston
+RVP  21141      2002                   0     Logan
+RVP  21143      2002                   2     Lyon
+RVP  21145      2002                   1     McCracken
+RVP  21147      2002                   0     McCreary
+RVP  21149      2002                   0     McLean
+RVP  21151      2002                   2     Madison
+RVP  21153      2002                   0     Magoffin
+RVP  21155      2002                   0     Marion
+RVP  21157      2002                   5     Marshall
+RVP  21159      2002                   0     Martin
+RVP  21161      2002                   0     Mason
+RVP  21163      2002                   1     Meade
+RVP  21165      2002                   0     Menifee
+RVP  21167      2002                   2     Mercer
+RVP  21169      2002                   0     Metcalfe
+RVP  21171      2002                   0     Monroe
+RVP  21173      2002                   1     Montgomery
+RVP  21175      2002                   0     Morgan
+RVP  21177      2002                   0     Muhlenberg
+RVP  21179      2002                   0     Nelson
+RVP  21181      2002                   0     Nicholas
+RVP  21183      2002                   0     Ohio
+RVP  21185      2002                   0     Oldham
+RVP  21187      2002                   0     Owen
+RVP  21189      2002                   0     Owsley
+RVP  21191      2002                   0     Pendleton
+RVP  21193      2002                   0     Perry
+RVP  21195      2002                   0     Pike
+RVP  21197      2002                   0     Powell
+RVP  21199      2002                   0     Pulaski
+RVP  21201      2002                   0     Robertson
+RVP  21203      2002                   0     Rockcastle
+RVP  21205      2002                   3     Rowan
+RVP  21207      2002                   1     Russell
+RVP  21209      2002                   0     Scott
+RVP  21211      2002                   1     Shelby
+RVP  21213      2002                   0     Simpson
+RVP  21215      2002                   0     Spencer
+RVP  21217      2002                   0     Taylor
+RVP  21219      2002                   0     Todd
+RVP  21221      2002                   0     Trigg
+RVP  21223      2002                   0     Trimble
+RVP  21225      2002                   0     Union
+RVP  21227      2002                   2     Warren
+RVP  21229      2002                   1     Washington
+RVP  21231      2002                   2     Wayne
+RVP  21233      2002                   0     Webster
+RVP  21235      2002                   2     Whitley
+RVP  21237      2002                   0     Wolfe
+RVP  21239      2002                   0     Woodford
+/END/

@@ -1,0 +1,172 @@
+This file contains emission factors (EFs) For non-metal Tank Permeation THC.
+The EFs are specified by SCC code, HP range and technology type.
+An ALL in the tech type field will apply to all Tank Permeation tech types.
+The model will use the EF for the closest year that is less than or
+equal to the current model year.
+Metal tanks have zero permeation.  The metal fractions are in spillage.emf.
+
+11/2/06 8a: Like 8 but remove all nylon adjustments and give chainsaws separate EFs
+
+Unit options: (g/m2/day)
+
+--------------------------------------------------------------
+The format is as follows:
+Line 1:
+6-15  character     -- SCC code
+21-25  real          -- beginning of HP range
+26-30  real          -- end of horsepower range
+35-44  character     -- technology type
+46-55  character     -- units (g/m2/day)
+56-67  character     -- pollutant
+Line 2:
+1-5   integer       -- year
+35-44  real          -- emission factor (EF) for technology type 1
+x5-x4  real          -- EF's for tech types (repeating fields of 10)
+
+
+     2200000000      HPmn HPmx    techtyp1  techtyp2  techtyp3  techtyp4  techtyp5  techtyp6  techtyp7  techtyp8  techtyp9  techtyp10 g/m2/day  THC
+1900                              999.99    999.990   999.990   999.990   999.990   999.990   999.990   999.990   999.990   999.990
+--------------------------------------------------------------
+
+/EMSFAC/
+     2260000000         0    6    E0        E1        g/m2/day  THC                           Class 1 NHH
+1900                              9.70      0.750
+     2260000000         6   25    E0        E1        E2        E3        g/m2/day  THC                           Class 2 NHH
+1900                              9.70      2.272     1.377     0.750
+     2260000000        25 9999    ALL       g/m2/day  THC
+1900                              0.00
+     2260001010         0 9999    E0        E1        g/m2/day  THC
+1900                              9.70      0.750
+     2260001020         0 9999    E0        E1        g/m2/day  THC
+1900                              9.70      0.750
+     2260001030         0 9999    E0        E1        g/m2/day  THC
+1900                              9.70      0.750
+     2260002006         3    6    E0        E1        E2        g/m2/day  THC                           Class 5 HH
+1900                              9.70      1.645     0.750
+     2260002009         1    3    E0        E1        E2        g/m2/day  THC                           Class 4 HH
+1900                              9.70      1.645     0.750
+     2260002021         1    3    E0        E1        E2        g/m2/day  THC                           Class 4 HH
+1900                              9.70      1.645     0.750
+     2260002027         1    3    E0        E1        E2        g/m2/day  THC                           Class 4 HH
+1900                              9.70      1.645     0.750
+     2260002039         1    3    E0        E1        E2        g/m2/day  THC                           Class 4 HH
+1900                              9.70      1.645     0.750
+     2260002039         3    6    E0        E1        E2        g/m2/day  THC                           Class 5 HH
+1900                              9.70      1.645     0.750
+     2260002054         1    3    E0        E1        E2        g/m2/day  THC                           Class 4 HH
+1900                              9.70      1.645     0.750
+     2260003030         1    3    E0        E1        E2        g/m2/day  THC                           Class 4 HH
+1900                              9.70      1.645     0.750
+     2260003040         1    3    E0        E1        E2        g/m2/day  THC                           Class 4 HH
+1900                              9.70      1.645     0.750
+     2260004015         0    1    E0        E1        E2        g/m2/day  THC                           Class 3 HH
+1900                              9.70      1.645     0.750
+     2260004015         1    3    E0        E1        E2        g/m2/day  THC                           Class 4 HH
+1900                              9.70      1.645     0.750
+     2260004016         0    1    E0        E1        E2        g/m2/day  THC                           Class 3 HH
+1900                              9.70      1.645     0.750
+     2260004016         1    3    E0        E1        E2        g/m2/day  THC                           Class 4 HH
+1900                              9.70      1.645     0.750                         0.170
+     2260004020         0    1    E0        E1        E2        g/m2/day  THC                           Class 3 HH
+1900                              1.25      1.25      1.25                          1.000
+     2260004020         1    3    E0        E1        E2        g/m2/day  THC                           Class 4 HH
+1900                              1.25      1.25      1.25                          1.000
+     2260004020         3   25    E0        E1        E2        g/m2/day  THC                           Class 5 HH (no exist)
+1900                              1.25      1.25      1.25
+     2260004021         0    1    E0        E1        E2        g/m2/day  THC                           Class 3 HH
+1900                              1.25      1.25      1.25
+     2260004021         1    3    E0        E1        E2        g/m2/day  THC                           Class 4 HH
+1900                              1.25      1.25      1.25
+     2260004021         3    6    E0        E1        E2        g/m2/day  THC                           Class 5 HH
+1900                              1.25      1.25      1.25                          1.000
+     2260004021         6   25    E0        E1        E2        g/m2/day  THC                           Class 5 HH (no exist)
+1900                              1.25      1.25      1.25
+     2260004025         0    1    E0        E1        E2        g/m2/day  THC                           Class 3 HH
+1900                              6.50      1.325     0.750                         0.204
+     2260004025         1    3    E0        E1        E2        g/m2/day  THC                           Class 4 HH
+1900                              6.50      1.325     0.750                         0.204
+     2260004025         3   25    E0        E1        E2        g/m2/day  THC                           Class 5 HH (no exist)
+1900                              6.50      1.325     0.750                         0.204
+     2260004026         0    1    E0        E1        E2        g/m2/day  THC                           Class 3 HH
+1900                              6.50      1.325     0.750
+     2260004026         1    3    E0        E1        E2        g/m2/day  THC                           Class 4 HH
+1900                              6.50      1.325     0.750
+     2260004026         3    6    E0        E1        E2        g/m2/day  THC                           Class 5 HH
+1900                              6.50      1.325     0.750
+     2260004026         6   25    E0        E1        E2        E3        g/m2/day  THC                           Class 2 NHH
+1900                              9.70      2.272     1.377     0.750
+     2260004030         0    1    E0        E1        E2        g/m2/day  THC                           Class 3 HH
+1900                              9.70      1.645     0.750
+     2260004030         1    3    E0        E1        E2        g/m2/day  THC                           Class 4 HH
+1900                              9.70      1.645     0.750
+     2260004031         1    3    E0        E1        E2        g/m2/day  THC                           Class 4 HH
+1900                              9.70      1.645     0.750
+     2260004031         3    6    E0        E1        E2        g/m2/day  THC                           Class 5 HH
+1900                              9.70      1.645     0.750
+     2260004071         1    3    E0        E1        E2        g/m2/day  THC                           Class 4 HH
+1900                              9.70      1.645     0.750
+     2260005035         0    1    E0        E1        E2        g/m2/day  THC                           Class 3 HH
+1900                              9.70      1.645     0.750
+     2260005035         1    3    E0        E1        E2        g/m2/day  THC                           Class 4 HH
+1900                              9.70      1.645     0.750
+     2260006005         0    1    E0        E1        E2        g/m2/day  THC                           Class 3 HH
+1900                              9.70      1.645     0.750
+     2260006005         1    3    E0        E1        E2        g/m2/day  THC                           Class 4 HH
+1900                              9.70      1.645     0.750
+     2260006010         0    1    E0        E1        E2        g/m2/day  THC                           Class 3 HH
+1900                              9.70      1.645     0.750
+     2260006010         1    3    E0        E1        E2        g/m2/day  THC                           Class 4 HH
+1900                              9.70      1.645     0.750
+     2260006015         1    3    E0        E1        E2        g/m2/day  THC                           Class 4 HH
+1900                              9.70      1.645     0.750
+     2260006035         0    1    E0        E1        E2        g/m2/day  THC                           Class 3 HH
+1900                              6.50      1.325     0.750
+     2260006035         1    3    E0        E1        E2        g/m2/day  THC                           Class 4 HH
+1900                              6.50      1.325     0.750
+     2260007005         6   11    E0        E1        E2        g/m2/day  THC                           Class 5 HH
+1900                              1.25      1.250     1.250
+     2265000000         0    6    E0        E1        g/m2/day  THC                           Class 1 NHH
+1900                              9.70      0.750
+     2265000000         6   25    E0        E1        E2        E3        g/m2/day  THC                           Class 2 NHH
+1900                              9.70      2.272     1.377     0.750
+     2265000000        25 9999    ALL       g/m2/day  THC
+1900                              0.00
+     2265001010         0 9999    E0        E1        g/m2/day  THC
+1900                              9.70      0.750
+     2265001020         0 9999    E0        E1        g/m2/day  THC
+1900                              9.70      0.750
+     2265001030         0 9999    E0        E1        g/m2/day  THC
+1900                              9.70      0.750
+     2265004025         0    6    E0        E1        g/m2/day  THC
+1900                              6.50      1.325
+     2265004026         0    6    E0        E1        g/m2/day  THC
+1900                              6.50      1.325
+     2267000000         0 9999    ALL       g/m2/day  THC
+1900                              0.00
+     2268000000         0 9999    ALL       g/m2/day  THC
+1900                              0.00
+     2270000000         0 9999    ALL       g/m2/day  THC
+1900                              0.00
+     2282005010         0   25    E0        E1        g/m2/day  THC
+1900                              9.90      0.75
+     2282005010        25 9999    E0        E1        g/m2/day  THC
+1900                              8.00      0.75
+     2282005015         0 9999    E0        E1        g/m2/day  THC
+1900                              9.90      0.75
+     2282010005         0 9999    E0        E1        g/m2/day  THC
+1900                              8.00      0.75
+     2282020000         0 9999    ALL       g/m2/day  THC
+1900                              0.00
+     2285002015         0 9999    ALL       g/m2/day  THC
+1900                              0.00
+     2285004015         0    6    E0        E1        g/m2/day  THC                           Class 1 NHH
+1900                              9.70      0.750
+     2285004015         6   25    E0        E1        E2        E3        g/m2/day  THC                           Class 2 NHH
+1900                              9.70      2.272     1.377     0.750
+     2285004015        25 9999    ALL       g/m2/day  THC
+1900                              0.00
+     2285006015         0 9999    ALL       g/m2/day  THC
+1900                              0.00
+     2285008015         0 9999    ALL       g/m2/day  THC
+1900                              0.00
+/END/

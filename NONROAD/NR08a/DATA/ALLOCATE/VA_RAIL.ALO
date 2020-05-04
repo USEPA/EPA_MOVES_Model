@@ -1,0 +1,166 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent LOCOMOTIVE NOx TONS
+from Draft 2002 NEI
+
+9/1/05 epa: Modifies to treat PR & VI as additional to US Total.
+9/26/05 epa: 2001 & 2002 Clifton Forge & Alleghany values allocated from 2002.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+RR   51000      2002           29002.710     VA
+RR   51001      2002               0.000     Accomack
+RR   51003      2002             478.520     Albemarle
+RR   51005      2001             399.790     Alleghany
+RR   51005      2002              670.49     Alleghany       2.312%
+RR   51007      2002              16.350     Amelia
+RR   51009      2002             712.740     Amherst
+RR   51011      2002             128.030     Appomattox
+RR   51013      2002             135.810     Arlington
+RR   51015      2002             161.900     Augusta
+RR   51017      2002               8.120     Bath
+RR   51019      2002             628.700     Bedford
+RR   51021      2002               0.000     Bland
+RR   51023      2002             481.820     Botetourt
+RR   51025      2002               6.610     Brunswick
+RR   51027      2002              83.250     Buchanan
+RR   51029      2002             326.620     Buckingham
+RR   51031      2002            1032.750     Campbell
+RR   51033      2002             252.420     Caroline
+RR   51035      2002               0.000     Carroll
+RR   51036      2002             117.810     Charles City
+RR   51037      2002             206.120     Charlotte
+RR   51041      2002             198.490     Chesterfield
+RR   51043      2002              96.660     Clarke
+RR   51045      2002               0.000     Craig
+RR   51047      2002             112.850     Culpeper
+RR   51049      2002              11.120     Cumberland
+RR   51051      2002             197.120     Dickenson
+RR   51053      2002             603.690     Dinwiddie
+RR   51057      2002               0.000     Essex
+RR   51059      2002             879.460     Fairfax
+RR   51061      2002             166.810     Fauquier
+RR   51063      2002               0.000     Floyd
+RR   51065      2002             744.970     Fluvanna
+RR   51067      2002             102.090     Franklin
+RR   51069      2002               8.760     Frederick
+RR   51071      2002             504.970     Giles
+RR   51073      2002               0.000     Gloucester
+RR   51075      2002             555.730     Goochland
+RR   51077      2002               0.000     Grayson
+RR   51079      2002               0.000     Greene
+RR   51081      2002             169.180     Greensville
+RR   51083      2002             158.880     Halifax
+RR   51085      2002             689.320     Hanover
+RR   51087      2002             909.450     Henrico
+RR   51089      2002              87.840     Henry
+RR   51091      2002               0.000     Highland
+RR   51093      2002             371.690     Isle of Wight
+RR   51095      2002             217.420     James City
+RR   51097      2002               0.000     King and Queen
+RR   51099      2002               4.130     King George
+RR   51101      2002              12.980     King William
+RR   51103      2002               0.000     Lancaster
+RR   51105      2002             177.980     Lee
+RR   51107      2002               0.000     Loudoun
+RR   51109      2002              23.130     Louisa
+RR   51111      2002               0.000     Lunenburg
+RR   51113      2002               0.000     Madison
+RR   51115      2002               0.000     Mathews
+RR   51117      2002               0.000     Mecklenburg
+RR   51119      2002               0.000     Middlesex
+RR   51121      2002             520.820     Montgomery
+RR   51125      2002             458.300     Nelson
+RR   51127      2002             297.370     New Kent
+RR   51131      2002               0.000     Northampton
+RR   51133      2002               0.000     Northumberland
+RR   51135      2002             392.330     Nottoway
+RR   51137      2002             120.670     Orange
+RR   51139      2002              97.240     Page
+RR   51141      2002               0.000     Patrick
+RR   51143      2002             458.870     Pittsylvania
+RR   51145      2002              16.800     Powhatan
+RR   51147      2002             253.260     Prince Edward
+RR   51149      2002             308.980     Prince George
+RR   51153      2002            1183.780     Prince William
+RR   51155      2002             274.760     Pulaski
+RR   51157      2002               0.000     Rappahannock
+RR   51159      2002               0.000     Richmond
+RR   51161      2002             868.630     Roanoke
+RR   51163      2002             395.220     Rockbridge
+RR   51165      2002             177.340     Rockingham
+RR   51167      2002             253.870     Russell
+RR   51169      2002             612.640     Scott
+RR   51171      2002              23.330     Shenandoah
+RR   51173      2002             125.940     Smyth
+RR   51175      2002             257.870     Southampton
+RR   51177      2002             344.540     Spotsylvania
+RR   51179      2002             631.850     Stafford
+RR   51181      2002               0.000     Surry
+RR   51183      2002             578.370     Sussex
+RR   51185      2002             301.680     Tazewell
+RR   51187      2002             269.520     Warren
+RR   51191      2002             146.600     Washington
+RR   51193      2002               0.000     Westmoreland
+RR   51195      2002             350.950     Wise
+RR   51197      2002              75.090     Wythe
+RR   51199      2002             217.420     York
+RR   51510      2002             453.120     Alexandria
+RR   51515      2002             167.390     Bedford
+RR   51520      2002             105.440     Bristol
+RR   51530      2002              23.240     Buena Vista
+RR   51540      2002             151.900     Charlottesville
+RR   51550      2002             219.370     Chesapeake
+RR   51560      2001             270.700     Clifton Forge
+RR   51560      2002                0.00     Clifton Forge   0.000%
+RR   51570      2002              31.840     Colonial Heights
+RR   51580      2002             212.140     Covington
+RR   51590      2002             195.350     Danville
+RR   51595      2002             169.180     Emporia
+RR   51600      2002               0.000     Fairfax
+RR   51610      2002               0.000     Falls Church
+RR   51620      2002              11.540     Franklin
+RR   51630      2002             415.120     Fredericksburg
+RR   51640      2002               0.000     Galax
+RR   51650      2002               1.960     Hampton
+RR   51660      2002              18.810     Harrisonburg
+RR   51670      2002               8.810     Hopewell
+RR   51678      2002               0.000     Lexington
+RR   51680      2002             409.090     Lynchburg
+RR   51683      2002             206.890     Manassas
+RR   51685      2002             106.470     Manassas Park
+RR   51690      2002              33.800     Martinsville
+RR   51700      2002             154.300     Newport News
+RR   51710      2002              78.990     Norfolk
+RR   51720      2002              22.240     Norton
+RR   51730      2002             349.940     Petersburg
+RR   51735      2002               0.000     Poquoson
+RR   51740      2002              26.180     Portsmouth
+RR   51750      2002              33.510     Radford
+RR   51760      2002            1101.790     Richmond
+RR   51770      2002             601.070     Roanoke
+RR   51775      2002             314.590     Salem
+RR   51780      2002               0.000     South Boston
+RR   51790      2002              15.630     Staunton
+RR   51800      2002             570.120     Suffolk
+RR   51810      2002               6.140     Virginia Beach
+RR   51820      2002              93.270     Waynesboro
+RR   51830      2002             217.420     Williamsburg
+RR   51840      2002               9.240     Winchester
+/END/

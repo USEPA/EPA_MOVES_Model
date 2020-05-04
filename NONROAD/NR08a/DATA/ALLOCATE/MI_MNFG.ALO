@@ -1,0 +1,108 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent NUMBER OF EMPLOYEES IN MANUFACTURING
+CBP NAICS 31----, 321///, 322///, 323///, 324///, 325///, 326///, 327///, 331///,
+332///, 333///, 334///, 335///, 336///, 337///, 339///, and 5111//; pre-2002 CBP SIC 20--
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+MFG  26000      2002             1359367     MI
+MFG  26001      2002                 492     Alcona
+MFG  26003      2002                1412     Alger
+MFG  26005      2002               29682     Allegan
+MFG  26007      2002                3991     Alpena
+MFG  26009      2002                2348     Antrim
+MFG  26011      2002                1276     Arenac
+MFG  26013      2002                 889     Baraga
+MFG  26015      2002                6946     Barry
+MFG  26017      2002                9232     Bay
+MFG  26019      2002                 609     Benzie
+MFG  26021      2002               28755     Berrien
+MFG  26023      2002                7041     Branch
+MFG  26025      2002               24203     Calhoun
+MFG  26027      2002                6686     Cass
+MFG  26029      2002                4788     Charlevoix
+MFG  26031      2002                1281     Cheboygan
+MFG  26033      2002                1246     Chippewa
+MFG  26035      2002                1521     Clare
+MFG  26037      2002                4259     Clinton
+MFG  26039      2002                1409     Crawford
+MFG  26041      2002                5467     Delta
+MFG  26043      2002                4394     Dickinson
+MFG  26045      2002                7065     Eaton
+MFG  26047      2002                3746     Emmet
+MFG  26049      2002               42495     Genesee
+MFG  26051      2002                1909     Gladwin
+MFG  26053      2002                1140     Gogebic
+MFG  26055      2002               10341     Grand Traverse
+MFG  26057      2002                5170     Gratiot
+MFG  26059      2002               11169     Hillsdale
+MFG  26061      2002                1477     Houghton
+MFG  26063      2002                7353     Huron
+MFG  26065      2002               34338     Ingham
+MFG  26067      2002                6687     Ionia
+MFG  26069      2002                2640     Iosco
+MFG  26071      2002                 789     Iron
+MFG  26073      2002                3215     Isabella
+MFG  26075      2002               20993     Jackson
+MFG  26077      2002               33377     Kalamazoo
+MFG  26079      2002                1117     Kalkaska
+MFG  26081      2002              138435     Kent
+MFG  26083      2002                  27     Keweenaw
+MFG  26085      2002                 199     Lake
+MFG  26087      2002               10208     Lapeer
+MFG  26089      2002                 342     Leelanau
+MFG  26091      2002               15640     Lenawee
+MFG  26093      2002               18808     Livingston
+MFG  26095      2002                 321     Luce
+MFG  26097      2002                 165     Mackinac
+MFG  26099      2002              149124     Macomb
+MFG  26101      2002                2013     Manistee
+MFG  26103      2002                1784     Marquette
+MFG  26105      2002                4756     Mason
+MFG  26107      2002                2977     Mecosta
+MFG  26109      2002                5278     Menominee
+MFG  26111      2002               10964     Midland
+MFG  26113      2002                1006     Missaukee
+MFG  26115      2002               16653     Monroe
+MFG  26117      2002                9882     Montcalm
+MFG  26119      2002                 804     Montmorency
+MFG  26121      2002               28489     Muskegon
+MFG  26123      2002                2636     Newaygo
+MFG  26125      2002              146770     Oakland
+MFG  26127      2002                2183     Oceana
+MFG  26129      2002                1869     Ogemaw
+MFG  26131      2002                 766     Ontonagon
+MFG  26133      2002                6684     Osceola
+MFG  26135      2002                 578     Oscoda
+MFG  26137      2002                2836     Otsego
+MFG  26139      2002               72356     Ottawa
+MFG  26141      2002                 226     Presque Isle
+MFG  26143      2002                1061     Roscommon
+MFG  26145      2002               30684     Saginaw
+MFG  26147      2002               20042     St. Clair
+MFG  26149      2002               16650     St. Joseph
+MFG  26151      2002                7290     Sanilac
+MFG  26153      2002                 553     Schoolcraft
+MFG  26155      2002                6312     Shiawassee
+MFG  26157      2002                3986     Tuscola
+MFG  26159      2002                8446     Van Buren
+MFG  26161      2002               42947     Washtenaw
+MFG  26163      2002              215577     Wayne
+MFG  26165      2002                8092     Wexford
+/END/

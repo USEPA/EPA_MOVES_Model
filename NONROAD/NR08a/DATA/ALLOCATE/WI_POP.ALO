@@ -1,0 +1,97 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent HUMAN POPULATION
+
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+POP  55000      2002             5440367     WI
+POP  55001      2002               20489     Adams
+POP  55003      2002               16795     Ashland
+POP  55005      2002               45481     Barron
+POP  55007      2002               15139     Bayfield
+POP  55009      2002              231996     Brown
+POP  55011      2002               13823     Buffalo
+POP  55013      2002               16107     Burnett
+POP  55015      2002               42513     Calumet
+POP  55017      2002               56279     Chippewa
+POP  55019      2002               33836     Clark
+POP  55021      2002               53451     Columbia
+POP  55023      2002               17024     Crawford
+POP  55025      2002              441647     Dane
+POP  55027      2002               86953     Dodge
+POP  55029      2002               28285     Door
+POP  55031      2002               43708     Douglas
+POP  55033      2002               40773     Dunn
+POP  55035      2002               94104     Eau Claire
+POP  55037      2002                5127     Florence
+POP  55039      2002               97821     Fond du Lac
+POP  55041      2002                9929     Forest
+POP  55043      2002               49449     Grant
+POP  55045      2002               34095     Green
+POP  55047      2002               19247     Green Lake
+POP  55049      2002               23134     Iowa
+POP  55051      2002                6797     Iron
+POP  55053      2002               19313     Jackson
+POP  55055      2002               76959     Jefferson
+POP  55057      2002               25080     Juneau
+POP  55059      2002              153959     Kenosha
+POP  55061      2002               20516     Kewaunee
+POP  55063      2002              108033     La Crosse
+POP  55065      2002               16312     Lafayette
+POP  55067      2002               20824     Langlade
+POP  55069      2002               29994     Lincoln
+POP  55071      2002               82402     Manitowoc
+POP  55073      2002              126918     Marathon
+POP  55075      2002               43404     Marinette
+POP  55077      2002               14729     Marquette
+POP  55078      2002                4627     Menominee
+POP  55079      2002              934352     Milwaukee
+POP  55081      2002               41568     Monroe
+POP  55083      2002               36635     Oconto
+POP  55085      2002               36976     Oneida
+POP  55087      2002              166080     Outagamie
+POP  55089      2002               84030     Ozaukee
+POP  55091      2002                7340     Pepin
+POP  55093      2002               37435     Pierce
+POP  55095      2002               42761     Polk
+POP  55097      2002               67266     Portage
+POP  55099      2002               15461     Price
+POP  55101      2002              190952     Racine
+POP  55103      2002               18114     Richland
+POP  55105      2002              154078     Rock
+POP  55107      2002               15310     Rusk
+POP  55109      2002               68469     St. Croix
+POP  55111      2002               55940     Sauk
+POP  55113      2002               16588     Sawyer
+POP  55115      2002               40999     Shawano
+POP  55117      2002              113293     Sheboygan
+POP  55119      2002               19661     Taylor
+POP  55121      2002               27195     Trempealeau
+POP  55123      2002               28370     Vernon
+POP  55125      2002               21792     Vilas
+POP  55127      2002               95211     Walworth
+POP  55129      2002               16416     Washburn
+POP  55131      2002              121023     Washington
+POP  55133      2002              370335     Waukesha
+POP  55135      2002               52389     Waupaca
+POP  55137      2002               23403     Waushara
+POP  55139      2002              158474     Winnebago
+POP  55141      2002               75379     Wood
+/END/

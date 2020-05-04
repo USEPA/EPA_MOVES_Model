@@ -1,0 +1,280 @@
+This file contains emission factors (EFs) for Running Loss THC emissions.
+The EFs are specified by SCC code, HP range and Technology type.
+An ALL in the tech type field applies to all Running Loss tech types.
+The model will use the EF for the closest year that is less than or
+equal to the current model year.
+
+8/21/06: 5b, Like 5a, but separate Cls 1 (90% ctl), Cls 2 (80% ctl), HandHeld (no ctl) per 8/3/06 spreadsheet.
+1/25/08: 5f, Like 5b, but separate 4-stk snowblowers to give them lower base EF (equal other equip ctl EF) due to winter-only use. & set 2-strokes to same EFs.
+
+--------------------------------------------------------------
+The format is as follows:
+Line 1:
+       6-15  character     -- SCC Code
+      21-25  real          -- beginning of HP range
+      26-30  real          -- end of horsepower range
+      35-44  character     -- technology type
+      x5-x4  character     -- technology type (repeating fields of 10)
+      x5-x4  character     -- units (10 characters max)
+      x5-x4  character     -- pollutant (10 characters max)
+Line 2:
+       1-5   integer       -- year
+      35-44  real          -- emission factors for technology type 1
+      x5-x4  real          -- EF's for tech types (repeating fields of 10)
+
+     2200000000      HPmn HPmx    techtyp1  techtyp2  techtyp3  techtyp4  techtyp5  techtyp6  techtyp7  techtyp8  techtyp9  techtyp10 g/hr      THC
+1900                              999.99    999.99    999.99    999.99    999.99    999.99    999.99    999.99    999.99    999.99
+--------------------------------------------------------------
+
+/EMSFAC/
+     2260000000        25 9999    E0        E1        g/hr      THC                 LSI
+1900                              2.41      0.241
+     2260000000         0    3    E0        E1        g/hr      THC                 HH
+1900                              0.58      0.580
+     2260000000         3    6    E0        E1        g/hr      THC                 CL1
+1900                              3.34      0.334
+     2260000000         6   25    E0        E1        g/hr      THC                 CL2
+1900                              4.61      0.922
+     2260001010         0 9999    ALL       g/hr      THC
+1900                              0.57
+     2260001020         0 9999    ALL       g/hr      THC
+1900                              11.30
+     2260001030         0 9999    ALL       g/hr      THC
+1900                              1.18
+     2260001050         0    6    E0        E1        g/hr      THC                 CL1
+1900                              11.30     1.130
+     2260001050         6   25    E0        E1        g/hr      THC                 CL2
+1900                              11.30     2.260
+     2260001050        25 9999    E0        E1        g/hr      THC                 LSI
+1900                              11.30     1.130
+     2260001060         0    6    E0        E1        g/hr      THC                 CL1
+1900                              11.30     1.130
+     2260001060         6   25    E0        E1        g/hr      THC                 CL2
+1900                              11.30     2.260
+     2260001060        25 9999    E0        E1        g/hr      THC                 LSI
+1900                              11.30     1.130
+     2260002000         3    6    E0        E1        g/hr      THC                 CL1
+1900                              3.34      0.334
+     2260002000         6   25    E0        E1        g/hr      THC                 CL2
+1900                              4.61      0.922
+     2260002006         0    6    E0        E1        g/hr      THC                 HH
+1900                              0.58      0.580
+     2260002009         0    3    E0        E1        g/hr      THC                 HH
+1900                              0.58      0.580
+     2260002021         0    3    E0        E1        g/hr      THC                 HH
+1900                              0.58      0.580
+     2260002027         0    3    E0        E1        g/hr      THC                 HH
+1900                              14.23     14.230
+     2260002027         3    6    E0        E1        g/hr      THC                 CL1
+1900                              14.23     1.423
+     2260002027         6   25    E0        E1        g/hr      THC                 CL2
+1900                              14.23     2.846
+     2260002039         0    6    E0        E1        g/hr      THC                 HH
+1900                              0.58      0.580
+     2260002054         0    3    E0        E1        g/hr      THC                 HH
+1900                              0.58      0.580
+     2260003030         0    3    E0        E1        g/hr      THC                 HH
+1900                              0.58      0.580
+     2260003040         0    3    E0        E1        g/hr      THC                 HH
+1900                              0.58      0.580
+     2260003050         0    6    E0        E1        g/hr      THC                 CL1
+1900                              3.34      0.334
+     2260003060         6   25    E0        E1        g/hr      THC                 CL2
+1900                              14.23     2.846
+     2260004010         0    6    E0        E1        g/hr      THC                 CL1
+1900                              3.34      0.334
+     2260004010         6   25    E0        E1        g/hr      THC                 CL2
+1900                              3.34      0.668
+     2260004011         0    6    E0        E1        g/hr      THC                 CL1
+1900                              3.34      0.334
+     2260004011         6   25    E0        E1        g/hr      THC                 CL2
+1900                              3.34      0.668
+     2260004015         0    3    E0        E1        g/hr      THC                 HH
+1900                              0.58      0.580
+     2260004016         0    3    E0        E1        g/hr      THC                 HH
+1900                              0.58      0.580
+     2260004020         0   25    E0        E1        g/hr      THC                 HH
+1900                              0.58      0.580
+     2260004021         0   25    E0        E1        g/hr      THC                 HH
+1900                              0.58      0.580
+     2260004025         0    6    E0        E1        g/hr      THC                 HH
+1900                              0.58      0.580
+     2260004026         0    6    E0        E1        g/hr      THC                 HH
+1900                              0.58      0.580
+     2260004030         0    6    E0        E1        g/hr      THC                 HH
+1900                              0.58      0.580
+     2260004031         0    6    E0        E1        g/hr      THC                 HH
+1900                              0.58      0.580
+     2260004035         0    6    E0        E1        g/hr      THC                 HH
+1900                              0.334     0.334
+     2260004036         0    6    E0        E1        g/hr      THC                 HH
+1900                              0.334     0.334
+     2260004040         0    6    E0        E1        g/hr      THC                 CL1
+1900                              2.86      0.286
+     2260004041         0    6    E0        E1        g/hr      THC                 CL1
+1900                              2.86      0.286
+     2260004045         0    6    E0        E1        g/hr      THC                 CL1
+1900                              2.86      0.286
+     2260004046         0    6    E0        E1        g/hr      THC                 CL1
+1900                              2.86      0.286
+     2260004050         0    6    E0        E1        g/hr      THC                 CL1
+1900                              3.34      0.334
+     2260004051         0    6    E0        E1        g/hr      THC                 CL1
+1900                              3.34      0.334
+     2260004055         0    6    E0        E1        g/hr      THC                 CL1
+1900                              2.86      0.286
+     2260004056         0    6    E0        E1        g/hr      THC                 CL1
+1900                              2.86      0.286
+     2260004065         0    6    E0        E1        g/hr      THC                 CL1
+1900                              3.34      0.334
+     2260004066         0    6    E0        E1        g/hr      THC                 CL1
+1900                              3.34      0.334
+     2260004071         0    6    E0        E1        g/hr      THC                 HH
+1900                              0.58      0.580
+     2260004075         0    6    E0        E1        g/hr      THC                 CL1
+1900                              2.86      0.286
+     2260004076         0    6    E0        E1        g/hr      THC                 CL1
+1900                              2.86      0.286
+     2260005030         0    6    E0        E1        g/hr      THC                 CL1
+1900                              3.34      0.334
+     2260005035         0    3    E0        E1        g/hr      THC                 HH
+1900                              0.58      0.580
+     2260005060         3    6    E0        E1        g/hr      THC                 CL1
+1900                              14.23     1.423
+     2260006000         0    3    E0        E1        g/hr      THC                 HH
+1900                              14.23     14.230
+     2260006000         3    6    E0        E1        g/hr      THC                 CL1
+1900                              14.23     1.423
+     2260006000         6   25    E0        E1        g/hr      THC                 CL2
+1900                              14.23     2.846
+     2260007005         0   25    E0        E1        g/hr      THC                 HH
+1900                              0.58      0.580
+     2265000000        25 9999    E0        E1        g/hr      THC                 LSI
+1900                              2.41      0.241
+     2265000000         0    6    E0        E1        g/hr      THC                 CL1
+1900                              3.34      0.334
+     2265000000         6   25    E0        E1        g/hr      THC                 CL2
+1900                              4.61      0.922
+     2265001010         0 9999    ALL       g/hr      THC
+1900                              0.57
+     2265001020         0 9999    ALL       g/hr      THC
+1900                              11.30
+     2265001030         0 9999    ALL       g/hr      THC
+1900                              1.18
+     2265001050         0    6    E0        E1        g/hr      THC                 CL1
+1900                              11.30     1.130
+     2265001050         6   25    E0        E1        g/hr      THC                 CL2
+1900                              11.30     2.260
+     2265001050        25 9999    E0        E1        g/hr      THC                 LSI
+1900                              11.30     1.130
+     2265001060         0    6    E0        E1        g/hr      THC                 CL1
+1900                              11.30     1.130
+     2265001060         6   25    E0        E1        g/hr      THC                 CL2
+1900                              11.30     2.260
+     2265001060        25 9999    E0        E1        g/hr      THC                 LSI
+1900                              11.30     1.130
+     2265003060         0    6    E0        E1        g/hr      THC                 CL1
+1900                              14.23     1.423
+     2265003060         6   25    E0        E1        g/hr      THC                 CL2
+1900                              14.23     2.846
+     2265004010         0    6    E0        E1        g/hr      THC                 CL1
+1900                              3.34      0.334
+     2265004010         6   25    E0        E1        g/hr      THC                 CL2
+1900                              3.34      0.668
+     2265004011         0    6    E0        E1        g/hr      THC                 CL1
+1900                              3.34      0.334
+     2265004011         6   25    E0        E1        g/hr      THC                 CL2
+1900                              3.34      0.668
+     2265004035         0    6    E0        E1        g/hr      THC                 CL1
+1900                              0.334     0.334
+     2265004035         6   25    E0        E1        g/hr      THC                 CL2
+1900                              0.922     0.922
+     2265004036         0    6    E0        E1        g/hr      THC                 CL1
+1900                              0.334     0.334
+     2265004036         6   25    E0        E1        g/hr      THC                 CL2
+1900                              0.922     0.922
+     2265004040         0    6    E0        E1        g/hr      THC                 CL1
+1900                              2.86      0.286
+     2265004040         6   25    E0        E1        g/hr      THC                 CL2
+1900                              2.86      0.572
+     2265004041         0    6    E0        E1        g/hr      THC                 CL1
+1900                              2.86      0.286
+     2265004041         6   25    E0        E1        g/hr      THC                 CL2
+1900                              2.86      0.572
+     2265004045         0    6    E0        E1        g/hr      THC                 CL1
+1900                              2.86      0.286
+     2265004045         6   25    E0        E1        g/hr      THC                 CL2
+1900                              2.86      0.572
+     2265004046         0    6    E0        E1        g/hr      THC                 CL1
+1900                              2.86      0.286
+     2265004046         6   25    E0        E1        g/hr      THC                 CL2
+1900                              2.86      0.572
+     2265004050         0    6    E0        E1        g/hr      THC                 CL1
+1900                              3.34      0.334
+     2265004050         6   25    E0        E1        g/hr      THC                 CL2
+1900                              3.34      0.668
+     2265004051         0    6    E0        E1        g/hr      THC                 CL1
+1900                              3.34      0.334
+     2265004051         6   25    E0        E1        g/hr      THC                 CL2
+1900                              3.34      0.668
+     2265004055         0    6    E0        E1        g/hr      THC                 CL1
+1900                              2.86      0.286
+     2265004055         6   25    E0        E1        g/hr      THC                 CL2
+1900                              2.86      0.572
+     2265004056         0    6    E0        E1        g/hr      THC                 CL1
+1900                              2.86      0.286
+     2265004056         6   25    E0        E1        g/hr      THC                 CL2
+1900                              2.86      0.572
+     2265004065         0    6    E0        E1        g/hr      THC                 CL1
+1900                              3.34      0.334
+     2265004065         6   25    E0        E1        g/hr      THC                 CL2
+1900                              3.34      0.668
+     2265004066         0    6    E0        E1        g/hr      THC                 CL1
+1900                              3.34      0.334
+     2265004066         6   25    E0        E1        g/hr      THC                 CL2
+1900                              3.34      0.668
+     2265004075         0    6    E0        E1        g/hr      THC                 CL1
+1900                              2.86      0.286
+     2265004075         6   25    E0        E1        g/hr      THC                 CL2
+1900                              2.86      0.572
+     2265004076         0    6    E0        E1        g/hr      THC                 CL1
+1900                              2.86      0.286
+     2265004076         6   25    E0        E1        g/hr      THC                 CL2
+1900                              2.86      0.572
+     2265005060         0    6    E0        E1        g/hr      THC                 CL1
+1900                              14.23     1.423
+     2265005060         6   25    E0        E1        g/hr      THC                 CL2
+1900                              14.23     2.846
+     2265006000         0    6    E0        E1        g/hr      THC                 CL1
+1900                              14.23     1.423
+     2265006000         6   25    E0        E1        g/hr      THC                 CL2
+1900                              14.23     2.846
+     2267000000         0 9999    ALL       g/hr      THC
+1900                              0.00
+     2268000000         0 9999    ALL       g/hr      THC
+1900                              0.00
+     2270000000         0 9999    ALL       g/hr      THC
+1900                              0.00
+     2282005010         0 9999    ALL       g/hr      THC
+1900                              0.00
+     2282005015         0 9999    ALL       g/hr      THC
+1900                              2.86
+     2282010005         0  100    ALL       g/hr      THC
+1900                              2.86
+     2282010005       100 9999    ALL       g/hr      THC
+1900                              0.00
+     2282020000         0 9999    ALL       g/hr      THC
+1900                              0.00
+     2285002015         0 9999    ALL       g/hr      THC
+1900                              0.00
+     2285004015         0    6    E0        E1        g/hr      THC                 CL1
+1900                              3.34      0.334
+     2285004015         6   25    E0        E1        g/hr      THC                 CL2
+1900                              4.61      0.922
+     2285004015        25 9999    E0        E1        g/hr      THC                 LSI
+1900                              2.41      0.241
+     2285006015         0 9999    ALL       g/hr      THC
+1900                              0.00
+     2285008015         0 9999    ALL       g/hr      THC
+1900                              0.00
+/END/

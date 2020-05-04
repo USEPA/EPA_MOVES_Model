@@ -1,0 +1,94 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2002 Timber Product Output (cu ft)
+from US Forest Service TPO database. http://www.fia.fs.fed.us/program-features/tpo/
+
+10/19/05 epa: use TPO data instead of CBP employee data.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+LOG  01000      2002          1445844371     AL
+LOG  01001      2002            13481664     Autauga
+LOG  01003      2002            38118908     Baldwin
+LOG  01005      2002            32249206     Barbour
+LOG  01007      2002            22540255     Bibb
+LOG  01009      2002            10389582     Blount
+LOG  01011      2002            14055565     Bullock
+LOG  01013      2002            45564357     Butler
+LOG  01015      2002             7076654     Calhoun
+LOG  01017      2002            23742929     Chambers
+LOG  01019      2002             4945649     Cherokee
+LOG  01021      2002            16613837     Chilton
+LOG  01023      2002            58364010     Choctaw
+LOG  01025      2002            73618112     Clarke
+LOG  01027      2002            20651595     Clay
+LOG  01029      2002            13817960     Cleburne
+LOG  01031      2002            31747604     Coffee
+LOG  01033      2002             5774120     Colbert
+LOG  01035      2002            47934434     Conecuh
+LOG  01037      2002            21731733     Coosa
+LOG  01039      2002            21892263     Covington
+LOG  01041      2002            17165466     Crenshaw
+LOG  01043      2002            17885106     Cullman
+LOG  01045      2002            12393641     Dale
+LOG  01047      2002            25587862     Dallas
+LOG  01049      2002             8069243     DeKalb
+LOG  01051      2002             8883899     Elmore
+LOG  01053      2002            29179338     Escambia
+LOG  01055      2002             7538027     Etowah
+LOG  01057      2002            19194459     Fayette
+LOG  01059      2002            13451687     Franklin
+LOG  01061      2002            10484115     Geneva
+LOG  01063      2002            22188879     Greene
+LOG  01065      2002            18581168     Hale
+LOG  01067      2002            13786618     Henry
+LOG  01069      2002             9314127     Houston
+LOG  01071      2002            17526033     Jackson
+LOG  01073      2002            19025926     Jefferson
+LOG  01075      2002            21098323     Lamar
+LOG  01077      2002             9645622     Lauderdale
+LOG  01079      2002             6391277     Lawrence
+LOG  01081      2002            16119511     Lee
+LOG  01083      2002             3159949     Limestone
+LOG  01085      2002            16874741     Lowndes
+LOG  01087      2002            15219261     Macon
+LOG  01089      2002             3119057     Madison
+LOG  01091      2002            53516904     Marengo
+LOG  01093      2002            21738793     Marion
+LOG  01095      2002             7717122     Marshall
+LOG  01097      2002            23450794     Mobile
+LOG  01099      2002            54088239     Monroe
+LOG  01101      2002            11272449     Montgomery
+LOG  01103      2002             5342386     Morgan
+LOG  01105      2002            17314944     Perry
+LOG  01107      2002            30671963     Pickens
+LOG  01109      2002             9507481     Pike
+LOG  01111      2002            15288317     Randolph
+LOG  01113      2002            21312828     Russell
+LOG  01115      2002            12972456     St. Clair
+LOG  01117      2002            21232796     Shelby
+LOG  01119      2002            33913165     Sumter
+LOG  01121      2002            15729803     Talladega
+LOG  01123      2002            25261757     Tallapoosa
+LOG  01125      2002            28743362     Tuscaloosa
+LOG  01127      2002            36904170     Walker
+LOG  01129      2002            44129178     Washington
+LOG  01131      2002            56376335     Wilcox
+LOG  01133      2002            13165354     Winston
+/END/

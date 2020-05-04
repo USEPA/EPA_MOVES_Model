@@ -1,0 +1,109 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2003 DOLLAR VALUE of CONSTRUCTION
+adjusted for relative geographic cost of construction materials.
+   Const_Dollars * (1-(1/(1+100/Area_Mod_Factor)))
+from McGraw-Hill Construction (values) and Craftsman (cost adj)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+CON  28000      2003             3767705     MS
+CON  28001      2003               16134     Adams
+CON  28003      2003               19248     Alcorn
+CON  28005      2003                8451     Amite
+CON  28007      2003               13581     Attala
+CON  28009      2003                3824     Benton
+CON  28011      2003               22117     Bolivar
+CON  28013      2003                7878     Calhoun
+CON  28015      2003                8902     Carroll
+CON  28017      2003                8929     Chickasaw
+CON  28019      2003                3350     Choctaw
+CON  28021      2003               19913     Claiborne
+CON  28023      2003                5673     Clarke
+CON  28025      2003               14722     Clay
+CON  28027      2003               11319     Coahoma
+CON  28029      2003               11595     Copiah
+CON  28031      2003                8813     Covington
+CON  28033      2003              408810     DeSoto
+CON  28035      2003               71597     Forrest
+CON  28037      2003               12722     Franklin
+CON  28039      2003               21465     George
+CON  28041      2003               46782     Greene
+CON  28043      2003               14586     Grenada
+CON  28045      2003               82744     Hancock
+CON  28047      2003              478837     Harrison
+CON  28049      2003              256388     Hinds
+CON  28051      2003                7029     Holmes
+CON  28053      2003                2679     Humphreys
+CON  28055      2003               28925     Issaquena
+CON  28057      2003               28963     Itawamba
+CON  28059      2003              212588     Jackson
+CON  28061      2003               10672     Jasper
+CON  28063      2003               17187     Jefferson
+CON  28065      2003                4379     Jefferson Davis
+CON  28067      2003               64576     Jones
+CON  28069      2003                7312     Kemper
+CON  28071      2003               83544     Lafayette
+CON  28073      2003               19046     Lamar
+CON  28075      2003               68671     Lauderdale
+CON  28077      2003                3993     Lawrence
+CON  28079      2003               17074     Leake
+CON  28081      2003               85912     Lee
+CON  28083      2003               10942     Leflore
+CON  28085      2003               18435     Lincoln
+CON  28087      2003               78479     Lowndes
+CON  28089      2003              458089     Madison
+CON  28091      2003               12898     Marion
+CON  28093      2003               16924     Marshall
+CON  28095      2003               13695     Monroe
+CON  28097      2003               10137     Montgomery
+CON  28099      2003               16967     Neshoba
+CON  28101      2003               19056     Newton
+CON  28103      2003                4749     Noxubee
+CON  28105      2003               39485     Oktibbeha
+CON  28107      2003               81256     Panola
+CON  28109      2003               66556     Pearl River
+CON  28111      2003                9330     Perry
+CON  28113      2003               20137     Pike
+CON  28115      2003               15913     Pontotoc
+CON  28117      2003               18442     Prentiss
+CON  28119      2003                4649     Quitman
+CON  28121      2003              267757     Rankin
+CON  28123      2003               14157     Scott
+CON  28125      2003                 119     Sharkey
+CON  28127      2003                7014     Simpson
+CON  28129      2003                6223     Smith
+CON  28131      2003               21241     Stone
+CON  28133      2003                8533     Sunflower
+CON  28135      2003               10425     Tallahatchie
+CON  28137      2003               53438     Tate
+CON  28139      2003                9075     Tippah
+CON  28141      2003               10376     Tishomingo
+CON  28143      2003               36311     Tunica
+CON  28145      2003               12840     Union
+CON  28147      2003                4383     Walthall
+CON  28149      2003               71757     Warren
+CON  28151      2003               18568     Washington
+CON  28153      2003               17194     Wayne
+CON  28155      2003                6432     Webster
+CON  28157      2003                5078     Wilkinson
+CON  28159      2003               12283     Winston
+CON  28161      2003                9192     Yalobusha
+CON  28163      2003                8241     Yazoo
+/END/

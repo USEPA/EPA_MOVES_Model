@@ -1,0 +1,55 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent LOCOMOTIVE NOx TONS
+from Draft 2002 NEI
+
+9/1/05 epa: Modifies to treat PR & VI as additional to US Total.
+9/26/05 epa: Adds AK, CT, ME, NH, VT using NEI Loco NOx per person. 
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+RR   02000      2002            2067.173     AK
+RR   02013      2002               8.593     Aleutians East
+RR   02016      2002              16.580     Aleutians West
+RR   02020      2002             863.748     Anchorage
+RR   02050      2002              53.605     Bethel
+RR   02060      2002               3.703     Bristol Bay
+RR   02068      2002               6.006     Denali
+RR   02070      2002              16.045     Dillingham
+RR   02090      2002             273.438     Fairbanks North Star
+RR   02100      2002               7.422     Haines
+RR   02110      2002              99.004     Juneau
+RR   02122      2002             164.618     Kenai Peninsula
+RR   02130      2002              43.792     Ketchikan Gateway
+RR   02150      2002              44.141     Kodiak Island
+RR   02164      2002               5.129     Lake and Peninsula
+RR   02170      2002             210.036     Matanuska-Susitna
+RR   02180      2002              29.486     Nome
+RR   02185      2002              23.138     North Slope
+RR   02188      2002              23.603     Northwest Arctic
+RR   02201      2002              18.567     Prince of Wales-Outer Ketchikan
+RR   02220      2002              28.573     Sitka
+RR   02232      2002              10.584     Skagway-Hoonah-Angoon
+RR   02240      2002              18.148     Southeast Fairbanks
+RR   02261      2002              32.480     Valdez-Cordova
+RR   02270      2002              23.106     Wade Hampton
+RR   02280      2002              20.822     Wrangell-Petersburg
+RR   02282      2002               2.390     Yakutat
+RR   02290      2002              20.416     Yukon-Koyukuk
+/END/

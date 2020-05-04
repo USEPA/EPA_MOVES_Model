@@ -1,0 +1,39 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WATER SURFACE AREA FOR OUTBOARD RECREATIONAL MARINE CRAFT (sq km navigable water)
+1990 GICS (inland water area); GIS analysis of coast lengths (coastal navigable water)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+WOB  25000      1990                1482     MA
+WOB  25001      1990                 296     Barnstable
+WOB  25003      1990                  39     Berkshire
+WOB  25005      1990                 118     Bristol
+WOB  25007      1990                 106     Dukes
+WOB  25009      1990                 149     Essex
+WOB  25011      1990                  59     Franklin
+WOB  25013      1990                  41     Hampden
+WOB  25015      1990                  43     Hampshire
+WOB  25017      1990                  62     Middlesex
+WOB  25019      1990                  66     Nantucket
+WOB  25021      1990                  65     Norfolk
+WOB  25023      1990                 204     Plymouth
+WOB  25025      1990                  63     Suffolk
+WOB  25027      1990                 171     Worcester
+/END/

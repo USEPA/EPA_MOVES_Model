@@ -1,0 +1,37 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2002 Timber Product Output (cu ft)
+from US Forest Service TPO database. http://www.fia.fs.fed.us/program-features/tpo/
+
+10/19/05 epa: use TPO data instead of CBP employee data.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+LOG  33000      2002           246582044     NH
+LOG  33001      2002            10938118     Belknap
+LOG  33003      2002            18120663     Carroll
+LOG  33005      2002            91640501     Cheshire
+LOG  33007      2002            39940704     Coos
+LOG  33009      2002            28777869     Grafton
+LOG  33011      2002            18539582     Hillsborough
+LOG  33013      2002            10069784     Merrimack
+LOG  33015      2002             7251958     Rockingham
+LOG  33017      2002             8794856     Strafford
+LOG  33019      2002            12508009     Sullivan
+/END/

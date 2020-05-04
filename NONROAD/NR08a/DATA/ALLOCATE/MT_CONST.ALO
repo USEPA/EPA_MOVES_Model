@@ -1,0 +1,84 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2003 DOLLAR VALUE of CONSTRUCTION
+adjusted for relative geographic cost of construction materials.
+   Const_Dollars * (1-(1/(1+100/Area_Mod_Factor)))
+from McGraw-Hill Construction (values) and Craftsman (cost adj)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+CON  30000      2003              972483     MT
+CON  30001      2003                7470     Beaverhead
+CON  30003      2003               20112     Big Horn
+CON  30005      2003                5069     Blaine
+CON  30007      2003                6302     Broadwater
+CON  30009      2003                4968     Carbon
+CON  30011      2003                4055     Carter
+CON  30013      2003               69043     Cascade
+CON  30015      2003                2427     Chouteau
+CON  30017      2003               18470     Custer
+CON  30019      2003                4725     Daniels
+CON  30021      2003                4457     Dawson
+CON  30023      2003                2270     Deer Lodge
+CON  30025      2003                   0     Fallon
+CON  30027      2003                1949     Fergus
+CON  30029      2003              124978     Flathead
+CON  30031      2003              139131     Gallatin
+CON  30033      2003                1446     Garfield Park
+CON  30035      2003                2548     Glacier
+CON  30037      2003                 519     Golden Valley
+CON  30039      2003               15394     Granite
+CON  30041      2003                1839     Hill
+CON  30043      2003                1872     Jefferson
+CON  30045      2003                 545     Judith Basin
+CON  30047      2003               16232     Lake
+CON  30049      2003               52061     Lewis & Clark
+CON  30051      2003               10565     Liberty
+CON  30053      2003                8493     Lincoln
+CON  30055      2003                 212     McCone
+CON  30057      2003                4940     Madison
+CON  30059      2003                2483     Meagher
+CON  30061      2003                 569     Mineral
+CON  30063      2003              145237     Missoula
+CON  30065      2003               10658     Musselshell
+CON  30067      2003                8999     Park
+CON  30069      2003                  85     Petroleum
+CON  30071      2003                7452     Phillips
+CON  30073      2003                5600     Pondera
+CON  30075      2003                 122     Powder River
+CON  30077      2003                3513     Powell
+CON  30079      2003                 493     Prairie
+CON  30081      2003                8480     Ravalli
+CON  30083      2003               11261     Richland
+CON  30085      2003                2477     Roosevelt
+CON  30087      2003                9147     Rosebud
+CON  30089      2003                5084     Sanders
+CON  30091      2003                2207     Sheridan
+CON  30093      2003                7876     Silver Bow
+CON  30095      2003                4825     Stillwater
+CON  30097      2003                8573     Sweet Grass
+CON  30099      2003                1980     Teton
+CON  30101      2003                9707     Toole
+CON  30103      2003                 934     Treasure
+CON  30105      2003                6202     Valley
+CON  30107      2003                   0     Wheatland
+CON  30109      2003                 350     Wibaux
+CON  30111      2003              176078     Yellowstone
+CON  30113      2003                   0     Yellowstone National Park
+/END/

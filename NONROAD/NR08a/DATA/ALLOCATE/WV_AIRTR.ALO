@@ -1,0 +1,82 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent AIRCRAFT NOx TONS
+from Draft 2002 NEI
+
+9/1/05 epa: Modifies to treat PR & VI as additional to US Total.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+AIR  54000      2002             134.574     WV
+AIR  54001      2002               0.000     Barbour
+AIR  54003      2002               0.989     Berkeley
+AIR  54005      2002               0.000     Boone
+AIR  54007      2002               0.000     Braxton
+AIR  54009      2002               0.000     Brooke
+AIR  54011      2002               0.000     Cabell
+AIR  54013      2002               0.000     Calhoun
+AIR  54015      2002               0.000     Clay
+AIR  54017      2002               0.000     Doddridge
+AIR  54019      2002               0.000     Fayette
+AIR  54021      2002               0.000     Gilmer
+AIR  54023      2002               0.040     Grant
+AIR  54025      2002               1.850     Greenbrier
+AIR  54027      2002               0.000     Hampshire
+AIR  54029      2002               0.000     Hancock
+AIR  54031      2002               0.000     Hardy
+AIR  54033      2002               0.660     Harrison
+AIR  54035      2002               0.000     Jackson
+AIR  54037      2002               0.000     Jefferson
+AIR  54039      2002              28.060     Kanawha
+AIR  54041      2002               0.000     Lewis
+AIR  54043      2002               0.000     Lincoln
+AIR  54045      2002               0.000     Logan
+AIR  54047      2002               0.000     McDowell
+AIR  54049      2002               0.013     Marion
+AIR  54051      2002               0.067     Marshall
+AIR  54053      2002               0.015     Mason
+AIR  54055      2002               8.633     Mercer
+AIR  54057      2002              39.990     Mineral
+AIR  54059      2002               0.000     Mingo
+AIR  54061      2002               0.640     Monongalia
+AIR  54063      2002               0.000     Monroe
+AIR  54065      2002               0.000     Morgan
+AIR  54067      2002               0.000     Nicholas
+AIR  54069      2002               0.250     Ohio
+AIR  54071      2002               0.000     Pendleton
+AIR  54073      2002               0.000     Pleasants
+AIR  54075      2002               0.000     Pocahontas
+AIR  54077      2002               0.000     Preston
+AIR  54079      2002               0.000     Putnam
+AIR  54081      2002              12.753     Raleigh
+AIR  54083      2002               0.052     Randolph
+AIR  54085      2002               0.000     Ritchie
+AIR  54087      2002               0.000     Roane
+AIR  54089      2002               0.000     Summers
+AIR  54091      2002               0.000     Taylor
+AIR  54093      2002               0.000     Tucker
+AIR  54095      2002               0.000     Tyler
+AIR  54097      2002               0.000     Upshur
+AIR  54099      2002              39.990     Wayne
+AIR  54101      2002               0.000     Webster
+AIR  54103      2002               0.000     Wetzel
+AIR  54105      2002               0.000     Wirt
+AIR  54107      2002               0.570     Wood
+AIR  54109      2002               0.002     Wyoming
+/END/

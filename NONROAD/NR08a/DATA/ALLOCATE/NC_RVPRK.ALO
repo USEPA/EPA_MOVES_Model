@@ -1,0 +1,125 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RECREATIONAL VEHICLE PARKS AND CAMPGROUNDS
+CBP NAICS 72121/; pre-2002 CBP SIC 7030
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+RVP  37000      2002                 193     NC
+RVP  37001      2002                   0     Alamance
+RVP  37003      2002                   1     Alexander
+RVP  37005      2002                   0     Alleghany
+RVP  37007      2002                   0     Anson
+RVP  37009      2002                   1     Ashe
+RVP  37011      2002                   2     Avery
+RVP  37013      2002                   4     Beaufort
+RVP  37015      2002                   0     Bertie
+RVP  37017      2002                   2     Bladen
+RVP  37019      2002                   4     Brunswick
+RVP  37021      2002                  12     Buncombe
+RVP  37023      2002                   0     Burke
+RVP  37025      2002                   0     Cabarrus
+RVP  37027      2002                   2     Caldwell
+RVP  37029      2002                   0     Camden
+RVP  37031      2002                  10     Carteret
+RVP  37033      2002                   0     Caswell
+RVP  37035      2002                   2     Catawba
+RVP  37037      2002                   0     Chatham
+RVP  37039      2002                   2     Cherokee
+RVP  37041      2002                   0     Chowan
+RVP  37043      2002                   2     Clay
+RVP  37045      2002                   1     Cleveland
+RVP  37047      2002                   3     Columbus
+RVP  37049      2002                   1     Craven
+RVP  37051      2002                   2     Cumberland
+RVP  37053      2002                   3     Currituck
+RVP  37055      2002                  10     Dare
+RVP  37057      2002                   1     Davidson
+RVP  37059      2002                   3     Davie
+RVP  37061      2002                   0     Duplin
+RVP  37063      2002                   2     Durham
+RVP  37065      2002                   0     Edgecombe
+RVP  37067      2002                   0     Forsyth
+RVP  37069      2002                   0     Franklin
+RVP  37071      2002                   1     Gaston
+RVP  37073      2002                   0     Gates
+RVP  37075      2002                   0     Graham
+RVP  37077      2002                   0     Granville
+RVP  37079      2002                   0     Greene
+RVP  37081      2002                   1     Guilford
+RVP  37083      2002                   1     Halifax
+RVP  37085      2002                   0     Harnett
+RVP  37087      2002                   6     Haywood
+RVP  37089      2002                  15     Henderson
+RVP  37091      2002                   1     Hertford
+RVP  37093      2002                   1     Hoke
+RVP  37095      2002                   0     Hyde
+RVP  37097      2002                   2     Iredell
+RVP  37099      2002                   2     Jackson
+RVP  37101      2002                   2     Johnston
+RVP  37103      2002                   0     Jones
+RVP  37105      2002                   0     Lee
+RVP  37107      2002                   1     Lenoir
+RVP  37109      2002                   1     Lincoln
+RVP  37111      2002                   2     McDowell
+RVP  37113      2002                   4     Macon
+RVP  37115      2002                   1     Madison
+RVP  37117      2002                   1     Martin
+RVP  37119      2002                   5     Mecklenburg
+RVP  37121      2002                   3     Mitchell
+RVP  37123      2002                   1     Montgomery
+RVP  37125      2002                   0     Moore
+RVP  37127      2002                   0     Nash
+RVP  37129      2002                   2     New Hanover
+RVP  37131      2002                   0     Northampton
+RVP  37133      2002                   6     Onslow
+RVP  37135      2002                   6     Orange
+RVP  37137      2002                   4     Pamlico
+RVP  37139      2002                   0     Pasquotank
+RVP  37141      2002                   0     Pender
+RVP  37143      2002                   0     Perquimans
+RVP  37145      2002                   0     Person
+RVP  37147      2002                   0     Pitt
+RVP  37149      2002                   0     Polk
+RVP  37151      2002                   1     Randolph
+RVP  37153      2002                   0     Richmond
+RVP  37155      2002                   0     Robeson
+RVP  37157      2002                   2     Rockingham
+RVP  37159      2002                   3     Rowan
+RVP  37161      2002                   2     Rutherford
+RVP  37163      2002                   0     Sampson
+RVP  37165      2002                   0     Scotland
+RVP  37167      2002                   3     Stanly
+RVP  37169      2002                   2     Stokes
+RVP  37171      2002                   1     Surry
+RVP  37173      2002                  11     Swain
+RVP  37175      2002                  14     Transylvania
+RVP  37177      2002                   0     Tyrrell
+RVP  37179      2002                   1     Union
+RVP  37181      2002                   2     Vance
+RVP  37183      2002                   1     Wake
+RVP  37185      2002                   0     Warren
+RVP  37187      2002                   0     Washington
+RVP  37189      2002                   6     Watauga
+RVP  37191      2002                   1     Wayne
+RVP  37193      2002                   1     Wilkes
+RVP  37195      2002                   1     Wilson
+RVP  37197      2002                   0     Yadkin
+RVP  37199      2002                   2     Yancey
+/END/

@@ -1,0 +1,120 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RELATIVE NUMBER OF SNOWMOBILES
+Allocated to counties using snowfall limit of 40" and inverse human population; Alaska uses direct human population
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+SNM  47000      2002                   0     TN
+SNM  47001      2002                   0     Anderson
+SNM  47003      2002                   0     Bedford
+SNM  47005      2002                   0     Benton
+SNM  47007      2002                   0     Bledsoe
+SNM  47009      2002                   0     Blount
+SNM  47011      2002                   0     Bradley
+SNM  47013      2002                   0     Campbell
+SNM  47015      2002                   0     Cannon
+SNM  47017      2002                   0     Carroll
+SNM  47019      2002                   0     Carter
+SNM  47021      2002                   0     Cheatham
+SNM  47023      2002                   0     Chester
+SNM  47025      2002                   0     Claiborne
+SNM  47027      2002                   0     Clay
+SNM  47029      2002                   0     Cocke
+SNM  47031      2002                   0     Coffee
+SNM  47033      2002                   0     Crockett
+SNM  47035      2002                   0     Cumberland
+SNM  47037      2002                   0     Davidson
+SNM  47039      2002                   0     Decatur
+SNM  47041      2002                   0     DeKalb
+SNM  47043      2002                   0     Dickson
+SNM  47045      2002                   0     Dyer
+SNM  47047      2002                   0     Fayette
+SNM  47049      2002                   0     Fentress
+SNM  47051      2002                   0     Franklin
+SNM  47053      2002                   0     Gibson
+SNM  47055      2002                   0     Giles
+SNM  47057      2002                   0     Grainger
+SNM  47059      2002                   0     Greene
+SNM  47061      2002                   0     Grundy
+SNM  47063      2002                   0     Hamblen
+SNM  47065      2002                   0     Hamilton
+SNM  47067      2002                   0     Hancock
+SNM  47069      2002                   0     Hardeman
+SNM  47071      2002                   0     Hardin
+SNM  47073      2002                   0     Hawkins
+SNM  47075      2002                   0     Haywood
+SNM  47077      2002                   0     Henderson
+SNM  47079      2002                   0     Henry
+SNM  47081      2002                   0     Hickman
+SNM  47083      2002                   0     Houston
+SNM  47085      2002                   0     Humphreys
+SNM  47087      2002                   0     Jackson
+SNM  47089      2002                   0     Jefferson
+SNM  47091      2002                   0     Johnson
+SNM  47093      2002                   0     Knox
+SNM  47095      2002                   0     Lake
+SNM  47097      2002                   0     Lauderdale
+SNM  47099      2002                   0     Lawrence
+SNM  47101      2002                   0     Lewis
+SNM  47103      2002                   0     Lincoln
+SNM  47105      2002                   0     Loudon
+SNM  47107      2002                   0     McMinn
+SNM  47109      2002                   0     McNairy
+SNM  47111      2002                   0     Macon
+SNM  47113      2002                   0     Madison
+SNM  47115      2002                   0     Marion
+SNM  47117      2002                   0     Marshall
+SNM  47119      2002                   0     Maury
+SNM  47121      2002                   0     Meigs
+SNM  47123      2002                   0     Monroe
+SNM  47125      2002                   0     Montgomery
+SNM  47127      2002                   0     Moore
+SNM  47129      2002                   0     Morgan
+SNM  47131      2002                   0     Obion
+SNM  47133      2002                   0     Overton
+SNM  47135      2002                   0     Perry
+SNM  47137      2002                   0     Pickett
+SNM  47139      2002                   0     Polk
+SNM  47141      2002                   0     Putnam
+SNM  47143      2002                   0     Rhea
+SNM  47145      2002                   0     Roane
+SNM  47147      2002                   0     Robertson
+SNM  47149      2002                   0     Rutherford
+SNM  47151      2002                   0     Scott
+SNM  47153      2002                   0     Sequatchie
+SNM  47155      2002                   0     Sevier
+SNM  47157      2002                   0     Shelby
+SNM  47159      2002                   0     Smith
+SNM  47161      2002                   0     Stewart
+SNM  47163      2002                   0     Sullivan
+SNM  47165      2002                   0     Sumner
+SNM  47167      2002                   0     Tipton
+SNM  47169      2002                   0     Trousdale
+SNM  47171      2002                   0     Unicoi
+SNM  47173      2002                   0     Union
+SNM  47175      2002                   0     Van Buren
+SNM  47177      2002                   0     Warren
+SNM  47179      2002                   0     Washington
+SNM  47181      2002                   0     Wayne
+SNM  47183      2002                   0     Weakley
+SNM  47185      2002                   0     White
+SNM  47187      2002                   0     Williamson
+SNM  47189      2002                   0     Wilson
+/END/

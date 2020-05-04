@@ -1,0 +1,60 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent AIRCRAFT NOx TONS
+from Draft 2002 NEI
+
+9/1/05 epa: Modifies to treat PR & VI as additional to US Total.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+AIR  35000      2002             490.036     NM
+AIR  35001      2002             406.810     Bernalillo
+AIR  35003      2002               0.000     Catron
+AIR  35005      2002               2.890     Chaves
+AIR  35006      2002               0.052     Cibola
+AIR  35007      2002               0.080     Colfax
+AIR  35009      2002              16.779     Curry
+AIR  35011      2002               0.004     De Baca
+AIR  35013      2002              13.150     Dona Ana
+AIR  35015      2002              11.500     Eddy
+AIR  35017      2002              16.610     Grant
+AIR  35019      2002               0.015     Guadalupe
+AIR  35021      2002               0.000     Harding
+AIR  35023      2002               0.024     Hidalgo
+AIR  35025      2002               0.540     Lea
+AIR  35027      2002               0.117     Lincoln
+AIR  35028      2002               0.334     Los Alamos
+AIR  35029      2002               0.500     Luna
+AIR  35031      2002               7.260     McKinley
+AIR  35033      2002               0.000     Mora
+AIR  35035      2002              11.460     Otero
+AIR  35037      2002               0.090     Quay
+AIR  35039      2002               0.002     Rio Arriba
+AIR  35041      2002               0.080     Roosevelt
+AIR  35043      2002               0.000     Sandoval
+AIR  35045      2002               0.708     San Juan
+AIR  35047      2002               0.070     San Miguel
+AIR  35049      2002               0.645     Santa Fe
+AIR  35051      2002               0.110     Sierra
+AIR  35053      2002               0.059     Socorro
+AIR  35055      2002               0.127     Taos
+AIR  35057      2002               0.000     Torrance
+AIR  35059      2002               0.020     Union
+AIR  35061      2002               0.000     Valencia
+/END/

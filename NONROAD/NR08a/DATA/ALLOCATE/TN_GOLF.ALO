@@ -1,0 +1,120 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent GOLF COURSES AND COUNTRY CLUBS
+CBP NAICS 713910; pre-2002 CBP SIC 7992
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+GC   47000      2002                 216     TN
+GC   47001      2002                   1     Anderson
+GC   47003      2002                   1     Bedford
+GC   47005      2002                   1     Benton
+GC   47007      2002                   0     Bledsoe
+GC   47009      2002                   7     Blount
+GC   47011      2002                   3     Bradley
+GC   47013      2002                   2     Campbell
+GC   47015      2002                   0     Cannon
+GC   47017      2002                   2     Carroll
+GC   47019      2002                   1     Carter
+GC   47021      2002                   4     Cheatham
+GC   47023      2002                   0     Chester
+GC   47025      2002                   1     Claiborne
+GC   47027      2002                   0     Clay
+GC   47029      2002                   2     Cocke
+GC   47031      2002                   2     Coffee
+GC   47033      2002                   1     Crockett
+GC   47035      2002                   4     Cumberland
+GC   47037      2002                  12     Davidson
+GC   47039      2002                   1     Decatur
+GC   47041      2002                   2     DeKalb
+GC   47043      2002                   2     Dickson
+GC   47045      2002                   2     Dyer
+GC   47047      2002                   2     Fayette
+GC   47049      2002                   0     Fentress
+GC   47051      2002                   2     Franklin
+GC   47053      2002                   3     Gibson
+GC   47055      2002                   1     Giles
+GC   47057      2002                   1     Grainger
+GC   47059      2002                   6     Greene
+GC   47061      2002                   0     Grundy
+GC   47063      2002                   3     Hamblen
+GC   47065      2002                  14     Hamilton
+GC   47067      2002                   0     Hancock
+GC   47069      2002                   2     Hardeman
+GC   47071      2002                   3     Hardin
+GC   47073      2002                   2     Hawkins
+GC   47075      2002                   1     Haywood
+GC   47077      2002                   1     Henderson
+GC   47079      2002                   2     Henry
+GC   47081      2002                   1     Hickman
+GC   47083      2002                   0     Houston
+GC   47085      2002                   2     Humphreys
+GC   47087      2002                   1     Jackson
+GC   47089      2002                   5     Jefferson
+GC   47091      2002                   1     Johnson
+GC   47093      2002                  12     Knox
+GC   47095      2002                   0     Lake
+GC   47097      2002                   1     Lauderdale
+GC   47099      2002                   2     Lawrence
+GC   47101      2002                   1     Lewis
+GC   47103      2002                   1     Lincoln
+GC   47105      2002                   3     Loudon
+GC   47107      2002                   4     McMinn
+GC   47109      2002                   1     McNairy
+GC   47111      2002                   1     Macon
+GC   47113      2002                   5     Madison
+GC   47115      2002                   0     Marion
+GC   47117      2002                   1     Marshall
+GC   47119      2002                   4     Maury
+GC   47121      2002                   0     Meigs
+GC   47123      2002                   0     Monroe
+GC   47125      2002                   2     Montgomery
+GC   47127      2002                   0     Moore
+GC   47129      2002                   0     Morgan
+GC   47131      2002                   3     Obion
+GC   47133      2002                   1     Overton
+GC   47135      2002                   0     Perry
+GC   47137      2002                   0     Pickett
+GC   47139      2002                   1     Polk
+GC   47141      2002                   7     Putnam
+GC   47143      2002                   1     Rhea
+GC   47145      2002                   4     Roane
+GC   47147      2002                   2     Robertson
+GC   47149      2002                   4     Rutherford
+GC   47151      2002                   2     Scott
+GC   47153      2002                   1     Sequatchie
+GC   47155      2002                   1     Sevier
+GC   47157      2002                  15     Shelby
+GC   47159      2002                   1     Smith
+GC   47161      2002                   0     Stewart
+GC   47163      2002                   4     Sullivan
+GC   47165      2002                   4     Sumner
+GC   47167      2002                   2     Tipton
+GC   47169      2002                   0     Trousdale
+GC   47171      2002                   0     Unicoi
+GC   47173      2002                   0     Union
+GC   47175      2002                   0     Van Buren
+GC   47177      2002                   1     Warren
+GC   47179      2002                   3     Washington
+GC   47181      2002                   1     Wayne
+GC   47183      2002                   1     Weakley
+GC   47185      2002                   1     White
+GC   47187      2002                   8     Williamson
+GC   47189      2002                   6     Wilson
+/END/

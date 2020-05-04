@@ -1,0 +1,91 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RELATIVE NUMBER OF COMMERCIAL SNOWBLOWERS
+Same as LSCAP allocation factors, with value set to 0 for counties with snowfall < 15"
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+SBC  46000      2002                 445     SD
+SBC  46003      2002                   0     Aurora
+SBC  46005      2002                   7     Beadle
+SBC  46007      2002                   0     Bennett
+SBC  46009      2002                   3     Bon Homme
+SBC  46011      2002                  10     Brookings
+SBC  46013      2002                  14     Brown
+SBC  46015      2002                   2     Brule
+SBC  46017      2002                   0     Buffalo
+SBC  46019      2002                   4     Butte
+SBC  46021      2002                   0     Campbell
+SBC  46023      2002                   4     Charles Mix
+SBC  46025      2002                   0     Clark
+SBC  46027      2002                   0     Clay
+SBC  46029      2002                  40     Codington
+SBC  46031      2002                   0     Corson
+SBC  46033      2002                   3     Custer
+SBC  46035      2002                   8     Davison
+SBC  46037      2002                   5     Day
+SBC  46039      2002                   2     Deuel
+SBC  46041      2002                   0     Dewey
+SBC  46043      2002                   1     Douglas
+SBC  46045      2002                   2     Edmunds
+SBC  46047      2002                   3     Fall River
+SBC  46049      2002                   0     Faulk
+SBC  46051      2002                   3     Grant
+SBC  46053      2002                   0     Gregory
+SBC  46055      2002                   0     Haakon
+SBC  46057      2002                   0     Hamlin
+SBC  46059      2002                   0     Hand
+SBC  46061      2002                   0     Hanson
+SBC  46063      2002                   0     Harding
+SBC  46065      2002                   3     Hughes
+SBC  46067      2002                   3     Hutchinson
+SBC  46069      2002                   0     Hyde
+SBC  46071      2002                   1     Jackson
+SBC  46073      2002                   0     Jerauld
+SBC  46075      2002                   0     Jones
+SBC  46077      2002                   2     Kingsbury
+SBC  46079      2002                   8     Lake
+SBC  46081      2002                   9     Lawrence
+SBC  46083      2002                  11     Lincoln
+SBC  46085      2002                   0     Lyman
+SBC  46087      2002                   2     McCook
+SBC  46089      2002                   0     McPherson
+SBC  46091      2002                   0     Marshall
+SBC  46093      2002                  10     Meade
+SBC  46095      2002                   0     Mellette
+SBC  46097      2002                   0     Miner
+SBC  46099      2002                 174     Minnehaha
+SBC  46101      2002                   3     Moody
+SBC  46103      2002                  90     Pennington
+SBC  46105      2002                   0     Perkins
+SBC  46107      2002                   0     Potter
+SBC  46109      2002                   0     Roberts
+SBC  46111      2002                   0     Sanborn
+SBC  46113      2002                   0     Shannon
+SBC  46115      2002                   3     Spink
+SBC  46117      2002                   0     Stanley
+SBC  46119      2002                   1     Sully
+SBC  46121      2002                   0     Todd
+SBC  46123      2002                   0     Tripp
+SBC  46125      2002                   0     Turner
+SBC  46127      2002                   3     Union
+SBC  46129      2002                   2     Walworth
+SBC  46135      2002                   9     Yankton
+SBC  46137      2002                   0     Ziebach
+/END/

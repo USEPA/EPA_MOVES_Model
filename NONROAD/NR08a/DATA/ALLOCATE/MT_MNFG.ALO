@@ -1,0 +1,82 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent NUMBER OF EMPLOYEES IN MANUFACTURING
+CBP NAICS 31----, 321///, 322///, 323///, 324///, 325///, 326///, 327///, 331///,
+332///, 333///, 334///, 335///, 336///, 337///, 339///, and 5111//; pre-2002 CBP SIC 20--
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+MFG  30000      2002               36818     MT
+MFG  30001      2002                  97     Beaverhead
+MFG  30003      2002                  54     Big Horn
+MFG  30005      2002                  28     Blaine
+MFG  30007      2002                 354     Broadwater
+MFG  30009      2002                 152     Carbon
+MFG  30011      2002                  11     Carter
+MFG  30013      2002                1646     Cascade
+MFG  30015      2002                  68     Chouteau
+MFG  30017      2002                 114     Custer
+MFG  30019      2002                  31     Daniels
+MFG  30021      2002                 111     Dawson
+MFG  30023      2002                 155     Deer Lodge
+MFG  30025      2002                  20     Fallon
+MFG  30027      2002                 634     Fergus
+MFG  30029      2002                6363     Flathead
+MFG  30031      2002                4833     Gallatin
+MFG  30033      2002                  21     Garfield Park
+MFG  30035      2002                  23     Glacier
+MFG  30037      2002                  11     Golden Valley
+MFG  30039      2002                  89     Granite
+MFG  30041      2002                 144     Hill
+MFG  30043      2002                 221     Jefferson
+MFG  30045      2002                  29     Judith Basin
+MFG  30047      2002                1497     Lake
+MFG  30049      2002                 983     Lewis & Clark
+MFG  30051      2002                  34     Liberty
+MFG  30053      2002                1321     Lincoln
+MFG  30055      2002                  20     McCone
+MFG  30057      2002                 165     Madison
+MFG  30059      2002                  15     Meagher
+MFG  30061      2002                 302     Mineral
+MFG  30063      2002                5211     Missoula
+MFG  30065      2002                  41     Musselshell
+MFG  30067      2002                 807     Park
+MFG  30069      2002                   0     Petroleum
+MFG  30071      2002                  43     Phillips
+MFG  30073      2002                 100     Pondera
+MFG  30075      2002                   7     Powder River
+MFG  30077      2002                 266     Powell
+MFG  30079      2002                  19     Prairie
+MFG  30081      2002                2043     Ravalli
+MFG  30083      2002                 454     Richland
+MFG  30085      2002                 129     Roosevelt
+MFG  30087      2002                  35     Rosebud
+MFG  30089      2002                 424     Sanders
+MFG  30091      2002                  29     Sheridan
+MFG  30093      2002                 809     Silver Bow
+MFG  30095      2002                 507     Stillwater
+MFG  30097      2002                 142     Sweet Grass
+MFG  30099      2002                  60     Teton
+MFG  30101      2002                  37     Toole
+MFG  30103      2002                  14     Treasure
+MFG  30105      2002                 133     Valley
+MFG  30107      2002                  22     Wheatland
+MFG  30109      2002                   8     Wibaux
+MFG  30111      2002                5932     Yellowstone
+MFG  30113      2002                   0     Yellowstone National Park
+/END/

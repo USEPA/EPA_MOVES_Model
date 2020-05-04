@@ -1,0 +1,39 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WATER SURFACE AREA FOR INBOARD RECREATIONAL MARINE CRAFT (sq km navigable water)
+1990 GICS (inland water area); GIS analysis of coast lengths (coastal navigable water)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+WIB  50000      1990                 947     VT
+WIB  50001      1990                 100     Addison
+WIB  50003      1990                   4     Bennington
+WIB  50005      1990                  18     Caledonia
+WIB  50007      1990                 209     Chittenden
+WIB  50009      1990                  22     Essex
+WIB  50011      1990                 144     Franklin
+WIB  50013      1990                 290     Grand Isle
+WIB  50015      1990                   7     Lamoille
+WIB  50017      1990                   8     Orange
+WIB  50019      1990                  61     Orleans
+WIB  50021      1990                  32     Rutland
+WIB  50023      1990                  16     Washington
+WIB  50025      1990                  24     Windham
+WIB  50027      1990                  12     Windsor
+/END/

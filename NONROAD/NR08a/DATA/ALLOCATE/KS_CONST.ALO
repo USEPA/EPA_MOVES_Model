@@ -1,0 +1,132 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2003 DOLLAR VALUE of CONSTRUCTION
+adjusted for relative geographic cost of construction materials.
+   Const_Dollars * (1-(1/(1+100/Area_Mod_Factor)))
+from McGraw-Hill Construction (values) and Craftsman (cost adj)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+CON  20000      2003             4522130     KS
+CON  20001      2003               18822     Allen
+CON  20003      2003                2035     Anderson
+CON  20005      2003               15475     Atchison
+CON  20007      2003                2095     Barber
+CON  20009      2003               22445     Barton
+CON  20011      2003               16623     Bourbon
+CON  20013      2003               31849     Brown
+CON  20015      2003               91830     Butler
+CON  20017      2003               10328     Chase
+CON  20019      2003                4387     Chautauqua
+CON  20021      2003               13662     Cherokee
+CON  20023      2003                3767     Cheyenne
+CON  20025      2003                5395     Clark
+CON  20027      2003                1597     Clay
+CON  20029      2003                6737     Cloud
+CON  20031      2003               19977     Coffey
+CON  20033      2003                3535     Comanche
+CON  20035      2003               41698     Cowley
+CON  20037      2003               47217     Crawford
+CON  20039      2003                3166     Decatur
+CON  20041      2003               10711     Dickinson
+CON  20043      2003                5268     Doniphan
+CON  20045      2003              171488     Douglas
+CON  20047      2003                8626     Edwards
+CON  20049      2003                9790     Elk
+CON  20051      2003               18939     Ellis
+CON  20053      2003                7485     Ellsworth
+CON  20055      2003               25799     Finney
+CON  20057      2003               37474     Ford
+CON  20059      2003               52717     Franklin
+CON  20061      2003               93847     Geary
+CON  20063      2003               44490     Gove
+CON  20065      2003               14500     Graham
+CON  20067      2003                3911     Grant
+CON  20069      2003                7086     Gray
+CON  20071      2003                8179     Greeley
+CON  20073      2003               12884     Greenwood
+CON  20075      2003                   0     Hamilton
+CON  20077      2003                2080     Harper
+CON  20079      2003               36598     Harvey
+CON  20081      2003                5289     Haskell
+CON  20083      2003                1958     Hodgeman
+CON  20085      2003               26900     Jackson
+CON  20087      2003               17845     Jefferson
+CON  20089      2003                3741     Jewell
+CON  20091      2003             1401462     Johnson
+CON  20093      2003                3972     Kearny
+CON  20095      2003                7278     Kingman
+CON  20097      2003                2053     Kiowa
+CON  20099      2003                8555     Labette
+CON  20101      2003                2172     Lane
+CON  20103      2003              128912     Leavenworth
+CON  20105      2003                6306     Lincoln
+CON  20107      2003               10391     Linn
+CON  20109      2003                 585     Logan
+CON  20111      2003               34602     Lyon
+CON  20113      2003               42905     McPherson
+CON  20115      2003                5897     Marion
+CON  20117      2003               10371     Marshall
+CON  20119      2003                1918     Meade
+CON  20121      2003               52306     Miami
+CON  20123      2003                4411     Mitchell
+CON  20125      2003               36195     Montgomery
+CON  20127      2003                3779     Morris
+CON  20129      2003                5442     Morton
+CON  20131      2003                8356     Nemaha
+CON  20133      2003                7978     Neosho
+CON  20135      2003                1721     Ness
+CON  20137      2003                9744     Norton
+CON  20139      2003               34199     Osage
+CON  20141      2003                6107     Osborne
+CON  20143      2003                6150     Ottawa
+CON  20145      2003               46840     Pawnee
+CON  20147      2003                5427     Phillips
+CON  20149      2003               31528     Pottawatomie
+CON  20151      2003                6417     Pratt
+CON  20153      2003                1458     Rawlins
+CON  20155      2003               45730     Reno
+CON  20157      2003               10186     Republic
+CON  20159      2003                6691     Rice
+CON  20161      2003               60012     Riley
+CON  20163      2003                2808     Rooks
+CON  20165      2003                3648     Rush
+CON  20167      2003                5850     Russell
+CON  20169      2003               94967     Saline
+CON  20171      2003               14339     Scott
+CON  20173      2003              828154     Sedgwick
+CON  20175      2003                8718     Seward
+CON  20177      2003              309751     Shawnee
+CON  20179      2003                6559     Sheridan
+CON  20181      2003                2763     Sherman
+CON  20183      2003                3107     Smith
+CON  20185      2003                3527     Stafford
+CON  20187      2003                2219     Stanton
+CON  20189      2003                1838     Stevens
+CON  20191      2003               11460     Sumner
+CON  20193      2003                8565     Thomas
+CON  20195      2003                4730     Trego
+CON  20197      2003               10346     Wabaunsee
+CON  20199      2003                2375     Wallace
+CON  20201      2003                6499     Washington
+CON  20203      2003                3382     Wichita
+CON  20205      2003                4317     Wilson
+CON  20207      2003                1167     Woodson
+CON  20209      2003              132741     Wyandotte
+/END/

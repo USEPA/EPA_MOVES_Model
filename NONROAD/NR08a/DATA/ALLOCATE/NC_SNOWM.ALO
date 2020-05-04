@@ -1,0 +1,125 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RELATIVE NUMBER OF SNOWMOBILES
+Allocated to counties using snowfall limit of 40" and inverse human population; Alaska uses direct human population
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+SNM  37000      2002                   0     NC
+SNM  37001      2002                   0     Alamance
+SNM  37003      2002                   0     Alexander
+SNM  37005      2002                   0     Alleghany
+SNM  37007      2002                   0     Anson
+SNM  37009      2002                   0     Ashe
+SNM  37011      2002                   0     Avery
+SNM  37013      2002                   0     Beaufort
+SNM  37015      2002                   0     Bertie
+SNM  37017      2002                   0     Bladen
+SNM  37019      2002                   0     Brunswick
+SNM  37021      2002                   0     Buncombe
+SNM  37023      2002                   0     Burke
+SNM  37025      2002                   0     Cabarrus
+SNM  37027      2002                   0     Caldwell
+SNM  37029      2002                   0     Camden
+SNM  37031      2002                   0     Carteret
+SNM  37033      2002                   0     Caswell
+SNM  37035      2002                   0     Catawba
+SNM  37037      2002                   0     Chatham
+SNM  37039      2002                   0     Cherokee
+SNM  37041      2002                   0     Chowan
+SNM  37043      2002                   0     Clay
+SNM  37045      2002                   0     Cleveland
+SNM  37047      2002                   0     Columbus
+SNM  37049      2002                   0     Craven
+SNM  37051      2002                   0     Cumberland
+SNM  37053      2002                   0     Currituck
+SNM  37055      2002                   0     Dare
+SNM  37057      2002                   0     Davidson
+SNM  37059      2002                   0     Davie
+SNM  37061      2002                   0     Duplin
+SNM  37063      2002                   0     Durham
+SNM  37065      2002                   0     Edgecombe
+SNM  37067      2002                   0     Forsyth
+SNM  37069      2002                   0     Franklin
+SNM  37071      2002                   0     Gaston
+SNM  37073      2002                   0     Gates
+SNM  37075      2002                   0     Graham
+SNM  37077      2002                   0     Granville
+SNM  37079      2002                   0     Greene
+SNM  37081      2002                   0     Guilford
+SNM  37083      2002                   0     Halifax
+SNM  37085      2002                   0     Harnett
+SNM  37087      2002                   0     Haywood
+SNM  37089      2002                   0     Henderson
+SNM  37091      2002                   0     Hertford
+SNM  37093      2002                   0     Hoke
+SNM  37095      2002                   0     Hyde
+SNM  37097      2002                   0     Iredell
+SNM  37099      2002                   0     Jackson
+SNM  37101      2002                   0     Johnston
+SNM  37103      2002                   0     Jones
+SNM  37105      2002                   0     Lee
+SNM  37107      2002                   0     Lenoir
+SNM  37109      2002                   0     Lincoln
+SNM  37111      2002                   0     McDowell
+SNM  37113      2002                   0     Macon
+SNM  37115      2002                   0     Madison
+SNM  37117      2002                   0     Martin
+SNM  37119      2002                   0     Mecklenburg
+SNM  37121      2002                   0     Mitchell
+SNM  37123      2002                   0     Montgomery
+SNM  37125      2002                   0     Moore
+SNM  37127      2002                   0     Nash
+SNM  37129      2002                   0     New Hanover
+SNM  37131      2002                   0     Northampton
+SNM  37133      2002                   0     Onslow
+SNM  37135      2002                   0     Orange
+SNM  37137      2002                   0     Pamlico
+SNM  37139      2002                   0     Pasquotank
+SNM  37141      2002                   0     Pender
+SNM  37143      2002                   0     Perquimans
+SNM  37145      2002                   0     Person
+SNM  37147      2002                   0     Pitt
+SNM  37149      2002                   0     Polk
+SNM  37151      2002                   0     Randolph
+SNM  37153      2002                   0     Richmond
+SNM  37155      2002                   0     Robeson
+SNM  37157      2002                   0     Rockingham
+SNM  37159      2002                   0     Rowan
+SNM  37161      2002                   0     Rutherford
+SNM  37163      2002                   0     Sampson
+SNM  37165      2002                   0     Scotland
+SNM  37167      2002                   0     Stanly
+SNM  37169      2002                   0     Stokes
+SNM  37171      2002                   0     Surry
+SNM  37173      2002                   0     Swain
+SNM  37175      2002                   0     Transylvania
+SNM  37177      2002                   0     Tyrrell
+SNM  37179      2002                   0     Union
+SNM  37181      2002                   0     Vance
+SNM  37183      2002                   0     Wake
+SNM  37185      2002                   0     Warren
+SNM  37187      2002                   0     Washington
+SNM  37189      2002                   0     Watauga
+SNM  37191      2002                   0     Wayne
+SNM  37193      2002                   0     Wilkes
+SNM  37195      2002                   0     Wilson
+SNM  37197      2002                   0     Yadkin
+SNM  37199      2002                   0     Yancey
+/END/

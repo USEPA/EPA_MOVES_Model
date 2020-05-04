@@ -1,0 +1,48 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2003 DOLLAR VALUE of CONSTRUCTION
+adjusted for relative geographic cost of construction materials.
+   Const_Dollars * (1-(1/(1+100/Area_Mod_Factor)))
+from McGraw-Hill Construction (values) and Craftsman (cost adj)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+CON  34000      2003            11650051     NJ
+CON  34001      2003              502078     Atlantic
+CON  34003      2003              943970     Bergen
+CON  34005      2003              593176     Burlington
+CON  34007      2003              424000     Camden
+CON  34009      2003              421596     Cape May
+CON  34011      2003              191099     Cumberland
+CON  34013      2003              764908     Essex
+CON  34015      2003              333319     Gloucester
+CON  34017      2003              913638     Hudson
+CON  34019      2003              315038     Hunterdon
+CON  34021      2003              845525     Mercer
+CON  34023      2003             1254122     Middlesex
+CON  34025      2003             1070068     Monmouth
+CON  34027      2003              574831     Morris
+CON  34029      2003              849236     Ocean
+CON  34031      2003              412038     Passaic
+CON  34033      2003               46033     Salem
+CON  34035      2003              497561     Somerset
+CON  34037      2003              259429     Sussex
+CON  34039      2003              340265     Union
+CON  34041      2003               98120     Warren
+/END/

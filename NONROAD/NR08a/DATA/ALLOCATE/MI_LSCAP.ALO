@@ -1,0 +1,108 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent EMPLOYEES IN LANDSCAPING SERVICES
+CBP NAICS 561730; pre-2002 CBP SIC 0780
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+LSC  26000      2002               10310     MI
+LSC  26001      2002                   6     Alcona
+LSC  26003      2002                   6     Alger
+LSC  26005      2002                 116     Allegan
+LSC  26007      2002                  20     Alpena
+LSC  26009      2002                   6     Antrim
+LSC  26011      2002                   6     Arenac
+LSC  26013      2002                   6     Baraga
+LSC  26015      2002                  44     Barry
+LSC  26017      2002                  73     Bay
+LSC  26019      2002                   6     Benzie
+LSC  26021      2002                 127     Berrien
+LSC  26023      2002                  16     Branch
+LSC  26025      2002                  46     Calhoun
+LSC  26027      2002                  20     Cass
+LSC  26029      2002                  17     Charlevoix
+LSC  26031      2002                   6     Cheboygan
+LSC  26033      2002                  22     Chippewa
+LSC  26035      2002                   6     Clare
+LSC  26037      2002                 121     Clinton
+LSC  26039      2002                   6     Crawford
+LSC  26041      2002                  36     Delta
+LSC  26043      2002                   6     Dickinson
+LSC  26045      2002                  83     Eaton
+LSC  26047      2002                 141     Emmet
+LSC  26049      2002                 442     Genesee
+LSC  26051      2002                   6     Gladwin
+LSC  26053      2002                   6     Gogebic
+LSC  26055      2002                  93     Grand Traverse
+LSC  26057      2002                  47     Gratiot
+LSC  26059      2002                   6     Hillsdale
+LSC  26061      2002                   4     Houghton
+LSC  26063      2002                   7     Huron
+LSC  26065      2002                 280     Ingham
+LSC  26067      2002                  45     Ionia
+LSC  26069      2002                   2     Iosco
+LSC  26071      2002                   6     Iron
+LSC  26073      2002                 492     Isabella
+LSC  26075      2002                 200     Jackson
+LSC  26077      2002                 326     Kalamazoo
+LSC  26079      2002                   6     Kalkaska
+LSC  26081      2002                1021     Kent
+LSC  26083      2002                   0     Keweenaw
+LSC  26085      2002                   0     Lake
+LSC  26087      2002                  96     Lapeer
+LSC  26089      2002                  38     Leelanau
+LSC  26091      2002                  70     Lenawee
+LSC  26093      2002                 202     Livingston
+LSC  26095      2002                   0     Luce
+LSC  26097      2002                   6     Mackinac
+LSC  26099      2002                 994     Macomb
+LSC  26101      2002                   6     Manistee
+LSC  26103      2002                  11     Marquette
+LSC  26105      2002                  15     Mason
+LSC  26107      2002                   6     Mecosta
+LSC  26109      2002                   6     Menominee
+LSC  26111      2002                  33     Midland
+LSC  26113      2002                   6     Missaukee
+LSC  26115      2002                  90     Monroe
+LSC  26117      2002                  20     Montcalm
+LSC  26119      2002                   6     Montmorency
+LSC  26121      2002                  86     Muskegon
+LSC  26123      2002                  38     Newaygo
+LSC  26125      2002                2084     Oakland
+LSC  26127      2002                   6     Oceana
+LSC  26129      2002                   6     Ogemaw
+LSC  26131      2002                   6     Ontonagon
+LSC  26133      2002                   6     Osceola
+LSC  26135      2002                   6     Oscoda
+LSC  26137      2002                  22     Otsego
+LSC  26139      2002                 383     Ottawa
+LSC  26141      2002                   6     Presque Isle
+LSC  26143      2002                   0     Roscommon
+LSC  26145      2002                 212     Saginaw
+LSC  26147      2002                 126     St. Clair
+LSC  26149      2002                  20     St. Joseph
+LSC  26151      2002                   6     Sanilac
+LSC  26153      2002                   0     Schoolcraft
+LSC  26155      2002                  38     Shiawassee
+LSC  26157      2002                  38     Tuscola
+LSC  26159      2002                  38     Van Buren
+LSC  26161      2002                 420     Washtenaw
+LSC  26163      2002                1227     Wayne
+LSC  26165      2002                   0     Wexford
+/END/

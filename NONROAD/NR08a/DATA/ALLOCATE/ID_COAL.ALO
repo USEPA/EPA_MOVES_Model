@@ -1,0 +1,69 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent UNDERGROUND COAL PRODUCTION TONS
+DOE/EIA 2002 Annual Coal Report
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+MIN  16000      2002                   0     ID
+MIN  16001      2002                   0     Ada
+MIN  16003      2002                   0     Adams
+MIN  16005      2002                   0     Bannock
+MIN  16007      2002                   0     Bear Lake
+MIN  16009      2002                   0     Benewah
+MIN  16011      2002                   0     Bingham
+MIN  16013      2002                   0     Blaine
+MIN  16015      2002                   0     Boise
+MIN  16017      2002                   0     Bonner
+MIN  16019      2002                   0     Bonneville
+MIN  16021      2002                   0     Boundary
+MIN  16023      2002                   0     Butte
+MIN  16025      2002                   0     Camas
+MIN  16027      2002                   0     Canyon
+MIN  16029      2002                   0     Caribou
+MIN  16031      2002                   0     Cassia
+MIN  16033      2002                   0     Clark
+MIN  16035      2002                   0     Clearwater
+MIN  16037      2002                   0     Custer
+MIN  16039      2002                   0     Elmore
+MIN  16041      2002                   0     Franklin
+MIN  16043      2002                   0     Fremont
+MIN  16045      2002                   0     Gem
+MIN  16047      2002                   0     Gooding
+MIN  16049      2002                   0     Idaho
+MIN  16051      2002                   0     Jefferson
+MIN  16053      2002                   0     Jerome
+MIN  16055      2002                   0     Kootenai
+MIN  16057      2002                   0     Latah
+MIN  16059      2002                   0     Lemhi
+MIN  16061      2002                   0     Lewis
+MIN  16063      2002                   0     Lincoln
+MIN  16065      2002                   0     Madison
+MIN  16067      2002                   0     Minidoka
+MIN  16069      2002                   0     Nez Perce
+MIN  16071      2002                   0     Oneida
+MIN  16073      2002                   0     Owyhee
+MIN  16075      2002                   0     Payette
+MIN  16077      2002                   0     Power
+MIN  16079      2002                   0     Shoshone
+MIN  16081      2002                   0     Teton
+MIN  16083      2002                   0     Twin Falls
+MIN  16085      2002                   0     Valley
+MIN  16087      2002                   0     Washington
+/END/

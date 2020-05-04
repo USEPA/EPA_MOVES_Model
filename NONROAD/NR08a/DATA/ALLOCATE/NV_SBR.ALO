@@ -1,0 +1,42 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RELATIVE NUMBER OF RESIDENTIAL SNOWBLOWERS
+Same as HOUSE allocation factors, with value set to 0 for counties with snowfall < 15"
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+SBR  32000      2002              218587     NV
+SBR  32001      2002                9929     Churchill
+SBR  32003      2002                   0     Clark
+SBR  32005      2002                   0     Douglas
+SBR  32007      2002               18732     Elko
+SBR  32009      2002                   0     Esmeralda
+SBR  32011      2002                1035     Eureka
+SBR  32013      2002                7029     Humboldt
+SBR  32015      2002                2792     Lander
+SBR  32017      2002                2191     Lincoln
+SBR  32019      2002                   0     Lyon
+SBR  32021      2002                   0     Mineral
+SBR  32023      2002               16029     Nye
+SBR  32027      2002                2397     Pershing
+SBR  32029      2002                   0     Storey
+SBR  32031      2002              154031     Washoe
+SBR  32033      2002                4422     White Pine
+SBR  32510      2002                   0     Carson City
+/END/

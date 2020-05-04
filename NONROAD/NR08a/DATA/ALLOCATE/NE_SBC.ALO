@@ -1,0 +1,118 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RELATIVE NUMBER OF COMMERCIAL SNOWBLOWERS
+Same as LSCAP allocation factors, with value set to 0 for counties with snowfall < 15"
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+SBC  31000      2002                1697     NE
+SBC  31001      2002                  13     Adams
+SBC  31003      2002                   0     Antelope
+SBC  31005      2002                   0     Arthur
+SBC  31007      2002                   0     Banner
+SBC  31009      2002                   0     Blaine
+SBC  31011      2002                   0     Boone
+SBC  31013      2002                   3     Box Butte
+SBC  31015      2002                   1     Boyd
+SBC  31017      2002                   1     Brown
+SBC  31019      2002                  23     Buffalo
+SBC  31021      2002                   3     Burt
+SBC  31023      2002                   4     Butler
+SBC  31025      2002                  15     Cass
+SBC  31027      2002                   4     Cedar
+SBC  31029      2002                   0     Chase
+SBC  31031      2002                   3     Cherry
+SBC  31033      2002                   4     Cheyenne
+SBC  31035      2002                   0     Clay
+SBC  31037      2002                   5     Colfax
+SBC  31039      2002                   4     Cuming
+SBC  31041      2002                   5     Custer
+SBC  31043      2002                  22     Dakota
+SBC  31045      2002                   4     Dawes
+SBC  31047      2002                  10     Dawson
+SBC  31049      2002                   0     Deuel
+SBC  31051      2002                   0     Dixon
+SBC  31053      2002                  50     Dodge
+SBC  31055      2002                 702     Douglas
+SBC  31057      2002                   0     Dundy
+SBC  31059      2002                   3     Fillmore
+SBC  31061      2002                   1     Franklin
+SBC  31063      2002                   0     Frontier
+SBC  31065      2002                   0     Furnas
+SBC  31067      2002                  10     Gage
+SBC  31069      2002                   0     Garden
+SBC  31071      2002                   0     Garfield
+SBC  31073      2002                   1     Gosper
+SBC  31075      2002                   0     Grant
+SBC  31077      2002                   0     Greeley
+SBC  31079      2002                  48     Hall
+SBC  31081      2002                   4     Hamilton
+SBC  31083      2002                   2     Harlan
+SBC  31085      2002                   0     Hayes
+SBC  31087      2002                   0     Hitchcock
+SBC  31089      2002                   0     Holt
+SBC  31091      2002                   0     Hooker
+SBC  31093      2002                   0     Howard
+SBC  31095      2002                   4     Jefferson
+SBC  31097      2002                   2     Johnson
+SBC  31099      2002                   3     Kearney
+SBC  31101      2002                   4     Keith
+SBC  31103      2002                   0     Keya Paha
+SBC  31105      2002                   0     Kimball
+SBC  31107      2002                   4     Knox
+SBC  31109      2002                 296     Lancaster
+SBC  31111      2002                  17     Lincoln
+SBC  31113      2002                   0     Logan
+SBC  31115      2002                   0     Loup
+SBC  31117      2002                   0     McPherson
+SBC  31119      2002                  16     Madison
+SBC  31121      2002                   3     Merrick
+SBC  31123      2002                   0     Morrill
+SBC  31125      2002                   0     Nance
+SBC  31127      2002                   3     Nemaha
+SBC  31129      2002                   2     Nuckolls
+SBC  31131      2002                   1     Otoe
+SBC  31133      2002                   0     Pawnee
+SBC  31135      2002                   0     Perkins
+SBC  31137      2002                   4     Phelps
+SBC  31139      2002                   0     Pierce
+SBC  31141      2002                  13     Platte
+SBC  31143      2002                   1     Polk
+SBC  31145      2002                   5     Red Willow
+SBC  31147      2002                   4     Richardson
+SBC  31149      2002                   0     Rock
+SBC  31151      2002                   6     Saline
+SBC  31153      2002                 310     Sarpy
+SBC  31155      2002                   5     Saunders
+SBC  31157      2002                  17     Scotts Bluff
+SBC  31159      2002                   5     Seward
+SBC  31161      2002                   0     Sheridan
+SBC  31163      2002                   0     Sherman
+SBC  31165      2002                   0     Sioux
+SBC  31167      2002                   3     Stanton
+SBC  31169      2002                   2     Thayer
+SBC  31171      2002                   0     Thomas
+SBC  31173      2002                   3     Thurston
+SBC  31175      2002                   0     Valley
+SBC  31177      2002                   8     Washington
+SBC  31179      2002                   4     Wayne
+SBC  31181      2002                   1     Webster
+SBC  31183      2002                   0     Wheeler
+SBC  31185      2002                   6     York
+/END/

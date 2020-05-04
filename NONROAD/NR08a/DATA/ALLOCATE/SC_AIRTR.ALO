@@ -1,0 +1,73 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent AIRCRAFT NOx TONS
+from Draft 2002 NEI
+
+9/1/05 epa: Modifies to treat PR & VI as additional to US Total.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+AIR  45000      2002             254.625     SC
+AIR  45001      2002               0.000     Abbeville
+AIR  45003      2002               0.200     Aiken
+AIR  45005      2002               0.044     Allendale
+AIR  45007      2002               0.410     Anderson
+AIR  45009      2002               0.000     Bamberg
+AIR  45011      2002               0.080     Barnwell
+AIR  45013      2002               0.000     Beaufort
+AIR  45015      2002               0.023     Berkeley
+AIR  45017      2002               0.000     Calhoun
+AIR  45019      2002              72.330     Charleston
+AIR  45021      2002               0.000     Cherokee
+AIR  45023      2002               0.430     Chester
+AIR  45025      2002               0.054     Chesterfield
+AIR  45027      2002               0.094     Clarendon
+AIR  45029      2002               0.140     Colleton
+AIR  45031      2002               0.040     Darlington
+AIR  45033      2002               0.000     Dillon
+AIR  45035      2002               0.134     Dorchester
+AIR  45037      2002               0.000     Edgefield
+AIR  45039      2002               0.084     Fairfield
+AIR  45041      2002               0.540     Florence
+AIR  45043      2002               0.093     Georgetown
+AIR  45045      2002               0.000     Greenville
+AIR  45047      2002               0.184     Greenwood
+AIR  45049      2002               0.000     Hampton
+AIR  45051      2002               0.450     Horry
+AIR  45053      2002               0.000     Jasper
+AIR  45055      2002               0.168     Kershaw
+AIR  45057      2002               0.100     Lancaster
+AIR  45059      2002               0.000     Laurens
+AIR  45061      2002               0.000     Lee
+AIR  45063      2002              90.600     Lexington
+AIR  45065      2002               0.000     McCormick
+AIR  45067      2002               0.044     Marion
+AIR  45069      2002               0.022     Marlboro
+AIR  45071      2002               0.064     Newberry
+AIR  45073      2002               0.054     Oconee
+AIR  45075      2002               0.118     Orangeburg
+AIR  45077      2002               0.233     Pickens
+AIR  45079      2002               0.410     Richland
+AIR  45081      2002               0.000     Saluda
+AIR  45083      2002              87.310     Spartanburg
+AIR  45085      2002               0.170     Sumter
+AIR  45087      2002               0.000     Union
+AIR  45089      2002               0.000     Williamsburg
+AIR  45091      2002               0.000     York
+/END/

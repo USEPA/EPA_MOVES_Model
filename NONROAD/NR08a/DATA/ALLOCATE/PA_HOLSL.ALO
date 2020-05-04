@@ -1,0 +1,92 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WHOLESALE ESTABLISHMENTS
+CBP NAICS 42----; pre-2002 CBP SIC 50--
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+COM  42000      2002               16272     PA
+COM  42001      2002                  87     Adams
+COM  42003      2002                2196     Allegheny
+COM  42005      2002                  39     Armstrong
+COM  42007      2002                 128     Beaver
+COM  42009      2002                  43     Bedford
+COM  42011      2002                 436     Berks
+COM  42013      2002                 156     Blair
+COM  42015      2002                  58     Bradford
+COM  42017      2002                1428     Bucks
+COM  42019      2002                 282     Butler
+COM  42021      2002                 140     Cambria
+COM  42023      2002                   3     Cameron
+COM  42025      2002                  29     Carbon
+COM  42027      2002                 115     Centre
+COM  42029      2002                 996     Chester
+COM  42031      2002                  39     Clarion
+COM  42033      2002                  75     Clearfield
+COM  42035      2002                  29     Clinton
+COM  42037      2002                  58     Columbia
+COM  42039      2002                  85     Crawford
+COM  42041      2002                 258     Cumberland
+COM  42043      2002                 324     Dauphin
+COM  42045      2002                 712     Delaware
+COM  42047      2002                  40     Elk
+COM  42049      2002                 330     Erie
+COM  42051      2002                 120     Fayette
+COM  42053      2002                   2     Forest
+COM  42055      2002                 127     Franklin
+COM  42057      2002                   8     Fulton
+COM  42059      2002                  32     Greene
+COM  42061      2002                  21     Huntingdon
+COM  42063      2002                  63     Indiana
+COM  42065      2002                  52     Jefferson
+COM  42067      2002                  16     Juniata
+COM  42069      2002                 262     Lackawanna
+COM  42071      2002                 673     Lancaster
+COM  42073      2002                  94     Lawrence
+COM  42075      2002                 119     Lebanon
+COM  42077      2002                 532     Lehigh
+COM  42079      2002                 372     Luzerne
+COM  42081      2002                 136     Lycoming
+COM  42083      2002                  39     McKean
+COM  42085      2002                 122     Mercer
+COM  42087      2002                  51     Mifflin
+COM  42089      2002                 120     Monroe
+COM  42091      2002                1803     Montgomery
+COM  42093      2002                  13     Montour
+COM  42095      2002                 306     Northampton
+COM  42097      2002                  65     Northumberland
+COM  42099      2002                  25     Perry
+COM  42101      2002                1298     Philadelphia
+COM  42103      2002                  25     Pike
+COM  42105      2002                  11     Potter
+COM  42107      2002                 116     Schuylkill
+COM  42109      2002                  38     Snyder
+COM  42111      2002                  80     Somerset
+COM  42113      2002                   6     Sullivan
+COM  42115      2002                  36     Susquehanna
+COM  42117      2002                  31     Tioga
+COM  42119      2002                  40     Union
+COM  42121      2002                  53     Venango
+COM  42123      2002                  34     Warren
+COM  42125      2002                 294     Washington
+COM  42127      2002                  49     Wayne
+COM  42129      2002                 426     Westmoreland
+COM  42131      2002                  20     Wyoming
+COM  42133      2002                 456     York
+/END/

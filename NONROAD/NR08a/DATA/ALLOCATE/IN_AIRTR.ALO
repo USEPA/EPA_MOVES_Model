@@ -1,0 +1,119 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent AIRCRAFT NOx TONS
+from Draft 2002 NEI
+
+9/1/05 epa: Modifies to treat PR & VI as additional to US Total.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+AIR  18000      2002             742.879     IN
+AIR  18001      2002               0.000     Adams
+AIR  18003      2002              67.220     Allen
+AIR  18005      2002               0.260     Bartholomew
+AIR  18007      2002               0.000     Benton
+AIR  18009      2002               0.000     Blackford
+AIR  18011      2002               0.000     Boone
+AIR  18013      2002               0.000     Brown
+AIR  18015      2002               0.000     Carroll
+AIR  18017      2002               0.022     Cass
+AIR  18019      2002               0.690     Clark
+AIR  18021      2002               0.000     Clay
+AIR  18023      2002               0.055     Clinton
+AIR  18025      2002               0.000     Crawford
+AIR  18027      2002               0.026     Daviess
+AIR  18029      2002               0.000     Dearborn
+AIR  18031      2002               0.000     Decatur
+AIR  18033      2002               0.136     De Kalb
+AIR  18035      2002               0.254     Delaware
+AIR  18037      2002               0.022     Dubois
+AIR  18039      2002               0.338     Elkhart
+AIR  18041      2002               0.017     Fayette
+AIR  18043      2002               0.000     Floyd
+AIR  18045      2002               0.000     Fountain
+AIR  18047      2002               0.000     Franklin
+AIR  18049      2002               0.028     Fulton
+AIR  18051      2002               0.000     Gibson
+AIR  18053      2002               0.100     Grant
+AIR  18055      2002               0.000     Greene
+AIR  18057      2002               0.620     Hamilton
+AIR  18059      2002               0.000     Hancock
+AIR  18061      2002               0.000     Harrison
+AIR  18063      2002               0.000     Hendricks
+AIR  18065      2002               0.020     Henry
+AIR  18067      2002               0.786     Howard
+AIR  18069      2002               0.035     Huntington
+AIR  18071      2002               0.140     Jackson
+AIR  18073      2002               0.018     Jasper
+AIR  18075      2002               0.133     Jay
+AIR  18077      2002               0.210     Jefferson
+AIR  18079      2002               0.087     Jennings
+AIR  18081      2002               0.310     Johnson
+AIR  18083      2002               0.000     Knox
+AIR  18085      2002               0.080     Kosciusko
+AIR  18087      2002               0.000     Lagrange
+AIR  18089      2002               6.740     Lake
+AIR  18091      2002               0.030     La Porte
+AIR  18093      2002               0.060     Lawrence
+AIR  18095      2002               0.220     Madison
+AIR  18097      2002             625.950     Marion
+AIR  18099      2002               0.100     Marshall
+AIR  18101      2002               0.000     Martin
+AIR  18103      2002               0.010     Miami
+AIR  18105      2002               0.860     Monroe
+AIR  18107      2002               0.074     Montgomery
+AIR  18109      2002               0.000     Morgan
+AIR  18111      2002               0.012     Newton
+AIR  18113      2002               0.040     Noble
+AIR  18115      2002               0.000     Ohio
+AIR  18117      2002               0.021     Orange
+AIR  18119      2002               0.000     Owen
+AIR  18121      2002               0.000     Parke
+AIR  18123      2002               0.015     Perry
+AIR  18125      2002               0.000     Pike
+AIR  18127      2002               0.164     Porter
+AIR  18129      2002               0.000     Posey
+AIR  18131      2002               0.010     Pulaski
+AIR  18133      2002               0.120     Putnam
+AIR  18135      2002               0.090     Randolph
+AIR  18137      2002               0.000     Ripley
+AIR  18139      2002               0.000     Rush
+AIR  18141      2002              32.014     St. Joseph
+AIR  18143      2002               0.000     Scott
+AIR  18145      2002               0.000     Shelby
+AIR  18147      2002               0.000     Spencer
+AIR  18149      2002               0.060     Starke
+AIR  18151      2002               0.080     Steuben
+AIR  18153      2002               0.027     Sullivan
+AIR  18155      2002               0.000     Switzerland
+AIR  18157      2002               0.721     Tippecanoe
+AIR  18159      2002               0.000     Tipton
+AIR  18161      2002               0.000     Union
+AIR  18163      2002               1.780     Vanderburgh
+AIR  18165      2002               0.000     Vermillion
+AIR  18167      2002               1.950     Vigo
+AIR  18169      2002               0.025     Wabash
+AIR  18171      2002               0.000     Warren
+AIR  18173      2002               0.000     Warrick
+AIR  18175      2002               0.000     Washington
+AIR  18177      2002               0.039     Wayne
+AIR  18179      2002               0.000     Wells
+AIR  18181      2002               0.060     White
+AIR  18183      2002               0.000     Whitley
+/END/

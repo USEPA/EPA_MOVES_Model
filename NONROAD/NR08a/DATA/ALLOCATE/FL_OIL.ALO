@@ -1,0 +1,92 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent EMPLOYEES IN OIL & GAS EXTRACTION, AND DRILLING OIL & GAS WELLS
+CBP NAICS 211/// and 213111; pre-2002 CBP SIC 1300
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+OIL  12000      2002                 382     FL
+OIL  12001      2002                   0     Alachua
+OIL  12003      2002                   0     Baker
+OIL  12005      2002                  11     Bay
+OIL  12007      2002                   0     Bradford
+OIL  12009      2002                  20     Brevard
+OIL  12011      2002                  20     Broward
+OIL  12013      2002                   0     Calhoun
+OIL  12015      2002                   0     Charlotte
+OIL  12017      2002                   0     Citrus
+OIL  12019      2002                   0     Clay
+OIL  12021      2002                  20     Collier
+OIL  12023      2002                   0     Columbia
+OIL  12027      2002                   0     DeSoto
+OIL  12029      2002                   0     Dixie
+OIL  12031      2002                  11     Duval
+OIL  12033      2002                   9     Escambia
+OIL  12035      2002                   0     Flagler
+OIL  12037      2002                   0     Franklin
+OIL  12039      2002                   0     Gadsden
+OIL  12041      2002                   0     Gilchrist
+OIL  12043      2002                   0     Glades
+OIL  12045      2002                   0     Gulf
+OIL  12047      2002                   0     Hamilton
+OIL  12049      2002                  11     Hardee
+OIL  12051      2002                  11     Hendry
+OIL  12053      2002                  11     Hernando
+OIL  12055      2002                   0     Highlands
+OIL  12057      2002                   0     Hillsborough
+OIL  12059      2002                  20     Holmes
+OIL  12061      2002                   0     Indian River
+OIL  12063      2002                   0     Jackson
+OIL  12065      2002                   0     Jefferson
+OIL  12067      2002                   0     Lafayette
+OIL  12069      2002                   0     Lake
+OIL  12071      2002                  20     Lee
+OIL  12073      2002                   9     Leon
+OIL  12075      2002                   0     Levy
+OIL  12077      2002                   9     Liberty
+OIL  12079      2002                   0     Madison
+OIL  12081      2002                  10     Manatee
+OIL  12083      2002                  10     Marion
+OIL  12085      2002                   0     Martin
+OIL  12086      2002                   8     Miami-Dade
+OIL  12087      2002                   8     Monroe
+OIL  12089      2002                   0     Nassau
+OIL  12091      2002                  10     Okaloosa
+OIL  12093      2002                   0     Okeechobee
+OIL  12095      2002                  18     Orange
+OIL  12097      2002                   0     Osceola
+OIL  12099      2002                  18     Palm Beach
+OIL  12101      2002                   0     Pasco
+OIL  12103      2002                  18     Pinellas
+OIL  12105      2002                   8     Polk
+OIL  12107      2002                  10     Putnam
+OIL  12109      2002                   0     St. Johns
+OIL  12111      2002                   0     St. Lucie
+OIL  12113      2002                   8     Santa Rosa
+OIL  12115      2002                  18     Sarasota
+OIL  12117      2002                  18     Seminole
+OIL  12119      2002                   0     Sumter
+OIL  12121      2002                   0     Suwannee
+OIL  12123      2002                  10     Taylor
+OIL  12125      2002                   0     Union
+OIL  12127      2002                  18     Volusia
+OIL  12129      2002                   0     Wakulla
+OIL  12131      2002                  10     Walton
+OIL  12133      2002                   0     Washington
+/END/

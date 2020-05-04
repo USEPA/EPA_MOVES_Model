@@ -1,0 +1,42 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent SINGLE AND DOUBLE (DUPLEX) FAMILY HOMES
+
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+HOU  32000      2002              901558     NV
+HOU  32001      2002                9929     Churchill
+HOU  32003      2002              620502     Clark
+HOU  32005      2002               20320     Douglas
+HOU  32007      2002               18732     Elko
+HOU  32009      2002                 838     Esmeralda
+HOU  32011      2002                1035     Eureka
+HOU  32013      2002                7029     Humboldt
+HOU  32015      2002                2792     Lander
+HOU  32017      2002                2191     Lincoln
+HOU  32019      2002               14793     Lyon
+HOU  32021      2002                2872     Mineral
+HOU  32023      2002               16029     Nye
+HOU  32027      2002                2397     Pershing
+HOU  32029      2002                1653     Storey
+HOU  32031      2002              154031     Washoe
+HOU  32033      2002                4422     White Pine
+HOU  32510      2002               21993     Carson City
+/END/

@@ -1,0 +1,51 @@
+This file contains the emission factors (EFs) for non-metal
+supply/return hose permeation THC for REC-MARINE equipment ONLY.
+This differs from the fill-neck and vent hose EFs that are
+covered in separate EF data files.
+The EFs are specified by SCC code, HP range and Technology type.
+An ALL in the tech type field applies to all supply/return hose tech types.
+The model will use the EF for the closest year that is less than or
+equal to the current model year.
+
+1/30/06 4: EPA:  new inputs 
+
+--------------------------------------------------------------
+The format is as follows:
+Line 1:
+6-15  character     -- SCC code
+21-25  real          -- beginning of HP range
+26-30  real          -- end of horsepower range
+35-44  character     -- technology type
+46-55  character     -- units
+56-67  character     -- pollutant
+Line 2:
+1-5   integer       -- year
+35-44  real          -- emission factor (EF) for technology type 1
+x5-x4  real          -- EF's for tech types (repeating fields of 10)
+
+     2200000000      HPmn HPmx    techtyp1  techtyp2  techtyp3  techtyp4  techtyp5  techtyp6  techtyp7  techtyp8  techtyp9  techtyp10 g/m2/day  THC
+1900                              999.99    999.99    999.99    999.99    999.99    999.99    999.99    999.99    999.99    999.99
+--------------------------------------------------------------
+
+/EMSFAC/
+     2260000000         0 9999    ALL       g/m2/day  THC
+1900                              0.0
+     2265000000         0 9999    ALL       g/m2/day  THC
+1900                              0.0
+     2267000000         0 9999    ALL       g/m2/day  THC
+1900                              0.0
+     2268000000         0 9999    ALL       g/m2/day  THC
+1900                              0.0
+     2270000000         0 9999    ALL       g/m2/day  THC
+1900                              0.0
+     2282005010         0   25    E0        E1        g/m2/day  THC
+1900                              122.0     3.75
+     2282005010        25 9999    E0        E1        g/m2/day  THC
+1900                              42.0      3.75
+     2282005015         0 9999    E0        E1        g/m2/day  THC
+1900                              42.0      3.75
+     2282010005         0 9999    E0        E1        g/m2/day  THC
+1900                              22.0      3.75
+     2285000000         0 9999    ALL       g/m2/day  THC
+1900                              0.0
+/END/

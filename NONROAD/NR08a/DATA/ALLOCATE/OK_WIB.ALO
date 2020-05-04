@@ -1,0 +1,102 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WATER SURFACE AREA FOR INBOARD RECREATIONAL MARINE CRAFT (sq km navigable water)
+1990 GICS (inland water area); GIS analysis of coast lengths (coastal navigable water)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+WIB  40000      1990                3173     OK
+WIB  40001      1990                   4     Adair
+WIB  40003      1990                  38     Alfalfa
+WIB  40005      1990                  30     Atoka
+WIB  40007      1990                   8     Beaver
+WIB  40009      1990                   6     Beckham
+WIB  40011      1990                  27     Blaine
+WIB  40013      1990                  90     Bryan
+WIB  40015      1990                  31     Caddo
+WIB  40017      1990                  14     Canadian
+WIB  40019      1990                  26     Carter
+WIB  40021      1990                  66     Cherokee
+WIB  40023      1990                  69     Choctaw
+WIB  40025      1990                  16     Cimarron
+WIB  40027      1990                  58     Cleveland
+WIB  40029      1990                   8     Coal
+WIB  40031      1990                  38     Comanche
+WIB  40033      1990                  14     Cotton
+WIB  40035      1990                   4     Craig
+WIB  40037      1990                  37     Creek
+WIB  40039      1990                  40     Custer
+WIB  40041      1990                 134     Delaware
+WIB  40043      1990                  21     Dewey
+WIB  40045      1990                   7     Ellis
+WIB  40047      1990                   4     Garfield
+WIB  40049      1990                  12     Garvin
+WIB  40051      1990                  11     Grady
+WIB  40053      1990                   8     Grant
+WIB  40055      1990                  11     Greer
+WIB  40057      1990                   2     Harmon
+WIB  40059      1990                   5     Harper
+WIB  40061      1990                 125     Haskell
+WIB  40063      1990                  20     Hughes
+WIB  40065      1990                   4     Jackson
+WIB  40067      1990                  39     Jefferson
+WIB  40069      1990                  36     Johnston
+WIB  40071      1990                  68     Kay
+WIB  40073      1990                   8     Kingfisher
+WIB  40075      1990                  42     Kiowa
+WIB  40077      1990                  18     Latimer
+WIB  40079      1990                  57     Le Flore
+WIB  40081      1990                  18     Lincoln
+WIB  40083      1990                  11     Logan
+WIB  40085      1990                  43     Love
+WIB  40087      1990                  27     McClain
+WIB  40089      1990                 127     McCurtain
+WIB  40091      1990                 240     McIntosh
+WIB  40093      1990                   3     Major
+WIB  40095      1990                 145     Marshall
+WIB  40097      1990                  71     Mayes
+WIB  40099      1990                  17     Murray
+WIB  40101      1990                  65     Muskogee
+WIB  40103      1990                  27     Noble
+WIB  40105      1990                  41     Nowata
+WIB  40107      1990                  11     Okfuskee
+WIB  40109      1990                  24     Oklahoma
+WIB  40111      1990                  14     Okmulgee
+WIB  40113      1990                 137     Osage
+WIB  40115      1990                  35     Ottawa
+WIB  40117      1990                  66     Pawnee
+WIB  40119      1990                  28     Payne
+WIB  40121      1990                 186     Pittsburg
+WIB  40123      1990                  15     Pontotoc
+WIB  40125      1990                  14     Pottawatomie
+WIB  40127      1990                  66     Pushmataha
+WIB  40129      1990                  12     Roger Mills
+WIB  40131      1990                  95     Rogers
+WIB  40133      1990                  21     Seminole
+WIB  40135      1990                 106     Sequoyah
+WIB  40137      1990                  36     Stephens
+WIB  40139      1990                  30     Texas
+WIB  40141      1990                  18     Tillman
+WIB  40143      1990                  43     Tulsa
+WIB  40145      1990                  72     Wagoner
+WIB  40147      1990                  19     Washington
+WIB  40149      1990                  15     Washita
+WIB  40151      1990                   9     Woods
+WIB  40153      1990                  10     Woodward
+/END/

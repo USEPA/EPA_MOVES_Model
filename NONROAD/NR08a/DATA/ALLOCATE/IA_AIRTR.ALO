@@ -1,0 +1,126 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent AIRCRAFT NOx TONS
+from Draft 2002 NEI
+
+9/1/05 epa: Modifies to treat PR & VI as additional to US Total.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+AIR  19000      2002             277.302     IA
+AIR  19001      2002               0.020     Adair
+AIR  19003      2002               0.000     Adams
+AIR  19005      2002               0.000     Allamakee
+AIR  19007      2002               0.010     Appanoose
+AIR  19009      2002               0.008     Audubon
+AIR  19011      2002               0.406     Benton
+AIR  19013      2002               0.810     Black Hawk
+AIR  19015      2002               0.050     Boone
+AIR  19017      2002               0.020     Bremer
+AIR  19019      2002               0.020     Buchanan
+AIR  19021      2002               0.030     Buena Vista
+AIR  19023      2002               0.000     Butler
+AIR  19025      2002               0.000     Calhoun
+AIR  19027      2002               0.029     Carroll
+AIR  19029      2002               0.030     Cass
+AIR  19031      2002               0.000     Cedar
+AIR  19033      2002               0.640     Cerro Gordo
+AIR  19035      2002               0.070     Cherokee
+AIR  19037      2002               0.000     Chickasaw
+AIR  19039      2002               0.007     Clarke
+AIR  19041      2002               0.370     Clay
+AIR  19043      2002               0.000     Clayton
+AIR  19045      2002               0.040     Clinton
+AIR  19047      2002               0.029     Crawford
+AIR  19049      2002               0.020     Dallas
+AIR  19051      2002               0.005     Davis
+AIR  19053      2002               0.000     Decatur
+AIR  19055      2002               0.000     Delaware
+AIR  19057      2002               0.384     Des Moines
+AIR  19059      2002               0.000     Dickinson
+AIR  19061      2002               0.492     Dubuque
+AIR  19063      2002               0.029     Emmet
+AIR  19065      2002               0.030     Fayette
+AIR  19067      2002               0.029     Floyd
+AIR  19069      2002               0.009     Franklin
+AIR  19071      2002               0.020     Fremont
+AIR  19073      2002               0.020     Greene
+AIR  19075      2002               0.000     Grundy
+AIR  19077      2002               0.000     Guthrie
+AIR  19079      2002               0.029     Hamilton
+AIR  19081      2002               0.029     Hancock
+AIR  19083      2002               0.030     Hardin
+AIR  19085      2002               0.000     Harrison
+AIR  19087      2002               0.010     Henry
+AIR  19089      2002               0.000     Howard
+AIR  19091      2002               0.000     Humboldt
+AIR  19093      2002               0.000     Ida
+AIR  19095      2002               0.000     Iowa
+AIR  19097      2002               0.010     Jackson
+AIR  19099      2002               0.029     Jasper
+AIR  19101      2002               0.049     Jefferson
+AIR  19103      2002               0.100     Johnson
+AIR  19105      2002               0.020     Jones
+AIR  19107      2002               0.000     Keokuk
+AIR  19109      2002               0.020     Kossuth
+AIR  19111      2002               0.030     Lee
+AIR  19113      2002              72.330     Linn
+AIR  19115      2002               0.000     Louisa
+AIR  19117      2002               0.020     Lucas
+AIR  19119      2002               0.000     Lyon
+AIR  19121      2002               0.020     Madison
+AIR  19123      2002               0.039     Mahaska
+AIR  19125      2002               0.069     Marion
+AIR  19127      2002               0.030     Marshall
+AIR  19129      2002               0.000     Mills
+AIR  19131      2002               0.000     Mitchell
+AIR  19133      2002               0.006     Monona
+AIR  19135      2002               0.010     Monroe
+AIR  19137      2002               0.020     Montgomery
+AIR  19139      2002               0.049     Muscatine
+AIR  19141      2002               0.029     O'Brien
+AIR  19143      2002               0.000     Osceola
+AIR  19145      2002               0.020     Page
+AIR  19147      2002               0.010     Palo Alto
+AIR  19149      2002               0.020     Plymouth
+AIR  19151      2002               0.020     Pocahontas
+AIR  19153      2002             167.030     Polk
+AIR  19155      2002               0.000     Pottawattamie
+AIR  19157      2002               0.010     Poweshiek
+AIR  19159      2002               0.000     Ringgold
+AIR  19161      2002               0.020     Sac
+AIR  19163      2002               0.240     Scott
+AIR  19165      2002               0.039     Shelby
+AIR  19167      2002               0.009     Sioux
+AIR  19169      2002               0.130     Story
+AIR  19171      2002               0.000     Tama
+AIR  19173      2002               0.000     Taylor
+AIR  19175      2002               0.019     Union
+AIR  19177      2002               0.000     Van Buren
+AIR  19179      2002               0.050     Wapello
+AIR  19181      2002               0.000     Warren
+AIR  19183      2002               0.010     Washington
+AIR  19185      2002               0.000     Wayne
+AIR  19187      2002              26.079     Webster
+AIR  19189      2002               0.000     Winnebago
+AIR  19191      2002               0.020     Winneshiek
+AIR  19193      2002               6.970     Woodbury
+AIR  19195      2002               0.000     Worth
+AIR  19197      2002               0.002     Wright
+/END/

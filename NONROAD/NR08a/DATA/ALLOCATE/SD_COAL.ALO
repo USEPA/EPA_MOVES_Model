@@ -1,0 +1,91 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent UNDERGROUND COAL PRODUCTION TONS
+DOE/EIA 2002 Annual Coal Report
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+MIN  46000      2002                   0     SD
+MIN  46003      2002                   0     Aurora
+MIN  46005      2002                   0     Beadle
+MIN  46007      2002                   0     Bennett
+MIN  46009      2002                   0     Bon Homme
+MIN  46011      2002                   0     Brookings
+MIN  46013      2002                   0     Brown
+MIN  46015      2002                   0     Brule
+MIN  46017      2002                   0     Buffalo
+MIN  46019      2002                   0     Butte
+MIN  46021      2002                   0     Campbell
+MIN  46023      2002                   0     Charles Mix
+MIN  46025      2002                   0     Clark
+MIN  46027      2002                   0     Clay
+MIN  46029      2002                   0     Codington
+MIN  46031      2002                   0     Corson
+MIN  46033      2002                   0     Custer
+MIN  46035      2002                   0     Davison
+MIN  46037      2002                   0     Day
+MIN  46039      2002                   0     Deuel
+MIN  46041      2002                   0     Dewey
+MIN  46043      2002                   0     Douglas
+MIN  46045      2002                   0     Edmunds
+MIN  46047      2002                   0     Fall River
+MIN  46049      2002                   0     Faulk
+MIN  46051      2002                   0     Grant
+MIN  46053      2002                   0     Gregory
+MIN  46055      2002                   0     Haakon
+MIN  46057      2002                   0     Hamlin
+MIN  46059      2002                   0     Hand
+MIN  46061      2002                   0     Hanson
+MIN  46063      2002                   0     Harding
+MIN  46065      2002                   0     Hughes
+MIN  46067      2002                   0     Hutchinson
+MIN  46069      2002                   0     Hyde
+MIN  46071      2002                   0     Jackson
+MIN  46073      2002                   0     Jerauld
+MIN  46075      2002                   0     Jones
+MIN  46077      2002                   0     Kingsbury
+MIN  46079      2002                   0     Lake
+MIN  46081      2002                   0     Lawrence
+MIN  46083      2002                   0     Lincoln
+MIN  46085      2002                   0     Lyman
+MIN  46087      2002                   0     McCook
+MIN  46089      2002                   0     McPherson
+MIN  46091      2002                   0     Marshall
+MIN  46093      2002                   0     Meade
+MIN  46095      2002                   0     Mellette
+MIN  46097      2002                   0     Miner
+MIN  46099      2002                   0     Minnehaha
+MIN  46101      2002                   0     Moody
+MIN  46103      2002                   0     Pennington
+MIN  46105      2002                   0     Perkins
+MIN  46107      2002                   0     Potter
+MIN  46109      2002                   0     Roberts
+MIN  46111      2002                   0     Sanborn
+MIN  46113      2002                   0     Shannon
+MIN  46115      2002                   0     Spink
+MIN  46117      2002                   0     Stanley
+MIN  46119      2002                   0     Sully
+MIN  46121      2002                   0     Todd
+MIN  46123      2002                   0     Tripp
+MIN  46125      2002                   0     Turner
+MIN  46127      2002                   0     Union
+MIN  46129      2002                   0     Walworth
+MIN  46135      2002                   0     Yankton
+MIN  46137      2002                   0     Ziebach
+/END/

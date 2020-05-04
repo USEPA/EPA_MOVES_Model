@@ -1,0 +1,94 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2002 Timber Product Output (cu ft)
+from US Forest Service TPO database. http://www.fia.fs.fed.us/program-features/tpo/
+
+10/19/05 epa: use TPO data instead of CBP employee data.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+LOG  42000      2002           373187390     PA
+LOG  42001      2002            10919356     Adams
+LOG  42003      2002             1148011     Allegheny
+LOG  42005      2002             5360383     Armstrong
+LOG  42007      2002              229176     Beaver
+LOG  42009      2002            10242802     Bedford
+LOG  42011      2002             2162352     Berks
+LOG  42013      2002             2952022     Blair
+LOG  42015      2002             7291129     Bradford
+LOG  42017      2002              350554     Bucks
+LOG  42019      2002             3270420     Butler
+LOG  42021      2002             8123961     Cambria
+LOG  42023      2002             3261132     Cameron
+LOG  42025      2002              689263     Carbon
+LOG  42027      2002             8818515     Centre
+LOG  42029      2002             2649674     Chester
+LOG  42031      2002             5840635     Clarion
+LOG  42033      2002            17549089     Clearfield
+LOG  42035      2002             5898094     Clinton
+LOG  42037      2002             5712800     Columbia
+LOG  42039      2002             5404972     Crawford
+LOG  42041      2002             2334311     Cumberland
+LOG  42043      2002             3036939     Dauphin
+LOG  42045      2002              105193     Delaware
+LOG  42047      2002            13188681     Elk
+LOG  42049      2002             1803643     Erie
+LOG  42051      2002             6120412     Fayette
+LOG  42053      2002             7063627     Forest
+LOG  42055      2002            10688752     Franklin
+LOG  42057      2002             7444928     Fulton
+LOG  42059      2002             2633773     Greene
+LOG  42061      2002            12122602     Huntingdon
+LOG  42063      2002             7159993     Indiana
+LOG  42065      2002             9794188     Jefferson
+LOG  42067      2002             8164811     Juniata
+LOG  42069      2002             1600628     Lackawanna
+LOG  42071      2002             3124521     Lancaster
+LOG  42073      2002             2508556     Lawrence
+LOG  42075      2002             1965139     Lebanon
+LOG  42077      2002              435403     Lehigh
+LOG  42079      2002             3825560     Luzerne
+LOG  42081      2002            11573029     Lycoming
+LOG  42083      2002             7822101     McKean
+LOG  42085      2002             5619147     Mercer
+LOG  42087      2002             5307419     Mifflin
+LOG  42089      2002             1381690     Monroe
+LOG  42091      2002              631160     Montgomery
+LOG  42093      2002              118648     Montour
+LOG  42095      2002              151121     Northampton
+LOG  42097      2002             2184653     Northumberland
+LOG  42099      2002             7410249     Perry
+LOG  42101      2002               53144     Philadelphia
+LOG  42103      2002             1966029     Pike
+LOG  42105      2002            25382512     Potter
+LOG  42107      2002             7946671     Schuylkill
+LOG  42109      2002             4314543     Snyder
+LOG  42111      2002            10707566     Somerset
+LOG  42113      2002             9302058     Sullivan
+LOG  42115      2002             5751060     Susquehanna
+LOG  42117      2002             9365537     Tioga
+LOG  42119      2002             1828779     Union
+LOG  42121      2002             8909474     Venango
+LOG  42123      2002            13196240     Warren
+LOG  42125      2002             1733088     Washington
+LOG  42127      2002             4084164     Wayne
+LOG  42129      2002             4957558     Westmoreland
+LOG  42131      2002             3965513     Wyoming
+LOG  42133      2002             4528239     York
+/END/

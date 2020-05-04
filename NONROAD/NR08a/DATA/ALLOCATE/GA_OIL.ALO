@@ -1,0 +1,184 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent EMPLOYEES IN OIL & GAS EXTRACTION, AND DRILLING OIL & GAS WELLS
+CBP NAICS 211/// and 213111; pre-2002 CBP SIC 1300
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+OIL  13000      2002                 123     GA
+OIL  13001      2002                   0     Appling
+OIL  13003      2002                   0     Atkinson
+OIL  13005      2002                   0     Bacon
+OIL  13007      2002                   0     Baker
+OIL  13009      2002                   0     Baldwin
+OIL  13011      2002                   0     Banks
+OIL  13013      2002                   0     Barrow
+OIL  13015      2002                   0     Bartow
+OIL  13017      2002                   0     Ben Hill
+OIL  13019      2002                   0     Berrien
+OIL  13021      2002                   9     Bibb
+OIL  13023      2002                   0     Bleckley
+OIL  13025      2002                  10     Brantley
+OIL  13027      2002                   0     Brooks
+OIL  13029      2002                   0     Bryan
+OIL  13031      2002                   0     Bulloch
+OIL  13033      2002                   0     Burke
+OIL  13035      2002                   0     Butts
+OIL  13037      2002                   0     Calhoun
+OIL  13039      2002                   0     Camden
+OIL  13043      2002                  18     Candler
+OIL  13045      2002                   0     Carroll
+OIL  13047      2002                   0     Catoosa
+OIL  13049      2002                   0     Charlton
+OIL  13051      2002                   0     Chatham
+OIL  13053      2002                   0     Chattahoochee
+OIL  13055      2002                   0     Chattooga
+OIL  13057      2002                   0     Cherokee
+OIL  13059      2002                   0     Clarke
+OIL  13061      2002                   0     Clay
+OIL  13063      2002                   0     Clayton
+OIL  13065      2002                   0     Clinch
+OIL  13067      2002                   9     Cobb
+OIL  13069      2002                   0     Coffee
+OIL  13071      2002                   0     Colquitt
+OIL  13073      2002                   0     Columbia
+OIL  13075      2002                   0     Cook
+OIL  13077      2002                   0     Coweta
+OIL  13079      2002                   0     Crawford
+OIL  13081      2002                   0     Crisp
+OIL  13083      2002                   0     Dade
+OIL  13085      2002                   0     Dawson
+OIL  13087      2002                   0     Decatur
+OIL  13089      2002                   0     DeKalb
+OIL  13091      2002                   0     Dodge
+OIL  13093      2002                   0     Dooly
+OIL  13095      2002                  10     Dougherty
+OIL  13097      2002                   0     Douglas
+OIL  13099      2002                   0     Early
+OIL  13101      2002                   0     Echols
+OIL  13103      2002                   0     Effingham
+OIL  13105      2002                   0     Elbert
+OIL  13107      2002                   0     Emanuel
+OIL  13109      2002                   0     Evans
+OIL  13111      2002                   0     Fannin
+OIL  13113      2002                   0     Fayette
+OIL  13115      2002                   0     Floyd
+OIL  13117      2002                   0     Forsyth
+OIL  13119      2002                   0     Franklin
+OIL  13121      2002                   9     Fulton
+OIL  13123      2002                   0     Gilmer
+OIL  13125      2002                   0     Glascock
+OIL  13127      2002                   0     Glynn
+OIL  13129      2002                   0     Gordon
+OIL  13131      2002                   0     Grady
+OIL  13133      2002                   0     Greene
+OIL  13135      2002                   0     Gwinnett
+OIL  13137      2002                   0     Habersham
+OIL  13139      2002                  10     Hall
+OIL  13141      2002                   0     Hancock
+OIL  13143      2002                   0     Haralson
+OIL  13145      2002                   0     Harris
+OIL  13147      2002                   0     Hart
+OIL  13149      2002                   0     Heard
+OIL  13151      2002                   0     Henry
+OIL  13153      2002                   0     Houston
+OIL  13155      2002                   0     Irwin
+OIL  13157      2002                   0     Jackson
+OIL  13159      2002                   0     Jasper
+OIL  13161      2002                   0     Jeff Davis
+OIL  13163      2002                   0     Jefferson
+OIL  13165      2002                   0     Jenkins
+OIL  13167      2002                   0     Johnson
+OIL  13169      2002                   0     Jones
+OIL  13171      2002                   0     Lamar
+OIL  13173      2002                   0     Lanier
+OIL  13175      2002                   0     Laurens
+OIL  13177      2002                   0     Lee
+OIL  13179      2002                   0     Liberty
+OIL  13181      2002                   0     Lincoln
+OIL  13183      2002                   0     Long
+OIL  13185      2002                   0     Lowndes
+OIL  13187      2002                   0     Lumpkin
+OIL  13189      2002                   0     McDuffie
+OIL  13191      2002                   0     McIntosh
+OIL  13193      2002                   0     Macon
+OIL  13195      2002                   0     Madison
+OIL  13197      2002                   0     Marion
+OIL  13199      2002                   0     Meriwether
+OIL  13201      2002                   0     Miller
+OIL  13205      2002                   0     Mitchell
+OIL  13207      2002                   0     Monroe
+OIL  13209      2002                   0     Montgomery
+OIL  13211      2002                   0     Morgan
+OIL  13213      2002                   0     Murray
+OIL  13215      2002                   0     Muscogee
+OIL  13217      2002                   0     Newton
+OIL  13219      2002                  10     Oconee
+OIL  13221      2002                   0     Oglethorpe
+OIL  13223      2002                   9     Paulding
+OIL  13225      2002                   0     Peach
+OIL  13227      2002                   0     Pickens
+OIL  13229      2002                   0     Pierce
+OIL  13231      2002                   0     Pike
+OIL  13233      2002                   0     Polk
+OIL  13235      2002                   0     Pulaski
+OIL  13237      2002                   0     Putnam
+OIL  13239      2002                   0     Quitman
+OIL  13241      2002                   9     Rabun
+OIL  13243      2002                   0     Randolph
+OIL  13245      2002                   0     Richmond
+OIL  13247      2002                   0     Rockdale
+OIL  13249      2002                   0     Schley
+OIL  13251      2002                  10     Screven
+OIL  13253      2002                   0     Seminole
+OIL  13255      2002                  10     Spalding
+OIL  13257      2002                   0     Stephens
+OIL  13259      2002                   0     Stewart
+OIL  13261      2002                   0     Sumter
+OIL  13263      2002                   0     Talbot
+OIL  13265      2002                   0     Taliaferro
+OIL  13267      2002                   0     Tattnall
+OIL  13269      2002                   0     Taylor
+OIL  13271      2002                   0     Telfair
+OIL  13273      2002                   0     Terrell
+OIL  13275      2002                   0     Thomas
+OIL  13277      2002                   0     Tift
+OIL  13279      2002                   0     Toombs
+OIL  13281      2002                   0     Towns
+OIL  13283      2002                   0     Treutlen
+OIL  13285      2002                   0     Troup
+OIL  13287      2002                   0     Turner
+OIL  13289      2002                   0     Twiggs
+OIL  13291      2002                   0     Union
+OIL  13293      2002                   0     Upson
+OIL  13295      2002                   0     Walker
+OIL  13297      2002                   0     Walton
+OIL  13299      2002                   0     Ware
+OIL  13301      2002                   0     Warren
+OIL  13303      2002                   0     Washington
+OIL  13305      2002                   0     Wayne
+OIL  13307      2002                   0     Webster
+OIL  13309      2002                   0     Wheeler
+OIL  13311      2002                   0     White
+OIL  13313      2002                   0     Whitfield
+OIL  13315      2002                   0     Wilcox
+OIL  13317      2002                   0     Wilkes
+OIL  13319      2002                   0     Wilkinson
+OIL  13321      2002                   0     Worth
+/END/

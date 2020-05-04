@@ -1,0 +1,140 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent HUMAN POPULATION
+
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+POP  29000      2002             5679770     MO
+POP  29001      2002               24865     Adair
+POP  29003      2002               16695     Andrew
+POP  29005      2002                6301     Atchison
+POP  29007      2002               25838     Audrain
+POP  29009      2002               34353     Barry
+POP  29011      2002               12889     Barton
+POP  29013      2002               16969     Bates
+POP  29015      2002               17719     Benton
+POP  29017      2002               12300     Bollinger
+POP  29019      2002              138641     Boone
+POP  29021      2002               85304     Buchanan
+POP  29023      2002               40866     Butler
+POP  29025      2002                9077     Caldwell
+POP  29027      2002               42246     Callaway
+POP  29029      2002               37951     Camden
+POP  29031      2002               69489     Cape Girardeau
+POP  29033      2002               10247     Carroll
+POP  29035      2002                5912     Carter
+POP  29037      2002               87160     Cass
+POP  29039      2002               13906     Cedar
+POP  29041      2002                8271     Chariton
+POP  29043      2002               59266     Christian
+POP  29045      2002                7484     Clark
+POP  29047      2002              191339     Clay
+POP  29049      2002               19625     Clinton
+POP  29051      2002               71902     Cole
+POP  29053      2002               17062     Cooper
+POP  29055      2002               23270     Crawford
+POP  29057      2002                7917     Dade
+POP  29059      2002               15929     Dallas
+POP  29061      2002                7975     Daviess
+POP  29063      2002               13048     DeKalb
+POP  29065      2002               14859     Dent
+POP  29067      2002               13352     Douglas
+POP  29069      2002               32830     Dunklin
+POP  29071      2002               96121     Franklin
+POP  29073      2002               15438     Gasconade
+POP  29075      2002                6664     Gentry
+POP  29077      2002              243226     Greene
+POP  29079      2002               10203     Grundy
+POP  29081      2002                8785     Harrison
+POP  29083      2002               22254     Henry
+POP  29085      2002                8894     Hickory
+POP  29087      2002                5144     Holt
+POP  29089      2002               10045     Howard
+POP  29091      2002               37293     Howell
+POP  29093      2002               10482     Iron
+POP  29095      2002              659228     Jackson
+POP  29097      2002              106893     Jasper
+POP  29099      2002              203985     Jefferson
+POP  29101      2002               49689     Johnson
+POP  29103      2002                4295     Knox
+POP  29105      2002               32927     Laclede
+POP  29107      2002               33015     Lafayette
+POP  29109      2002               36166     Lawrence
+POP  29111      2002               10396     Lewis
+POP  29113      2002               42429     Lincoln
+POP  29115      2002               13526     Linn
+POP  29117      2002               14388     Livingston
+POP  29119      2002               21728     McDonald
+POP  29121      2002               15470     Macon
+POP  29123      2002               11885     Madison
+POP  29125      2002                8758     Maries
+POP  29127      2002               28053     Marion
+POP  29129      2002                3669     Mercer
+POP  29131      2002               24226     Miller
+POP  29133      2002               13149     Mississippi
+POP  29135      2002               14970     Moniteau
+POP  29137      2002                9342     Monroe
+POP  29139      2002               12082     Montgomery
+POP  29141      2002               19761     Morgan
+POP  29143      2002               19271     New Madrid
+POP  29145      2002               53214     Newton
+POP  29147      2002               21834     Nodaway
+POP  29149      2002               10262     Oregon
+POP  29151      2002               13090     Osage
+POP  29153      2002                9451     Ozark
+POP  29155      2002               19873     Pemiscot
+POP  29157      2002               18210     Perry
+POP  29159      2002               39445     Pettis
+POP  29161      2002               40574     Phelps
+POP  29163      2002               18380     Pike
+POP  29165      2002               77793     Platte
+POP  29167      2002               27636     Polk
+POP  29169      2002               43951     Pulaski
+POP  29171      2002                5189     Putnam
+POP  29173      2002                9695     Ralls
+POP  29175      2002               24752     Randolph
+POP  29177      2002               23736     Ray
+POP  29179      2002                6607     Reynolds
+POP  29181      2002               13599     Ripley
+POP  29183      2002              303525     St. Charles
+POP  29185      2002                9628     St. Clair
+POP  29186      2002               18058     Ste. Genevieve
+POP  29187      2002               56809     St. Francois
+POP  29189      2002             1014896     St. Louis
+POP  29195      2002               22993     Saline
+POP  29197      2002                4217     Schuyler
+POP  29199      2002                4896     Scotland
+POP  29201      2002               40507     Scott
+POP  29203      2002                8350     Shannon
+POP  29205      2002                6733     Shelby
+POP  29207      2002               29881     Stoddard
+POP  29209      2002               29445     Stone
+POP  29211      2002                7260     Sullivan
+POP  29213      2002               40687     Taney
+POP  29215      2002               24236     Texas
+POP  29217      2002               20285     Vernon
+POP  29219      2002               26157     Warren
+POP  29221      2002               23661     Washington
+POP  29223      2002               13151     Wayne
+POP  29225      2002               32671     Webster
+POP  29227      2002                2306     Worth
+POP  29229      2002               18168     Wright
+POP  29510      2002              347252     St. Louis
+/END/

@@ -1,0 +1,46 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RECREATIONAL VEHICLE PARKS AND CAMPGROUNDS
+CBP NAICS 72121/; pre-2002 CBP SIC 7030
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+RVP  34000      2002                 129     NJ
+RVP  34001      2002                  12     Atlantic
+RVP  34003      2002                   5     Bergen
+RVP  34005      2002                  11     Burlington
+RVP  34007      2002                   5     Camden
+RVP  34009      2002                  31     Cape May
+RVP  34011      2002                   0     Cumberland
+RVP  34013      2002                   2     Essex
+RVP  34015      2002                   4     Gloucester
+RVP  34017      2002                   1     Hudson
+RVP  34019      2002                   2     Hunterdon
+RVP  34021      2002                   2     Mercer
+RVP  34023      2002                   1     Middlesex
+RVP  34025      2002                   4     Monmouth
+RVP  34027      2002                   7     Morris
+RVP  34029      2002                  12     Ocean
+RVP  34031      2002                   4     Passaic
+RVP  34033      2002                   3     Salem
+RVP  34035      2002                   3     Somerset
+RVP  34037      2002                  11     Sussex
+RVP  34039      2002                   3     Union
+RVP  34041      2002                   6     Warren
+/END/

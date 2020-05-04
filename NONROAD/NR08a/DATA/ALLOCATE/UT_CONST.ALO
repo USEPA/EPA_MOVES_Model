@@ -1,0 +1,56 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2003 DOLLAR VALUE of CONSTRUCTION
+adjusted for relative geographic cost of construction materials.
+   Const_Dollars * (1-(1/(1+100/Area_Mod_Factor)))
+from McGraw-Hill Construction (values) and Craftsman (cost adj)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+CON  49000      2003             5094545     UT
+CON  49001      2003                5996     Beaver
+CON  49003      2003               58279     Box Elder
+CON  49005      2003              234067     Cache
+CON  49007      2003               16866     Carbon
+CON  49009      2003                2422     Daggett
+CON  49011      2003              648834     Davis
+CON  49013      2003               18430     Duchesne
+CON  49015      2003               16963     Emery
+CON  49017      2003               39652     Garfield
+CON  49019      2003               21378     Grand
+CON  49021      2003               82987     Iron
+CON  49023      2003               16993     Juab
+CON  49025      2003               19033     Kane
+CON  49027      2003               11928     Millard
+CON  49029      2003               12488     Morgan
+CON  49031      2003                 907     Piute
+CON  49033      2003               12296     Rich
+CON  49035      2003             1618659     Salt Lake
+CON  49037      2003                7269     San Juan
+CON  49039      2003               23402     Sanpete
+CON  49041      2003               41476     Sevier
+CON  49043      2003              164715     Summit
+CON  49045      2003               86803     Tooele
+CON  49047      2003               48429     Uintah
+CON  49049      2003              950984     Utah
+CON  49051      2003               94585     Wasatch
+CON  49053      2003              495245     Washington
+CON  49055      2003                6253     Wayne
+CON  49057      2003              337207     Weber
+/END/

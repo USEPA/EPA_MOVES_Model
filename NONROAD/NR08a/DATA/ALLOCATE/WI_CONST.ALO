@@ -1,0 +1,99 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2003 DOLLAR VALUE of CONSTRUCTION
+adjusted for relative geographic cost of construction materials.
+   Const_Dollars * (1-(1/(1+100/Area_Mod_Factor)))
+from McGraw-Hill Construction (values) and Craftsman (cost adj)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+CON  55000      2003            10360606     WI
+CON  55001      2003               43105     Adams
+CON  55003      2003               14263     Ashland
+CON  55005      2003               62230     Barron
+CON  55007      2003               26277     Bayfield
+CON  55009      2003              506385     Brown
+CON  55011      2003               20580     Buffalo
+CON  55013      2003               20908     Burnett
+CON  55015      2003               80347     Calumet
+CON  55017      2003              103230     Chippewa
+CON  55019      2003               15172     Clark
+CON  55021      2003               98112     Columbia
+CON  55023      2003               21235     Crawford
+CON  55025      2003             1719232     Dane
+CON  55027      2003               82597     Dodge
+CON  55029      2003               55098     Door
+CON  55031      2003               46774     Douglas
+CON  55033      2003               69709     Dunn
+CON  55035      2003              197249     Eau Claire
+CON  55037      2003                1666     Florence
+CON  55039      2003              173706     Fond du Lac
+CON  55041      2003               24248     Forest
+CON  55043      2003               72124     Grant
+CON  55045      2003               51979     Green
+CON  55047      2003               22339     Green Lake
+CON  55049      2003               23673     Iowa
+CON  55051      2003                8956     Iron
+CON  55053      2003               18223     Jackson
+CON  55055      2003              106836     Jefferson
+CON  55057      2003               32837     Juneau
+CON  55059      2003              250659     Kenosha
+CON  55061      2003               18778     Kewaunee
+CON  55063      2003              169242     La Crosse
+CON  55065      2003               24634     Lafayette
+CON  55067      2003               21337     Langlade
+CON  55069      2003               28716     Lincoln
+CON  55071      2003               63745     Manitowoc
+CON  55073      2003              326026     Marathon
+CON  55075      2003               33537     Marinette
+CON  55077      2003               17534     Marquette
+CON  55078      2003                6352     Menominee
+CON  55079      2003              897164     Milwaukee
+CON  55081      2003               56479     Monroe
+CON  55083      2003               64602     Oconto
+CON  55085      2003               95410     Oneida
+CON  55087      2003              333786     Outagamie
+CON  55089      2003              824570     Ozaukee
+CON  55091      2003                4971     Pepin
+CON  55093      2003               77515     Pierce
+CON  55095      2003               56272     Polk
+CON  55097      2003              116553     Portage
+CON  55099      2003               17146     Price
+CON  55101      2003              293387     Racine
+CON  55103      2003               21088     Richland
+CON  55105      2003              194673     Rock
+CON  55107      2003               17289     Rusk
+CON  55109      2003              265867     St. Croix
+CON  55111      2003              102704     Sauk
+CON  55113      2003               45998     Sawyer
+CON  55115      2003               40450     Shawano
+CON  55117      2003              207404     Sheboygan
+CON  55119      2003               14842     Taylor
+CON  55121      2003               29499     Trempealeau
+CON  55123      2003               17599     Vernon
+CON  55125      2003               57659     Vilas
+CON  55127      2003              197180     Walworth
+CON  55129      2003               47289     Washburn
+CON  55131      2003              261212     Washington
+CON  55133      2003              874100     Waukesha
+CON  55135      2003               97345     Waupaca
+CON  55137      2003               33638     Waushara
+CON  55139      2003              240175     Winnebago
+CON  55141      2003               77087     Wood
+/END/

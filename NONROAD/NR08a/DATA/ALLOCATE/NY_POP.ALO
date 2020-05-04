@@ -1,0 +1,87 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent HUMAN POPULATION
+
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+POP  36000      2002            19151066     NY
+POP  36001      2002              296002     Albany
+POP  36003      2002               50395     Allegany
+POP  36005      2002             1358880     Bronx
+POP  36007      2002              199843     Broome
+POP  36009      2002               83389     Cattaraugus
+POP  36011      2002               81909     Cayuga
+POP  36013      2002              138418     Chautauqua
+POP  36015      2002               90824     Chemung
+POP  36017      2002               51421     Chenango
+POP  36019      2002               80813     Clinton
+POP  36021      2002               63204     Columbia
+POP  36023      2002               48491     Cortland
+POP  36025      2002               47349     Delaware
+POP  36027      2002              287920     Dutchess
+POP  36029      2002              941602     Erie
+POP  36031      2002               39093     Essex
+POP  36033      2002               50851     Franklin
+POP  36035      2002               55140     Fulton
+POP  36037      2002               59929     Genesee
+POP  36039      2002               48531     Greene
+POP  36041      2002                5277     Hamilton
+POP  36043      2002               63722     Herkimer
+POP  36045      2002              113936     Jefferson
+POP  36047      2002             2484844     Kings
+POP  36049      2002               26638     Lewis
+POP  36051      2002               64708     Livingston
+POP  36053      2002               69811     Madison
+POP  36055      2002              735128     Monroe
+POP  36057      2002               49259     Montgomery
+POP  36059      2002             1339506     Nassau
+POP  36061      2002             1549511     New York
+POP  36063      2002              218340     Niagara
+POP  36065      2002              234127     Oneida
+POP  36067      2002              458697     Onondaga
+POP  36069      2002              101904     Ontario
+POP  36071      2002              356404     Orange
+POP  36073      2002               43885     Orleans
+POP  36075      2002              122785     Oswego
+POP  36077      2002               61988     Otsego
+POP  36079      2002               98696     Putnam
+POP  36081      2002             2241983     Queens
+POP  36083      2002              152531     Rensselaer
+POP  36085      2002              455868     Richmond
+POP  36087      2002              291374     Rockland
+POP  36089      2002              111169     St. Lawrence
+POP  36091      2002              207065     Saratoga
+POP  36093      2002              146874     Schenectady
+POP  36095      2002               31661     Schoharie
+POP  36097      2002               19424     Schuyler
+POP  36099      2002               35011     Seneca
+POP  36101      2002               99516     Steuben
+POP  36103      2002             1455510     Suffolk
+POP  36105      2002               74301     Sullivan
+POP  36107      2002               51812     Tioga
+POP  36109      2002               98324     Tompkins
+POP  36111      2002              180415     Ulster
+POP  36113      2002               64118     Warren
+POP  36115      2002               61522     Washington
+POP  36117      2002               93799     Wayne
+POP  36119      2002              937892     Westchester
+POP  36121      2002               43197     Wyoming
+POP  36123      2002               24530     Yates
+/END/

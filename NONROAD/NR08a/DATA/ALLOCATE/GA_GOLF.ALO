@@ -1,0 +1,184 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent GOLF COURSES AND COUNTRY CLUBS
+CBP NAICS 713910; pre-2002 CBP SIC 7992
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+GC   13000      2002                 279     GA
+GC   13001      2002                   2     Appling
+GC   13003      2002                   0     Atkinson
+GC   13005      2002                   1     Bacon
+GC   13007      2002                   0     Baker
+GC   13009      2002                   1     Baldwin
+GC   13011      2002                   1     Banks
+GC   13013      2002                   1     Barrow
+GC   13015      2002                   3     Bartow
+GC   13017      2002                   2     Ben Hill
+GC   13019      2002                   0     Berrien
+GC   13021      2002                   0     Bibb
+GC   13023      2002                   2     Bleckley
+GC   13025      2002                   0     Brantley
+GC   13027      2002                   0     Brooks
+GC   13029      2002                   1     Bryan
+GC   13031      2002                   3     Bulloch
+GC   13033      2002                   2     Burke
+GC   13035      2002                   1     Butts
+GC   13037      2002                   1     Calhoun
+GC   13039      2002                   1     Camden
+GC   13043      2002                   1     Candler
+GC   13045      2002                   2     Carroll
+GC   13047      2002                   2     Catoosa
+GC   13049      2002                   1     Charlton
+GC   13051      2002                   8     Chatham
+GC   13053      2002                   1     Chattahoochee
+GC   13055      2002                   1     Chattooga
+GC   13057      2002                  10     Cherokee
+GC   13059      2002                   2     Clarke
+GC   13061      2002                   0     Clay
+GC   13063      2002                   2     Clayton
+GC   13065      2002                   0     Clinch
+GC   13067      2002                  15     Cobb
+GC   13069      2002                   3     Coffee
+GC   13071      2002                   2     Colquitt
+GC   13073      2002                   2     Columbia
+GC   13075      2002                   1     Cook
+GC   13077      2002                   4     Coweta
+GC   13079      2002                   0     Crawford
+GC   13081      2002                   1     Crisp
+GC   13083      2002                   1     Dade
+GC   13085      2002                   2     Dawson
+GC   13087      2002                   1     Decatur
+GC   13089      2002                   9     DeKalb
+GC   13091      2002                   2     Dodge
+GC   13093      2002                   0     Dooly
+GC   13095      2002                   5     Dougherty
+GC   13097      2002                   3     Douglas
+GC   13099      2002                   1     Early
+GC   13101      2002                   0     Echols
+GC   13103      2002                   1     Effingham
+GC   13105      2002                   1     Elbert
+GC   13107      2002                   1     Emanuel
+GC   13109      2002                   1     Evans
+GC   13111      2002                   0     Fannin
+GC   13113      2002                   3     Fayette
+GC   13115      2002                   6     Floyd
+GC   13117      2002                   5     Forsyth
+GC   13119      2002                   0     Franklin
+GC   13121      2002                  30     Fulton
+GC   13123      2002                   0     Gilmer
+GC   13125      2002                   0     Glascock
+GC   13127      2002                   3     Glynn
+GC   13129      2002                   0     Gordon
+GC   13131      2002                   1     Grady
+GC   13133      2002                   2     Greene
+GC   13135      2002                  10     Gwinnett
+GC   13137      2002                   2     Habersham
+GC   13139      2002                   4     Hall
+GC   13141      2002                   0     Hancock
+GC   13143      2002                   0     Haralson
+GC   13145      2002                   1     Harris
+GC   13147      2002                   2     Hart
+GC   13149      2002                   0     Heard
+GC   13151      2002                   3     Henry
+GC   13153      2002                   4     Houston
+GC   13155      2002                   1     Irwin
+GC   13157      2002                   3     Jackson
+GC   13159      2002                   1     Jasper
+GC   13161      2002                   0     Jeff Davis
+GC   13163      2002                   1     Jefferson
+GC   13165      2002                   1     Jenkins
+GC   13167      2002                   1     Johnson
+GC   13169      2002                   0     Jones
+GC   13171      2002                   1     Lamar
+GC   13173      2002                   0     Lanier
+GC   13175      2002                   2     Laurens
+GC   13177      2002                   1     Lee
+GC   13179      2002                   1     Liberty
+GC   13181      2002                   1     Lincoln
+GC   13183      2002                   0     Long
+GC   13185      2002                   4     Lowndes
+GC   13187      2002                   0     Lumpkin
+GC   13189      2002                   2     McDuffie
+GC   13191      2002                   0     McIntosh
+GC   13193      2002                   1     Macon
+GC   13195      2002                   0     Madison
+GC   13197      2002                   1     Marion
+GC   13199      2002                   1     Meriwether
+GC   13201      2002                   0     Miller
+GC   13205      2002                   1     Mitchell
+GC   13207      2002                   2     Monroe
+GC   13209      2002                   0     Montgomery
+GC   13211      2002                   0     Morgan
+GC   13213      2002                   1     Murray
+GC   13215      2002                   4     Muscogee
+GC   13217      2002                   3     Newton
+GC   13219      2002                   2     Oconee
+GC   13221      2002                   0     Oglethorpe
+GC   13223      2002                   2     Paulding
+GC   13225      2002                   1     Peach
+GC   13227      2002                   1     Pickens
+GC   13229      2002                   2     Pierce
+GC   13231      2002                   1     Pike
+GC   13233      2002                   3     Polk
+GC   13235      2002                   2     Pulaski
+GC   13237      2002                   0     Putnam
+GC   13239      2002                   0     Quitman
+GC   13241      2002                   1     Rabun
+GC   13243      2002                   1     Randolph
+GC   13245      2002                   8     Richmond
+GC   13247      2002                   5     Rockdale
+GC   13249      2002                   0     Schley
+GC   13251      2002                   1     Screven
+GC   13253      2002                   1     Seminole
+GC   13255      2002                   3     Spalding
+GC   13257      2002                   1     Stephens
+GC   13259      2002                   0     Stewart
+GC   13261      2002                   3     Sumter
+GC   13263      2002                   0     Talbot
+GC   13265      2002                   0     Taliaferro
+GC   13267      2002                   0     Tattnall
+GC   13269      2002                   2     Taylor
+GC   13271      2002                   0     Telfair
+GC   13273      2002                   1     Terrell
+GC   13275      2002                   1     Thomas
+GC   13277      2002                   1     Tift
+GC   13279      2002                   2     Toombs
+GC   13281      2002                   0     Towns
+GC   13283      2002                   0     Treutlen
+GC   13285      2002                   2     Troup
+GC   13287      2002                   1     Turner
+GC   13289      2002                   1     Twiggs
+GC   13291      2002                   0     Union
+GC   13293      2002                   0     Upson
+GC   13295      2002                   2     Walker
+GC   13297      2002                   2     Walton
+GC   13299      2002                   0     Ware
+GC   13301      2002                   0     Warren
+GC   13303      2002                   1     Washington
+GC   13305      2002                   1     Wayne
+GC   13307      2002                   0     Webster
+GC   13309      2002                   0     Wheeler
+GC   13311      2002                   1     White
+GC   13313      2002                   3     Whitfield
+GC   13315      2002                   0     Wilcox
+GC   13317      2002                   1     Wilkes
+GC   13319      2002                   0     Wilkinson
+GC   13321      2002                   1     Worth
+/END/

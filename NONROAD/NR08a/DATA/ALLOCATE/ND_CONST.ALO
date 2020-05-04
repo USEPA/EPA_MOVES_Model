@@ -1,0 +1,80 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2003 DOLLAR VALUE of CONSTRUCTION
+adjusted for relative geographic cost of construction materials.
+   Const_Dollars * (1-(1/(1+100/Area_Mod_Factor)))
+from McGraw-Hill Construction (values) and Craftsman (cost adj)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+CON  38000      2003             1111321     ND
+CON  38001      2003                 779     Adams
+CON  38003      2003               10239     Barnes
+CON  38005      2003                9017     Benson
+CON  38007      2003                5355     Billings
+CON  38009      2003                8973     Bottineau
+CON  38011      2003                 179     Bowman
+CON  38013      2003                 862     Burke
+CON  38015      2003              151218     Burleigh
+CON  38017      2003              358294     Cass
+CON  38019      2003                3747     Cavalier
+CON  38021      2003                2497     Dickey
+CON  38023      2003                1590     Divide
+CON  38025      2003                1350     Dunn
+CON  38027      2003                 234     Eddy
+CON  38029      2003                3257     Emmons
+CON  38031      2003                 141     Foster
+CON  38033      2003                3611     Golden Valley
+CON  38035      2003              123419     Grand Forks
+CON  38037      2003                1840     Grant
+CON  38039      2003                3197     Griggs
+CON  38041      2003                2574     Hettinger
+CON  38043      2003                4294     Kidder
+CON  38045      2003               42475     LaMoure
+CON  38047      2003                 558     Logan
+CON  38049      2003                4483     McHenry
+CON  38051      2003                2176     McIntosh
+CON  38053      2003               41262     McKenzie
+CON  38055      2003               11240     McLean
+CON  38057      2003                4085     Mercer
+CON  38059      2003               38809     Morton
+CON  38061      2003               25543     Mountrail
+CON  38063      2003                1693     Nelson
+CON  38065      2003                   0     Oliver
+CON  38067      2003                 397     Pembina
+CON  38069      2003                6674     Pierce
+CON  38071      2003               25045     Ramsey
+CON  38073      2003                1186     Ransom
+CON  38075      2003                3774     Renville
+CON  38077      2003               15761     Richland
+CON  38079      2003                7151     Rolette
+CON  38081      2003                1957     Sargent
+CON  38083      2003                   0     Sheridan
+CON  38085      2003               10801     Sioux
+CON  38087      2003                 197     Slope
+CON  38089      2003               29395     Stark
+CON  38091      2003                2276     Steele
+CON  38093      2003               29627     Stutsman
+CON  38095      2003                1499     Towner
+CON  38097      2003                7044     Traill
+CON  38099      2003                4592     Walsh
+CON  38101      2003               71027     Ward
+CON  38103      2003                3712     Wells
+CON  38105      2003               20216     Williams
+/END/

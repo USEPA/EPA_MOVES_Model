@@ -1,0 +1,100 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent EMPLOYEES IN LANDSCAPING SERVICES
+CBP NAICS 561730; pre-2002 CBP SIC 0780
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+LSC  05000      2002                2398     AR
+LSC  05001      2002                   6     Arkansas
+LSC  05003      2002                   5     Ashley
+LSC  05005      2002                  28     Baxter
+LSC  05007      2002                  89     Benton
+LSC  05009      2002                   6     Boone
+LSC  05011      2002                  89     Bradley
+LSC  05013      2002                   0     Calhoun
+LSC  05015      2002                  30     Carroll
+LSC  05017      2002                   0     Chicot
+LSC  05019      2002                   0     Clark
+LSC  05021      2002                   5     Clay
+LSC  05023      2002                  16     Cleburne
+LSC  05025      2002                   5     Cleveland
+LSC  05027      2002                   5     Columbia
+LSC  05029      2002                   0     Conway
+LSC  05031      2002                  91     Craighead
+LSC  05033      2002                  30     Crawford
+LSC  05035      2002                  13     Crittenden
+LSC  05037      2002                   0     Cross
+LSC  05039      2002                   5     Dallas
+LSC  05041      2002                   5     Desha
+LSC  05043      2002                   5     Drew
+LSC  05045      2002                  64     Faulkner
+LSC  05047      2002                   5     Franklin
+LSC  05049      2002                   0     Fulton
+LSC  05051      2002                  89     Garland
+LSC  05053      2002                   4     Grant
+LSC  05055      2002                   5     Greene
+LSC  05057      2002                   0     Hempstead
+LSC  05059      2002                   5     Hot Spring
+LSC  05061      2002                   5     Howard
+LSC  05063      2002                   5     Independence
+LSC  05065      2002                   5     Izard
+LSC  05067      2002                   0     Jackson
+LSC  05069      2002                   5     Jefferson
+LSC  05071      2002                   5     Johnson
+LSC  05073      2002                   5     Lafayette
+LSC  05075      2002                   5     Lawrence
+LSC  05077      2002                   5     Lee
+LSC  05079      2002                   5     Lincoln
+LSC  05081      2002                   5     Little River
+LSC  05083      2002                   0     Logan
+LSC  05085      2002                  10     Lonoke
+LSC  05087      2002                   5     Madison
+LSC  05089      2002                   5     Marion
+LSC  05091      2002                   5     Miller
+LSC  05093      2002                  30     Mississippi
+LSC  05095      2002                   5     Monroe
+LSC  05097      2002                   5     Montgomery
+LSC  05099      2002                   5     Nevada
+LSC  05101      2002                   0     Newton
+LSC  05103      2002                   5     Ouachita
+LSC  05105      2002                   5     Perry
+LSC  05107      2002                   5     Phillips
+LSC  05109      2002                   0     Pike
+LSC  05111      2002                   5     Poinsett
+LSC  05113      2002                   0     Polk
+LSC  05115      2002                  30     Pope
+LSC  05117      2002                   5     Prairie
+LSC  05119      2002                1152     Pulaski
+LSC  05121      2002                   5     Randolph
+LSC  05123      2002                   5     St. Francis
+LSC  05125      2002                  47     Saline
+LSC  05127      2002                   0     Scott
+LSC  05129      2002                  30     Searcy
+LSC  05131      2002                 117     Sebastian
+LSC  05133      2002                   5     Sevier
+LSC  05135      2002                   5     Sharp
+LSC  05137      2002                   5     Stone
+LSC  05139      2002                  30     Union
+LSC  05141      2002                   5     Van Buren
+LSC  05143      2002                 147     Washington
+LSC  05145      2002                  55     White
+LSC  05147      2002                   5     Woodruff
+LSC  05149      2002                   5     Yell
+/END/

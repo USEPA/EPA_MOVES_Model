@@ -1,0 +1,83 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent EMPLOYEES IN LANDSCAPING SERVICES
+CBP NAICS 561730; pre-2002 CBP SIC 0780
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+LSC  06000      2002               71082     CA
+LSC  06001      2002                3876     Alameda
+LSC  06003      2002                   6     Alpine
+LSC  06005      2002                   8     Amador
+LSC  06007      2002                 340     Butte
+LSC  06009      2002                  39     Calaveras
+LSC  06011      2002                   6     Colusa
+LSC  06013      2002                2127     Contra Costa
+LSC  06015      2002                   6     Del Norte
+LSC  06017      2002                 190     El Dorado
+LSC  06019      2002                1361     Fresno
+LSC  06021      2002                   6     Glenn
+LSC  06023      2002                  49     Humboldt
+LSC  06025      2002                  69     Imperial
+LSC  06027      2002                   6     Inyo
+LSC  06029      2002                 530     Kern
+LSC  06031      2002                  62     Kings
+LSC  06033      2002                  39     Lake
+LSC  06035      2002                   6     Lassen
+LSC  06037      2002               10663     Los Angeles
+LSC  06039      2002                  83     Madera
+LSC  06041      2002                1227     Marin
+LSC  06043      2002                   6     Mariposa
+LSC  06045      2002                 108     Mendocino
+LSC  06047      2002                 128     Merced
+LSC  06049      2002                   0     Modoc
+LSC  06051      2002                   6     Mono
+LSC  06053      2002                 544     Monterey
+LSC  06055      2002                 297     Napa
+LSC  06057      2002                 158     Nevada
+LSC  06059      2002               12937     Orange
+LSC  06061      2002                1005     Placer
+LSC  06063      2002                  25     Plumas
+LSC  06065      2002                6306     Riverside
+LSC  06067      2002                2787     Sacramento
+LSC  06069      2002                  65     San Benito
+LSC  06071      2002                2297     San Bernardino
+LSC  06073      2002                8760     San Diego
+LSC  06075      2002                 545     San Francisco
+LSC  06077      2002                 907     San Joaquin
+LSC  06079      2002                 747     San Luis Obispo
+LSC  06081      2002                1843     San Mateo
+LSC  06083      2002                1216     Santa Barbara
+LSC  06085      2002                4210     Santa Clara
+LSC  06087      2002                 537     Santa Cruz
+LSC  06089      2002                 184     Shasta
+LSC  06091      2002                   0     Sierra
+LSC  06093      2002                   6     Siskiyou
+LSC  06095      2002                 367     Solano
+LSC  06097      2002                1112     Sonoma
+LSC  06099      2002                 500     Stanislaus
+LSC  06101      2002                  48     Sutter
+LSC  06103      2002                  73     Tehama
+LSC  06105      2002                   0     Trinity
+LSC  06107      2002                 342     Tulare
+LSC  06109      2002                  28     Tuolumne
+LSC  06111      2002                2042     Ventura
+LSC  06113      2002                 234     Yolo
+LSC  06115      2002                  13     Yuba
+/END/

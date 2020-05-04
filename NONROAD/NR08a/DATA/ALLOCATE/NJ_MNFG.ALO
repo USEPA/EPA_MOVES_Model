@@ -1,0 +1,46 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent NUMBER OF EMPLOYEES IN MANUFACTURING
+CBP NAICS 31----, 321///, 322///, 323///, 324///, 325///, 326///, 327///, 331///,
+332///, 333///, 334///, 335///, 336///, 337///, 339///, and 5111//; pre-2002 CBP SIC 20--
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+MFG  34000      2002              675176     NJ
+MFG  34001      2002                7785     Atlantic
+MFG  34003      2002               95563     Bergen
+MFG  34005      2002               38899     Burlington
+MFG  34007      2002               31385     Camden
+MFG  34009      2002                1182     Cape May
+MFG  34011      2002               18487     Cumberland
+MFG  34013      2002               55333     Essex
+MFG  34015      2002               19060     Gloucester
+MFG  34017      2002               25888     Hudson
+MFG  34019      2002                8272     Hunterdon
+MFG  34021      2002               22537     Mercer
+MFG  34023      2002               85417     Middlesex
+MFG  34025      2002               22884     Monmouth
+MFG  34027      2002               63596     Morris
+MFG  34029      2002               12278     Ocean
+MFG  34031      2002               48807     Passaic
+MFG  34033      2002                6948     Salem
+MFG  34035      2002               35250     Somerset
+MFG  34037      2002                3800     Sussex
+MFG  34039      2002               61287     Union
+MFG  34041      2002               10518     Warren
+/END/

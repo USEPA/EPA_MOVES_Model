@@ -1,0 +1,118 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RELATIVE NUMBER OF SNOWMOBILES
+Allocated to counties using snowfall limit of 40" and inverse human population; Alaska uses direct human population
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+SNM  31000      2002                1076     NE
+SNM  31001      2002                   0     Adams
+SNM  31003      2002                   0     Antelope
+SNM  31005      2002                   0     Arthur
+SNM  31007      2002                   0     Banner
+SNM  31009      2002                   0     Blaine
+SNM  31011      2002                   0     Boone
+SNM  31013      2002                  84     Box Butte
+SNM  31015      2002                   0     Boyd
+SNM  31017      2002                   0     Brown
+SNM  31019      2002                   0     Buffalo
+SNM  31021      2002                   0     Burt
+SNM  31023      2002                   0     Butler
+SNM  31025      2002                   0     Cass
+SNM  31027      2002                   0     Cedar
+SNM  31029      2002                   0     Chase
+SNM  31031      2002                   0     Cherry
+SNM  31033      2002                   0     Cheyenne
+SNM  31035      2002                   0     Clay
+SNM  31037      2002                   0     Colfax
+SNM  31039      2002                   0     Cuming
+SNM  31041      2002                   0     Custer
+SNM  31043      2002                   0     Dakota
+SNM  31045      2002                 111     Dawes
+SNM  31047      2002                   0     Dawson
+SNM  31049      2002                   0     Deuel
+SNM  31051      2002                   0     Dixon
+SNM  31053      2002                   0     Dodge
+SNM  31055      2002                   0     Douglas
+SNM  31057      2002                   0     Dundy
+SNM  31059      2002                   0     Fillmore
+SNM  31061      2002                   0     Franklin
+SNM  31063      2002                   0     Frontier
+SNM  31065      2002                   0     Furnas
+SNM  31067      2002                   0     Gage
+SNM  31069      2002                   0     Garden
+SNM  31071      2002                   0     Garfield
+SNM  31073      2002                   0     Gosper
+SNM  31075      2002                   0     Grant
+SNM  31077      2002                   0     Greeley
+SNM  31079      2002                   0     Hall
+SNM  31081      2002                   0     Hamilton
+SNM  31083      2002                   0     Harlan
+SNM  31085      2002                   0     Hayes
+SNM  31087      2002                   0     Hitchcock
+SNM  31089      2002                   0     Holt
+SNM  31091      2002                   0     Hooker
+SNM  31093      2002                   0     Howard
+SNM  31095      2002                   0     Jefferson
+SNM  31097      2002                   0     Johnson
+SNM  31099      2002                   0     Kearney
+SNM  31101      2002                   0     Keith
+SNM  31103      2002                   0     Keya Paha
+SNM  31105      2002                   0     Kimball
+SNM  31107      2002                   0     Knox
+SNM  31109      2002                   0     Lancaster
+SNM  31111      2002                   0     Lincoln
+SNM  31113      2002                   0     Logan
+SNM  31115      2002                   0     Loup
+SNM  31117      2002                   0     McPherson
+SNM  31119      2002                   0     Madison
+SNM  31121      2002                   0     Merrick
+SNM  31123      2002                   0     Morrill
+SNM  31125      2002                   0     Nance
+SNM  31127      2002                   0     Nemaha
+SNM  31129      2002                   0     Nuckolls
+SNM  31131      2002                   0     Otoe
+SNM  31133      2002                   0     Pawnee
+SNM  31135      2002                   0     Perkins
+SNM  31137      2002                   0     Phelps
+SNM  31139      2002                   0     Pierce
+SNM  31141      2002                   0     Platte
+SNM  31143      2002                   0     Polk
+SNM  31145      2002                   0     Red Willow
+SNM  31147      2002                   0     Richardson
+SNM  31149      2002                   0     Rock
+SNM  31151      2002                   0     Saline
+SNM  31153      2002                   0     Sarpy
+SNM  31155      2002                   0     Saunders
+SNM  31157      2002                  27     Scotts Bluff
+SNM  31159      2002                   0     Seward
+SNM  31161      2002                 167     Sheridan
+SNM  31163      2002                   0     Sherman
+SNM  31165      2002                 687     Sioux
+SNM  31167      2002                   0     Stanton
+SNM  31169      2002                   0     Thayer
+SNM  31171      2002                   0     Thomas
+SNM  31173      2002                   0     Thurston
+SNM  31175      2002                   0     Valley
+SNM  31177      2002                   0     Washington
+SNM  31179      2002                   0     Wayne
+SNM  31181      2002                   0     Webster
+SNM  31183      2002                   0     Wheeler
+SNM  31185      2002                   0     York
+/END/

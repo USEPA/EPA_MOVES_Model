@@ -1,0 +1,103 @@
+This is the allocation indicator file used by the NONROAD model.
+This file is used to allocate from US to state level equipment
+populations.
+
+These data represent NUMBER OF EMPLOYEES IN MANUFACTURING
+CBP NAICS 31----, 321///, 322///, 323///, 324///, 325///, 326///, 327///, 331///,
+332///, 333///, 334///, 335///, 336///, 337///, 339///, and 5111//; pre-2002 CBP SIC 20--
+
+8/25/05  epa: Update per 1997 Economic Census of Outlying Areas - Puerto Rico.
+
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+------------------------------------------------------------------------
+/INDICATORS/
+MFG  72000      1997              163605     PR              163605
+MFG  72001      1997                 368     Adjuntas
+MFG  72003      1997                1561     Aguada
+MFG  72005      1997                5688     Aguadilla
+MFG  72007      1997                 884     Aguas Buenas
+MFG  72009      1997                2148     Aibonito
+MFG  72011      1997                4839     Añasco
+MFG  72013      1997                4176     Arecibo
+MFG  72015      1997                 335     Arroyo
+MFG  72017      1997                7641     Barceloneta
+MFG  72019      1997                 531     Barranquitas
+MFG  72021      1997                6020     Bayamón
+MFG  72023      1997                1114     Cabo Rojo
+MFG  72025      1997                7115     Caguas
+MFG  72027      1997                1561     Camuy
+MFG  72029      1997                1364     Canóvanas
+MFG  72031      1997                4614     Carolina
+MFG  72033      1997                1637     Cataño
+MFG  72035      1997                3167     Cayey
+MFG  72037      1997                 263     Ceiba
+MFG  72039      1997                 669     Ciales
+MFG  72041      1997                2945     Cidra
+MFG  72043      1997                1743     Coamo
+MFG  72045      1997                 669     Comerío
+MFG  72047      1997                1017     Corozal
+MFG  72049      1997                 156     Culebra
+MFG  72051      1997                2106     Dorado
+MFG  72053      1997                1593     Fajardo
+MFG  72054      1997                  54     Florida
+MFG  72055      1997                 374     Guánica
+MFG  72057      1997                5000     Guayama
+MFG  72059      1997                 156     Guayanilla
+MFG  72061      1997                4524     Guaynabo
+MFG  72063      1997                2054     Gurabo
+MFG  72065      1997                 669     Hatillo
+MFG  72067      1997                 269     Hormigueros
+MFG  72069      1997                4381     Humacao
+MFG  72071      1997                2298     Isabela
+MFG  72073      1997                 928     Jayuya
+MFG  72075      1997                 526     Juana Díaz
+MFG  72077      1997                1548     Juncos
+MFG  72079      1997                 894     Lajas
+MFG  72081      1997                 669     Lares
+MFG  72083      1997                 669     Las Marías
+MFG  72085      1997                5745     Las Piedras
+MFG  72087      1997                 115     Loíza
+MFG  72089      1997                 894     Luquillo
+MFG  72091      1997                4964     Manatí
+MFG  72093      1997                1561     Maricao
+MFG  72095      1997                  54     Maunabo
+MFG  72097      1997               11669     Mayagüez
+MFG  72099      1997                1561     Moca
+MFG  72101      1997                 713     Morovis
+MFG  72103      1997                 663     Naguabo
+MFG  72105      1997                 121     Naranjito
+MFG  72107      1997                  44     Orocovis
+MFG  72109      1997                1186     Patillas
+MFG  72111      1997                 556     Peñuelas
+MFG  72113      1997                6927     Ponce
+MFG  72115      1997                1248     Quebradillas
+MFG  72117      1997                 520     Rincón
+MFG  72119      1997                1391     Río Grande
+MFG  72121      1997                1413     Sabana Grande
+MFG  72123      1997                 289     Salinas
+MFG  72125      1997                1656     San Germán
+MFG  72127      1997                9332     San Juan
+MFG  72129      1997                1753     San Lorenzo
+MFG  72131      1997                 652     San Sebastián
+MFG  72133      1997                1825     Santa Isabel
+MFG  72135      1997                 556     Toa Alta
+MFG  72137      1997                3591     Toa Baja
+MFG  72139      1997                1030     Trujillo Alto
+MFG  72141      1997                 375     Utuado
+MFG  72143      1997                1605     Vega Alta
+MFG  72145      1997                5812     Vega Baja
+MFG  72147      1997                 156     Vieques
+MFG  72149      1997                 335     Villalba
+MFG  72151      1997                1561     Yabucoa
+MFG  72153      1997                 794     Yauco
+/END/

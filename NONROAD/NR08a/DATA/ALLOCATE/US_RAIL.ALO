@@ -1,0 +1,81 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent LOCOMOTIVE NOx TONS
+from Draft 2002 NEI
+
+9/1/05 epa: Modifies to treat PR & VI as additional to US Total.
+9/26/05 epa: Adds AK, CT, ME, NH, VT using NEI Loco NOx per person. 
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+RR   00000      2002          912035.000     US
+RR   01000      2002           17264.340     AL
+RR   02000      2002            2067.173     AK
+RR   04000      2002           21087.280     AZ
+RR   05000      2002           22131.830     AR
+RR   06000      2002           54734.890     CA
+RR   08000      2002           13647.230     CO
+RR   09000      2002           11157.783     CT
+RR   10000      2002             265.760     DE
+RR   11000      2002             368.590     DC
+RR   12000      2002           11168.520     FL
+RR   13000      2002           26751.590     GA
+RR   15000      2002               0.000     HI
+RR   16000      2002           10355.330     ID
+RR   17000      2002           50037.460     IL
+RR   18000      2002           22599.980     IN
+RR   19000      2002           21861.290     IA
+RR   20000      2002           31033.760     KS
+RR   21000      2002           20768.210     KY
+RR   22000      2002           15806.520     LA
+RR   23000      2002            4186.179     ME
+RR   24000      2002            6849.870     MD
+RR   25000      2002            2130.150     MA
+RR   26000      2002            8138.730     MI
+RR   27000      2002           19305.130     MN
+RR   28000      2002           12828.810     MS
+RR   29000      2002           39545.770     MO
+RR   30000      2002           43196.200     MT
+RR   31000      2002           51194.770     NE
+RR   32000      2002            7521.840     NV
+RR   33000      2002            4114.750     NH
+RR   34000      2002            1506.560     NJ
+RR   35000      2002           27454.550     NM
+RR   36000      2002           14114.510     NY
+RR   37000      2002           10974.820     NC
+RR   38000      2002           17144.320     ND
+RR   39000      2002           31537.150     OH
+RR   40000      2002           19168.110     OK
+RR   41000      2002            8334.070     OR
+RR   42000      2002           18518.820     PA
+RR   44000      2002               1.140     RI
+RR   45000      2002            9188.070     SC
+RR   46000      2002            3147.360     SD
+RR   47000      2002           21442.350     TN
+RR   48000      2002           77519.150     TX
+RR   49000      2002            8562.840     UT
+RR   50000      2002            1988.655     VT
+RR   51000      2002           29002.710     VA
+RR   53000      2002           15468.690     WA
+RR   54000      2002           11191.450     WV
+RR   55000      2002           11125.580     WI
+RR   56000      2002           22524.360     WY
+RR   72000      2002               0.000     PR
+RR   78000      2002               0.000     VI
+/END/

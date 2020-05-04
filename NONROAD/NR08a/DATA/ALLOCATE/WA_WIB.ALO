@@ -1,0 +1,64 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WATER SURFACE AREA FOR INBOARD RECREATIONAL MARINE CRAFT (sq km navigable water)
+1990 GICS (inland water area); GIS analysis of coast lengths (coastal navigable water)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+WIB  53000      1990                9118     WA
+WIB  53001      1990                  12     Adams
+WIB  53003      1990                  12     Asotin
+WIB  53005      1990                 148     Benton
+WIB  53007      1990                 187     Chelan
+WIB  53009      1990                1298     Clallam
+WIB  53011      1990                  73     Clark
+WIB  53013      1990                  12     Columbia
+WIB  53015      1990                  72     Cowlitz
+WIB  53017      1990                  73     Douglas
+WIB  53019      1990                 139     Ferry
+WIB  53021      1990                  60     Franklin
+WIB  53023      1990                  20     Garfield
+WIB  53025      1990                 298     Grant
+WIB  53027      1990                 437     Grays Harbor
+WIB  53029      1990                 456     Island
+WIB  53031      1990                 655     Jefferson
+WIB  53033      1990                 352     King
+WIB  53035      1990                 406     Kitsap
+WIB  53037      1990                  93     Kittitas
+WIB  53039      1990                  82     Klickitat
+WIB  53041      1990                  74     Lewis
+WIB  53043      1990                  74     Lincoln
+WIB  53045      1990                 371     Mason
+WIB  53047      1990                 122     Okanogan
+WIB  53049      1990                 416     Pacific
+WIB  53051      1990                  64     Pend Oreille
+WIB  53053      1990                 459     Pierce
+WIB  53055      1990                 859     San Juan
+WIB  53057      1990                 316     Skagit
+WIB  53059      1990                  71     Skamania
+WIB  53061      1990                 175     Snohomish
+WIB  53063      1990                  44     Spokane
+WIB  53065      1990                 161     Stevens
+WIB  53067      1990                 187     Thurston
+WIB  53069      1990                  60     Wahkiakum
+WIB  53071      1990                  74     Walla Walla
+WIB  53073      1990                 618     Whatcom
+WIB  53075      1990                  47     Whitman
+WIB  53077      1990                  41     Yakima
+/END/

@@ -1,0 +1,105 @@
+This file contains emission factors data for Crankcase THC
+emissions.  The emission factors are specified by SCC code,
+HP range and technology type.  An ALL in the tech type field
+will apply to all technology types.  The model will use the
+the emission factor for the closest year that is less than or
+equal to the current model year.
+
+3/2/07 cran-43f: like 43e but just rename dsl marine "T2" to "T2M" so it will get proper PM Base Sulfur, same as other T2M.
+10/1/07 cran-43g: like 43f but rename dsl marine BASE to BaseM, T0 to T0M, T1 to T1M for proper conversion to MOVES.
+       Use tech inputs to phase-in 2265x rec equip crankcase control, rather than using EF file.
+       Split out all 2-stk & 4-stk rec equip tech types from 2260x & 2265x SCCs.
+       and change RecEq TechTypes to RM2, RM4, RM40 (closed crankcase), RM21, RM41, RSxx (snowmobile), RAxx (ATV), etc. for MOVES.
+7/22/08 cran-43h:  Like 43g but just remove 2280* temporary commercial marine <=50hp (was added just for Loco/Marine rule modeling).
+
+--------------------------------------------------------------
+The format is as follows:
+Line 1:
+       6-15  character     -- SCC code
+      21-25  real          -- beginning of HP range
+      26-30  real          -- end of horsepower range
+      35-44  character     -- technology type
+      x5-x4  character     -- technology type (repeating fields of 10)
+      x5-x4  character     -- units (ignored; treated only as MULT)
+      x5-x4  character     -- pollutant (ignored?; is only THC,12 characters max)
+Line 2:
+       1-5   integer       -- year
+      35-44  real          -- emission factors for technology type 1
+      x5-x4  real          -- EF's for tech types (repeating fields of 10)
+
+     2200000000     HPmn HPmx     techtyp1  techtyp2  techtyp3  techtyp4  techtyp5  techtyp6  techtyp7  techtyp8  techtyp9  techtyp10 g/hp-hr   THC
+1900                              37.7      0         37.7      999.99    999.99    999.99    999.99    999.99    999.99    999.99
+--------------------------------------------------------------
+
+/EMSFAC/
+     2260000000         0    1    ALL       G4H3      MULT      THC
+1900                              0         0.33
+     2260000000         1    3    ALL       G4H4      MULT      THC
+1900                              0         0.33
+     2260000000         3 9999    ALL       G4H4      G4H5      MULT      THC
+1900                              0         0.33      0.33
+     2265000000         0    6    ALL       G4N1O     G4N1S     MULT      THC
+1900                              0         0.33      0.33
+     2265000000         6   25    ALL       G4N2O     G4N2S     MULT      THC
+1900                              0         0.33      0.33
+     2265000000        25 9999    ALL       G4GT25    MULT      THC
+1900                              0         0.33
+     2260001010         0 9999    RM2       RM4       RM40      RM41      MULT      THC
+1900                              0         0.33      0         0
+     2265001010         0 9999    RM4       RM40      RM41      MULT      THC
+1900                              0.33      0         0
+     2260001020         0 9999    RS2       RS4       RS40      RS21      RS22      MULT      THC
+1900                              0         0.33      0         0         0
+     2265001020         0 9999    RS4       RS40      RS41      MULT      THC
+1900                              0.33      0         0
+     2260001030         0 9999    RA2       RA4       RA40      RA41      RA42      MULT      THC
+1900                              0         0.33      0         0         0
+     2265001030         0 9999    RA4       RA40      RA41      RA42      MULT      THC
+1900                              0.33      0         0         0
+     2260004000         0    1    ALL       G4H3      MULT      THC
+1900                              0         0.0693
+     2260004000         1    3    ALL       G4H4      MULT      THC
+1900                              0         0.0693
+     2260004000         3    6    ALL       G4H4      G4H5      MULT      THC
+1900                              0         0.0693    0.0693
+     2265004000         0    6    ALL       G4N1O     G4N1S     MULT      THC
+1900                              0         0.0693    0.0693
+     2265004000         6   25    ALL       G4N2O     G4N2S     MULT      THC
+1900                              0         0.0693    0.0693
+     2265004066         6   25    ALL       G4N2O     G4N2S     MULT      THC
+1900                              0         0.33      0.33
+     2267000000         0   25    ALL       MULT      THC
+1900                              0
+     2267000000        25 9999    ALL       LGT25     MULT      THC
+1900                              0         0.33
+     2268000000         0   25    ALL       MULT      THC
+1900                              0
+     2268000000        25 9999    ALL       NGT25     MULT      THC
+1900                              0         0.33
+     2270000000         0 9999    BASE      T0        T1        T2        T3        T3B       T4A       T4B       T4        T4N       MULT      THC
+1900                              0.02      0.02      0.02      0.02      0.02      0.02      0.00      0.00      0.00      0.00
+     2282005010         0 9999    ALL       MULT      THC
+1900                              0.00
+     2282005015         0 9999    ALL       MULT      THC
+1900                              0.00
+     2282010005         0 9999    ALL       MULT      THC
+1900                              0.00
+     2282020000         0   50    BASEM     T0M       T1M       T2M       T3M       T4M       MULT      THC
+1900                              0.02      0.02      0.02      0.02      0.00      0.00
+     2282020000        50  100    BASEM     T0M       T1M       T2M       T3M       T4M       MULT      THC
+1900                              0.02      0.02      0.02      0.00      0.00      0.00
+     2282020000       100 9999    BASEM     T0M       T1M       T2M       T3M       T4M       MULT      THC
+1900                              0.02      0.02      0.02      0.00      0.00      0.00
+     2285002015         0 9999    BASE      T0        T1        T2        T3        T3B       T4A       T4B       T4        T4N       MULT      THC
+1900                              0.02      0.02      0.02      0.02      0.02      0.02      0.00      0.00      0.00      0.00
+     2285004015         0    6    ALL       G4N1O     G4N1S     MULT      THC
+1900                              0         0.33      0.33
+     2285004015         6   25    ALL       G4N2O     G4N2S     MULT      THC
+1900                              0         0.33      0.33
+     2285004015        25 9999    ALL       G4GT25    MULT      THC
+1900                              0         0.33
+     2285006015        25 9999    ALL       LGT25     MULT      THC
+1900                              0         0.33
+     2285008015        25 9999    ALL       NGT25     MULT      THC
+1900                              0         0.33
+/END/

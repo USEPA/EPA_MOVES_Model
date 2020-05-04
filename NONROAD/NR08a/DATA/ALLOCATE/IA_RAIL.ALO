@@ -1,0 +1,126 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent LOCOMOTIVE NOx TONS
+from Draft 2002 NEI
+
+9/1/05 epa: Modifies to treat PR & VI as additional to US Total.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+RR   19000      2002           21861.290     IA
+RR   19001      2002               0.000     Adair
+RR   19003      2002             504.850     Adams
+RR   19005      2002               0.000     Allamakee
+RR   19007      2002               0.000     Appanoose
+RR   19009      2002               0.000     Audubon
+RR   19011      2002             617.840     Benton
+RR   19013      2002              66.290     Black Hawk
+RR   19015      2002             434.060     Boone
+RR   19017      2002              13.260     Bremer
+RR   19019      2002              51.560     Buchanan
+RR   19021      2002              17.410     Buena Vista
+RR   19023      2002              42.240     Butler
+RR   19025      2002              28.810     Calhoun
+RR   19027      2002             628.680     Carroll
+RR   19029      2002               0.000     Cass
+RR   19031      2002             780.450     Cedar
+RR   19033      2002             175.640     Cerro Gordo
+RR   19035      2002              18.650     Cherokee
+RR   19037      2002               8.930     Chickasaw
+RR   19039      2002             672.080     Clarke
+RR   19041      2002              72.020     Clay
+RR   19043      2002               0.000     Clayton
+RR   19045      2002            1051.950     Clinton
+RR   19047      2002             572.520     Crawford
+RR   19049      2002              24.750     Dallas
+RR   19051      2002               0.000     Davis
+RR   19053      2002               0.000     Decatur
+RR   19055      2002              69.890     Delaware
+RR   19057      2002             693.940     Des Moines
+RR   19059      2002              15.690     Dickinson
+RR   19061      2002              90.610     Dubuque
+RR   19063      2002              18.800     Emmet
+RR   19065      2002               8.320     Fayette
+RR   19067      2002              14.490     Floyd
+RR   19069      2002             214.650     Franklin
+RR   19071      2002              36.090     Fremont
+RR   19073      2002             546.020     Greene
+RR   19075      2002               0.000     Grundy
+RR   19077      2002              10.760     Guthrie
+RR   19079      2002              88.550     Hamilton
+RR   19081      2002              13.150     Hancock
+RR   19083      2002             231.270     Hardin
+RR   19085      2002             743.030     Harrison
+RR   19087      2002             530.580     Henry
+RR   19089      2002               0.000     Howard
+RR   19091      2002              24.690     Humboldt
+RR   19093      2002               7.310     Ida
+RR   19095      2002               0.000     Iowa
+RR   19097      2002               0.000     Jackson
+RR   19099      2002               5.240     Jasper
+RR   19101      2002             544.020     Jefferson
+RR   19103      2002               0.000     Johnson
+RR   19105      2002               0.000     Jones
+RR   19107      2002               0.000     Keokuk
+RR   19109      2002              30.200     Kossuth
+RR   19111      2002             686.320     Lee
+RR   19113      2002            1488.860     Linn
+RR   19115      2002               0.000     Louisa
+RR   19117      2002             896.160     Lucas
+RR   19119      2002             105.900     Lyon
+RR   19121      2002               0.000     Madison
+RR   19123      2002              13.970     Mahaska
+RR   19125      2002             186.500     Marion
+RR   19127      2002             600.760     Marshall
+RR   19129      2002             540.390     Mills
+RR   19131      2002              13.830     Mitchell
+RR   19133      2002             248.920     Monona
+RR   19135      2002             639.760     Monroe
+RR   19137      2002             913.380     Montgomery
+RR   19139      2002               0.000     Muscatine
+RR   19141      2002              67.980     O'Brien
+RR   19143      2002              36.470     Osceola
+RR   19145      2002               8.350     Page
+RR   19147      2002              68.010     Palo Alto
+RR   19149      2002             249.900     Plymouth
+RR   19151      2002              30.870     Pocahontas
+RR   19153      2002             219.350     Polk
+RR   19155      2002             509.990     Pottawattamie
+RR   19157      2002              15.800     Poweshiek
+RR   19159      2002               0.000     Ringgold
+RR   19161      2002              20.110     Sac
+RR   19163      2002               0.000     Scott
+RR   19165      2002              19.340     Shelby
+RR   19167      2002             253.410     Sioux
+RR   19169      2002             879.200     Story
+RR   19171      2002             863.290     Tama
+RR   19173      2002               0.000     Taylor
+RR   19175      2002             985.310     Union
+RR   19177      2002               0.000     Van Buren
+RR   19179      2002             501.310     Wapello
+RR   19181      2002             286.500     Warren
+RR   19183      2002               0.000     Washington
+RR   19185      2002             332.060     Wayne
+RR   19187      2002              60.730     Webster
+RR   19189      2002              11.540     Winnebago
+RR   19191      2002               0.000     Winneshiek
+RR   19193      2002             205.620     Woodbury
+RR   19195      2002             131.320     Worth
+RR   19197      2002              50.790     Wright
+/END/

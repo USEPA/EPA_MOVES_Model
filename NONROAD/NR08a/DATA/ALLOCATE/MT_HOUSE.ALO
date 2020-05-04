@@ -1,0 +1,82 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent SINGLE AND DOUBLE (DUPLEX) FAMILY HOMES
+
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+HOU  30000      2002              417106     MT
+HOU  30001      2002                4568     Beaverhead
+HOU  30003      2002                4661     Big Horn
+HOU  30005      2002                2939     Blaine
+HOU  30007      2002                2013     Broadwater
+HOU  30009      2002                5493     Carbon
+HOU  30011      2002                 808     Carter
+HOU  30013      2002               35415     Cascade
+HOU  30015      2002                2761     Chouteau
+HOU  30017      2002                5353     Custer
+HOU  30019      2002                1145     Daniels
+HOU  30021      2002                4153     Dawson
+HOU  30023      2002                4931     Deer Lodge
+HOU  30025      2002                1406     Fallon
+HOU  30027      2002                5532     Fergus
+HOU  30029      2002               35317     Flathead
+HOU  30031      2002               30899     Gallatin
+HOU  30033      2002                 954     Garfield Park
+HOU  30035      2002                5230     Glacier
+HOU  30037      2002                 446     Golden Valley
+HOU  30039      2002                2056     Granite
+HOU  30041      2002                7445     Hill
+HOU  30043      2002                4187     Jefferson
+HOU  30045      2002                1313     Judith Basin
+HOU  30047      2002               13705     Lake
+HOU  30049      2002               25785     Lewis & Clark
+HOU  30051      2002                1063     Liberty
+HOU  30053      2002                9359     Lincoln
+HOU  30055      2002                1081     McCone
+HOU  30057      2002                4636     Madison
+HOU  30059      2002                1349     Meagher
+HOU  30061      2002                1970     Mineral
+HOU  30063      2002               42472     Missoula
+HOU  30065      2002                2307     Musselshell
+HOU  30067      2002                8252     Park
+HOU  30069      2002                 290     Petroleum
+HOU  30071      2002                2484     Phillips
+HOU  30073      2002                2822     Pondera
+HOU  30075      2002                1005     Powder River
+HOU  30077      2002                2918     Powell
+HOU  30079      2002                 712     Prairie
+HOU  30081      2002               16062     Ravalli
+HOU  30083      2002                4552     Richland
+HOU  30085      2002                4030     Roosevelt
+HOU  30087      2002                3929     Rosebud
+HOU  30089      2002                5286     Sanders
+HOU  30091      2002                2152     Sheridan
+HOU  30093      2002               16150     Silver Bow
+HOU  30095      2002                3984     Stillwater
+HOU  30097      2002                1895     Sweet Grass
+HOU  30099      2002                2903     Teton
+HOU  30101      2002                2294     Toole
+HOU  30103      2002                 420     Treasure
+HOU  30105      2002                4818     Valley
+HOU  30107      2002                1142     Wheatland
+HOU  30109      2002                 584     Wibaux
+HOU  30111      2002               55670     Yellowstone
+HOU  30113      2002                   0     Yellowstone National Park
+/END/

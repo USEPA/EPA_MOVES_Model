@@ -1,0 +1,89 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent SINGLE AND DOUBLE (DUPLEX) FAMILY HOMES
+
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+HOU  22000      2002             1880772     LA
+HOU  22001      2002               23580     Acadia
+HOU  22003      2002                9255     Allen
+HOU  22005      2002               31240     Ascension
+HOU  22007      2002                9887     Assumption
+HOU  22009      2002               17043     Avoyelles
+HOU  22011      2002               14686     Beauregard
+HOU  22013      2002                7941     Bienville
+HOU  22015      2002               41836     Bossier
+HOU  22017      2002              109306     Caddo
+HOU  22019      2002               78477     Calcasieu
+HOU  22021      2002                5077     Caldwell
+HOU  22023      2002                5416     Cameron
+HOU  22025      2002                5425     Catahoula
+HOU  22027      2002                7895     Claiborn
+HOU  22029      2002                9320     Concordia
+HOU  22031      2002               11406     De Soto
+HOU  22033      2002              172191     E. Baton Rouge
+HOU  22035      2002                3243     E. Carroll
+HOU  22037      2002                8037     E. Feliciana
+HOU  22039      2002               14505     Evangeline
+HOU  22041      2002                8712     Franklin
+HOU  22043      2002                8677     Grant
+HOU  22045      2002               28237     Iberia
+HOU  22047      2002               12133     Iberville
+HOU  22049      2002                7416     Jackson
+HOU  22051      2002              189539     Jefferson
+HOU  22053      2002               12989     Jefferson Davis
+HOU  22055      2002               80667     Lafayette
+HOU  22057      2002               35722     Lafourche
+HOU  22059      2002                6354     La Salle
+HOU  22061      2002               17285     Lincoln
+HOU  22063      2002               38320     Livingston
+HOU  22065      2002                5013     Madison
+HOU  22067      2002               12897     Morehouse
+HOU  22069      2002               17216     Natchitoches
+HOU  22071      2002              213134     Orleans
+HOU  22073      2002               61162     Ouachita
+HOU  22075      2002               10805     Plaquemines
+HOU  22077      2002               10509     Pointe Coupee
+HOU  22079      2002               52912     Rapides
+HOU  22081      2002                4052     Red River
+HOU  22083      2002                8434     Richland
+HOU  22085      2002               13887     Sabine
+HOU  22087      2002               27078     St. Bernard
+HOU  22089      2002               17835     St. Charles
+HOU  22091      2002                5103     St. Helena
+HOU  22093      2002                7704     St. James
+HOU  22095      2002               16086     St. John the Baptist
+HOU  22097      2002               36710     St. Landry
+HOU  22099      2002               20695     St. Martin
+HOU  22101      2002               21913     St. Mary
+HOU  22103      2002               79405     St. Tammany
+HOU  22105      2002               42211     Tangipahoa
+HOU  22107      2002                3366     Tensas
+HOU  22109      2002               41067     Terrebonne
+HOU  22111      2002               11056     Union
+HOU  22113      2002               22817     Vermilion
+HOU  22115      2002               21266     Vernon
+HOU  22117      2002               19347     Washington
+HOU  22119      2002               19428     Webster
+HOU  22121      2002                8572     W. Baton Rouge
+HOU  22123      2002                5066     W. Carroll
+HOU  22125      2002                4619     W. Feliciana
+HOU  22127      2002                7590     Winn
+/END/

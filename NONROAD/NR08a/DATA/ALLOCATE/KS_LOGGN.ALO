@@ -1,0 +1,132 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2002 Timber Product Output (cu ft)
+from US Forest Service TPO database. http://www.fia.fs.fed.us/program-features/tpo/
+
+10/19/05 epa: use TPO data instead of CBP employee data.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+LOG  20000      2002            30048782     KS
+LOG  20001      2002               66298     Allen
+LOG  20003      2002              643274     Anderson
+LOG  20005      2002              798932     Atchison
+LOG  20007      2002              213501     Barber
+LOG  20009      2002              154510     Barton
+LOG  20011      2002              345791     Bourbon
+LOG  20013      2002              192515     Brown
+LOG  20015      2002              410091     Butler
+LOG  20017      2002               77993     Chase
+LOG  20019      2002              354890     Chautauqua
+LOG  20021      2002              602944     Cherokee
+LOG  20023      2002                   0     Cheyenne
+LOG  20025      2002                   0     Clark
+LOG  20027      2002               56680     Clay
+LOG  20029      2002               78060     Cloud
+LOG  20031      2002              568975     Coffey
+LOG  20033      2002                   0     Comanche
+LOG  20035      2002              594886     Cowley
+LOG  20037      2002              141244     Crawford
+LOG  20039      2002                   0     Decatur
+LOG  20041      2002              465052     Dickinson
+LOG  20043      2002              372481     Doniphan
+LOG  20045      2002             2683771     Douglas
+LOG  20047      2002                   0     Edwards
+LOG  20049      2002              889327     Elk
+LOG  20051      2002                4677     Ellis
+LOG  20053      2002                 425     Ellsworth
+LOG  20055      2002               48549     Finney
+LOG  20057      2002              260755     Ford
+LOG  20059      2002              682288     Franklin
+LOG  20061      2002              147734     Geary
+LOG  20063      2002                   0     Gove
+LOG  20065      2002                   0     Graham
+LOG  20067      2002                   0     Grant
+LOG  20069      2002              568941     Gray
+LOG  20071      2002                   0     Greeley
+LOG  20073      2002              644268     Greenwood
+LOG  20075      2002               89810     Hamilton
+LOG  20077      2002               89164     Harper
+LOG  20079      2002              179737     Harvey
+LOG  20081      2002                   0     Haskell
+LOG  20083      2002                   0     Hodgeman
+LOG  20085      2002             2199917     Jackson
+LOG  20087      2002             1229231     Jefferson
+LOG  20089      2002              305015     Jewell
+LOG  20091      2002              673909     Johnson
+LOG  20093      2002                   0     Kearny
+LOG  20095      2002              129196     Kingman
+LOG  20097      2002               33891     Kiowa
+LOG  20099      2002              161528     Labette
+LOG  20101      2002                   0     Lane
+LOG  20103      2002              631158     Leavenworth
+LOG  20105      2002              928367     Lincoln
+LOG  20107      2002              634632     Linn
+LOG  20109      2002                   0     Logan
+LOG  20111      2002              623679     Lyon
+LOG  20113      2002              288787     McPherson
+LOG  20115      2002               92511     Marion
+LOG  20117      2002              495941     Marshall
+LOG  20119      2002               67781     Meade
+LOG  20121      2002              865502     Miami
+LOG  20123      2002               16093     Mitchell
+LOG  20125      2002             1060638     Montgomery
+LOG  20127      2002              107821     Morris
+LOG  20129      2002                   0     Morton
+LOG  20131      2002               72548     Nemaha
+LOG  20133      2002              312970     Neosho
+LOG  20135      2002              392859     Ness
+LOG  20137      2002                   0     Norton
+LOG  20139      2002              125110     Osage
+LOG  20141      2002               15590     Osborne
+LOG  20143      2002              161666     Ottawa
+LOG  20145      2002               28794     Pawnee
+LOG  20147      2002               22136     Phillips
+LOG  20149      2002              702024     Pottawatomie
+LOG  20151      2002              118617     Pratt
+LOG  20153      2002                   0     Rawlins
+LOG  20155      2002              131238     Reno
+LOG  20157      2002              338872     Republic
+LOG  20159      2002               65192     Rice
+LOG  20161      2002              304618     Riley
+LOG  20163      2002                   0     Rooks
+LOG  20165      2002                   0     Rush
+LOG  20167      2002               22287     Russell
+LOG  20169      2002              219408     Saline
+LOG  20171      2002                   0     Scott
+LOG  20173      2002              523491     Sedgwick
+LOG  20175      2002                   0     Seward
+LOG  20177      2002             1067041     Shawnee
+LOG  20179      2002               15590     Sheridan
+LOG  20181      2002               29536     Sherman
+LOG  20183      2002              506833     Smith
+LOG  20185      2002                2881     Stafford
+LOG  20187      2002                   0     Stanton
+LOG  20189      2002                   0     Stevens
+LOG  20191      2002               42899     Sumner
+LOG  20193      2002               39144     Thomas
+LOG  20195      2002              135562     Trego
+LOG  20197      2002              292895     Wabaunsee
+LOG  20199      2002              271124     Wallace
+LOG  20201      2002              236726     Washington
+LOG  20203      2002                   0     Wichita
+LOG  20205      2002              353366     Wilson
+LOG  20207      2002              448131     Woodson
+LOG  20209      2002               76476     Wyandotte
+/END/

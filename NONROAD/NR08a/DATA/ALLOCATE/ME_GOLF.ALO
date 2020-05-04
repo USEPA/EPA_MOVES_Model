@@ -1,0 +1,41 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent GOLF COURSES AND COUNTRY CLUBS
+CBP NAICS 713910; pre-2002 CBP SIC 7992
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+GC   23000      2002                 105     ME
+GC   23001      2002                   8     Androscoggin
+GC   23003      2002                  10     Aroostook
+GC   23005      2002                  23     Cumberland
+GC   23007      2002                   3     Franklin
+GC   23009      2002                   9     Hancock
+GC   23011      2002                  10     Kennebec
+GC   23013      2002                   4     Knox
+GC   23015      2002                   2     Lincoln
+GC   23017      2002                   5     Oxford
+GC   23019      2002                  10     Penobscot
+GC   23021      2002                   2     Piscataquis
+GC   23023      2002                   1     Sagadahoc
+GC   23025      2002                   3     Somerset
+GC   23027      2002                   3     Waldo
+GC   23029      2002                   1     Washington
+GC   23031      2002                  11     York
+/END/

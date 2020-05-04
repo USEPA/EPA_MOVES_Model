@@ -1,0 +1,76 @@
+This is the allocation indicator file used by the NONROAD model.
+This file is used to allocate from US to state level equipment
+populations.
+
+These data represent HARVESTED CROPLAND
+2002 USDA Census of Agriculture
+
+8/19/05  epa: TEST "US" total does not include PR or VI.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+------------------------------------------------------------------------
+/INDICATORS/
+FRM  00000      2002           302697252     US      302891349302891349
+FRM  01000      2002             1995139     AL
+FRM  02000      2002               31824     AK
+FRM  04000      2002              887966     AZ
+FRM  05000      2002             7457599     AR
+FRM  06000      2002             8466321     CA
+FRM  08000      2002             4346955     CO
+FRM  09000      2002              131248     CT
+FRM  10000      2002              433105     DE
+FRM  11000      2002                   0     DC
+FRM  12000      2002             2313537     FL
+FRM  13000      2002             3245784     GA
+FRM  15000      2002              109461     HI
+FRM  16000      2002             4313288     ID
+FRM  17000      2002            22562904     IL
+FRM  18000      2002            11937370     IN
+FRM  19000      2002            23994343     IA
+FRM  20000      2002            18976719     KS
+FRM  21000      2002             4978994     KY
+FRM  22000      2002             3332146     LA
+FRM  23000      2002              394121     ME
+FRM  24000      2002             1282004     MD
+FRM  25000      2002              159253     MA
+FRM  26000      2002             6827903     MI
+FRM  27000      2002            19398309     MN
+FRM  28000      2002             4139341     MS
+FRM  29000      2002            13137184     MO
+FRM  30000      2002             8742111     MT
+FRM  31000      2002            17336624     NE
+FRM  32000      2002              549076     NV
+FRM  33000      2002               95983     NH
+FRM  34000      2002              444670     NJ
+FRM  35000      2002              856166     NM
+FRM  36000      2002             3846368     NY
+FRM  37000      2002             4308209     NC
+FRM  38000      2002            19908697     ND
+FRM  39000      2002            10041416     OH
+FRM  40000      2002             7705860     OK
+FRM  41000      2002             3119384     OR
+FRM  42000      2002             4079276     PA
+FRM  44000      2002               17820     RI
+FRM  45000      2002             1374617     SC
+FRM  46000      2002            13492286     SD
+FRM  47000      2002             4365360     TN
+FRM  48000      2002            17750938     TX
+FRM  49000      2002              961037     UT
+FRM  50000      2002              454699     VT
+FRM  51000      2002             2623776     VA
+FRM  53000      2002             4894634     WA
+FRM  54000      2002              648635     WV
+FRM  55000      2002             8928083     WI
+FRM  56000      2002             1298709     WY
+FRM  72000      2002              193495     PR
+FRM  78000      2002                 602     VI
+/END/

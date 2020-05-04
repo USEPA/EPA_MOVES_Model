@@ -1,0 +1,124 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WATER SURFACE AREA FOR INBOARD RECREATIONAL MARINE CRAFT (sq km navigable water)
+1990 GICS (inland water area); GIS analysis of coast lengths (coastal navigable water)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+WIB  19000      1990                1033     IA
+WIB  19001      1990                   3     Adair
+WIB  19003      1990                   5     Adams
+WIB  19005      1990                  50     Allamakee
+WIB  19007      1990                  52     Appanoose
+WIB  19009      1990                   1     Audubon
+WIB  19011      1990                   5     Benton
+WIB  19013      1990                  12     Black Hawk
+WIB  19015      1990                   5     Boone
+WIB  19017      1990                   4     Bremer
+WIB  19019      1990                   5     Buchanan
+WIB  19021      1990                  14     Buena Vista
+WIB  19023      1990                   3     Butler
+WIB  19025      1990                   6     Calhoun
+WIB  19027      1990                   2     Carroll
+WIB  19029      1990                   2     Cass
+WIB  19031      1990                   6     Cedar
+WIB  19033      1990                  17     Cerro Gordo
+WIB  19035      1990                   0     Cherokee
+WIB  19037      1990                   2     Chickasaw
+WIB  19039      1990                   2     Clarke
+WIB  19041      1990                   9     Clay
+WIB  19043      1990                  36     Clayton
+WIB  19045      1990                  39     Clinton
+WIB  19047      1990                   2     Crawford
+WIB  19049      1990                  14     Dallas
+WIB  19051      1990                   4     Davis
+WIB  19053      1990                   3     Decatur
+WIB  19055      1990                   3     Delaware
+WIB  19057      1990                  35     Des Moines
+WIB  19059      1990                  59     Dickinson
+WIB  19061      1990                  22     Dubuque
+WIB  19063      1990                  17     Emmet
+WIB  19065      1990                   1     Fayette
+WIB  19067      1990                   2     Floyd
+WIB  19069      1990                   1     Franklin
+WIB  19071      1990                  14     Fremont
+WIB  19073      1990                   7     Greene
+WIB  19075      1990                   0     Grundy
+WIB  19077      1990                   6     Guthrie
+WIB  19079      1990                   2     Hamilton
+WIB  19081      1990                   5     Hancock
+WIB  19083      1990                   2     Hardin
+WIB  19085      1990                  11     Harrison
+WIB  19087      1990                   6     Henry
+WIB  19089      1990                   1     Howard
+WIB  19091      1990                   3     Humboldt
+WIB  19093      1990                   1     Ida
+WIB  19095      1990                   2     Iowa
+WIB  19097      1990                  35     Jackson
+WIB  19099      1990                   8     Jasper
+WIB  19101      1990                   4     Jefferson
+WIB  19103      1990                  23     Johnson
+WIB  19105      1990                   4     Jones
+WIB  19107      1990                   2     Keokuk
+WIB  19109      1990                   4     Kossuth
+WIB  19111      1990                  55     Lee
+WIB  19113      1990                  18     Linn
+WIB  19115      1990                  41     Louisa
+WIB  19117      1990                   9     Lucas
+WIB  19119      1990                   0     Lyon
+WIB  19121      1990                   3     Madison
+WIB  19123      1990                   6     Mahaska
+WIB  19125      1990                  42     Marion
+WIB  19127      1990                   2     Marshall
+WIB  19129      1990                   8     Mills
+WIB  19131      1990                   1     Mitchell
+WIB  19133      1990                  15     Monona
+WIB  19135      1990                   2     Monroe
+WIB  19137      1990                   2     Montgomery
+WIB  19139      1990                  27     Muscatine
+WIB  19141      1990                   0     O'Brien
+WIB  19143      1990                   2     Osceola
+WIB  19145      1990                   1     Page
+WIB  19147      1990                  14     Palo Alto
+WIB  19149      1990                   1     Plymouth
+WIB  19151      1990                   4     Pocahontas
+WIB  19153      1990                  58     Polk
+WIB  19155      1990                  15     Pottawattamie
+WIB  19157      1990                   3     Poweshiek
+WIB  19159      1990                   3     Ringgold
+WIB  19161      1990                   7     Sac
+WIB  19163      1990                  27     Scott
+WIB  19165      1990                   1     Shelby
+WIB  19167      1990                   2     Sioux
+WIB  19169      1990                   2     Story
+WIB  19171      1990                   3     Tama
+WIB  19173      1990                   2     Taylor
+WIB  19175      1990                   4     Union
+WIB  19177      1990                  14     Van Buren
+WIB  19179      1990                  11     Wapello
+WIB  19181      1990                   4     Warren
+WIB  19183      1990                   5     Washington
+WIB  19185      1990                   4     Wayne
+WIB  19187      1990                   7     Webster
+WIB  19189      1990                   3     Winnebago
+WIB  19191      1990                   1     Winneshiek
+WIB  19193      1990                  12     Woodbury
+WIB  19195      1990                   4     Worth
+WIB  19197      1990                   5     Wright
+/END/

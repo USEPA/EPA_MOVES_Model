@@ -1,0 +1,82 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WATER SURFACE AREA FOR OUTBOARD RECREATIONAL MARINE CRAFT (sq km navigable water)
+1990 GICS (inland water area); GIS analysis of coast lengths (coastal navigable water)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+WOB  30000      1990                3859     MT
+WOB  30001      1990                  77     Beaverhead
+WOB  30003      1990                  51     Big Horn
+WOB  30005      1990                  33     Blaine
+WOB  30007      1990                 123     Broadwater
+WOB  30009      1990                  37     Carbon
+WOB  30011      1990                  23     Carter
+WOB  30013      1990                  36     Cascade
+WOB  30015      1990                  61     Chouteau
+WOB  30017      1990                  26     Custer
+WOB  30019      1990                   1     Daniels
+WOB  30021      1990                  26     Dawson
+WOB  30023      1990                  11     Deer Lodge
+WOB  30025      1990                   7     Fallon
+WOB  30027      1990                  29     Fergus
+WOB  30029      1990                 409     Flathead
+WOB  30031      1990                  67     Gallatin
+WOB  30033      1990                 465     Garfield Park
+WOB  30035      1990                 110     Glacier
+WOB  30037      1990                   3     Golden Valley
+WOB  30039      1990                  15     Granite
+WOB  30041      1990                  51     Hill
+WOB  30043      1990                   6     Jefferson
+WOB  30045      1990                   2     Judith Basin
+WOB  30047      1990                 414     Lake
+WOB  30049      1990                  95     Lewis & Clark
+WOB  30051      1990                  45     Liberty
+WOB  30053      1990                 162     Lincoln
+WOB  30055      1990                 104     McCone
+WOB  30057      1990                  42     Madison
+WOB  30059      1990                   8     Meagher
+WOB  30061      1990                   9     Mineral
+WOB  30063      1990                  52     Missoula
+WOB  30065      1990                  10     Musselshell
+WOB  30067      1990                  27     Park
+WOB  30069      1990                  52     Petroleum
+WOB  30071      1990                 187     Phillips
+WOB  30073      1990                  39     Pondera
+WOB  30075      1990                   2     Powder River
+WOB  30077      1990                  17     Powell
+WOB  30079      1990                  16     Prairie
+WOB  30081      1990                  16     Ravalli
+WOB  30083      1990                  49     Richland
+WOB  30085      1990                  36     Roosevelt
+WOB  30087      1990                  38     Rosebud
+WOB  30089      1990                  72     Sanders
+WOB  30091      1990                  77     Sheridan
+WOB  30093      1990                   2     Silver Bow
+WOB  30095      1990                  26     Stillwater
+WOB  30097      1990                  18     Sweet Grass
+WOB  30099      1990                  52     Teton
+WOB  30101      1990                  90     Toole
+WOB  30103      1990                  14     Treasure
+WOB  30105      1990                 366     Valley
+WOB  30107      1990                  13     Wheatland
+WOB  30109      1990                   2     Wibaux
+WOB  30111      1990                  36     Yellowstone
+WOB  30113      1990                   2     Yellowstone National Park
+/END/

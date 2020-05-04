@@ -1,0 +1,127 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent EMPLOYEES IN LANDSCAPING SERVICES
+CBP NAICS 561730; pre-2002 CBP SIC 0780
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+LSC  17000      2002               13939     IL
+LSC  17001      2002                  22     Adams
+LSC  17003      2002                   0     Alexander
+LSC  17005      2002                   5     Bond
+LSC  17007      2002                   5     Boone
+LSC  17009      2002                   0     Brown
+LSC  17011      2002                  26     Bureau
+LSC  17013      2002                   0     Calhoun
+LSC  17015      2002                   5     Carroll
+LSC  17017      2002                   5     Cass
+LSC  17019      2002                 150     Champaign
+LSC  17021      2002                   3     Christian
+LSC  17023      2002                   5     Clark
+LSC  17025      2002                   0     Clay
+LSC  17027      2002                  24     Clinton
+LSC  17029      2002                  10     Coles
+LSC  17031      2002                3718     Cook
+LSC  17033      2002                   5     Crawford
+LSC  17035      2002                   5     Cumberland
+LSC  17037      2002                  76     DeKalb
+LSC  17039      2002                  10     De Witt
+LSC  17041      2002                   5     Douglas
+LSC  17043      2002                2373     DuPage
+LSC  17045      2002                   5     Edgar
+LSC  17047      2002                   5     Edwards
+LSC  17049      2002                  24     Effingham
+LSC  17051      2002                   3     Fayette
+LSC  17053      2002                   5     Ford
+LSC  17055      2002                   5     Franklin
+LSC  17057      2002                   5     Fulton
+LSC  17059      2002                   5     Gallatin
+LSC  17061      2002                   5     Greene
+LSC  17063      2002                  36     Grundy
+LSC  17065      2002                   5     Hamilton
+LSC  17067      2002                   5     Hancock
+LSC  17069      2002                   0     Hardin
+LSC  17071      2002                   5     Henderson
+LSC  17073      2002                   5     Henry
+LSC  17075      2002                   7     Iroquois
+LSC  17077      2002                  22     Jackson
+LSC  17079      2002                   0     Jasper
+LSC  17081      2002                  11     Jefferson
+LSC  17083      2002                   5     Jersey
+LSC  17085      2002                   5     Jo Daviess
+LSC  17087      2002                   0     Johnson
+LSC  17089      2002                1254     Kane
+LSC  17091      2002                  33     Kankakee
+LSC  17093      2002                 104     Kendall
+LSC  17095      2002                  30     Knox
+LSC  17097      2002                2151     Lake
+LSC  17099      2002                  63     La Salle
+LSC  17101      2002                   5     Lawrence
+LSC  17103      2002                   5     Lee
+LSC  17105      2002                   5     Livingston
+LSC  17107      2002                   5     Logan
+LSC  17109      2002                   5     McDonough
+LSC  17111      2002                 562     McHenry
+LSC  17113      2002                 182     McLean
+LSC  17115      2002                 107     Macon
+LSC  17117      2002                   1     Macoupin
+LSC  17119      2002                 182     Madison
+LSC  17121      2002                   5     Marion
+LSC  17123      2002                   5     Marshall
+LSC  17125      2002                   5     Mason
+LSC  17127      2002                   5     Massac
+LSC  17129      2002                   5     Menard
+LSC  17131      2002                   5     Mercer
+LSC  17133      2002                  27     Monroe
+LSC  17135      2002                  13     Montgomery
+LSC  17137      2002                  24     Morgan
+LSC  17139      2002                   5     Moultrie
+LSC  17141      2002                   5     Ogle
+LSC  17143      2002                 331     Peoria
+LSC  17145      2002                  10     Perry
+LSC  17147      2002                   5     Piatt
+LSC  17149      2002                   5     Pike
+LSC  17151      2002                   0     Pope
+LSC  17153      2002                   0     Pulaski
+LSC  17155      2002                   5     Putnam
+LSC  17157      2002                   5     Randolph
+LSC  17159      2002                   5     Richland
+LSC  17161      2002                  83     Rock Island
+LSC  17163      2002                 167     St. Clair
+LSC  17165      2002                   5     Saline
+LSC  17167      2002                 255     Sangamon
+LSC  17169      2002                   5     Schuyler
+LSC  17171      2002                   5     Scott
+LSC  17173      2002                   8     Shelby
+LSC  17175      2002                   5     Stark
+LSC  17177      2002                  25     Stephenson
+LSC  17179      2002                 162     Tazewell
+LSC  17181      2002                   4     Union
+LSC  17183      2002                  22     Vermilion
+LSC  17185      2002                   5     Wabash
+LSC  17187      2002                   5     Warren
+LSC  17189      2002                  45     Washington
+LSC  17191      2002                   5     Wayne
+LSC  17193      2002                   5     White
+LSC  17195      2002                  30     Whiteside
+LSC  17197      2002                 902     Will
+LSC  17199      2002                   5     Williamson
+LSC  17201      2002                 357     Winnebago
+LSC  17203      2002                  50     Woodford
+/END/

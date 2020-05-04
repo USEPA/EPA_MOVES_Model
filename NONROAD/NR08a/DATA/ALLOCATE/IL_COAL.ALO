@@ -1,0 +1,127 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent UNDERGROUND COAL PRODUCTION TONS
+DOE/EIA 2002 Annual Coal Report
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+MIN  17000      2002               26930     IL
+MIN  17001      2002                   0     Adams
+MIN  17003      2002                   0     Alexander
+MIN  17005      2002                   0     Bond
+MIN  17007      2002                   0     Boone
+MIN  17009      2002                   0     Brown
+MIN  17011      2002                   0     Bureau
+MIN  17013      2002                   0     Calhoun
+MIN  17015      2002                   0     Carroll
+MIN  17017      2002                   0     Cass
+MIN  17019      2002                   0     Champaign
+MIN  17021      2002                   0     Christian
+MIN  17023      2002                   0     Clark
+MIN  17025      2002                   0     Clay
+MIN  17027      2002                   0     Clinton
+MIN  17029      2002                   0     Coles
+MIN  17031      2002                   0     Cook
+MIN  17033      2002                   0     Crawford
+MIN  17035      2002                   0     Cumberland
+MIN  17037      2002                   0     DeKalb
+MIN  17039      2002                   0     De Witt
+MIN  17041      2002                   0     Douglas
+MIN  17043      2002                   0     DuPage
+MIN  17045      2002                   0     Edgar
+MIN  17047      2002                   0     Edwards
+MIN  17049      2002                   0     Effingham
+MIN  17051      2002                   0     Fayette
+MIN  17053      2002                   0     Ford
+MIN  17055      2002                   0     Franklin
+MIN  17057      2002                   0     Fulton
+MIN  17059      2002                 190     Gallatin
+MIN  17061      2002                   0     Greene
+MIN  17063      2002                   0     Grundy
+MIN  17065      2002                   0     Hamilton
+MIN  17067      2002                   0     Hancock
+MIN  17069      2002                   0     Hardin
+MIN  17071      2002                   0     Henderson
+MIN  17073      2002                   0     Henry
+MIN  17075      2002                   0     Iroquois
+MIN  17077      2002                   0     Jackson
+MIN  17079      2002                   0     Jasper
+MIN  17081      2002                1670     Jefferson
+MIN  17083      2002                   0     Jersey
+MIN  17085      2002                   0     Jo Daviess
+MIN  17087      2002                   0     Johnson
+MIN  17089      2002                   0     Kane
+MIN  17091      2002                   0     Kankakee
+MIN  17093      2002                   0     Kendall
+MIN  17095      2002                   0     Knox
+MIN  17097      2002                   0     Lake
+MIN  17099      2002                   0     La Salle
+MIN  17101      2002                   0     Lawrence
+MIN  17103      2002                   0     Lee
+MIN  17105      2002                   0     Livingston
+MIN  17107      2002                   0     Logan
+MIN  17109      2002                   0     McDonough
+MIN  17111      2002                   0     McHenry
+MIN  17113      2002                   0     McLean
+MIN  17115      2002                   0     Macon
+MIN  17117      2002                4872     Macoupin
+MIN  17119      2002                   0     Madison
+MIN  17121      2002                   0     Marion
+MIN  17123      2002                   0     Marshall
+MIN  17125      2002                   0     Mason
+MIN  17127      2002                   0     Massac
+MIN  17129      2002                   0     Menard
+MIN  17131      2002                   0     Mercer
+MIN  17133      2002                   0     Monroe
+MIN  17135      2002                2019     Montgomery
+MIN  17137      2002                   0     Morgan
+MIN  17139      2002                   0     Moultrie
+MIN  17141      2002                   0     Ogle
+MIN  17143      2002                   0     Peoria
+MIN  17145      2002                   0     Perry
+MIN  17147      2002                   0     Piatt
+MIN  17149      2002                   0     Pike
+MIN  17151      2002                   0     Pope
+MIN  17153      2002                   0     Pulaski
+MIN  17155      2002                   0     Putnam
+MIN  17157      2002                2549     Randolph
+MIN  17159      2002                   0     Richland
+MIN  17161      2002                   0     Rock Island
+MIN  17163      2002                   0     St. Clair
+MIN  17165      2002                8633     Saline
+MIN  17167      2002                1759     Sangamon
+MIN  17169      2002                   0     Schuyler
+MIN  17171      2002                   0     Scott
+MIN  17173      2002                   0     Shelby
+MIN  17175      2002                   0     Stark
+MIN  17177      2002                   0     Stephenson
+MIN  17179      2002                   0     Tazewell
+MIN  17181      2002                   0     Union
+MIN  17183      2002                1900     Vermilion
+MIN  17185      2002                1491     Wabash
+MIN  17187      2002                   0     Warren
+MIN  17189      2002                   0     Washington
+MIN  17191      2002                   0     Wayne
+MIN  17193      2002                1847     White
+MIN  17195      2002                   0     Whiteside
+MIN  17197      2002                   0     Will
+MIN  17199      2002                   0     Williamson
+MIN  17201      2002                   0     Winnebago
+MIN  17203      2002                   0     Woodford
+/END/

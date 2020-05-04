@@ -1,0 +1,69 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent EMPLOYEES IN OIL & GAS EXTRACTION, AND DRILLING OIL & GAS WELLS
+CBP NAICS 211/// and 213111; pre-2002 CBP SIC 1300
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+OIL  16000      2002                  86     ID
+OIL  16001      2002                   7     Ada
+OIL  16003      2002                   0     Adams
+OIL  16005      2002                  27     Bannock
+OIL  16007      2002                   0     Bear Lake
+OIL  16009      2002                   0     Benewah
+OIL  16011      2002                   0     Bingham
+OIL  16013      2002                   0     Blaine
+OIL  16015      2002                   0     Boise
+OIL  16017      2002                   0     Bonner
+OIL  16019      2002                   0     Bonneville
+OIL  16021      2002                   0     Boundary
+OIL  16023      2002                   0     Butte
+OIL  16025      2002                   0     Camas
+OIL  16027      2002                   0     Canyon
+OIL  16029      2002                   0     Caribou
+OIL  16031      2002                   0     Cassia
+OIL  16033      2002                   0     Clark
+OIL  16035      2002                  26     Clearwater
+OIL  16037      2002                   0     Custer
+OIL  16039      2002                   0     Elmore
+OIL  16041      2002                   0     Franklin
+OIL  16043      2002                   0     Fremont
+OIL  16045      2002                   0     Gem
+OIL  16047      2002                   0     Gooding
+OIL  16049      2002                   0     Idaho
+OIL  16051      2002                   0     Jefferson
+OIL  16053      2002                   0     Jerome
+OIL  16055      2002                   0     Kootenai
+OIL  16057      2002                   0     Latah
+OIL  16059      2002                   0     Lemhi
+OIL  16061      2002                   0     Lewis
+OIL  16063      2002                   0     Lincoln
+OIL  16065      2002                   0     Madison
+OIL  16067      2002                   0     Minidoka
+OIL  16069      2002                   0     Nez Perce
+OIL  16071      2002                   0     Oneida
+OIL  16073      2002                   0     Owyhee
+OIL  16075      2002                   0     Payette
+OIL  16077      2002                   0     Power
+OIL  16079      2002                  26     Shoshone
+OIL  16081      2002                   0     Teton
+OIL  16083      2002                   0     Twin Falls
+OIL  16085      2002                   0     Valley
+OIL  16087      2002                   0     Washington
+/END/

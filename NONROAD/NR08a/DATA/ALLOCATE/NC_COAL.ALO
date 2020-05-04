@@ -1,0 +1,125 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent UNDERGROUND COAL PRODUCTION TONS
+DOE/EIA 2002 Annual Coal Report
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+MIN  37000      2002                   0     NC
+MIN  37001      2002                   0     Alamance
+MIN  37003      2002                   0     Alexander
+MIN  37005      2002                   0     Alleghany
+MIN  37007      2002                   0     Anson
+MIN  37009      2002                   0     Ashe
+MIN  37011      2002                   0     Avery
+MIN  37013      2002                   0     Beaufort
+MIN  37015      2002                   0     Bertie
+MIN  37017      2002                   0     Bladen
+MIN  37019      2002                   0     Brunswick
+MIN  37021      2002                   0     Buncombe
+MIN  37023      2002                   0     Burke
+MIN  37025      2002                   0     Cabarrus
+MIN  37027      2002                   0     Caldwell
+MIN  37029      2002                   0     Camden
+MIN  37031      2002                   0     Carteret
+MIN  37033      2002                   0     Caswell
+MIN  37035      2002                   0     Catawba
+MIN  37037      2002                   0     Chatham
+MIN  37039      2002                   0     Cherokee
+MIN  37041      2002                   0     Chowan
+MIN  37043      2002                   0     Clay
+MIN  37045      2002                   0     Cleveland
+MIN  37047      2002                   0     Columbus
+MIN  37049      2002                   0     Craven
+MIN  37051      2002                   0     Cumberland
+MIN  37053      2002                   0     Currituck
+MIN  37055      2002                   0     Dare
+MIN  37057      2002                   0     Davidson
+MIN  37059      2002                   0     Davie
+MIN  37061      2002                   0     Duplin
+MIN  37063      2002                   0     Durham
+MIN  37065      2002                   0     Edgecombe
+MIN  37067      2002                   0     Forsyth
+MIN  37069      2002                   0     Franklin
+MIN  37071      2002                   0     Gaston
+MIN  37073      2002                   0     Gates
+MIN  37075      2002                   0     Graham
+MIN  37077      2002                   0     Granville
+MIN  37079      2002                   0     Greene
+MIN  37081      2002                   0     Guilford
+MIN  37083      2002                   0     Halifax
+MIN  37085      2002                   0     Harnett
+MIN  37087      2002                   0     Haywood
+MIN  37089      2002                   0     Henderson
+MIN  37091      2002                   0     Hertford
+MIN  37093      2002                   0     Hoke
+MIN  37095      2002                   0     Hyde
+MIN  37097      2002                   0     Iredell
+MIN  37099      2002                   0     Jackson
+MIN  37101      2002                   0     Johnston
+MIN  37103      2002                   0     Jones
+MIN  37105      2002                   0     Lee
+MIN  37107      2002                   0     Lenoir
+MIN  37109      2002                   0     Lincoln
+MIN  37111      2002                   0     McDowell
+MIN  37113      2002                   0     Macon
+MIN  37115      2002                   0     Madison
+MIN  37117      2002                   0     Martin
+MIN  37119      2002                   0     Mecklenburg
+MIN  37121      2002                   0     Mitchell
+MIN  37123      2002                   0     Montgomery
+MIN  37125      2002                   0     Moore
+MIN  37127      2002                   0     Nash
+MIN  37129      2002                   0     New Hanover
+MIN  37131      2002                   0     Northampton
+MIN  37133      2002                   0     Onslow
+MIN  37135      2002                   0     Orange
+MIN  37137      2002                   0     Pamlico
+MIN  37139      2002                   0     Pasquotank
+MIN  37141      2002                   0     Pender
+MIN  37143      2002                   0     Perquimans
+MIN  37145      2002                   0     Person
+MIN  37147      2002                   0     Pitt
+MIN  37149      2002                   0     Polk
+MIN  37151      2002                   0     Randolph
+MIN  37153      2002                   0     Richmond
+MIN  37155      2002                   0     Robeson
+MIN  37157      2002                   0     Rockingham
+MIN  37159      2002                   0     Rowan
+MIN  37161      2002                   0     Rutherford
+MIN  37163      2002                   0     Sampson
+MIN  37165      2002                   0     Scotland
+MIN  37167      2002                   0     Stanly
+MIN  37169      2002                   0     Stokes
+MIN  37171      2002                   0     Surry
+MIN  37173      2002                   0     Swain
+MIN  37175      2002                   0     Transylvania
+MIN  37177      2002                   0     Tyrrell
+MIN  37179      2002                   0     Union
+MIN  37181      2002                   0     Vance
+MIN  37183      2002                   0     Wake
+MIN  37185      2002                   0     Warren
+MIN  37187      2002                   0     Washington
+MIN  37189      2002                   0     Watauga
+MIN  37191      2002                   0     Wayne
+MIN  37193      2002                   0     Wilkes
+MIN  37195      2002                   0     Wilson
+MIN  37197      2002                   0     Yadkin
+MIN  37199      2002                   0     Yancey
+/END/

@@ -1,0 +1,89 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent UNDERGROUND COAL PRODUCTION TONS
+DOE/EIA 2002 Annual Coal Report
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+MIN  22000      2002                   0     LA
+MIN  22001      2002                   0     Acadia
+MIN  22003      2002                   0     Allen
+MIN  22005      2002                   0     Ascension
+MIN  22007      2002                   0     Assumption
+MIN  22009      2002                   0     Avoyelles
+MIN  22011      2002                   0     Beauregard
+MIN  22013      2002                   0     Bienville
+MIN  22015      2002                   0     Bossier
+MIN  22017      2002                   0     Caddo
+MIN  22019      2002                   0     Calcasieu
+MIN  22021      2002                   0     Caldwell
+MIN  22023      2002                   0     Cameron
+MIN  22025      2002                   0     Catahoula
+MIN  22027      2002                   0     Claiborn
+MIN  22029      2002                   0     Concordia
+MIN  22031      2002                   0     De Soto
+MIN  22033      2002                   0     E. Baton Rouge
+MIN  22035      2002                   0     E. Carroll
+MIN  22037      2002                   0     E. Feliciana
+MIN  22039      2002                   0     Evangeline
+MIN  22041      2002                   0     Franklin
+MIN  22043      2002                   0     Grant
+MIN  22045      2002                   0     Iberia
+MIN  22047      2002                   0     Iberville
+MIN  22049      2002                   0     Jackson
+MIN  22051      2002                   0     Jefferson
+MIN  22053      2002                   0     Jefferson Davis
+MIN  22055      2002                   0     Lafayette
+MIN  22057      2002                   0     Lafourche
+MIN  22059      2002                   0     La Salle
+MIN  22061      2002                   0     Lincoln
+MIN  22063      2002                   0     Livingston
+MIN  22065      2002                   0     Madison
+MIN  22067      2002                   0     Morehouse
+MIN  22069      2002                   0     Natchitoches
+MIN  22071      2002                   0     Orleans
+MIN  22073      2002                   0     Ouachita
+MIN  22075      2002                   0     Plaquemines
+MIN  22077      2002                   0     Pointe Coupee
+MIN  22079      2002                   0     Rapides
+MIN  22081      2002                   0     Red River
+MIN  22083      2002                   0     Richland
+MIN  22085      2002                   0     Sabine
+MIN  22087      2002                   0     St. Bernard
+MIN  22089      2002                   0     St. Charles
+MIN  22091      2002                   0     St. Helena
+MIN  22093      2002                   0     St. James
+MIN  22095      2002                   0     St. John the Baptist
+MIN  22097      2002                   0     St. Landry
+MIN  22099      2002                   0     St. Martin
+MIN  22101      2002                   0     St. Mary
+MIN  22103      2002                   0     St. Tammany
+MIN  22105      2002                   0     Tangipahoa
+MIN  22107      2002                   0     Tensas
+MIN  22109      2002                   0     Terrebonne
+MIN  22111      2002                   0     Union
+MIN  22113      2002                   0     Vermilion
+MIN  22115      2002                   0     Vernon
+MIN  22117      2002                   0     Washington
+MIN  22119      2002                   0     Webster
+MIN  22121      2002                   0     W. Baton Rouge
+MIN  22123      2002                   0     W. Carroll
+MIN  22125      2002                   0     W. Feliciana
+MIN  22127      2002                   0     Winn
+/END/

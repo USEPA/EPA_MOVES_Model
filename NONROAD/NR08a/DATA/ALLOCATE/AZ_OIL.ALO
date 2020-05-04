@@ -1,0 +1,40 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent EMPLOYEES IN OIL & GAS EXTRACTION, AND DRILLING OIL & GAS WELLS
+CBP NAICS 211/// and 213111; pre-2002 CBP SIC 1300
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+OIL  04000      2002                 394     AZ
+OIL  04001      2002                   0     Apache
+OIL  04003      2002                 115     Cochise
+OIL  04005      2002                   8     Coconino
+OIL  04007      2002                   0     Gila
+OIL  04009      2002                   0     Graham
+OIL  04011      2002                   0     Greenlee
+OIL  04012      2002                   0     La Paz
+OIL  04013      2002                 263     Maricopa
+OIL  04015      2002                   0     Mohave
+OIL  04017      2002                   0     Navajo
+OIL  04019      2002                   8     Pima
+OIL  04021      2002                   0     Pinal
+OIL  04023      2002                   0     Santa Cruz
+OIL  04025      2002                   0     Yavapai
+OIL  04027      2002                   0     Yuma
+/END/

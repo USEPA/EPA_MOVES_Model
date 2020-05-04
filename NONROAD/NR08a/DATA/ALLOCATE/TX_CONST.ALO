@@ -1,0 +1,281 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2003 DOLLAR VALUE of CONSTRUCTION
+adjusted for relative geographic cost of construction materials.
+   Const_Dollars * (1-(1/(1+100/Area_Mod_Factor)))
+from McGraw-Hill Construction (values) and Craftsman (cost adj)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+CON  48000      2003            45936058     TX
+CON  48001      2003               37311     Anderson
+CON  48003      2003               16290     Andrews
+CON  48005      2003               67219     Angelina
+CON  48007      2003               48809     Aransas
+CON  48009      2003                7793     Archer
+CON  48011      2003                   0     Armstrong
+CON  48013      2003               28682     Atascosa
+CON  48015      2003               43337     Austin
+CON  48017      2003                1247     Bailey
+CON  48019      2003               31846     Bandera
+CON  48021      2003              104419     Bastrop
+CON  48023      2003                1203     Baylor
+CON  48025      2003               25260     Bee
+CON  48027      2003              659995     Bell
+CON  48029      2003             2924324     Bexar
+CON  48031      2003                6832     Blanco
+CON  48033      2003                1561     Borden
+CON  48035      2003                4118     Bosque
+CON  48037      2003              146221     Bowie
+CON  48039      2003              932466     Brazoria
+CON  48041      2003              377881     Brazos
+CON  48043      2003               31337     Brewster
+CON  48045      2003                1246     Briscoe
+CON  48047      2003                1273     Brooks
+CON  48049      2003               15550     Brown
+CON  48051      2003                7453     Burleson
+CON  48053      2003              109694     Burnet
+CON  48055      2003               27140     Caldwell
+CON  48057      2003               35305     Calhoun
+CON  48059      2003                6689     Callahan
+CON  48061      2003              732335     Cameron
+CON  48063      2003                9327     Camp
+CON  48065      2003                7462     Carson
+CON  48067      2003               12984     Cass
+CON  48069      2003                2770     Castro
+CON  48071      2003              154362     Chambers
+CON  48073      2003               27212     Cherokee
+CON  48075      2003                6789     Childress
+CON  48077      2003               11871     Clay
+CON  48079      2003                 433     Cochran
+CON  48081      2003                  76     Coke
+CON  48083      2003                9364     Coleman
+CON  48085      2003             3291943     Collin
+CON  48087      2003                   0     Collingsworth
+CON  48089      2003               12610     Colorado
+CON  48091      2003              333236     Comal
+CON  48093      2003                9875     Comanche
+CON  48095      2003                3163     Concho
+CON  48097      2003               47214     Cooke
+CON  48099      2003               42335     Coryell
+CON  48101      2003                   0     Cottle
+CON  48103      2003                 830     Crane
+CON  48105      2003                3462     Crockett
+CON  48107      2003                4515     Crosby
+CON  48109      2003                6390     Culberson
+CON  48111      2003                 975     Dallam
+CON  48113      2003             4308884     Dallas
+CON  48115      2003                2916     Dawson
+CON  48117      2003                7006     Deaf Smith
+CON  48119      2003                2182     Delta
+CON  48121      2003             1642447     Denton
+CON  48123      2003               15185     DeWitt
+CON  48125      2003                6926     Dickens
+CON  48127      2003               14414     Dimmit
+CON  48129      2003                4556     Donley
+CON  48131      2003                9638     Duval
+CON  48133      2003               17269     Eastland
+CON  48135      2003              118640     Ector
+CON  48137      2003                1752     Edwards
+CON  48139      2003              345811     Ellis
+CON  48141      2003              840480     El Paso
+CON  48143      2003               30455     Erath
+CON  48145      2003                5360     Falls
+CON  48147      2003               14769     Fannin
+CON  48149      2003               32068     Fayette
+CON  48151      2003                4513     Fisher
+CON  48153      2003                2394     Floyd
+CON  48155      2003                   0     Foard
+CON  48157      2003              737345     Fort Bend
+CON  48159      2003               24521     Franklin
+CON  48161      2003               17863     Freestone
+CON  48163      2003                6457     Frio
+CON  48165      2003                7937     Gaines
+CON  48167      2003              908998     Galveston
+CON  48169      2003                6706     Garza
+CON  48171      2003               25379     Gillespie
+CON  48173      2003                   0     Glasscock
+CON  48175      2003                4872     Goliad
+CON  48177      2003               13487     Gonzales
+CON  48179      2003               18830     Gray
+CON  48181      2003              132488     Grayson
+CON  48183      2003              120892     Gregg
+CON  48185      2003               10277     Grimes
+CON  48187      2003              306270     Guadalupe
+CON  48189      2003               17309     Hale
+CON  48191      2003                   0     Hall
+CON  48193      2003                2996     Hamilton
+CON  48195      2003                 185     Hansford
+CON  48197      2003                5925     Hardeman
+CON  48199      2003               60566     Hardin
+CON  48201      2003             8554971     Harris
+CON  48203      2003               38283     Harrison
+CON  48205      2003                3157     Hartley
+CON  48207      2003                2189     Haskell
+CON  48209      2003              228972     Hays
+CON  48211      2003                 449     Hemphill
+CON  48213      2003               65930     Henderson
+CON  48215      2003              985678     Hidalgo
+CON  48217      2003               74089     Hill
+CON  48219      2003               17176     Hockley
+CON  48221      2003               39322     Hood
+CON  48223      2003               26685     Hopkins
+CON  48225      2003               10402     Houston
+CON  48227      2003                5805     Howard
+CON  48229      2003               11802     Hudspeth
+CON  48231      2003               69870     Hunt
+CON  48233      2003                7114     Hutchinson
+CON  48235      2003                1150     Irion
+CON  48237      2003               11862     Jack
+CON  48239      2003               10224     Jackson
+CON  48241      2003               45572     Jasper
+CON  48243      2003                1730     Jeff Davis
+CON  48245      2003              414286     Jefferson
+CON  48247      2003                4755     Jim Hogg
+CON  48249      2003               31267     Jim Wells
+CON  48251      2003              155531     Johnson
+CON  48253      2003                6217     Jones
+CON  48255      2003                9096     Karnes
+CON  48257      2003              215738     Kaufman
+CON  48259      2003              117239     Kendall
+CON  48261      2003                   0     Kenedy
+CON  48263      2003                4087     Kent
+CON  48265      2003               48913     Kerr
+CON  48267      2003                2727     Kimble
+CON  48269      2003                   0     King
+CON  48271      2003                4198     Kinney
+CON  48273      2003               51914     Kleberg
+CON  48275      2003                3334     Knox
+CON  48277      2003               42380     Lamar
+CON  48279      2003                4400     Lamb
+CON  48281      2003               15178     Lampasas
+CON  48283      2003                1625     La Salle
+CON  48285      2003               13345     Lavaca
+CON  48287      2003               16330     Lee
+CON  48289      2003               10554     Leon
+CON  48291      2003               52070     Liberty
+CON  48293      2003               17224     Limestone
+CON  48295      2003                   0     Lipscomb
+CON  48297      2003               16749     Live Oak
+CON  48299      2003               60324     Llano
+CON  48301      2003                   0     Loving
+CON  48303      2003              544129     Lubbock
+CON  48305      2003                1787     Lynn
+CON  48307      2003                7185     McCulloch
+CON  48309      2003              325045     McLennan
+CON  48311      2003                 287     McMullen
+CON  48313      2003               18733     Madison
+CON  48315      2003                6780     Marion
+CON  48317      2003                4352     Martin
+CON  48319      2003                 981     Mason
+CON  48321      2003               34508     Matagorda
+CON  48323      2003               25408     Maverick
+CON  48325      2003               17861     Medina
+CON  48327      2003                1725     Menard
+CON  48329      2003              131490     Midland
+CON  48331      2003               31053     Milam
+CON  48333      2003                3597     Mills
+CON  48335      2003               15347     Mitchell
+CON  48337      2003               15697     Montague
+CON  48339      2003             1513859     Montgomery
+CON  48341      2003               14866     Moore
+CON  48343      2003                5227     Morris
+CON  48345      2003                   0     Motley
+CON  48347      2003               68355     Nacogdoches
+CON  48349      2003               60159     Navarro
+CON  48351      2003               30413     Newton
+CON  48353      2003                9234     Nolan
+CON  48355      2003              616044     Nueces
+CON  48357      2003                2378     Ochiltree
+CON  48359      2003               10774     Oldham
+CON  48361      2003              201047     Orange
+CON  48363      2003               43996     Palo Pinto
+CON  48365      2003               13023     Panola
+CON  48367      2003              110645     Parker
+CON  48369      2003                7039     Parmer
+CON  48371      2003                7612     Pecos
+CON  48373      2003               99397     Polk
+CON  48375      2003              285649     Potter
+CON  48377      2003               11215     Presidio
+CON  48379      2003                3989     Rains
+CON  48381      2003              100681     Randall
+CON  48383      2003                3838     Reagan
+CON  48385      2003                5164     Real
+CON  48387      2003               13886     Red River
+CON  48389      2003               14756     Reeves
+CON  48391      2003                5765     Refugio
+CON  48393      2003                   0     Roberts
+CON  48395      2003                8970     Robertson
+CON  48397      2003              325505     Rockwall
+CON  48399      2003               15658     Runnels
+CON  48401      2003               20539     Rusk
+CON  48403      2003                7040     Sabine
+CON  48405      2003                3803     San Augustine
+CON  48407      2003               10791     San Jacinto
+CON  48409      2003               81345     San Patricio
+CON  48411      2003                3341     San Saba
+CON  48413      2003                 106     Schleicher
+CON  48415      2003               16676     Scurry
+CON  48417      2003                3595     Shackelford
+CON  48419      2003               23115     Shelby
+CON  48421      2003                2112     Sherman
+CON  48423      2003              277798     Smith
+CON  48425      2003                3679     Somervell
+CON  48427      2003               60499     Starr
+CON  48429      2003                2104     Stephens
+CON  48431      2003                3340     Sterling
+CON  48433      2003                1892     Stonewall
+CON  48435      2003                8213     Sutton
+CON  48437      2003                2630     Swisher
+CON  48439      2003             3628757     Tarrant
+CON  48441      2003              119503     Taylor
+CON  48443      2003                   0     Terrell
+CON  48445      2003                4797     Terry
+CON  48447      2003                1296     Throckmorton
+CON  48449      2003               50743     Titus
+CON  48451      2003              103544     Tom Green
+CON  48453      2003             2316618     Travis
+CON  48455      2003               17018     Trinity
+CON  48457      2003               14799     Tyler
+CON  48459      2003               22035     Upshur
+CON  48461      2003                5030     Upton
+CON  48463      2003               18735     Uvalde
+CON  48465      2003               45169     Val Verde
+CON  48467      2003               51627     Van Zandt
+CON  48469      2003               91683     Victoria
+CON  48471      2003               85987     Walker
+CON  48473      2003               91818     Waller
+CON  48475      2003               11936     Ward
+CON  48477      2003               27257     Washington
+CON  48479      2003              298435     Webb
+CON  48481      2003               42001     Wharton
+CON  48483      2003                8304     Wheeler
+CON  48485      2003              161306     Wichita
+CON  48487      2003               12558     Wilbarger
+CON  48489      2003               21756     Willacy
+CON  48491      2003             1374627     Williamson
+CON  48493      2003               17042     Wilson
+CON  48495      2003                   0     Winkler
+CON  48497      2003               56533     Wise
+CON  48499      2003               18318     Wood
+CON  48501      2003               15054     Yoakum
+CON  48503      2003               14389     Young
+CON  48505      2003               16896     Zapata
+CON  48507      2003               19846     Zavala
+/END/

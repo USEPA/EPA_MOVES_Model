@@ -1,0 +1,125 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent NUMBER OF EMPLOYEES IN MANUFACTURING
+CBP NAICS 31----, 321///, 322///, 323///, 324///, 325///, 326///, 327///, 331///,
+332///, 333///, 334///, 335///, 336///, 337///, 339///, and 5111//; pre-2002 CBP SIC 20--
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+MFG  37000      2002             1053474     NC
+MFG  37001      2002               25319     Alamance
+MFG  37003      2002                8346     Alexander
+MFG  37005      2002                1209     Alleghany
+MFG  37007      2002                2772     Anson
+MFG  37009      2002                2347     Ashe
+MFG  37011      2002                 492     Avery
+MFG  37013      2002                5342     Beaufort
+MFG  37015      2002                2290     Bertie
+MFG  37017      2002                7250     Bladen
+MFG  37019      2002                3227     Brunswick
+MFG  37021      2002               27617     Buncombe
+MFG  37023      2002               20041     Burke
+MFG  37025      2002               15243     Cabarrus
+MFG  37027      2002               26264     Caldwell
+MFG  37029      2002                 130     Camden
+MFG  37031      2002                2682     Carteret
+MFG  37033      2002                 467     Caswell
+MFG  37035      2002               65845     Catawba
+MFG  37037      2002                9174     Chatham
+MFG  37039      2002                2071     Cherokee
+MFG  37041      2002                1557     Chowan
+MFG  37043      2002                 521     Clay
+MFG  37045      2002               18614     Cleveland
+MFG  37047      2002                6232     Columbus
+MFG  37049      2002                7275     Craven
+MFG  37051      2002               19876     Cumberland
+MFG  37053      2002                 377     Currituck
+MFG  37055      2002                1075     Dare
+MFG  37057      2002               32556     Davidson
+MFG  37059      2002                5421     Davie
+MFG  37061      2002                3878     Duplin
+MFG  37063      2002               47719     Durham
+MFG  37065      2002               15572     Edgecombe
+MFG  37067      2002               38310     Forsyth
+MFG  37069      2002                4657     Franklin
+MFG  37071      2002               28943     Gaston
+MFG  37073      2002                 339     Gates
+MFG  37075      2002                1355     Graham
+MFG  37077      2002               10949     Granville
+MFG  37079      2002                 425     Greene
+MFG  37081      2002               77438     Guilford
+MFG  37083      2002                4378     Halifax
+MFG  37085      2002                4474     Harnett
+MFG  37087      2002                4033     Haywood
+MFG  37089      2002               12525     Henderson
+MFG  37091      2002                2203     Hertford
+MFG  37093      2002                3196     Hoke
+MFG  37095      2002                 137     Hyde
+MFG  37097      2002               23559     Iredell
+MFG  37099      2002                1103     Jackson
+MFG  37101      2002               11738     Johnston
+MFG  37103      2002                  77     Jones
+MFG  37105      2002               16012     Lee
+MFG  37107      2002                8168     Lenoir
+MFG  37109      2002                9414     Lincoln
+MFG  37111      2002               13480     McDowell
+MFG  37113      2002                1926     Macon
+MFG  37115      2002                1435     Madison
+MFG  37117      2002                1710     Martin
+MFG  37119      2002               64371     Mecklenburg
+MFG  37121      2002                3062     Mitchell
+MFG  37123      2002                7118     Montgomery
+MFG  37125      2002                4568     Moore
+MFG  37127      2002                6082     Nash
+MFG  37129      2002               13810     New Hanover
+MFG  37131      2002                 813     Northampton
+MFG  37133      2002                3138     Onslow
+MFG  37135      2002                1928     Orange
+MFG  37137      2002                 139     Pamlico
+MFG  37139      2002                1148     Pasquotank
+MFG  37141      2002                1375     Pender
+MFG  37143      2002                 246     Perquimans
+MFG  37145      2002                5559     Person
+MFG  37147      2002               14832     Pitt
+MFG  37149      2002                1014     Polk
+MFG  37151      2002               32951     Randolph
+MFG  37153      2002                5525     Richmond
+MFG  37155      2002               11645     Robeson
+MFG  37157      2002               14562     Rockingham
+MFG  37159      2002               22373     Rowan
+MFG  37161      2002               11535     Rutherford
+MFG  37163      2002                4997     Sampson
+MFG  37165      2002                9292     Scotland
+MFG  37167      2002                9645     Stanly
+MFG  37169      2002                2088     Stokes
+MFG  37171      2002               14312     Surry
+MFG  37173      2002                 546     Swain
+MFG  37175      2002                2939     Transylvania
+MFG  37177      2002                  61     Tyrrell
+MFG  37179      2002               21210     Union
+MFG  37181      2002                4555     Vance
+MFG  37183      2002               38278     Wake
+MFG  37185      2002                1036     Warren
+MFG  37187      2002                3187     Washington
+MFG  37189      2002                1853     Watauga
+MFG  37191      2002               12126     Wayne
+MFG  37193      2002                9842     Wilkes
+MFG  37195      2002               13914     Wilson
+MFG  37197      2002                3699     Yadkin
+MFG  37199      2002                1315     Yancey
+/END/

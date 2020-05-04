@@ -1,0 +1,58 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WATER SURFACE AREA FOR OUTBOARD RECREATIONAL MARINE CRAFT (sq km navigable water)
+1990 GICS (inland water area); GIS analysis of coast lengths (coastal navigable water)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+WOB  35000      1990                 605     NM
+WOB  35001      1990                   7     Bernalillo
+WOB  35003      1990                   3     Catron
+WOB  35005      1990                  11     Chaves
+WOB  35006      1990                   6     Cibola
+WOB  35007      1990                  29     Colfax
+WOB  35009      1990                   4     Curry
+WOB  35011      1990                  23     De Baca
+WOB  35013      1990                  19     Dona Ana
+WOB  35015      1990                  40     Eddy
+WOB  35017      1990                   4     Grant
+WOB  35019      1990                   3     Guadalupe
+WOB  35021      1990                   2     Harding
+WOB  35023      1990                   1     Hidalgo
+WOB  35025      1990                   3     Lea
+WOB  35027      1990                   1     Lincoln
+WOB  35028      1990                   0     Los Alamos
+WOB  35029      1990                   0     Luna
+WOB  35031      1990                  17     McKinley
+WOB  35033      1990                   6     Mora
+WOB  35035      1990                   2     Otero
+WOB  35037      1990                  18     Quay
+WOB  35039      1990                 100     Rio Arriba
+WOB  35041      1990                  17     Roosevelt
+WOB  35043      1990                  13     Sandoval
+WOB  35045      1990                  63     San Juan
+WOB  35047      1990                  48     San Miguel
+WOB  35049      1990                   4     Santa Fe
+WOB  35051      1990                 145     Sierra
+WOB  35053      1990                   5     Socorro
+WOB  35055      1990                   4     Taos
+WOB  35057      1990                   3     Torrance
+WOB  35059      1990                   2     Union
+WOB  35061      1990                   2     Valencia
+/END/

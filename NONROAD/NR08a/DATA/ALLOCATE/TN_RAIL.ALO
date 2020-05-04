@@ -1,0 +1,122 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent LOCOMOTIVE NOx TONS
+from Draft 2002 NEI
+
+9/1/05 epa: Modifies to treat PR & VI as additional to US Total.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+RR   47000      2002           21442.350     TN
+RR   47001      2002             589.750     Anderson
+RR   47003      2002             323.610     Bedford
+RR   47005      2002              76.720     Benton
+RR   47007      2002               0.000     Bledsoe
+RR   47009      2002             324.520     Blount
+RR   47011      2002             192.950     Bradley
+RR   47013      2002             243.280     Campbell
+RR   47015      2002               0.000     Cannon
+RR   47017      2002             250.420     Carroll
+RR   47019      2002             202.810     Carter
+RR   47021      2002             201.670     Cheatham
+RR   47023      2002              10.800     Chester
+RR   47025      2002              35.260     Claiborne
+RR   47027      2002               0.000     Clay
+RR   47029      2002             271.850     Cocke
+RR   47031      2002             184.320     Coffee
+RR   47033      2002              99.690     Crockett
+RR   47035      2002               4.380     Cumberland
+RR   47037      2002            1101.080     Davidson
+RR   47039      2002               0.000     Decatur
+RR   47041      2002               0.000     DeKalb
+RR   47043      2002             396.780     Dickson
+RR   47045      2002             298.800     Dyer
+RR   47047      2002             447.220     Fayette
+RR   47049      2002               0.000     Fentress
+RR   47051      2002             224.400     Franklin
+RR   47053      2002             190.920     Gibson
+RR   47055      2002             326.550     Giles
+RR   47057      2002              41.710     Grainger
+RR   47059      2002              97.980     Greene
+RR   47061      2002               0.000     Grundy
+RR   47063      2002             227.320     Hamblen
+RR   47065      2002            1420.980     Hamilton
+RR   47067      2002               0.000     Hancock
+RR   47069      2002             249.760     Hardeman
+RR   47071      2002               1.410     Hardin
+RR   47073      2002             675.580     Hawkins
+RR   47075      2002             259.780     Haywood
+RR   47077      2002               0.000     Henderson
+RR   47079      2002               0.000     Henry
+RR   47081      2002               0.000     Hickman
+RR   47083      2002               0.000     Houston
+RR   47085      2002             217.350     Humphreys
+RR   47087      2002               0.000     Jackson
+RR   47089      2002             286.350     Jefferson
+RR   47091      2002               0.000     Johnson
+RR   47093      2002             937.300     Knox
+RR   47095      2002               0.000     Lake
+RR   47097      2002             272.100     Lauderdale
+RR   47099      2002               0.000     Lawrence
+RR   47101      2002               0.000     Lewis
+RR   47103      2002             231.020     Lincoln
+RR   47105      2002             669.200     Loudon
+RR   47107      2002             605.180     McMinn
+RR   47109      2002              82.730     McNairy
+RR   47111      2002               0.000     Macon
+RR   47113      2002              23.720     Madison
+RR   47115      2002             199.250     Marion
+RR   47117      2002             520.300     Marshall
+RR   47119      2002              10.650     Maury
+RR   47121      2002               0.000     Meigs
+RR   47123      2002             412.600     Monroe
+RR   47125      2002             262.480     Montgomery
+RR   47127      2002               0.000     Moore
+RR   47129      2002             410.250     Morgan
+RR   47131      2002             265.730     Obion
+RR   47133      2002               0.000     Overton
+RR   47135      2002               0.000     Perry
+RR   47137      2002               0.000     Pickett
+RR   47139      2002             185.550     Polk
+RR   47141      2002               0.000     Putnam
+RR   47143      2002             674.060     Rhea
+RR   47145      2002             633.830     Roane
+RR   47147      2002             502.770     Robertson
+RR   47149      2002             486.900     Rutherford
+RR   47151      2002             432.980     Scott
+RR   47153      2002               0.000     Sequatchie
+RR   47155      2002               0.000     Sevier
+RR   47157      2002            1421.270     Shelby
+RR   47159      2002               0.000     Smith
+RR   47161      2002               0.000     Stewart
+RR   47163      2002             353.490     Sullivan
+RR   47165      2002             207.980     Sumner
+RR   47167      2002             822.100     Tipton
+RR   47169      2002               0.000     Trousdale
+RR   47171      2002             197.640     Unicoi
+RR   47173      2002              27.630     Union
+RR   47175      2002               0.000     Van Buren
+RR   47177      2002               0.000     Warren
+RR   47179      2002             535.050     Washington
+RR   47181      2002               0.000     Wayne
+RR   47183      2002              98.450     Weakley
+RR   47185      2002               0.000     White
+RR   47187      2002             484.140     Williamson
+RR   47189      2002               0.000     Wilson
+/END/

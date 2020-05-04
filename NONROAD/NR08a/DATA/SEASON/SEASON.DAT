@@ -1,0 +1,1050 @@
+This file contains the seasonality (temporal adjustment data) used
+by the NONROAD model.  These data are used to convert tons/year
+calculated by the model to the arbitrary time period specified by
+the model.  A description of each packet appears below.
+
+NOTE: If no data for an equipment type can be found in this
+file, the default values will be used for temporal allocation.
+The default values represent a flat temporal activity profile.
+
+9/16/05, 11b, EPA updates construction seasons per 2003 McGraw-Hill county-month const dollar values.
+9/28/05, 11c, EPA updates US Total Seasonal Allocations per new Geographic ALO and new Const Seasonal allocations.
+
+--------------------------------------------------------------
+The following packet defines the states/counties in each
+geographic region.  The region code is arbitrary but the
+FIPs code must be a valid state or county FIPS code.  If
+a state code is supplied, all counties in that state will
+be included in the indicated region, unless overridden by
+a county-specific record.  If a state or county is not
+listed under any region, only data records with a global
+region code (all blanks) will used for that state or county.
+
+The format is as follows:
+ 1- 5  character     -- user defined region code
+ 6-45  character     -- region description (not used)
+46-50  character     -- state or county FIPs code
+51-70  character     -- state or county name (not used)
+--------------------------------------------------------------
+
+/REGIONS/
+US           National                        00000 Nation
+SE           Southeast                       01000 Alabama
+MW           Great Lakes/Midwest             02000 Alaska
+SW           Southwest                       04000 Arizona
+SC           South Central                   05000 Arkansas
+WCST         West Coast                      06000 California
+RCKMT        Rocky Mountains                 08000 Colorado
+MIDAT        Mid-Atlantic                    09000 Connecticut
+MIDAT        Mid-Atlantic                    10000 Delaware
+SE           Southeast                       12000 Florida
+SE           Southeast                       13000 Georgia
+WCST         West Coast                      15000 Hawaii
+NW           Northwest                       16000 Idaho
+MW           Great Lakes/Midwest             17000 Illinois
+MW           Great Lakes/Midwest             18000 Indiana
+MW           Great Lakes/Midwest             19000 Iowa
+CW           Central West                    20000 Kansas
+SC           South Central                   21000 Kentucky
+SE           Southeast                       22000 Louisiana
+NE           Northeast/New England           23000 Maine
+MIDAT        Mid-Atlantic                    24000 Maryland
+NE           Northeast/New England           25000 Massachusetts
+MW           Great Lakes/Midwest             26000 Michigan
+MW           Great Lakes/Midwest             27000 Minnesota
+SE           Southeast                       28000 Mississippi
+MW           Great Lakes/Midwest             29000 Missouri
+NW           Northwest                       30000 Montana
+CW           Central West                    31000 Nebraska
+CW           Central West                    32000 Nevada
+NE           Northeast/New England           33000 New Hampshire
+MIDAT        Mid-Atlantic                    34000 New Jersey
+SW           Southwest                       35000 New Mexico
+NE           Northeast/New England           36000 New York
+MIDAT        Mid-Atlantic                    37000 North Carolina
+MW           Great Lakes/Midwest             38000 North Dakota
+MW           Great Lakes/Midwest             39000 Ohio
+SC           South Central                   40000 Oklahoma
+NW           Northwest                       41000 Oregon
+MIDAT        Mid-Atlantic                    42000 Pennsylvania
+MIDAT        Mid-Atlantic                    44000 Rhode Island
+SE           Southeast                       45000 South Carolina
+MW           Great Lakes/Midwest             46000 South Dakota
+SC           South Central                   47000 Tennessee
+SW           Southwest                       48000 Texas
+CW           Central West                    49000 Utah
+NE           Northeast/New England           50000 Vermont
+MIDAT        Mid-Atlantic                    51000 Virginia
+NW           Northwest                       53000 Washington
+MIDAT        Mid-Atlantic                    11000 Washington D.C.
+MIDAT        Mid-Atlantic                    54000 West Virginia
+MW           Great Lakes/Midwest             55000 Wisconsin
+RCKMT        Rocky Mountains                 56000 Wyoming
+SE           Southeast                       72000 Puerto Rico
+SE           Southeast                       78000 US Virgin Islands
+/END/
+
+
+
+---------------------------------------------------------------
+The following packet contains the monthly adjustment factors.
+The factors are fraction of annual activity occurring in the given
+month.  For periods longer than a single month (e.g. season)
+the factors from each month spanned by the period will be
+summed.
+Global SCC codes can be used and the model will find the best
+match.
+A blank region code will apply to all states and counties.
+The model will also find the best match on subregion code.
+
+The format is as follows:
+
+  1-  5  character  -- subregion code (blank = match all)
+  7- 16  character  -- SCC code (global codes are acceptable)
+ 18- 51  character  -- equipment description (not used)
+ 52- 61  real       -- fraction of annual activity in January
+ 62- 71  real       -- fraction of annual activity in February
+ 72- 81  real       -- fraction of annual activity in March
+ 82- 91  real       -- fraction of annual activity in April
+ 92-101  real       -- fraction of annual activity in May
+102-111  real       -- fraction of annual activity in June
+112-121  real       -- fraction of annual activity in July
+122-131  real       -- fraction of annual activity in August
+132-141  real       -- fraction of annual activity in September
+142-151  real       -- fraction of annual activity in October
+152-161  real       -- fraction of annual activity in November
+162-171  real       -- fraction of annual activity in December
+
+---------------------------------------------------------------
+
+/MONTHLY/
+CW    2260000000 Average                                0.081     0.081     0.075     0.075     0.075     0.101     0.101     0.101     0.075     0.075     0.075     0.081
+CW    2260001000 Recreational Equipment                 0.027     0.027      0.08      0.08      0.08     0.147     0.147     0.147      0.08      0.08      0.08     0.027
+CW    2260001020 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+CW    2260002000 Construction                           0.070     0.070     0.089     0.089     0.089     0.094     0.094     0.094     0.080     0.080     0.080     0.070
+CW    2260003000 Industrial                             0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+CW    2260004000 Lawn and Garden excl. chainsaws         0.02      0.02      0.09      0.09      0.09     0.133     0.133     0.133      0.09      0.09      0.09      0.02
+CW    2260004020 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+CW    2260004021 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+CW    2260004035 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+CW    2260004036 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+CW    2260005000 Agricultural                            0.02      0.02      0.09      0.09      0.09     0.133     0.133     0.133      0.09      0.09      0.09      0.02
+CW    2260006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+CW    2260007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+CW    2260008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+CW    2265000000 Average                                0.081     0.081     0.075     0.075     0.075     0.101     0.101     0.101     0.075     0.075     0.075     0.081
+CW    2265001000 Recreational Equipment                 0.027     0.027      0.08      0.08      0.08     0.147     0.147     0.147      0.08      0.08      0.08     0.027
+CW    2265001020 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+CW    2265002000 Construction                           0.070     0.070     0.089     0.089     0.089     0.094     0.094     0.094     0.080     0.080     0.080     0.070
+CW    2265003000 Industrial                             0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+CW    2265004000 Lawn and Garden excl. chainsaws         0.02      0.02      0.09      0.09      0.09     0.133     0.133     0.133      0.09      0.09      0.09      0.02
+CW    2265004020 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+CW    2265004021 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+CW    2265004035 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+CW    2265004036 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+CW    2265005000 Agricultural                            0.02      0.02      0.09      0.09      0.09     0.133     0.133     0.133      0.09      0.09      0.09      0.02
+CW    2265006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+CW    2265007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+CW    2265008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+CW    2267000000 Average                                0.081     0.081     0.075     0.075     0.075     0.101     0.101     0.101     0.075     0.075     0.075     0.081
+CW    2267001000 Recreational Equipment                 0.027     0.027      0.08      0.08      0.08     0.147     0.147     0.147      0.08      0.08      0.08     0.027
+CW    2267001020 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+CW    2267002000 Construction                           0.070     0.070     0.089     0.089     0.089     0.094     0.094     0.094     0.080     0.080     0.080     0.070
+CW    2267003000 Industrial                             0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+CW    2267004000 Lawn and Garden excl. chainsaws         0.02      0.02      0.09      0.09      0.09     0.133     0.133     0.133      0.09      0.09      0.09      0.02
+CW    2267004020 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+CW    2267004021 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+CW    2267004035 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+CW    2267004036 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+CW    2267005000 Agricultural                            0.02      0.02      0.09      0.09      0.09     0.133     0.133     0.133      0.09      0.09      0.09      0.02
+CW    2267006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+CW    2267007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+CW    2267008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+CW    2268000000 Average                                0.081     0.081     0.075     0.075     0.075     0.101     0.101     0.101     0.075     0.075     0.075     0.081
+CW    2268001000 Recreational Equipment                 0.027     0.027      0.08      0.08      0.08     0.147     0.147     0.147      0.08      0.08      0.08     0.027
+CW    2268001020 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+CW    2268002000 Construction                           0.070     0.070     0.089     0.089     0.089     0.094     0.094     0.094     0.080     0.080     0.080     0.070
+CW    2268003000 Industrial                             0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+CW    2268004000 Lawn and Garden excl. chainsaws         0.02      0.02      0.09      0.09      0.09     0.133     0.133     0.133      0.09      0.09      0.09      0.02
+CW    2268004020 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+CW    2268004021 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+CW    2268004035 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+CW    2268004036 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+CW    2268005000 Agricultural                            0.02      0.02      0.09      0.09      0.09     0.133     0.133     0.133      0.09      0.09      0.09      0.02
+CW    2268006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+CW    2268007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+CW    2268008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+CW    2270000000 Average                                0.081     0.081     0.075     0.075     0.075     0.101     0.101     0.101     0.075     0.075     0.075     0.081
+CW    2270001000 Recreational Equipment                 0.027     0.027      0.08      0.08      0.08     0.147     0.147     0.147      0.08      0.08      0.08     0.027
+CW    2270001020 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+CW    2270002000 Construction                           0.070     0.070     0.089     0.089     0.089     0.094     0.094     0.094     0.080     0.080     0.080     0.070
+CW    2270003000 Industrial                             0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+CW    2270004000 Lawn and Garden excl. chainsaws         0.02      0.02      0.09      0.09      0.09     0.133     0.133     0.133      0.09      0.09      0.09      0.02
+CW    2270004020 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+CW    2270004021 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+CW    2270004035 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+CW    2270004036 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+CW    2270005000 Agricultural                            0.02      0.02      0.09      0.09      0.09     0.133     0.133     0.133      0.09      0.09      0.09      0.02
+CW    2270006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+CW    2270007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+CW    2270008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+CW    2280000000 Commercial Marine                      0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+CW    2282000000 Recreational Marine                    0.023     0.023     0.075     0.075     0.075      0.16      0.16      0.16     0.075     0.075     0.075     0.023
+CW    2285000000 Railway Maintenance                    0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MIDAT 2260000000 Average                                 0.08      0.08     0.074     0.074     0.074     0.103     0.103     0.103     0.074     0.074     0.074      0.08
+MIDAT 2260001000 Recreational Equipment                  0.04      0.04     0.078     0.078     0.078     0.137     0.137     0.137     0.078     0.078     0.078      0.04
+MIDAT 2260001020 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+MIDAT 2260002000 Construction                           0.072     0.072     0.079     0.079     0.079     0.098     0.098     0.098     0.085     0.085     0.085     0.072
+MIDAT 2260003000 Industrial                             0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MIDAT 2260004000 Lawn and Garden excl. chainsaws         0.02      0.02      0.09      0.09      0.09     0.133     0.133     0.133      0.09      0.09      0.09      0.02
+MIDAT 2260004020 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MIDAT 2260004021 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MIDAT 2260004035 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+MIDAT 2260004036 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+MIDAT 2260005000 Agricultural                            0.02      0.02      0.09      0.09      0.09     0.133     0.133     0.133      0.09      0.09      0.09      0.02
+MIDAT 2260006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MIDAT 2260007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MIDAT 2260008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MIDAT 2265000000 Average                                 0.08      0.08     0.074     0.074     0.074     0.103     0.103     0.103     0.074     0.074     0.074      0.08
+MIDAT 2265001000 Recreational Equipment                  0.04      0.04     0.078     0.078     0.078     0.137     0.137     0.137     0.078     0.078     0.078      0.04
+MIDAT 2265001020 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+MIDAT 2265002000 Construction                           0.072     0.072     0.079     0.079     0.079     0.098     0.098     0.098     0.085     0.085     0.085     0.072
+MIDAT 2265003000 Industrial                             0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MIDAT 2265004000 Lawn and Garden excl. chainsaws         0.02      0.02      0.09      0.09      0.09     0.133     0.133     0.133      0.09      0.09      0.09      0.02
+MIDAT 2265004020 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MIDAT 2265004021 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MIDAT 2265004035 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+MIDAT 2265004036 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+MIDAT 2265005000 Agricultural                            0.02      0.02      0.09      0.09      0.09     0.133     0.133     0.133      0.09      0.09      0.09      0.02
+MIDAT 2265006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MIDAT 2265007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MIDAT 2265008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MIDAT 2267000000 Average                                 0.08      0.08     0.074     0.074     0.074     0.103     0.103     0.103     0.074     0.074     0.074      0.08
+MIDAT 2267001000 Recreational Equipment                  0.04      0.04     0.078     0.078     0.078     0.137     0.137     0.137     0.078     0.078     0.078      0.04
+MIDAT 2267001020 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+MIDAT 2267002000 Construction                           0.072     0.072     0.079     0.079     0.079     0.098     0.098     0.098     0.085     0.085     0.085     0.072
+MIDAT 2267003000 Industrial                             0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MIDAT 2267004000 Lawn and Garden excl. chainsaws         0.02      0.02      0.09      0.09      0.09     0.133     0.133     0.133      0.09      0.09      0.09      0.02
+MIDAT 2267004020 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MIDAT 2267004021 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MIDAT 2267004035 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+MIDAT 2267004036 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+MIDAT 2267005000 Agricultural                            0.02      0.02      0.09      0.09      0.09     0.133     0.133     0.133      0.09      0.09      0.09      0.02
+MIDAT 2267006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MIDAT 2267007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MIDAT 2267008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MIDAT 2268000000 Average                                 0.08      0.08     0.074     0.074     0.074     0.103     0.103     0.103     0.074     0.074     0.074      0.08
+MIDAT 2268001000 Recreational Equipment                  0.04      0.04     0.078     0.078     0.078     0.137     0.137     0.137     0.078     0.078     0.078      0.04
+MIDAT 2268001020 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+MIDAT 2268002000 Construction                           0.072     0.072     0.079     0.079     0.079     0.098     0.098     0.098     0.085     0.085     0.085     0.072
+MIDAT 2268003000 Industrial                             0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MIDAT 2268004000 Lawn and Garden excl. chainsaws         0.02      0.02      0.09      0.09      0.09     0.133     0.133     0.133      0.09      0.09      0.09      0.02
+MIDAT 2268004020 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MIDAT 2268004021 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MIDAT 2268004035 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+MIDAT 2268004036 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+MIDAT 2268005000 Agricultural                            0.02      0.02      0.09      0.09      0.09     0.133     0.133     0.133      0.09      0.09      0.09      0.02
+MIDAT 2268006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MIDAT 2268007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MIDAT 2268008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MIDAT 2270000000 Average                                 0.08      0.08     0.074     0.074     0.074     0.103     0.103     0.103     0.074     0.074     0.074      0.08
+MIDAT 2270001000 Recreational Equipment                  0.04      0.04     0.078     0.078     0.078     0.137     0.137     0.137     0.078     0.078     0.078      0.04
+MIDAT 2270001020 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+MIDAT 2270002000 Construction                           0.072     0.072     0.079     0.079     0.079     0.098     0.098     0.098     0.085     0.085     0.085     0.072
+MIDAT 2270003000 Industrial                             0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MIDAT 2270004000 Lawn and Garden excl. chainsaws         0.02      0.02      0.09      0.09      0.09     0.133     0.133     0.133      0.09      0.09      0.09      0.02
+MIDAT 2270004020 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MIDAT 2270004021 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MIDAT 2270004035 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+MIDAT 2270004036 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+MIDAT 2270005000 Agricultural                            0.02      0.02      0.09      0.09      0.09     0.133     0.133     0.133      0.09      0.09      0.09      0.02
+MIDAT 2270006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MIDAT 2270007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MIDAT 2270008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MIDAT 2280000000 Commercial Marine                      0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MIDAT 2282000000 Recreational Marine                    0.007     0.007     0.068     0.068     0.068      0.19      0.19      0.19     0.068     0.068     0.068     0.007
+MIDAT 2285000000 Railway Maintenance                    0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MW    2260000000 Average                                0.076     0.076      0.07      0.07      0.07     0.118     0.118     0.118      0.07      0.07      0.07     0.076
+MW    2260001000 Recreational Equipment                 0.027     0.027     0.077     0.077     0.077     0.153     0.153     0.153     0.077     0.077     0.077     0.027
+MW    2260001020 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+MW    2260002000 Construction                           0.061     0.061     0.089     0.089     0.089     0.099     0.099     0.099     0.086     0.086     0.086     0.061
+MW    2260003000 Industrial                             0.067     0.067     0.083     0.083     0.083       0.1       0.1       0.1     0.083     0.083     0.083     0.067
+MW    2260004000 Lawn and Garden excl. chainsaws         0.02      0.02     0.073     0.073     0.073     0.167     0.167     0.167     0.073     0.073     0.073      0.02
+MW    2260004020 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MW    2260004021 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MW    2260004035 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+MW    2260004036 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+MW    2260005000 Agricultural                            0.02      0.02     0.073     0.073     0.073     0.167     0.167     0.167     0.073     0.073     0.073      0.02
+MW    2260006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MW    2260007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MW    2260008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MW    2265000000 Average                                0.076     0.076      0.07      0.07      0.07     0.118     0.118     0.118      0.07      0.07      0.07     0.076
+MW    2265001000 Recreational Equipment                 0.027     0.027     0.077     0.077     0.077     0.153     0.153     0.153     0.077     0.077     0.077     0.027
+MW    2265001020 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+MW    2265002000 Construction                           0.061     0.061     0.089     0.089     0.089     0.099     0.099     0.099     0.086     0.086     0.086     0.061
+MW    2265003000 Industrial                             0.067     0.067     0.083     0.083     0.083       0.1       0.1       0.1     0.083     0.083     0.083     0.067
+MW    2265004000 Lawn and Garden excl. chainsaws         0.02      0.02     0.073     0.073     0.073     0.167     0.167     0.167     0.073     0.073     0.073      0.02
+MW    2265004020 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MW    2265004021 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MW    2265004035 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+MW    2265004036 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+MW    2265005000 Agricultural                            0.02      0.02     0.073     0.073     0.073     0.167     0.167     0.167     0.073     0.073     0.073      0.02
+MW    2265006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MW    2265007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MW    2265008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MW    2267000000 Average                                0.076     0.076      0.07      0.07      0.07     0.118     0.118     0.118      0.07      0.07      0.07     0.076
+MW    2267001000 Recreational Equipment                 0.027     0.027     0.077     0.077     0.077     0.153     0.153     0.153     0.077     0.077     0.077     0.027
+MW    2267001020 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+MW    2267002000 Construction                           0.061     0.061     0.089     0.089     0.089     0.099     0.099     0.099     0.086     0.086     0.086     0.061
+MW    2267003000 Industrial                             0.067     0.067     0.083     0.083     0.083       0.1       0.1       0.1     0.083     0.083     0.083     0.067
+MW    2267004000 Lawn and Garden excl. chainsaws         0.02      0.02     0.073     0.073     0.073     0.167     0.167     0.167     0.073     0.073     0.073      0.02
+MW    2267004020 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MW    2267004021 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MW    2267004035 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+MW    2267004036 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+MW    2267005000 Agricultural                            0.02      0.02     0.073     0.073     0.073     0.167     0.167     0.167     0.073     0.073     0.073      0.02
+MW    2267006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MW    2267007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MW    2267008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MW    2268000000 Average                                0.076     0.076      0.07      0.07      0.07     0.118     0.118     0.118      0.07      0.07      0.07     0.076
+MW    2268001000 Recreational Equipment                 0.027     0.027     0.077     0.077     0.077     0.153     0.153     0.153     0.077     0.077     0.077     0.027
+MW    2268001020 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+MW    2268002000 Construction                           0.061     0.061     0.089     0.089     0.089     0.099     0.099     0.099     0.086     0.086     0.086     0.061
+MW    2268003000 Industrial                             0.067     0.067     0.083     0.083     0.083       0.1       0.1       0.1     0.083     0.083     0.083     0.067
+MW    2268004000 Lawn and Garden excl. chainsaws         0.02      0.02     0.073     0.073     0.073     0.167     0.167     0.167     0.073     0.073     0.073      0.02
+MW    2268004020 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MW    2268004021 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MW    2268004035 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+MW    2268004036 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+MW    2268005000 Agricultural                            0.02      0.02     0.073     0.073     0.073     0.167     0.167     0.167     0.073     0.073     0.073      0.02
+MW    2268006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MW    2268007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MW    2268008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MW    2270000000 Average                                0.076     0.076      0.07      0.07      0.07     0.118     0.118     0.118      0.07      0.07      0.07     0.076
+MW    2270001000 Recreational Equipment                 0.027     0.027     0.077     0.077     0.077     0.153     0.153     0.153     0.077     0.077     0.077     0.027
+MW    2270001020 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+MW    2270002000 Construction                           0.061     0.061     0.089     0.089     0.089     0.099     0.099     0.099     0.086     0.086     0.086     0.061
+MW    2270003000 Industrial                             0.067     0.067     0.083     0.083     0.083       0.1       0.1       0.1     0.083     0.083     0.083     0.067
+MW    2270004000 Lawn and Garden excl. chainsaws         0.02      0.02     0.073     0.073     0.073     0.167     0.167     0.167     0.073     0.073     0.073      0.02
+MW    2270004020 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MW    2270004021 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MW    2270004035 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+MW    2270004036 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+MW    2270005000 Agricultural                            0.02      0.02     0.073     0.073     0.073     0.167     0.167     0.167     0.073     0.073     0.073      0.02
+MW    2270006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MW    2270007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MW    2270008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MW    2280000000 Commercial Marine                      0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+MW    2282000000 Recreational Marine                        0         0      0.05      0.05      0.05     0.233     0.233     0.233      0.05      0.05      0.05         0
+MW    2285000000 Railway Maintenance                    0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NE    2260000000 Average                                0.078     0.078     0.069     0.069     0.069     0.117     0.117     0.117     0.069     0.069     0.069     0.078
+NE    2260001000 Recreational Equipment                 0.047     0.047      0.07      0.07      0.07     0.146     0.146     0.146      0.07      0.07      0.07     0.047
+NE    2260001020 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+NE    2260002000 Construction                           0.059     0.059     0.093     0.093     0.093     0.095     0.095     0.095     0.086     0.086     0.086     0.059
+NE    2260003000 Industrial                             0.067     0.067     0.083     0.083     0.083       0.1       0.1       0.1     0.083     0.083     0.083     0.067
+NE    2260004000 Lawn and Garden excl. chainsaws         0.02      0.02     0.073     0.073     0.073     0.167     0.167     0.167     0.073     0.073     0.073      0.02
+NE    2260004020 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NE    2260004021 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NE    2260004035 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+NE    2260004036 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+NE    2260005000 Agricultural                            0.02      0.02     0.073     0.073     0.073     0.167     0.167     0.167     0.073     0.073     0.073      0.02
+NE    2260006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NE    2260007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NE    2260008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NE    2265000000 Average                                0.078     0.078     0.069     0.069     0.069     0.117     0.117     0.117     0.069     0.069     0.069     0.078
+NE    2265001000 Recreational Equipment                 0.047     0.047      0.07      0.07      0.07     0.146     0.146     0.146      0.07      0.07      0.07     0.047
+NE    2265001020 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+NE    2265002000 Construction                           0.059     0.059     0.093     0.093     0.093     0.095     0.095     0.095     0.086     0.086     0.086     0.059
+NE    2265003000 Industrial                             0.067     0.067     0.083     0.083     0.083       0.1       0.1       0.1     0.083     0.083     0.083     0.067
+NE    2265004000 Lawn and Garden excl. chainsaws         0.02      0.02     0.073     0.073     0.073     0.167     0.167     0.167     0.073     0.073     0.073      0.02
+NE    2265004020 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NE    2265004021 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NE    2265004035 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+NE    2265004036 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+NE    2265005000 Agricultural                            0.02      0.02     0.073     0.073     0.073     0.167     0.167     0.167     0.073     0.073     0.073      0.02
+NE    2265006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NE    2265007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NE    2265008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NE    2267000000 Average                                0.078     0.078     0.069     0.069     0.069     0.117     0.117     0.117     0.069     0.069     0.069     0.078
+NE    2267001000 Recreational Equipment                 0.047     0.047      0.07      0.07      0.07     0.146     0.146     0.146      0.07      0.07      0.07     0.047
+NE    2267001020 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+NE    2267002000 Construction                           0.059     0.059     0.093     0.093     0.093     0.095     0.095     0.095     0.086     0.086     0.086     0.059
+NE    2267003000 Industrial                             0.067     0.067     0.083     0.083     0.083       0.1       0.1       0.1     0.083     0.083     0.083     0.067
+NE    2267004000 Lawn and Garden excl. chainsaws         0.02      0.02     0.073     0.073     0.073     0.167     0.167     0.167     0.073     0.073     0.073      0.02
+NE    2267004020 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NE    2267004021 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NE    2267004035 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+NE    2267004036 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+NE    2267005000 Agricultural                            0.02      0.02     0.073     0.073     0.073     0.167     0.167     0.167     0.073     0.073     0.073      0.02
+NE    2267006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NE    2267007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NE    2267008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NE    2268000000 Average                                0.078     0.078     0.069     0.069     0.069     0.117     0.117     0.117     0.069     0.069     0.069     0.078
+NE    2268001000 Recreational Equipment                 0.047     0.047      0.07      0.07      0.07     0.146     0.146     0.146      0.07      0.07      0.07     0.047
+NE    2268001020 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+NE    2268002000 Construction                           0.059     0.059     0.093     0.093     0.093     0.095     0.095     0.095     0.086     0.086     0.086     0.059
+NE    2268003000 Industrial                             0.067     0.067     0.083     0.083     0.083       0.1       0.1       0.1     0.083     0.083     0.083     0.067
+NE    2268004000 Lawn and Garden excl. chainsaws         0.02      0.02     0.073     0.073     0.073     0.167     0.167     0.167     0.073     0.073     0.073      0.02
+NE    2268004020 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NE    2268004021 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NE    2268004035 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+NE    2268004036 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+NE    2268005000 Agricultural                            0.02      0.02     0.073     0.073     0.073     0.167     0.167     0.167     0.073     0.073     0.073      0.02
+NE    2268006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NE    2268007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NE    2268008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NE    2270000000 Average                                0.078     0.078     0.069     0.069     0.069     0.117     0.117     0.117     0.069     0.069     0.069     0.078
+NE    2270001000 Recreational Equipment                 0.047     0.047      0.07      0.07      0.07     0.146     0.146     0.146      0.07      0.07      0.07     0.047
+NE    2270001020 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+NE    2270002000 Construction                           0.059     0.059     0.093     0.093     0.093     0.095     0.095     0.095     0.086     0.086     0.086     0.059
+NE    2270003000 Industrial                             0.067     0.067     0.083     0.083     0.083       0.1       0.1       0.1     0.083     0.083     0.083     0.067
+NE    2270004000 Lawn and Garden excl. chainsaws         0.02      0.02     0.073     0.073     0.073     0.167     0.167     0.167     0.073     0.073     0.073      0.02
+NE    2270004020 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NE    2270004021 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NE    2270004035 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+NE    2270004036 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+NE    2270005000 Agricultural                            0.02      0.02     0.073     0.073     0.073     0.167     0.167     0.167     0.073     0.073     0.073      0.02
+NE    2270006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NE    2270007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NE    2270008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NE    2280000000 Commercial Marine                      0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NE    2282000000 Recreational Marine                    0.003     0.003     0.052     0.052     0.052      0.23      0.23      0.23     0.052     0.052     0.052     0.003
+NE    2285000000 Railway Maintenance                    0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NW    2260000000 Average                                0.077     0.077     0.071     0.071     0.071     0.113     0.113     0.113     0.071     0.071     0.071     0.077
+NW    2260001000 Recreational Equipment                 0.043     0.043     0.073     0.073     0.073     0.143     0.143     0.143     0.073     0.073     0.073     0.043
+NW    2260001020 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+NW    2260002000 Construction                           0.069     0.069     0.081     0.081     0.081     0.102     0.102     0.102     0.080     0.080     0.080     0.069
+NW    2260003000 Industrial                             0.067     0.067     0.083     0.083     0.083       0.1       0.1       0.1     0.083     0.083     0.083     0.067
+NW    2260004000 Lawn and Garden excl. chainsaws         0.02      0.02     0.073     0.073     0.073     0.167     0.167     0.167     0.073     0.073     0.073      0.02
+NW    2260004020 Lawn and garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NW    2260004021 Lawn and garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NW    2260004035 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+NW    2260004036 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+NW    2260005000 Agricultural                            0.02      0.02     0.073     0.073     0.073     0.167     0.167     0.167     0.073     0.073     0.073      0.02
+NW    2260006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NW    2260007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NW    2260008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NW    2265000000 Average                                0.077     0.077     0.071     0.071     0.071     0.113     0.113     0.113     0.071     0.071     0.071     0.077
+NW    2265001000 Recreational Equipment                 0.037     0.037     0.075     0.075     0.075     0.147     0.147     0.147     0.075     0.075     0.075     0.037
+NW    2265001020 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+NW    2265002000 Construction                           0.069     0.069     0.081     0.081     0.081     0.102     0.102     0.102     0.080     0.080     0.080     0.069
+NW    2265003000 Industrial                             0.067     0.067     0.083     0.083     0.083       0.1       0.1       0.1     0.083     0.083     0.083     0.067
+NW    2265004000 Lawn and Garden excl. chainsaws         0.02      0.02     0.073     0.073     0.073     0.167     0.167     0.167     0.073     0.073     0.073      0.02
+NW    2265004020 Lawn and garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NW    2265004021 Lawn and garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NW    2265004035 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+NW    2265004036 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+NW    2265005000 Agricultural                            0.02      0.02     0.073     0.073     0.073     0.167     0.167     0.167     0.073     0.073     0.073      0.02
+NW    2265006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NW    2265007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NW    2265008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NW    2267000000 Average                                0.077     0.077     0.071     0.071     0.071     0.113     0.113     0.113     0.071     0.071     0.071     0.077
+NW    2267001000 Recreational Equipment                 0.037     0.037     0.075     0.075     0.075     0.147     0.147     0.147     0.075     0.075     0.075     0.037
+NW    2267001020 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+NW    2267002000 Construction                           0.069     0.069     0.081     0.081     0.081     0.102     0.102     0.102     0.080     0.080     0.080     0.069
+NW    2267003000 Industrial                             0.067     0.067     0.083     0.083     0.083       0.1       0.1       0.1     0.083     0.083     0.083     0.067
+NW    2267004000 Lawn and Garden excl. chainsaws         0.02      0.02     0.073     0.073     0.073     0.167     0.167     0.167     0.073     0.073     0.073      0.02
+NW    2267004020 Lawn and garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NW    2267004021 Lawn and garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NW    2267004035 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+NW    2267004036 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+NW    2267005000 Agricultural                            0.02      0.02     0.073     0.073     0.073     0.167     0.167     0.167     0.073     0.073     0.073      0.02
+NW    2267006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NW    2267007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NW    2267008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NW    2268000000 Average                                0.077     0.077     0.071     0.071     0.071     0.113     0.113     0.113     0.071     0.071     0.071     0.077
+NW    2268001000 Recreational Equipment                 0.037     0.037     0.075     0.075     0.075     0.147     0.147     0.147     0.075     0.075     0.075     0.037
+NW    2268001020 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+NW    2268002000 Construction                           0.069     0.069     0.081     0.081     0.081     0.102     0.102     0.102     0.080     0.080     0.080     0.069
+NW    2268003000 Industrial                             0.067     0.067     0.083     0.083     0.083       0.1       0.1       0.1     0.083     0.083     0.083     0.067
+NW    2268004000 Lawn and Garden excl. chainsaws         0.02      0.02     0.073     0.073     0.073     0.167     0.167     0.167     0.073     0.073     0.073      0.02
+NW    2268004020 Lawn and garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NW    2268004021 Lawn and garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NW    2268004035 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+NW    2268004036 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+NW    2268005000 Agricultural                            0.02      0.02     0.073     0.073     0.073     0.167     0.167     0.167     0.073     0.073     0.073      0.02
+NW    2268006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NW    2268007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NW    2268008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NW    2270000000 Average                                0.077     0.077     0.071     0.071     0.071     0.113     0.113     0.113     0.071     0.071     0.071     0.077
+NW    2270001000 Recreational Equipment                 0.037     0.037     0.075     0.075     0.075     0.147     0.147     0.147     0.075     0.075     0.075     0.037
+NW    2270001020 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+NW    2270002000 Construction                           0.069     0.069     0.081     0.081     0.081     0.102     0.102     0.102     0.080     0.080     0.080     0.069
+NW    2270003000 Industrial                             0.067     0.067     0.083     0.083     0.083       0.1       0.1       0.1     0.083     0.083     0.083     0.067
+NW    2270004000 Lawn and Garden excl. chainsaws         0.02      0.02     0.073     0.073     0.073     0.167     0.167     0.167     0.073     0.073     0.073      0.02
+NW    2270004020 Lawn and garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NW    2270004021 Lawn and garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NW    2270004035 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+NW    2270004036 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+NW    2270005000 Agricultural                            0.02      0.02     0.073     0.073     0.073     0.167     0.167     0.167     0.073     0.073     0.073      0.02
+NW    2270006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NW    2270007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NW    2270008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NW    2280000000 Commercial Marine                      0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+NW    2282000000 Recreational Marine                    0.016     0.016     0.063     0.063     0.063      0.19      0.19      0.19     0.063     0.063     0.063     0.016
+NW    2285000000 Railway Maintenance                    0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+RCKMT 2260000000 Average                                0.076     0.076      0.07      0.07      0.07     0.117     0.117     0.117      0.07      0.07      0.07     0.076
+RCKMT 2260001000 Recreational Equipment                 0.027     0.027      0.08      0.08      0.08     0.147     0.147     0.147      0.08      0.08      0.08     0.027
+RCKMT 2260001020 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+RCKMT 2260002000 Construction                           0.066     0.066     0.079     0.079     0.079     0.100     0.100     0.100     0.089     0.089     0.089     0.066
+RCKMT 2260003000 Industrial                             0.067     0.067     0.083     0.083     0.083       0.1       0.1       0.1     0.083     0.083     0.083     0.067
+RCKMT 2260004000 Lawn and Garden excl. chainsaws         0.02      0.02     0.073     0.073     0.073     0.167     0.167     0.167     0.073     0.073     0.073      0.02
+RCKMT 2260004020 Lawn and garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+RCKMT 2260004021 Lawn and garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+RCKMT 2260004035 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+RCKMT 2260004036 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+RCKMT 2260005000 Agricultural                            0.02      0.02     0.073     0.073     0.073     0.167     0.167     0.167     0.073     0.073     0.073      0.02
+RCKMT 2260006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+RCKMT 2260007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+RCKMT 2260008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+RCKMT 2265000000 Average                                0.076     0.076      0.07      0.07      0.07     0.117     0.117     0.117      0.07      0.07      0.07     0.076
+RCKMT 2265001000 Recreational Equipment                 0.027     0.027      0.08      0.08      0.08     0.147     0.147     0.147      0.08      0.08      0.08     0.027
+RCKMT 2265001020 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+RCKMT 2265002000 Construction                           0.066     0.066     0.079     0.079     0.079     0.100     0.100     0.100     0.089     0.089     0.089     0.066
+RCKMT 2265003000 Industrial                             0.067     0.067     0.083     0.083     0.083       0.1       0.1       0.1     0.083     0.083     0.083     0.067
+RCKMT 2265004000 Lawn and Garden excl. chainsaws         0.02      0.02     0.073     0.073     0.073     0.167     0.167     0.167     0.073     0.073     0.073      0.02
+RCKMT 2265004020 Lawn and garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+RCKMT 2265004021 Lawn and garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+RCKMT 2265004035 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+RCKMT 2265004036 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+RCKMT 2265005000 Agricultural                            0.02      0.02     0.073     0.073     0.073     0.167     0.167     0.167     0.073     0.073     0.073      0.02
+RCKMT 2265006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+RCKMT 2265007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+RCKMT 2265008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+RCKMT 2267000000 Average                                0.076     0.076      0.07      0.07      0.07     0.117     0.117     0.117      0.07      0.07      0.07     0.076
+RCKMT 2267001000 Recreational Equipment                 0.027     0.027      0.08      0.08      0.08     0.147     0.147     0.147      0.08      0.08      0.08     0.027
+RCKMT 2267001020 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+RCKMT 2267002000 Construction                           0.066     0.066     0.079     0.079     0.079     0.100     0.100     0.100     0.089     0.089     0.089     0.066
+RCKMT 2267003000 Industrial                             0.067     0.067     0.083     0.083     0.083       0.1       0.1       0.1     0.083     0.083     0.083     0.067
+RCKMT 2267004000 Lawn and Garden excl. chainsaws         0.02      0.02     0.073     0.073     0.073     0.167     0.167     0.167     0.073     0.073     0.073      0.02
+RCKMT 2267004020 Lawn and garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+RCKMT 2267004021 Lawn and garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+RCKMT 2267004035 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+RCKMT 2267004036 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+RCKMT 2267005000 Agricultural                            0.02      0.02     0.073     0.073     0.073     0.167     0.167     0.167     0.073     0.073     0.073      0.02
+RCKMT 2267006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+RCKMT 2267007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+RCKMT 2267008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+RCKMT 2268000000 Average                                0.076     0.076      0.07      0.07      0.07     0.117     0.117     0.117      0.07      0.07      0.07     0.076
+RCKMT 2268001000 Recreational Equipment                 0.027     0.027      0.08      0.08      0.08     0.147     0.147     0.147      0.08      0.08      0.08     0.027
+RCKMT 2268001020 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+RCKMT 2268002000 Construction                           0.066     0.066     0.079     0.079     0.079     0.100     0.100     0.100     0.089     0.089     0.089     0.066
+RCKMT 2268003000 Industrial                             0.067     0.067     0.083     0.083     0.083       0.1       0.1       0.1     0.083     0.083     0.083     0.067
+RCKMT 2268004000 Lawn and Garden excl. chainsaws         0.02      0.02     0.073     0.073     0.073     0.167     0.167     0.167     0.073     0.073     0.073      0.02
+RCKMT 2268004020 Lawn and garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+RCKMT 2268004021 Lawn and garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+RCKMT 2268004035 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+RCKMT 2268004036 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+RCKMT 2268005000 Agricultural                            0.02      0.02     0.073     0.073     0.073     0.167     0.167     0.167     0.073     0.073     0.073      0.02
+RCKMT 2268006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+RCKMT 2268007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+RCKMT 2268008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+RCKMT 2270000000 Average                                0.076     0.076      0.07      0.07      0.07     0.117     0.117     0.117      0.07      0.07      0.07     0.076
+RCKMT 2270001000 Recreational Equipment                 0.027     0.027      0.08      0.08      0.08     0.147     0.147     0.147      0.08      0.08      0.08     0.027
+RCKMT 2270001020 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+RCKMT 2270002000 Construction                           0.066     0.066     0.079     0.079     0.079     0.100     0.100     0.100     0.089     0.089     0.089     0.066
+RCKMT 2270003000 Industrial                             0.067     0.067     0.083     0.083     0.083       0.1       0.1       0.1     0.083     0.083     0.083     0.067
+RCKMT 2270004000 Lawn and Garden excl. chainsaws         0.02      0.02     0.073     0.073     0.073     0.167     0.167     0.167     0.073     0.073     0.073      0.02
+RCKMT 2270004020 Lawn and garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+RCKMT 2270004021 Lawn and garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+RCKMT 2270004035 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+RCKMT 2270004036 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+RCKMT 2270005000 Agricultural                            0.02      0.02     0.073     0.073     0.073     0.167     0.167     0.167     0.073     0.073     0.073      0.02
+RCKMT 2270006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+RCKMT 2270007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+RCKMT 2270008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+RCKMT 2280000000 Commercial Marine                      0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+RCKMT 2282000000 Recreational Marine                        0         0     0.052     0.052     0.052      0.23      0.23      0.23     0.052     0.052     0.052         0
+RCKMT 2285000000 Railway Maintenance                    0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SC    2260000000 Average                                0.084     0.084     0.077     0.077     0.077     0.094     0.094     0.094     0.077     0.077     0.077     0.084
+SC    2260001000 Recreational Equipment                  0.05      0.05     0.082     0.082     0.082      0.12      0.12      0.12     0.082     0.082     0.082      0.05
+SC    2260001020 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+SC    2260002000 Construction                           0.068     0.068     0.092     0.092     0.092     0.091     0.091     0.091     0.082     0.082     0.082     0.068
+SC    2260003000 Industrial                             0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SC    2260004000 Lawn and Garden excl. chainsaws         0.02      0.02       0.1       0.1       0.1     0.113     0.113     0.113       0.1       0.1       0.1      0.02
+SC    2260004020 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SC    2260004021 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SC    2260004035 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+SC    2260004036 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+SC    2260005000 Agricultural                            0.02      0.02       0.1       0.1       0.1     0.113     0.113     0.113       0.1       0.1       0.1      0.02
+SC    2260006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SC    2260007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SC    2260008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SC    2265000000 Average                                0.084     0.084     0.077     0.077     0.077     0.094     0.094     0.094     0.077     0.077     0.077     0.084
+SC    2265001000 Recreational Equipment                  0.05      0.05     0.082     0.082     0.082      0.12      0.12      0.12     0.082     0.082     0.082      0.05
+SC    2265001020 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+SC    2265002000 Construction                           0.068     0.068     0.092     0.092     0.092     0.091     0.091     0.091     0.082     0.082     0.082     0.068
+SC    2265003000 Industrial                             0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SC    2265004000 Lawn and Garden excl. chainsaws         0.02      0.02       0.1       0.1       0.1     0.113     0.113     0.113       0.1       0.1       0.1      0.02
+SC    2265004020 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SC    2265004021 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SC    2265004035 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+SC    2265004036 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+SC    2265005000 Agricultural                            0.02      0.02       0.1       0.1       0.1     0.113     0.113     0.113       0.1       0.1       0.1      0.02
+SC    2265006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SC    2265007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SC    2265008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SC    2267000000 Average                                0.084     0.084     0.077     0.077     0.077     0.094     0.094     0.094     0.077     0.077     0.077     0.084
+SC    2267001000 Recreational Equipment                  0.05      0.05     0.082     0.082     0.082      0.12      0.12      0.12     0.082     0.082     0.082      0.05
+SC    2267001020 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+SC    2267002000 Construction                           0.068     0.068     0.092     0.092     0.092     0.091     0.091     0.091     0.082     0.082     0.082     0.068
+SC    2267003000 Industrial                             0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SC    2267004000 Lawn and Garden excl. chainsaws         0.02      0.02       0.1       0.1       0.1     0.113     0.113     0.113       0.1       0.1       0.1      0.02
+SC    2267004020 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SC    2267004021 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SC    2267004035 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+SC    2267004036 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+SC    2267005000 Agricultural                            0.02      0.02       0.1       0.1       0.1     0.113     0.113     0.113       0.1       0.1       0.1      0.02
+SC    2267006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SC    2267007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SC    2267008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SC    2268000000 Average                                0.084     0.084     0.077     0.077     0.077     0.094     0.094     0.094     0.077     0.077     0.077     0.084
+SC    2268001000 Recreational Equipment                  0.05      0.05     0.082     0.082     0.082      0.12      0.12      0.12     0.082     0.082     0.082      0.05
+SC    2268001020 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+SC    2268002000 Construction                           0.068     0.068     0.092     0.092     0.092     0.091     0.091     0.091     0.082     0.082     0.082     0.068
+SC    2268003000 Industrial                             0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SC    2268004000 Lawn and Garden excl. chainsaws         0.02      0.02       0.1       0.1       0.1     0.113     0.113     0.113       0.1       0.1       0.1      0.02
+SC    2268004020 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SC    2268004021 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SC    2268004035 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+SC    2268004036 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+SC    2268005000 Agricultural                            0.02      0.02       0.1       0.1       0.1     0.113     0.113     0.113       0.1       0.1       0.1      0.02
+SC    2268006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SC    2268007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SC    2268008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SC    2270000000 Average                                0.084     0.084     0.077     0.077     0.077     0.094     0.094     0.094     0.077     0.077     0.077     0.084
+SC    2270001000 Recreational Equipment                  0.05      0.05     0.082     0.082     0.082      0.12      0.12      0.12     0.082     0.082     0.082      0.05
+SC    2270001020 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+SC    2270002000 Construction                           0.068     0.068     0.092     0.092     0.092     0.091     0.091     0.091     0.082     0.082     0.082     0.068
+SC    2270003000 Industrial                             0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SC    2270004000 Lawn and Garden excl. chainsaws         0.02      0.02       0.1       0.1       0.1     0.113     0.113     0.113       0.1       0.1       0.1      0.02
+SC    2270004020 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SC    2270004021 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SC    2270004035 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+SC    2270004036 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+SC    2270005000 Agricultural                            0.02      0.02       0.1       0.1       0.1     0.113     0.113     0.113       0.1       0.1       0.1      0.02
+SC    2270006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SC    2270007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SC    2270008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SC    2280000000 Commercial Marine                      0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SC    2282000000 Recreational Marine                    0.023     0.023     0.075     0.075     0.075      0.16      0.16      0.16     0.075     0.075     0.075     0.023
+SC    2285000000 Railway Maintenance                    0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SE    2260000000 Average                                0.085     0.085     0.077     0.077     0.077     0.093     0.093     0.093     0.077     0.077     0.077     0.085
+SE    2260001000 Recreational Equipment                 0.057     0.057      0.08      0.08      0.08     0.117     0.117     0.117      0.08      0.08      0.08     0.057
+SE    2260001020 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+SE    2260002000 Construction                           0.078     0.078     0.080     0.080     0.080     0.089     0.089     0.089     0.086     0.086     0.086     0.078
+SE    2260003000 Industrial                             0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SE    2260004000 Lawn and Garden excl. chainsaws         0.02      0.02       0.1       0.1       0.1     0.113     0.113     0.113       0.1       0.1       0.1      0.02
+SE    2260004020 Lawn and Garden Chainswas              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SE    2260004021 Lawn and Garden Chainswas              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SE    2260004035 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+SE    2260004036 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+SE    2260005000 Agricultural                            0.02      0.02       0.1       0.1       0.1     0.113     0.113     0.113       0.1       0.1       0.1      0.02
+SE    2260006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SE    2260007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SE    2260008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SE    2265000000 Average                                0.085     0.085     0.077     0.077     0.077     0.093     0.093     0.093     0.077     0.077     0.077     0.085
+SE    2265001000 Recreational Equipment                 0.057     0.057      0.08      0.08      0.08     0.117     0.117     0.117      0.08      0.08      0.08     0.057
+SE    2265001020 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+SE    2265002000 Construction                           0.078     0.078     0.080     0.080     0.080     0.089     0.089     0.089     0.086     0.086     0.086     0.078
+SE    2265003000 Industrial                             0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SE    2265004000 Lawn and Garden excl. chainsaws         0.02      0.02       0.1       0.1       0.1     0.113     0.113     0.113       0.1       0.1       0.1      0.02
+SE    2265004020 Lawn and Garden Chainswas              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SE    2265004021 Lawn and Garden Chainswas              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SE    2265004035 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+SE    2265004036 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+SE    2265005000 Agricultural                            0.02      0.02       0.1       0.1       0.1     0.113     0.113     0.113       0.1       0.1       0.1      0.02
+SE    2265006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SE    2265007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SE    2265008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SE    2267000000 Average                                0.085     0.085     0.077     0.077     0.077     0.093     0.093     0.093     0.077     0.077     0.077     0.085
+SE    2267001000 Recreational Equipment                 0.057     0.057      0.08      0.08      0.08     0.117     0.117     0.117      0.08      0.08      0.08     0.057
+SE    2267001020 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+SE    2267002000 Construction                           0.078     0.078     0.080     0.080     0.080     0.089     0.089     0.089     0.086     0.086     0.086     0.078
+SE    2267003000 Industrial                             0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SE    2267004000 Lawn and Garden excl. chainsaws         0.02      0.02       0.1       0.1       0.1     0.113     0.113     0.113       0.1       0.1       0.1      0.02
+SE    2267004020 Lawn and Garden Chainswas              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SE    2267004021 Lawn and Garden Chainswas              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SE    2267004035 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+SE    2267004036 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+SE    2267005000 Agricultural                            0.02      0.02       0.1       0.1       0.1     0.113     0.113     0.113       0.1       0.1       0.1      0.02
+SE    2267006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SE    2267007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SE    2267008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SE    2268000000 Average                                0.085     0.085     0.077     0.077     0.077     0.093     0.093     0.093     0.077     0.077     0.077     0.085
+SE    2268001000 Recreational Equipment                 0.057     0.057      0.08      0.08      0.08     0.117     0.117     0.117      0.08      0.08      0.08     0.057
+SE    2268001020 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+SE    2268002000 Construction                           0.078     0.078     0.080     0.080     0.080     0.089     0.089     0.089     0.086     0.086     0.086     0.078
+SE    2268003000 Industrial                             0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SE    2268004000 Lawn and Garden excl. chainsaws         0.02      0.02       0.1       0.1       0.1     0.113     0.113     0.113       0.1       0.1       0.1      0.02
+SE    2268004020 Lawn and Garden Chainswas              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SE    2268004021 Lawn and Garden Chainswas              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SE    2268004035 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+SE    2268004036 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+SE    2268005000 Agricultural                            0.02      0.02       0.1       0.1       0.1     0.113     0.113     0.113       0.1       0.1       0.1      0.02
+SE    2268006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SE    2268007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SE    2268008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SE    2270000000 Average                                0.085     0.085     0.077     0.077     0.077     0.093     0.093     0.093     0.077     0.077     0.077     0.085
+SE    2270001000 Recreational Equipment                 0.057     0.057      0.08      0.08      0.08     0.117     0.117     0.117      0.08      0.08      0.08     0.057
+SE    2270001020 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+SE    2270002000 Construction                           0.078     0.078     0.080     0.080     0.080     0.089     0.089     0.089     0.086     0.086     0.086     0.078
+SE    2270003000 Industrial                             0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SE    2270004000 Lawn and Garden excl. chainsaws         0.02      0.02       0.1       0.1       0.1     0.113     0.113     0.113       0.1       0.1       0.1      0.02
+SE    2270004020 Lawn and Garden Chainswas              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SE    2270004021 Lawn and Garden Chainswas              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SE    2270004035 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+SE    2270004036 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+SE    2270005000 Agricultural                            0.02      0.02       0.1       0.1       0.1     0.113     0.113     0.113       0.1       0.1       0.1      0.02
+SE    2270006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SE    2270007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SE    2270008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SE    2280000000 Commercial Marine                      0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SE    2282000000 Recreational Marine                    0.023     0.023     0.075     0.075     0.075      0.16      0.16      0.16     0.075     0.075     0.075     0.023
+SE    2285000000 Railway Maintenance                    0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SW    2260000000 Average                                0.083     0.083     0.078     0.078     0.078     0.094     0.094     0.094     0.078     0.078     0.078     0.083
+SW    2260001000 Recreational Equipment                  0.04      0.04     0.085     0.085     0.085     0.123     0.123     0.123     0.085     0.085     0.085      0.04
+SW    2260001020 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+SW    2260002000 Construction                           0.075     0.075     0.084     0.084     0.084     0.091     0.091     0.091     0.084     0.084     0.084     0.075
+SW    2260003000 Industrial                             0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SW    2260004000 Lawn and Garden excl. chainsaws         0.02      0.02       0.1       0.1       0.1     0.113     0.113     0.113       0.1       0.1       0.1      0.02
+SW    2260004020 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SW    2260004021 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SW    2260004035 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+SW    2260004036 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+SW    2260005000 Agricultural                            0.02      0.02       0.1       0.1       0.1     0.113     0.113     0.113       0.1       0.1       0.1      0.02
+SW    2260006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SW    2260007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SW    2260008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SW    2265000000 Average                                0.083     0.083     0.078     0.078     0.078     0.094     0.094     0.094     0.078     0.078     0.078     0.083
+SW    2265001000 Recreational Equipment                  0.04      0.04     0.085     0.085     0.085     0.123     0.123     0.123     0.085     0.085     0.085      0.04
+SW    2265001020 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+SW    2265002000 Construction                           0.075     0.075     0.084     0.084     0.084     0.091     0.091     0.091     0.084     0.084     0.084     0.075
+SW    2265003000 Industrial                             0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SW    2265004000 Lawn and Garden excl. chainsaws         0.02      0.02       0.1       0.1       0.1     0.113     0.113     0.113       0.1       0.1       0.1      0.02
+SW    2265004020 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SW    2265004021 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SW    2265004035 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+SW    2265004036 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+SW    2265005000 Agricultural                            0.02      0.02       0.1       0.1       0.1     0.113     0.113     0.113       0.1       0.1       0.1      0.02
+SW    2265006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SW    2265007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SW    2265008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SW    2267000000 Average                                0.083     0.083     0.078     0.078     0.078     0.094     0.094     0.094     0.078     0.078     0.078     0.083
+SW    2267001000 Recreational Equipment                  0.04      0.04     0.085     0.085     0.085     0.123     0.123     0.123     0.085     0.085     0.085      0.04
+SW    2267001020 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+SW    2267002000 Construction                           0.075     0.075     0.084     0.084     0.084     0.091     0.091     0.091     0.084     0.084     0.084     0.075
+SW    2267003000 Industrial                             0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SW    2267004000 Lawn and Garden excl. chainsaws         0.02      0.02       0.1       0.1       0.1     0.113     0.113     0.113       0.1       0.1       0.1      0.02
+SW    2267004020 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SW    2267004021 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SW    2267004035 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+SW    2267004036 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+SW    2267005000 Agricultural                            0.02      0.02       0.1       0.1       0.1     0.113     0.113     0.113       0.1       0.1       0.1      0.02
+SW    2267006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SW    2267007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SW    2267008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SW    2268000000 Average                                0.083     0.083     0.078     0.078     0.078     0.094     0.094     0.094     0.078     0.078     0.078     0.083
+SW    2268001000 Recreational Equipment                  0.04      0.04     0.085     0.085     0.085     0.123     0.123     0.123     0.085     0.085     0.085      0.04
+SW    2268001020 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+SW    2268002000 Construction                           0.075     0.075     0.084     0.084     0.084     0.091     0.091     0.091     0.084     0.084     0.084     0.075
+SW    2268003000 Industrial                             0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SW    2268004000 Lawn and Garden excl. chainsaws         0.02      0.02       0.1       0.1       0.1     0.113     0.113     0.113       0.1       0.1       0.1      0.02
+SW    2268004020 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SW    2268004021 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SW    2268004035 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+SW    2268004036 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+SW    2268005000 Agricultural                            0.02      0.02       0.1       0.1       0.1     0.113     0.113     0.113       0.1       0.1       0.1      0.02
+SW    2268006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SW    2268007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SW    2268008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SW    2270000000 Average                                0.083     0.083     0.078     0.078     0.078     0.094     0.094     0.094     0.078     0.078     0.078     0.083
+SW    2270001000 Recreational Equipment                  0.04      0.04     0.085     0.085     0.085     0.123     0.123     0.123     0.085     0.085     0.085      0.04
+SW    2270001020 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+SW    2270002000 Construction                           0.075     0.075     0.084     0.084     0.084     0.091     0.091     0.091     0.084     0.084     0.084     0.075
+SW    2270003000 Industrial                             0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SW    2270004000 Lawn and Garden excl. chainsaws         0.02      0.02       0.1       0.1       0.1     0.113     0.113     0.113       0.1       0.1       0.1      0.02
+SW    2270004020 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SW    2270004021 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SW    2270004035 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+SW    2270004036 Snowblowers/Snowmobiles                0.333     0.333         0         0         0         0         0         0         0         0         0     0.333
+SW    2270005000 Agricultural                            0.02      0.02       0.1       0.1       0.1     0.113     0.113     0.113       0.1       0.1       0.1      0.02
+SW    2270006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SW    2270007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SW    2270008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SW    2280000000 Commercial Marine                      0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+SW    2282000000 Recreational Marine                    0.023     0.023     0.075     0.075     0.075      0.16      0.16      0.16     0.075     0.075     0.075     0.023
+SW    2285000000 Railway Maintenance                    0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+WCST  2260000000 Average                                0.081     0.082      0.09      0.08     0.081     0.087     0.087     0.087     0.079     0.075     0.085     0.083
+WCST  2260001000 Recreational Equipment                  0.06      0.06      0.07      0.08      0.09       0.1       0.1       0.1      0.09      0.09      0.09      0.07
+WCST  2260001020 Snowblowers/Snowmobiles                  0.2       0.2      0.18      0.06      0.02         0         0         0         0         0      0.14       0.2
+WCST  2260002000 Construction                           0.072     0.072     0.088     0.088     0.088     0.090     0.090     0.090     0.083     0.083     0.083     0.072
+WCST  2260003000 Industrial                             0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+WCST  2260004000 Lawn and Garden excl. chainsaws        0.057     0.067     0.086     0.086     0.095     0.095     0.095     0.095     0.095     0.086     0.076     0.067
+WCST  2260004020 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+WCST  2260004021 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+WCST  2260004035 Snowblowers/Snowmobiles                  0.2       0.2      0.18      0.06      0.02         0         0         0         0         0      0.14       0.2
+WCST  2260004036 Snowblowers/Snowmobiles                  0.2       0.2      0.18      0.06      0.02         0         0         0         0         0      0.14       0.2
+WCST  2260005000 Agricultural                           0.054     0.054     0.086     0.086     0.108     0.108     0.108     0.108     0.108     0.075     0.054     0.054
+WCST  2260006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+WCST  2260007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+WCST  2260008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+WCST  2265000000 Average                                0.081     0.082      0.09      0.08     0.081     0.087     0.087     0.087     0.079     0.075     0.085     0.083
+WCST  2265001000 Recreational Equipment                  0.06      0.06      0.07      0.08      0.09       0.1       0.1       0.1      0.09      0.09      0.09      0.07
+WCST  2265001020 Snowblowers/Snowmobiles                  0.2       0.2      0.18      0.06      0.02         0         0         0         0         0      0.14       0.2
+WCST  2265002000 Construction                           0.072     0.072     0.088     0.088     0.088     0.090     0.090     0.090     0.083     0.083     0.083     0.072
+WCST  2265003000 Industrial                             0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+WCST  2265004000 Lawn and Garden excl. chainsaws        0.057     0.067     0.086     0.086     0.095     0.095     0.095     0.095     0.095     0.086     0.076     0.067
+WCST  2265004020 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+WCST  2265004021 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+WCST  2265004035 Snowblowers/Snowmobiles                  0.2       0.2      0.18      0.06      0.02         0         0         0         0         0      0.14       0.2
+WCST  2265004036 Snowblowers/Snowmobiles                  0.2       0.2      0.18      0.06      0.02         0         0         0         0         0      0.14       0.2
+WCST  2265005000 Agricultural                           0.054     0.054     0.086     0.086     0.108     0.108     0.108     0.108     0.108     0.075     0.054     0.054
+WCST  2265006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+WCST  2265007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+WCST  2265008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+WCST  2267000000 Average                                0.081     0.082      0.09      0.08     0.081     0.087     0.087     0.087     0.079     0.075     0.085     0.083
+WCST  2267001000 Recreational Equipment                  0.06      0.06      0.07      0.08      0.09       0.1       0.1       0.1      0.09      0.09      0.09      0.07
+WCST  2267001020 Snowblowers/Snowmobiles                  0.2       0.2      0.18      0.06      0.02         0         0         0         0         0      0.14       0.2
+WCST  2267002000 Construction                           0.072     0.072     0.088     0.088     0.088     0.090     0.090     0.090     0.083     0.083     0.083     0.072
+WCST  2267003000 Industrial                             0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+WCST  2267004000 Lawn and Garden excl. chainsaws        0.057     0.067     0.086     0.086     0.095     0.095     0.095     0.095     0.095     0.086     0.076     0.067
+WCST  2267004020 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+WCST  2267004021 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+WCST  2267004035 Snowblowers/Snowmobiles                  0.2       0.2      0.18      0.06      0.02         0         0         0         0         0      0.14       0.2
+WCST  2267004036 Snowblowers/Snowmobiles                  0.2       0.2      0.18      0.06      0.02         0         0         0         0         0      0.14       0.2
+WCST  2267005000 Agricultural                           0.054     0.054     0.086     0.086     0.108     0.108     0.108     0.108     0.108     0.075     0.054     0.054
+WCST  2267006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+WCST  2267007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+WCST  2267008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+WCST  2268000000 Average                                0.081     0.082      0.09      0.08     0.081     0.087     0.087     0.087     0.079     0.075     0.085     0.083
+WCST  2268001000 Recreational Equipment                  0.06      0.06      0.07      0.08      0.09       0.1       0.1       0.1      0.09      0.09      0.09      0.07
+WCST  2268001020 Snowblowers/Snowmobiles                  0.2       0.2      0.18      0.06      0.02         0         0         0         0         0      0.14       0.2
+WCST  2268002000 Construction                           0.072     0.072     0.088     0.088     0.088     0.090     0.090     0.090     0.083     0.083     0.083     0.072
+WCST  2268003000 Industrial                             0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+WCST  2268004000 Lawn and Garden excl. chainsaws        0.057     0.067     0.086     0.086     0.095     0.095     0.095     0.095     0.095     0.086     0.076     0.067
+WCST  2268004020 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+WCST  2268004021 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+WCST  2268004035 Snowblowers/Snowmobiles                  0.2       0.2      0.18      0.06      0.02         0         0         0         0         0      0.14       0.2
+WCST  2268004036 Snowblowers/Snowmobiles                  0.2       0.2      0.18      0.06      0.02         0         0         0         0         0      0.14       0.2
+WCST  2268005000 Agricultural                           0.054     0.054     0.086     0.086     0.108     0.108     0.108     0.108     0.108     0.075     0.054     0.054
+WCST  2268006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+WCST  2268007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+WCST  2268008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+WCST  2270000000 Average                                0.081     0.082      0.09      0.08     0.081     0.087     0.087     0.087     0.079     0.075     0.085     0.083
+WCST  2270001000 Recreational Equipment                  0.06      0.06      0.07      0.08      0.09       0.1       0.1       0.1      0.09      0.09      0.09      0.07
+WCST  2270001020 Snowblowers/Snowmobiles                  0.2       0.2      0.18      0.06      0.02         0         0         0         0         0      0.14       0.2
+WCST  2270002000 Construction                           0.072     0.072     0.088     0.088     0.088     0.090     0.090     0.090     0.083     0.083     0.083     0.072
+WCST  2270003000 Industrial                             0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+WCST  2270004000 Lawn and Garden excl. chainsaws        0.057     0.067     0.086     0.086     0.095     0.095     0.095     0.095     0.095     0.086     0.076     0.067
+WCST  2270004020 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+WCST  2270004021 Lawn and Garden Chainsaws              0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+WCST  2270004035 Snowblowers/Snowmobiles                  0.2       0.2      0.18      0.06      0.02         0         0         0         0         0      0.14       0.2
+WCST  2270004036 Snowblowers/Snowmobiles                  0.2       0.2      0.18      0.06      0.02         0         0         0         0         0      0.14       0.2
+WCST  2270005000 Agricultural                           0.054     0.054     0.086     0.086     0.108     0.108     0.108     0.108     0.108     0.075     0.054     0.054
+WCST  2270006000 Light Commercial                       0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+WCST  2270007000 Logging                                0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+WCST  2270008000 Airport Service                        0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+WCST  2280000000 Commercial Marine                      0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+WCST  2282000000 Recreational Marine                    0.023     0.023     0.075     0.075     0.075      0.16      0.16      0.16     0.075     0.075     0.075     0.023
+WCST  2285000000 Railway Maintenance                    0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083     0.083
+US    2260001000                                       0.0422    0.0422    0.0777    0.0785    0.0793    0.1330    0.1330    0.1330    0.0793    0.0793    0.0793    0.0431
+US    2260001020                                       0.3321    0.3321    0.0016    0.0005    0.0002    0.0000    0.0000    0.0000    0.0000    0.0000    0.0013    0.3321
+US    2260002000                                       0.0699    0.0699    0.0848    0.0848    0.0848    0.0941    0.0941    0.0941    0.0845    0.0845    0.0845    0.0699
+US    2260003000                                       0.0764    0.0764    0.0832    0.0832    0.0832    0.0905    0.0905    0.0905    0.0832    0.0832    0.0832    0.0764
+US    2260004000                                       0.0240    0.0251    0.0865    0.0865    0.0874    0.1354    0.1354    0.1354    0.0874    0.0865    0.0854    0.0251
+US    2260004016                                       0.0263    0.0280    0.0878    0.0878    0.0893    0.1298    0.1298    0.1298    0.0893    0.0878    0.0861    0.0280
+US    2260004020                                       0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833
+US    2260004021                                       0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833
+US    2260004026                                       0.0263    0.0280    0.0878    0.0878    0.0893    0.1298    0.1298    0.1298    0.0893    0.0878    0.0861    0.0280
+US    2260004031                                       0.0263    0.0280    0.0878    0.0878    0.0893    0.1298    0.1298    0.1298    0.0893    0.0878    0.0861    0.0280
+US    2260004035                                       0.3308    0.3308    0.0035    0.0012    0.0004    0.0000    0.0000    0.0000    0.0000    0.0000    0.0027    0.3308
+US    2260004036                                       0.3298    0.3298    0.0048    0.0016    0.0005    0.0000    0.0000    0.0000    0.0000    0.0000    0.0037    0.3298
+US    2260004071                                       0.0263    0.0280    0.0878    0.0878    0.0893    0.1298    0.1298    0.1298    0.0893    0.0878    0.0861    0.0280
+US    2260005000                                       0.0210    0.0210    0.0817    0.0817    0.0824    0.1488    0.1488    0.1488    0.0824    0.0814    0.0808    0.0210
+US    2260006000                                       0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833
+US    2260007000                                       0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833
+US    2260008000                                       0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833
+US    2265001000                                       0.0419    0.0419    0.0778    0.0786    0.0794    0.1332    0.1332    0.1332    0.0794    0.0794    0.0794    0.0427
+US    2265001050                                       0.0401    0.0401    0.0773    0.0779    0.0785    0.1367    0.1367    0.1367    0.0785    0.0785    0.0785    0.0407
+US    2265002000                                       0.0699    0.0699    0.0848    0.0848    0.0848    0.0941    0.0941    0.0941    0.0845    0.0845    0.0845    0.0699
+US    2265003000                                       0.0764    0.0764    0.0832    0.0832    0.0832    0.0905    0.0905    0.0905    0.0832    0.0832    0.0832    0.0764
+US    2265004000                                       0.0240    0.0251    0.0865    0.0865    0.0874    0.1354    0.1354    0.1354    0.0874    0.0865    0.0854    0.0251
+US    2265004011                                       0.0263    0.0280    0.0878    0.0878    0.0893    0.1298    0.1298    0.1298    0.0893    0.0878    0.0861    0.0280
+US    2265004016                                       0.0263    0.0280    0.0878    0.0878    0.0893    0.1298    0.1298    0.1298    0.0893    0.0878    0.0861    0.0280
+US    2265004026                                       0.0263    0.0280    0.0878    0.0878    0.0893    0.1298    0.1298    0.1298    0.0893    0.0878    0.0861    0.0280
+US    2265004031                                       0.0263    0.0280    0.0878    0.0878    0.0893    0.1298    0.1298    0.1298    0.0893    0.0878    0.0861    0.0280
+US    2265004035                                       0.3308    0.3308    0.0035    0.0012    0.0004    0.0000    0.0000    0.0000    0.0000    0.0000    0.0027    0.3308
+US    2265004036                                       0.3298    0.3298    0.0048    0.0016    0.0005    0.0000    0.0000    0.0000    0.0000    0.0000    0.0037    0.3298
+US    2265004041                                       0.0263    0.0280    0.0878    0.0878    0.0893    0.1298    0.1298    0.1298    0.0893    0.0878    0.0861    0.0280
+US    2265004046                                       0.0263    0.0280    0.0878    0.0878    0.0893    0.1298    0.1298    0.1298    0.0893    0.0878    0.0861    0.0280
+US    2265004051                                       0.0263    0.0280    0.0878    0.0878    0.0893    0.1298    0.1298    0.1298    0.0893    0.0878    0.0861    0.0280
+US    2265004056                                       0.0263    0.0280    0.0878    0.0878    0.0893    0.1298    0.1298    0.1298    0.0893    0.0878    0.0861    0.0280
+US    2265004066                                       0.0263    0.0280    0.0878    0.0878    0.0893    0.1298    0.1298    0.1298    0.0893    0.0878    0.0861    0.0280
+US    2265004071                                       0.0263    0.0280    0.0878    0.0878    0.0893    0.1298    0.1298    0.1298    0.0893    0.0878    0.0861    0.0280
+US    2265004076                                       0.0263    0.0280    0.0878    0.0878    0.0893    0.1298    0.1298    0.1298    0.0893    0.0878    0.0861    0.0280
+US    2265005000                                       0.0210    0.0210    0.0817    0.0817    0.0824    0.1488    0.1488    0.1488    0.0824    0.0814    0.0808    0.0210
+US    2265006000                                       0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833
+US    2265007000                                       0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833
+US    2265008000                                       0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833
+US    2265010010                                       0.0823    0.0823    0.0769    0.0765    0.0765    0.0980    0.0980    0.0980    0.0764    0.0763    0.0767    0.0823
+US    2267001060                                       0.0419    0.0419    0.0778    0.0786    0.0794    0.1332    0.1332    0.1332    0.0794    0.0794    0.0794    0.0427
+US    2267002000                                       0.0699    0.0699    0.0848    0.0848    0.0848    0.0941    0.0941    0.0941    0.0845    0.0845    0.0845    0.0699
+US    2267003000                                       0.0764    0.0764    0.0832    0.0832    0.0832    0.0905    0.0905    0.0905    0.0832    0.0832    0.0832    0.0764
+US    2267004066                                       0.0263    0.0280    0.0878    0.0878    0.0893    0.1298    0.1298    0.1298    0.0893    0.0878    0.0861    0.0280
+US    2267005000                                       0.0210    0.0210    0.0817    0.0817    0.0824    0.1488    0.1488    0.1488    0.0824    0.0814    0.0808    0.0210
+US    2267006000                                       0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833
+US    2267008000                                       0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833
+US    2268002000                                       0.0699    0.0699    0.0848    0.0848    0.0848    0.0941    0.0941    0.0941    0.0845    0.0845    0.0845    0.0699
+US    2268003000                                       0.0764    0.0764    0.0832    0.0832    0.0832    0.0905    0.0905    0.0905    0.0832    0.0832    0.0832    0.0764
+US    2268005000                                       0.0210    0.0210    0.0817    0.0817    0.0824    0.1488    0.1488    0.1488    0.0824    0.0814    0.0808    0.0210
+US    2268006000                                       0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833
+US    2268010010                                       0.0823    0.0823    0.0769    0.0765    0.0765    0.0980    0.0980    0.0980    0.0764    0.0763    0.0767    0.0823
+US    2270001060                                       0.0419    0.0419    0.0778    0.0786    0.0794    0.1332    0.1332    0.1332    0.0794    0.0794    0.0794    0.0427
+US    2270002000                                       0.0699    0.0699    0.0848    0.0848    0.0848    0.0941    0.0941    0.0941    0.0845    0.0845    0.0845    0.0699
+US    2270003000                                       0.0764    0.0764    0.0832    0.0832    0.0832    0.0905    0.0905    0.0905    0.0832    0.0832    0.0832    0.0764
+US    2270004031                                       0.0263    0.0280    0.0878    0.0878    0.0893    0.1298    0.1298    0.1298    0.0893    0.0878    0.0861    0.0280
+US    2270004036                                       0.3298    0.3298    0.0048    0.0016    0.0005    0.0000    0.0000    0.0000    0.0000    0.0000    0.0037    0.3298
+US    2270004046                                       0.0263    0.0280    0.0878    0.0878    0.0893    0.1298    0.1298    0.1298    0.0893    0.0878    0.0861    0.0280
+US    2270004056                                       0.0263    0.0280    0.0878    0.0878    0.0893    0.1298    0.1298    0.1298    0.0893    0.0878    0.0861    0.0280
+US    2270004066                                       0.0263    0.0280    0.0878    0.0878    0.0893    0.1298    0.1298    0.1298    0.0893    0.0878    0.0861    0.0280
+US    2270004071                                       0.0263    0.0280    0.0878    0.0878    0.0893    0.1298    0.1298    0.1298    0.0893    0.0878    0.0861    0.0280
+US    2270004076                                       0.0263    0.0280    0.0878    0.0878    0.0893    0.1298    0.1298    0.1298    0.0893    0.0878    0.0861    0.0280
+US    2270005000                                       0.0210    0.0210    0.0817    0.0817    0.0824    0.1488    0.1488    0.1488    0.0824    0.0814    0.0808    0.0210
+US    2270006000                                       0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833
+US    2270007000                                       0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833
+US    2270008000                                       0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833
+US    2270009000                                       0.0807    0.0807    0.0744    0.0744    0.0744    0.1038    0.1038    0.1038    0.0744    0.0744    0.0744    0.0807
+US    2270010010                                       0.0823    0.0823    0.0769    0.0765    0.0765    0.0980    0.0980    0.0980    0.0764    0.0763    0.0767    0.0823
+US    2282000000                                       0.0128    0.0128    0.0653    0.0653    0.0653    0.1900    0.1900    0.1900    0.0653    0.0653    0.0653    0.0128
+US    2285000000                                       0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833    0.0833
+/END/
+
+---------------------------------------------------------------
+The following packet contains the day-of-week adjustment factors.
+The factors are fraction of weekly activity occurring in the given
+day.  Two factors are provided: typical weekday and typical
+weekend day.  To get the total weeks activity, multiply the
+weekday factor by 5 and the weekend factor by 2 and add the
+results together.
+Global SCC codes can be used and the model will find the best
+match.
+A blank region code will apply to all states and counties.
+The model will also find the best match on subregion code.
+
+The format is as follows:
+
+  1-  5  character  -- subregion code (blank = match all)
+  7- 16  character  -- SCC code (global codes are acceptable)
+ 18- 52  character  -- equipment description (not used)
+ 52- 61  real       -- fraction of weekly activity in typical weekday
+ 62- 71  real       -- fraction of weekly activity in typical weekend
+---------------------------------------------------------------
+
+/DAILY/
+      2260001000 Recreational Equipment             0.1111111 0.2222222
+      2260002000 Construction                       0.1666667 0.0833334
+      2260003000 Industrial                         0.1666667 0.0833334
+      2260003060 AC\Refrigeration                   0.1428571 0.1428571
+      2260004000 Lawn & Garden                      0.1111111 0.2222222
+      2260005000 Agricultural                       0.1666667 0.0833334
+      2260006000 Light Commercial                   0.1666667 0.0833334
+      2260007000 Logging                            0.1666667 0.0833334
+      2260008000 Airport Service                    0.1428571 0.1428571
+      2260009000 Underground Mining                 0.1666667 0.0833334
+      2265001000 Recreational Equipment             0.1111111 0.2222222
+      2265002000 Construction                       0.1666667 0.0833334
+      2265003000 Industrial                         0.1666667 0.0833334
+      2265003060 AC\Refrigeration                   0.1428571 0.1428571
+      2265004000 Lawn & Garden                      0.1111111 0.2222222
+      2265005000 Agricultural                       0.1666667 0.0833334
+      2265006000 Light Commercial                   0.1666667 0.0833334
+      2265007000 Logging                            0.1666667 0.0833334
+      2265008000 Airport Service                    0.1428571 0.1428571
+      2265009000 Underground Mining                 0.1666667 0.0833334
+      2267001000 Recreational Equipment             0.1111111 0.2222222
+      2267002000 Construction                       0.1666667 0.0833334
+      2267003000 Industrial                         0.1666667 0.0833334
+      2267003060 AC\Refrigeration                   0.1428571 0.1428571
+      2267004000 Lawn & Garden                      0.1111111 0.2222222
+      2267005000 Agricultural                       0.1666667 0.0833334
+      2267006000 Light Commercial                   0.1666667 0.0833334
+      2267007000 Logging                            0.1666667 0.0833334
+      2267008000 Airport Service                    0.1428571 0.1428571
+      2267009000 Underground Mining                 0.1666667 0.0833334
+      2268001000 Recreational Equipment             0.1111111 0.2222222
+      2268002000 Construction                       0.1666667 0.0833334
+      2268003000 Industrial                         0.1666667 0.0833334
+      2268003060 AC\Refrigeration                   0.1428571 0.1428571
+      2268004000 Lawn & Garden                      0.1111111 0.2222222
+      2268005000 Agricultural                       0.1666667 0.0833334
+      2268006000 Light Commercial                   0.1666667 0.0833334
+      2268007000 Logging                            0.1666667 0.0833334
+      2268008000 Airport Service                    0.1428571 0.1428571
+      2268009000 Underground Mining                 0.1666667 0.0833334
+      2270001000 Recreational Equipment             0.1111111 0.2222222
+      2270002000 Construction                       0.1666667 0.0833334
+      2270003000 Industrial                         0.1666667 0.0833334
+      2270003060 AC\Refrigeration                   0.1428571 0.1428571
+      2270004000 Lawn & Garden                      0.1111111 0.2222222
+      2270005000 Agricultural                       0.1666667 0.0833334
+      2270006000 Light Commercial                   0.1666667 0.0833334
+      2270007000 Logging                            0.1666667 0.0833334
+      2270008000 Airport Service                    0.1428571 0.1428571
+      2270009000 Underground Mining                 0.1666667 0.0833334
+      2260004011 2-Stroke  Lawn mowers (Comm.)      0.1600000 0.1000000
+      2260004016 2-Stroke  Rotary Tillers < 5 HP    0.1600000 0.1000000
+      2260004021 2-Stroke  Chain Saws < 4 HP (Com   0.1600000 0.1000000
+      2260004026 2-Stroke  Trimmers/Edgers/Brush    0.1600000 0.1000000
+      2260004031 2-Stroke  Leafblowers/Vacuums (C   0.1600000 0.1000000
+      2260004036 2-Stroke  Snowblowers (Comm.)      0.1600000 0.1000000
+      2260004051 2-Stroke  Shredders < 5 HP (Comm   0.1600000 0.1000000
+      2260004071 2-Stroke  Commercial Turf Equipm   0.1600000 0.1000000
+      2260004076 2-Stroke  Other Lawn & Garden Eq   0.1600000 0.1000000
+      2265004011 4-Stroke  Lawn mowers (Comm.)      0.1600000 0.1000000
+      2265004016 4-Stroke  Rotary Tillers < 5 HP    0.1600000 0.1000000
+      2265004026 4-Stroke  Trimmers/Edgers/Brush    0.1600000 0.1000000
+      2265004031 4-Stroke  Leafblowers/Vacuums (C   0.1600000 0.1000000
+      2265004036 4-Stroke  Snowblowers (Comm.)      0.1600000 0.1000000
+      2265004041 4-Stroke  Rear Engine Riding Mow   0.1600000 0.1000000
+      2265004046 4-Stroke  Front Mowers (Comm.)     0.1600000 0.1000000
+      2265004051 4-Stroke  Shredders < 5 HP (Comm   0.1600000 0.1000000
+      2265004056 4-Stroke  Lawn & Garden Tractors   0.1600000 0.1000000
+      2265004066 4-Stroke  Chippers/Stump Grinder   0.1600000 0.1000000
+      2265004071 4-Stroke  Commercial Turf Equipm   0.1600000 0.1000000
+      2265004076 4-Stroke  Other Lawn & Garden Eq   0.1600000 0.1000000
+      2267004011 LPG       Lawn mowers (Comm.)      0.1600000 0.1000000
+      2267004016 LPG       Rotary Tillers < 5 HP    0.1600000 0.1000000
+      2267004026 LPG       Trimmers/Edgers/Brush    0.1600000 0.1000000
+      2267004031 LPG       Leafblowers/Vacuums (C   0.1600000 0.1000000
+      2267004036 LPG       Snowblowers (Comm.)      0.1600000 0.1000000
+      2267004041 LPG       Rear Engine Riding Mow   0.1600000 0.1000000
+      2267004046 LPG       Front Mowers (Comm.)     0.1600000 0.1000000
+      2267004051 LPG       Shredders < 5 HP (Comm   0.1600000 0.1000000
+      2267004056 LPG       Lawn & Garden Tractors   0.1600000 0.1000000
+      2267004066 LPG       Chippers/Stump Grinder   0.1600000 0.1000000
+      2267004071 LPG       Commercial Turf Equipm   0.1600000 0.1000000
+      2267004076 LPG       Other Lawn & Garden Eq   0.1600000 0.1000000
+      2268004011 CNG       Lawn mowers (Comm.)      0.1600000 0.1000000
+      2268004016 CNG       Rotary Tillers < 5 HP    0.1600000 0.1000000
+      2268004026 CNG       Trimmers/Edgers/Brush    0.1600000 0.1000000
+      2268004031 CNG       Leafblowers/Vacuums (C   0.1600000 0.1000000
+      2268004036 CNG       Snowblowers (Comm.)      0.1600000 0.1000000
+      2268004041 CNG       Rear Engine Riding Mow   0.1600000 0.1000000
+      2268004046 CNG       Front Mowers (Comm.)     0.1600000 0.1000000
+      2268004051 CNG       Shredders < 5 HP (Comm   0.1600000 0.1000000
+      2268004056 CNG       Lawn & Garden Tractors   0.1600000 0.1000000
+      2268004066 CNG       Chippers/Stump Grinder   0.1600000 0.1000000
+      2268004071 CNG       Commercial Turf Equipm   0.1600000 0.1000000
+      2268004076 CNG       Other Lawn & Garden Eq   0.1600000 0.1000000
+      2270004031 Diesel  Leafblowers/Vacuums (Com   0.1600000 0.1000000
+      2270004036 Diesel  Snowblowers (Comm.)        0.1600000 0.1000000
+      2270004041 Diesel  Rear Engine Riding Mower   0.1600000 0.1000000
+      2270004046 Diesel  Front Mowers (Comm.)       0.1600000 0.1000000
+      2270004056 Diesel  Lawn & Garden Tractors (   0.1600000 0.1000000
+      2270004066 Diesel  Chippers/Stump Grinders    0.1600000 0.1000000
+      2270004071 Diesel  Commercial Turf Equipmen   0.1600000 0.1000000
+      2270004076 Diesel  Other Lawn & Garden Equi   0.1600000 0.1000000
+      2282000000 Recreational Marine                0.0600000 0.3500000
+      2285000000 Railway Maintenance                0.1800000 0.0500000
+/END/

@@ -1,0 +1,279 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent EMPLOYEES IN LANDSCAPING SERVICES
+CBP NAICS 561730; pre-2002 CBP SIC 0780
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+LSC  48000      2002               30236     TX
+LSC  48001      2002                  12     Anderson
+LSC  48003      2002                   0     Andrews
+LSC  48005      2002                 126     Angelina
+LSC  48007      2002                   4     Aransas
+LSC  48009      2002                   4     Archer
+LSC  48011      2002                   0     Armstrong
+LSC  48013      2002                   7     Atascosa
+LSC  48015      2002                  23     Austin
+LSC  48017      2002                   4     Bailey
+LSC  48019      2002                   4     Bandera
+LSC  48021      2002                  29     Bastrop
+LSC  48023      2002                   0     Baylor
+LSC  48025      2002                   4     Bee
+LSC  48027      2002                  83     Bell
+LSC  48029      2002                3402     Bexar
+LSC  48031      2002                   4     Blanco
+LSC  48033      2002                   0     Borden
+LSC  48035      2002                  29     Bosque
+LSC  48037      2002                  64     Bowie
+LSC  48039      2002                 219     Brazoria
+LSC  48041      2002                 186     Brazos
+LSC  48043      2002                   0     Brewster
+LSC  48045      2002                   0     Briscoe
+LSC  48047      2002                   0     Brooks
+LSC  48049      2002                   5     Brown
+LSC  48051      2002                   4     Burleson
+LSC  48053      2002                  96     Burnet
+LSC  48055      2002                   4     Caldwell
+LSC  48057      2002                  29     Calhoun
+LSC  48059      2002                   0     Callahan
+LSC  48061      2002                 178     Cameron
+LSC  48063      2002                   0     Camp
+LSC  48065      2002                   0     Carson
+LSC  48067      2002                  29     Cass
+LSC  48069      2002                   0     Castro
+LSC  48071      2002                   4     Chambers
+LSC  48073      2002                   4     Cherokee
+LSC  48075      2002                   0     Childress
+LSC  48077      2002                   0     Clay
+LSC  48079      2002                   0     Cochran
+LSC  48081      2002                   0     Coke
+LSC  48083      2002                   4     Coleman
+LSC  48085      2002                1889     Collin
+LSC  48087      2002                   0     Collingsworth
+LSC  48089      2002                   1     Colorado
+LSC  48091      2002                  74     Comal
+LSC  48093      2002                   4     Comanche
+LSC  48095      2002                   0     Concho
+LSC  48097      2002                  23     Cooke
+LSC  48099      2002                   4     Coryell
+LSC  48101      2002                   0     Cottle
+LSC  48103      2002                   0     Crane
+LSC  48105      2002                   0     Crockett
+LSC  48107      2002                   4     Crosby
+LSC  48109      2002                   0     Culberson
+LSC  48111      2002                   0     Dallam
+LSC  48113      2002                4439     Dallas
+LSC  48115      2002                   4     Dawson
+LSC  48117      2002                   0     Deaf Smith
+LSC  48119      2002                   4     Delta
+LSC  48121      2002                 872     Denton
+LSC  48123      2002                  29     DeWitt
+LSC  48125      2002                   0     Dickens
+LSC  48127      2002                   4     Dimmit
+LSC  48129      2002                   0     Donley
+LSC  48131      2002                   0     Duval
+LSC  48133      2002                   4     Eastland
+LSC  48135      2002                  37     Ector
+LSC  48137      2002                   0     Edwards
+LSC  48139      2002                  89     Ellis
+LSC  48141      2002                 476     El Paso
+LSC  48143      2002                  29     Erath
+LSC  48145      2002                   4     Falls
+LSC  48147      2002                  14     Fannin
+LSC  48149      2002                   4     Fayette
+LSC  48151      2002                   0     Fisher
+LSC  48153      2002                   4     Floyd
+LSC  48155      2002                   0     Foard
+LSC  48157      2002                 661     Fort Bend
+LSC  48159      2002                   4     Franklin
+LSC  48161      2002                   4     Freestone
+LSC  48163      2002                   0     Frio
+LSC  48165      2002                   4     Gaines
+LSC  48167      2002                 227     Galveston
+LSC  48169      2002                   4     Garza
+LSC  48171      2002                  17     Gillespie
+LSC  48173      2002                   0     Glasscock
+LSC  48175      2002                   0     Goliad
+LSC  48177      2002                   0     Gonzales
+LSC  48179      2002                  40     Gray
+LSC  48181      2002                 134     Grayson
+LSC  48183      2002                 268     Gregg
+LSC  48185      2002                  29     Grimes
+LSC  48187      2002                  74     Guadalupe
+LSC  48189      2002                   8     Hale
+LSC  48191      2002                   0     Hall
+LSC  48193      2002                   4     Hamilton
+LSC  48195      2002                   4     Hansford
+LSC  48197      2002                   0     Hardeman
+LSC  48199      2002                  16     Hardin
+LSC  48201      2002                6416     Harris
+LSC  48203      2002                  18     Harrison
+LSC  48205      2002                   4     Hartley
+LSC  48207      2002                   0     Haskell
+LSC  48209      2002                  60     Hays
+LSC  48211      2002                   4     Hemphill
+LSC  48213      2002                  79     Henderson
+LSC  48215      2002                 128     Hidalgo
+LSC  48217      2002                   0     Hill
+LSC  48219      2002                   4     Hockley
+LSC  48221      2002                  61     Hood
+LSC  48223      2002                   4     Hopkins
+LSC  48225      2002                   0     Houston
+LSC  48227      2002                   4     Howard
+LSC  48229      2002                   0     Hudspeth
+LSC  48231      2002                  66     Hunt
+LSC  48233      2002                   4     Hutchinson
+LSC  48235      2002                   4     Irion
+LSC  48237      2002                   4     Jack
+LSC  48239      2002                   4     Jackson
+LSC  48241      2002                   7     Jasper
+LSC  48243      2002                   4     Jeff Davis
+LSC  48245      2002                 444     Jefferson
+LSC  48247      2002                   0     Jim Hogg
+LSC  48249      2002                  21     Jim Wells
+LSC  48251      2002                 113     Johnson
+LSC  48253      2002                   0     Jones
+LSC  48255      2002                   0     Karnes
+LSC  48257      2002                  41     Kaufman
+LSC  48259      2002                  83     Kendall
+LSC  48261      2002                   0     Kenedy
+LSC  48263      2002                   0     Kent
+LSC  48265      2002                  62     Kerr
+LSC  48267      2002                   0     Kimble
+LSC  48269      2002                   0     King
+LSC  48271      2002                   0     Kinney
+LSC  48273      2002                   4     Kleberg
+LSC  48275      2002                   0     Knox
+LSC  48277      2002                  22     Lamar
+LSC  48279      2002                   4     Lamb
+LSC  48281      2002                   4     Lampasas
+LSC  48283      2002                   0     La Salle
+LSC  48285      2002                   0     Lavaca
+LSC  48287      2002                   4     Lee
+LSC  48289      2002                   0     Leon
+LSC  48291      2002                  28     Liberty
+LSC  48293      2002                   4     Limestone
+LSC  48295      2002                   0     Lipscomb
+LSC  48297      2002                   0     Live Oak
+LSC  48299      2002                   9     Llano
+LSC  48301      2002                   0     Loving
+LSC  48303      2002                 165     Lubbock
+LSC  48305      2002                   4     Lynn
+LSC  48307      2002                   0     McCulloch
+LSC  48309      2002                 208     McLennan
+LSC  48311      2002                   0     McMullen
+LSC  48313      2002                   0     Madison
+LSC  48315      2002                   0     Marion
+LSC  48317      2002                   4     Martin
+LSC  48319      2002                   0     Mason
+LSC  48321      2002                  60     Matagorda
+LSC  48323      2002                   0     Maverick
+LSC  48325      2002                  10     Medina
+LSC  48327      2002                   0     Menard
+LSC  48329      2002                 164     Midland
+LSC  48331      2002                  28     Milam
+LSC  48333      2002                   0     Mills
+LSC  48335      2002                   0     Mitchell
+LSC  48337      2002                   4     Montague
+LSC  48339      2002                 556     Montgomery
+LSC  48341      2002                   4     Moore
+LSC  48343      2002                   4     Morris
+LSC  48345      2002                   1     Motley
+LSC  48347      2002                  25     Nacogdoches
+LSC  48349      2002                  77     Navarro
+LSC  48351      2002                   4     Newton
+LSC  48353      2002                   4     Nolan
+LSC  48355      2002                 260     Nueces
+LSC  48357      2002                   0     Ochiltree
+LSC  48359      2002                   0     Oldham
+LSC  48361      2002                 100     Orange
+LSC  48363      2002                  15     Palo Pinto
+LSC  48365      2002                   4     Panola
+LSC  48367      2002                  87     Parker
+LSC  48369      2002                   4     Parmer
+LSC  48371      2002                   0     Pecos
+LSC  48373      2002                   4     Polk
+LSC  48375      2002                  51     Potter
+LSC  48377      2002                   0     Presidio
+LSC  48379      2002                   0     Rains
+LSC  48381      2002                  64     Randall
+LSC  48383      2002                   0     Reagan
+LSC  48385      2002                   4     Real
+LSC  48387      2002                   4     Red River
+LSC  48389      2002                   0     Reeves
+LSC  48391      2002                   4     Refugio
+LSC  48393      2002                   0     Roberts
+LSC  48395      2002                   4     Robertson
+LSC  48397      2002                 192     Rockwall
+LSC  48399      2002                   4     Runnels
+LSC  48401      2002                   4     Rusk
+LSC  48403      2002                  12     Sabine
+LSC  48405      2002                   0     San Augustine
+LSC  48407      2002                   4     San Jacinto
+LSC  48409      2002                  65     San Patricio
+LSC  48411      2002                   0     San Saba
+LSC  48413      2002                   0     Schleicher
+LSC  48415      2002                   4     Scurry
+LSC  48417      2002                   0     Shackelford
+LSC  48419      2002                  28     Shelby
+LSC  48421      2002                   4     Sherman
+LSC  48423      2002                 424     Smith
+LSC  48425      2002                   4     Somervell
+LSC  48427      2002                   0     Starr
+LSC  48429      2002                   0     Stephens
+LSC  48431      2002                   0     Sterling
+LSC  48433      2002                   0     Stonewall
+LSC  48435      2002                   0     Sutton
+LSC  48437      2002                   0     Swisher
+LSC  48439      2002                2018     Tarrant
+LSC  48441      2002                 137     Taylor
+LSC  48443      2002                   0     Terrell
+LSC  48445      2002                   0     Terry
+LSC  48447      2002                   0     Throckmorton
+LSC  48449      2002                  14     Titus
+LSC  48451      2002                  94     Tom Green
+LSC  48453      2002                2403     Travis
+LSC  48455      2002                   0     Trinity
+LSC  48457      2002                   4     Tyler
+LSC  48459      2002                  27     Upshur
+LSC  48461      2002                   0     Upton
+LSC  48463      2002                   4     Uvalde
+LSC  48465      2002                  13     Val Verde
+LSC  48467      2002                  12     Van Zandt
+LSC  48469      2002                  58     Victoria
+LSC  48471      2002                  20     Walker
+LSC  48473      2002                  95     Waller
+LSC  48475      2002                   0     Ward
+LSC  48477      2002                  80     Washington
+LSC  48479      2002                 112     Webb
+LSC  48481      2002                  77     Wharton
+LSC  48483      2002                   0     Wheeler
+LSC  48485      2002                  75     Wichita
+LSC  48487      2002                   0     Wilbarger
+LSC  48489      2002                   0     Willacy
+LSC  48491      2002                 498     Williamson
+LSC  48493      2002                   4     Wilson
+LSC  48495      2002                   0     Winkler
+LSC  48497      2002                   4     Wise
+LSC  48499      2002                  18     Wood
+LSC  48501      2002                   4     Yoakum
+LSC  48503      2002                   4     Young
+LSC  48505      2002                   0     Zapata
+LSC  48507      2002                   0     Zavala
+/END/

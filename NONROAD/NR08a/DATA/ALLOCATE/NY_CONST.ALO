@@ -1,0 +1,89 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2003 DOLLAR VALUE of CONSTRUCTION
+adjusted for relative geographic cost of construction materials.
+   Const_Dollars * (1-(1/(1+100/Area_Mod_Factor)))
+from McGraw-Hill Construction (values) and Craftsman (cost adj)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+CON  36000      2003            20715717     NY
+CON  36001      2003              529545     Albany
+CON  36003      2003               11520     Allegany
+CON  36005      2003             1051122     Bronx
+CON  36007      2003              128368     Broome
+CON  36009      2003               74870     Cattaraugus
+CON  36011      2003               55893     Cayuga
+CON  36013      2003              138009     Chautauqua
+CON  36015      2003               68595     Chemung
+CON  36017      2003               10507     Chenango
+CON  36019      2003               82911     Clinton
+CON  36021      2003               64423     Columbia
+CON  36023      2003               24507     Cortland
+CON  36025      2003               72182     Delaware
+CON  36027      2003              287890     Dutchess
+CON  36029      2003             1091045     Erie
+CON  36031      2003               76880     Essex
+CON  36033      2003               29960     Franklin
+CON  36035      2003               13730     Fulton
+CON  36037      2003               64023     Genesee
+CON  36039      2003              134945     Greene
+CON  36041      2003                5997     Hamilton
+CON  36043      2003               84994     Herkimer
+CON  36045      2003               98427     Jefferson
+CON  36047      2003             2471008     Kings
+CON  36049      2003               18436     Lewis
+CON  36051      2003               60641     Livingston
+CON  36053      2003               50920     Madison
+CON  36055      2003              915251     Monroe
+CON  36057      2003              137509     Montgomery
+CON  36059      2003              708615     Nassau
+CON  36061      2003             3051255     New York
+CON  36063      2003              206683     Niagara
+CON  36065      2003              298100     Oneida
+CON  36067      2003              535068     Onondaga
+CON  36069      2003              188458     Ontario
+CON  36071      2003              397204     Orange
+CON  36073      2003               20401     Orleans
+CON  36075      2003               63946     Oswego
+CON  36077      2003               41444     Otsego
+CON  36079      2003              120082     Putnam
+CON  36081      2003             1586380     Queens
+CON  36083      2003              221723     Rensselaer
+CON  36085      2003              778642     Richmond
+CON  36087      2003              267189     Rockland
+CON  36089      2003               72335     St. Lawrence
+CON  36091      2003              495706     Saratoga
+CON  36093      2003              146179     Schenectady
+CON  36095      2003               31953     Schoharie
+CON  36097      2003                7943     Schuyler
+CON  36099      2003               55304     Seneca
+CON  36101      2003               71014     Steuben
+CON  36103      2003             1519365     Suffolk
+CON  36105      2003              113963     Sullivan
+CON  36107      2003               29297     Tioga
+CON  36109      2003              153948     Tompkins
+CON  36111      2003              178535     Ulster
+CON  36113      2003              221345     Warren
+CON  36115      2003               48546     Washington
+CON  36117      2003               62637     Wayne
+CON  36119      2003             1130835     Westchester
+CON  36121      2003               25160     Wyoming
+CON  36123      2003               12357     Yates
+/END/

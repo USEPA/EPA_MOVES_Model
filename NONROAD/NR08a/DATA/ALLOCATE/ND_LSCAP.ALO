@@ -1,0 +1,78 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent EMPLOYEES IN LANDSCAPING SERVICES
+CBP NAICS 561730; pre-2002 CBP SIC 0780
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+LSC  38000      2002                 284     ND
+LSC  38001      2002                   0     Adams
+LSC  38003      2002                   4     Barnes
+LSC  38005      2002                   0     Benson
+LSC  38007      2002                   0     Billings
+LSC  38009      2002                   4     Bottineau
+LSC  38011      2002                   4     Bowman
+LSC  38013      2002                   0     Burke
+LSC  38015      2002                  27     Burleigh
+LSC  38017      2002                  83     Cass
+LSC  38019      2002                   0     Cavalier
+LSC  38021      2002                   4     Dickey
+LSC  38023      2002                   0     Divide
+LSC  38025      2002                   0     Dunn
+LSC  38027      2002                   0     Eddy
+LSC  38029      2002                   0     Emmons
+LSC  38031      2002                   0     Foster
+LSC  38033      2002                   0     Golden Valley
+LSC  38035      2002                  26     Grand Forks
+LSC  38037      2002                   0     Grant
+LSC  38039      2002                   0     Griggs
+LSC  38041      2002                   0     Hettinger
+LSC  38043      2002                   0     Kidder
+LSC  38045      2002                   0     LaMoure
+LSC  38047      2002                   0     Logan
+LSC  38049      2002                   4     McHenry
+LSC  38051      2002                   4     McIntosh
+LSC  38053      2002                   4     McKenzie
+LSC  38055      2002                   4     McLean
+LSC  38057      2002                   4     Mercer
+LSC  38059      2002                  17     Morton
+LSC  38061      2002                   0     Mountrail
+LSC  38063      2002                   0     Nelson
+LSC  38065      2002                   4     Oliver
+LSC  38067      2002                   4     Pembina
+LSC  38069      2002                   0     Pierce
+LSC  38071      2002                   4     Ramsey
+LSC  38073      2002                   0     Ransom
+LSC  38075      2002                   4     Renville
+LSC  38077      2002                  21     Richland
+LSC  38079      2002                   4     Rolette
+LSC  38081      2002                   0     Sargent
+LSC  38083      2002                   0     Sheridan
+LSC  38085      2002                   4     Sioux
+LSC  38087      2002                   0     Slope
+LSC  38089      2002                   7     Stark
+LSC  38091      2002                   4     Steele
+LSC  38093      2002                   4     Stutsman
+LSC  38095      2002                   0     Towner
+LSC  38097      2002                   4     Traill
+LSC  38099      2002                   1     Walsh
+LSC  38101      2002                  26     Ward
+LSC  38103      2002                   0     Wells
+LSC  38105      2002                   4     Williams
+/END/

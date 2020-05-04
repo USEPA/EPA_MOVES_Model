@@ -1,0 +1,71 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent LOCOMOTIVE NOx TONS
+from Draft 2002 NEI
+
+9/1/05 epa: Modifies to treat PR & VI as additional to US Total.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+RR   16000      2002           10355.330     ID
+RR   16001      2002             517.290     Ada
+RR   16003      2002               0.000     Adams
+RR   16005      2002             666.900     Bannock
+RR   16007      2002             352.270     Bear Lake
+RR   16009      2002               4.760     Benewah
+RR   16011      2002              73.100     Bingham
+RR   16013      2002             557.980     Blaine
+RR   16015      2002               0.000     Boise
+RR   16017      2002            1582.150     Bonner
+RR   16019      2002              19.560     Bonneville
+RR   16021      2002             574.740     Boundary
+RR   16023      2002              11.300     Butte
+RR   16025      2002               0.000     Camas
+RR   16027      2002             606.740     Canyon
+RR   16029      2002             646.230     Caribou
+RR   16031      2002               0.000     Cassia
+RR   16033      2002              28.570     Clark
+RR   16035      2002               0.000     Clearwater
+RR   16037      2002               0.000     Custer
+RR   16039      2002             493.100     Elmore
+RR   16041      2002              97.180     Franklin
+RR   16043      2002               0.000     Fremont
+RR   16045      2002               0.000     Gem
+RR   16047      2002             473.010     Gooding
+RR   16049      2002               0.000     Idaho
+RR   16051      2002              16.760     Jefferson
+RR   16053      2002               0.000     Jerome
+RR   16055      2002             662.930     Kootenai
+RR   16057      2002               0.000     Latah
+RR   16059      2002               0.000     Lemhi
+RR   16061      2002               0.000     Lewis
+RR   16063      2002             830.980     Lincoln
+RR   16065      2002               0.000     Madison
+RR   16067      2002             821.790     Minidoka
+RR   16069      2002               0.000     Nez Perce
+RR   16071      2002               7.470     Oneida
+RR   16073      2002               0.000     Owyhee
+RR   16075      2002             117.510     Payette
+RR   16077      2002             620.940     Power
+RR   16079      2002               0.000     Shoshone
+RR   16081      2002               0.000     Teton
+RR   16083      2002               0.000     Twin Falls
+RR   16085      2002               0.000     Valley
+RR   16087      2002             572.070     Washington
+/END/

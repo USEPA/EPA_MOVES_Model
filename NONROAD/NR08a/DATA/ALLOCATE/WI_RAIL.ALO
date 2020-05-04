@@ -1,0 +1,99 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent LOCOMOTIVE NOx TONS
+from Draft 2002 NEI
+
+9/1/05 epa: Modifies to treat PR & VI as additional to US Total.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+RR   55000      2002           11125.580     WI
+RR   55001      2002              64.570     Adams
+RR   55003      2002               0.000     Ashland
+RR   55005      2002              12.610     Barron
+RR   55007      2002               0.000     Bayfield
+RR   55009      2002               0.000     Brown
+RR   55011      2002             740.870     Buffalo
+RR   55013      2002               0.000     Burnett
+RR   55015      2002               0.000     Calumet
+RR   55017      2002              23.940     Chippewa
+RR   55019      2002              42.120     Clark
+RR   55021      2002             450.500     Columbia
+RR   55023      2002            1212.370     Crawford
+RR   55025      2002              57.430     Dane
+RR   55027      2002             137.260     Dodge
+RR   55029      2002               0.000     Door
+RR   55031      2002             520.780     Douglas
+RR   55033      2002              21.890     Dunn
+RR   55035      2002              53.450     Eau Claire
+RR   55037      2002               0.000     Florence
+RR   55039      2002               0.000     Fond du Lac
+RR   55041      2002               0.000     Forest
+RR   55043      2002             552.950     Grant
+RR   55045      2002               0.000     Green
+RR   55047      2002              38.350     Green Lake
+RR   55049      2002               0.000     Iowa
+RR   55051      2002               0.000     Iron
+RR   55053      2002              82.940     Jackson
+RR   55055      2002             277.380     Jefferson
+RR   55057      2002             714.220     Juneau
+RR   55059      2002             265.260     Kenosha
+RR   55061      2002               0.000     Kewaunee
+RR   55063      2002             997.980     La Crosse
+RR   55065      2002               0.000     Lafayette
+RR   55067      2002               0.000     Langlade
+RR   55069      2002               0.000     Lincoln
+RR   55071      2002               0.840     Manitowoc
+RR   55073      2002             132.260     Marathon
+RR   55075      2002               0.000     Marinette
+RR   55077      2002              38.350     Marquette
+RR   55078      2002               0.000     Menominee
+RR   55079      2002             555.720     Milwaukee
+RR   55081      2002             378.000     Monroe
+RR   55083      2002               0.000     Oconto
+RR   55085      2002               0.000     Oneida
+RR   55087      2002               0.000     Outagamie
+RR   55089      2002              65.080     Ozaukee
+RR   55091      2002             283.800     Pepin
+RR   55093      2002             716.100     Pierce
+RR   55095      2002               0.000     Polk
+RR   55097      2002             295.800     Portage
+RR   55099      2002               0.000     Price
+RR   55101      2002             325.360     Racine
+RR   55103      2002               0.000     Richland
+RR   55105      2002              32.980     Rock
+RR   55107      2002               0.000     Rusk
+RR   55109      2002              20.390     St. Croix
+RR   55111      2002             107.000     Sauk
+RR   55113      2002               0.000     Sawyer
+RR   55115      2002               0.000     Shawano
+RR   55117      2002              54.640     Sheboygan
+RR   55119      2002               0.000     Taylor
+RR   55121      2002             269.360     Trempealeau
+RR   55123      2002             646.480     Vernon
+RR   55125      2002               0.000     Vilas
+RR   55127      2002              16.320     Walworth
+RR   55129      2002               0.000     Washburn
+RR   55131      2002               0.000     Washington
+RR   55133      2002             298.880     Waukesha
+RR   55135      2002               0.000     Waupaca
+RR   55137      2002               0.000     Waushara
+RR   55139      2002               0.000     Winnebago
+RR   55141      2002             621.350     Wood
+/END/

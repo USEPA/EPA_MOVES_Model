@@ -1,0 +1,127 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent HARVESTED CROPLAND
+2002 USDA Census of Agriculture
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+FRM  17000      2002            22562904     IL
+FRM  17001      2002              311232     Adams
+FRM  17003      2002               57636     Alexander
+FRM  17005      2002              152697     Bond
+FRM  17007      2002              130193     Boone
+FRM  17009      2002               73954     Brown
+FRM  17011      2002              436919     Bureau
+FRM  17013      2002               39739     Calhoun
+FRM  17015      2002              200157     Carroll
+FRM  17017      2002              150670     Cass
+FRM  17019      2002              543827     Champaign
+FRM  17021      2002              378381     Christian
+FRM  17023      2002              224606     Clark
+FRM  17025      2002              191684     Clay
+FRM  17027      2002              214355     Clinton
+FRM  17029      2002              229247     Coles
+FRM  17031      2002               14969     Cook
+FRM  17033      2002              170587     Crawford
+FRM  17035      2002              145025     Cumberland
+FRM  17037      2002              340614     DeKalb
+FRM  17039      2002              188562     De Witt
+FRM  17041      2002              217285     Douglas
+FRM  17043      2002                5027     DuPage
+FRM  17045      2002              319481     Edgar
+FRM  17047      2002               92083     Edwards
+FRM  17049      2002              220860     Effingham
+FRM  17051      2002              286957     Fayette
+FRM  17053      2002              269392     Ford
+FRM  17055      2002              124582     Franklin
+FRM  17057      2002              283131     Fulton
+FRM  17059      2002              120768     Gallatin
+FRM  17061      2002              231128     Greene
+FRM  17063      2002              195426     Grundy
+FRM  17065      2002              172300     Hamilton
+FRM  17067      2002              329271     Hancock
+FRM  17069      2002               12259     Hardin
+FRM  17071      2002              155418     Henderson
+FRM  17073      2002              416436     Henry
+FRM  17075      2002              628269     Iroquois
+FRM  17077      2002              135568     Jackson
+FRM  17079      2002              231296     Jasper
+FRM  17081      2002              171579     Jefferson
+FRM  17083      2002              127103     Jersey
+FRM  17085      2002              146918     Jo Daviess
+FRM  17087      2002               38410     Johnson
+FRM  17089      2002              179703     Kane
+FRM  17091      2002              326000     Kankakee
+FRM  17093      2002              157357     Kendall
+FRM  17095      2002              307620     Knox
+FRM  17097      2002               29816     Lake
+FRM  17099      2002              531717     La Salle
+FRM  17101      2002              166450     Lawrence
+FRM  17103      2002              362655     Lee
+FRM  17105      2002              598788     Livingston
+FRM  17107      2002              331597     Logan
+FRM  17109      2002              263507     McDonough
+FRM  17111      2002              202639     McHenry
+FRM  17113      2002              643626     McLean
+FRM  17115      2002              297893     Macon
+FRM  17117      2002              348580     Macoupin
+FRM  17119      2002              248907     Madison
+FRM  17121      2002              176855     Marion
+FRM  17123      2002              165306     Marshall
+FRM  17125      2002              243385     Mason
+FRM  17127      2002               80010     Massac
+FRM  17129      2002              128166     Menard
+FRM  17131      2002              229607     Mercer
+FRM  17133      2002              135415     Monroe
+FRM  17135      2002              308195     Montgomery
+FRM  17137      2002              242094     Morgan
+FRM  17139      2002              172863     Moultrie
+FRM  17141      2002              310544     Ogle
+FRM  17143      2002              214273     Peoria
+FRM  17145      2002              145751     Perry
+FRM  17147      2002              246470     Piatt
+FRM  17149      2002              270974     Pike
+FRM  17151      2002               27676     Pope
+FRM  17153      2002               61273     Pulaski
+FRM  17155      2002               59501     Putnam
+FRM  17157      2002              186023     Randolph
+FRM  17159      2002              182811     Richland
+FRM  17161      2002              126828     Rock Island
+FRM  17163      2002              241953     St. Clair
+FRM  17165      2002               99974     Saline
+FRM  17167      2002              419017     Sangamon
+FRM  17169      2002              124325     Schuyler
+FRM  17171      2002               86555     Scott
+FRM  17173      2002              355732     Shelby
+FRM  17175      2002              158516     Stark
+FRM  17177      2002              269939     Stephenson
+FRM  17179      2002              290675     Tazewell
+FRM  17181      2002               71377     Union
+FRM  17183      2002              414582     Vermilion
+FRM  17185      2002               96953     Wabash
+FRM  17187      2002              276654     Warren
+FRM  17189      2002              287602     Washington
+FRM  17191      2002              249013     Wayne
+FRM  17193      2002              225949     White
+FRM  17195      2002              324742     Whiteside
+FRM  17197      2002              245043     Will
+FRM  17199      2002               49733     Williamson
+FRM  17201      2002              164325     Winnebago
+FRM  17203      2002              273369     Woodford
+/END/

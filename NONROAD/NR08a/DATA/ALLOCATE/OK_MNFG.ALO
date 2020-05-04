@@ -1,0 +1,102 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent NUMBER OF EMPLOYEES IN MANUFACTURING
+CBP NAICS 31----, 321///, 322///, 323///, 324///, 325///, 326///, 327///, 331///,
+332///, 333///, 334///, 335///, 336///, 337///, 339///, and 5111//; pre-2002 CBP SIC 20--
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+MFG  40000      2002              279099     OK
+MFG  40001      2002                2534     Adair
+MFG  40003      2002                 146     Alfalfa
+MFG  40005      2002                 691     Atoka
+MFG  40007      2002                 138     Beaver
+MFG  40009      2002                 381     Beckham
+MFG  40011      2002                 725     Blaine
+MFG  40013      2002                2755     Bryan
+MFG  40015      2002                 154     Caddo
+MFG  40017      2002                5878     Canadian
+MFG  40019      2002                5473     Carter
+MFG  40021      2002                 346     Cherokee
+MFG  40023      2002                 250     Choctaw
+MFG  40025      2002                   7     Cimarron
+MFG  40027      2002                6502     Cleveland
+MFG  40029      2002                 389     Coal
+MFG  40031      2002                6039     Comanche
+MFG  40033      2002                  25     Cotton
+MFG  40035      2002                1538     Craig
+MFG  40037      2002                8187     Creek
+MFG  40039      2002                1702     Custer
+MFG  40041      2002                 853     Delaware
+MFG  40043      2002                  34     Dewey
+MFG  40045      2002                  87     Ellis
+MFG  40047      2002                2453     Garfield
+MFG  40049      2002                1518     Garvin
+MFG  40051      2002                5340     Grady
+MFG  40053      2002                  48     Grant
+MFG  40055      2002                 116     Greer
+MFG  40057      2002                  23     Harmon
+MFG  40059      2002                  17     Harper
+MFG  40061      2002                 125     Haskell
+MFG  40063      2002                 120     Hughes
+MFG  40065      2002                1299     Jackson
+MFG  40067      2002                 133     Jefferson
+MFG  40069      2002                1043     Johnston
+MFG  40071      2002                6611     Kay
+MFG  40073      2002                 849     Kingfisher
+MFG  40075      2002                 663     Kiowa
+MFG  40077      2002                 361     Latimer
+MFG  40079      2002                1046     Le Flore
+MFG  40081      2002                 544     Lincoln
+MFG  40083      2002                 582     Logan
+MFG  40085      2002                 506     Love
+MFG  40087      2002                 609     McClain
+MFG  40089      2002                4393     McCurtain
+MFG  40091      2002                 553     McIntosh
+MFG  40093      2002                 318     Major
+MFG  40095      2002                2185     Marshall
+MFG  40097      2002                5092     Mayes
+MFG  40099      2002                 291     Murray
+MFG  40101      2002                9349     Muskogee
+MFG  40103      2002                3392     Noble
+MFG  40105      2002                 457     Nowata
+MFG  40107      2002                 466     Okfuskee
+MFG  40109      2002               62334     Oklahoma
+MFG  40111      2002                2518     Okmulgee
+MFG  40113      2002                 371     Osage
+MFG  40115      2002                2529     Ottawa
+MFG  40117      2002                 343     Pawnee
+MFG  40119      2002                4554     Payne
+MFG  40121      2002                1255     Pittsburg
+MFG  40123      2002                3207     Pontotoc
+MFG  40125      2002                5858     Pottawatomie
+MFG  40127      2002                 320     Pushmataha
+MFG  40129      2002                  24     Roger Mills
+MFG  40131      2002               10107     Rogers
+MFG  40133      2002                1901     Seminole
+MFG  40135      2002                 868     Sequoyah
+MFG  40137      2002                3688     Stephens
+MFG  40139      2002                1884     Texas
+MFG  40141      2002                 871     Tillman
+MFG  40143      2002               73357     Tulsa
+MFG  40145      2002                2671     Wagoner
+MFG  40147      2002                3555     Washington
+MFG  40149      2002                  98     Washita
+MFG  40151      2002                 335     Woods
+MFG  40153      2002                1115     Woodward
+/END/

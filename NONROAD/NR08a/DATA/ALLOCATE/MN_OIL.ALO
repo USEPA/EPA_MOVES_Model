@@ -1,0 +1,112 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent EMPLOYEES IN OIL & GAS EXTRACTION, AND DRILLING OIL & GAS WELLS
+CBP NAICS 211/// and 213111; pre-2002 CBP SIC 1300
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+OIL  27000      2002                 126     MN
+OIL  27001      2002                   0     Aitkin
+OIL  27003      2002                   0     Anoka
+OIL  27005      2002                   0     Becker
+OIL  27007      2002                   0     Beltrami
+OIL  27009      2002                   0     Benton
+OIL  27011      2002                   0     Big Stone
+OIL  27013      2002                   0     Blue Earth
+OIL  27015      2002                   0     Brown
+OIL  27017      2002                   0     Carlton
+OIL  27019      2002                   0     Carver
+OIL  27021      2002                   0     Cass
+OIL  27023      2002                   0     Chippewa
+OIL  27025      2002                   3     Chisago
+OIL  27027      2002                   0     Clay
+OIL  27029      2002                   0     Clearwater
+OIL  27031      2002                   0     Cook
+OIL  27033      2002                   0     Cottonwood
+OIL  27035      2002                  52     Crow Wing
+OIL  27037      2002                  11     Dakota
+OIL  27039      2002                   0     Dodge
+OIL  27041      2002                   2     Douglas
+OIL  27043      2002                   0     Faribault
+OIL  27045      2002                   0     Fillmore
+OIL  27047      2002                   0     Freeborn
+OIL  27049      2002                   0     Goodhue
+OIL  27051      2002                   0     Grant
+OIL  27053      2002                  52     Hennepin
+OIL  27055      2002                   0     Houston
+OIL  27057      2002                   0     Hubbard
+OIL  27059      2002                   0     Isanti
+OIL  27061      2002                   0     Itasca
+OIL  27063      2002                   0     Jackson
+OIL  27065      2002                   0     Kanabec
+OIL  27067      2002                   0     Kandiyohi
+OIL  27069      2002                   0     Kittson
+OIL  27071      2002                   0     Koochiching
+OIL  27073      2002                   0     Lac qui Parle
+OIL  27075      2002                   0     Lake
+OIL  27077      2002                   0     Lake of the Woods
+OIL  27079      2002                   0     Le Sueur
+OIL  27081      2002                   0     Lincoln
+OIL  27083      2002                   0     Lyon
+OIL  27085      2002                   0     McLeod
+OIL  27087      2002                   0     Mahnomen
+OIL  27089      2002                   0     Marshall
+OIL  27091      2002                   0     Martin
+OIL  27093      2002                   0     Meeker
+OIL  27095      2002                   0     Mille Lacs
+OIL  27097      2002                   2     Morrison
+OIL  27099      2002                   0     Mower
+OIL  27101      2002                   0     Murray
+OIL  27103      2002                   0     Nicollet
+OIL  27105      2002                   0     Nobles
+OIL  27107      2002                   0     Norman
+OIL  27109      2002                   0     Olmsted
+OIL  27111      2002                   0     Otter Tail
+OIL  27113      2002                   0     Pennington
+OIL  27115      2002                   0     Pine
+OIL  27117      2002                   0     Pipestone
+OIL  27119      2002                   0     Polk
+OIL  27121      2002                   0     Pope
+OIL  27123      2002                   0     Ramsey
+OIL  27125      2002                   0     Red Lake
+OIL  27127      2002                   0     Redwood
+OIL  27129      2002                   0     Renville
+OIL  27131      2002                   0     Rice
+OIL  27133      2002                   0     Rock
+OIL  27135      2002                   0     Roseau
+OIL  27137      2002                   0     St. Louis
+OIL  27139      2002                   0     Scott
+OIL  27141      2002                   2     Sherburne
+OIL  27143      2002                   0     Sibley
+OIL  27145      2002                   0     Stearns
+OIL  27147      2002                   0     Steele
+OIL  27149      2002                   0     Stevens
+OIL  27151      2002                   0     Swift
+OIL  27153      2002                   0     Todd
+OIL  27155      2002                   0     Traverse
+OIL  27157      2002                   0     Wabasha
+OIL  27159      2002                   2     Wadena
+OIL  27161      2002                   0     Waseca
+OIL  27163      2002                   0     Washington
+OIL  27165      2002                   0     Watonwan
+OIL  27167      2002                   0     Wilkin
+OIL  27169      2002                   0     Winona
+OIL  27171      2002                   0     Wright
+OIL  27173      2002                   0     Yellow Medicine
+/END/

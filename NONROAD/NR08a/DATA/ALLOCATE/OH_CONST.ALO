@@ -1,0 +1,115 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2003 DOLLAR VALUE of CONSTRUCTION
+adjusted for relative geographic cost of construction materials.
+   Const_Dollars * (1-(1/(1+100/Area_Mod_Factor)))
+from McGraw-Hill Construction (values) and Craftsman (cost adj)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+CON  39000      2003            16520456     OH
+CON  39001      2003                1866     Adams
+CON  39003      2003              112685     Allen
+CON  39005      2003               29736     Ashland
+CON  39007      2003              194782     Ashtabula
+CON  39009      2003               54041     Athens
+CON  39011      2003               40924     Auglaize
+CON  39013      2003               17595     Belmont
+CON  39015      2003               34104     Brown
+CON  39017      2003              693644     Butler
+CON  39019      2003                3796     Carroll
+CON  39021      2003               35446     Champaign
+CON  39023      2003              129716     Clark
+CON  39025      2003              363775     Clermont
+CON  39027      2003               41544     Clinton
+CON  39029      2003               54839     Columbiana
+CON  39031      2003               16348     Coshocton
+CON  39033      2003               44363     Crawford
+CON  39035      2003             1484529     Cuyahoga
+CON  39037      2003               27656     Darke
+CON  39039      2003               25305     Defiance
+CON  39041      2003              662068     Delaware
+CON  39043      2003              109663     Erie
+CON  39045      2003              373922     Fairfield
+CON  39047      2003               52916     Fayette
+CON  39049      2003             2409996     Franklin
+CON  39051      2003               52341     Fulton
+CON  39053      2003                6515     Gallia
+CON  39055      2003              136264     Geauga
+CON  39057      2003              290596     Greene
+CON  39059      2003               59321     Guernsey
+CON  39061      2003             1189366     Hamilton
+CON  39063      2003              124491     Hancock
+CON  39065      2003                5574     Hardin
+CON  39067      2003               11278     Harrison
+CON  39069      2003               24635     Henry
+CON  39071      2003               24302     Highland
+CON  39073      2003                9982     Hocking
+CON  39075      2003               11108     Holmes
+CON  39077      2003               45595     Huron
+CON  39079      2003               18642     Jackson
+CON  39081      2003               31473     Jefferson
+CON  39083      2003              104897     Knox
+CON  39085      2003              288010     Lake
+CON  39087      2003               46866     Lawrence
+CON  39089      2003              276198     Licking
+CON  39091      2003               47323     Logan
+CON  39093      2003              541420     Lorain
+CON  39095      2003              506953     Lucas
+CON  39097      2003               82694     Madison
+CON  39099      2003              295448     Mahoning
+CON  39101      2003               94620     Marion
+CON  39103      2003              363370     Medina
+CON  39105      2003               28958     Meigs
+CON  39107      2003               39673     Mercer
+CON  39109      2003              110622     Miami
+CON  39111      2003                3408     Monroe
+CON  39113      2003              724156     Montgomery
+CON  39115      2003                9385     Morgan
+CON  39117      2003               12694     Morrow
+CON  39119      2003               50541     Muskingum
+CON  39121      2003                5109     Noble
+CON  39123      2003              161609     Ottawa
+CON  39125      2003               15937     Paulding
+CON  39127      2003               23540     Perry
+CON  39129      2003               74150     Pickaway
+CON  39131      2003               25838     Pike
+CON  39133      2003              299252     Portage
+CON  39135      2003               35817     Preble
+CON  39137      2003               34712     Putnam
+CON  39139      2003              101004     Richland
+CON  39141      2003               30750     Ross
+CON  39143      2003               71486     Sandusky
+CON  39145      2003               73441     Scioto
+CON  39147      2003               45159     Seneca
+CON  39149      2003               59548     Shelby
+CON  39151      2003              583351     Stark
+CON  39153      2003              707234     Summit
+CON  39155      2003              225190     Trumbull
+CON  39157      2003               48996     Tuscarawas
+CON  39159      2003              173625     Union
+CON  39161      2003                9605     Van Wert
+CON  39163      2003                2059     Vinton
+CON  39165      2003              590537     Warren
+CON  39167      2003               69844     Washington
+CON  39169      2003              124728     Wayne
+CON  39171      2003               39094     Williams
+CON  39173      2003              184286     Wood
+CON  39175      2003               20574     Wyandot
+/END/

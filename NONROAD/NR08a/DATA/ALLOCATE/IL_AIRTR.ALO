@@ -1,0 +1,129 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent AIRCRAFT NOx TONS
+from Draft 2002 NEI
+
+9/1/05 epa: Modifies to treat PR & VI as additional to US Total.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+AIR  17000      2002            4684.488     IL
+AIR  17001      2002               0.130     Adams
+AIR  17003      2002               0.080     Alexander
+AIR  17005      2002               0.120     Bond
+AIR  17007      2002               0.090     Boone
+AIR  17009      2002               0.000     Brown
+AIR  17011      2002               0.000     Bureau
+AIR  17013      2002               0.000     Calhoun
+AIR  17015      2002               0.009     Carroll
+AIR  17017      2002               0.000     Cass
+AIR  17019      2002               3.180     Champaign
+AIR  17021      2002               0.037     Christian
+AIR  17023      2002               0.020     Clark
+AIR  17025      2002               0.020     Clay
+AIR  17027      2002               0.000     Clinton
+AIR  17029      2002               0.260     Coles
+AIR  17031      2002            4477.000     Cook
+AIR  17033      2002               0.080     Crawford
+AIR  17035      2002               0.000     Cumberland
+AIR  17037      2002               0.230     DeKalb
+AIR  17039      2002               0.000     De Witt
+AIR  17041      2002               0.000     Douglas
+AIR  17043      2002               1.054     DuPage
+AIR  17045      2002               0.012     Edgar
+AIR  17047      2002               0.000     Edwards
+AIR  17049      2002               0.090     Effingham
+AIR  17051      2002               0.010     Fayette
+AIR  17053      2002               0.012     Ford
+AIR  17055      2002               0.000     Franklin
+AIR  17057      2002               0.009     Fulton
+AIR  17059      2002               0.000     Gallatin
+AIR  17061      2002               0.000     Greene
+AIR  17063      2002               0.170     Grundy
+AIR  17065      2002               0.000     Hamilton
+AIR  17067      2002               0.000     Hancock
+AIR  17069      2002               0.000     Hardin
+AIR  17071      2002               0.000     Henderson
+AIR  17073      2002               0.162     Henry
+AIR  17075      2002               0.000     Iroquois
+AIR  17077      2002               0.538     Jackson
+AIR  17079      2002               0.000     Jasper
+AIR  17081      2002               0.370     Jefferson
+AIR  17083      2002               0.000     Jersey
+AIR  17085      2002               0.000     Jo Daviess
+AIR  17087      2002               0.000     Johnson
+AIR  17089      2002               0.480     Kane
+AIR  17091      2002               0.310     Kankakee
+AIR  17093      2002               0.000     Kendall
+AIR  17095      2002               0.120     Knox
+AIR  17097      2002               0.530     Lake
+AIR  17099      2002               0.077     La Salle
+AIR  17101      2002               0.470     Lawrence
+AIR  17103      2002               0.270     Lee
+AIR  17105      2002               0.000     Livingston
+AIR  17107      2002               0.064     Logan
+AIR  17109      2002               0.230     McDonough
+AIR  17111      2002               0.460     McHenry
+AIR  17113      2002              21.890     McLean
+AIR  17115      2002               0.425     Macon
+AIR  17117      2002               0.000     Macoupin
+AIR  17119      2002               0.490     Madison
+AIR  17121      2002               0.172     Marion
+AIR  17123      2002               0.060     Marshall
+AIR  17125      2002               0.000     Mason
+AIR  17127      2002               0.000     Massac
+AIR  17129      2002               0.000     Menard
+AIR  17131      2002               0.000     Mercer
+AIR  17133      2002               0.000     Monroe
+AIR  17135      2002               0.060     Montgomery
+AIR  17137      2002               0.070     Morgan
+AIR  17139      2002               0.000     Moultrie
+AIR  17141      2002               0.010     Ogle
+AIR  17143      2002              28.010     Peoria
+AIR  17145      2002               0.030     Perry
+AIR  17147      2002               0.000     Piatt
+AIR  17149      2002               0.024     Pike
+AIR  17151      2002               0.000     Pope
+AIR  17153      2002               0.000     Pulaski
+AIR  17155      2002               0.000     Putnam
+AIR  17157      2002               0.140     Randolph
+AIR  17159      2002               0.060     Richland
+AIR  17161      2002              59.810     Rock Island
+AIR  17163      2002               4.720     St. Clair
+AIR  17165      2002               0.021     Saline
+AIR  17167      2002               1.000     Sangamon
+AIR  17169      2002               0.000     Schuyler
+AIR  17171      2002               0.000     Scott
+AIR  17173      2002               0.059     Shelby
+AIR  17175      2002               0.000     Stark
+AIR  17177      2002               0.040     Stephenson
+AIR  17179      2002               0.200     Tazewell
+AIR  17181      2002               0.000     Union
+AIR  17183      2002               5.847     Vermilion
+AIR  17185      2002               0.000     Wabash
+AIR  17187      2002               0.017     Warren
+AIR  17189      2002               0.000     Washington
+AIR  17191      2002               0.019     Wayne
+AIR  17193      2002               0.020     White
+AIR  17195      2002              10.408     Whiteside
+AIR  17197      2002               1.080     Will
+AIR  17199      2002               0.324     Williamson
+AIR  17201      2002              62.790     Winnebago
+AIR  17203      2002               0.000     Woodford
+/END/

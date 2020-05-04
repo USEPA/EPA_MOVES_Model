@@ -1,0 +1,87 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent SINGLE AND DOUBLE (DUPLEX) FAMILY HOMES
+
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+HOU  36000      2002             7762795     NY
+HOU  36001      2002              131344     Albany
+HOU  36003      2002               24783     Allegany
+HOU  36005      2002              494540     Bronx
+HOU  36007      2002               89033     Broome
+HOU  36009      2002               40158     Cattaraugus
+HOU  36011      2002               35754     Cayuga
+HOU  36013      2002               65222     Chautauqua
+HOU  36015      2002               38050     Chemung
+HOU  36017      2002               24135     Chenango
+HOU  36019      2002               33714     Clinton
+HOU  36021      2002               30605     Columbia
+HOU  36023      2002               20198     Cortland
+HOU  36025      2002               29209     Delaware
+HOU  36027      2002              108326     Dutchess
+HOU  36029      2002              419213     Erie
+HOU  36031      2002               23431     Essex
+HOU  36033      2002               24103     Franklin
+HOU  36035      2002               27941     Fulton
+HOU  36037      2002               24347     Genesee
+HOU  36039      2002               26865     Greene
+HOU  36041      2002                8031     Hamilton
+HOU  36043      2002               32216     Herkimer
+HOU  36045      2002               54399     Jefferson
+HOU  36047      2002              935881     Kings
+HOU  36049      2002               15451     Lewis
+HOU  36051      2002               24529     Livingston
+HOU  36053      2002               28918     Madison
+HOU  36055      2002              308063     Monroe
+HOU  36057      2002               22562     Montgomery
+HOU  36059      2002              459862     Nassau
+HOU  36061      2002              809519     New York
+HOU  36063      2002               96601     Niagara
+HOU  36065      2002              103156     Oneida
+HOU  36067      2002              198687     Onondaga
+HOU  36069      2002               43611     Ontario
+HOU  36071      2002              126863     Orange
+HOU  36073      2002               17445     Orleans
+HOU  36075      2002               53462     Oswego
+HOU  36077      2002               29756     Otsego
+HOU  36079      2002               35734     Putnam
+HOU  36081      2002              822544     Queens
+HOU  36083      2002               66725     Rensselaer
+HOU  36085      2002              168796     Richmond
+HOU  36087      2002               96040     Rockland
+HOU  36089      2002               50203     St. Lawrence
+HOU  36091      2002               89335     Saratoga
+HOU  36093      2002               65264     Schenectady
+HOU  36095      2002               16100     Schoharie
+HOU  36097      2002                9284     Schuyler
+HOU  36099      2002               14891     Seneca
+HOU  36101      2002               46744     Steuben
+HOU  36103      2002              531979     Suffolk
+HOU  36105      2002               45376     Sullivan
+HOU  36107      2002               21666     Tioga
+HOU  36109      2002               39564     Tompkins
+HOU  36111      2002               78732     Ulster
+HOU  36113      2002               35468     Warren
+HOU  36115      2002               27083     Washington
+HOU  36117      2002               39372     Wayne
+HOU  36119      2002              352658     Westchester
+HOU  36121      2002               17075     Wyoming
+HOU  36123      2002               12179     Yates
+/END/

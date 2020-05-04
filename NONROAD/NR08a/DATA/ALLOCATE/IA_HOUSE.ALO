@@ -1,0 +1,124 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent SINGLE AND DOUBLE (DUPLEX) FAMILY HOMES
+
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+HOU  19000      2002             1257458     IA
+HOU  19001      2002                3741     Adair
+HOU  19003      2002                2098     Adams
+HOU  19005      2002                7292     Allamakee
+HOU  19007      2002                6716     Appanoose
+HOU  19009      2002                2995     Audubon
+HOU  19011      2002               10601     Benton
+HOU  19013      2002               52542     Black Hawk
+HOU  19015      2002               11184     Boone
+HOU  19017      2002                9560     Bremer
+HOU  19019      2002                8838     Buchanan
+HOU  19021      2002                8134     Buena Vista
+HOU  19023      2002                6561     Butler
+HOU  19025      2002                5194     Calhoun
+HOU  19027      2002                9068     Carroll
+HOU  19029      2002                6584     Cass
+HOU  19031      2002                7656     Cedar
+HOU  19033      2002               21541     Cerro Gordo
+HOU  19035      2002                5858     Cherokee
+HOU  19037      2002                5617     Chickasaw
+HOU  19039      2002                3993     Clarke
+HOU  19041      2002                7920     Clay
+HOU  19043      2002                8765     Clayton
+HOU  19045      2002               21777     Clinton
+HOU  19047      2002                6998     Crawford
+HOU  19049      2002               17686     Dallas
+HOU  19051      2002                3565     Davis
+HOU  19053      2002                3861     Decatur
+HOU  19055      2002                7746     Delaware
+HOU  19057      2002               18648     Des Moines
+HOU  19059      2002               11653     Dickinson
+HOU  19061      2002               36277     Dubuque
+HOU  19063      2002                4913     Emmet
+HOU  19065      2002                9553     Fayette
+HOU  19067      2002                7295     Floyd
+HOU  19069      2002                4739     Franklin
+HOU  19071      2002                3553     Fremont
+HOU  19073      2002                4639     Greene
+HOU  19075      2002                5383     Grundy
+HOU  19077      2002                5553     Guthrie
+HOU  19079      2002                7143     Hamilton
+HOU  19081      2002                5221     Hancock
+HOU  19083      2002                8343     Hardin
+HOU  19085      2002                6687     Harrison
+HOU  19087      2002                8321     Henry
+HOU  19089      2002                4362     Howard
+HOU  19091      2002                4709     Humboldt
+HOU  19093      2002                3496     Ida
+HOU  19095      2002                6627     Iowa
+HOU  19097      2002                9088     Jackson
+HOU  19099      2002               15821     Jasper
+HOU  19101      2002                7357     Jefferson
+HOU  19103      2002               48648     Johnson
+HOU  19105      2002                8196     Jones
+HOU  19107      2002                5032     Keokuk
+HOU  19109      2002                7589     Kossuth
+HOU  19111      2002               16666     Lee
+HOU  19113      2002               83847     Linn
+HOU  19115      2002                5144     Louisa
+HOU  19117      2002                4252     Lucas
+HOU  19119      2002                4767     Lyon
+HOU  19121      2002                5843     Madison
+HOU  19123      2002                9676     Mahaska
+HOU  19125      2002               13217     Marion
+HOU  19127      2002               16505     Marshall
+HOU  19129      2002                5740     Mills
+HOU  19131      2002                4612     Mitchell
+HOU  19133      2002                4697     Monona
+HOU  19135      2002                3579     Monroe
+HOU  19137      2002                5370     Montgomery
+HOU  19139      2002               17008     Muscatine
+HOU  19141      2002                6553     O'Brien
+HOU  19143      2002                2991     Osceola
+HOU  19145      2002                7283     Page
+HOU  19147      2002                4644     Palo Alto
+HOU  19149      2002               10071     Plymouth
+HOU  19151      2002                3951     Pocahontas
+HOU  19153      2002              162683     Polk
+HOU  19155      2002               36880     Pottawattamie
+HOU  19157      2002                8688     Poweshiek
+HOU  19159      2002                2813     Ringgold
+HOU  19161      2002                5573     Sac
+HOU  19163      2002               66988     Scott
+HOU  19165      2002                5424     Shelby
+HOU  19167      2002               11444     Sioux
+HOU  19169      2002               31410     Story
+HOU  19171      2002                7610     Tama
+HOU  19173      2002                3209     Taylor
+HOU  19175      2002                5675     Union
+HOU  19177      2002                3611     Van Buren
+HOU  19179      2002               15917     Wapello
+HOU  19181      2002               15892     Warren
+HOU  19183      2002                8671     Washington
+HOU  19185      2002                3384     Wayne
+HOU  19187      2002               17107     Webster
+HOU  19189      2002                5125     Winnebago
+HOU  19191      2002                8297     Winneshiek
+HOU  19193      2002               41637     Woodbury
+HOU  19195      2002                3522     Worth
+HOU  19197      2002                6545     Wright
+/END/

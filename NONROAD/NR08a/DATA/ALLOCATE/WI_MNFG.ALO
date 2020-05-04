@@ -1,0 +1,97 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent NUMBER OF EMPLOYEES IN MANUFACTURING
+CBP NAICS 31----, 321///, 322///, 323///, 324///, 325///, 326///, 327///, 331///,
+332///, 333///, 334///, 335///, 336///, 337///, 339///, and 5111//; pre-2002 CBP SIC 20--
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+MFG  55000      2002              939826     WI
+MFG  55001      2002                 733     Adams
+MFG  55003      2002                2502     Ashland
+MFG  55005      2002                8930     Barron
+MFG  55007      2002                 403     Bayfield
+MFG  55009      2002               42847     Brown
+MFG  55011      2002                 344     Buffalo
+MFG  55013      2002                1782     Burnett
+MFG  55015      2002               10704     Calumet
+MFG  55017      2002                9574     Chippewa
+MFG  55019      2002                5300     Clark
+MFG  55021      2002                9809     Columbia
+MFG  55023      2002                4644     Crawford
+MFG  55025      2002               47818     Dane
+MFG  55027      2002               19244     Dodge
+MFG  55029      2002                4528     Door
+MFG  55031      2002                2071     Douglas
+MFG  55033      2002                3425     Dunn
+MFG  55035      2002               10578     Eau Claire
+MFG  55037      2002                 450     Florence
+MFG  55039      2002               21338     Fond du Lac
+MFG  55041      2002                 727     Forest
+MFG  55043      2002                5398     Grant
+MFG  55045      2002                4217     Green
+MFG  55047      2002                2776     Green Lake
+MFG  55049      2002                1170     Iowa
+MFG  55051      2002                 548     Iron
+MFG  55053      2002                1565     Jackson
+MFG  55055      2002               20621     Jefferson
+MFG  55057      2002                4023     Juneau
+MFG  55059      2002               19679     Kenosha
+MFG  55061      2002                3281     Kewaunee
+MFG  55063      2002               16067     La Crosse
+MFG  55065      2002                 879     Lafayette
+MFG  55067      2002                2886     Langlade
+MFG  55069      2002                6650     Lincoln
+MFG  55071      2002               22623     Manitowoc
+MFG  55073      2002               32781     Marathon
+MFG  55075      2002               11761     Marinette
+MFG  55077      2002                1541     Marquette
+MFG  55078      2002                 364     Menominee
+MFG  55079      2002              121987     Milwaukee
+MFG  55081      2002                5496     Monroe
+MFG  55083      2002                5011     Oconto
+MFG  55085      2002                3214     Oneida
+MFG  55087      2002               33042     Outagamie
+MFG  55089      2002               21241     Ozaukee
+MFG  55091      2002                 300     Pepin
+MFG  55093      2002                1911     Pierce
+MFG  55095      2002                7291     Polk
+MFG  55097      2002                8791     Portage
+MFG  55099      2002                4469     Price
+MFG  55101      2002               31925     Racine
+MFG  55103      2002                3136     Richland
+MFG  55105      2002               28478     Rock
+MFG  55107      2002                3590     Rusk
+MFG  55109      2002               10943     St. Croix
+MFG  55111      2002               12313     Sauk
+MFG  55113      2002                1222     Sawyer
+MFG  55115      2002                3498     Shawano
+MFG  55117      2002               39606     Sheboygan
+MFG  55119      2002                5355     Taylor
+MFG  55121      2002                8980     Trempealeau
+MFG  55123      2002                1624     Vernon
+MFG  55125      2002                 685     Vilas
+MFG  55127      2002               17277     Walworth
+MFG  55129      2002                2128     Washburn
+MFG  55131      2002               28554     Washington
+MFG  55133      2002               85787     Waukesha
+MFG  55135      2002               13003     Waupaca
+MFG  55137      2002                1201     Waushara
+MFG  55139      2002               45979     Winnebago
+MFG  55141      2002               15208     Wood
+/END/

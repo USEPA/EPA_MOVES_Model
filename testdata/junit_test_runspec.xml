@@ -1,0 +1,68 @@
+<runspec>
+	<description>Test Description</description>
+	<modelscale value="MACROSCALE"/>
+	<geographicselections>
+		<geographicselection type="COUNTY" key="39035" description="Cuyahoga County"/>
+		<geographicselection type="COUNTY" key="26161" description="Washtenaw County"/>
+	</geographicselections>
+	<timespan>
+		<year key="2001"/>
+		<month key="6"/>
+		<day key="0"/>
+		<day key="1"/>
+		<day key="2"/>
+		<day key="3"/>
+		<day key="4"/>
+		<day key="5"/>
+		<day key="6"/>
+		<beginhour key="0"/>
+		<endhour key="23"/>
+		<aggregateBy key="Hour"/>
+	</timespan>
+	<onroadvehicleselections>
+		<onroadvehicleselection fueltypeid="100" fueltypedesc="Fuel BBB" sourcetypeid="200" sourcetypename="SourceUseType YYY"/>
+	</onroadvehicleselections>
+	<offroadvehicleselections>
+		<offroadvehicleselection fuelid="2" segmentid="2"/>
+	</offroadvehicleselections>
+	<offroadvehiclesccs>
+		<scc code="3"/>
+	</offroadvehiclesccs>
+	<roadtypes>
+		<roadtype roadtypeid="4" roadtypename="Urban Restricted Access"/>
+	</roadtypes>
+	<pollutantprocessassociations>
+		<pollutantprocessassociation pollutantkey="91" pollutantname="Total Energy Consumption" processkey="1" processname="Running Exhaust"/>
+	</pollutantprocessassociations>
+	<databaseselections>
+	</databaseselections>
+	<internalcontrolstrategies>
+	</internalcontrolstrategies>
+	<inputdatabase servername="" databasename="" description=""/>
+	<uncertaintyparameters uncertaintymodeenabled="false" numberofrunspersimulation="0" numberofsimulations="0"/>
+	<geographicoutputdetail description="STATE"/>
+	<outputemissionsbreakdownselection>
+		<modelyear selected="false"/>
+		<fueltype selected="false"/>
+		<emissionprocess selected="false"/>
+		<onroadoffroad selected="false"/>
+		<roadtype selected="false"/>
+		<sourceusetype selected="false"/>
+		<movesvehicletype selected="false"/>
+		<onroadscc selected="false"/>
+		<offroadscc selected="false"/>
+		<estimateuncertainty selected="false" numberOfIterations="0" keepSampledData="false" keepIterations="false"/>
+		<segment selected="false"/>
+		<hpclass selected="false"/>
+	</outputemissionsbreakdownselection>
+	<outputdatabase servername="localhost" databasename="JUnitTestOUTPUT" description=""/>
+	<outputtimestep value="Month"/>
+	<outputvmtdata value="true"/>
+	<scaleinputdatabase servername="" databasename="" description=""/>
+	<pmsize value="5"/>
+	<outputfactors>
+		<timefactors selected="true" units="Seconds"/>
+		<distancefactors selected="false" units=""/>
+		<massfactors selected="true" units="Kilograms" energyunits=""/>
+	</outputfactors>
+</runspec>

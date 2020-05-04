@@ -1,0 +1,137 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2003 DOLLAR VALUE of CONSTRUCTION
+adjusted for relative geographic cost of construction materials.
+   Const_Dollars * (1-(1/(1+100/Area_Mod_Factor)))
+from McGraw-Hill Construction (values) and Craftsman (cost adj)
+
+9/23/05 epa: add Broomfield in 2001 with 2003 Const values & 2002 Pop ratios from Adams, Boulder, Jefferson, & Weld.
+10/17/05 epa: Use corrected geo adjustments.
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+------------------------------------------------------------------------
+/INDICATORS/                                                      11523479
+CON  08000      2003            11523481     CO                   11523479
+CON  08001      2000             1289813     Adams          0.3823 1289813
+CON  08001      2001              881773     Adams                         0.26136
+CON  08003      2003                8718     Alamosa
+CON  08005      2003              902179     Arapahoe
+CON  08007      2003               42573     Archuleta
+CON  08009      2003                9384     Baca
+CON  08011      2003                1397     Bent
+CON  08013      2000              680546     Boulder       0.20172  680546
+CON  08013      2001              657989     Boulder                       0.19503
+CON  08014      2000                   0     Broomfield          0       0
+CON  08014      2001               96560     Broomfield                   0.028621
+CON  08015      2003               32286     Chaffee
+CON  08017      2003                5962     Cheyenne
+CON  08019      2003               18664     Clear Creek
+CON  08021      2003                8486     Conejos
+CON  08023      2003                6254     Costilla
+CON  08025      2003               22603     Crowley
+CON  08027      2003               22462     Custer
+CON  08029      2003               79319     Delta
+CON  08031      2003             1303505     Denver
+CON  08033      2003                5213     Dolores
+CON  08035      2003             1058479     Douglas
+CON  08037      2003              266848     Eagle
+CON  08039      2003               23690     Elbert
+CON  08041      2003             1355875     El Paso
+CON  08043      2003               57068     Fremont
+CON  08045      2003              156629     Garfield
+CON  08047      2003               26003     Gilpin
+CON  08049      2003              115734     Grand
+CON  08051      2003               53503     Gunnison
+CON  08053      2003                2940     Hinsdale
+CON  08055      2003               22033     Huerfano
+CON  08057      2003                5780     Jackson
+CON  08059      2000              554001     Jefferson     0.16421  554001
+CON  08059      2001             1254267     Jefferson                    0.371768
+CON  08061      2003                1003     Kiowa
+CON  08063      2003                4224     Kit Carson
+CON  08065      2003               11088     Lake
+CON  08067      2003              203956     La Plata
+CON  08069      2003              635375     Larimer
+CON  08071      2003               16418     Las Animas
+CON  08073      2003                1105     Lincoln
+CON  08075      2003               11661     Logan
+CON  08077      2003              256203     Mesa
+CON  08079      2003               31559     Mineral
+CON  08081      2003               14964     Moffat
+CON  08083      2003               35916     Montezuma
+CON  08085      2003               65822     Montrose
+CON  08087      2003               24961     Morgan
+CON  08089      2003               15430     Otero
+CON  08091      2003               22254     Ouray
+CON  08093      2003               43738     Park
+CON  08095      2003               10440     Phillips
+CON  08097      2003              120696     Pitkin
+CON  08099      2003              257972     Prowers
+CON  08101      2003              253325     Pueblo
+CON  08103      2003                7112     Rio Blanco
+CON  08105      2003               42006     Rio Grande
+CON  08107      2003              115903     Routt
+CON  08109      2003                7071     Saguache
+CON  08111      2003                5409     San Juan
+CON  08113      2003              103500     San Miguel
+CON  08115      2003                5564     Sedgwick
+CON  08117      2003              152368     Summit
+CON  08119      2003               51063     Teller
+CON  08121      2003                 986     Washington
+CON  08123      2000              849426     Weld          0.25177  849426
+CON  08123      2001              483197     Weld                         0.143221
+CON  08125      2003                7014     Yuma
+/END/
+                                                            1.0000 3373786  1.0000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

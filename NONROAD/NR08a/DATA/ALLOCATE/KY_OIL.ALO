@@ -1,0 +1,145 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent EMPLOYEES IN OIL & GAS EXTRACTION, AND DRILLING OIL & GAS WELLS
+CBP NAICS 211/// and 213111; pre-2002 CBP SIC 1300
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+OIL  21000      2002                1031     KY
+OIL  21001      2002                  66     Adair
+OIL  21003      2002                   0     Allen
+OIL  21005      2002                   0     Anderson
+OIL  21007      2002                   0     Ballard
+OIL  21009      2002                  17     Barren
+OIL  21011      2002                   0     Bath
+OIL  21013      2002                   0     Bell
+OIL  21015      2002                   0     Boone
+OIL  21017      2002                  10     Bourbon
+OIL  21019      2002                   8     Boyd
+OIL  21021      2002                   0     Boyle
+OIL  21023      2002                   0     Bracken
+OIL  21025      2002                   0     Breathitt
+OIL  21027      2002                   0     Breckinridge
+OIL  21029      2002                   0     Bullitt
+OIL  21031      2002                   0     Butler
+OIL  21033      2002                   0     Caldwell
+OIL  21035      2002                   0     Calloway
+OIL  21037      2002                   0     Campbell
+OIL  21039      2002                   0     Carlisle
+OIL  21041      2002                   0     Carroll
+OIL  21043      2002                   0     Carter
+OIL  21045      2002                   0     Casey
+OIL  21047      2002                  10     Christian
+OIL  21049      2002                   7     Clark
+OIL  21051      2002                   0     Clay
+OIL  21053      2002                  32     Clinton
+OIL  21055      2002                   7     Crittenden
+OIL  21057      2002                  10     Cumberland
+OIL  21059      2002                  15     Daviess
+OIL  21061      2002                   0     Edmonson
+OIL  21063      2002                   0     Elliott
+OIL  21065      2002                  10     Estill
+OIL  21067      2002                  93     Fayette
+OIL  21069      2002                   0     Fleming
+OIL  21071      2002                 191     Floyd
+OIL  21073      2002                   7     Franklin
+OIL  21075      2002                   0     Fulton
+OIL  21077      2002                   0     Gallatin
+OIL  21079      2002                   0     Garrard
+OIL  21081      2002                   0     Grant
+OIL  21083      2002                   0     Graves
+OIL  21085      2002                   0     Grayson
+OIL  21087      2002                   0     Green
+OIL  21089      2002                  45     Greenup
+OIL  21091      2002                   7     Hancock
+OIL  21093      2002                   0     Hardin
+OIL  21095      2002                  17     Harlan
+OIL  21097      2002                   0     Harrison
+OIL  21099      2002                   0     Hart
+OIL  21101      2002                   7     Henderson
+OIL  21103      2002                   0     Henry
+OIL  21105      2002                  10     Hickman
+OIL  21107      2002                  10     Hopkins
+OIL  21109      2002                   0     Jackson
+OIL  21111      2002                   7     Jefferson
+OIL  21113      2002                   0     Jessamine
+OIL  21115      2002                  17     Johnson
+OIL  21117      2002                   0     Kenton
+OIL  21119      2002                   0     Knott
+OIL  21121      2002                   7     Knox
+OIL  21123      2002                   0     Larue
+OIL  21125      2002                 105     Laurel
+OIL  21127      2002                  10     Lawrence
+OIL  21129      2002                   0     Lee
+OIL  21131      2002                   0     Leslie
+OIL  21133      2002                   0     Letcher
+OIL  21135      2002                   0     Lewis
+OIL  21137      2002                   0     Lincoln
+OIL  21139      2002                   0     Livingston
+OIL  21141      2002                   0     Logan
+OIL  21143      2002                   0     Lyon
+OIL  21145      2002                   0     McCracken
+OIL  21147      2002                   0     McCreary
+OIL  21149      2002                   7     McLean
+OIL  21151      2002                   0     Madison
+OIL  21153      2002                   7     Magoffin
+OIL  21155      2002                   0     Marion
+OIL  21157      2002                   0     Marshall
+OIL  21159      2002                   7     Martin
+OIL  21161      2002                   0     Mason
+OIL  21163      2002                   0     Meade
+OIL  21165      2002                   0     Menifee
+OIL  21167      2002                   0     Mercer
+OIL  21169      2002                  10     Metcalfe
+OIL  21171      2002                   0     Monroe
+OIL  21173      2002                   0     Montgomery
+OIL  21175      2002                   7     Morgan
+OIL  21177      2002                   7     Muhlenberg
+OIL  21179      2002                   0     Nelson
+OIL  21181      2002                   0     Nicholas
+OIL  21183      2002                   0     Ohio
+OIL  21185      2002                   0     Oldham
+OIL  21187      2002                   0     Owen
+OIL  21189      2002                   0     Owsley
+OIL  21191      2002                  10     Pendleton
+OIL  21193      2002                   0     Perry
+OIL  21195      2002                  63     Pike
+OIL  21197      2002                   0     Powell
+OIL  21199      2002                   7     Pulaski
+OIL  21201      2002                   0     Robertson
+OIL  21203      2002                   0     Rockcastle
+OIL  21205      2002                   0     Rowan
+OIL  21207      2002                   0     Russell
+OIL  21209      2002                   0     Scott
+OIL  21211      2002                   0     Shelby
+OIL  21213      2002                   0     Simpson
+OIL  21215      2002                   0     Spencer
+OIL  21217      2002                   0     Taylor
+OIL  21219      2002                   0     Todd
+OIL  21221      2002                   0     Trigg
+OIL  21223      2002                   0     Trimble
+OIL  21225      2002                  55     Union
+OIL  21227      2002                 105     Warren
+OIL  21229      2002                   0     Washington
+OIL  21231      2002                   0     Wayne
+OIL  21233      2002                   7     Webster
+OIL  21235      2002                   7     Whitley
+OIL  21237      2002                   0     Wolfe
+OIL  21239      2002                   7     Woodford
+/END/

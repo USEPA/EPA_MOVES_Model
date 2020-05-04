@@ -1,0 +1,82 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent UNDERGROUND COAL PRODUCTION TONS
+DOE/EIA 2002 Annual Coal Report
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+MIN  30000      2002                   0     MT
+MIN  30001      2002                   0     Beaverhead
+MIN  30003      2002                   0     Big Horn
+MIN  30005      2002                   0     Blaine
+MIN  30007      2002                   0     Broadwater
+MIN  30009      2002                   0     Carbon
+MIN  30011      2002                   0     Carter
+MIN  30013      2002                   0     Cascade
+MIN  30015      2002                   0     Chouteau
+MIN  30017      2002                   0     Custer
+MIN  30019      2002                   0     Daniels
+MIN  30021      2002                   0     Dawson
+MIN  30023      2002                   0     Deer Lodge
+MIN  30025      2002                   0     Fallon
+MIN  30027      2002                   0     Fergus
+MIN  30029      2002                   0     Flathead
+MIN  30031      2002                   0     Gallatin
+MIN  30033      2002                   0     Garfield Park
+MIN  30035      2002                   0     Glacier
+MIN  30037      2002                   0     Golden Valley
+MIN  30039      2002                   0     Granite
+MIN  30041      2002                   0     Hill
+MIN  30043      2002                   0     Jefferson
+MIN  30045      2002                   0     Judith Basin
+MIN  30047      2002                   0     Lake
+MIN  30049      2002                   0     Lewis & Clark
+MIN  30051      2002                   0     Liberty
+MIN  30053      2002                   0     Lincoln
+MIN  30055      2002                   0     McCone
+MIN  30057      2002                   0     Madison
+MIN  30059      2002                   0     Meagher
+MIN  30061      2002                   0     Mineral
+MIN  30063      2002                   0     Missoula
+MIN  30065      2002                   0     Musselshell
+MIN  30067      2002                   0     Park
+MIN  30069      2002                   0     Petroleum
+MIN  30071      2002                   0     Phillips
+MIN  30073      2002                   0     Pondera
+MIN  30075      2002                   0     Powder River
+MIN  30077      2002                   0     Powell
+MIN  30079      2002                   0     Prairie
+MIN  30081      2002                   0     Ravalli
+MIN  30083      2002                   0     Richland
+MIN  30085      2002                   0     Roosevelt
+MIN  30087      2002                   0     Rosebud
+MIN  30089      2002                   0     Sanders
+MIN  30091      2002                   0     Sheridan
+MIN  30093      2002                   0     Silver Bow
+MIN  30095      2002                   0     Stillwater
+MIN  30097      2002                   0     Sweet Grass
+MIN  30099      2002                   0     Teton
+MIN  30101      2002                   0     Toole
+MIN  30103      2002                   0     Treasure
+MIN  30105      2002                   0     Valley
+MIN  30107      2002                   0     Wheatland
+MIN  30109      2002                   0     Wibaux
+MIN  30111      2002                   0     Yellowstone
+MIN  30113      2002                   0     Yellowstone National Park
+/END/

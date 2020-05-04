@@ -1,0 +1,279 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent HUMAN POPULATION
+
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+POP  48000      2002            21723220     TX
+POP  48001      2002               54608     Anderson
+POP  48003      2002               12924     Andrews
+POP  48005      2002               80468     Angelina
+POP  48007      2002               23085     Aransas
+POP  48009      2002                9019     Archer
+POP  48011      2002                2116     Armstrong
+POP  48013      2002               41135     Atascosa
+POP  48015      2002               24635     Austin
+POP  48017      2002                6522     Bailey
+POP  48019      2002               18964     Bandera
+POP  48021      2002               64242     Bastrop
+POP  48023      2002                3914     Baylor
+POP  48025      2002               32284     Bee
+POP  48027      2002              244717     Bell
+POP  48029      2002             1441793     Bexar
+POP  48031      2002                8812     Blanco
+POP  48033      2002                 687     Borden
+POP  48035      2002               17593     Bosque
+POP  48037      2002               89580     Bowie
+POP  48039      2002              256935     Brazoria
+POP  48041      2002              153569     Brazos
+POP  48043      2002                9076     Brewster
+POP  48045      2002                1698     Briscoe
+POP  48047      2002                7771     Brooks
+POP  48049      2002               38022     Brown
+POP  48051      2002               16757     Burleson
+POP  48053      2002               37601     Burnet
+POP  48055      2002               34877     Caldwell
+POP  48057      2002               20430     Calhoun
+POP  48059      2002               12929     Callahan
+POP  48061      2002              353086     Cameron
+POP  48063      2002               11651     Camp
+POP  48065      2002                6605     Carson
+POP  48067      2002               30174     Cass
+POP  48069      2002                8019     Castro
+POP  48071      2002               27138     Chambers
+POP  48073      2002               47053     Cherokee
+POP  48075      2002                7583     Childress
+POP  48077      2002               11270     Clay
+POP  48079      2002                3518     Cochran
+POP  48081      2002                3798     Coke
+POP  48083      2002                8876     Coleman
+POP  48085      2002              568894     Collin
+POP  48087      2002                3113     Collingsworth
+POP  48089      2002               20450     Colorado
+POP  48091      2002               84730     Comal
+POP  48093      2002               13548     Comanche
+POP  48095      2002                3822     Concho
+POP  48097      2002               37761     Cooke
+POP  48099      2002               74629     Coryell
+POP  48101      2002                1772     Cottle
+POP  48103      2002                3914     Crane
+POP  48105      2002                3894     Crockett
+POP  48107      2002                6863     Crosby
+POP  48109      2002                2828     Culberson
+POP  48111      2002                6160     Dallam
+POP  48113      2002             2272665     Dallas
+POP  48115      2002               14533     Dawson
+POP  48117      2002               18398     Deaf Smith
+POP  48119      2002                5418     Delta
+POP  48121      2002              488199     Denton
+POP  48123      2002               20043     DeWitt
+POP  48125      2002                2699     Dickens
+POP  48127      2002               10247     Dimmit
+POP  48129      2002                3878     Donley
+POP  48131      2002               12819     Duval
+POP  48133      2002               18231     Eastland
+POP  48135      2002              122419     Ector
+POP  48137      2002                2065     Edwards
+POP  48139      2002              120238     Ellis
+POP  48141      2002              693570     El Paso
+POP  48143      2002               33116     Erath
+POP  48145      2002               17930     Falls
+POP  48147      2002               31831     Fannin
+POP  48149      2002               22245     Fayette
+POP  48151      2002                4229     Fisher
+POP  48153      2002                7372     Floyd
+POP  48155      2002                1562     Foard
+POP  48157      2002              398815     Fort Bend
+POP  48159      2002                9744     Franklin
+POP  48161      2002               18426     Freestone
+POP  48163      2002               16366     Frio
+POP  48165      2002               14229     Gaines
+POP  48167      2002              260806     Galveston
+POP  48169      2002                5038     Garza
+POP  48171      2002               21644     Gillespie
+POP  48173      2002                1350     Glasscock
+POP  48175      2002                7067     Goliad
+POP  48177      2002               18841     Gonzales
+POP  48179      2002               21895     Gray
+POP  48181      2002              113696     Grayson
+POP  48183      2002              113152     Gregg
+POP  48185      2002               24696     Grimes
+POP  48187      2002               94326     Guadalupe
+POP  48189      2002               35719     Hale
+POP  48191      2002                3752     Hall
+POP  48193      2002                7969     Hamilton
+POP  48195      2002                5250     Hansford
+POP  48197      2002                4512     Hardeman
+POP  48199      2002               49200     Hardin
+POP  48201      2002             3539644     Harris
+POP  48203      2002               62268     Harrison
+POP  48205      2002                5174     Hartley
+POP  48207      2002                5841     Haskell
+POP  48209      2002              111364     Hays
+POP  48211      2002                3345     Hemphill
+POP  48213      2002               75556     Henderson
+POP  48215      2002              612791     Hidalgo
+POP  48217      2002               33637     Hill
+POP  48219      2002               22708     Hockley
+POP  48221      2002               43953     Hood
+POP  48223      2002               32343     Hopkins
+POP  48225      2002               23164     Houston
+POP  48227      2002               33167     Howard
+POP  48229      2002                3336     Hudspeth
+POP  48231      2002               79876     Hunt
+POP  48233      2002               23144     Hutchinson
+POP  48235      2002                1752     Irion
+POP  48237      2002                8924     Jack
+POP  48239      2002               14291     Jackson
+POP  48241      2002               35680     Jasper
+POP  48243      2002                2212     Jeff Davis
+POP  48245      2002              249030     Jefferson
+POP  48247      2002                5144     Jim Hogg
+POP  48249      2002               40077     Jim Wells
+POP  48251      2002              135762     Johnson
+POP  48253      2002               20233     Jones
+POP  48255      2002               15327     Karnes
+POP  48257      2002               78061     Kaufman
+POP  48259      2002               25321     Kendall
+POP  48261      2002                 408     Kenedy
+POP  48263      2002                 809     Kent
+POP  48265      2002               44822     Kerr
+POP  48267      2002                4507     Kimble
+POP  48269      2002                 312     King
+POP  48271      2002                3413     Kinney
+POP  48273      2002               31138     Kleberg
+POP  48275      2002                3974     Knox
+POP  48277      2002               49091     Lamar
+POP  48279      2002               14646     Lamb
+POP  48281      2002               18826     Lampasas
+POP  48283      2002                5826     La Salle
+POP  48285      2002               18988     Lavaca
+POP  48287      2002               16319     Lee
+POP  48289      2002               15866     Leon
+POP  48291      2002               73623     Liberty
+POP  48293      2002               22403     Limestone
+POP  48295      2002                3041     Lipscomb
+POP  48297      2002               12039     Live Oak
+POP  48299      2002               17884     Llano
+POP  48301      2002                  66     Loving
+POP  48303      2002              247303     Lubbock
+POP  48305      2002                6383     Lynn
+POP  48307      2002                7883     McCulloch
+POP  48309      2002              217241     McLennan
+POP  48311      2002                 858     McMullen
+POP  48313      2002               12803     Madison
+POP  48315      2002               11029     Marion
+POP  48317      2002                4646     Martin
+POP  48319      2002                3756     Mason
+POP  48321      2002               38037     Matagorda
+POP  48323      2002               48810     Maverick
+POP  48325      2002               40725     Medina
+POP  48327      2002                2362     Menard
+POP  48329      2002              117448     Midland
+POP  48331      2002               25052     Milam
+POP  48333      2002                5114     Mills
+POP  48335      2002                9454     Mitchell
+POP  48337      2002               19228     Montague
+POP  48339      2002              328508     Montgomery
+POP  48341      2002               20141     Moore
+POP  48343      2002               13214     Morris
+POP  48345      2002                1290     Motley
+POP  48347      2002               59237     Nacogdoches
+POP  48349      2002               46805     Navarro
+POP  48351      2002               14904     Newton
+POP  48353      2002               15167     Nolan
+POP  48355      2002              314037     Nueces
+POP  48357      2002                9072     Ochiltree
+POP  48359      2002                2149     Oldham
+POP  48361      2002               84403     Orange
+POP  48363      2002               27163     Palo Pinto
+POP  48365      2002               22781     Panola
+POP  48367      2002               94679     Parker
+POP  48369      2002                9848     Parmer
+POP  48371      2002               16314     Pecos
+POP  48373      2002               44374     Polk
+POP  48375      2002              115706     Potter
+POP  48377      2002                7506     Presidio
+POP  48379      2002               10383     Rains
+POP  48381      2002              106375     Randall
+POP  48383      2002                3159     Reagan
+POP  48385      2002                2995     Real
+POP  48387      2002               13949     Red River
+POP  48389      2002               12535     Reeves
+POP  48391      2002                7683     Refugio
+POP  48393      2002                 862     Roberts
+POP  48395      2002               15916     Robertson
+POP  48397      2002               50989     Rockwall
+POP  48399      2002               11093     Runnels
+POP  48401      2002               47476     Rusk
+POP  48403      2002               10398     Sabine
+POP  48405      2002                8903     San Augustine
+POP  48407      2002               23261     San Jacinto
+POP  48409      2002               67290     San Patricio
+POP  48411      2002                6057     San Saba
+POP  48413      2002                2906     Schleicher
+POP  48415      2002               16007     Scurry
+POP  48417      2002                3341     Shackelford
+POP  48419      2002               25505     Shelby
+POP  48421      2002                3177     Sherman
+POP  48423      2002              180771     Smith
+POP  48425      2002                7136     Somervell
+POP  48427      2002               56216     Starr
+POP  48429      2002                9470     Stephens
+POP  48431      2002                1352     Sterling
+POP  48433      2002                1500     Stonewall
+POP  48435      2002                4107     Sutton
+POP  48437      2002                8012     Swisher
+POP  48439      2002             1525196     Tarrant
+POP  48441      2002              124909     Taylor
+POP  48443      2002                1021     Terrell
+POP  48445      2002               12596     Terry
+POP  48447      2002                1727     Throckmorton
+POP  48449      2002               28250     Titus
+POP  48451      2002              103494     Tom Green
+POP  48453      2002              845642     Travis
+POP  48455      2002               14077     Trinity
+POP  48457      2002               20723     Tyler
+POP  48459      2002               36539     Upshur
+POP  48461      2002                3273     Upton
+POP  48463      2002               26557     Uvalde
+POP  48465      2002               45850     Val Verde
+POP  48467      2002               50194     Van Zandt
+POP  48469      2002               85107     Victoria
+POP  48471      2002               61325     Walker
+POP  48473      2002               34110     Waller
+POP  48475      2002               10456     Ward
+POP  48477      2002               30706     Washington
+POP  48479      2002              206729     Webb
+POP  48481      2002               41150     Wharton
+POP  48483      2002                5002     Wheeler
+POP  48485      2002              128685     Wichita
+POP  48487      2002               14293     Wilbarger
+POP  48489      2002               20024     Willacy
+POP  48491      2002              290521     Williamson
+POP  48493      2002               34374     Wilson
+POP  48495      2002                6965     Winkler
+POP  48497      2002               52897     Wise
+POP  48499      2002               38041     Wood
+POP  48501      2002                7223     Yoakum
+POP  48503      2002               17706     Young
+POP  48505      2002               12728     Zapata
+POP  48507      2002               11638     Zavala
+/END/

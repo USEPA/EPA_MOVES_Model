@@ -1,0 +1,97 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WATER SURFACE AREA FOR INBOARD RECREATIONAL MARINE CRAFT (sq km navigable water)
+1990 GICS (inland water area); GIS analysis of coast lengths (coastal navigable water)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+WIB  55000      1990                7435     WI
+WIB  55001      1990                 106     Adams
+WIB  55003      1990                 226     Ashland
+WIB  55005      1990                  70     Barron
+WIB  55007      1990                 513     Bayfield
+WIB  55009      1990                 216     Brown
+WIB  55011      1990                  65     Buffalo
+WIB  55013      1990                 153     Burnett
+WIB  55015      1990                 200     Calumet
+WIB  55017      1990                  80     Chippewa
+WIB  55019      1990                   9     Clark
+WIB  55021      1990                  57     Columbia
+WIB  55023      1990                  69     Crawford
+WIB  55025      1990                  94     Dane
+WIB  55027      1990                  64     Dodge
+WIB  55029      1990                 795     Door
+WIB  55031      1990                 252     Douglas
+WIB  55033      1990                  31     Dunn
+WIB  55035      1990                  20     Eau Claire
+WIB  55037      1990                  24     Florence
+WIB  55039      1990                 111     Fond du Lac
+WIB  55041      1990                  84     Forest
+WIB  55043      1990                  92     Grant
+WIB  55045      1990                   1     Green
+WIB  55047      1990                  68     Green Lake
+WIB  55049      1990                  14     Iowa
+WIB  55051      1990                 154     Iron
+WIB  55053      1990                  33     Jackson
+WIB  55055      1990                  67     Jefferson
+WIB  55057      1990                  95     Juneau
+WIB  55059      1990                  81     Kenosha
+WIB  55061      1990                 152     Kewaunee
+WIB  55063      1990                  70     La Crosse
+WIB  55065      1990                   3     Lafayette
+WIB  55067      1990                  39     Langlade
+WIB  55069      1990                  62     Lincoln
+WIB  55071      1990                 188     Manitowoc
+WIB  55073      1990                  81     Marathon
+WIB  55075      1990                 164     Marinette
+WIB  55077      1990                  23     Marquette
+WIB  55078      1990                  18     Menominee
+WIB  55079      1990                 142     Milwaukee
+WIB  55081      1990                  20     Monroe
+WIB  55083      1990                 184     Oconto
+WIB  55085      1990                 288     Oneida
+WIB  55087      1990                  11     Outagamie
+WIB  55089      1990                   6     Ozaukee
+WIB  55091      1990                  42     Pepin
+WIB  55093      1990                  39     Pierce
+WIB  55095      1990                 101     Polk
+WIB  55097      1990                  43     Portage
+WIB  55099      1990                  67     Price
+WIB  55101      1990                  89     Racine
+WIB  55103      1990                   8     Richland
+WIB  55105      1990                  15     Rock
+WIB  55107      1990                  46     Rusk
+WIB  55109      1990                  36     St. Croix
+WIB  55111      1990                  28     Sauk
+WIB  55113      1990                 243     Sawyer
+WIB  55115      1990                  44     Shawano
+WIB  55117      1990                 145     Sheboygan
+WIB  55119      1990                  25     Taylor
+WIB  55121      1990                  20     Trempealeau
+WIB  55123      1990                  56     Vernon
+WIB  55125      1990                 376     Vilas
+WIB  55127      1990                  55     Walworth
+WIB  55129      1990                 112     Washburn
+WIB  55131      1990                  13     Washington
+WIB  55133      1990                  65     Waukesha
+WIB  55135      1990                  37     Waupaca
+WIB  55137      1990                  29     Waushara
+WIB  55139      1990                 363     Winnebago
+WIB  55141      1990                  43     Wood
+/END/

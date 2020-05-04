@@ -1,0 +1,492 @@
+This file contains the the activity data for the NONROAD model.  The
+activity is defined as how often a piece of equipment is used in
+a year.  This file also contains some other information about
+the equipment, such as average load factor and gas tank volume.
+
+8/24/06 13d, like 13c but updates SI SDI rec marine 600-750 hp pop from 1 to 7500, 650 HPavg, 8 yr MedLife, 30 hrs/yr.
+7/18/08 13e, like 13d but remove 2280* (temporary <50hp commercial marine inputs).
+
+-----------------------------------------------------------------
+This data file contains only one packet.
+
+The format is as follows:
+
+Line:   1-10   character   --- SCC code
+        12-51  character   --- Equipment description (not used)
+        52-56  character   --- Region code
+        57-66  character   --- (not used. was exhaust technology type)
+        67-71  real        --- Minimum HP
+        72-76  real        --- Maximum HP
+        77-81  real        --- Load factor
+        82-86  real        --- (not used)
+        87-96  character   --- Activity level units
+        97-106 real        --- Activity level
+       107-116 real        --- Identifier for age adjustment curve (DEFAULT=no adjustment)
+------------------------------------------                NotUsed HPmn HPmx LFac NoUse    Units  Hours/Yr    AgeAdj
+
+/ACTIVITY/
+2260001010 2-Stroke Motorcycles: Off-Road                             0 9999 1.00        Hrs/Yr       1600  DEFAULT
+2260001020 2-Stroke Snowmobiles                                       0 9999 0.34        Hrs/Yr         57  DEFAULT
+2260001030 2-Stroke All Terrain Vehicles                              0 9999 1.00        Hrs/Yr       1608  DEFAULT
+2260001050 2-Stroke Golf Carts                                        0 9999 0.46        Hrs/Yr       1080  DEFAULT
+2260001060 2-Stroke Specialty Vehicle Carts                           0 9999 0.58        Hrs/Yr         65  DEFAULT
+2260002003 2-Stroke Asphalt Pavers                                    0 9999 0.66        Hrs/Yr        392  DEFAULT
+2260002006 2-Stroke Tampers/Rammers                                   0 9999 0.55        Hrs/Yr        160  DEFAULT
+2260002009 2-Stroke Plate Compactors                                  0 9999 0.55        Hrs/Yr        166  DEFAULT
+2260002012 2-Stroke Concrete Pavers                                   0 9999 0.55        Hrs/Yr          0  DEFAULT
+2260002015 2-Stroke Rollers                                           0 9999 0.62        Hrs/Yr        621  DEFAULT
+2260002018 2-Stroke Scrapers                                          0 9999 0.70        Hrs/Yr        540  DEFAULT
+2260002021 2-Stroke Paving Equipment                                  0 9999 0.59        Hrs/Yr        175  DEFAULT
+2260002024 2-Stroke Surfacing Equipment                               0 9999 0.49        Hrs/Yr        488  DEFAULT
+2260002027 2-Stroke Signal Boards                                     0 9999 0.72        Hrs/Yr        318  DEFAULT
+2260002030 2-Stroke Trenchers                                         0 9999 0.66        Hrs/Yr        402  DEFAULT
+2260002033 2-Stroke Bore/Drill Rigs                                   0 9999 0.79        Hrs/Yr        107  DEFAULT
+2260002036 2-Stroke Excavators                                        0 9999 0.53        Hrs/Yr        378  DEFAULT
+2260002039 2-Stroke Concrete/Industrial Saws                          0 9999 0.78        Hrs/Yr        610  DEFAULT
+2260002042 2-Stroke Cement & Mortar Mixers                            0 9999 0.59        Hrs/Yr         84  DEFAULT
+2260002045 2-Stroke Cranes                                            0 9999 0.47        Hrs/Yr        415  DEFAULT
+2260002048 2-Stroke Graders                                           0 9999 0.64        Hrs/Yr        504  DEFAULT
+2260002051 2-Stroke Off-highway Trucks                                0 9999 0.80        Hrs/Yr        450  DEFAULT
+2260002054 2-Stroke Crushing/Proc. Equipment                          0 9999 0.85        Hrs/Yr        241  DEFAULT
+2260002057 2-Stroke Rough Terrain Forklifts                           0 9999 0.63        Hrs/Yr        413  DEFAULT
+2260002060 2-Stroke Rubber Tire Loaders                               0 9999 0.71        Hrs/Yr        512  DEFAULT
+2260002063 2-Stroke Rubber Tire Dozers                                0 9999 0.75        Hrs/Yr        900  DEFAULT
+2260002066 2-Stroke Tractors/Loaders/Backhoes                         0 9999 0.48        Hrs/Yr        870  DEFAULT
+2260002069 2-Stroke Crawler Dozer                                     0 9999 0.80        Hrs/Yr        700  DEFAULT
+2260002072 2-Stroke Skid Steer Loaders                                0 9999 0.58        Hrs/Yr        310  DEFAULT
+2260002075 2-Stroke Off-Highway Tractors                              0 9999 0.70        Hrs/Yr        155  DEFAULT
+2260002078 2-Stroke Dumpers/Tenders                                   0 9999 0.41        Hrs/Yr        127  DEFAULT
+2260002081 2-Stroke Other Construction Equipment                      0 9999 0.48        Hrs/Yr        371  DEFAULT
+2260003010 2-Stroke Aerial Lifts                                      0 9999 0.46        Hrs/Yr        361  DEFAULT
+2260003020 2-Stroke Forklifts                                         0 9999 0.30        Hrs/Yr       1800  DEFAULT
+2260003030 2-Stroke Sweepers/Scrubbers                                0 9999 0.71        Hrs/Yr        516  DEFAULT
+2260003040 2-Stroke Other General Industrial Equipm                   0 9999 0.54        Hrs/Yr        713  DEFAULT
+2260003050 2-Stroke Other Material Handling Equipme                   0 9999 0.53        Hrs/Yr        386  DEFAULT
+2260003060 2-Stroke Refrigeration                                     0 9999 0.46        Hrs/Yr        605  DEFAULT
+2260003070 2-Stroke Terminal Tractors                                 0 9999 0.78        Hrs/Yr        827  DEFAULT
+2260004010 2-Stroke Lawn mowers (Residential)                         0 9999 0.33        Hrs/Yr         25  DEFAULT
+2260004011 2-Stroke Lawn mowers (Commercial)                          0 9999 0.33        Hrs/Yr        406  DEFAULT
+2260004015 2-Stroke Rotary Tillers < 6 HP (Resident                   0 9999 0.40        Hrs/Yr         17  DEFAULT
+2260004016 2-Stroke Rotary Tillers < 6 HP (Commerci                   0 9999 0.40        Hrs/Yr        472  DEFAULT
+2260004020 2-Stroke Chain Saws < 6 HP (Residential)                   0 9999 0.70        Hrs/Yr         13  DEFAULT
+2260004021 2-Stroke Chain Saws < 6 HP (Commercial)                    0 9999 0.70        Hrs/Yr        303  DEFAULT
+2260004025 2-Stroke Trimmers/Edgers/Brush Cutters                     0 9999 0.91        Hrs/Yr          9  DEFAULT
+2260004026 2-Stroke Trimmers/Edgers/Brush Cutters                     0 9999 0.91        Hrs/Yr        137  DEFAULT
+2260004030 2-Stroke Leafblowers/Vacuums (Residentia                   0 9999 0.94        Hrs/Yr         10  DEFAULT
+2260004031 2-Stroke Leafblowers/Vacuums (Commercial                   0 9999 0.94        Hrs/Yr        282  DEFAULT
+2260004035 2-Stroke Snowblowers (Residential)                         0 9999 0.35        Hrs/Yr          8  DEFAULT
+2260004036 2-Stroke Snowblowers (Commercial)                          0 9999 0.35        Hrs/Yr        136  DEFAULT
+2260004040 2-Stroke Rear Engine Riding Mowers (Res.                   0 9999 0.38        Hrs/Yr         36  DEFAULT
+2260004041 2-Stroke Rear Engine Riding Mowers (Comm                   0 9999 0.38        Hrs/Yr        569  DEFAULT
+2260004045 2-Stroke Front Mowers (Residential)                        0 9999 0.65        Hrs/Yr         86  DEFAULT
+2260004046 2-Stroke Front Mowers (Commercial)                         0 9999 0.65        Hrs/Yr         86  DEFAULT
+2260004050 2-Stroke Shredders < 6 HP (Residential)                    0 9999 0.80        Hrs/Yr         50  DEFAULT
+2260004051 2-Stroke Shredders < 6 HP (Commercial)                     0 9999 0.80        Hrs/Yr         50  DEFAULT
+2260004055 2-Stroke Lawn & Garden Tractors (Residen                   0 9999 0.44        Hrs/Yr         45  DEFAULT
+2260004056 2-Stroke Lawn & Garden Tractors (Commerc                   0 9999 0.44        Hrs/Yr        721  DEFAULT
+2260004060 2-Stroke Wood Splitters (Residential)                      0 9999 0.69        Hrs/Yr         76  DEFAULT
+2260004061 2-Stroke Wood Splitters (Commercial)                       0 9999 0.69        Hrs/Yr         76  DEFAULT
+2260004065 2-Stroke Chippers/Stump Grinders (Res.)                    0 9999 0.78        Hrs/Yr        488  DEFAULT
+2260004066 2-Stroke Chippers/Stump Grinders (Comm.)                   0 9999 0.78        Hrs/Yr        488  DEFAULT
+2260004070 2-Stroke Commercial Turf Equipment (Res.                   0 9999 0.60        Hrs/Yr        682  DEFAULT
+2260004071 2-Stroke Commercial Turf Equipment (Comm                   0 9999 0.60        Hrs/Yr        682  DEFAULT
+2260004075 2-Stroke Other Lawn & Garden Equipment                     0 9999 0.58        Hrs/Yr         61  DEFAULT
+2260004076 2-Stroke Other Lawn & Garden Equipment                     0 9999 0.58        Hrs/Yr         61  DEFAULT
+2260005010 2-Stroke 2-Wheel Tractors                                  0 9999 0.62        Hrs/Yr        286  DEFAULT
+2260005015 2-Stroke Agricultural Tractors                             0 9999 0.62        Hrs/Yr        550  DEFAULT
+2260005020 2-Stroke Combines                                          0 9999 0.74        Hrs/Yr        125  DEFAULT
+2260005025 2-Stroke Balers                                            0 9999 0.62        Hrs/Yr         68  DEFAULT
+2260005030 2-Stroke Agricultural Mowers                               0 9999 0.48        Hrs/Yr        175  DEFAULT
+2260005035 2-Stroke Sprayers                                          0 9999 0.65        Hrs/Yr         80  DEFAULT
+2260005040 2-Stroke Tillers > 6 HP                                    0 9999 0.71        Hrs/Yr         43  DEFAULT
+2260005045 2-Stroke Swathers                                          0 9999 0.52        Hrs/Yr         95  DEFAULT
+2260005055 2-Stroke Other Agricultural Equipment                      0 9999 0.55        Hrs/Yr        124  DEFAULT
+2260005060 2-Stroke Irrigation Sets                                   0 9999 0.60        Hrs/Yr        716  DEFAULT
+2260006005 2-Stroke Light Commercial  Generator Set                   0 9999 0.68        Hrs/Yr        115  DEFAULT
+2260006010 2-Stroke Light Commercial  Pumps                           0 9999 0.69        Hrs/Yr        221  DEFAULT
+2260006015 2-Stroke Light Commercial  Air Compresso                   0 9999 0.56        Hrs/Yr        484  DEFAULT
+2260006020 2-Stroke Light Commercial  Gas Compresso                   0 9999 0.85        Hrs/Yr       6000  DEFAULT
+2260006025 2-Stroke Light Commercial  Welders                         0 9999 0.68        Hrs/Yr        408  DEFAULT
+2260006030 2-Stroke Light Commercial  Pressure Wash                   0 9999 0.85        Hrs/Yr        115  DEFAULT
+2260006035 2-Stroke Hydro Power Units                                 0 9999 0.56        Hrs/Yr        450  DEFAULT
+2260007005 2-Stroke Logging Equipment  Chain Saws >                   0 9999 0.70        Hrs/Yr        303  DEFAULT
+2260007010 2-Stroke Logging Equipment  Shredders >                    0 9999 0.80        Hrs/Yr         50  DEFAULT
+2260007015 2-Stroke Logging Equipment  Skidders                       0 9999 0.70        Hrs/Yr        350  DEFAULT
+2260007020 2-Stroke Logging Equipment  Fellers/Bunc                   0 9999 0.70        Hrs/Yr          0  DEFAULT
+2260008005 2-Stroke Airport Support Equipment                         0 9999 0.56        Hrs/Yr        681  DEFAULT
+2260009010 2-Stroke Other Underground Mining Equipm                   0 9999 0.80        Hrs/Yr        260  DEFAULT
+2260010010 2-Stroke Other Oil Field Equipment                         0 9999 0.90        Hrs/Yr       1104  DEFAULT
+2265001010 4-Stroke Motorcycles: Off-Road                             0 9999 1.00        Hrs/Yr       1600  DEFAULT
+2265001020 4-Stroke Snowmobiles                                       0 9999 0.34        Hrs/Yr         57  DEFAULT
+2265001030 4-Stroke All Terrain Vehicles                              0 9999 1.00        Hrs/Yr       1608  DEFAULT
+2265001050 4-Stroke Golf Carts                                        0 9999 0.46        Hrs/Yr       1080  DEFAULT
+2265001060 4-Stroke Specialty Vehicle Carts                           0 9999 0.58        Hrs/Yr         65  DEFAULT
+2265002003 4-Stroke Asphalt Pavers                                    0 9999 0.66        Hrs/Yr        392  DEFAULT
+2265002006 4-Stroke Tampers/Rammers                                   0 9999 0.55        Hrs/Yr        160  DEFAULT
+2265002009 4-Stroke Plate Compactors                                  0 9999 0.55        Hrs/Yr        166  DEFAULT
+2265002012 4-Stroke Concrete Pavers                                   0 9999 0.55        Hrs/Yr          0  DEFAULT
+2265002015 4-Stroke Rollers                                           0 9999 0.62        Hrs/Yr        621  DEFAULT
+2265002018 4-Stroke Scrapers                                          0 9999 0.70        Hrs/Yr        540  DEFAULT
+2265002021 4-Stroke Paving Equipment                                  0 9999 0.59        Hrs/Yr        175  DEFAULT
+2265002024 4-Stroke Surfacing Equipment                               0 9999 0.49        Hrs/Yr        488  DEFAULT
+2265002027 4-Stroke Signal Boards                                     0 9999 0.72        Hrs/Yr        318  DEFAULT
+2265002030 4-Stroke Trenchers                                         0 9999 0.66        Hrs/Yr        402  DEFAULT
+2265002033 4-Stroke Bore/Drill Rigs                                   0 9999 0.79        Hrs/Yr        107  DEFAULT
+2265002036 4-Stroke Excavators                                        0 9999 0.53        Hrs/Yr        378  DEFAULT
+2265002039 4-Stroke Concrete/Industrial Saws                          0 9999 0.78        Hrs/Yr        610  DEFAULT
+2265002042 4-Stroke Cement & Mortar Mixers                            0 9999 0.59        Hrs/Yr         84  DEFAULT
+2265002045 4-Stroke Cranes                                            0 9999 0.47        Hrs/Yr        415  DEFAULT
+2265002048 4-Stroke Graders                                           0 9999 0.64        Hrs/Yr        504  DEFAULT
+2265002051 4-Stroke Off-highway Trucks                                0 9999 0.80        Hrs/Yr        450  DEFAULT
+2265002054 4-Stroke Crushing/Proc. Equipment                          0 9999 0.85        Hrs/Yr        241  DEFAULT
+2265002057 4-Stroke Rough Terrain Forklifts                           0 9999 0.63        Hrs/Yr        413  DEFAULT
+2265002060 4-Stroke Rubber Tire Loaders                               0 9999 0.71        Hrs/Yr        512  DEFAULT
+2265002063 4-Stroke Rubber Tire Dozers                                0 9999 0.75        Hrs/Yr        900  DEFAULT
+2265002066 4-Stroke Tractors/Loaders/Backhoes                         0 9999 0.48        Hrs/Yr        870  DEFAULT
+2265002069 4-Stroke Crawler Tractors                                  0 9999 0.80        Hrs/Yr        700  DEFAULT
+2265002072 4-Stroke Skid Steer Loaders                                0 9999 0.58        Hrs/Yr        310  DEFAULT
+2265002075 4-Stroke Off-Highway Tractors                              0 9999 0.70        Hrs/Yr        155  DEFAULT
+2265002078 4-Stroke Dumpers/Tenders                                   0 9999 0.41        Hrs/Yr        127  DEFAULT
+2265002081 4-Stroke Other Construction Equipment                      0 9999 0.48        Hrs/Yr        371  DEFAULT
+2265003010 4-Stroke Aerial Lifts                                      0 9999 0.46        Hrs/Yr        361  DEFAULT
+2265003020 4-Stroke Forklifts                                         0 9999 0.30        Hrs/Yr       1800  DEFAULT
+2265003030 4-Stroke Sweepers/Scrubbers                                0 9999 0.71        Hrs/Yr        516  DEFAULT
+2265003040 4-Stroke Other General Industrial Equipm                   0 9999 0.54        Hrs/Yr        713  DEFAULT
+2265003050 4-Stroke Other Material Handling Equipme                   0 9999 0.53        Hrs/Yr        386  DEFAULT
+2265003060 4-Stroke Industial AC\Refrigeration                        0 9999 0.46        Hrs/Yr        605  DEFAULT
+2265003070 4-Stroke Terminal Tractors                                 0 9999 0.78        Hrs/Yr        827  DEFAULT
+2265004010 4-Stroke Lawn mowers (Residential)                         0 9999 0.33        Hrs/Yr         25  DEFAULT
+2265004011 4-Stroke Lawn mowers (Commercial)                          0 9999 0.33        Hrs/Yr        406  DEFAULT
+2265004015 4-Stroke Rotary Tillers < 6 HP (Resident                   0 9999 0.40        Hrs/Yr         17  DEFAULT
+2265004016 4-Stroke Rotary Tillers < 6 HP (Commerci                   0 9999 0.40        Hrs/Yr        472  DEFAULT
+2265004020 4-Stroke Chain Saws < 6 HP (Residential)                   0 9999 0.70        Hrs/Yr         13  DEFAULT
+2265004021 4-Stroke Chain Saws < 6 HP (Commercial)                    0 9999 0.70        Hrs/Yr        303  DEFAULT
+2265004025 4-Stroke Trimmers/Edgers/Brush Cutters                     0 9999 0.91        Hrs/Yr          9  DEFAULT
+2265004026 4-Stroke Trimmers/Edgers/Brush Cutters                     0 9999 0.91        Hrs/Yr        137  DEFAULT
+2265004030 4-Stroke Leafblowers/Vacuums (Residentia                   0 9999 0.94        Hrs/Yr         10  DEFAULT
+2265004031 4-Stroke Leafblowers/Vacuums (Commercial                   0 9999 0.94        Hrs/Yr        282  DEFAULT
+2265004035 4-Stroke Snowblowers (Residential)                         0 9999 0.35        Hrs/Yr          8  DEFAULT
+2265004036 4-Stroke Snowblowers (Commercial)                          0 9999 0.35        Hrs/Yr        136  DEFAULT
+2265004040 4-Stroke Rear Engine Riding Mowers (Res.                   0 9999 0.38        Hrs/Yr         36  DEFAULT
+2265004041 4-Stroke Rear Engine Riding Mowers (Comm                   0 9999 0.38        Hrs/Yr        569  DEFAULT
+2265004045 4-Stroke Front Mowers (Residential)                        0 9999 0.65        Hrs/Yr         86  DEFAULT
+2265004046 4-Stroke Front Mowers (Commercial)                         0 9999 0.65        Hrs/Yr         86  DEFAULT
+2265004050 4-Stroke Shredders < 6 HP (Residential)                    0 9999 0.80        Hrs/Yr         50  DEFAULT
+2265004051 4-Stroke Shredders < 6 HP (Commercial)                     0 9999 0.80        Hrs/Yr         50  DEFAULT
+2265004055 4-Stroke Lawn & Garden Tractors (Residen                   0 9999 0.44        Hrs/Yr         45  DEFAULT
+2265004056 4-Stroke Lawn & Garden Tractors (Commerc                   0 9999 0.44        Hrs/Yr        721  DEFAULT
+2265004060 4-Stroke Wood Splitters (Residential)                      0 9999 0.69        Hrs/Yr         76  DEFAULT
+2265004061 4-Stroke Wood Splitters (Commercial)                       0 9999 0.69        Hrs/Yr         76  DEFAULT
+2265004065 4-Stroke Chippers/Stump Grinders (Res.)                    0 9999 0.78        Hrs/Yr        488  DEFAULT
+2265004066 4-Stroke Chippers/Stump Grinders (Comm.)                   0 9999 0.78        Hrs/Yr        488  DEFAULT
+2265004070 4-Stroke Commercial Turf Equipment (Res.                   0 9999 0.60        Hrs/Yr        682  DEFAULT
+2265004071 4-Stroke Commercial Turf Equipment (Comm                   0 9999 0.60        Hrs/Yr        682  DEFAULT
+2265004075 4-Stroke Other Lawn & Garden Equipment                     0 9999 0.58        Hrs/Yr         61  DEFAULT
+2265004076 4-Stroke Other Lawn & Garden Equipment                     0 9999 0.58        Hrs/Yr         61  DEFAULT
+2265005010 4-Stroke 2-Wheel Tractors                                  0 9999 0.62        Hrs/Yr        286  DEFAULT
+2265005015 4-Stroke Agricultural Tractors                             0 9999 0.62        Hrs/Yr        550  DEFAULT
+2265005020 4-Stroke Combines                                          0 9999 0.74        Hrs/Yr        125  DEFAULT
+2265005025 4-Stroke Balers                                            0 9999 0.62        Hrs/Yr         68  DEFAULT
+2265005030 4-Stroke Agricultural Mowers                               0 9999 0.48        Hrs/Yr        175  DEFAULT
+2265005035 4-Stroke Sprayers                                          0 9999 0.65        Hrs/Yr         80  DEFAULT
+2265005040 4-Stroke Tillers > 5 HP                                    0 9999 0.71        Hrs/Yr         43  DEFAULT
+2265005045 4-Stroke Swathers                                          0 9999 0.52        Hrs/Yr         95  DEFAULT
+2265005055 4-Stroke Other Agricultural Equipment                      0 9999 0.55        Hrs/Yr        124  DEFAULT
+2265005060 4-Stroke Irrigation Sets                                   0 9999 0.60        Hrs/Yr        716  DEFAULT
+2265006005 4-Stroke Light Commercial  Generator Set                   0 9999 0.68        Hrs/Yr        115  DEFAULT
+2265006010 4-Stroke Light Commercial  Pumps                           0 9999 0.69        Hrs/Yr        221  DEFAULT
+2265006015 4-Stroke Light Commercial  Air Compresso                   0 9999 0.56        Hrs/Yr        484  DEFAULT
+2265006020 4-Stroke Light Commercial  Gas Compresso                   0 9999 0.85        Hrs/Yr       6000  DEFAULT
+2265006025 4-Stroke Light Commercial  Welders                         0 9999 0.68        Hrs/Yr        408  DEFAULT
+2265006030 4-Stroke Light Commercial  Pressure Wash                   0 9999 0.85        Hrs/Yr        115  DEFAULT
+2265006035 4-Stroke Hydro Power Units                                 0 9999 0.56        Hrs/Yr        450  DEFAULT
+2265007005 4-Stroke Logging Equipment  Chain Saws >                   0 9999 0.70        Hrs/Yr        303  DEFAULT
+2265007010 4-Stroke Logging Equipment  Shredders >                    0 9999 0.80        Hrs/Yr         50  DEFAULT
+2265007015 4-Stroke Logging Equipment  Skidders                       0 9999 0.70        Hrs/Yr        350  DEFAULT
+2265007020 4-Stroke Logging Equipment  Fellers/Bunc                   0 9999 0.70        Hrs/Yr          0  DEFAULT
+2265008005 4-Stroke Airport Support Equipment                         0 9999 0.56        Hrs/Yr        681  DEFAULT
+2265009010 4-Stroke Other Underground Mining Equipm                   0 9999 0.80        Hrs/Yr        260  DEFAULT
+2265010010 4-Stroke Other Oil Field Equipment                         0 9999 0.90        Hrs/Yr       1104  DEFAULT
+2270001020 Diesel Snowmobiles (unused)                                0 9999 0.34        Hrs/Yr         40  DEFAULT
+2270001030 Diesel All Terrain Vehicles/MC (unused)                    0 9999 0.42        Hrs/Yr          0  DEFAULT
+2270001050 Diesel Golf Carts (unused)                                 0 9999 0.49        Hrs/Yr       1150  DEFAULT
+2270001060 Diesel Specialty Vehicle Carts                             0 9999 0.21        Hrs/Yr        435  DEFAULT
+2270002003 Diesel Pavers                                              0 9999 0.59        Hrs/Yr        821  DEFAULT
+2270002006 Diesel Tampers/Rammers (unused)                            0 9999 0.43        Hrs/Yr        460  DEFAULT
+2270002009 Diesel Plate Compactors                                    0 9999 0.43        Hrs/Yr        484  DEFAULT
+2270002012 Diesel Concrete Pavers (unused)                            0 9999 0.59        Hrs/Yr          0  DEFAULT
+2270002015 Diesel Rollers                                             0 9999 0.59        Hrs/Yr        760  DEFAULT
+2270002018 Diesel Scrapers                                            0 9999 0.59        Hrs/Yr        914  DEFAULT
+2270002021 Diesel Paving Equipment                                    0 9999 0.59        Hrs/Yr        622  DEFAULT
+2270002024 Diesel Surfacing Equipment                                 0 9999 0.59        Hrs/Yr        561  DEFAULT
+2270002027 Diesel Signal Boards                                       0 9999 0.43        Hrs/Yr        535  DEFAULT
+2270002030 Diesel Trenchers                                           0 9999 0.59        Hrs/Yr        593  DEFAULT
+2270002033 Diesel Bore/Drill Rigs                                     0 9999 0.43        Hrs/Yr        466  DEFAULT
+2270002036 Diesel Excavators                                          0 9999 0.59        Hrs/Yr       1092  DEFAULT
+2270002039 Diesel Concrete/Industrial Saws                            0 9999 0.59        Hrs/Yr        580  DEFAULT
+2270002042 Diesel Cement & Mortar Mixers                              0 9999 0.43        Hrs/Yr        275  DEFAULT
+2270002045 Diesel Cranes                                              0 9999 0.43        Hrs/Yr        990  DEFAULT
+2270002048 Diesel Graders                                             0 9999 0.59        Hrs/Yr        962  DEFAULT
+2270002051 Diesel Off-highway Trucks                                  0 9999 0.59        Hrs/Yr       1641  DEFAULT
+2270002054 Diesel Crushing/Proc. Equipment                            0 9999 0.43        Hrs/Yr        955  DEFAULT
+2270002057 Diesel Rough Terrain Forklifts                             0 9999 0.59        Hrs/Yr        662  DEFAULT
+2270002060 Diesel Rubber Tire Loaders                                 0 9999 0.59        Hrs/Yr        761  DEFAULT
+2270002063 Diesel Rubber Tire Dozers                                  0 9999 0.59        Hrs/Yr        899  DEFAULT
+2270002066 Diesel Tractors/Loaders/Backhoes                           0 9999 0.21        Hrs/Yr       1135  DEFAULT
+2270002069 Diesel Crawler Tractors                                    0 9999 0.59        Hrs/Yr        936  DEFAULT
+2270002072 Diesel Skid Steer Loaders                                  0 9999 0.21        Hrs/Yr        818  DEFAULT
+2270002075 Diesel Off-Highway Tractors                                0 9999 0.59        Hrs/Yr        855  DEFAULT
+2270002078 Diesel Dumpers/Tenders                                     0 9999 0.21        Hrs/Yr        566  DEFAULT
+2270002081 Diesel Other Construction Equipment                        0 9999 0.59        Hrs/Yr        606  DEFAULT
+2270003010 Diesel Aerial Lifts                                        0 9999 0.21        Hrs/Yr        384  DEFAULT
+2270003020 Diesel Forklifts                                           0 9999 0.59        Hrs/Yr       1700  DEFAULT
+2270003030 Diesel Sweepers/Scrubbers                                  0 9999 0.43        Hrs/Yr       1220  DEFAULT
+2270003040 Diesel Other General Industrial Equipmen                   0 9999 0.43        Hrs/Yr        878  DEFAULT
+2270003050 Diesel Other Material Handling Equipment                   0 9999 0.21        Hrs/Yr        421  DEFAULT
+2270003060 Diesel AC\Refrigeration                                    0 9999 0.43        Hrs/Yr       1341  DEFAULT
+2270003070 Diesel Terminal Tractors                                   0 9999 0.59        Hrs/Yr       1257  DEFAULT
+2270004010 Diesel Lawn mowers (Residential)                           0 9999 0.43        Hrs/Yr        320  DEFAULT
+2270004011 Diesel Lawn mowers (Commerical)                            0 9999 0.43        Hrs/Yr        320  DEFAULT
+2270004015 Diesel Rotary Tillers < 6 HP (Residentia                   0 9999 0.43        Hrs/Yr        172  DEFAULT
+2270004016 Diesel Rotary Tillers < 6 HP (Commercial                   0 9999 0.43        Hrs/Yr        172  DEFAULT
+2270004020 Diesel Chain Saws < 6 HP (Residential)                     0 9999 0.43        Hrs/Yr         70  DEFAULT
+2270004021 Diesel Chain Saws < 6 HP (Commercial)                      0 9999 0.43        Hrs/Yr         70  DEFAULT
+2270004025 Diesel Trimmers/Edgers/Brush Cutters (Re                   0 9999 0.43        Hrs/Yr         60  DEFAULT
+2270004026 Diesel Trimmers/Edgers/Brush Cutters (Co                   0 9999 0.43        Hrs/Yr         60  DEFAULT
+2270004030 Diesel Leafblowers/Vacuums (Residential)                   0 9999 0.43        Hrs/Yr        120  DEFAULT
+2270004031 Diesel Leafblowers/Vacuums (Commercial)                    0 9999 0.43        Hrs/Yr        120  DEFAULT
+2270004035 Diesel Snowblowers (Residential)                           0 9999 0.43        Hrs/Yr        400  DEFAULT
+2270004036 Diesel Snowblowers (Commercial)                            0 9999 0.43        Hrs/Yr        400  DEFAULT
+2270004040 Diesel Rear Engine Riding Mowers (Res.)                    0 9999 0.43        Hrs/Yr        480  DEFAULT
+2270004041 Diesel Rear Engine Riding Mowers (Comm.)                   0 9999 0.43        Hrs/Yr        480  DEFAULT
+2270004045 Diesel Front Mowers (Residential)                          0 9999 0.43        Hrs/Yr        480  DEFAULT
+2270004046 Diesel Front Mowers (Commercial)                           0 9999 0.43        Hrs/Yr        480  DEFAULT
+2270004050 Diesel Shredders < 6 HP (Residential)                      0 9999 0.43        Hrs/Yr        120  DEFAULT
+2270004051 Diesel Shredders < 6 HP (Commercial)                       0 9999 0.43        Hrs/Yr        120  DEFAULT
+2270004055 Diesel Lawn & Garden Tractors (Residenti                   0 9999 0.43        Hrs/Yr        544  DEFAULT
+2270004056 Diesel Lawn & Garden Tractors (Commercia                   0 9999 0.43        Hrs/Yr        544  DEFAULT
+2270004060 Diesel Wood Splitters (Residential)                        0 9999 0.43        Hrs/Yr        265  DEFAULT
+2270004061 Diesel Wood Splitters (Commercial)                         0 9999 0.43        Hrs/Yr        265  DEFAULT
+2270004065 Diesel Chippers/Stump Grinders (Resident                   0 9999 0.43        Hrs/Yr        465  DEFAULT
+2270004066 Diesel Chippers/Stump Grinders (Commerci                   0 9999 0.43        Hrs/Yr        465  DEFAULT
+2270004070 Diesel Commercial Turf Equipment (Res.)                    0 9999 0.43        Hrs/Yr       1068  DEFAULT
+2270004071 Diesel Commercial Turf Equipment (Comm.)                   0 9999 0.43        Hrs/Yr       1068  DEFAULT
+2270004075 Diesel Other Lawn & Garden Equipment (Re                   0 9999 0.43        Hrs/Yr        433  DEFAULT
+2270004076 Diesel Other Lawn & Garden Equipment (Co                   0 9999 0.43        Hrs/Yr        433  DEFAULT
+2270005010 Diesel 2-Wheel Tractors                                    0 9999 0.59        Hrs/Yr        544  DEFAULT
+2270005015 Diesel Agricultural Tractors                               0 9999 0.59        Hrs/Yr        475  DEFAULT
+2270005020 Diesel Combines                                            0 9999 0.59        Hrs/Yr        150  DEFAULT
+2270005025 Diesel Balers                                              0 9999 0.59        Hrs/Yr         95  DEFAULT
+2270005030 Diesel Agricultural Mowers                                 0 9999 0.59        Hrs/Yr        363  DEFAULT
+2270005035 Diesel Sprayers                                            0 9999 0.59        Hrs/Yr         90  DEFAULT
+2270005040 Diesel Tillers > 6 HP                                      0 9999 0.59        Hrs/Yr        172  DEFAULT
+2270005045 Diesel Swathers                                            0 9999 0.59        Hrs/Yr        110  DEFAULT
+2270005055 Diesel Other Agricultural Equipment                        0 9999 0.59        Hrs/Yr        381  DEFAULT
+2270005060 Diesel Irrigation Sets                                     0 9999 0.43        Hrs/Yr        749  DEFAULT
+2270006005 Diesel Light Commercial  Generator Sets                    0 9999 0.43        Hrs/Yr        338  DEFAULT
+2270006010 Diesel Light Commercial  Pumps                             0 9999 0.43        Hrs/Yr        403  DEFAULT
+2270006015 Diesel Light Commercial  Air Compressors                   0 9999 0.43        Hrs/Yr        815  DEFAULT
+2270006020 Diesel Light Commercial  Gas Compressors                   0 9999 0.43        Hrs/Yr       8500  DEFAULT
+2270006025 Diesel Light Commercial  Welders                           0 9999 0.21        Hrs/Yr        643  DEFAULT
+2270006030 Diesel Light Commercial  Pressure Washer                   0 9999 0.43        Hrs/Yr        145  DEFAULT
+2270006035 Diesel Hydro Power Units                                   0 9999 0.43        Hrs/Yr        790  DEFAULT
+2270007005 Diesel Logging Equipment Chain Saws > 6                    0 9999 0.59        Hrs/Yr         70  DEFAULT
+2270007010 Diesel Logging Equipment Shredders > 6                     0 9999 0.59        Hrs/Yr        120  DEFAULT
+2270007015 Diesel Logging Equip Fell/Bunch/Skidders                   0 9999 0.59        Hrs/Yr       1276  DEFAULT
+2270007020 Diesel Logging Equip Fell/Bunch (unused)                   0 9999 0.59        Hrs/Yr          0  DEFAULT
+2270008005 Diesel Airport Support Equipment                           0 9999 0.59        Hrs/Yr        732  DEFAULT
+2270009010 Diesel Other Underground Mining Equipmen                   0 9999 0.21        Hrs/Yr       1533  DEFAULT
+2270010010 Diesel Other Oil Field Equipment                           0 9999 0.43        Hrs/Yr       1231  DEFAULT
+2267001020 LPG Snowmobiles                                            0 9999 0.34        Hrs/Yr         40  DEFAULT
+2267001030 LPG All Terrain Vehicles/MC (unused)                       0 9999 0.42        Hrs/Yr          0  DEFAULT
+2267001050 LPG Golf Carts                                             0 9999 0.46        Hrs/Yr       1080  DEFAULT
+2267001060 LPG Specialty Vehicle Carts                                0 9999 0.58        Hrs/Yr         65  DEFAULT
+2267002003 LPG Asphalt Pavers                                         0 9999 0.66        Hrs/Yr        392  DEFAULT
+2267002006 LPG Tampers/Rammers                                        0 9999 0.55        Hrs/Yr        160  DEFAULT
+2267002009 LPG Plate Compactors                                       0 9999 0.55        Hrs/Yr        166  DEFAULT
+2267002012 LPG Concrete Pavers                                        0 9999 0.55        Hrs/Yr          0  DEFAULT
+2267002015 LPG Rollers                                                0 9999 0.62        Hrs/Yr        621  DEFAULT
+2267002018 LPG Scrapers                                               0 9999 0.70        Hrs/Yr        540  DEFAULT
+2267002021 LPG Paving Equipment                                       0 9999 0.59        Hrs/Yr        175  DEFAULT
+2267002024 LPG Surfacing Equipment                                    0 9999 0.49        Hrs/Yr        488  DEFAULT
+2267002027 LPG Signal Boards                                          0 9999 0.72        Hrs/Yr        318  DEFAULT
+2267002030 LPG Trenchers                                              0 9999 0.66        Hrs/Yr        402  DEFAULT
+2267002033 LPG Bore/Drill Rigs                                        0 9999 0.79        Hrs/Yr        107  DEFAULT
+2267002036 LPG Excavators                                             0 9999 0.59        Hrs/Yr        378  DEFAULT
+2267002039 LPG Concrete/Industrial Saws                               0 9999 0.78        Hrs/Yr        610  DEFAULT
+2267002042 LPG Cement & Mortar Mixers                                 0 9999 0.59        Hrs/Yr         84  DEFAULT
+2267002045 LPG Cranes                                                 0 9999 0.47        Hrs/Yr        415  DEFAULT
+2267002048 LPG Graders                                                0 9999 0.64        Hrs/Yr        504  DEFAULT
+2267002051 LPG Off-highway Trucks                                     0 9999 0.80        Hrs/Yr        450  DEFAULT
+2267002054 LPG Crushing/Proc. Equipment                               0 9999 0.85        Hrs/Yr        241  DEFAULT
+2267002057 LPG Rough Terrain Forklifts                                0 9999 0.63        Hrs/Yr        413  DEFAULT
+2267002060 LPG Rubber Tire Loaders                                    0 9999 0.71        Hrs/Yr        512  DEFAULT
+2267002063 LPG Rubber Tire Dozers                                     0 9999 0.75        Hrs/Yr        900  DEFAULT
+2267002066 LPG Tractors/Loaders/Backhoes                              0 9999 0.48        Hrs/Yr        870  DEFAULT
+2267002069 LPG Crawler Tractors                                       0 9999 0.80        Hrs/Yr        700  DEFAULT
+2267002072 LPG Skid Steer Loaders                                     0 9999 0.58        Hrs/Yr        310  DEFAULT
+2267002075 LPG Off-Highway Tractors                                   0 9999 0.70        Hrs/Yr        155  DEFAULT
+2267002078 LPG Dumpers/Tenders                                        0 9999 0.41        Hrs/Yr        127  DEFAULT
+2267002081 LPG Other Construction Equipment                           0 9999 0.48        Hrs/Yr        371  DEFAULT
+2267003010 LPG Aerial Lifts                                           0 9999 0.46        Hrs/Yr        361  DEFAULT
+2267003020 LPG Forklifts                                              0 9999 0.30        Hrs/Yr       1800  DEFAULT
+2267003030 LPG Sweepers/Scrubbers                                     0 9999 0.71        Hrs/Yr        516  DEFAULT
+2267003040 LPG Other General Industrial Equipment                     0 9999 0.54        Hrs/Yr        713  DEFAULT
+2267003050 LPG Other Material Handling Equipment                      0 9999 0.53        Hrs/Yr        386  DEFAULT
+2267003060 LPG AC\Refrigeration                                       0 9999 0.46        Hrs/Yr        605  DEFAULT
+2267003070 LPG Terminal Tractors                                      0 9999 0.78        Hrs/Yr        827  DEFAULT
+2267004010 LPG Lawn mowers (Residential)                              0 9999 0.33        Hrs/Yr         25  DEFAULT
+2267004011 LPG Lawn mowers (Commercial)                               0 9999 0.33        Hrs/Yr        406  DEFAULT
+2267004015 LPG Rotary Tillers < 6 HP (Residential)                    0 9999 0.40        Hrs/Yr         17  DEFAULT
+2267004016 LPG Rotary Tillers < 6 HP (Commercial)                     0 9999 0.40        Hrs/Yr        472  DEFAULT
+2267004020 LPG Chain Saws < 6 HP (Residential)                        0 9999 0.70        Hrs/Yr         13  DEFAULT
+2267004021 LPG Chain Saws < 6 HP (Commercial)                         0 9999 0.70        Hrs/Yr        303  DEFAULT
+2267004025 LPG Trimmers/Edgers/Brush Cutters (Res.                    0 9999 0.91        Hrs/Yr          9  DEFAULT
+2267004026 LPG Trimmers/Edgers/Brush Cutters (Comm                    0 9999 0.91        Hrs/Yr        137  DEFAULT
+2267004030 LPG Leafblowers/Vacuums (Residential)                      0 9999 0.94        Hrs/Yr         10  DEFAULT
+2267004031 LPG Leafblowers/Vacuums (Commercial)                       0 9999 0.94        Hrs/Yr        282  DEFAULT
+2267004035 LPG Snowblowers (Residential)                              0 9999 0.35        Hrs/Yr          8  DEFAULT
+2267004036 LPG Snowblowers (Commercial)                               0 9999 0.35        Hrs/Yr        136  DEFAULT
+2267004040 LPG Rear Engine Riding Mowers (Resident                    0 9999 0.38        Hrs/Yr         36  DEFAULT
+2267004041 LPG Rear Engine Riding Mowers (Commerci                    0 9999 0.38        Hrs/Yr        569  DEFAULT
+2267004045 LPG Front Mowers (Residential)                             0 9999 0.65        Hrs/Yr         86  DEFAULT
+2267004046 LPG Front Mowers (Commercial)                              0 9999 0.65        Hrs/Yr         86  DEFAULT
+2267004050 LPG Shredders < 6 HP (Residential)                         0 9999 0.80        Hrs/Yr         50  DEFAULT
+2267004051 LPG Shredders < 6 HP (Commercial)                          0 9999 0.80        Hrs/Yr         50  DEFAULT
+2267004055 LPG Lawn & Garden Tractors (Residential                    0 9999 0.44        Hrs/Yr         45  DEFAULT
+2267004056 LPG Lawn & Garden Tractors (Commercial)                    0 9999 0.44        Hrs/Yr        721  DEFAULT
+2267004060 LPG Wood Splitters (Residential)                           0 9999 0.69        Hrs/Yr         76  DEFAULT
+2267004061 LPG Wood Splitters (Commercial)                            0 9999 0.69        Hrs/Yr         76  DEFAULT
+2267004065 LPG Chippers/Stump Grinders (Residentia                    0 9999 0.78        Hrs/Yr        488  DEFAULT
+2267004066 LPG Chippers/Stump Grinders (Commercial                    0 9999 0.78        Hrs/Yr        488  DEFAULT
+2267004070 LPG Commercial Turf Equipment (Resident                    0 9999 0.60        Hrs/Yr        682  DEFAULT
+2267004071 LPG Commercial Turf Equipment (Commerci                    0 9999 0.60        Hrs/Yr        682  DEFAULT
+2267004075 LPG Other Lawn & Garden Equipment (Res.                    0 9999 0.58        Hrs/Yr         61  DEFAULT
+2267004076 LPG Other Lawn & Garden Equipment (Comm                    0 9999 0.58        Hrs/Yr         61  DEFAULT
+2267005010 LPG 2-Wheel Tractors                                       0 9999 0.62        Hrs/Yr        286  DEFAULT
+2267005015 LPG Agricultural Tractors                                  0 9999 0.62        Hrs/Yr        550  DEFAULT
+2267005020 LPG Combines                                               0 9999 0.74        Hrs/Yr        125  DEFAULT
+2267005025 LPG Balers                                                 0 9999 0.62        Hrs/Yr         68  DEFAULT
+2267005030 LPG Agricultural Mowers                                    0 9999 0.48        Hrs/Yr        175  DEFAULT
+2267005035 LPG Sprayers                                               0 9999 0.65        Hrs/Yr         80  DEFAULT
+2267005040 LPG Tillers > 6 HP                                         0 9999 0.71        Hrs/Yr         43  DEFAULT
+2267005045 LPG Swathers                                               0 9999 0.52        Hrs/Yr         95  DEFAULT
+2267005055 LPG Other Agricultural Equipment                           0 9999 0.55        Hrs/Yr        124  DEFAULT
+2267005060 LPG Irrigation Sets                                        0 9999 0.60        Hrs/Yr        716  DEFAULT
+2267006005 LPG Light Commercial  Generator Sets                       0 9999 0.68        Hrs/Yr        115  DEFAULT
+2267006010 LPG Light Commercial  Pumps                                0 9999 0.69        Hrs/Yr        221  DEFAULT
+2267006015 LPG Light Commercial  Air Compressors                      0 9999 0.56        Hrs/Yr        484  DEFAULT
+2267006020 LPG Light Commercial  Gas Compressors                      0 9999 0.85        Hrs/Yr       6000  DEFAULT
+2267006025 LPG Light Commercial  Welders                              0 9999 0.68        Hrs/Yr        408  DEFAULT
+2267006030 LPG Light Commercial  Pressure Washers                     0 9999 0.85        Hrs/Yr        115  DEFAULT
+2267006035 LPG Hydro Power Units                                      0 9999 0.56        Hrs/Yr        450  DEFAULT
+2267007005 LPG Logging Equipment  Chain Saws > 6 H                    0 9999 0.70        Hrs/Yr        303  DEFAULT
+2267007010 LPG Logging Equipment  Shredders > 6 HP                    0 9999 0.80        Hrs/Yr         50  DEFAULT
+2267007015 LPG Logging Equipment  Skidders                            0 9999 0.70        Hrs/Yr        350  DEFAULT
+2267007020 LPG Logging Equipment  Fellers/Bunchers                    0 9999 0.70        Hrs/Yr          0  DEFAULT
+2267008005 LPG Airport Support Equipment                              0 9999 0.56        Hrs/Yr        681  DEFAULT
+2267009010 LPG Other Underground Mining Equipment                     0 9999 0.80        Hrs/Yr        260  DEFAULT
+2267010010 LPG Other Oil Field Equipment                              0 9999 0.90        Hrs/Yr       1104  DEFAULT
+2268001020 CNG Snowmobiles                                            0 9999 0.34        Hrs/Yr         40  DEFAULT
+2268001030 CNG All Terrain Vehicles/MC (unused)                       0 9999 0.42        Hrs/Yr          0  DEFAULT
+2268001050 CNG Golf Carts                                             0 9999 0.46        Hrs/Yr       1080  DEFAULT
+2268001060 CNG Specialty Vehicle Carts                                0 9999 0.58        Hrs/Yr         65  DEFAULT
+2268002003 CNG Asphalt Pavers                                         0 9999 0.66        Hrs/Yr        392  DEFAULT
+2268002006 CNG Tampers/Rammers                                        0 9999 0.55        Hrs/Yr        160  DEFAULT
+2268002009 CNG Plate Compactors                                       0 9999 0.55        Hrs/Yr        166  DEFAULT
+2268002012 CNG Concrete Pavers                                        0 9999 0.55        Hrs/Yr          0  DEFAULT
+2268002015 CNG Rollers                                                0 9999 0.62        Hrs/Yr        621  DEFAULT
+2268002018 CNG Scrapers                                               0 9999 0.70        Hrs/Yr        540  DEFAULT
+2268002021 CNG Paving Equipment                                       0 9999 0.59        Hrs/Yr        175  DEFAULT
+2268002024 CNG Surfacing Equipment                                    0 9999 0.49        Hrs/Yr        488  DEFAULT
+2268002027 CNG Signal Boards                                          0 9999 0.72        Hrs/Yr        318  DEFAULT
+2268002030 CNG Trenchers                                              0 9999 0.66        Hrs/Yr        402  DEFAULT
+2268002033 CNG Bore/Drill Rigs                                        0 9999 0.79        Hrs/Yr        107  DEFAULT
+2268002036 CNG Excavators                                             0 9999 0.53        Hrs/Yr        378  DEFAULT
+2268002039 CNG Concrete/Industrial Saws                               0 9999 0.78        Hrs/Yr        610  DEFAULT
+2268002042 CNG Cement & Mortar Mixers                                 0 9999 0.59        Hrs/Yr         84  DEFAULT
+2268002045 CNG Cranes                                                 0 9999 0.47        Hrs/Yr        415  DEFAULT
+2268002048 CNG Graders                                                0 9999 0.64        Hrs/Yr        504  DEFAULT
+2268002051 CNG Off-highway Trucks                                     0 9999 0.80        Hrs/Yr        450  DEFAULT
+2268002054 CNG Crushing/Proc. Equipment                               0 9999 0.85        Hrs/Yr        241  DEFAULT
+2268002057 CNG Rough Terrain Forklifts                                0 9999 0.63        Hrs/Yr        413  DEFAULT
+2268002060 CNG Rubber Tire Loaders                                    0 9999 0.71        Hrs/Yr        512  DEFAULT
+2268002063 CNG Rubber Tire Dozers                                     0 9999 0.75        Hrs/Yr        900  DEFAULT
+2268002066 CNG Tractors/Loaders/Backhoes                              0 9999 0.48        Hrs/Yr        870  DEFAULT
+2268002069 CNG Crawler Tractors                                       0 9999 0.80        Hrs/Yr        700  DEFAULT
+2268002072 CNG Skid Steer Loaders                                     0 9999 0.58        Hrs/Yr        310  DEFAULT
+2268002075 CNG Off-Highway Tractors                                   0 9999 0.70        Hrs/Yr        155  DEFAULT
+2268002078 CNG Dumpers/Tenders                                        0 9999 0.41        Hrs/Yr        127  DEFAULT
+2268002081 CNG Other Construction Equipment                           0 9999 0.48        Hrs/Yr        371  DEFAULT
+2268003010 CNG Aerial Lifts                                           0 9999 0.46        Hrs/Yr        361  DEFAULT
+2268003020 CNG Forklifts                                              0 9999 0.30        Hrs/Yr       1800  DEFAULT
+2268003030 CNG Sweepers/Scrubbers                                     0 9999 0.71        Hrs/Yr        516  DEFAULT
+2268003040 CNG Other General Industrial Equipment                     0 9999 0.54        Hrs/Yr        713  DEFAULT
+2268003050 CNG Other Material Handling Equipment                      0 9999 0.53        Hrs/Yr        386  DEFAULT
+2268003060 CNG AC\Refrigeration                                       0 9999 0.46        Hrs/Yr        605  DEFAULT
+2268003070 CNG Terminal Tractors                                      0 9999 0.78        Hrs/Yr        827  DEFAULT
+2268004010 CNG Lawn mowers (Residential)                              0 9999 0.33        Hrs/Yr         25  DEFAULT
+2268004011 CNG Lawn mowers (Commercial)                               0 9999 0.33        Hrs/Yr        406  DEFAULT
+2268004015 CNG Rotary Tillers < 6 HP (Residential)                    0 9999 0.40        Hrs/Yr         17  DEFAULT
+2268004016 CNG Rotary Tillers < 6 HP (Commercial)                     0 9999 0.40        Hrs/Yr        472  DEFAULT
+2268004020 CNG Chain Saws < 6 HP (Residential)                        0 9999 0.70        Hrs/Yr         13  DEFAULT
+2268004021 CNG Chain Saws < 6 HP (Commercial)                         0 9999 0.70        Hrs/Yr        303  DEFAULT
+2268004025 CNG Trimmers/Edgers/Brush Cutters (Res.)                   0 9999 0.91        Hrs/Yr          9  DEFAULT
+2268004026 CNG Trimmers/Edgers/Brush Cutters (Comm.                   0 9999 0.91        Hrs/Yr        137  DEFAULT
+2268004030 CNG Leafblowers/Vacuums (Residential)                      0 9999 0.94        Hrs/Yr         10  DEFAULT
+2268004031 CNG Leafblowers/Vacuums (Commercial)                       0 9999 0.94        Hrs/Yr        282  DEFAULT
+2268004035 CNG Snowblowers (Residential)                              0 9999 0.35        Hrs/Yr          8  DEFAULT
+2268004036 CNG Snowblowers (Commercial)                               0 9999 0.35        Hrs/Yr        136  DEFAULT
+2268004040 CNG Rear Engine Riding Mowers (Residenti                   0 9999 0.38        Hrs/Yr         36  DEFAULT
+2268004041 CNG Rear Engine Riding Mowers (Commercia                   0 9999 0.38        Hrs/Yr        569  DEFAULT
+2268004045 CNG Front Mowers (Residential)                             0 9999 0.65        Hrs/Yr         86  DEFAULT
+2268004046 CNG Front Mowers (Commercial)                              0 9999 0.65        Hrs/Yr         86  DEFAULT
+2268004050 CNG Shredders < 6 HP (Residential)                         0 9999 0.80        Hrs/Yr         50  DEFAULT
+2268004051 CNG Shredders < 6 HP (Commercial)                          0 9999 0.80        Hrs/Yr         50  DEFAULT
+2268004055 CNG Lawn & Garden Tractors (Residential)                   0 9999 0.44        Hrs/Yr         45  DEFAULT
+2268004056 CNG Lawn & Garden Tractors (Commercial)                    0 9999 0.44        Hrs/Yr        721  DEFAULT
+2268004060 CNG Wood Splitters (Residential)                           0 9999 0.69        Hrs/Yr         76  DEFAULT
+2268004061 CNG Wood Splitters (Commercial)                            0 9999 0.69        Hrs/Yr         76  DEFAULT
+2268004065 CNG Chippers/Stump Grinders (Residential                   0 9999 0.78        Hrs/Yr        488  DEFAULT
+2268004066 CNG Chippers/Stump Grinders (Commercial)                   0 9999 0.78        Hrs/Yr        488  DEFAULT
+2268004070 CNG Commercial Turf Equipment (Residenti                   0 9999 0.60        Hrs/Yr        682  DEFAULT
+2268004071 CNG Commercial Turf Equipment (Commercia                   0 9999 0.60        Hrs/Yr        682  DEFAULT
+2268004075 CNG Other Lawn & Garden Equipment (Res.)                   0 9999 0.58        Hrs/Yr         61  DEFAULT
+2268004076 CNG Other Lawn & Garden Equipment (Comm.                   0 9999 0.58        Hrs/Yr         61  DEFAULT
+2268005010 CNG 2-Wheel Tractors                                       0 9999 0.62        Hrs/Yr        286  DEFAULT
+2268005015 CNG Agricultural Tractors                                  0 9999 0.62        Hrs/Yr        550  DEFAULT
+2268005020 CNG Combines                                               0 9999 0.74        Hrs/Yr        125  DEFAULT
+2268005025 CNG Balers                                                 0 9999 0.62        Hrs/Yr         68  DEFAULT
+2268005030 CNG Agricultural Mowers                                    0 9999 0.48        Hrs/Yr        175  DEFAULT
+2268005035 CNG Sprayers                                               0 9999 0.65        Hrs/Yr         80  DEFAULT
+2268005040 CNG Tillers > 6 HP                                         0 9999 0.71        Hrs/Yr         43  DEFAULT
+2268005045 CNG Swathers                                               0 9999 0.52        Hrs/Yr         95  DEFAULT
+2268005055 CNG Other Agricultural Equipment                           0 9999 0.55        Hrs/Yr        124  DEFAULT
+2268005060 CNG Irrigation Sets                                        0 9999 0.60        Hrs/Yr        716  DEFAULT
+2268006005 CNG Light Commercial  Generator Sets                       0 9999 0.68        Hrs/Yr        115  DEFAULT
+2268006010 CNG Light Commercial  Pumps                                0 9999 0.69        Hrs/Yr        221  DEFAULT
+2268006015 CNG Light Commercial  Air Compressors                      0 9999 0.56        Hrs/Yr        484  DEFAULT
+2268006020 CNG Light Commercial  Gas Compressors                      0 9999 0.85        Hrs/Yr       6000  DEFAULT
+2268006025 CNG Light Commercial  Welders                              0 9999 0.68        Hrs/Yr        408  DEFAULT
+2268006030 CNG Light Commercial  Pressure Washers                     0 9999 0.85        Hrs/Yr        115  DEFAULT
+2268006035 CNG Hydro Power Units                                      0 9999 0.56        Hrs/Yr        450  DEFAULT
+2268007005 CNG Logging Equipment  Chain Saws > 6 HP                   0 9999 0.70        Hrs/Yr        303  DEFAULT
+2268007010 CNG Logging Equipment  Shredders > 6 HP                    0 9999 0.80        Hrs/Yr         50  DEFAULT
+2268007015 CNG Logging Equipment  Skidders                            0 9999 0.70        Hrs/Yr        350  DEFAULT
+2268007020 CNG Logging Equipment  Fellers/Bunchers                    0 9999 0.70        Hrs/Yr          0  DEFAULT
+2268008005 CNG Airport Support Equipment                              0 9999 0.56        Hrs/Yr        681  DEFAULT
+2268009010 CNG Other Underground Mining Equipment                     0 9999 0.80        Hrs/Yr        260  DEFAULT
+2268010010 CNG Other Oil Field Equipment                              0 9999 0.90        Hrs/Yr       1104  DEFAULT
+2282005010 Outboards                                                  0 9999 0.21        Hrs/Yr       34.8  DEFAULT
+2282005015 Personal Watercraft                                        0 9999 0.21        Hrs/Yr       77.3  DEFAULT
+2282010005 Gas Inboards                                               0  600 0.21        Hrs/Yr       47.6  DEFAULT
+2282010005 Gas Inboards                                             600 9999 0.21        Hrs/Yr         30  DEFAULT
+2282020005 Diesel Inboards                                            0 9999 0.35        Hrs/Yr        200  DEFAULT
+2282020010 Diesel Outboards                                           0 9999 0.35        Hrs/Yr        150  DEFAULT
+2282020025 Diesel Sailboat Aux. Outboard (unused)                     0 9999 0.35        Hrs/Yr         68  DEFAULT
+2285002015 Diesel Railway Maintenance                                 0 9999 0.21        Hrs/Yr        943  DEFAULT
+2285003015 2-Stroke Gasoline Railway Maintenance                      0 9999 0.62        Hrs/Yr        184  DEFAULT
+2285004015 4-Stroke Gasoline Railway Maintenance                      0 9999 0.62        Hrs/Yr        184  DEFAULT
+2285006015 LPG Railway Maintenance                                    0 9999 0.62        Hrs/Yr        184  DEFAULT
+2285008015 CNG Railway Maintenance                                    0 9999 0.62        Hrs/Yr        184  DEFAULT
+/END/

@@ -1,0 +1,91 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent HARVESTED CROPLAND
+2002 USDA Census of Agriculture
+
+9/23/05 epa: web search indicates essentially zero ag in Broomfield County.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+FRM  08000      2002             4346955     CO
+FRM  08001      2002              260664     Adams
+FRM  08003      2002               78963     Alamosa
+FRM  08005      2002               70449     Arapahoe
+FRM  08007      2002                4093     Archuleta
+FRM  08009      2002               47112     Baca
+FRM  08011      2002               47112     Bent
+FRM  08013      2002               33701     Boulder
+FRM  08014      2002                   0     Broomfield
+FRM  08015      2002                8297     Chaffee
+FRM  08017      2002               47112     Cheyenne
+FRM  08019      2002                 260     Clear Creek
+FRM  08021      2002               51976     Conejos
+FRM  08023      2002               34330     Costilla
+FRM  08025      2002               47112     Crowley
+FRM  08027      2002                3720     Custer
+FRM  08029      2002               34803     Delta
+FRM  08031      2002                   9     Denver
+FRM  08033      2002               21187     Dolores
+FRM  08035      2002                8119     Douglas
+FRM  08037      2002                6399     Eagle
+FRM  08039      2002               49617     Elbert
+FRM  08041      2002               15232     El Paso
+FRM  08043      2002                7325     Fremont
+FRM  08045      2002               22073     Garfield
+FRM  08047      2002               47112     Gilpin
+FRM  08049      2002               19706     Grand
+FRM  08051      2002               25079     Gunnison
+FRM  08053      2002                 530     Hinsdale
+FRM  08055      2002               47112     Huerfano
+FRM  08057      2002               44248     Jackson
+FRM  08059      2002                3925     Jefferson
+FRM  08061      2002               47112     Kiowa
+FRM  08063      2002              314443     Kit Carson
+FRM  08065      2002                 221     Lake
+FRM  08067      2002               34820     La Plata
+FRM  08069      2002               64332     Larimer
+FRM  08071      2002                8756     Las Animas
+FRM  08073      2002               47112     Lincoln
+FRM  08075      2002              255146     Logan
+FRM  08077      2002               49417     Mesa
+FRM  08079      2002               47112     Mineral
+FRM  08081      2002               47112     Moffat
+FRM  08083      2002               41320     Montezuma
+FRM  08085      2002               60890     Montrose
+FRM  08087      2002              190850     Morgan
+FRM  08089      2002               33034     Otero
+FRM  08091      2002               47112     Ouray
+FRM  08093      2002                5705     Park
+FRM  08095      2002              219155     Phillips
+FRM  08097      2002                2790     Pitkin
+FRM  08099      2002              170688     Prowers
+FRM  08101      2002               47112     Pueblo
+FRM  08103      2002               47112     Rio Blanco
+FRM  08105      2002               79993     Rio Grande
+FRM  08107      2002               44987     Routt
+FRM  08109      2002               86582     Saguache
+FRM  08111      2002                   0     San Juan
+FRM  08113      2002                4894     San Miguel
+FRM  08115      2002              112430     Sedgwick
+FRM  08117      2002                2299     Summit
+FRM  08119      2002                1070     Teller
+FRM  08121      2002              332494     Washington
+FRM  08123      2002              422385     Weld
+FRM  08125      2002              391090     Yuma
+/END/

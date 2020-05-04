@@ -1,0 +1,94 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2003 DOLLAR VALUE of CONSTRUCTION
+adjusted for relative geographic cost of construction materials.
+   Const_Dollars * (1-(1/(1+100/Area_Mod_Factor)))
+from McGraw-Hill Construction (values) and Craftsman (cost adj)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+CON  01000      2003             7825362     AL
+CON  01001      2003               46758     Autauga
+CON  01003      2003              592302     Baldwin
+CON  01005      2003               12674     Barbour
+CON  01007      2003                9832     Bibb
+CON  01009      2003               34606     Blount
+CON  01011      2003                5217     Bullock
+CON  01013      2003               18181     Butler
+CON  01015      2003              121699     Calhoun
+CON  01017      2003               13161     Chambers
+CON  01019      2003               16144     Cherokee
+CON  01021      2003               40026     Chilton
+CON  01023      2003               15634     Choctaw
+CON  01025      2003               20717     Clarke
+CON  01027      2003                7955     Clay
+CON  01029      2003                5657     Cleburne
+CON  01031      2003               43120     Coffee
+CON  01033      2003              170377     Colbert
+CON  01035      2003               12067     Conecuh
+CON  01037      2003                8400     Coosa
+CON  01039      2003               25161     Covington
+CON  01041      2003               30126     Crenshaw
+CON  01043      2003               96615     Cullman
+CON  01045      2003               43541     Dale
+CON  01047      2003               32258     Dallas
+CON  01049      2003               48254     DeKalb
+CON  01051      2003               95065     Elmore
+CON  01053      2003               25094     Escambia
+CON  01055      2003               69085     Etowah
+CON  01057      2003                5966     Fayette
+CON  01059      2003               17483     Franklin
+CON  01061      2003               22776     Geneva
+CON  01063      2003               13649     Greene
+CON  01065      2003               13909     Hale
+CON  01067      2003               14268     Henry
+CON  01069      2003              123925     Houston
+CON  01071      2003               38216     Jackson
+CON  01073      2003             1712574     Jefferson
+CON  01075      2003               11655     Lamar
+CON  01077      2003              100613     Lauderdale
+CON  01079      2003               23404     Lawrence
+CON  01081      2003              303519     Lee
+CON  01083      2003              505930     Limestone
+CON  01085      2003               16738     Lowndes
+CON  01087      2003               11523     Macon
+CON  01089      2003              491385     Madison
+CON  01091      2003               18911     Marengo
+CON  01093      2003               21417     Marion
+CON  01095      2003               65154     Marshall
+CON  01097      2003              428694     Mobile
+CON  01099      2003               20099     Monroe
+CON  01101      2003              539279     Montgomery
+CON  01103      2003              137101     Morgan
+CON  01105      2003                5210     Perry
+CON  01107      2003               13885     Pickens
+CON  01109      2003               64105     Pike
+CON  01111      2003               32548     Randolph
+CON  01113      2003               54711     Russell
+CON  01115      2003              119198     St. Clair
+CON  01117      2003              596058     Shelby
+CON  01119      2003                9986     Sumter
+CON  01121      2003               80757     Talladega
+CON  01123      2003               23105     Tallapoosa
+CON  01125      2003              364661     Tuscaloosa
+CON  01127      2003              117143     Walker
+CON  01129      2003                5712     Washington
+CON  01131      2003               12917     Wilcox
+CON  01133      2003                7450     Winston
+/END/

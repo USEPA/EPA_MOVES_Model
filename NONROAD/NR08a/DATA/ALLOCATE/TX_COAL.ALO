@@ -1,0 +1,279 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent UNDERGROUND COAL PRODUCTION TONS
+DOE/EIA 2002 Annual Coal Report
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+MIN  48000      2002                   0     TX
+MIN  48001      2002                   0     Anderson
+MIN  48003      2002                   0     Andrews
+MIN  48005      2002                   0     Angelina
+MIN  48007      2002                   0     Aransas
+MIN  48009      2002                   0     Archer
+MIN  48011      2002                   0     Armstrong
+MIN  48013      2002                   0     Atascosa
+MIN  48015      2002                   0     Austin
+MIN  48017      2002                   0     Bailey
+MIN  48019      2002                   0     Bandera
+MIN  48021      2002                   0     Bastrop
+MIN  48023      2002                   0     Baylor
+MIN  48025      2002                   0     Bee
+MIN  48027      2002                   0     Bell
+MIN  48029      2002                   0     Bexar
+MIN  48031      2002                   0     Blanco
+MIN  48033      2002                   0     Borden
+MIN  48035      2002                   0     Bosque
+MIN  48037      2002                   0     Bowie
+MIN  48039      2002                   0     Brazoria
+MIN  48041      2002                   0     Brazos
+MIN  48043      2002                   0     Brewster
+MIN  48045      2002                   0     Briscoe
+MIN  48047      2002                   0     Brooks
+MIN  48049      2002                   0     Brown
+MIN  48051      2002                   0     Burleson
+MIN  48053      2002                   0     Burnet
+MIN  48055      2002                   0     Caldwell
+MIN  48057      2002                   0     Calhoun
+MIN  48059      2002                   0     Callahan
+MIN  48061      2002                   0     Cameron
+MIN  48063      2002                   0     Camp
+MIN  48065      2002                   0     Carson
+MIN  48067      2002                   0     Cass
+MIN  48069      2002                   0     Castro
+MIN  48071      2002                   0     Chambers
+MIN  48073      2002                   0     Cherokee
+MIN  48075      2002                   0     Childress
+MIN  48077      2002                   0     Clay
+MIN  48079      2002                   0     Cochran
+MIN  48081      2002                   0     Coke
+MIN  48083      2002                   0     Coleman
+MIN  48085      2002                   0     Collin
+MIN  48087      2002                   0     Collingsworth
+MIN  48089      2002                   0     Colorado
+MIN  48091      2002                   0     Comal
+MIN  48093      2002                   0     Comanche
+MIN  48095      2002                   0     Concho
+MIN  48097      2002                   0     Cooke
+MIN  48099      2002                   0     Coryell
+MIN  48101      2002                   0     Cottle
+MIN  48103      2002                   0     Crane
+MIN  48105      2002                   0     Crockett
+MIN  48107      2002                   0     Crosby
+MIN  48109      2002                   0     Culberson
+MIN  48111      2002                   0     Dallam
+MIN  48113      2002                   0     Dallas
+MIN  48115      2002                   0     Dawson
+MIN  48117      2002                   0     Deaf Smith
+MIN  48119      2002                   0     Delta
+MIN  48121      2002                   0     Denton
+MIN  48123      2002                   0     DeWitt
+MIN  48125      2002                   0     Dickens
+MIN  48127      2002                   0     Dimmit
+MIN  48129      2002                   0     Donley
+MIN  48131      2002                   0     Duval
+MIN  48133      2002                   0     Eastland
+MIN  48135      2002                   0     Ector
+MIN  48137      2002                   0     Edwards
+MIN  48139      2002                   0     Ellis
+MIN  48141      2002                   0     El Paso
+MIN  48143      2002                   0     Erath
+MIN  48145      2002                   0     Falls
+MIN  48147      2002                   0     Fannin
+MIN  48149      2002                   0     Fayette
+MIN  48151      2002                   0     Fisher
+MIN  48153      2002                   0     Floyd
+MIN  48155      2002                   0     Foard
+MIN  48157      2002                   0     Fort Bend
+MIN  48159      2002                   0     Franklin
+MIN  48161      2002                   0     Freestone
+MIN  48163      2002                   0     Frio
+MIN  48165      2002                   0     Gaines
+MIN  48167      2002                   0     Galveston
+MIN  48169      2002                   0     Garza
+MIN  48171      2002                   0     Gillespie
+MIN  48173      2002                   0     Glasscock
+MIN  48175      2002                   0     Goliad
+MIN  48177      2002                   0     Gonzales
+MIN  48179      2002                   0     Gray
+MIN  48181      2002                   0     Grayson
+MIN  48183      2002                   0     Gregg
+MIN  48185      2002                   0     Grimes
+MIN  48187      2002                   0     Guadalupe
+MIN  48189      2002                   0     Hale
+MIN  48191      2002                   0     Hall
+MIN  48193      2002                   0     Hamilton
+MIN  48195      2002                   0     Hansford
+MIN  48197      2002                   0     Hardeman
+MIN  48199      2002                   0     Hardin
+MIN  48201      2002                   0     Harris
+MIN  48203      2002                   0     Harrison
+MIN  48205      2002                   0     Hartley
+MIN  48207      2002                   0     Haskell
+MIN  48209      2002                   0     Hays
+MIN  48211      2002                   0     Hemphill
+MIN  48213      2002                   0     Henderson
+MIN  48215      2002                   0     Hidalgo
+MIN  48217      2002                   0     Hill
+MIN  48219      2002                   0     Hockley
+MIN  48221      2002                   0     Hood
+MIN  48223      2002                   0     Hopkins
+MIN  48225      2002                   0     Houston
+MIN  48227      2002                   0     Howard
+MIN  48229      2002                   0     Hudspeth
+MIN  48231      2002                   0     Hunt
+MIN  48233      2002                   0     Hutchinson
+MIN  48235      2002                   0     Irion
+MIN  48237      2002                   0     Jack
+MIN  48239      2002                   0     Jackson
+MIN  48241      2002                   0     Jasper
+MIN  48243      2002                   0     Jeff Davis
+MIN  48245      2002                   0     Jefferson
+MIN  48247      2002                   0     Jim Hogg
+MIN  48249      2002                   0     Jim Wells
+MIN  48251      2002                   0     Johnson
+MIN  48253      2002                   0     Jones
+MIN  48255      2002                   0     Karnes
+MIN  48257      2002                   0     Kaufman
+MIN  48259      2002                   0     Kendall
+MIN  48261      2002                   0     Kenedy
+MIN  48263      2002                   0     Kent
+MIN  48265      2002                   0     Kerr
+MIN  48267      2002                   0     Kimble
+MIN  48269      2002                   0     King
+MIN  48271      2002                   0     Kinney
+MIN  48273      2002                   0     Kleberg
+MIN  48275      2002                   0     Knox
+MIN  48277      2002                   0     Lamar
+MIN  48279      2002                   0     Lamb
+MIN  48281      2002                   0     Lampasas
+MIN  48283      2002                   0     La Salle
+MIN  48285      2002                   0     Lavaca
+MIN  48287      2002                   0     Lee
+MIN  48289      2002                   0     Leon
+MIN  48291      2002                   0     Liberty
+MIN  48293      2002                   0     Limestone
+MIN  48295      2002                   0     Lipscomb
+MIN  48297      2002                   0     Live Oak
+MIN  48299      2002                   0     Llano
+MIN  48301      2002                   0     Loving
+MIN  48303      2002                   0     Lubbock
+MIN  48305      2002                   0     Lynn
+MIN  48307      2002                   0     McCulloch
+MIN  48309      2002                   0     McLennan
+MIN  48311      2002                   0     McMullen
+MIN  48313      2002                   0     Madison
+MIN  48315      2002                   0     Marion
+MIN  48317      2002                   0     Martin
+MIN  48319      2002                   0     Mason
+MIN  48321      2002                   0     Matagorda
+MIN  48323      2002                   0     Maverick
+MIN  48325      2002                   0     Medina
+MIN  48327      2002                   0     Menard
+MIN  48329      2002                   0     Midland
+MIN  48331      2002                   0     Milam
+MIN  48333      2002                   0     Mills
+MIN  48335      2002                   0     Mitchell
+MIN  48337      2002                   0     Montague
+MIN  48339      2002                   0     Montgomery
+MIN  48341      2002                   0     Moore
+MIN  48343      2002                   0     Morris
+MIN  48345      2002                   0     Motley
+MIN  48347      2002                   0     Nacogdoches
+MIN  48349      2002                   0     Navarro
+MIN  48351      2002                   0     Newton
+MIN  48353      2002                   0     Nolan
+MIN  48355      2002                   0     Nueces
+MIN  48357      2002                   0     Ochiltree
+MIN  48359      2002                   0     Oldham
+MIN  48361      2002                   0     Orange
+MIN  48363      2002                   0     Palo Pinto
+MIN  48365      2002                   0     Panola
+MIN  48367      2002                   0     Parker
+MIN  48369      2002                   0     Parmer
+MIN  48371      2002                   0     Pecos
+MIN  48373      2002                   0     Polk
+MIN  48375      2002                   0     Potter
+MIN  48377      2002                   0     Presidio
+MIN  48379      2002                   0     Rains
+MIN  48381      2002                   0     Randall
+MIN  48383      2002                   0     Reagan
+MIN  48385      2002                   0     Real
+MIN  48387      2002                   0     Red River
+MIN  48389      2002                   0     Reeves
+MIN  48391      2002                   0     Refugio
+MIN  48393      2002                   0     Roberts
+MIN  48395      2002                   0     Robertson
+MIN  48397      2002                   0     Rockwall
+MIN  48399      2002                   0     Runnels
+MIN  48401      2002                   0     Rusk
+MIN  48403      2002                   0     Sabine
+MIN  48405      2002                   0     San Augustine
+MIN  48407      2002                   0     San Jacinto
+MIN  48409      2002                   0     San Patricio
+MIN  48411      2002                   0     San Saba
+MIN  48413      2002                   0     Schleicher
+MIN  48415      2002                   0     Scurry
+MIN  48417      2002                   0     Shackelford
+MIN  48419      2002                   0     Shelby
+MIN  48421      2002                   0     Sherman
+MIN  48423      2002                   0     Smith
+MIN  48425      2002                   0     Somervell
+MIN  48427      2002                   0     Starr
+MIN  48429      2002                   0     Stephens
+MIN  48431      2002                   0     Sterling
+MIN  48433      2002                   0     Stonewall
+MIN  48435      2002                   0     Sutton
+MIN  48437      2002                   0     Swisher
+MIN  48439      2002                   0     Tarrant
+MIN  48441      2002                   0     Taylor
+MIN  48443      2002                   0     Terrell
+MIN  48445      2002                   0     Terry
+MIN  48447      2002                   0     Throckmorton
+MIN  48449      2002                   0     Titus
+MIN  48451      2002                   0     Tom Green
+MIN  48453      2002                   0     Travis
+MIN  48455      2002                   0     Trinity
+MIN  48457      2002                   0     Tyler
+MIN  48459      2002                   0     Upshur
+MIN  48461      2002                   0     Upton
+MIN  48463      2002                   0     Uvalde
+MIN  48465      2002                   0     Val Verde
+MIN  48467      2002                   0     Van Zandt
+MIN  48469      2002                   0     Victoria
+MIN  48471      2002                   0     Walker
+MIN  48473      2002                   0     Waller
+MIN  48475      2002                   0     Ward
+MIN  48477      2002                   0     Washington
+MIN  48479      2002                   0     Webb
+MIN  48481      2002                   0     Wharton
+MIN  48483      2002                   0     Wheeler
+MIN  48485      2002                   0     Wichita
+MIN  48487      2002                   0     Wilbarger
+MIN  48489      2002                   0     Willacy
+MIN  48491      2002                   0     Williamson
+MIN  48493      2002                   0     Wilson
+MIN  48495      2002                   0     Winkler
+MIN  48497      2002                   0     Wise
+MIN  48499      2002                   0     Wood
+MIN  48501      2002                   0     Yoakum
+MIN  48503      2002                   0     Young
+MIN  48505      2002                   0     Zapata
+MIN  48507      2002                   0     Zavala
+/END/

@@ -1,0 +1,82 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2003 DOLLAR VALUE of CONSTRUCTION
+adjusted for relative geographic cost of construction materials.
+   Const_Dollars * (1-(1/(1+100/Area_Mod_Factor)))
+from McGraw-Hill Construction (values) and Craftsman (cost adj)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+CON  54000      2003             1751944     WV
+CON  54001      2003                8699     Barbour
+CON  54003      2003              208019     Berkeley
+CON  54005      2003                3335     Boone
+CON  54007      2003                9166     Braxton
+CON  54009      2003               24641     Brooke
+CON  54011      2003               73158     Cabell
+CON  54013      2003                3827     Calhoun
+CON  54015      2003                1530     Clay
+CON  54017      2003                1645     Doddridge
+CON  54019      2003               45741     Fayette
+CON  54021      2003                3465     Gilmer
+CON  54023      2003               13410     Grant
+CON  54025      2003               78290     Greenbrier
+CON  54027      2003               21531     Hampshire
+CON  54029      2003               28532     Hancock
+CON  54031      2003               10746     Hardy
+CON  54033      2003               79169     Harrison
+CON  54035      2003                7632     Jackson
+CON  54037      2003              201839     Jefferson
+CON  54039      2003              123542     Kanawha
+CON  54041      2003                9292     Lewis
+CON  54043      2003                7689     Lincoln
+CON  54045      2003               30777     Logan
+CON  54047      2003                6470     McDowell
+CON  54049      2003               47532     Marion
+CON  54051      2003                6247     Marshall
+CON  54053      2003               35080     Mason
+CON  54055      2003               17692     Mercer
+CON  54057      2003               36528     Mineral
+CON  54059      2003                9145     Mingo
+CON  54061      2003               99033     Monongalia
+CON  54063      2003                5419     Monroe
+CON  54065      2003               30862     Morgan
+CON  54067      2003               41246     Nicholas
+CON  54069      2003               38006     Ohio
+CON  54071      2003                5447     Pendleton
+CON  54073      2003                 973     Pleasants
+CON  54075      2003               15470     Pocahontas
+CON  54077      2003                8164     Preston
+CON  54079      2003               68084     Putnam
+CON  54081      2003               81613     Raleigh
+CON  54083      2003               18731     Randolph
+CON  54085      2003                3555     Ritchie
+CON  54087      2003                4228     Roane
+CON  54089      2003                4703     Summers
+CON  54091      2003               15226     Taylor
+CON  54093      2003               15393     Tucker
+CON  54095      2003                2525     Tyler
+CON  54097      2003               13347     Upshur
+CON  54099      2003               19016     Wayne
+CON  54101      2003                8735     Webster
+CON  54103      2003                5653     Wetzel
+CON  54105      2003                1621     Wirt
+CON  54107      2003               86622     Wood
+CON  54109      2003                3903     Wyoming
+/END/

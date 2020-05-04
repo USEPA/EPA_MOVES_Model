@@ -1,0 +1,94 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent AIRCRAFT NOx TONS
+from Draft 2002 NEI
+
+9/1/05 epa: Modifies to treat PR & VI as additional to US Total.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+AIR  01000      2002             378.981     AL
+AIR  01001      2002               0.060     Autauga
+AIR  01003      2002               0.460     Baldwin
+AIR  01005      2002               0.560     Barbour
+AIR  01007      2002               0.000     Bibb
+AIR  01009      2002               0.000     Blount
+AIR  01011      2002               0.000     Bullock
+AIR  01013      2002               0.030     Butler
+AIR  01015      2002               1.110     Calhoun
+AIR  01017      2002               0.020     Chambers
+AIR  01019      2002               0.050     Cherokee
+AIR  01021      2002               0.190     Chilton
+AIR  01023      2002               0.010     Choctaw
+AIR  01025      2002               0.000     Clarke
+AIR  01027      2002               0.000     Clay
+AIR  01029      2002               0.000     Cleburne
+AIR  01031      2002               1.180     Coffee
+AIR  01033      2002               5.409     Colbert
+AIR  01035      2002               0.000     Conecuh
+AIR  01037      2002               0.000     Coosa
+AIR  01039      2002               2.300     Covington
+AIR  01041      2002               0.000     Crenshaw
+AIR  01043      2002               0.000     Cullman
+AIR  01045      2002               0.460     Dale
+AIR  01047      2002               0.449     Dallas
+AIR  01049      2002               0.080     DeKalb
+AIR  01051      2002               0.000     Elmore
+AIR  01053      2002               6.630     Escambia
+AIR  01055      2002               0.200     Etowah
+AIR  01057      2002               0.110     Fayette
+AIR  01059      2002               0.000     Franklin
+AIR  01061      2002               0.000     Geneva
+AIR  01063      2002               0.000     Greene
+AIR  01065      2002               0.000     Hale
+AIR  01067      2002               0.000     Henry
+AIR  01069      2002               8.090     Houston
+AIR  01071      2002               0.000     Jackson
+AIR  01073      2002             153.520     Jefferson
+AIR  01075      2002               0.000     Lamar
+AIR  01077      2002               0.000     Lauderdale
+AIR  01079      2002               0.120     Lawrence
+AIR  01081      2002               0.380     Lee
+AIR  01083      2002               1.580     Limestone
+AIR  01085      2002               0.000     Lowndes
+AIR  01087      2002               0.130     Macon
+AIR  01089      2002              82.480     Madison
+AIR  01091      2002               0.033     Marengo
+AIR  01093      2002               0.150     Marion
+AIR  01095      2002               0.170     Marshall
+AIR  01097      2002              65.860     Mobile
+AIR  01099      2002               0.150     Monroe
+AIR  01101      2002              42.160     Montgomery
+AIR  01103      2002               0.090     Morgan
+AIR  01105      2002               0.000     Perry
+AIR  01107      2002               0.000     Pickens
+AIR  01109      2002               1.490     Pike
+AIR  01111      2002               0.000     Randolph
+AIR  01113      2002               0.000     Russell
+AIR  01115      2002               0.280     St. Clair
+AIR  01117      2002               0.000     Shelby
+AIR  01119      2002               0.000     Sumter
+AIR  01121      2002               0.825     Talladega
+AIR  01123      2002               0.350     Tallapoosa
+AIR  01125      2002               1.540     Tuscaloosa
+AIR  01127      2002               0.204     Walker
+AIR  01129      2002               0.000     Washington
+AIR  01131      2002               0.000     Wilcox
+AIR  01133      2002               0.070     Winston
+/END/

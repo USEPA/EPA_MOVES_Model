@@ -1,0 +1,130 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent SINGLE AND DOUBLE (DUPLEX) FAMILY HOMES
+
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+HOU  20000      2002             1159501     KS
+HOU  20001      2002                6463     Allen
+HOU  20003      2002                3620     Anderson
+HOU  20005      2002                6842     Atchison
+HOU  20007      2002                2736     Barber
+HOU  20009      2002               12931     Barton
+HOU  20011      2002                7194     Bourbon
+HOU  20013      2002                4861     Brown
+HOU  20015      2002               24132     Butler
+HOU  20017      2002                1531     Chase
+HOU  20019      2002                2197     Chautauqua
+HOU  20021      2002               10166     Cherokee
+HOU  20023      2002                1632     Cheyenne
+HOU  20025      2002                1122     Clark
+HOU  20027      2002                4094     Clay
+HOU  20029      2002                4823     Cloud
+HOU  20031      2002                3959     Coffey
+HOU  20033      2002                1079     Comanche
+HOU  20035      2002               15954     Cowley
+HOU  20037      2002               17515     Crawford
+HOU  20039      2002                1819     Decatur
+HOU  20041      2002                8748     Dickinson
+HOU  20043      2002                3519     Doniphan
+HOU  20045      2002               42167     Douglas
+HOU  20047      2002                1754     Edwards
+HOU  20049      2002                1882     Elk
+HOU  20051      2002               12160     Ellis
+HOU  20053      2002                3261     Ellsworth
+HOU  20055      2002               13956     Finney
+HOU  20057      2002               11837     Ford
+HOU  20059      2002               10546     Franklin
+HOU  20061      2002               12089     Geary
+HOU  20063      2002                1434     Gove
+HOU  20065      2002                1556     Graham
+HOU  20067      2002                3084     Grant
+HOU  20069      2002                2230     Gray
+HOU  20071      2002                 717     Greeley
+HOU  20073      2002                4293     Greenwood
+HOU  20075      2002                1223     Hamilton
+HOU  20077      2002                3257     Harper
+HOU  20079      2002               13678     Harvey
+HOU  20081      2002                1670     Haskell
+HOU  20083      2002                 955     Hodgeman
+HOU  20085      2002                5199     Jackson
+HOU  20087      2002                7727     Jefferson
+HOU  20089      2002                2101     Jewell
+HOU  20091      2002              194669     Johnson
+HOU  20093      2002                1704     Kearny
+HOU  20095      2002                3882     Kingman
+HOU  20097      2002                1646     Kiowa
+HOU  20099      2002               10348     Labette
+HOU  20101      2002                1062     Lane
+HOU  20103      2002               25280     Leavenworth
+HOU  20105      2002                1848     Lincoln
+HOU  20107      2002                4808     Linn
+HOU  20109      2002                1424     Logan
+HOU  20111      2002               14818     Lyon
+HOU  20113      2002               12093     McPherson
+HOU  20115      2002                5967     Marion
+HOU  20117      2002                4999     Marshall
+HOU  20119      2002                1975     Meade
+HOU  20121      2002               11327     Miami
+HOU  20123      2002                3327     Mitchell
+HOU  20125      2002               17208     Montgomery
+HOU  20127      2002                3187     Morris
+HOU  20129      2002                1533     Morton
+HOU  20131      2002                4376     Nemaha
+HOU  20133      2002                7488     Neosho
+HOU  20135      2002                1837     Ness
+HOU  20137      2002                2670     Norton
+HOU  20139      2002                7167     Osage
+HOU  20141      2002                2413     Osborne
+HOU  20143      2002                2759     Ottawa
+HOU  20145      2002                3124     Pawnee
+HOU  20147      2002                3090     Phillips
+HOU  20149      2002                7544     Pottawatomie
+HOU  20151      2002                4687     Pratt
+HOU  20153      2002                1565     Rawlins
+HOU  20155      2002               27786     Reno
+HOU  20157      2002                3115     Republic
+HOU  20159      2002                4604     Rice
+HOU  20161      2002               23764     Riley
+HOU  20163      2002                2751     Rooks
+HOU  20165      2002                1931     Rush
+HOU  20167      2002                3850     Russell
+HOU  20169      2002               22981     Saline
+HOU  20171      2002                2318     Scott
+HOU  20173      2002              195490     Sedgwick
+HOU  20175      2002                8108     Seward
+HOU  20177      2002               74988     Shawnee
+HOU  20179      2002                1280     Sheridan
+HOU  20181      2002                3220     Sherman
+HOU  20183      2002                2332     Smith
+HOU  20185      2002                2452     Stafford
+HOU  20187      2002                1023     Stanton
+HOU  20189      2002                2297     Stevens
+HOU  20191      2002               11010     Sumner
+HOU  20193      2002                3576     Thomas
+HOU  20195      2002                1710     Trego
+HOU  20197      2002                3081     Wabaunsee
+HOU  20199      2002                 797     Wallace
+HOU  20201      2002                3150     Washington
+HOU  20203      2002                1129     Wichita
+HOU  20205      2002                4967     Wilson
+HOU  20207      2002                2080     Woodson
+HOU  20209      2002               66173     Wyandotte
+/END/

@@ -1,0 +1,64 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent SINGLE AND DOUBLE (DUPLEX) FAMILY HOMES
+
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+HOU  53000      2002             2530215     WA
+HOU  53001      2002                5830     Adams
+HOU  53003      2002                9205     Asotin
+HOU  53005      2002               58018     Benton
+HOU  53007      2002               30823     Chelan
+HOU  53009      2002               31442     Clallam
+HOU  53011      2002              141567     Clark
+HOU  53013      2002                2051     Columbia
+HOU  53015      2002               39580     Cowlitz
+HOU  53017      2002               13297     Douglas
+HOU  53019      2002                3852     Ferry
+HOU  53021      2002               16893     Franklin
+HOU  53023      2002                1276     Garfield
+HOU  53025      2002               29638     Grant
+HOU  53027      2002               32786     Grays Harbor
+HOU  53029      2002               33562     Island
+HOU  53031      2002               14645     Jefferson
+HOU  53033      2002              763701     King
+HOU  53035      2002               94940     Kitsap
+HOU  53037      2002               17066     Kittitas
+HOU  53039      2002                8817     Klickitat
+HOU  53041      2002               29896     Lewis
+HOU  53043      2002                5325     Lincoln
+HOU  53045      2002               26303     Mason
+HOU  53047      2002               19468     Okanogan
+HOU  53049      2002               14037     Pacific
+HOU  53051      2002                6727     Pend Oreille
+HOU  53053      2002              287687     Pierce
+HOU  53055      2002               10339     San Juan
+HOU  53057      2002               44076     Skagit
+HOU  53059      2002                4642     Skamania
+HOU  53061      2002              248718     Snohomish
+HOU  53063      2002              179105     Spokane
+HOU  53065      2002               17854     Stevens
+HOU  53067      2002               89632     Thurston
+HOU  53069      2002                1810     Wahkiakum
+HOU  53071      2002               21464     Walla Walla
+HOU  53073      2002               77000     Whatcom
+HOU  53075      2002               16999     Whitman
+HOU  53077      2002               80144     Yakima
+/END/

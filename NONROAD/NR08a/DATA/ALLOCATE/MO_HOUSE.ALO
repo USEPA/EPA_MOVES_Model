@@ -1,0 +1,140 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent SINGLE AND DOUBLE (DUPLEX) FAMILY HOMES
+
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+HOU  29000      2002             2503323     MO
+HOU  29001      2002               11060     Adair
+HOU  29003      2002                6802     Andrew
+HOU  29005      2002                3114     Atchison
+HOU  29007      2002               10990     Audrain
+HOU  29009      2002               16425     Barry
+HOU  29011      2002                5496     Barton
+HOU  29013      2002                7374     Bates
+HOU  29015      2002               12927     Benton
+HOU  29017      2002                5650     Bollinger
+HOU  29019      2002               59471     Boone
+HOU  29021      2002               36836     Buchanan
+HOU  29023      2002               19032     Butler
+HOU  29025      2002                4555     Caldwell
+HOU  29027      2002               16706     Callaway
+HOU  29029      2002               34076     Camden
+HOU  29031      2002               30198     Cape Girardeau
+HOU  29033      2002                4933     Carroll
+HOU  29035      2002                3106     Carter
+HOU  29037      2002               33720     Cass
+HOU  29039      2002                6943     Cedar
+HOU  29041      2002                4302     Chariton
+HOU  29043      2002               23386     Christian
+HOU  29045      2002                3539     Clark
+HOU  29047      2002               78728     Clay
+HOU  29049      2002                8203     Clinton
+HOU  29051      2002               30175     Cole
+HOU  29053      2002                6846     Cooper
+HOU  29055      2002               11094     Crawford
+HOU  29057      2002                3810     Dade
+HOU  29059      2002                7100     Dallas
+HOU  29061      2002                3911     Daviess
+HOU  29063      2002                3930     DeKalb
+HOU  29065      2002                7131     Dent
+HOU  29067      2002                6055     Douglas
+HOU  29069      2002               14980     Dunklin
+HOU  29071      2002               39689     Franklin
+HOU  29073      2002                7955     Gasconade
+HOU  29075      2002                3240     Gentry
+HOU  29077      2002              108416     Greene
+HOU  29079      2002                5153     Grundy
+HOU  29081      2002                4366     Harrison
+HOU  29083      2002               10460     Henry
+HOU  29085      2002                6380     Hickory
+HOU  29087      2002                2952     Holt
+HOU  29089      2002                4412     Howard
+HOU  29091      2002               16746     Howell
+HOU  29093      2002                5004     Iron
+HOU  29095      2002              295560     Jackson
+HOU  29097      2002               46538     Jasper
+HOU  29099      2002               78978     Jefferson
+HOU  29101      2002               19387     Johnson
+HOU  29103      2002                2341     Knox
+HOU  29105      2002               14822     Laclede
+HOU  29107      2002               13833     Lafayette
+HOU  29109      2002               15062     Lawrence
+HOU  29111      2002                4692     Lewis
+HOU  29113      2002               16105     Lincoln
+HOU  29115      2002                6590     Linn
+HOU  29117      2002                6548     Livingston
+HOU  29119      2002                9535     McDonald
+HOU  29121      2002                7587     Macon
+HOU  29123      2002                5752     Madison
+HOU  29125      2002                4247     Maries
+HOU  29127      2002               12571     Marion
+HOU  29129      2002                2159     Mercer
+HOU  29131      2002               11606     Miller
+HOU  29133      2002                5924     Mississippi
+HOU  29135      2002                5842     Moniteau
+HOU  29137      2002                4659     Monroe
+HOU  29139      2002                5862     Montgomery
+HOU  29141      2002               14169     Morgan
+HOU  29143      2002                8766     New Madrid
+HOU  29145      2002               22499     Newton
+HOU  29147      2002                9100     Nodaway
+HOU  29149      2002                5097     Oregon
+HOU  29151      2002                5999     Osage
+HOU  29153      2002                5248     Ozark
+HOU  29155      2002                8927     Pemiscot
+HOU  29157      2002                7941     Perry
+HOU  29159      2002               17107     Pettis
+HOU  29161      2002               18211     Phelps
+HOU  29163      2002                7591     Pike
+HOU  29165      2002               32661     Platte
+HOU  29167      2002               11544     Polk
+HOU  29169      2002               15749     Pulaski
+HOU  29171      2002                2955     Putnam
+HOU  29173      2002                4655     Ralls
+HOU  29175      2002               10871     Randolph
+HOU  29177      2002                9584     Ray
+HOU  29179      2002                3844     Reynolds
+HOU  29181      2002                6553     Ripley
+HOU  29183      2002              114238     St. Charles
+HOU  29185      2002                5334     St. Clair
+HOU  29186      2002                8163     Ste. Genevieve
+HOU  29187      2002               24983     St. Francois
+HOU  29189      2002              428355     St. Louis
+HOU  29195      2002               10162     Saline
+HOU  29197      2002                2077     Schuyler
+HOU  29199      2002                2313     Scotland
+HOU  29201      2002               17293     Scott
+HOU  29203      2002                3950     Shannon
+HOU  29205      2002                3279     Shelby
+HOU  29207      2002               13494     Stoddard
+HOU  29209      2002               16637     Stone
+HOU  29211      2002                3417     Sullivan
+HOU  29213      2002               20832     Taney
+HOU  29215      2002               11025     Texas
+HOU  29217      2002                8998     Vernon
+HOU  29219      2002               11808     Warren
+HOU  29221      2002               10197     Washington
+HOU  29223      2002                7715     Wayne
+HOU  29225      2002               12458     Webster
+HOU  29227      2002                1249     Worth
+HOU  29229      2002                8057     Wright
+HOU  29510      2002              174641     St. Louis
+/END/

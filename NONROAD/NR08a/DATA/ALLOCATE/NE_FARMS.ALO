@@ -1,0 +1,118 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent HARVESTED CROPLAND
+2002 USDA Census of Agriculture
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+FRM  31000      2002            17336624     NE
+FRM  31001      2002              259957     Adams
+FRM  31003      2002              334299     Antelope
+FRM  31005      2002               24000     Arthur
+FRM  31007      2002               74733     Banner
+FRM  31009      2002               29017     Blaine
+FRM  31011      2002              270214     Boone
+FRM  31013      2002              221164     Box Butte
+FRM  31015      2002               83335     Boyd
+FRM  31017      2002              103352     Brown
+FRM  31019      2002              290716     Buffalo
+FRM  31021      2002              256778     Burt
+FRM  31023      2002              280867     Butler
+FRM  31025      2002              256427     Cass
+FRM  31027      2002              323332     Cedar
+FRM  31029      2002              212440     Chase
+FRM  31031      2002              334745     Cherry
+FRM  31033      2002              314456     Cheyenne
+FRM  31035      2002              282152     Clay
+FRM  31037      2002              198445     Colfax
+FRM  31039      2002              302800     Cuming
+FRM  31041      2002              307486     Custer
+FRM  31043      2002              110948     Dakota
+FRM  31045      2002               76007     Dawes
+FRM  31047      2002              275097     Dawson
+FRM  31049      2002              132864     Deuel
+FRM  31051      2002              164542     Dixon
+FRM  31053      2002              294464     Dodge
+FRM  31055      2002               76336     Douglas
+FRM  31057      2002              128643     Dundy
+FRM  31059      2002              310516     Fillmore
+FRM  31061      2002              143852     Franklin
+FRM  31063      2002              128734     Frontier
+FRM  31065      2002              176228     Furnas
+FRM  31067      2002              363830     Gage
+FRM  31069      2002              110934     Garden
+FRM  31071      2002               49914     Garfield
+FRM  31073      2002              114123     Gosper
+FRM  31075      2002               36351     Grant
+FRM  31077      2002               96731     Greeley
+FRM  31079      2002              214439     Hall
+FRM  31081      2002              302707     Hamilton
+FRM  31083      2002              134007     Harlan
+FRM  31085      2002               96786     Hayes
+FRM  31087      2002              125205     Hitchcock
+FRM  31089      2002              483938     Holt
+FRM  31091      2002               14210     Hooker
+FRM  31093      2002              138884     Howard
+FRM  31095      2002              231392     Jefferson
+FRM  31097      2002               90457     Johnson
+FRM  31099      2002              263304     Kearney
+FRM  31101      2002              165774     Keith
+FRM  31103      2002               77871     Keya Paha
+FRM  31105      2002              144463     Kimball
+FRM  31107      2002              262274     Knox
+FRM  31109      2002              314148     Lancaster
+FRM  31111      2002              289405     Lincoln
+FRM  31113      2002               40695     Logan
+FRM  31115      2002               28773     Loup
+FRM  31117      2002               24550     McPherson
+FRM  31119      2002              249923     Madison
+FRM  31121      2002              200573     Merrick
+FRM  31123      2002              150223     Morrill
+FRM  31125      2002              111329     Nance
+FRM  31127      2002              180164     Nemaha
+FRM  31129      2002              204866     Nuckolls
+FRM  31131      2002              233223     Otoe
+FRM  31133      2002              110159     Pawnee
+FRM  31135      2002              265997     Perkins
+FRM  31137      2002              274191     Phelps
+FRM  31139      2002              246318     Pierce
+FRM  31141      2002              334622     Platte
+FRM  31143      2002              209238     Polk
+FRM  31145      2002              138404     Red Willow
+FRM  31147      2002              196279     Richardson
+FRM  31149      2002              118717     Rock
+FRM  31151      2002              253769     Saline
+FRM  31153      2002               85788     Sarpy
+FRM  31155      2002              372650     Saunders
+FRM  31157      2002              174454     Scotts Bluff
+FRM  31159      2002              277726     Seward
+FRM  31161      2002              162103     Sheridan
+FRM  31163      2002               98478     Sherman
+FRM  31165      2002               59368     Sioux
+FRM  31167      2002              150236     Stanton
+FRM  31169      2002              265719     Thayer
+FRM  31171      2002                9388     Thomas
+FRM  31173      2002              167507     Thurston
+FRM  31175      2002              107960     Valley
+FRM  31177      2002              194705     Washington
+FRM  31179      2002              216373     Wayne
+FRM  31181      2002              131970     Webster
+FRM  31183      2002               82508     Wheeler
+FRM  31185      2002              307585     York
+/END/

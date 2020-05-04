@@ -1,0 +1,132 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent LOCOMOTIVE NOx TONS
+from Draft 2002 NEI
+
+9/1/05 epa: Modifies to treat PR & VI as additional to US Total.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+RR   20000      2002           31033.760     KS
+RR   20001      2002             819.760     Allen
+RR   20003      2002            1070.970     Anderson
+RR   20005      2002              80.410     Atchison
+RR   20007      2002             241.150     Barber
+RR   20009      2002               0.000     Barton
+RR   20011      2002             407.660     Bourbon
+RR   20013      2002             128.470     Brown
+RR   20015      2002            1687.840     Butler
+RR   20017      2002             939.400     Chase
+RR   20019      2002               0.000     Chautauqua
+RR   20021      2002             117.650     Cherokee
+RR   20023      2002               0.000     Cheyenne
+RR   20025      2002             234.610     Clark
+RR   20027      2002              13.250     Clay
+RR   20029      2002              19.810     Cloud
+RR   20031      2002             560.270     Coffey
+RR   20033      2002               0.000     Comanche
+RR   20035      2002             424.680     Cowley
+RR   20037      2002             277.250     Crawford
+RR   20039      2002               0.000     Decatur
+RR   20041      2002             521.740     Dickinson
+RR   20043      2002              12.620     Doniphan
+RR   20045      2002             670.570     Douglas
+RR   20047      2002             155.990     Edwards
+RR   20049      2002               0.000     Elk
+RR   20051      2002              83.990     Ellis
+RR   20053      2002             166.110     Ellsworth
+RR   20055      2002             171.730     Finney
+RR   20057      2002             278.120     Ford
+RR   20059      2002             685.200     Franklin
+RR   20061      2002             261.810     Geary
+RR   20063      2002             124.880     Gove
+RR   20065      2002               0.000     Graham
+RR   20067      2002               0.000     Grant
+RR   20069      2002              58.810     Gray
+RR   20071      2002               0.000     Greeley
+RR   20073      2002               0.000     Greenwood
+RR   20075      2002             170.140     Hamilton
+RR   20077      2002             518.430     Harper
+RR   20079      2002             250.260     Harvey
+RR   20081      2002               0.000     Haskell
+RR   20083      2002               0.000     Hodgeman
+RR   20085      2002             421.020     Jackson
+RR   20087      2002             367.460     Jefferson
+RR   20089      2002               6.310     Jewell
+RR   20091      2002            1953.870     Johnson
+RR   20093      2002             139.580     Kearny
+RR   20095      2002               0.000     Kingman
+RR   20097      2002             199.260     Kiowa
+RR   20099      2002             452.370     Labette
+RR   20101      2002               0.000     Lane
+RR   20103      2002             500.840     Leavenworth
+RR   20105      2002               0.000     Lincoln
+RR   20107      2002            1193.810     Linn
+RR   20109      2002             179.910     Logan
+RR   20111      2002             627.290     Lyon
+RR   20113      2002             246.720     McPherson
+RR   20115      2002             280.540     Marion
+RR   20117      2002             792.420     Marshall
+RR   20119      2002             245.310     Meade
+RR   20121      2002            2859.140     Miami
+RR   20123      2002               0.000     Mitchell
+RR   20125      2002             144.420     Montgomery
+RR   20127      2002             186.410     Morris
+RR   20129      2002               0.000     Morton
+RR   20131      2002              21.200     Nemaha
+RR   20133      2002            1000.940     Neosho
+RR   20135      2002               0.000     Ness
+RR   20137      2002               0.000     Norton
+RR   20139      2002             736.290     Osage
+RR   20141      2002               0.000     Osborne
+RR   20143      2002              13.250     Ottawa
+RR   20145      2002               0.000     Pawnee
+RR   20147      2002               0.000     Phillips
+RR   20149      2002             848.100     Pottawatomie
+RR   20151      2002             204.550     Pratt
+RR   20153      2002               0.000     Rawlins
+RR   20155      2002             378.600     Reno
+RR   20157      2002              17.910     Republic
+RR   20159      2002               0.000     Rice
+RR   20161      2002             120.890     Riley
+RR   20163      2002               0.000     Rooks
+RR   20165      2002               0.000     Rush
+RR   20167      2002             178.030     Russell
+RR   20169      2002             123.030     Saline
+RR   20171      2002               0.000     Scott
+RR   20173      2002             588.280     Sedgwick
+RR   20175      2002             116.360     Seward
+RR   20177      2002            1152.030     Shawnee
+RR   20179      2002               0.000     Sheridan
+RR   20181      2002               0.000     Sherman
+RR   20183      2002               0.000     Smith
+RR   20185      2002             176.040     Stafford
+RR   20187      2002               0.000     Stanton
+RR   20189      2002               0.000     Stevens
+RR   20191      2002             980.900     Sumner
+RR   20193      2002               7.680     Thomas
+RR   20195      2002             141.310     Trego
+RR   20197      2002             317.710     Wabaunsee
+RR   20199      2002             171.160     Wallace
+RR   20201      2002             298.230     Washington
+RR   20203      2002               0.000     Wichita
+RR   20205      2002             197.210     Wilson
+RR   20207      2002             233.350     Woodson
+RR   20209      2002            1060.450     Wyandotte
+/END/

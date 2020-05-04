@@ -1,0 +1,108 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent UNDERGROUND COAL PRODUCTION TONS
+DOE/EIA 2002 Annual Coal Report
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+MIN  26000      2002                   0     MI
+MIN  26001      2002                   0     Alcona
+MIN  26003      2002                   0     Alger
+MIN  26005      2002                   0     Allegan
+MIN  26007      2002                   0     Alpena
+MIN  26009      2002                   0     Antrim
+MIN  26011      2002                   0     Arenac
+MIN  26013      2002                   0     Baraga
+MIN  26015      2002                   0     Barry
+MIN  26017      2002                   0     Bay
+MIN  26019      2002                   0     Benzie
+MIN  26021      2002                   0     Berrien
+MIN  26023      2002                   0     Branch
+MIN  26025      2002                   0     Calhoun
+MIN  26027      2002                   0     Cass
+MIN  26029      2002                   0     Charlevoix
+MIN  26031      2002                   0     Cheboygan
+MIN  26033      2002                   0     Chippewa
+MIN  26035      2002                   0     Clare
+MIN  26037      2002                   0     Clinton
+MIN  26039      2002                   0     Crawford
+MIN  26041      2002                   0     Delta
+MIN  26043      2002                   0     Dickinson
+MIN  26045      2002                   0     Eaton
+MIN  26047      2002                   0     Emmet
+MIN  26049      2002                   0     Genesee
+MIN  26051      2002                   0     Gladwin
+MIN  26053      2002                   0     Gogebic
+MIN  26055      2002                   0     Grand Traverse
+MIN  26057      2002                   0     Gratiot
+MIN  26059      2002                   0     Hillsdale
+MIN  26061      2002                   0     Houghton
+MIN  26063      2002                   0     Huron
+MIN  26065      2002                   0     Ingham
+MIN  26067      2002                   0     Ionia
+MIN  26069      2002                   0     Iosco
+MIN  26071      2002                   0     Iron
+MIN  26073      2002                   0     Isabella
+MIN  26075      2002                   0     Jackson
+MIN  26077      2002                   0     Kalamazoo
+MIN  26079      2002                   0     Kalkaska
+MIN  26081      2002                   0     Kent
+MIN  26083      2002                   0     Keweenaw
+MIN  26085      2002                   0     Lake
+MIN  26087      2002                   0     Lapeer
+MIN  26089      2002                   0     Leelanau
+MIN  26091      2002                   0     Lenawee
+MIN  26093      2002                   0     Livingston
+MIN  26095      2002                   0     Luce
+MIN  26097      2002                   0     Mackinac
+MIN  26099      2002                   0     Macomb
+MIN  26101      2002                   0     Manistee
+MIN  26103      2002                   0     Marquette
+MIN  26105      2002                   0     Mason
+MIN  26107      2002                   0     Mecosta
+MIN  26109      2002                   0     Menominee
+MIN  26111      2002                   0     Midland
+MIN  26113      2002                   0     Missaukee
+MIN  26115      2002                   0     Monroe
+MIN  26117      2002                   0     Montcalm
+MIN  26119      2002                   0     Montmorency
+MIN  26121      2002                   0     Muskegon
+MIN  26123      2002                   0     Newaygo
+MIN  26125      2002                   0     Oakland
+MIN  26127      2002                   0     Oceana
+MIN  26129      2002                   0     Ogemaw
+MIN  26131      2002                   0     Ontonagon
+MIN  26133      2002                   0     Osceola
+MIN  26135      2002                   0     Oscoda
+MIN  26137      2002                   0     Otsego
+MIN  26139      2002                   0     Ottawa
+MIN  26141      2002                   0     Presque Isle
+MIN  26143      2002                   0     Roscommon
+MIN  26145      2002                   0     Saginaw
+MIN  26147      2002                   0     St. Clair
+MIN  26149      2002                   0     St. Joseph
+MIN  26151      2002                   0     Sanilac
+MIN  26153      2002                   0     Schoolcraft
+MIN  26155      2002                   0     Shiawassee
+MIN  26157      2002                   0     Tuscola
+MIN  26159      2002                   0     Van Buren
+MIN  26161      2002                   0     Washtenaw
+MIN  26163      2002                   0     Wayne
+MIN  26165      2002                   0     Wexford
+/END/

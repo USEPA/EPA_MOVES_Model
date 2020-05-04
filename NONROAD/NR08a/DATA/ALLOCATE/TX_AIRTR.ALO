@@ -1,0 +1,281 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent AIRCRAFT NOx TONS
+from Draft 2002 NEI
+
+9/1/05 epa: Modifies to treat PR & VI as additional to US Total.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+AIR  48000      2002            7646.956     TX
+AIR  48001      2002               0.026     Anderson
+AIR  48003      2002               0.010     Andrews
+AIR  48005      2002               0.120     Angelina
+AIR  48007      2002               1.698     Aransas
+AIR  48009      2002               0.000     Archer
+AIR  48011      2002               0.000     Armstrong
+AIR  48013      2002               0.057     Atascosa
+AIR  48015      2002               0.000     Austin
+AIR  48017      2002               0.000     Bailey
+AIR  48019      2002               0.000     Bandera
+AIR  48021      2002               0.000     Bastrop
+AIR  48023      2002               0.000     Baylor
+AIR  48025      2002               0.010     Bee
+AIR  48027      2002               1.220     Bell
+AIR  48029      2002             419.050     Bexar
+AIR  48031      2002               0.000     Blanco
+AIR  48033      2002               0.000     Borden
+AIR  48035      2002               0.000     Bosque
+AIR  48037      2002               0.000     Bowie
+AIR  48039      2002               0.190     Brazoria
+AIR  48041      2002               2.060     Brazos
+AIR  48043      2002               0.032     Brewster
+AIR  48045      2002               0.000     Briscoe
+AIR  48047      2002               0.030     Brooks
+AIR  48049      2002               5.870     Brown
+AIR  48051      2002               0.000     Burleson
+AIR  48053      2002               0.000     Burnet
+AIR  48055      2002               0.039     Caldwell
+AIR  48057      2002               0.070     Calhoun
+AIR  48059      2002               0.000     Callahan
+AIR  48061      2002              69.050     Cameron
+AIR  48063      2002               0.000     Camp
+AIR  48065      2002               0.000     Carson
+AIR  48067      2002               0.024     Cass
+AIR  48069      2002               0.000     Castro
+AIR  48071      2002               0.010     Chambers
+AIR  48073      2002               0.032     Cherokee
+AIR  48075      2002               0.000     Childress
+AIR  48077      2002               0.000     Clay
+AIR  48079      2002               0.000     Cochran
+AIR  48081      2002               0.000     Coke
+AIR  48083      2002               0.020     Coleman
+AIR  48085      2002               0.321     Collin
+AIR  48087      2002               0.000     Collingsworth
+AIR  48089      2002               0.010     Colorado
+AIR  48091      2002               0.000     Comal
+AIR  48093      2002               0.000     Comanche
+AIR  48095      2002               0.000     Concho
+AIR  48097      2002               0.044     Cooke
+AIR  48099      2002               0.000     Coryell
+AIR  48101      2002               0.000     Cottle
+AIR  48103      2002               0.000     Crane
+AIR  48105      2002               0.000     Crockett
+AIR  48107      2002               0.000     Crosby
+AIR  48109      2002               0.022     Culberson
+AIR  48111      2002               0.000     Dallam
+AIR  48113      2002             498.110     Dallas
+AIR  48115      2002               0.040     Dawson
+AIR  48117      2002               0.021     Deaf Smith
+AIR  48119      2002               0.000     Delta
+AIR  48121      2002               0.544     Denton
+AIR  48123      2002               0.000     DeWitt
+AIR  48125      2002               0.000     Dickens
+AIR  48127      2002               0.020     Dimmit
+AIR  48129      2002               0.007     Donley
+AIR  48131      2002               0.000     Duval
+AIR  48133      2002               0.020     Eastland
+AIR  48135      2002               0.000     Ector
+AIR  48137      2002               0.000     Edwards
+AIR  48139      2002               0.036     Ellis
+AIR  48141      2002             273.540     El Paso
+AIR  48143      2002               0.020     Erath
+AIR  48145      2002               0.000     Falls
+AIR  48147      2002               0.010     Fannin
+AIR  48149      2002               0.010     Fayette
+AIR  48151      2002               0.000     Fisher
+AIR  48153      2002               0.000     Floyd
+AIR  48155      2002               0.000     Foard
+AIR  48157      2002               0.660     Fort Bend
+AIR  48159      2002               0.000     Franklin
+AIR  48161      2002               0.000     Freestone
+AIR  48163      2002               0.000     Frio
+AIR  48165      2002               0.045     Gaines
+AIR  48167      2002               1.580     Galveston
+AIR  48169      2002               0.000     Garza
+AIR  48171      2002               0.035     Gillespie
+AIR  48173      2002               0.000     Glasscock
+AIR  48175      2002               0.000     Goliad
+AIR  48177      2002               0.000     Gonzales
+AIR  48179      2002               0.030     Gray
+AIR  48181      2002               0.130     Grayson
+AIR  48183      2002               0.780     Gregg
+AIR  48185      2002               0.000     Grimes
+AIR  48187      2002               0.000     Guadalupe
+AIR  48189      2002               0.192     Hale
+AIR  48191      2002               0.000     Hall
+AIR  48193      2002               0.012     Hamilton
+AIR  48195      2002               0.020     Hansford
+AIR  48197      2002               0.000     Hardeman
+AIR  48199      2002               0.010     Hardin
+AIR  48201      2002            2285.180     Harris
+AIR  48203      2002               0.030     Harrison
+AIR  48205      2002               0.062     Hartley
+AIR  48207      2002               0.020     Haskell
+AIR  48209      2002               0.000     Hays
+AIR  48211      2002               0.014     Hemphill
+AIR  48213      2002               0.010     Henderson
+AIR  48215      2002              34.610     Hidalgo
+AIR  48217      2002               0.000     Hill
+AIR  48219      2002               0.051     Hockley
+AIR  48221      2002               0.030     Hood
+AIR  48223      2002               0.031     Hopkins
+AIR  48225      2002               0.000     Houston
+AIR  48227      2002               0.000     Howard
+AIR  48229      2002               0.000     Hudspeth
+AIR  48231      2002               0.190     Hunt
+AIR  48233      2002               0.026     Hutchinson
+AIR  48235      2002               0.000     Irion
+AIR  48237      2002               0.000     Jack
+AIR  48239      2002               0.035     Jackson
+AIR  48241      2002               0.020     Jasper
+AIR  48243      2002               0.000     Jeff Davis
+AIR  48245      2002               1.050     Jefferson
+AIR  48247      2002               0.000     Jim Hogg
+AIR  48249      2002               0.170     Jim Wells
+AIR  48251      2002               0.085     Johnson
+AIR  48253      2002               0.040     Jones
+AIR  48255      2002               0.050     Karnes
+AIR  48257      2002               0.072     Kaufman
+AIR  48259      2002               0.000     Kendall
+AIR  48261      2002               0.000     Kenedy
+AIR  48263      2002               0.000     Kent
+AIR  48265      2002               0.168     Kerr
+AIR  48267      2002               0.024     Kimble
+AIR  48269      2002               0.000     King
+AIR  48271      2002               0.000     Kinney
+AIR  48273      2002               0.040     Kleberg
+AIR  48275      2002               0.000     Knox
+AIR  48277      2002               0.079     Lamar
+AIR  48279      2002               0.014     Lamb
+AIR  48281      2002               0.012     Lampasas
+AIR  48283      2002               0.110     La Salle
+AIR  48285      2002               0.000     Lavaca
+AIR  48287      2002               0.000     Lee
+AIR  48289      2002               0.000     Leon
+AIR  48291      2002               0.050     Liberty
+AIR  48293      2002               0.000     Limestone
+AIR  48295      2002               0.000     Lipscomb
+AIR  48297      2002               0.000     Live Oak
+AIR  48299      2002               0.020     Llano
+AIR  48301      2002               0.000     Loving
+AIR  48303      2002              78.760     Lubbock
+AIR  48305      2002               0.000     Lynn
+AIR  48307      2002               0.060     McCulloch
+AIR  48309      2002               2.620     McLennan
+AIR  48311      2002               0.000     McMullen
+AIR  48313      2002               0.000     Madison
+AIR  48315      2002               0.000     Marion
+AIR  48317      2002               0.000     Martin
+AIR  48319      2002               0.000     Mason
+AIR  48321      2002               0.110     Matagorda
+AIR  48323      2002               0.000     Maverick
+AIR  48325      2002               6.400     Medina
+AIR  48327      2002               0.000     Menard
+AIR  48329      2002              55.320     Midland
+AIR  48331      2002               0.000     Milam
+AIR  48333      2002               0.000     Mills
+AIR  48335      2002               0.000     Mitchell
+AIR  48337      2002               0.013     Montague
+AIR  48339      2002               0.270     Montgomery
+AIR  48341      2002               0.015     Moore
+AIR  48343      2002               0.000     Morris
+AIR  48345      2002               0.000     Motley
+AIR  48347      2002               0.070     Nacogdoches
+AIR  48349      2002               0.020     Navarro
+AIR  48351      2002               0.000     Newton
+AIR  48353      2002               0.030     Nolan
+AIR  48355      2002              59.450     Nueces
+AIR  48357      2002               0.040     Ochiltree
+AIR  48359      2002               0.000     Oldham
+AIR  48361      2002               0.040     Orange
+AIR  48363      2002               0.070     Palo Pinto
+AIR  48365      2002               0.159     Panola
+AIR  48367      2002               0.000     Parker
+AIR  48369      2002               0.000     Parmer
+AIR  48371      2002               0.030     Pecos
+AIR  48373      2002               0.000     Polk
+AIR  48375      2002              53.570     Potter
+AIR  48377      2002               0.010     Presidio
+AIR  48379      2002               0.000     Rains
+AIR  48381      2002               0.000     Randall
+AIR  48383      2002               0.000     Reagan
+AIR  48385      2002               0.000     Real
+AIR  48387      2002               0.000     Red River
+AIR  48389      2002               0.030     Reeves
+AIR  48391      2002               0.000     Refugio
+AIR  48393      2002               0.000     Roberts
+AIR  48395      2002               0.000     Robertson
+AIR  48397      2002               0.061     Rockwall
+AIR  48399      2002               0.000     Runnels
+AIR  48401      2002               0.030     Rusk
+AIR  48403      2002               0.000     Sabine
+AIR  48405      2002               0.000     San Augustine
+AIR  48407      2002               0.000     San Jacinto
+AIR  48409      2002               0.050     San Patricio
+AIR  48411      2002               0.000     San Saba
+AIR  48413      2002               0.000     Schleicher
+AIR  48415      2002               0.020     Scurry
+AIR  48417      2002               0.000     Shackelford
+AIR  48419      2002               0.021     Shelby
+AIR  48421      2002               0.000     Sherman
+AIR  48423      2002               0.868     Smith
+AIR  48425      2002               0.000     Somervell
+AIR  48427      2002               0.000     Starr
+AIR  48429      2002               0.050     Stephens
+AIR  48431      2002               0.000     Sterling
+AIR  48433      2002               0.000     Stonewall
+AIR  48435      2002               0.000     Sutton
+AIR  48437      2002               0.000     Swisher
+AIR  48439      2002            3035.020     Tarrant
+AIR  48441      2002               2.370     Taylor
+AIR  48443      2002               0.000     Terrell
+AIR  48445      2002               0.030     Terry
+AIR  48447      2002               0.000     Throckmorton
+AIR  48449      2002               0.022     Titus
+AIR  48451      2002               0.870     Tom Green
+AIR  48453      2002             495.040     Travis
+AIR  48455      2002               0.000     Trinity
+AIR  48457      2002               0.000     Tyler
+AIR  48459      2002               0.010     Upshur
+AIR  48461      2002               0.000     Upton
+AIR  48463      2002               0.090     Uvalde
+AIR  48465      2002              13.764     Val Verde
+AIR  48467      2002               0.000     Van Zandt
+AIR  48469      2002             161.250     Victoria
+AIR  48471      2002               0.000     Walker
+AIR  48473      2002               0.000     Waller
+AIR  48475      2002               0.000     Ward
+AIR  48477      2002               0.022     Washington
+AIR  48479      2002              28.620     Webb
+AIR  48481      2002               0.024     Wharton
+AIR  48483      2002               0.000     Wheeler
+AIR  48485      2002              53.100     Wichita
+AIR  48487      2002               0.034     Wilbarger
+AIR  48489      2002               0.000     Willacy
+AIR  48491      2002               0.020     Williamson
+AIR  48493      2002               0.000     Wilson
+AIR  48495      2002               0.150     Winkler
+AIR  48497      2002               0.070     Wise
+AIR  48499      2002               0.009     Wood
+AIR  48501      2002               0.000     Yoakum
+AIR  48503      2002               0.070     Young
+AIR  48505      2002               0.000     Zapata
+AIR  48507      2002               0.000     Zavala
+/END/

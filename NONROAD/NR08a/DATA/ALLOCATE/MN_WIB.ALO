@@ -1,0 +1,112 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WATER SURFACE AREA FOR INBOARD RECREATIONAL MARINE CRAFT (sq km navigable water)
+1990 GICS (inland water area); GIS analysis of coast lengths (coastal navigable water)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+WIB  27000      1990               13224     MN
+WIB  27001      1990                 456     Aitkin
+WIB  27003      1990                  58     Anoka
+WIB  27005      1990                 349     Becker
+WIB  27007      1990                1425     Beltrami
+WIB  27009      1990                  12     Benton
+WIB  27011      1990                  80     Big Stone
+WIB  27013      1990                  35     Blue Earth
+WIB  27015      1990                  20     Brown
+WIB  27017      1990                  39     Carlton
+WIB  27019      1990                  50     Carver
+WIB  27021      1990                1027     Cass
+WIB  27023      1990                  13     Chippewa
+WIB  27025      1990                  64     Chisago
+WIB  27027      1990                  19     Clay
+WIB  27029      1990                  91     Clearwater
+WIB  27031      1990                 877     Cook
+WIB  27033      1990                  23     Cottonwood
+WIB  27035      1990                 414     Crow Wing
+WIB  27037      1990                  43     Dakota
+WIB  27039      1990                   0     Dodge
+WIB  27041      1990                 222     Douglas
+WIB  27043      1990                  21     Faribault
+WIB  27045      1990                   2     Fillmore
+WIB  27047      1990                  39     Freeborn
+WIB  27049      1990                  57     Goodhue
+WIB  27051      1990                  74     Grant
+WIB  27053      1990                 129     Hennepin
+WIB  27055      1990                  27     Houston
+WIB  27057      1990                 199     Hubbard
+WIB  27059      1990                  33     Isanti
+WIB  27061      1990                 680     Itasca
+WIB  27063      1990                  45     Jackson
+WIB  27065      1990                  22     Kanabec
+WIB  27067      1990                 170     Kandiyohi
+WIB  27069      1990                  17     Kittson
+WIB  27071      1990                 135     Koochiching
+WIB  27073      1990                  34     Lac qui Parle
+WIB  27075      1990                 768     Lake
+WIB  27077      1990                1239     Lake of the Woods
+WIB  27079      1990                  66     Le Sueur
+WIB  27081      1990                  30     Lincoln
+WIB  27083      1990                  19     Lyon
+WIB  27085      1990                  36     McLeod
+WIB  27087      1990                  70     Mahnomen
+WIB  27089      1990                 105     Marshall
+WIB  27091      1990                  52     Martin
+WIB  27093      1990                  95     Meeker
+WIB  27095      1990                 278     Mille Lacs
+WIB  27097      1990                  75     Morrison
+WIB  27099      1990                   1     Mower
+WIB  27101      1990                  39     Murray
+WIB  27103      1990                  38     Nicollet
+WIB  27105      1990                  18     Nobles
+WIB  27107      1990                   1     Norman
+WIB  27109      1990                   4     Olmsted
+WIB  27111      1990                 635     Otter Tail
+WIB  27113      1990                   5     Pennington
+WIB  27115      1990                  61     Pine
+WIB  27117      1990                   1     Pipestone
+WIB  27119      1990                  71     Polk
+WIB  27121      1990                 122     Pope
+WIB  27123      1990                  37     Ramsey
+WIB  27125      1990                   0     Red Lake
+WIB  27127      1990                   4     Redwood
+WIB  27129      1990                  11     Renville
+WIB  27131      1990                  48     Rice
+WIB  27133      1990                   1     Rock
+WIB  27135      1990                  41     Roseau
+WIB  27137      1990                1447     St. Louis
+WIB  27139      1990                  30     Scott
+WIB  27141      1990                  37     Sherburne
+WIB  27143      1990                  30     Sibley
+WIB  27145      1990                 118     Stearns
+WIB  27147      1990                   7     Steele
+WIB  27149      1990                  34     Stevens
+WIB  27151      1990                  23     Swift
+WIB  27153      1990                  97     Todd
+WIB  27155      1990                  31     Traverse
+WIB  27157      1990                  64     Wabasha
+WIB  27159      1990                  20     Wadena
+WIB  27161      1990                  25     Waseca
+WIB  27163      1990                  81     Washington
+WIB  27165      1990                  14     Watonwan
+WIB  27167      1990                   1     Wilkin
+WIB  27169      1990                  40     Winona
+WIB  27171      1990                 139     Wright
+WIB  27173      1990                  14     Yellow Medicine
+/END/

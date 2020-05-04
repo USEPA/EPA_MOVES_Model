@@ -1,0 +1,113 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WHOLESALE ESTABLISHMENTS
+CBP NAICS 42----; pre-2002 CBP SIC 50--
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+COM  39000      2002               16202     OH
+COM  39001      2002                  11     Adams
+COM  39003      2002                 171     Allen
+COM  39005      2002                  48     Ashland
+COM  39007      2002                  90     Ashtabula
+COM  39009      2002                  34     Athens
+COM  39011      2002                  54     Auglaize
+COM  39013      2002                  47     Belmont
+COM  39015      2002                  15     Brown
+COM  39017      2002                 511     Butler
+COM  39019      2002                  23     Carroll
+COM  39021      2002                  29     Champaign
+COM  39023      2002                 127     Clark
+COM  39025      2002                 202     Clermont
+COM  39027      2002                  39     Clinton
+COM  39029      2002                 113     Columbiana
+COM  39031      2002                  30     Coshocton
+COM  39033      2002                  49     Crawford
+COM  39035      2002                2925     Cuyahoga
+COM  39037      2002                  59     Darke
+COM  39039      2002                  43     Defiance
+COM  39041      2002                 195     Delaware
+COM  39043      2002                  91     Erie
+COM  39045      2002                 115     Fairfield
+COM  39047      2002                  37     Fayette
+COM  39049      2002                1723     Franklin
+COM  39051      2002                  64     Fulton
+COM  39053      2002                  27     Gallia
+COM  39055      2002                 185     Geauga
+COM  39057      2002                  91     Greene
+COM  39059      2002                  45     Guernsey
+COM  39061      2002                1744     Hamilton
+COM  39063      2002                  93     Hancock
+COM  39065      2002                  15     Hardin
+COM  39067      2002                  15     Harrison
+COM  39069      2002                  37     Henry
+COM  39071      2002                  30     Highland
+COM  39073      2002                   7     Hocking
+COM  39075      2002                  51     Holmes
+COM  39077      2002                  50     Huron
+COM  39079      2002                  24     Jackson
+COM  39081      2002                  62     Jefferson
+COM  39083      2002                  44     Knox
+COM  39085      2002                 401     Lake
+COM  39087      2002                  31     Lawrence
+COM  39089      2002                 123     Licking
+COM  39091      2002                  44     Logan
+COM  39093      2002                 308     Lorain
+COM  39095      2002                 664     Lucas
+COM  39097      2002                  41     Madison
+COM  39099      2002                 357     Mahoning
+COM  39101      2002                  54     Marion
+COM  39103      2002                 278     Medina
+COM  39105      2002                  12     Meigs
+COM  39107      2002                  56     Mercer
+COM  39109      2002                 106     Miami
+COM  39111      2002                   9     Monroe
+COM  39113      2002                 815     Montgomery
+COM  39115      2002                   7     Morgan
+COM  39117      2002                  11     Morrow
+COM  39119      2002                  78     Muskingum
+COM  39121      2002                   9     Noble
+COM  39123      2002                  40     Ottawa
+COM  39125      2002                  15     Paulding
+COM  39127      2002                  18     Perry
+COM  39129      2002                  40     Pickaway
+COM  39131      2002                  12     Pike
+COM  39133      2002                 187     Portage
+COM  39135      2002                  29     Preble
+COM  39137      2002                  48     Putnam
+COM  39139      2002                 150     Richland
+COM  39141      2002                  58     Ross
+COM  39143      2002                  68     Sandusky
+COM  39145      2002                  59     Scioto
+COM  39147      2002                  58     Seneca
+COM  39149      2002                  57     Shelby
+COM  39151      2002                 488     Stark
+COM  39153      2002                1007     Summit
+COM  39155      2002                 207     Trumbull
+COM  39157      2002                 112     Tuscarawas
+COM  39159      2002                  49     Union
+COM  39161      2002                  32     Van Wert
+COM  39163      2002                   6     Vinton
+COM  39165      2002                 211     Warren
+COM  39167      2002                  69     Washington
+COM  39169      2002                 151     Wayne
+COM  39171      2002                  52     Williams
+COM  39173      2002                 177     Wood
+COM  39175      2002                  33     Wyandot
+/END/

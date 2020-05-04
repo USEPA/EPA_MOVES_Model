@@ -1,0 +1,69 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RELATIVE NUMBER OF RESIDENTIAL SNOWBLOWERS
+Same as HOUSE allocation factors, with value set to 0 for counties with snowfall < 15"
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+SBR  16000      2002              552115     ID
+SBR  16001      2002              127486     Ada
+SBR  16003      2002                2083     Adams
+SBR  16005      2002               29621     Bannock
+SBR  16007      2002                3379     Bear Lake
+SBR  16009      2002                4279     Benewah
+SBR  16011      2002               14568     Bingham
+SBR  16013      2002               12904     Blaine
+SBR  16015      2002                4495     Boise
+SBR  16017      2002               19648     Bonner
+SBR  16019      2002               31795     Bonneville
+SBR  16021      2002                4182     Boundary
+SBR  16023      2002                1290     Butte
+SBR  16025      2002                 633     Camas
+SBR  16027      2002               52691     Canyon
+SBR  16029      2002                3227     Caribou
+SBR  16031      2002                7953     Cassia
+SBR  16033      2002                 519     Clark
+SBR  16035      2002                4236     Clearwater
+SBR  16037      2002                2998     Custer
+SBR  16039      2002               10927     Elmore
+SBR  16041      2002                4016     Franklin
+SBR  16043      2002                7031     Fremont
+SBR  16045      2002                6105     Gem
+SBR  16047      2002                5663     Gooding
+SBR  16049      2002                7596     Idaho
+SBR  16051      2002                6512     Jefferson
+SBR  16053      2002                6838     Jerome
+SBR  16055      2002               49330     Kootenai
+SBR  16057      2002               14092     Latah
+SBR  16059      2002                4232     Lemhi
+SBR  16061      2002                1800     Lewis
+SBR  16063      2002                1693     Lincoln
+SBR  16065      2002                8004     Madison
+SBR  16067      2002                7545     Minidoka
+SBR  16069      2002               16419     Nez Perce
+SBR  16071      2002                1794     Oneida
+SBR  16073      2002                4555     Owyhee
+SBR  16075      2002                8186     Payette
+SBR  16077      2002                2898     Power
+SBR  16079      2002                7053     Shoshone
+SBR  16081      2002                3085     Teton
+SBR  16083      2002               26264     Twin Falls
+SBR  16085      2002                8322     Valley
+SBR  16087      2002                4168     Washington
+/END/

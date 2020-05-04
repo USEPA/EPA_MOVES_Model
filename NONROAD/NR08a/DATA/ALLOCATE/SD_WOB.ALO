@@ -1,0 +1,91 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WATER SURFACE AREA FOR OUTBOARD RECREATIONAL MARINE CRAFT (sq km navigable water)
+1990 GICS (inland water area); GIS analysis of coast lengths (coastal navigable water)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+WOB  46000      1990                3172     SD
+WOB  46003      1990                  11     Aurora
+WOB  46005      1990                  14     Beadle
+WOB  46007      1990                  14     Bennett
+WOB  46009      1990                  46     Bon Homme
+WOB  46011      1990                  27     Brookings
+WOB  46013      1990                  48     Brown
+WOB  46015      1990                  71     Brule
+WOB  46017      1990                  44     Buffalo
+WOB  46019      1990                  46     Butte
+WOB  46021      1990                  92     Campbell
+WOB  46023      1990                 135     Charles Mix
+WOB  46025      1990                  26     Clark
+WOB  46027      1990                  13     Clay
+WOB  46029      1990                  76     Codington
+WOB  46031      1990                 146     Corson
+WOB  46033      1990                   4     Custer
+WOB  46035      1990                   4     Davison
+WOB  46037      1990                 162     Day
+WOB  46039      1990                  34     Deuel
+WOB  46041      1990                 370     Dewey
+WOB  46043      1990                   1     Douglas
+WOB  46045      1990                  14     Edmunds
+WOB  46047      1990                  24     Fall River
+WOB  46049      1990                  14     Faulk
+WOB  46051      1990                  14     Grant
+WOB  46053      1990                  97     Gregory
+WOB  46055      1990                  37     Haakon
+WOB  46057      1990                  69     Hamlin
+WOB  46059      1990                   9     Hand
+WOB  46061      1990                   3     Hanson
+WOB  46063      1990                  18     Harding
+WOB  46065      1990                 154     Hughes
+WOB  46067      1990                   4     Hutchinson
+WOB  46069      1990                  14     Hyde
+WOB  46071      1990                   5     Jackson
+WOB  46073      1990                   6     Jerauld
+WOB  46075      1990                   3     Jones
+WOB  46077      1990                  66     Kingsbury
+WOB  46079      1990                  31     Lake
+WOB  46081      1990                   1     Lawrence
+WOB  46083      1990                   1     Lincoln
+WOB  46085      1990                 174     Lyman
+WOB  46087      1990                   7     McCook
+WOB  46089      1990                  39     McPherson
+WOB  46091      1990                 121     Marshall
+WOB  46093      1990                  31     Meade
+WOB  46095      1990                   8     Mellette
+WOB  46097      1990                   4     Miner
+WOB  46099      1990                  12     Minnehaha
+WOB  46101      1990                   4     Moody
+WOB  46103      1990                  21     Pennington
+WOB  46105      1990                  49     Perkins
+WOB  46107      1990                  83     Potter
+WOB  46109      1990                  88     Roberts
+WOB  46111      1990                   3     Sanborn
+WOB  46113      1990                   7     Shannon
+WOB  46115      1990                  16     Spink
+WOB  46117      1990                 191     Stanley
+WOB  46119      1990                 164     Sully
+WOB  46121      1990                   7     Todd
+WOB  46123      1990                  10     Tripp
+WOB  46125      1990                   2     Turner
+WOB  46127      1990                  17     Union
+WOB  46129      1990                  94     Walworth
+WOB  46135      1990                  29     Yankton
+WOB  46137      1990                  23     Ziebach
+/END/

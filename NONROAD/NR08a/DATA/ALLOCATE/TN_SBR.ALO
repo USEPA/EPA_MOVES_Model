@@ -1,0 +1,120 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RELATIVE NUMBER OF RESIDENTIAL SNOWBLOWERS
+Same as HOUSE allocation factors, with value set to 0 for counties with snowfall < 15"
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+SBR  47000      2002              492650     TN
+SBR  47001      2002                   0     Anderson
+SBR  47003      2002                   0     Bedford
+SBR  47005      2002                   0     Benton
+SBR  47007      2002                   0     Bledsoe
+SBR  47009      2002               48074     Blount
+SBR  47011      2002                   0     Bradley
+SBR  47013      2002                   0     Campbell
+SBR  47015      2002                5532     Cannon
+SBR  47017      2002                   0     Carroll
+SBR  47019      2002               26392     Carter
+SBR  47021      2002                   0     Cheatham
+SBR  47023      2002                   0     Chester
+SBR  47025      2002                   0     Claiborne
+SBR  47027      2002                   0     Clay
+SBR  47029      2002               16192     Cocke
+SBR  47031      2002                   0     Coffee
+SBR  47033      2002                   0     Crockett
+SBR  47035      2002                   0     Cumberland
+SBR  47037      2002                   0     Davidson
+SBR  47039      2002                   0     Decatur
+SBR  47041      2002                8531     DeKalb
+SBR  47043      2002                   0     Dickson
+SBR  47045      2002                   0     Dyer
+SBR  47047      2002                   0     Fayette
+SBR  47049      2002                7765     Fentress
+SBR  47051      2002                   0     Franklin
+SBR  47053      2002                   0     Gibson
+SBR  47055      2002                   0     Giles
+SBR  47057      2002                   0     Grainger
+SBR  47059      2002               28925     Greene
+SBR  47061      2002                   0     Grundy
+SBR  47063      2002               25435     Hamblen
+SBR  47065      2002                   0     Hamilton
+SBR  47067      2002                3322     Hancock
+SBR  47069      2002                   0     Hardeman
+SBR  47071      2002                   0     Hardin
+SBR  47073      2002               25078     Hawkins
+SBR  47075      2002                   0     Haywood
+SBR  47077      2002                   0     Henderson
+SBR  47079      2002                   0     Henry
+SBR  47081      2002                   0     Hickman
+SBR  47083      2002                   0     Houston
+SBR  47085      2002                   0     Humphreys
+SBR  47087      2002                   0     Jackson
+SBR  47089      2002               20187     Jefferson
+SBR  47091      2002                8132     Johnson
+SBR  47093      2002                   0     Knox
+SBR  47095      2002                   0     Lake
+SBR  47097      2002                   0     Lauderdale
+SBR  47099      2002                   0     Lawrence
+SBR  47101      2002                   0     Lewis
+SBR  47103      2002                   0     Lincoln
+SBR  47105      2002               17788     Loudon
+SBR  47107      2002                   0     McMinn
+SBR  47109      2002                   0     McNairy
+SBR  47111      2002                   0     Macon
+SBR  47113      2002                   0     Madison
+SBR  47115      2002                   0     Marion
+SBR  47117      2002                   0     Marshall
+SBR  47119      2002                   0     Maury
+SBR  47121      2002                   0     Meigs
+SBR  47123      2002               17757     Monroe
+SBR  47125      2002                   0     Montgomery
+SBR  47127      2002                   0     Moore
+SBR  47129      2002                   0     Morgan
+SBR  47131      2002                   0     Obion
+SBR  47133      2002                9368     Overton
+SBR  47135      2002                   0     Perry
+SBR  47137      2002                3011     Pickett
+SBR  47139      2002                   0     Polk
+SBR  47141      2002               27556     Putnam
+SBR  47143      2002                   0     Rhea
+SBR  47145      2002                   0     Roane
+SBR  47147      2002                   0     Robertson
+SBR  47149      2002                   0     Rutherford
+SBR  47151      2002                   0     Scott
+SBR  47153      2002                   0     Sequatchie
+SBR  47155      2002               38706     Sevier
+SBR  47157      2002                   0     Shelby
+SBR  47159      2002                   0     Smith
+SBR  47161      2002                   0     Stewart
+SBR  47163      2002               70405     Sullivan
+SBR  47165      2002                   0     Sumner
+SBR  47167      2002                   0     Tipton
+SBR  47169      2002                   0     Trousdale
+SBR  47171      2002                8334     Unicoi
+SBR  47173      2002                   0     Union
+SBR  47175      2002                   0     Van Buren
+SBR  47177      2002               17004     Warren
+SBR  47179      2002               48727     Washington
+SBR  47181      2002                   0     Wayne
+SBR  47183      2002                   0     Weakley
+SBR  47185      2002               10429     White
+SBR  47187      2002                   0     Williamson
+SBR  47189      2002                   0     Wilson
+/END/

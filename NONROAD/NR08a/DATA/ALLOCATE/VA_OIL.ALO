@@ -1,0 +1,161 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent EMPLOYEES IN OIL & GAS EXTRACTION, AND DRILLING OIL & GAS WELLS
+CBP NAICS 211/// and 213111; pre-2002 CBP SIC 1300
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+OIL  51000      2002                 362     VA
+OIL  51001      2002                   0     Accomack
+OIL  51003      2002                  28     Albemarle
+OIL  51005      2002                   0     Alleghany
+OIL  51007      2002                   0     Amelia
+OIL  51009      2002                   0     Amherst
+OIL  51011      2002                   0     Appomattox
+OIL  51013      2002                   0     Arlington
+OIL  51015      2002                   0     Augusta
+OIL  51017      2002                   0     Bath
+OIL  51019      2002                   0     Bedford
+OIL  51021      2002                   0     Bland
+OIL  51023      2002                  25     Botetourt
+OIL  51025      2002                   0     Brunswick
+OIL  51027      2002                   0     Buchanan
+OIL  51029      2002                   0     Buckingham
+OIL  51031      2002                   0     Campbell
+OIL  51033      2002                   0     Caroline
+OIL  51035      2002                   0     Carroll
+OIL  51036      2002                   0     Charles City
+OIL  51037      2002                   0     Charlotte
+OIL  51041      2002                   0     Chesterfield
+OIL  51043      2002                   0     Clarke
+OIL  51045      2002                   0     Craig
+OIL  51047      2002                   0     Culpeper
+OIL  51049      2002                   0     Cumberland
+OIL  51051      2002                   4     Dickenson
+OIL  51053      2002                   0     Dinwiddie
+OIL  51057      2002                  25     Essex
+OIL  51059      2002                  29     Fairfax
+OIL  51061      2002                  29     Fauquier
+OIL  51063      2002                   0     Floyd
+OIL  51065      2002                   0     Fluvanna
+OIL  51067      2002                   0     Franklin
+OIL  51069      2002                   0     Frederick
+OIL  51071      2002                   0     Giles
+OIL  51073      2002                   0     Gloucester
+OIL  51075      2002                  26     Goochland
+OIL  51077      2002                   0     Grayson
+OIL  51079      2002                   0     Greene
+OIL  51081      2002                   0     Greensville
+OIL  51083      2002                   0     Halifax
+OIL  51085      2002                   0     Hanover
+OIL  51087      2002                   0     Henrico
+OIL  51089      2002                   0     Henry
+OIL  51091      2002                   0     Highland
+OIL  51093      2002                   0     Isle of Wight
+OIL  51095      2002                   0     James City
+OIL  51097      2002                   0     King and Queen
+OIL  51099      2002                   0     King George
+OIL  51101      2002                   0     King William
+OIL  51103      2002                   4     Lancaster
+OIL  51105      2002                   0     Lee
+OIL  51107      2002                   0     Loudoun
+OIL  51109      2002                   0     Louisa
+OIL  51111      2002                   0     Lunenburg
+OIL  51113      2002                   0     Madison
+OIL  51115      2002                   0     Mathews
+OIL  51117      2002                   0     Mecklenburg
+OIL  51119      2002                   4     Middlesex
+OIL  51121      2002                   0     Montgomery
+OIL  51125      2002                  26     Nelson
+OIL  51127      2002                   0     New Kent
+OIL  51131      2002                   0     Northampton
+OIL  51133      2002                   0     Northumberland
+OIL  51135      2002                   0     Nottoway
+OIL  51137      2002                   0     Orange
+OIL  51139      2002                   0     Page
+OIL  51141      2002                   0     Patrick
+OIL  51143      2002                   0     Pittsylvania
+OIL  51145      2002                   0     Powhatan
+OIL  51147      2002                   0     Prince Edward
+OIL  51149      2002                   0     Prince George
+OIL  51153      2002                   0     Prince William
+OIL  51155      2002                   0     Pulaski
+OIL  51157      2002                   0     Rappahannock
+OIL  51159      2002                   0     Richmond
+OIL  51161      2002                   0     Roanoke
+OIL  51163      2002                  26     Rockbridge
+OIL  51165      2002                   0     Rockingham
+OIL  51167      2002                  30     Russell
+OIL  51169      2002                   4     Scott
+OIL  51171      2002                   0     Shenandoah
+OIL  51173      2002                   0     Smyth
+OIL  51175      2002                   0     Southampton
+OIL  51177      2002                   0     Spotsylvania
+OIL  51179      2002                   0     Stafford
+OIL  51181      2002                   0     Surry
+OIL  51183      2002                   0     Sussex
+OIL  51185      2002                  28     Tazewell
+OIL  51187      2002                   0     Warren
+OIL  51191      2002                   4     Washington
+OIL  51193      2002                   0     Westmoreland
+OIL  51195      2002                   0     Wise
+OIL  51197      2002                   0     Wythe
+OIL  51199      2002                   0     York
+OIL  51510      2002                   4     Alexandria
+OIL  51515      2002                   0     Bedford
+OIL  51520      2002                   0     Bristol
+OIL  51530      2002                   0     Buena Vista
+OIL  51540      2002                   4     Charlottesville
+OIL  51550      2002                   4     Chesapeake
+OIL  51560      2002                   0     Clifton Forge
+OIL  51570      2002                   0     Colonial Heights
+OIL  51580      2002                   0     Covington
+OIL  51590      2002                  26     Danville
+OIL  51595      2002                   0     Emporia
+OIL  51600      2002                   0     Fairfax
+OIL  51610      2002                   0     Falls Church
+OIL  51620      2002                   0     Franklin
+OIL  51630      2002                   0     Fredericksburg
+OIL  51640      2002                   0     Galax
+OIL  51650      2002                   0     Hampton
+OIL  51660      2002                   0     Harrisonburg
+OIL  51670      2002                   0     Hopewell
+OIL  51678      2002                   0     Lexington
+OIL  51680      2002                   0     Lynchburg
+OIL  51683      2002                   0     Manassas
+OIL  51685      2002                   0     Manassas Park
+OIL  51690      2002                   0     Martinsville
+OIL  51700      2002                   0     Newport News
+OIL  51710      2002                   0     Norfolk
+OIL  51720      2002                   0     Norton
+OIL  51730      2002                   0     Petersburg
+OIL  51735      2002                   0     Poquoson
+OIL  51740      2002                   0     Portsmouth
+OIL  51750      2002                   0     Radford
+OIL  51760      2002                  28     Richmond
+OIL  51770      2002                   0     Roanoke
+OIL  51775      2002                   0     Salem
+OIL  51780      2002                   0     South Boston
+OIL  51790      2002                   0     Staunton
+OIL  51800      2002                   0     Suffolk
+OIL  51810      2002                   4     Virginia Beach
+OIL  51820      2002                   0     Waynesboro
+OIL  51830      2002                   0     Williamsburg
+OIL  51840      2002                   0     Winchester
+/END/

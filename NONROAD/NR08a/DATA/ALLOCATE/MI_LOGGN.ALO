@@ -1,0 +1,110 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2002 Timber Product Output (cu ft)
+from US Forest Service TPO database. http://www.fia.fs.fed.us/program-features/tpo/
+
+10/19/05 epa: use TPO data instead of CBP employee data.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+LOG  26000      2002           466969286     MI
+LOG  26001      2002             7425648     Alcona
+LOG  26003      2002            11215503     Alger
+LOG  26005      2002             3197817     Allegan
+LOG  26007      2002             6050721     Alpena
+LOG  26009      2002             3833927     Antrim
+LOG  26011      2002             2185776     Arenac
+LOG  26013      2002            14355232     Baraga
+LOG  26015      2002             2796711     Barry
+LOG  26017      2002              727885     Bay
+LOG  26019      2002             4224499     Benzie
+LOG  26021      2002              646575     Berrien
+LOG  26023      2002              394422     Branch
+LOG  26025      2002             1553930     Calhoun
+LOG  26027      2002             1137135     Cass
+LOG  26029      2002             3487214     Charlevoix
+LOG  26031      2002             9974669     Cheboygan
+LOG  26033      2002            12367157     Chippewa
+LOG  26035      2002             8116230     Clare
+LOG  26037      2002              322746     Clinton
+LOG  26039      2002             7333860     Crawford
+LOG  26041      2002            15568992     Delta
+LOG  26043      2002            12203879     Dickinson
+LOG  26045      2002              977560     Eaton
+LOG  26047      2002             5278228     Emmet
+LOG  26049      2002             1222478     Genesee
+LOG  26051      2002             4659432     Gladwin
+LOG  26053      2002            12413646     Gogebic
+LOG  26055      2002             4901804     Grand Traverse
+LOG  26057      2002              999624     Gratiot
+LOG  26059      2002              704286     Hillsdale
+LOG  26061      2002            20190651     Houghton
+LOG  26063      2002              345765     Huron
+LOG  26065      2002              709150     Ingham
+LOG  26067      2002             1526991     Ionia
+LOG  26069      2002             3701410     Iosco
+LOG  26071      2002            23053861     Iron
+LOG  26073      2002             2988673     Isabella
+LOG  26075      2002             1971056     Jackson
+LOG  26077      2002             2223253     Kalamazoo
+LOG  26079      2002             7805833     Kalkaska
+LOG  26081      2002             5015163     Kent
+LOG  26083      2002             6907946     Keweenaw
+LOG  26085      2002             6048858     Lake
+LOG  26087      2002              721824     Lapeer
+LOG  26089      2002             1989310     Leelanau
+LOG  26091      2002             1326088     Lenawee
+LOG  26093      2002             2845945     Livingston
+LOG  26095      2002            10134972     Luce
+LOG  26097      2002            12351582     Mackinac
+LOG  26099      2002             1183471     Macomb
+LOG  26101      2002             6341628     Manistee
+LOG  26103      2002            32550167     Marquette
+LOG  26105      2002             5278354     Mason
+LOG  26107      2002             3300707     Mecosta
+LOG  26109      2002            12296394     Menominee
+LOG  26111      2002             3900404     Midland
+LOG  26113      2002             6815204     Missaukee
+LOG  26115      2002              601627     Monroe
+LOG  26117      2002             4091946     Montcalm
+LOG  26119      2002             7658056     Montmorency
+LOG  26121      2002             3418273     Muskegon
+LOG  26123      2002             8268624     Newaygo
+LOG  26125      2002             3708480     Oakland
+LOG  26127      2002             3178760     Oceana
+LOG  26129      2002             5668959     Ogemaw
+LOG  26131      2002            17281715     Ontonagon
+LOG  26133      2002             4943772     Osceola
+LOG  26135      2002             8145805     Oscoda
+LOG  26137      2002             9763279     Otsego
+LOG  26139      2002             5059743     Ottawa
+LOG  26141      2002             6363310     Presque Isle
+LOG  26143      2002             6182733     Roscommon
+LOG  26145      2002              862573     Saginaw
+LOG  26147      2002             2163323     St. Clair
+LOG  26149      2002             1029379     St. Joseph
+LOG  26151      2002              354648     Sanilac
+LOG  26153      2002            12092679     Schoolcraft
+LOG  26155      2002              546994     Shiawassee
+LOG  26157      2002              467330     Tuscola
+LOG  26159      2002             1581771     Van Buren
+LOG  26161      2002             1512186     Washtenaw
+LOG  26163      2002             1271251     Wayne
+LOG  26165      2002             6949824     Wexford
+/END/

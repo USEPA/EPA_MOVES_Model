@@ -1,0 +1,127 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WATER SURFACE AREA FOR OUTBOARD RECREATIONAL MARINE CRAFT (sq km navigable water)
+1990 GICS (inland water area); GIS analysis of coast lengths (coastal navigable water)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+WOB  17000      1990                1976     IL
+WOB  17001      1990                  38     Adams
+WOB  17003      1990                  42     Alexander
+WOB  17005      1990                   6     Bond
+WOB  17007      1990                   1     Boone
+WOB  17009      1990                   4     Brown
+WOB  17011      1990                  12     Bureau
+WOB  17013      1990                  77     Calhoun
+WOB  17015      1990                  56     Carroll
+WOB  17017      1990                  20     Cass
+WOB  17019      1990                   1     Champaign
+WOB  17021      1990                  17     Christian
+WOB  17023      1990                   9     Clark
+WOB  17025      1990                   2     Clay
+WOB  17027      1990                  76     Clinton
+WOB  17029      1990                   5     Coles
+WOB  17031      1990                  54     Cook
+WOB  17033      1990                   6     Crawford
+WOB  17035      1990                   3     Cumberland
+WOB  17037      1990                   2     DeKalb
+WOB  17039      1990                  20     De Witt
+WOB  17041      1990                   1     Douglas
+WOB  17043      1990                   6     DuPage
+WOB  17045      1990                   2     Edgar
+WOB  17047      1990                   1     Edwards
+WOB  17049      1990                   3     Effingham
+WOB  17051      1990                  23     Fayette
+WOB  17053      1990                   1     Ford
+WOB  17055      1990                  50     Franklin
+WOB  17057      1990                  44     Fulton
+WOB  17059      1990                  12     Gallatin
+WOB  17061      1990                   8     Greene
+WOB  17063      1990                  27     Grundy
+WOB  17065      1990                   2     Hamilton
+WOB  17067      1990                  52     Hancock
+WOB  17069      1990                   8     Hardin
+WOB  17071      1990                  42     Henderson
+WOB  17073      1990                   6     Henry
+WOB  17075      1990                   4     Iroquois
+WOB  17077      1990                  37     Jackson
+WOB  17079      1990                   9     Jasper
+WOB  17081      1990                  33     Jefferson
+WOB  17083      1990                  20     Jersey
+WOB  17085      1990                  46     Jo Daviess
+WOB  17087      1990                   7     Johnson
+WOB  17089      1990                   9     Kane
+WOB  17091      1990                  10     Kankakee
+WOB  17093      1990                   5     Kendall
+WOB  17095      1990                   9     Knox
+WOB  17097      1990                  73     Lake
+WOB  17099      1990                  34     La Salle
+WOB  17101      1990                   5     Lawrence
+WOB  17103      1990                  10     Lee
+WOB  17105      1990                   4     Livingston
+WOB  17107      1990                   2     Logan
+WOB  17109      1990                   2     McDonough
+WOB  17111      1990                  18     McHenry
+WOB  17113      1990                   7     McLean
+WOB  17115      1990                  13     Macon
+WOB  17117      1990                  10     Macoupin
+WOB  17119      1990                  40     Madison
+WOB  17121      1990                   9     Marion
+WOB  17123      1990                  32     Marshall
+WOB  17125      1990                  63     Mason
+WOB  17127      1990                   8     Massac
+WOB  17129      1990                   3     Menard
+WOB  17131      1990                  20     Mercer
+WOB  17133      1990                  24     Monroe
+WOB  17135      1990                  15     Montgomery
+WOB  17137      1990                   9     Morgan
+WOB  17139      1990                  23     Moultrie
+WOB  17141      1990                  11     Ogle
+WOB  17143      1990                  29     Peoria
+WOB  17145      1990                  15     Perry
+WOB  17147      1990                   1     Piatt
+WOB  17149      1990                  48     Pike
+WOB  17151      1990                  10     Pope
+WOB  17153      1990                   7     Pulaski
+WOB  17155      1990                  32     Putnam
+WOB  17157      1990                  49     Randolph
+WOB  17159      1990                   5     Richland
+WOB  17161      1990                  63     Rock Island
+WOB  17163      1990                  26     St. Clair
+WOB  17165      1990                   9     Saline
+WOB  17167      1990                  23     Sangamon
+WOB  17169      1990                  11     Schuyler
+WOB  17171      1990                   5     Scott
+WOB  17173      1990                  25     Shelby
+WOB  17175      1990                   1     Stark
+WOB  17177      1990                   1     Stephenson
+WOB  17179      1990                  23     Tazewell
+WOB  17181      1990                  15     Union
+WOB  17183      1990                   8     Vermilion
+WOB  17185      1990                  11     Wabash
+WOB  17187      1990                   2     Warren
+WOB  17189      1990                   4     Washington
+WOB  17191      1990                   4     Wayne
+WOB  17193      1990                  18     White
+WOB  17195      1990                  32     Whiteside
+WOB  17197      1990                  32     Will
+WOB  17199      1990                  52     Williamson
+WOB  17201      1990                  14     Winnebago
+WOB  17203      1990                  38     Woodford
+/END/

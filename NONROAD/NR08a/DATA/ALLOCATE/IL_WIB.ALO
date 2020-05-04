@@ -1,0 +1,127 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WATER SURFACE AREA FOR INBOARD RECREATIONAL MARINE CRAFT (sq km navigable water)
+1990 GICS (inland water area); GIS analysis of coast lengths (coastal navigable water)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+WIB  17000      1990                2244     IL
+WIB  17001      1990                  38     Adams
+WIB  17003      1990                  42     Alexander
+WIB  17005      1990                   6     Bond
+WIB  17007      1990                   1     Boone
+WIB  17009      1990                   4     Brown
+WIB  17011      1990                  12     Bureau
+WIB  17013      1990                  77     Calhoun
+WIB  17015      1990                  56     Carroll
+WIB  17017      1990                  20     Cass
+WIB  17019      1990                   1     Champaign
+WIB  17021      1990                  17     Christian
+WIB  17023      1990                   9     Clark
+WIB  17025      1990                   2     Clay
+WIB  17027      1990                  76     Clinton
+WIB  17029      1990                   5     Coles
+WIB  17031      1990                 209     Cook
+WIB  17033      1990                   6     Crawford
+WIB  17035      1990                   3     Cumberland
+WIB  17037      1990                   2     DeKalb
+WIB  17039      1990                  20     De Witt
+WIB  17041      1990                   1     Douglas
+WIB  17043      1990                   6     DuPage
+WIB  17045      1990                   2     Edgar
+WIB  17047      1990                   1     Edwards
+WIB  17049      1990                   3     Effingham
+WIB  17051      1990                  23     Fayette
+WIB  17053      1990                   1     Ford
+WIB  17055      1990                  50     Franklin
+WIB  17057      1990                  44     Fulton
+WIB  17059      1990                  12     Gallatin
+WIB  17061      1990                   8     Greene
+WIB  17063      1990                  27     Grundy
+WIB  17065      1990                   2     Hamilton
+WIB  17067      1990                  52     Hancock
+WIB  17069      1990                   8     Hardin
+WIB  17071      1990                  42     Henderson
+WIB  17073      1990                   6     Henry
+WIB  17075      1990                   4     Iroquois
+WIB  17077      1990                  37     Jackson
+WIB  17079      1990                   9     Jasper
+WIB  17081      1990                  33     Jefferson
+WIB  17083      1990                  20     Jersey
+WIB  17085      1990                  46     Jo Daviess
+WIB  17087      1990                   7     Johnson
+WIB  17089      1990                   9     Kane
+WIB  17091      1990                  10     Kankakee
+WIB  17093      1990                   5     Kendall
+WIB  17095      1990                   9     Knox
+WIB  17097      1990                 186     Lake
+WIB  17099      1990                  34     La Salle
+WIB  17101      1990                   5     Lawrence
+WIB  17103      1990                  10     Lee
+WIB  17105      1990                   4     Livingston
+WIB  17107      1990                   2     Logan
+WIB  17109      1990                   2     McDonough
+WIB  17111      1990                  18     McHenry
+WIB  17113      1990                   7     McLean
+WIB  17115      1990                  13     Macon
+WIB  17117      1990                  10     Macoupin
+WIB  17119      1990                  40     Madison
+WIB  17121      1990                   9     Marion
+WIB  17123      1990                  32     Marshall
+WIB  17125      1990                  63     Mason
+WIB  17127      1990                   8     Massac
+WIB  17129      1990                   3     Menard
+WIB  17131      1990                  20     Mercer
+WIB  17133      1990                  24     Monroe
+WIB  17135      1990                  15     Montgomery
+WIB  17137      1990                   9     Morgan
+WIB  17139      1990                  23     Moultrie
+WIB  17141      1990                  11     Ogle
+WIB  17143      1990                  29     Peoria
+WIB  17145      1990                  15     Perry
+WIB  17147      1990                   1     Piatt
+WIB  17149      1990                  48     Pike
+WIB  17151      1990                  10     Pope
+WIB  17153      1990                   7     Pulaski
+WIB  17155      1990                  32     Putnam
+WIB  17157      1990                  49     Randolph
+WIB  17159      1990                   5     Richland
+WIB  17161      1990                  63     Rock Island
+WIB  17163      1990                  26     St. Clair
+WIB  17165      1990                   9     Saline
+WIB  17167      1990                  23     Sangamon
+WIB  17169      1990                  11     Schuyler
+WIB  17171      1990                   5     Scott
+WIB  17173      1990                  25     Shelby
+WIB  17175      1990                   1     Stark
+WIB  17177      1990                   1     Stephenson
+WIB  17179      1990                  23     Tazewell
+WIB  17181      1990                  15     Union
+WIB  17183      1990                   8     Vermilion
+WIB  17185      1990                  11     Wabash
+WIB  17187      1990                   2     Warren
+WIB  17189      1990                   4     Washington
+WIB  17191      1990                   4     Wayne
+WIB  17193      1990                  18     White
+WIB  17195      1990                  32     Whiteside
+WIB  17197      1990                  32     Will
+WIB  17199      1990                  52     Williamson
+WIB  17201      1990                  14     Winnebago
+WIB  17203      1990                  38     Woodford
+/END/

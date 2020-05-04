@@ -1,0 +1,94 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2002 Timber Product Output (cu ft)
+from US Forest Service TPO database. http://www.fia.fs.fed.us/program-features/tpo/
+
+10/19/05 epa: use TPO data instead of CBP employee data.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+LOG  12000      2002           654558274     FL
+LOG  12001      2002            23204543     Alachua
+LOG  12003      2002            16213335     Baker
+LOG  12005      2002            21316021     Bay
+LOG  12007      2002            15029142     Bradford
+LOG  12009      2002              851618     Brevard
+LOG  12011      2002                2082     Broward
+LOG  12013      2002            17043272     Calhoun
+LOG  12015      2002              159940     Charlotte
+LOG  12017      2002             3522601     Citrus
+LOG  12019      2002            16017973     Clay
+LOG  12021      2002               83394     Collier
+LOG  12023      2002            24556948     Columbia
+LOG  12027      2002              153735     DeSoto
+LOG  12029      2002            22538077     Dixie
+LOG  12031      2002            23106809     Duval
+LOG  12033      2002            12229138     Escambia
+LOG  12035      2002            19302920     Flagler
+LOG  12037      2002             9574353     Franklin
+LOG  12039      2002            14725382     Gadsden
+LOG  12041      2002             8071118     Gilchrist
+LOG  12043      2002              381174     Glades
+LOG  12045      2002             7512926     Gulf
+LOG  12047      2002            17043166     Hamilton
+LOG  12049      2002              466369     Hardee
+LOG  12051      2002             1610972     Hendry
+LOG  12053      2002             2643735     Hernando
+LOG  12055      2002              602418     Highlands
+LOG  12057      2002              538632     Hillsborough
+LOG  12059      2002            11992547     Holmes
+LOG  12061      2002              293937     Indian River
+LOG  12063      2002            22087292     Jackson
+LOG  12065      2002            20340377     Jefferson
+LOG  12067      2002            13033499     Lafayette
+LOG  12069      2002             3349980     Lake
+LOG  12071      2002              159940     Lee
+LOG  12073      2002             8790031     Leon
+LOG  12075      2002            30642316     Levy
+LOG  12077      2002             6573473     Liberty
+LOG  12079      2002            26938916     Madison
+LOG  12081      2002               19737     Manatee
+LOG  12083      2002            14345021     Marion
+LOG  12085      2002              359395     Martin
+LOG  12086      2002                1041     Miami-Dade
+LOG  12087      2002                   0     Monroe
+LOG  12089      2002            27314801     Nassau
+LOG  12091      2002             9141195     Okaloosa
+LOG  12093      2002               90318     Okeechobee
+LOG  12095      2002             1205231     Orange
+LOG  12097      2002             2842852     Osceola
+LOG  12099      2002                   0     Palm Beach
+LOG  12101      2002             3524123     Pasco
+LOG  12103      2002                   0     Pinellas
+LOG  12105      2002             2899084     Polk
+LOG  12107      2002            16294754     Putnam
+LOG  12109      2002            20658132     St. Johns
+LOG  12111      2002              309511     St. Lucie
+LOG  12113      2002            14761716     Santa Rosa
+LOG  12115      2002              277690     Sarasota
+LOG  12117      2002             1002318     Seminole
+LOG  12119      2002             3579914     Sumter
+LOG  12121      2002            10780849     Suwannee
+LOG  12123      2002            37215855     Taylor
+LOG  12125      2002            15572020     Union
+LOG  12127      2002            12470179     Volusia
+LOG  12129      2002             3220291     Wakulla
+LOG  12131      2002            14502910     Walton
+LOG  12133      2002            19465237     Washington
+/END/

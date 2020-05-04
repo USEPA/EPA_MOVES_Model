@@ -1,0 +1,102 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2002 Timber Product Output (cu ft)
+from US Forest Service TPO database. http://www.fia.fs.fed.us/program-features/tpo/
+
+10/19/05 epa: use TPO data instead of CBP employee data.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+LOG  05000      2002           950904275     AR
+LOG  05001      2002             7851191     Arkansas
+LOG  05003      2002            26453686     Ashley
+LOG  05005      2002             1734801     Baxter
+LOG  05007      2002             3750019     Benton
+LOG  05009      2002             1785176     Boone
+LOG  05011      2002            31763831     Bradley
+LOG  05013      2002            31026797     Calhoun
+LOG  05015      2002             2434195     Carroll
+LOG  05017      2002             8973046     Chicot
+LOG  05019      2002            30772109     Clark
+LOG  05021      2002              499015     Clay
+LOG  05023      2002             7417211     Cleburne
+LOG  05025      2002            30212041     Cleveland
+LOG  05027      2002            35603518     Columbia
+LOG  05029      2002             5253208     Conway
+LOG  05031      2002                2090     Craighead
+LOG  05033      2002             3112046     Crawford
+LOG  05035      2002              946515     Crittenden
+LOG  05037      2002             2075251     Cross
+LOG  05039      2002            35092303     Dallas
+LOG  05041      2002             5394303     Desha
+LOG  05043      2002            28435944     Drew
+LOG  05045      2002              844790     Faulkner
+LOG  05047      2002             2762127     Franklin
+LOG  05049      2002             4147658     Fulton
+LOG  05051      2002            18197484     Garland
+LOG  05053      2002            43546275     Grant
+LOG  05055      2002              638614     Greene
+LOG  05057      2002            29903848     Hempstead
+LOG  05059      2002            22848814     Hot Spring
+LOG  05061      2002            30339003     Howard
+LOG  05063      2002             7799515     Independence
+LOG  05065      2002             3265985     Izard
+LOG  05067      2002             2474735     Jackson
+LOG  05069      2002            14752686     Jefferson
+LOG  05071      2002             2942694     Johnson
+LOG  05073      2002            25163521     Lafayette
+LOG  05075      2002             4050831     Lawrence
+LOG  05077      2002             3954441     Lee
+LOG  05079      2002            14377463     Lincoln
+LOG  05081      2002            26604393     Little River
+LOG  05083      2002             4248964     Logan
+LOG  05085      2002             3571757     Lonoke
+LOG  05087      2002             4107468     Madison
+LOG  05089      2002             3123474     Marion
+LOG  05091      2002            20290321     Miller
+LOG  05093      2002             1513000     Mississippi
+LOG  05095      2002             3151791     Monroe
+LOG  05097      2002            15413404     Montgomery
+LOG  05099      2002            44855928     Nevada
+LOG  05101      2002             4373950     Newton
+LOG  05103      2002            33947045     Ouachita
+LOG  05105      2002             5685756     Perry
+LOG  05107      2002             3234924     Phillips
+LOG  05109      2002            26221539     Pike
+LOG  05111      2002                6199     Poinsett
+LOG  05113      2002            26990489     Polk
+LOG  05115      2002             7019903     Pope
+LOG  05117      2002             3108960     Prairie
+LOG  05119      2002             7758174     Pulaski
+LOG  05121      2002             2732350     Randolph
+LOG  05123      2002             3057932     St. Francis
+LOG  05125      2002            20408423     Saline
+LOG  05127      2002             5548773     Scott
+LOG  05129      2002             3498002     Searcy
+LOG  05131      2002              367203     Sebastian
+LOG  05133      2002            26243195     Sevier
+LOG  05135      2002             3488878     Sharp
+LOG  05137      2002             7593668     Stone
+LOG  05139      2002            70463439     Union
+LOG  05141      2002             4572296     Van Buren
+LOG  05143      2002             3740019     Washington
+LOG  05145      2002             8105302     White
+LOG  05147      2002             3074505     Woodruff
+LOG  05149      2002            10184072     Yell
+/END/

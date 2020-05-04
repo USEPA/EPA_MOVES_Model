@@ -1,0 +1,107 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent UNDERGROUND COAL PRODUCTION TONS
+DOE/EIA 2002 Annual Coal Report
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+MIN  28000      2002                   0     MS
+MIN  28001      2002                   0     Adams
+MIN  28003      2002                   0     Alcorn
+MIN  28005      2002                   0     Amite
+MIN  28007      2002                   0     Attala
+MIN  28009      2002                   0     Benton
+MIN  28011      2002                   0     Bolivar
+MIN  28013      2002                   0     Calhoun
+MIN  28015      2002                   0     Carroll
+MIN  28017      2002                   0     Chickasaw
+MIN  28019      2002                   0     Choctaw
+MIN  28021      2002                   0     Claiborne
+MIN  28023      2002                   0     Clarke
+MIN  28025      2002                   0     Clay
+MIN  28027      2002                   0     Coahoma
+MIN  28029      2002                   0     Copiah
+MIN  28031      2002                   0     Covington
+MIN  28033      2002                   0     DeSoto
+MIN  28035      2002                   0     Forrest
+MIN  28037      2002                   0     Franklin
+MIN  28039      2002                   0     George
+MIN  28041      2002                   0     Greene
+MIN  28043      2002                   0     Grenada
+MIN  28045      2002                   0     Hancock
+MIN  28047      2002                   0     Harrison
+MIN  28049      2002                   0     Hinds
+MIN  28051      2002                   0     Holmes
+MIN  28053      2002                   0     Humphreys
+MIN  28055      2002                   0     Issaquena
+MIN  28057      2002                   0     Itawamba
+MIN  28059      2002                   0     Jackson
+MIN  28061      2002                   0     Jasper
+MIN  28063      2002                   0     Jefferson
+MIN  28065      2002                   0     Jefferson Davis
+MIN  28067      2002                   0     Jones
+MIN  28069      2002                   0     Kemper
+MIN  28071      2002                   0     Lafayette
+MIN  28073      2002                   0     Lamar
+MIN  28075      2002                   0     Lauderdale
+MIN  28077      2002                   0     Lawrence
+MIN  28079      2002                   0     Leake
+MIN  28081      2002                   0     Lee
+MIN  28083      2002                   0     Leflore
+MIN  28085      2002                   0     Lincoln
+MIN  28087      2002                   0     Lowndes
+MIN  28089      2002                   0     Madison
+MIN  28091      2002                   0     Marion
+MIN  28093      2002                   0     Marshall
+MIN  28095      2002                   0     Monroe
+MIN  28097      2002                   0     Montgomery
+MIN  28099      2002                   0     Neshoba
+MIN  28101      2002                   0     Newton
+MIN  28103      2002                   0     Noxubee
+MIN  28105      2002                   0     Oktibbeha
+MIN  28107      2002                   0     Panola
+MIN  28109      2002                   0     Pearl River
+MIN  28111      2002                   0     Perry
+MIN  28113      2002                   0     Pike
+MIN  28115      2002                   0     Pontotoc
+MIN  28117      2002                   0     Prentiss
+MIN  28119      2002                   0     Quitman
+MIN  28121      2002                   0     Rankin
+MIN  28123      2002                   0     Scott
+MIN  28125      2002                   0     Sharkey
+MIN  28127      2002                   0     Simpson
+MIN  28129      2002                   0     Smith
+MIN  28131      2002                   0     Stone
+MIN  28133      2002                   0     Sunflower
+MIN  28135      2002                   0     Tallahatchie
+MIN  28137      2002                   0     Tate
+MIN  28139      2002                   0     Tippah
+MIN  28141      2002                   0     Tishomingo
+MIN  28143      2002                   0     Tunica
+MIN  28145      2002                   0     Union
+MIN  28147      2002                   0     Walthall
+MIN  28149      2002                   0     Warren
+MIN  28151      2002                   0     Washington
+MIN  28153      2002                   0     Wayne
+MIN  28155      2002                   0     Webster
+MIN  28157      2002                   0     Wilkinson
+MIN  28159      2002                   0     Winston
+MIN  28161      2002                   0     Yalobusha
+MIN  28163      2002                   0     Yazoo
+/END/

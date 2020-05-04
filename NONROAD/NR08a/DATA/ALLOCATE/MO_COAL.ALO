@@ -1,0 +1,140 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent UNDERGROUND COAL PRODUCTION TONS
+DOE/EIA 2002 Annual Coal Report
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+MIN  29000      2002                   0     MO
+MIN  29001      2002                   0     Adair
+MIN  29003      2002                   0     Andrew
+MIN  29005      2002                   0     Atchison
+MIN  29007      2002                   0     Audrain
+MIN  29009      2002                   0     Barry
+MIN  29011      2002                   0     Barton
+MIN  29013      2002                   0     Bates
+MIN  29015      2002                   0     Benton
+MIN  29017      2002                   0     Bollinger
+MIN  29019      2002                   0     Boone
+MIN  29021      2002                   0     Buchanan
+MIN  29023      2002                   0     Butler
+MIN  29025      2002                   0     Caldwell
+MIN  29027      2002                   0     Callaway
+MIN  29029      2002                   0     Camden
+MIN  29031      2002                   0     Cape Girardeau
+MIN  29033      2002                   0     Carroll
+MIN  29035      2002                   0     Carter
+MIN  29037      2002                   0     Cass
+MIN  29039      2002                   0     Cedar
+MIN  29041      2002                   0     Chariton
+MIN  29043      2002                   0     Christian
+MIN  29045      2002                   0     Clark
+MIN  29047      2002                   0     Clay
+MIN  29049      2002                   0     Clinton
+MIN  29051      2002                   0     Cole
+MIN  29053      2002                   0     Cooper
+MIN  29055      2002                   0     Crawford
+MIN  29057      2002                   0     Dade
+MIN  29059      2002                   0     Dallas
+MIN  29061      2002                   0     Daviess
+MIN  29063      2002                   0     DeKalb
+MIN  29065      2002                   0     Dent
+MIN  29067      2002                   0     Douglas
+MIN  29069      2002                   0     Dunklin
+MIN  29071      2002                   0     Franklin
+MIN  29073      2002                   0     Gasconade
+MIN  29075      2002                   0     Gentry
+MIN  29077      2002                   0     Greene
+MIN  29079      2002                   0     Grundy
+MIN  29081      2002                   0     Harrison
+MIN  29083      2002                   0     Henry
+MIN  29085      2002                   0     Hickory
+MIN  29087      2002                   0     Holt
+MIN  29089      2002                   0     Howard
+MIN  29091      2002                   0     Howell
+MIN  29093      2002                   0     Iron
+MIN  29095      2002                   0     Jackson
+MIN  29097      2002                   0     Jasper
+MIN  29099      2002                   0     Jefferson
+MIN  29101      2002                   0     Johnson
+MIN  29103      2002                   0     Knox
+MIN  29105      2002                   0     Laclede
+MIN  29107      2002                   0     Lafayette
+MIN  29109      2002                   0     Lawrence
+MIN  29111      2002                   0     Lewis
+MIN  29113      2002                   0     Lincoln
+MIN  29115      2002                   0     Linn
+MIN  29117      2002                   0     Livingston
+MIN  29119      2002                   0     McDonald
+MIN  29121      2002                   0     Macon
+MIN  29123      2002                   0     Madison
+MIN  29125      2002                   0     Maries
+MIN  29127      2002                   0     Marion
+MIN  29129      2002                   0     Mercer
+MIN  29131      2002                   0     Miller
+MIN  29133      2002                   0     Mississippi
+MIN  29135      2002                   0     Moniteau
+MIN  29137      2002                   0     Monroe
+MIN  29139      2002                   0     Montgomery
+MIN  29141      2002                   0     Morgan
+MIN  29143      2002                   0     New Madrid
+MIN  29145      2002                   0     Newton
+MIN  29147      2002                   0     Nodaway
+MIN  29149      2002                   0     Oregon
+MIN  29151      2002                   0     Osage
+MIN  29153      2002                   0     Ozark
+MIN  29155      2002                   0     Pemiscot
+MIN  29157      2002                   0     Perry
+MIN  29159      2002                   0     Pettis
+MIN  29161      2002                   0     Phelps
+MIN  29163      2002                   0     Pike
+MIN  29165      2002                   0     Platte
+MIN  29167      2002                   0     Polk
+MIN  29169      2002                   0     Pulaski
+MIN  29171      2002                   0     Putnam
+MIN  29173      2002                   0     Ralls
+MIN  29175      2002                   0     Randolph
+MIN  29177      2002                   0     Ray
+MIN  29179      2002                   0     Reynolds
+MIN  29181      2002                   0     Ripley
+MIN  29183      2002                   0     St. Charles
+MIN  29185      2002                   0     St. Clair
+MIN  29186      2002                   0     Ste. Genevieve
+MIN  29187      2002                   0     St. Francois
+MIN  29189      2002                   0     St. Louis
+MIN  29195      2002                   0     Saline
+MIN  29197      2002                   0     Schuyler
+MIN  29199      2002                   0     Scotland
+MIN  29201      2002                   0     Scott
+MIN  29203      2002                   0     Shannon
+MIN  29205      2002                   0     Shelby
+MIN  29207      2002                   0     Stoddard
+MIN  29209      2002                   0     Stone
+MIN  29211      2002                   0     Sullivan
+MIN  29213      2002                   0     Taney
+MIN  29215      2002                   0     Texas
+MIN  29217      2002                   0     Vernon
+MIN  29219      2002                   0     Warren
+MIN  29221      2002                   0     Washington
+MIN  29223      2002                   0     Wayne
+MIN  29225      2002                   0     Webster
+MIN  29227      2002                   0     Worth
+MIN  29229      2002                   0     Wright
+MIN  29510      2002                   0     St. Louis
+/END/

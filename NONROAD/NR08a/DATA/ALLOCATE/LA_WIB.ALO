@@ -1,0 +1,89 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WATER SURFACE AREA FOR INBOARD RECREATIONAL MARINE CRAFT (sq km navigable water)
+1990 GICS (inland water area); GIS analysis of coast lengths (coastal navigable water)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+WIB  22000      1990               16953     LA
+WIB  22001      1990                   6     Acadia
+WIB  22003      1990                   3     Allen
+WIB  22005      1990                  29     Ascension
+WIB  22007      1990                  67     Assumption
+WIB  22009      1990                  86     Avoyelles
+WIB  22011      1990                  15     Beauregard
+WIB  22013      1990                  29     Bienville
+WIB  22015      1990                  74     Bossier
+WIB  22017      1990                 142     Caddo
+WIB  22019      1990                  60     Calcasieu
+WIB  22021      1990                  29     Caldwell
+WIB  22023      1990                1386     Cameron
+WIB  22025      1990                  93     Catahoula
+WIB  22027      1990                  33     Claiborn
+WIB  22029      1990                 136     Concordia
+WIB  22031      1990                  45     De Soto
+WIB  22033      1990                  39     E. Baton Rouge
+WIB  22035      1990                  54     E. Carroll
+WIB  22037      1990                   6     E. Feliciana
+WIB  22039      1990                  40     Evangeline
+WIB  22041      1990                  31     Franklin
+WIB  22043      1990                  50     Grant
+WIB  22045      1990                 671     Iberia
+WIB  22047      1990                  89     Iberville
+WIB  22049      1990                  27     Jackson
+WIB  22051      1990                 949     Jefferson
+WIB  22053      1990                  16     Jefferson Davis
+WIB  22055      1990                   1     Lafayette
+WIB  22057      1990                 888     Lafourche
+WIB  22059      1990                 100     La Salle
+WIB  22061      1990                   2     Lincoln
+WIB  22063      1990                 142     Livingston
+WIB  22065      1990                  69     Madison
+WIB  22067      1990                  28     Morehouse
+WIB  22069      1990                 111     Natchitoches
+WIB  22071      1990                 446     Orleans
+WIB  22073      1990                  56     Ouachita
+WIB  22075      1990                3091     Plaquemines
+WIB  22077      1990                  86     Pointe Coupee
+WIB  22079      1990                 102     Rapides
+WIB  22081      1990                  35     Red River
+WIB  22083      1990                  16     Richland
+WIB  22085      1990                 379     Sabine
+WIB  22087      1990                1840     St. Bernard
+WIB  22089      1990                 328     St. Charles
+WIB  22091      1990                   3     St. Helena
+WIB  22093      1990                  30     St. James
+WIB  22095      1990                 334     St. John the Baptist
+WIB  22097      1990                  26     St. Landry
+WIB  22099      1990                 198     St. Martin
+WIB  22101      1990                 834     St. Mary
+WIB  22103      1990                 693     St. Tammany
+WIB  22105      1990                  85     Tangipahoa
+WIB  22107      1990                 100     Tensas
+WIB  22109      1990                1762     Terrebonne
+WIB  22111      1990                  72     Union
+WIB  22113      1990                 687     Vermilion
+WIB  22115      1990                  34     Vernon
+WIB  22117      1990                  17     Washington
+WIB  22119      1990                  50     Webster
+WIB  22121      1990                  32     W. Baton Rouge
+WIB  22123      1990                   2     W. Carroll
+WIB  22125      1990                  52     W. Feliciana
+WIB  22127      1990                  17     Winn
+/END/

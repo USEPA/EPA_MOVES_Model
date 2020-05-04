@@ -1,0 +1,92 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WATER SURFACE AREA FOR OUTBOARD RECREATIONAL MARINE CRAFT (sq km navigable water)
+1990 GICS (inland water area); GIS analysis of coast lengths (coastal navigable water)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+WOB  42000      1990                1306     PA
+WOB  42001      1990                   4     Adams
+WOB  42003      1990                  38     Allegheny
+WOB  42005      1990                  27     Armstrong
+WOB  42007      1990                  22     Beaver
+WOB  42009      1990                   7     Bedford
+WOB  42011      1990                  17     Berks
+WOB  42013      1990                   3     Blair
+WOB  42015      1990                  27     Bradford
+WOB  42017      1990                  38     Bucks
+WOB  42019      1990                  16     Butler
+WOB  42021      1990                  14     Cambria
+WOB  42023      1990                   4     Cameron
+WOB  42025      1990                  16     Carbon
+WOB  42027      1990                  11     Centre
+WOB  42029      1990                  10     Chester
+WOB  42031      1990                  17     Clarion
+WOB  42033      1990                  17     Clearfield
+WOB  42035      1990                  19     Clinton
+WOB  42037      1990                  11     Columbia
+WOB  42039      1990                  65     Crawford
+WOB  42041      1990                   3     Cumberland
+WOB  42043      1990                  84     Dauphin
+WOB  42045      1990                  17     Delaware
+WOB  42047      1990                   9     Elk
+WOB  42049      1990                  57     Erie
+WOB  42051      1990                  20     Fayette
+WOB  42053      1990                   8     Forest
+WOB  42055      1990                   2     Franklin
+WOB  42057      1990                   1     Fulton
+WOB  42059      1990                   5     Greene
+WOB  42061      1990                  39     Huntingdon
+WOB  42063      1990                  12     Indiana
+WOB  42065      1990                   4     Jefferson
+WOB  42067      1990                   5     Juniata
+WOB  42069      1990                  15     Lackawanna
+WOB  42071      1990                  90     Lancaster
+WOB  42073      1990                   6     Lawrence
+WOB  42075      1990                   2     Lebanon
+WOB  42077      1990                   4     Lehigh
+WOB  42079      1990                  42     Luzerne
+WOB  42081      1990                  23     Lycoming
+WOB  42083      1990                   7     McKean
+WOB  42085      1990                  28     Mercer
+WOB  42087      1990                   7     Mifflin
+WOB  42089      1990                  23     Monroe
+WOB  42091      1990                  11     Montgomery
+WOB  42093      1990                   4     Montour
+WOB  42095      1990                   9     Northampton
+WOB  42097      1990                  45     Northumberland
+WOB  42099      1990                   6     Perry
+WOB  42101      1990                  20     Philadelphia
+WOB  42103      1990                  51     Pike
+WOB  42105      1990                   1     Potter
+WOB  42107      1990                  10     Schuylkill
+WOB  42109      1990                   2     Snyder
+WOB  42111      1990                  17     Somerset
+WOB  42113      1990                   6     Sullivan
+WOB  42115      1990                  24     Susquehanna
+WOB  42117      1990                   9     Tioga
+WOB  42119      1990                   1     Union
+WOB  42121      1990                  21     Venango
+WOB  42123      1990                  37     Warren
+WOB  42125      1990                  10     Washington
+WOB  42127      1990                  55     Wayne
+WOB  42129      1990                  36     Westmoreland
+WOB  42131      1990                  20     Wyoming
+WOB  42133      1990                  15     York
+/END/

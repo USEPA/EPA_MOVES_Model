@@ -1,0 +1,89 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent GOLF COURSES AND COUNTRY CLUBS
+CBP NAICS 713910; pre-2002 CBP SIC 7992
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+GC   22000      2002                 126     LA
+GC   22001      2002                   1     Acadia
+GC   22003      2002                   1     Allen
+GC   22005      2002                   4     Ascension
+GC   22007      2002                   1     Assumption
+GC   22009      2002                   0     Avoyelles
+GC   22011      2002                   1     Beauregard
+GC   22013      2002                   1     Bienville
+GC   22015      2002                   5     Bossier
+GC   22017      2002                   6     Caddo
+GC   22019      2002                   4     Calcasieu
+GC   22021      2002                   1     Caldwell
+GC   22023      2002                   0     Cameron
+GC   22025      2002                   0     Catahoula
+GC   22027      2002                   1     Claiborn
+GC   22029      2002                   0     Concordia
+GC   22031      2002                   1     De Soto
+GC   22033      2002                  11     E. Baton Rouge
+GC   22035      2002                   1     E. Carroll
+GC   22037      2002                   1     E. Feliciana
+GC   22039      2002                   1     Evangeline
+GC   22041      2002                   1     Franklin
+GC   22043      2002                   0     Grant
+GC   22045      2002                   2     Iberia
+GC   22047      2002                   1     Iberville
+GC   22049      2002                   1     Jackson
+GC   22051      2002                   5     Jefferson
+GC   22053      2002                   1     Jefferson Davis
+GC   22055      2002                   4     Lafayette
+GC   22057      2002                   3     Lafourche
+GC   22059      2002                   1     La Salle
+GC   22061      2002                   3     Lincoln
+GC   22063      2002                   1     Livingston
+GC   22065      2002                   1     Madison
+GC   22067      2002                   1     Morehouse
+GC   22069      2002                   1     Natchitoches
+GC   22071      2002                   5     Orleans
+GC   22073      2002                   5     Ouachita
+GC   22075      2002                   3     Plaquemines
+GC   22077      2002                   1     Pointe Coupee
+GC   22079      2002                   5     Rapides
+GC   22081      2002                   0     Red River
+GC   22083      2002                   1     Richland
+GC   22085      2002                   0     Sabine
+GC   22087      2002                   0     St. Bernard
+GC   22089      2002                   4     St. Charles
+GC   22091      2002                   0     St. Helena
+GC   22093      2002                   0     St. James
+GC   22095      2002                   2     St. John the Baptist
+GC   22097      2002                   3     St. Landry
+GC   22099      2002                   1     St. Martin
+GC   22101      2002                   2     St. Mary
+GC   22103      2002                   9     St. Tammany
+GC   22105      2002                   4     Tangipahoa
+GC   22107      2002                   1     Tensas
+GC   22109      2002                   3     Terrebonne
+GC   22111      2002                   2     Union
+GC   22113      2002                   1     Vermilion
+GC   22115      2002                   0     Vernon
+GC   22117      2002                   2     Washington
+GC   22119      2002                   3     Webster
+GC   22121      2002                   1     W. Baton Rouge
+GC   22123      2002                   0     W. Carroll
+GC   22125      2002                   0     W. Feliciana
+GC   22127      2002                   1     Winn
+/END/

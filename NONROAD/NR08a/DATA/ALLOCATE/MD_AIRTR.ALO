@@ -1,0 +1,51 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent AIRCRAFT NOx TONS
+from Draft 2002 NEI
+
+9/1/05 epa: Modifies to treat PR & VI as additional to US Total.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+AIR  24000      2002            1203.205     MD
+AIR  24001      2002               0.000     Allegany
+AIR  24003      2002            1169.880     Anne Arundel
+AIR  24005      2002               0.840     Baltimore
+AIR  24009      2002               0.000     Calvert
+AIR  24011      2002               0.000     Caroline
+AIR  24013      2002               0.317     Carroll
+AIR  24015      2002               0.000     Cecil
+AIR  24017      2002               0.000     Charles
+AIR  24019      2002               0.027     Dorchester
+AIR  24021      2002               0.340     Frederick
+AIR  24023      2002               0.020     Garrett
+AIR  24025      2002               0.000     Harford
+AIR  24027      2002               0.000     Howard
+AIR  24029      2002               0.000     Kent
+AIR  24031      2002               0.700     Montgomery
+AIR  24033      2002               0.046     Prince George's
+AIR  24035      2002               0.074     Queen Anne's
+AIR  24037      2002               0.161     St. Mary's
+AIR  24039      2002               0.000     Somerset
+AIR  24041      2002               1.000     Talbot
+AIR  24043      2002               5.840     Washington
+AIR  24045      2002              23.960     Wicomico
+AIR  24047      2002               0.000     Worcester
+AIR  24510      2002               0.000     Baltimore
+/END/

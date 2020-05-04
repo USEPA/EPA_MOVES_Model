@@ -1,0 +1,110 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2003 DOLLAR VALUE of CONSTRUCTION
+adjusted for relative geographic cost of construction materials.
+   Const_Dollars * (1-(1/(1+100/Area_Mod_Factor)))
+from McGraw-Hill Construction (values) and Craftsman (cost adj)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+CON  26000      2003            14505437     MI
+CON  26001      2003               10703     Alcona
+CON  26003      2003                8450     Alger
+CON  26005      2003              154588     Allegan
+CON  26007      2003               18135     Alpena
+CON  26009      2003               63216     Antrim
+CON  26011      2003               17640     Arenac
+CON  26013      2003               13795     Baraga
+CON  26015      2003               86862     Barry
+CON  26017      2003              115415     Bay
+CON  26019      2003               62659     Benzie
+CON  26021      2003              177384     Berrien
+CON  26023      2003               51439     Branch
+CON  26025      2003              145419     Calhoun
+CON  26027      2003               60960     Cass
+CON  26029      2003               71605     Charlevoix
+CON  26031      2003               34268     Cheboygan
+CON  26033      2003               42789     Chippewa
+CON  26035      2003               24009     Clare
+CON  26037      2003              164652     Clinton
+CON  26039      2003               24205     Crawford
+CON  26041      2003               38422     Delta
+CON  26043      2003               39743     Dickinson
+CON  26045      2003              227173     Eaton
+CON  26047      2003               77405     Emmet
+CON  26049      2003              561553     Genesee
+CON  26051      2003               31834     Gladwin
+CON  26053      2003               22250     Gogebic
+CON  26055      2003              174474     Grand Traverse
+CON  26057      2003               21471     Gratiot
+CON  26059      2003               54365     Hillsdale
+CON  26061      2003               70822     Houghton
+CON  26063      2003               42399     Huron
+CON  26065      2003              320123     Ingham
+CON  26067      2003               57111     Ionia
+CON  26069      2003               52180     Iosco
+CON  26071      2003               21597     Iron
+CON  26073      2003               54470     Isabella
+CON  26075      2003              160622     Jackson
+CON  26077      2003              428787     Kalamazoo
+CON  26079      2003               18331     Kalkaska
+CON  26081      2003             1212060     Kent
+CON  26083      2003                2982     Keweenaw
+CON  26085      2003                7249     Lake
+CON  26087      2003              123994     Lapeer
+CON  26089      2003               58791     Leelanau
+CON  26091      2003              131286     Lenawee
+CON  26093      2003              392974     Livingston
+CON  26095      2003                4756     Luce
+CON  26097      2003               25100     Mackinac
+CON  26099      2003             1048848     Macomb
+CON  26101      2003               13699     Manistee
+CON  26103      2003               96035     Marquette
+CON  26105      2003               37847     Mason
+CON  26107      2003               55649     Mecosta
+CON  26109      2003               21908     Menominee
+CON  26111      2003               69842     Midland
+CON  26113      2003               10052     Missaukee
+CON  26115      2003              312102     Monroe
+CON  26117      2003               39192     Montcalm
+CON  26119      2003               19599     Montmorency
+CON  26121      2003              234401     Muskegon
+CON  26123      2003               52747     Newaygo
+CON  26125      2003             1765737     Oakland
+CON  26127      2003               22648     Oceana
+CON  26129      2003               22362     Ogemaw
+CON  26131      2003                8532     Ontonagon
+CON  26133      2003               16278     Osceola
+CON  26135      2003                6123     Oscoda
+CON  26137      2003               56986     Otsego
+CON  26139      2003              619779     Ottawa
+CON  26141      2003               34891     Presque Isle
+CON  26143      2003               49597     Roscommon
+CON  26145      2003              176380     Saginaw
+CON  26147      2003              268057     St. Clair
+CON  26149      2003               65972     St. Joseph
+CON  26151      2003               18997     Sanilac
+CON  26153      2003                8900     Schoolcraft
+CON  26155      2003               53016     Shiawassee
+CON  26157      2003               46484     Tuscola
+CON  26159      2003               92086     Van Buren
+CON  26161      2003             1036392     Washtenaw
+CON  26163      2003             2304706     Wayne
+CON  26165      2003               37075     Wexford
+/END/

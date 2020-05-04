@@ -1,0 +1,120 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent LOCOMOTIVE NOx TONS
+from Draft 2002 NEI
+
+9/1/05 epa: Modifies to treat PR & VI as additional to US Total.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+RR   31000      2002           51194.770     NE
+RR   31001      2002             997.500     Adams
+RR   31003      2002               0.000     Antelope
+RR   31005      2002               0.000     Arthur
+RR   31007      2002               0.000     Banner
+RR   31009      2002            1301.680     Blaine
+RR   31011      2002               0.000     Boone
+RR   31013      2002            1887.640     Box Butte
+RR   31015      2002               0.000     Boyd
+RR   31017      2002               0.000     Brown
+RR   31019      2002            1859.530     Buffalo
+RR   31021      2002             264.150     Burt
+RR   31023      2002              15.080     Butler
+RR   31025      2002            1130.270     Cass
+RR   31027      2002               0.000     Cedar
+RR   31029      2002              15.740     Chase
+RR   31031      2002               0.000     Cherry
+RR   31033      2002            1837.990     Cheyenne
+RR   31035      2002             660.790     Clay
+RR   31037      2002             599.660     Colfax
+RR   31039      2002               0.000     Cuming
+RR   31041      2002            1301.680     Custer
+RR   31043      2002             282.000     Dakota
+RR   31045      2002             833.220     Dawes
+RR   31047      2002             892.550     Dawson
+RR   31049      2002             967.510     Deuel
+RR   31051      2002               0.000     Dixon
+RR   31053      2002            1148.530     Dodge
+RR   31055      2002             835.500     Douglas
+RR   31057      2002             421.720     Dundy
+RR   31059      2002             204.610     Fillmore
+RR   31061      2002              29.270     Franklin
+RR   31063      2002               0.000     Frontier
+RR   31065      2002             245.360     Furnas
+RR   31067      2002             502.350     Gage
+RR   31069      2002            1534.840     Garden
+RR   31071      2002               0.000     Garfield
+RR   31073      2002               0.000     Gosper
+RR   31075      2002            1625.970     Grant
+RR   31077      2002               0.000     Greeley
+RR   31079      2002            1431.280     Hall
+RR   31081      2002             544.880     Hamilton
+RR   31083      2002             110.210     Harlan
+RR   31085      2002              15.740     Hayes
+RR   31087      2002             198.820     Hitchcock
+RR   31089      2002               0.000     Holt
+RR   31091      2002             844.720     Hooker
+RR   31093      2002               0.000     Howard
+RR   31095      2002             634.510     Jefferson
+RR   31097      2002             646.700     Johnson
+RR   31099      2002             173.850     Kearney
+RR   31101      2002            2369.810     Keith
+RR   31103      2002               0.000     Keya Paha
+RR   31105      2002             821.600     Kimball
+RR   31107      2002               0.000     Knox
+RR   31109      2002            1457.350     Lancaster
+RR   31111      2002            2208.800     Lincoln
+RR   31113      2002               0.000     Logan
+RR   31115      2002               0.000     Loup
+RR   31117      2002               0.000     McPherson
+RR   31119      2002               0.000     Madison
+RR   31121      2002            1060.610     Merrick
+RR   31123      2002            3217.330     Morrill
+RR   31125      2002               0.000     Nance
+RR   31127      2002              66.260     Nemaha
+RR   31129      2002             126.940     Nuckolls
+RR   31131      2002              57.300     Otoe
+RR   31133      2002             591.310     Pawnee
+RR   31135      2002               0.000     Perkins
+RR   31137      2002             182.720     Phelps
+RR   31139      2002               0.000     Pierce
+RR   31141      2002             733.480     Platte
+RR   31143      2002               0.000     Polk
+RR   31145      2002             283.000     Red Willow
+RR   31147      2002             624.340     Richardson
+RR   31149      2002               0.000     Rock
+RR   31151      2002             207.250     Saline
+RR   31153      2002             143.600     Sarpy
+RR   31155      2002             573.610     Saunders
+RR   31157      2002            1545.580     Scotts Bluff
+RR   31159      2002             698.160     Seward
+RR   31161      2002             781.250     Sheridan
+RR   31163      2002            1468.170     Sherman
+RR   31165      2002            1774.820     Sioux
+RR   31167      2002               0.000     Stanton
+RR   31169      2002             650.670     Thayer
+RR   31171      2002            2146.400     Thomas
+RR   31173      2002             264.150     Thurston
+RR   31175      2002               0.000     Valley
+RR   31177      2002             449.860     Washington
+RR   31179      2002               0.000     Wayne
+RR   31181      2002              35.690     Webster
+RR   31183      2002               0.000     Wheeler
+RR   31185      2002             658.860     York
+/END/

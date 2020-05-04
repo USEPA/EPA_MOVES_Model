@@ -1,0 +1,279 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WHOLESALE ESTABLISHMENTS
+CBP NAICS 42----; pre-2002 CBP SIC 50--
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+COM  48000      2002               31874     TX
+COM  48001      2002                  33     Anderson
+COM  48003      2002                  18     Andrews
+COM  48005      2002                  88     Angelina
+COM  48007      2002                  20     Aransas
+COM  48009      2002                   9     Archer
+COM  48011      2002                   1     Armstrong
+COM  48013      2002                  32     Atascosa
+COM  48015      2002                  26     Austin
+COM  48017      2002                  16     Bailey
+COM  48019      2002                   4     Bandera
+COM  48021      2002                  31     Bastrop
+COM  48023      2002                  13     Baylor
+COM  48025      2002                  11     Bee
+COM  48027      2002                 143     Bell
+COM  48029      2002                1702     Bexar
+COM  48031      2002                   8     Blanco
+COM  48033      2002                   0     Borden
+COM  48035      2002                  14     Bosque
+COM  48037      2002                 126     Bowie
+COM  48039      2002                 207     Brazoria
+COM  48041      2002                 128     Brazos
+COM  48043      2002                   9     Brewster
+COM  48045      2002                   5     Briscoe
+COM  48047      2002                   2     Brooks
+COM  48049      2002                  51     Brown
+COM  48051      2002                  23     Burleson
+COM  48053      2002                  36     Burnet
+COM  48055      2002                  22     Caldwell
+COM  48057      2002                  22     Calhoun
+COM  48059      2002                  14     Callahan
+COM  48061      2002                 351     Cameron
+COM  48063      2002                   4     Camp
+COM  48065      2002                   4     Carson
+COM  48067      2002                  21     Cass
+COM  48069      2002                  17     Castro
+COM  48071      2002                  18     Chambers
+COM  48073      2002                  37     Cherokee
+COM  48075      2002                  10     Childress
+COM  48077      2002                   4     Clay
+COM  48079      2002                   4     Cochran
+COM  48081      2002                   3     Coke
+COM  48083      2002                   9     Coleman
+COM  48085      2002                 852     Collin
+COM  48087      2002                   4     Collingsworth
+COM  48089      2002                  36     Colorado
+COM  48091      2002                 114     Comal
+COM  48093      2002                  28     Comanche
+COM  48095      2002                   2     Concho
+COM  48097      2002                  56     Cooke
+COM  48099      2002                  11     Coryell
+COM  48101      2002                   0     Cottle
+COM  48103      2002                   3     Crane
+COM  48105      2002                   7     Crockett
+COM  48107      2002                  13     Crosby
+COM  48109      2002                   1     Culberson
+COM  48111      2002                  21     Dallam
+COM  48113      2002                5278     Dallas
+COM  48115      2002                  18     Dawson
+COM  48117      2002                  41     Deaf Smith
+COM  48119      2002                   2     Delta
+COM  48121      2002                 529     Denton
+COM  48123      2002                  20     DeWitt
+COM  48125      2002                   2     Dickens
+COM  48127      2002                   5     Dimmit
+COM  48129      2002                   3     Donley
+COM  48131      2002                  10     Duval
+COM  48133      2002                  24     Eastland
+COM  48135      2002                 344     Ector
+COM  48137      2002                   2     Edwards
+COM  48139      2002                 104     Ellis
+COM  48141      2002                1017     El Paso
+COM  48143      2002                  47     Erath
+COM  48145      2002                  12     Falls
+COM  48147      2002                  23     Fannin
+COM  48149      2002                  34     Fayette
+COM  48151      2002                   0     Fisher
+COM  48153      2002                  18     Floyd
+COM  48155      2002                   6     Foard
+COM  48157      2002                 503     Fort Bend
+COM  48159      2002                   2     Franklin
+COM  48161      2002                  15     Freestone
+COM  48163      2002                  19     Frio
+COM  48165      2002                  21     Gaines
+COM  48167      2002                 207     Galveston
+COM  48169      2002                   5     Garza
+COM  48171      2002                  40     Gillespie
+COM  48173      2002                   2     Glasscock
+COM  48175      2002                   4     Goliad
+COM  48177      2002                  31     Gonzales
+COM  48179      2002                  38     Gray
+COM  48181      2002                 123     Grayson
+COM  48183      2002                 293     Gregg
+COM  48185      2002                  22     Grimes
+COM  48187      2002                 104     Guadalupe
+COM  48189      2002                  59     Hale
+COM  48191      2002                   5     Hall
+COM  48193      2002                  13     Hamilton
+COM  48195      2002                  19     Hansford
+COM  48197      2002                   6     Hardeman
+COM  48199      2002                  26     Hardin
+COM  48201      2002                7170     Harris
+COM  48203      2002                  60     Harrison
+COM  48205      2002                   6     Hartley
+COM  48207      2002                   4     Haskell
+COM  48209      2002                  82     Hays
+COM  48211      2002                  10     Hemphill
+COM  48213      2002                  54     Henderson
+COM  48215      2002                 637     Hidalgo
+COM  48217      2002                  23     Hill
+COM  48219      2002                  34     Hockley
+COM  48221      2002                  37     Hood
+COM  48223      2002                  51     Hopkins
+COM  48225      2002                  16     Houston
+COM  48227      2002                  30     Howard
+COM  48229      2002                   1     Hudspeth
+COM  48231      2002                  55     Hunt
+COM  48233      2002                  23     Hutchinson
+COM  48235      2002                   3     Irion
+COM  48237      2002                   9     Jack
+COM  48239      2002                  15     Jackson
+COM  48241      2002                  36     Jasper
+COM  48243      2002                   0     Jeff Davis
+COM  48245      2002                 330     Jefferson
+COM  48247      2002                   3     Jim Hogg
+COM  48249      2002                  46     Jim Wells
+COM  48251      2002                 104     Johnson
+COM  48253      2002                  24     Jones
+COM  48255      2002                  15     Karnes
+COM  48257      2002                  91     Kaufman
+COM  48259      2002                  48     Kendall
+COM  48261      2002                   0     Kenedy
+COM  48263      2002                   1     Kent
+COM  48265      2002                  47     Kerr
+COM  48267      2002                   2     Kimble
+COM  48269      2002                   0     King
+COM  48271      2002                   1     Kinney
+COM  48273      2002                   9     Kleberg
+COM  48275      2002                  13     Knox
+COM  48277      2002                  65     Lamar
+COM  48279      2002                  20     Lamb
+COM  48281      2002                   9     Lampasas
+COM  48283      2002                   2     La Salle
+COM  48285      2002                  26     Lavaca
+COM  48287      2002                  27     Lee
+COM  48289      2002                  23     Leon
+COM  48291      2002                  41     Liberty
+COM  48293      2002                  17     Limestone
+COM  48295      2002                   4     Lipscomb
+COM  48297      2002                  10     Live Oak
+COM  48299      2002                  15     Llano
+COM  48301      2002                   0     Loving
+COM  48303      2002                 469     Lubbock
+COM  48305      2002                   7     Lynn
+COM  48307      2002                  10     McCulloch
+COM  48309      2002                 286     McLennan
+COM  48311      2002                   0     McMullen
+COM  48313      2002                   6     Madison
+COM  48315      2002                   8     Marion
+COM  48317      2002                   6     Martin
+COM  48319      2002                   7     Mason
+COM  48321      2002                  34     Matagorda
+COM  48323      2002                  44     Maverick
+COM  48325      2002                  33     Medina
+COM  48327      2002                   3     Menard
+COM  48329      2002                 262     Midland
+COM  48331      2002                  21     Milam
+COM  48333      2002                   7     Mills
+COM  48335      2002                   3     Mitchell
+COM  48337      2002                  20     Montague
+COM  48339      2002                 435     Montgomery
+COM  48341      2002                  26     Moore
+COM  48343      2002                  13     Morris
+COM  48345      2002                   4     Motley
+COM  48347      2002                  61     Nacogdoches
+COM  48349      2002                  35     Navarro
+COM  48351      2002                   5     Newton
+COM  48353      2002                  20     Nolan
+COM  48355      2002                 466     Nueces
+COM  48357      2002                  34     Ochiltree
+COM  48359      2002                   3     Oldham
+COM  48361      2002                  48     Orange
+COM  48363      2002                  24     Palo Pinto
+COM  48365      2002                  21     Panola
+COM  48367      2002                  72     Parker
+COM  48369      2002                  22     Parmer
+COM  48371      2002                  14     Pecos
+COM  48373      2002                  29     Polk
+COM  48375      2002                 216     Potter
+COM  48377      2002                   5     Presidio
+COM  48379      2002                   5     Rains
+COM  48381      2002                 105     Randall
+COM  48383      2002                   5     Reagan
+COM  48385      2002                   2     Real
+COM  48387      2002                   1     Red River
+COM  48389      2002                   7     Reeves
+COM  48391      2002                   7     Refugio
+COM  48393      2002                   0     Roberts
+COM  48395      2002                   6     Robertson
+COM  48397      2002                  67     Rockwall
+COM  48399      2002                  14     Runnels
+COM  48401      2002                  36     Rusk
+COM  48403      2002                   3     Sabine
+COM  48405      2002                   6     San Augustine
+COM  48407      2002                  10     San Jacinto
+COM  48409      2002                  45     San Patricio
+COM  48411      2002                  17     San Saba
+COM  48413      2002                   1     Schleicher
+COM  48415      2002                  26     Scurry
+COM  48417      2002                   4     Shackelford
+COM  48419      2002                  16     Shelby
+COM  48421      2002                   9     Sherman
+COM  48423      2002                 305     Smith
+COM  48425      2002                   7     Somervell
+COM  48427      2002                  16     Starr
+COM  48429      2002                  16     Stephens
+COM  48431      2002                   4     Sterling
+COM  48433      2002                   2     Stonewall
+COM  48435      2002                   9     Sutton
+COM  48437      2002                  18     Swisher
+COM  48439      2002                2336     Tarrant
+COM  48441      2002                 191     Taylor
+COM  48443      2002                   0     Terrell
+COM  48445      2002                  20     Terry
+COM  48447      2002                   4     Throckmorton
+COM  48449      2002                  43     Titus
+COM  48451      2002                 132     Tom Green
+COM  48453      2002                1245     Travis
+COM  48455      2002                   6     Trinity
+COM  48457      2002                  10     Tyler
+COM  48459      2002                  19     Upshur
+COM  48461      2002                   8     Upton
+COM  48463      2002                  33     Uvalde
+COM  48465      2002                  36     Val Verde
+COM  48467      2002                  36     Van Zandt
+COM  48469      2002                 126     Victoria
+COM  48471      2002                  33     Walker
+COM  48473      2002                  49     Waller
+COM  48475      2002                  12     Ward
+COM  48477      2002                  43     Washington
+COM  48479      2002                 367     Webb
+COM  48481      2002                  52     Wharton
+COM  48483      2002                   8     Wheeler
+COM  48485      2002                 180     Wichita
+COM  48487      2002                  12     Wilbarger
+COM  48489      2002                   5     Willacy
+COM  48491      2002                 254     Williamson
+COM  48493      2002                  20     Wilson
+COM  48495      2002                   4     Winkler
+COM  48497      2002                  47     Wise
+COM  48499      2002                  49     Wood
+COM  48501      2002                  15     Yoakum
+COM  48503      2002                  34     Young
+COM  48505      2002                   6     Zapata
+COM  48507      2002                   2     Zavala
+/END/

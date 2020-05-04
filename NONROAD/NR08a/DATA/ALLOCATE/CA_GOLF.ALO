@@ -1,0 +1,83 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent GOLF COURSES AND COUNTRY CLUBS
+CBP NAICS 713910; pre-2002 CBP SIC 7992
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+GC   06000      2002                 689     CA
+GC   06001      2002                  15     Alameda
+GC   06003      2002                   0     Alpine
+GC   06005      2002                   0     Amador
+GC   06007      2002                   9     Butte
+GC   06009      2002                   5     Calaveras
+GC   06011      2002                   2     Colusa
+GC   06013      2002                  26     Contra Costa
+GC   06015      2002                   2     Del Norte
+GC   06017      2002                  11     El Dorado
+GC   06019      2002                  13     Fresno
+GC   06021      2002                   1     Glenn
+GC   06023      2002                   4     Humboldt
+GC   06025      2002                   1     Imperial
+GC   06027      2002                   3     Inyo
+GC   06029      2002                  14     Kern
+GC   06031      2002                   3     Kings
+GC   06033      2002                   3     Lake
+GC   06035      2002                   1     Lassen
+GC   06037      2002                 101     Los Angeles
+GC   06039      2002                   1     Madera
+GC   06041      2002                   8     Marin
+GC   06043      2002                   0     Mariposa
+GC   06045      2002                   2     Mendocino
+GC   06047      2002                   5     Merced
+GC   06049      2002                   0     Modoc
+GC   06051      2002                   1     Mono
+GC   06053      2002                  11     Monterey
+GC   06055      2002                   7     Napa
+GC   06057      2002                   8     Nevada
+GC   06059      2002                  50     Orange
+GC   06061      2002                  14     Placer
+GC   06063      2002                   4     Plumas
+GC   06065      2002                  88     Riverside
+GC   06067      2002                  22     Sacramento
+GC   06069      2002                   3     San Benito
+GC   06071      2002                  20     San Bernardino
+GC   06073      2002                  48     San Diego
+GC   06075      2002                   8     San Francisco
+GC   06077      2002                  15     San Joaquin
+GC   06079      2002                   9     San Luis Obispo
+GC   06081      2002                  10     San Mateo
+GC   06083      2002                  18     Santa Barbara
+GC   06085      2002                  26     Santa Clara
+GC   06087      2002                   7     Santa Cruz
+GC   06089      2002                   9     Shasta
+GC   06091      2002                   0     Sierra
+GC   06093      2002                   4     Siskiyou
+GC   06095      2002                   6     Solano
+GC   06097      2002                  17     Sonoma
+GC   06099      2002                   6     Stanislaus
+GC   06101      2002                   3     Sutter
+GC   06103      2002                   1     Tehama
+GC   06105      2002                   1     Trinity
+GC   06107      2002                   9     Tulare
+GC   06109      2002                   3     Tuolumne
+GC   06111      2002                  23     Ventura
+GC   06113      2002                   6     Yolo
+GC   06115      2002                   2     Yuba
+/END/

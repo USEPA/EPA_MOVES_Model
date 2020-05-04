@@ -1,0 +1,29 @@
+This file contains deterioration factors (DF) data for 
+Rec-Marine Vent Hose Permeation.  The deterioration factors
+are specified by tech type.  The values are actually the 
+coefficients of the deterioration equation: 
+               DF = 1 + A * (age)**B
+                      where:
+                            DF = new deterioation factor
+                            A  = coefficient specified here
+                            age = age of the engine
+            (cum. hours * load factor / median life in hours)
+                            B  = coefficient specified here
+An ALL in the tech type field will apply to all technology 
+types. 
+Any tech type not listed in this file will assume to have
+no deterioration on the emission factor.
+
+05/18/04
+--------------------------------------------------------------
+The format is as follows:
+       1-10  character     -- technology type code
+      21-30  real          -- A coefficient in the equation
+      31-40  real          -- B coefficient in the equation
+      41-50  real          -- emissions cap (in median life units)
+      51-60  character     -- pollutant name
+--------------------------------------------------------------
+
+/DETFAC/
+ALL                 0.0       1.0       1.0       THC
+/END/

@@ -1,0 +1,279 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WATER SURFACE AREA FOR INBOARD RECREATIONAL MARINE CRAFT (sq km navigable water)
+1990 GICS (inland water area); GIS analysis of coast lengths (coastal navigable water)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+WIB  48000      1990               17871     TX
+WIB  48001      1990                  18     Anderson
+WIB  48003      1990                   1     Andrews
+WIB  48005      1990                 163     Angelina
+WIB  48007      1990                 853     Aransas
+WIB  48009      1990                  42     Archer
+WIB  48011      1990                   0     Armstrong
+WIB  48013      1990                   9     Atascosa
+WIB  48015      1990                  10     Austin
+WIB  48017      1990                   2     Bailey
+WIB  48019      1990                  15     Bandera
+WIB  48021      1990                  20     Bastrop
+WIB  48023      1990                  78     Baylor
+WIB  48025      1990                   0     Bee
+WIB  48027      1990                  73     Bell
+WIB  48029      1990                  25     Bexar
+WIB  48031      1990                   6     Blanco
+WIB  48033      1990                  19     Borden
+WIB  48035      1990                  35     Bosque
+WIB  48037      1990                  90     Bowie
+WIB  48039      1990                 458     Brazoria
+WIB  48041      1990                  12     Brazos
+WIB  48043      1990                   0     Brewster
+WIB  48045      1990                   3     Briscoe
+WIB  48047      1990                   1     Brooks
+WIB  48049      1990                  34     Brown
+WIB  48051      1990                  32     Burleson
+WIB  48053      1990                  64     Burnet
+WIB  48055      1990                   4     Caldwell
+WIB  48057      1990                1643     Calhoun
+WIB  48059      1990                   7     Callahan
+WIB  48061      1990                1172     Cameron
+WIB  48063      1990                  15     Camp
+WIB  48065      1990                   2     Carson
+WIB  48067      1990                  59     Cass
+WIB  48069      1990                   2     Castro
+WIB  48071      1990                 404     Chambers
+WIB  48073      1990                  25     Cherokee
+WIB  48075      1990                   8     Childress
+WIB  48077      1990                  48     Clay
+WIB  48079      1990                   0     Cochran
+WIB  48081      1990                  76     Coke
+WIB  48083      1990                  22     Coleman
+WIB  48085      1990                  99     Collin
+WIB  48087      1990                   2     Collingsworth
+WIB  48089      1990                  28     Colorado
+WIB  48091      1990                  34     Comal
+WIB  48093      1990                  26     Comanche
+WIB  48095      1990                   6     Concho
+WIB  48097      1990                  65     Cooke
+WIB  48099      1990                  13     Coryell
+WIB  48101      1990                   1     Cottle
+WIB  48103      1990                   0     Crane
+WIB  48105      1990                   0     Crockett
+WIB  48107      1990                   6     Crosby
+WIB  48109      1990                   1     Culberson
+WIB  48111      1990                   1     Dallam
+WIB  48113      1990                  75     Dallas
+WIB  48115      1990                   0     Dawson
+WIB  48117      1990                   2     Deaf Smith
+WIB  48119      1990                   2     Delta
+WIB  48121      1990                 179     Denton
+WIB  48123      1990                   3     DeWitt
+WIB  48125      1990                   3     Dickens
+WIB  48127      1990                   9     Dimmit
+WIB  48129      1990                   8     Donley
+WIB  48131      1990                   8     Duval
+WIB  48133      1990                  15     Eastland
+WIB  48135      1990                   2     Ector
+WIB  48137      1990                   0     Edwards
+WIB  48139      1990                  30     Ellis
+WIB  48141      1990                   4     El Paso
+WIB  48143      1990                   9     Erath
+WIB  48145      1990                  12     Falls
+WIB  48147      1990                  20     Fannin
+WIB  48149      1990                  25     Fayette
+WIB  48151      1990                   2     Fisher
+WIB  48153      1990                   1     Floyd
+WIB  48155      1990                   3     Foard
+WIB  48157      1990                  29     Fort Bend
+WIB  48159      1990                  24     Franklin
+WIB  48161      1990                  18     Freestone
+WIB  48163      1990                   3     Frio
+WIB  48165      1990                   1     Gaines
+WIB  48167      1990                 758     Galveston
+WIB  48169      1990                   2     Garza
+WIB  48171      1990                   1     Gillespie
+WIB  48173      1990                   0     Glasscock
+WIB  48175      1990                  15     Goliad
+WIB  48177      1990                   5     Gonzales
+WIB  48179      1990                   3     Gray
+WIB  48181      1990                 118     Grayson
+WIB  48183      1990                   6     Gregg
+WIB  48185      1990                  19     Grimes
+WIB  48187      1990                   8     Guadalupe
+WIB  48189      1990                   0     Hale
+WIB  48191      1990                   3     Hall
+WIB  48193      1990                   2     Hamilton
+WIB  48195      1990                   2     Hansford
+WIB  48197      1990                   4     Hardeman
+WIB  48199      1990                   8     Hardin
+WIB  48201      1990                 147     Harris
+WIB  48203      1990                  42     Harrison
+WIB  48205      1990                   2     Hartley
+WIB  48207      1990                  19     Haskell
+WIB  48209      1990                   5     Hays
+WIB  48211      1990                   6     Hemphill
+WIB  48213      1990                 194     Henderson
+WIB  48215      1990                  36     Hidalgo
+WIB  48217      1990                  60     Hill
+WIB  48219      1990                   1     Hockley
+WIB  48221      1990                  39     Hood
+WIB  48223      1990                  21     Hopkins
+WIB  48225      1990                  15     Houston
+WIB  48227      1990                   4     Howard
+WIB  48229      1990                   2     Hudspeth
+WIB  48231      1990                 106     Hunt
+WIB  48233      1990                  20     Hutchinson
+WIB  48235      1990                   0     Irion
+WIB  48237      1990                   7     Jack
+WIB  48239      1990                  83     Jackson
+WIB  48241      1990                  83     Jasper
+WIB  48243      1990                   0     Jeff Davis
+WIB  48245      1990                 465     Jefferson
+WIB  48247      1990                   0     Jim Hogg
+WIB  48249      1990                   9     Jim Wells
+WIB  48251      1990                  13     Johnson
+WIB  48253      1990                  16     Jones
+WIB  48255      1990                   8     Karnes
+WIB  48257      1990                  54     Kaufman
+WIB  48259      1990                   2     Kendall
+WIB  48261      1990                1551     Kenedy
+WIB  48263      1990                   1     Kent
+WIB  48265      1990                   4     Kerr
+WIB  48267      1990                   1     Kimble
+WIB  48269      1990                   3     King
+WIB  48271      1990                   5     Kinney
+WIB  48273      1990                 686     Kleberg
+WIB  48275      1990                   3     Knox
+WIB  48277      1990                  40     Lamar
+WIB  48279      1990                   4     Lamb
+WIB  48281      1990                   5     Lampasas
+WIB  48283      1990                  14     La Salle
+WIB  48285      1990                   1     Lavaca
+WIB  48287      1990                  14     Lee
+WIB  48289      1990                  22     Leon
+WIB  48291      1990                  43     Liberty
+WIB  48293      1990                  63     Limestone
+WIB  48295      1990                   0     Lipscomb
+WIB  48297      1990                 110     Live Oak
+WIB  48299      1990                  81     Llano
+WIB  48301      1990                  10     Loving
+WIB  48303      1990                   3     Lubbock
+WIB  48305      1990                   4     Lynn
+WIB  48307      1990                  10     McCulloch
+WIB  48309      1990                  48     McLennan
+WIB  48311      1990                  77     McMullen
+WIB  48313      1990                   7     Madison
+WIB  48315      1990                 101     Marion
+WIB  48317      1990                   2     Martin
+WIB  48319      1990                   0     Mason
+WIB  48321      1990                1262     Matagorda
+WIB  48323      1990                  30     Maverick
+WIB  48325      1990                  18     Medina
+WIB  48327      1990                   1     Menard
+WIB  48329      1990                   4     Midland
+WIB  48331      1990                  13     Milam
+WIB  48333      1990                   5     Mills
+WIB  48335      1990                  15     Mitchell
+WIB  48337      1990                  20     Montague
+WIB  48339      1990                  84     Montgomery
+WIB  48341      1990                  26     Moore
+WIB  48343      1990                  11     Morris
+WIB  48345      1990                   1     Motley
+WIB  48347      1990                  90     Nacogdoches
+WIB  48349      1990                  39     Navarro
+WIB  48351      1990                  18     Newton
+WIB  48353      1990                   5     Nolan
+WIB  48355      1990                1109     Nueces
+WIB  48357      1990                   1     Ochiltree
+WIB  48359      1990                   2     Oldham
+WIB  48361      1990                  78     Orange
+WIB  48363      1990                  84     Palo Pinto
+WIB  48365      1990                  53     Panola
+WIB  48367      1990                  17     Parker
+WIB  48369      1990                   9     Parmer
+WIB  48371      1990                   3     Pecos
+WIB  48373      1990                 136     Polk
+WIB  48375      1990                  33     Potter
+WIB  48377      1990                   2     Presidio
+WIB  48379      1990                  69     Rains
+WIB  48381      1990                  21     Randall
+WIB  48383      1990                   2     Reagan
+WIB  48385      1990                   0     Real
+WIB  48387      1990                  19     Red River
+WIB  48389      1990                  16     Reeves
+WIB  48391      1990                 160     Refugio
+WIB  48393      1990                   0     Roberts
+WIB  48395      1990                  29     Robertson
+WIB  48397      1990                  52     Rockwall
+WIB  48399      1990                   7     Runnels
+WIB  48401      1990                  39     Rusk
+WIB  48403      1990                 224     Sabine
+WIB  48405      1990                 167     San Augustine
+WIB  48407      1990                 148     San Jacinto
+WIB  48409      1990                  43     San Patricio
+WIB  48411      1990                  10     San Saba
+WIB  48413      1990                   0     Schleicher
+WIB  48415      1990                  13     Scurry
+WIB  48417      1990                   4     Shackelford
+WIB  48419      1990                 105     Shelby
+WIB  48421      1990                   0     Sherman
+WIB  48423      1990                  55     Smith
+WIB  48425      1990                  12     Somervell
+WIB  48427      1990                  16     Starr
+WIB  48429      1990                  70     Stephens
+WIB  48431      1990                   0     Sterling
+WIB  48433      1990                   4     Stonewall
+WIB  48435      1990                   2     Sutton
+WIB  48437      1990                   1     Swisher
+WIB  48439      1990                  88     Tarrant
+WIB  48441      1990                   9     Taylor
+WIB  48443      1990                   0     Terrell
+WIB  48445      1990                   3     Terry
+WIB  48447      1990                   8     Throckmorton
+WIB  48449      1990                  39     Titus
+WIB  48451      1990                  48     Tom Green
+WIB  48453      1990                  85     Travis
+WIB  48455      1990                  55     Trinity
+WIB  48457      1990                  33     Tyler
+WIB  48459      1990                  13     Upshur
+WIB  48461      1990                   0     Upton
+WIB  48463      1990                   5     Uvalde
+WIB  48465      1990                 161     Val Verde
+WIB  48467      1990                  28     Van Zandt
+WIB  48469      1990                  16     Victoria
+WIB  48471      1990                  36     Walker
+WIB  48473      1990                  13     Waller
+WIB  48475      1990                   1     Ward
+WIB  48477      1990                  31     Washington
+WIB  48479      1990                  48     Webb
+WIB  48481      1990                  11     Wharton
+WIB  48483      1990                   3     Wheeler
+WIB  48485      1990                  14     Wichita
+WIB  48487      1990                  18     Wilbarger
+WIB  48489      1990                 613     Willacy
+WIB  48491      1990                  31     Williamson
+WIB  48493      1990                   4     Wilson
+WIB  48495      1990                   1     Winkler
+WIB  48497      1990                  47     Wise
+WIB  48499      1990                 118     Wood
+WIB  48501      1990                   0     Yoakum
+WIB  48503      1990                  22     Young
+WIB  48505      1990                 159     Zapata
+WIB  48507      1990                   8     Zavala
+/END/

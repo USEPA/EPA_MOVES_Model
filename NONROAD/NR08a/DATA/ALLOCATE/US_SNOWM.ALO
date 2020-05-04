@@ -1,0 +1,83 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+The data in this file is for NUMBER OF SNOWMOBILES
+1/22/01 c.harvey changes NV: zero to 100 for Zephyr Cove Snowmobile Center
+
+4/7/05: Cimulus added Puerto Rico and US Virgin Islands.  Puerto Rico was copied from Oklahoma for testing because
+        it had the closest number of counties (OK had 77 and PR had 78).  US Virgin Islands was copied from Deleware
+        for testing because they have the same number of counties.  Unlike the state-level allocation files, the number
+        of counties does not actually matter for this file, since it is only broken down to the state level.  This is
+        only meant as a sample file including Puerto Rico and US Virgin Islands; the indicator value associated with
+        each of these is not valid.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+------------------------------------------------------------------------
+/INDICATORS/
+SNM  00000      1998             1566532
+SNM  01000      1998                   0
+SNM  02000      1998               60000
+SNM  04000      1998               10000
+SNM  05000      1998                   0
+SNM  06000      1998               14175
+SNM  08000      1998               29400
+SNM  09000      1998                1381
+SNM  10000      1998                   0
+SNM  11000      1998                   0
+SNM  12000      1998                   0
+SNM  13000      1998                   0
+SNM  15000      1998                   0
+SNM  16000      1998               36778
+SNM  17000      1998               61022
+SNM  18000      1998               20153
+SNM  19000      1998               34650
+SNM  20000      1998                   0
+SNM  21000      1998                   0
+SNM  22000      1998                   0
+SNM  23000      1998               87150
+SNM  24000      1998                 247
+SNM  25000      1998               13935
+SNM  26000      1998              307027
+SNM  27000      1998              288659
+SNM  28000      1998                   0
+SNM  29000      1998                   0
+SNM  30000      1998               15079
+SNM  31000      1998                1451
+SNM  32000      1998                 100
+SNM  33000      1998               37047
+SNM  34000      1998                2639
+SNM  35000      1998                1308
+SNM  36000      1998              115500
+SNM  37000      1998                   0
+SNM  38000      1998               17011
+SNM  39000      1998               24150
+SNM  40000      1998                   0
+SNM  41000      1998               14097
+SNM  42000      1998               45150
+SNM  44000      1998                   0
+SNM  45000      1998                   0
+SNM  46000      1998               13163
+SNM  47000      1998                   0
+SNM  48000      1998                   0
+SNM  49000      1998               25723
+SNM  50000      1998               28073
+SNM  51000      1998                   0
+SNM  53000      1998               29225
+SNM  54000      1998                   0
+SNM  55000      1998              212327
+SNM  56000      1998               19912
+SNM  72000      1998                   0
+SNM  78000      1998                   0
+/END/

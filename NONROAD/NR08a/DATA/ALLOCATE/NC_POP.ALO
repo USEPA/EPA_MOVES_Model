@@ -1,0 +1,125 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent HUMAN POPULATION
+
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+POP  37000      2002             8311899     NC
+POP  37001      2002              135645     Alamance
+POP  37003      2002               34448     Alexander
+POP  37005      2002               10826     Alleghany
+POP  37007      2002               25283     Anson
+POP  37009      2002               24853     Ashe
+POP  37011      2002               17703     Avery
+POP  37013      2002               45278     Beaufort
+POP  37015      2002               19632     Bertie
+POP  37017      2002               32467     Bladen
+POP  37019      2002               78921     Brunswick
+POP  37021      2002              210513     Buncombe
+POP  37023      2002               89265     Burke
+POP  37025      2002              139845     Cabarrus
+POP  37027      2002               78737     Caldwell
+POP  37029      2002                7433     Camden
+POP  37031      2002               60257     Carteret
+POP  37033      2002               23701     Caswell
+POP  37035      2002              146461     Catawba
+POP  37037      2002               53784     Chatham
+POP  37039      2002               24721     Cherokee
+POP  37041      2002               14212     Chowan
+POP  37043      2002                9154     Clay
+POP  37045      2002               97747     Cleveland
+POP  37047      2002               54776     Columbus
+POP  37049      2002               91124     Craven
+POP  37051      2002              304519     Cumberland
+POP  37053      2002               19644     Currituck
+POP  37055      2002               32129     Dare
+POP  37057      2002              150787     Davidson
+POP  37059      2002               36690     Davie
+POP  37061      2002               50637     Duplin
+POP  37063      2002              233384     Durham
+POP  37065      2002               55038     Edgecombe
+POP  37067      2002              314369     Forsyth
+POP  37069      2002               50604     Franklin
+POP  37071      2002              193069     Gaston
+POP  37073      2002               10629     Gates
+POP  37075      2002                8085     Graham
+POP  37077      2002               51792     Granville
+POP  37079      2002               19538     Greene
+POP  37081      2002              430326     Guilford
+POP  37083      2002               56548     Halifax
+POP  37085      2002               96880     Harnett
+POP  37087      2002               55071     Haywood
+POP  37089      2002               92439     Henderson
+POP  37091      2002               23810     Hertford
+POP  37093      2002               36142     Hoke
+POP  37095      2002                5739     Hyde
+POP  37097      2002              130547     Iredell
+POP  37099      2002               33890     Jackson
+POP  37101      2002              132947     Johnston
+POP  37103      2002               10266     Jones
+POP  37105      2002               49309     Lee
+POP  37107      2002               58839     Lenoir
+POP  37109      2002               66247     Lincoln
+POP  37111      2002               42772     McDowell
+POP  37113      2002               30861     Macon
+POP  37115      2002               19939     Madison
+POP  37117      2002               25160     Martin
+POP  37119      2002              735085     Mecklenburg
+POP  37121      2002               15852     Mitchell
+POP  37123      2002               27042     Montgomery
+POP  37125      2002               77936     Moore
+POP  37127      2002               88920     Nash
+POP  37129      2002              165754     New Hanover
+POP  37131      2002               21868     Northampton
+POP  37133      2002              149813     Onslow
+POP  37135      2002              117087     Orange
+POP  37137      2002               12875     Pamlico
+POP  37139      2002               35608     Pasquotank
+POP  37141      2002               42870     Pender
+POP  37143      2002               11622     Perquimans
+POP  37145      2002               36607     Person
+POP  37147      2002              136985     Pitt
+POP  37149      2002               18815     Polk
+POP  37151      2002              133649     Randolph
+POP  37153      2002               46866     Richmond
+POP  37155      2002              124746     Robeson
+POP  37157      2002               92632     Rockingham
+POP  37159      2002              133608     Rowan
+POP  37161      2002               63328     Rutherford
+POP  37163      2002               61177     Sampson
+POP  37165      2002               35803     Scotland
+POP  37167      2002               58670     Stanly
+POP  37169      2002               45005     Stokes
+POP  37171      2002               72055     Surry
+POP  37173      2002               13025     Swain
+POP  37175      2002               29518     Transylvania
+POP  37177      2002                4157     Tyrrell
+POP  37179      2002              139449     Union
+POP  37181      2002               43910     Vance
+POP  37183      2002              677572     Wake
+POP  37185      2002               19935     Warren
+POP  37187      2002               13480     Washington
+POP  37189      2002               42937     Watauga
+POP  37191      2002              113171     Wayne
+POP  37193      2002               66816     Wilkes
+POP  37195      2002               74972     Wilson
+POP  37197      2002               37301     Yadkin
+POP  37199      2002               17946     Yancey
+/END/

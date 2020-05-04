@@ -1,0 +1,125 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WATER SURFACE AREA FOR INBOARD RECREATIONAL MARINE CRAFT (sq km navigable water)
+1990 GICS (inland water area); GIS analysis of coast lengths (coastal navigable water)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+WIB  37000      1990               16153     NC
+WIB  37001      1990                  11     Alamance
+WIB  37003      1990                   8     Alexander
+WIB  37005      1990                   2     Alleghany
+WIB  37007      1990                  14     Anson
+WIB  37009      1990                   2     Ashe
+WIB  37011      1990                   1     Avery
+WIB  37013      1990                 524     Beaufort
+WIB  37015      1990                 164     Bertie
+WIB  37017      1990                  31     Bladen
+WIB  37019      1990                 359     Brunswick
+WIB  37021      1990                  10     Buncombe
+WIB  37023      1990                  21     Burke
+WIB  37025      1990                   2     Cabarrus
+WIB  37027      1990                   7     Caldwell
+WIB  37029      1990                 249     Camden
+WIB  37031      1990                2439     Carteret
+WIB  37033      1990                   7     Caswell
+WIB  37035      1990                  35     Catawba
+WIB  37037      1990                  68     Chatham
+WIB  37039      1990                  30     Cherokee
+WIB  37041      1990                 224     Chowan
+WIB  37043      1990                  15     Clay
+WIB  37045      1990                  10     Cleveland
+WIB  37047      1990                  44     Columbus
+WIB  37049      1990                 256     Craven
+WIB  37051      1990                  14     Cumberland
+WIB  37053      1990                 816     Currituck
+WIB  37055      1990                3728     Dare
+WIB  37057      1990                  38     Davidson
+WIB  37059      1990                   4     Davie
+WIB  37061      1990                   3     Duplin
+WIB  37063      1990                  19     Durham
+WIB  37065      1990                   4     Edgecombe
+WIB  37067      1990                   8     Forsyth
+WIB  37069      1990                   7     Franklin
+WIB  37071      1990                  19     Gaston
+WIB  37073      1990                  13     Gates
+WIB  37075      1990                  25     Graham
+WIB  37077      1990                  14     Granville
+WIB  37079      1990                   1     Greene
+WIB  37081      1990                  20     Guilford
+WIB  37083      1990                  14     Halifax
+WIB  37085      1990                  16     Harnett
+WIB  37087      1990                   2     Haywood
+WIB  37089      1990                   3     Henderson
+WIB  37091      1990                  38     Hertford
+WIB  37093      1990                   3     Hoke
+WIB  37095      1990                2895     Hyde
+WIB  37097      1990                  49     Iredell
+WIB  37099      1990                  10     Jackson
+WIB  37101      1990                  10     Johnston
+WIB  37103      1990                   4     Jones
+WIB  37105      1990                   5     Lee
+WIB  37107      1990                   6     Lenoir
+WIB  37109      1990                  21     Lincoln
+WIB  37111      1990                  12     McDowell
+WIB  37113      1990                   8     Macon
+WIB  37115      1990                   6     Madison
+WIB  37117      1990                   1     Martin
+WIB  37119      1990                  58     Mecklenburg
+WIB  37121      1990                   2     Mitchell
+WIB  37123      1990                  26     Montgomery
+WIB  37125      1990                  20     Moore
+WIB  37127      1990                   6     Nash
+WIB  37129      1990                 232     New Hanover
+WIB  37131      1990                  37     Northampton
+WIB  37133      1990                 344     Onslow
+WIB  37135      1990                   4     Orange
+WIB  37137      1990                 893     Pamlico
+WIB  37139      1990                 238     Pasquotank
+WIB  37141      1990                 123     Pender
+WIB  37143      1990                 316     Perquimans
+WIB  37145      1990                  30     Person
+WIB  37147      1990                  10     Pitt
+WIB  37149      1990                   2     Polk
+WIB  37151      1990                   6     Randolph
+WIB  37153      1990                  15     Richmond
+WIB  37155      1990                   6     Robeson
+WIB  37157      1990                  15     Rockingham
+WIB  37159      1990                  32     Rowan
+WIB  37161      1990                   5     Rutherford
+WIB  37163      1990                   5     Sampson
+WIB  37165      1990                   4     Scotland
+WIB  37167      1990                  24     Stanly
+WIB  37169      1990                  10     Stokes
+WIB  37171      1990                   3     Surry
+WIB  37173      1990                  32     Swain
+WIB  37175      1990                   6     Transylvania
+WIB  37177      1990                 835     Tyrrell
+WIB  37179      1990                   6     Union
+WIB  37181      1990                  42     Vance
+WIB  37183      1990                  61     Wake
+WIB  37185      1990                  39     Warren
+WIB  37187      1990                 263     Washington
+WIB  37189      1990                   1     Watauga
+WIB  37191      1990                  11     Wayne
+WIB  37193      1990                   7     Wilkes
+WIB  37195      1990                   8     Wilson
+WIB  37197      1990                   5     Yadkin
+WIB  37199      1990                   2     Yancey
+/END/

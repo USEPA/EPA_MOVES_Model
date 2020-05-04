@@ -1,0 +1,124 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RELATIVE NUMBER OF SNOWMOBILES
+Allocated to counties using snowfall limit of 40" and inverse human population; Alaska uses direct human population
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+SNM  19000      2002                2150     IA
+SNM  19001      2002                   0     Adair
+SNM  19003      2002                   0     Adams
+SNM  19005      2002                  69     Allamakee
+SNM  19007      2002                   0     Appanoose
+SNM  19009      2002                   0     Audubon
+SNM  19011      2002                   0     Benton
+SNM  19013      2002                   0     Black Hawk
+SNM  19015      2002                   0     Boone
+SNM  19017      2002                  43     Bremer
+SNM  19019      2002                  48     Buchanan
+SNM  19021      2002                   0     Buena Vista
+SNM  19023      2002                  67     Butler
+SNM  19025      2002                   0     Calhoun
+SNM  19027      2002                   0     Carroll
+SNM  19029      2002                   0     Cass
+SNM  19031      2002                   0     Cedar
+SNM  19033      2002                  22     Cerro Gordo
+SNM  19035      2002                   0     Cherokee
+SNM  19037      2002                  78     Chickasaw
+SNM  19039      2002                   0     Clarke
+SNM  19041      2002                  59     Clay
+SNM  19043      2002                  54     Clayton
+SNM  19045      2002                   0     Clinton
+SNM  19047      2002                   0     Crawford
+SNM  19049      2002                   0     Dallas
+SNM  19051      2002                   0     Davis
+SNM  19053      2002                   0     Decatur
+SNM  19055      2002                  55     Delaware
+SNM  19057      2002                   0     Des Moines
+SNM  19059      2002                  61     Dickinson
+SNM  19061      2002                  11     Dubuque
+SNM  19063      2002                  92     Emmet
+SNM  19065      2002                  46     Fayette
+SNM  19067      2002                  60     Floyd
+SNM  19069      2002                  94     Franklin
+SNM  19071      2002                   0     Fremont
+SNM  19073      2002                   0     Greene
+SNM  19075      2002                   0     Grundy
+SNM  19077      2002                   0     Guthrie
+SNM  19079      2002                   0     Hamilton
+SNM  19081      2002                  84     Hancock
+SNM  19083      2002                   0     Hardin
+SNM  19085      2002                   0     Harrison
+SNM  19087      2002                   0     Henry
+SNM  19089      2002                 101     Howard
+SNM  19091      2002                  99     Humboldt
+SNM  19093      2002                   0     Ida
+SNM  19095      2002                   0     Iowa
+SNM  19097      2002                  49     Jackson
+SNM  19099      2002                   0     Jasper
+SNM  19101      2002                   0     Jefferson
+SNM  19103      2002                   0     Johnson
+SNM  19105      2002                   0     Jones
+SNM  19107      2002                   0     Keokuk
+SNM  19109      2002                  60     Kossuth
+SNM  19111      2002                   0     Lee
+SNM  19113      2002                   0     Linn
+SNM  19115      2002                   0     Louisa
+SNM  19117      2002                   0     Lucas
+SNM  19119      2002                  85     Lyon
+SNM  19121      2002                   0     Madison
+SNM  19123      2002                   0     Mahaska
+SNM  19125      2002                   0     Marion
+SNM  19127      2002                   0     Marshall
+SNM  19129      2002                   0     Mills
+SNM  19131      2002                  92     Mitchell
+SNM  19133      2002                   0     Monona
+SNM  19135      2002                   0     Monroe
+SNM  19137      2002                   0     Montgomery
+SNM  19139      2002                   0     Muscatine
+SNM  19141      2002                  68     O'Brien
+SNM  19143      2002                 146     Osceola
+SNM  19145      2002                   0     Page
+SNM  19147      2002                 101     Palo Alto
+SNM  19149      2002                  41     Plymouth
+SNM  19151      2002                   0     Pocahontas
+SNM  19153      2002                   0     Polk
+SNM  19155      2002                   0     Pottawattamie
+SNM  19157      2002                   0     Poweshiek
+SNM  19159      2002                   0     Ringgold
+SNM  19161      2002                   0     Sac
+SNM  19163      2002                   0     Scott
+SNM  19165      2002                   0     Shelby
+SNM  19167      2002                  31     Sioux
+SNM  19169      2002                   0     Story
+SNM  19171      2002                   0     Tama
+SNM  19173      2002                   0     Taylor
+SNM  19175      2002                   0     Union
+SNM  19177      2002                   0     Van Buren
+SNM  19179      2002                   0     Wapello
+SNM  19181      2002                   0     Warren
+SNM  19183      2002                   0     Washington
+SNM  19185      2002                   0     Wayne
+SNM  19187      2002                   0     Webster
+SNM  19189      2002                  87     Winnebago
+SNM  19191      2002                  47     Winneshiek
+SNM  19193      2002                   0     Woodbury
+SNM  19195      2002                 128     Worth
+SNM  19197      2002                  72     Wright
+/END/

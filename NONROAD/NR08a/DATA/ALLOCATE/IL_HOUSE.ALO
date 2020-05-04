@@ -1,0 +1,127 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent SINGLE AND DOUBLE (DUPLEX) FAMILY HOMES
+
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+HOU  17000      2002             4981422     IL
+HOU  17001      2002               29637     Adams
+HOU  17003      2002                4627     Alexander
+HOU  17005      2002                6862     Bond
+HOU  17007      2002               16281     Boone
+HOU  17009      2002                2491     Brown
+HOU  17011      2002               15358     Bureau
+HOU  17013      2002                2704     Calhoun
+HOU  17015      2002                8020     Carroll
+HOU  17017      2002                5780     Cass
+HOU  17019      2002               77237     Champaign
+HOU  17021      2002               15093     Christian
+HOU  17023      2002                7921     Clark
+HOU  17025      2002                6485     Clay
+HOU  17027      2002               14084     Clinton
+HOU  17029      2002               22984     Coles
+HOU  17031      2002             2108657     Cook
+HOU  17033      2002                8857     Crawford
+HOU  17035      2002                4954     Cumberland
+HOU  17037      2002               34181     DeKalb
+HOU  17039      2002                7348     De Witt
+HOU  17041      2002                8078     Douglas
+HOU  17043      2002              344728     DuPage
+HOU  17045      2002                8708     Edgar
+HOU  17047      2002                3254     Edwards
+HOU  17049      2002               14161     Effingham
+HOU  17051      2002                9175     Fayette
+HOU  17053      2002                6103     Ford
+HOU  17055      2002               18214     Franklin
+HOU  17057      2002               16257     Fulton
+HOU  17059      2002                3131     Gallatin
+HOU  17061      2002                6386     Greene
+HOU  17063      2002               15510     Grundy
+HOU  17065      2002                4045     Hamilton
+HOU  17067      2002                9033     Hancock
+HOU  17069      2002                2516     Hardin
+HOU  17071      2002                4154     Henderson
+HOU  17073      2002               21376     Henry
+HOU  17075      2002               13417     Iroquois
+HOU  17077      2002               27285     Jackson
+HOU  17079      2002                4365     Jasper
+HOU  17081      2002               17309     Jefferson
+HOU  17083      2002                9126     Jersey
+HOU  17085      2002               12189     Jo Daviess
+HOU  17087      2002                5154     Johnson
+HOU  17089      2002              149605     Kane
+HOU  17091      2002               41382     Kankakee
+HOU  17093      2002               22604     Kendall
+HOU  17095      2002               23878     Knox
+HOU  17097      2002              234705     Lake
+HOU  17099      2002               47224     La Salle
+HOU  17101      2002                7084     Lawrence
+HOU  17103      2002               14460     Lee
+HOU  17105      2002               15375     Livingston
+HOU  17107      2002               11870     Logan
+HOU  17109      2002               13617     McDonough
+HOU  17111      2002               99662     McHenry
+HOU  17113      2002               62327     McLean
+HOU  17115      2002               50651     Macon
+HOU  17117      2002               21390     Macoupin
+HOU  17119      2002              111119     Madison
+HOU  17121      2002               18192     Marion
+HOU  17123      2002                5960     Marshall
+HOU  17125      2002                7026     Mason
+HOU  17127      2002                7030     Massac
+HOU  17129      2002                5425     Menard
+HOU  17131      2002                7124     Mercer
+HOU  17133      2002               11271     Monroe
+HOU  17135      2002               12597     Montgomery
+HOU  17137      2002               15347     Morgan
+HOU  17139      2002                5823     Moultrie
+HOU  17141      2002               20767     Ogle
+HOU  17143      2002               79463     Peoria
+HOU  17145      2002                9607     Perry
+HOU  17147      2002                6914     Piatt
+HOU  17149      2002                8038     Pike
+HOU  17151      2002                2380     Pope
+HOU  17153      2002                3400     Pulaski
+HOU  17155      2002                2956     Putnam
+HOU  17157      2002               13417     Randolph
+HOU  17159      2002                7621     Richland
+HOU  17161      2002               64604     Rock Island
+HOU  17163      2002              106685     St. Clair
+HOU  17165      2002               12551     Saline
+HOU  17167      2002               87005     Sangamon
+HOU  17169      2002                3350     Schuyler
+HOU  17171      2002                2495     Scott
+HOU  17173      2002               10145     Shelby
+HOU  17175      2002                2759     Stark
+HOU  17177      2002               21843     Stephenson
+HOU  17179      2002               53743     Tazewell
+HOU  17181      2002                8003     Union
+HOU  17183      2002               36465     Vermilion
+HOU  17185      2002                5805     Wabash
+HOU  17187      2002                7787     Warren
+HOU  17189      2002                6497     Washington
+HOU  17191      2002                8128     Wayne
+HOU  17193      2002                7504     White
+HOU  17195      2002               25174     Whiteside
+HOU  17197      2002              191539     Will
+HOU  17199      2002               28129     Williamson
+HOU  17201      2002              116828     Winnebago
+HOU  17203      2002               13837     Woodford
+/END/

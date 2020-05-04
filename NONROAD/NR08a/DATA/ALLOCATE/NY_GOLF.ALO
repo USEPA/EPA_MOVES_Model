@@ -1,0 +1,87 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent GOLF COURSES AND COUNTRY CLUBS
+CBP NAICS 713910; pre-2002 CBP SIC 7992
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+GC   36000      2002                 674     NY
+GC   36001      2002                  18     Albany
+GC   36003      2002                   5     Allegany
+GC   36005      2002                   6     Bronx
+GC   36007      2002                   5     Broome
+GC   36009      2002                   4     Cattaraugus
+GC   36011      2002                  11     Cayuga
+GC   36013      2002                  16     Chautauqua
+GC   36015      2002                   2     Chemung
+GC   36017      2002                   6     Chenango
+GC   36019      2002                   5     Clinton
+GC   36021      2002                   5     Columbia
+GC   36023      2002                   6     Cortland
+GC   36025      2002                  10     Delaware
+GC   36027      2002                  16     Dutchess
+GC   36029      2002                  33     Erie
+GC   36031      2002                   5     Essex
+GC   36033      2002                   5     Franklin
+GC   36035      2002                   6     Fulton
+GC   36037      2002                   8     Genesee
+GC   36039      2002                   4     Greene
+GC   36041      2002                   4     Hamilton
+GC   36043      2002                   6     Herkimer
+GC   36045      2002                  13     Jefferson
+GC   36047      2002                   5     Kings
+GC   36049      2002                   4     Lewis
+GC   36051      2002                  10     Livingston
+GC   36053      2002                   9     Madison
+GC   36055      2002                  34     Monroe
+GC   36057      2002                   2     Montgomery
+GC   36059      2002                  48     Nassau
+GC   36061      2002                   9     New York
+GC   36063      2002                  13     Niagara
+GC   36065      2002                  26     Oneida
+GC   36067      2002                  30     Onondaga
+GC   36069      2002                  11     Ontario
+GC   36071      2002                  20     Orange
+GC   36073      2002                   4     Orleans
+GC   36075      2002                   7     Oswego
+GC   36077      2002                   5     Otsego
+GC   36079      2002                   7     Putnam
+GC   36081      2002                   6     Queens
+GC   36083      2002                   6     Rensselaer
+GC   36085      2002                   5     Richmond
+GC   36087      2002                   9     Rockland
+GC   36089      2002                   9     St. Lawrence
+GC   36091      2002                  16     Saratoga
+GC   36093      2002                   5     Schenectady
+GC   36095      2002                   1     Schoharie
+GC   36097      2002                   1     Schuyler
+GC   36099      2002                   3     Seneca
+GC   36101      2002                   5     Steuben
+GC   36103      2002                  66     Suffolk
+GC   36105      2002                   2     Sullivan
+GC   36107      2002                   9     Tioga
+GC   36109      2002                   6     Tompkins
+GC   36111      2002                  11     Ulster
+GC   36113      2002                   8     Warren
+GC   36115      2002                   3     Washington
+GC   36117      2002                   6     Wayne
+GC   36119      2002                  47     Westchester
+GC   36121      2002                   6     Wyoming
+GC   36123      2002                   1     Yates
+/END/

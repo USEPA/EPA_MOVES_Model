@@ -1,0 +1,120 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WATER SURFACE AREA FOR OUTBOARD RECREATIONAL MARINE CRAFT (sq km navigable water)
+1990 GICS (inland water area); GIS analysis of coast lengths (coastal navigable water)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+WOB  47000      1990                2399     TN
+WOB  47001      1990                  19     Anderson
+WOB  47003      1990                   3     Bedford
+WOB  47005      1990                 107     Benton
+WOB  47007      1990                   1     Bledsoe
+WOB  47009      1990                  21     Blount
+WOB  47011      1990                   7     Bradley
+WOB  47013      1990                  47     Campbell
+WOB  47015      1990                   0     Cannon
+WOB  47017      1990                   2     Carroll
+WOB  47019      1990                  17     Carter
+WOB  47021      1990                  12     Cheatham
+WOB  47023      1990                   1     Chester
+WOB  47025      1990                  19     Claiborne
+WOB  47027      1990                  60     Clay
+WOB  47029      1990                  23     Cocke
+WOB  47031      1990                  14     Coffee
+WOB  47033      1990                   1     Crockett
+WOB  47035      1990                   9     Cumberland
+WOB  47037      1990                  62     Davidson
+WOB  47039      1990                  29     Decatur
+WOB  47041      1990                  63     DeKalb
+WOB  47043      1990                   4     Dickson
+WOB  47045      1990                  41     Dyer
+WOB  47047      1990                   4     Fayette
+WOB  47049      1990                   1     Fentress
+WOB  47051      1990                  55     Franklin
+WOB  47053      1990                   2     Gibson
+WOB  47055      1990                   1     Giles
+WOB  47057      1990                  57     Grainger
+WOB  47059      1990                   6     Greene
+WOB  47061      1990                   1     Grundy
+WOB  47063      1990                  38     Hamblen
+WOB  47065      1990                  86     Hamilton
+WOB  47067      1990                   3     Hancock
+WOB  47069      1990                   7     Hardeman
+WOB  47071      1990                  48     Hardin
+WOB  47073      1990                  34     Hawkins
+WOB  47075      1990                   2     Haywood
+WOB  47077      1990                  15     Henderson
+WOB  47079      1990                  82     Henry
+WOB  47081      1990                   0     Hickman
+WOB  47083      1990                  17     Houston
+WOB  47085      1990                  63     Humphreys
+WOB  47087      1990                  28     Jackson
+WOB  47089      1990                 105     Jefferson
+WOB  47091      1990                  11     Johnson
+WOB  47093      1990                  45     Knox
+WOB  47095      1990                  79     Lake
+WOB  47097      1990                  95     Lauderdale
+WOB  47099      1990                   2     Lawrence
+WOB  47101      1990                   1     Lewis
+WOB  47103      1990                   1     Lincoln
+WOB  47105      1990                  48     Loudon
+WOB  47107      1990                   5     McMinn
+WOB  47109      1990                   2     McNairy
+WOB  47111      1990                   0     Macon
+WOB  47113      1990                   4     Madison
+WOB  47115      1990                  36     Marion
+WOB  47117      1990                   2     Marshall
+WOB  47119      1990                   7     Maury
+WOB  47121      1990                  57     Meigs
+WOB  47123      1990                  46     Monroe
+WOB  47125      1990                  12     Montgomery
+WOB  47127      1990                   3     Moore
+WOB  47129      1990                   1     Morgan
+WOB  47131      1990                  27     Obion
+WOB  47133      1990                   4     Overton
+WOB  47135      1990                  21     Perry
+WOB  47137      1990                  30     Pickett
+WOB  47139      1990                  19     Polk
+WOB  47141      1990                   4     Putnam
+WOB  47143      1990                  53     Rhea
+WOB  47145      1990                  88     Roane
+WOB  47147      1990                   1     Robertson
+WOB  47149      1990                  13     Rutherford
+WOB  47151      1990                   3     Scott
+WOB  47153      1990                   0     Sequatchie
+WOB  47155      1990                  14     Sevier
+WOB  47157      1990                  75     Shelby
+WOB  47159      1990                  28     Smith
+WOB  47161      1990                  92     Stewart
+WOB  47163      1990                  43     Sullivan
+WOB  47165      1990                  36     Sumner
+WOB  47167      1990                  40     Tipton
+WOB  47169      1990                   6     Trousdale
+WOB  47171      1990                   1     Unicoi
+WOB  47173      1990                  61     Union
+WOB  47175      1990                   3     Van Buren
+WOB  47177      1990                   4     Warren
+WOB  47179      1990                   9     Washington
+WOB  47181      1990                   4     Wayne
+WOB  47183      1990                   4     Weakley
+WOB  47185      1990                   7     White
+WOB  47187      1990                   2     Williamson
+WOB  47189      1990                  33     Wilson
+/END/

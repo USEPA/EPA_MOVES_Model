@@ -1,0 +1,71 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent HUMAN POPULATION
+
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+POP  45000      2002             4105848     SC
+POP  45001      2002               26384     Abbeville
+POP  45003      2002              145326     Aiken
+POP  45005      2002               11079     Allendale
+POP  45007      2002              170274     Anderson
+POP  45009      2002               16319     Bamberg
+POP  45011      2002               23372     Barnwell
+POP  45013      2002              129873     Beaufort
+POP  45015      2002              145635     Berkeley
+POP  45017      2002               15225     Calhoun
+POP  45019      2002              316858     Charleston
+POP  45021      2002               53552     Cherokee
+POP  45023      2002               34103     Chester
+POP  45025      2002               43208     Chesterfield
+POP  45027      2002               32928     Clarendon
+POP  45029      2002               38938     Colleton
+POP  45031      2002               67882     Darlington
+POP  45033      2002               31086     Dillon
+POP  45035      2002              101194     Dorchester
+POP  45037      2002               24734     Edgefield
+POP  45039      2002               23889     Fairfield
+POP  45041      2002              127248     Florence
+POP  45043      2002               58081     Georgetown
+POP  45045      2002              391316     Greenville
+POP  45047      2002               67208     Greenwood
+POP  45049      2002               21299     Hampton
+POP  45051      2002              206062     Horry
+POP  45053      2002               20949     Jasper
+POP  45055      2002               53756     Kershaw
+POP  45057      2002               62230     Lancaster
+POP  45059      2002               70086     Laurens
+POP  45061      2002               20302     Lee
+POP  45063      2002              222771     Lexington
+POP  45065      2002               10211     McCormick
+POP  45067      2002               35097     Marion
+POP  45069      2002               28619     Marlboro
+POP  45071      2002               36773     Newberry
+POP  45073      2002               67957     Oconee
+POP  45075      2002               91304     Orangeburg
+POP  45077      2002              111447     Pickens
+POP  45079      2002              327815     Richland
+POP  45081      2002               19112     Saluda
+POP  45083      2002              259348     Spartanburg
+POP  45085      2002              105221     Sumter
+POP  45087      2002               29347     Union
+POP  45089      2002               36448     Williamsburg
+POP  45091      2002              173982     York
+/END/

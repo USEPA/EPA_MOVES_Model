@@ -1,0 +1,113 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RELATIVE NUMBER OF RESIDENTIAL SNOWBLOWERS
+Same as HOUSE allocation factors, with value set to 0 for counties with snowfall < 15"
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+SBR  39000      2002             4876698     OH
+SBR  39001      2002               12029     Adams
+SBR  39003      2002               44533     Allen
+SBR  39005      2002               21139     Ashland
+SBR  39007      2002               44516     Ashtabula
+SBR  39009      2002               25102     Athens
+SBR  39011      2002               18702     Auglaize
+SBR  39013      2002               31238     Belmont
+SBR  39015      2002               17628     Brown
+SBR  39017      2002              133062     Butler
+SBR  39019      2002               13079     Carroll
+SBR  39021      2002               16176     Champaign
+SBR  39023      2002               61745     Clark
+SBR  39025      2002               72437     Clermont
+SBR  39027      2002               16996     Clinton
+SBR  39029      2002               46475     Columbiana
+SBR  39031      2002               16279     Coshocton
+SBR  39033      2002               20343     Crawford
+SBR  39035      2002              617134     Cuyahoga
+SBR  39037      2002               21835     Darke
+SBR  39039      2002               16291     Defiance
+SBR  39041      2002               49414     Delaware
+SBR  39043      2002               36321     Erie
+SBR  39045      2002               50610     Fairfield
+SBR  39047      2002               12067     Fayette
+SBR  39049      2002              489821     Franklin
+SBR  39051      2002               16553     Fulton
+SBR  39053      2002               13614     Gallia
+SBR  39055      2002               33847     Geauga
+SBR  39057      2002               60542     Greene
+SBR  39059      2002               19079     Guernsey
+SBR  39061      2002              376344     Hamilton
+SBR  39063      2002               30380     Hancock
+SBR  39065      2002               12992     Hardin
+SBR  39067      2002                7724     Harrison
+SBR  39069      2002               11771     Henry
+SBR  39071      2002               17735     Highland
+SBR  39073      2002               12176     Hocking
+SBR  39075      2002               12305     Holmes
+SBR  39077      2002               23933     Huron
+SBR  39079      2002               14301     Jackson
+SBR  39081      2002               33487     Jefferson
+SBR  39083      2002               22430     Knox
+SBR  39085      2002               95138     Lake
+SBR  39087      2002               27529     Lawrence
+SBR  39089      2002               60954     Licking
+SBR  39091      2002               22158     Logan
+SBR  39093      2002              115085     Lorain
+SBR  39095      2002              198620     Lucas
+SBR  39097      2002               14744     Madison
+SBR  39099      2002              112593     Mahoning
+SBR  39101      2002               26609     Marion
+SBR  39103      2002               59849     Medina
+SBR  39105      2002               10881     Meigs
+SBR  39107      2002               16151     Mercer
+SBR  39109      2002               40902     Miami
+SBR  39111      2002                7227     Monroe
+SBR  39113      2002              250230     Montgomery
+SBR  39115      2002                7794     Morgan
+SBR  39117      2002               12334     Morrow
+SBR  39119      2002               35473     Muskingum
+SBR  39121      2002                5547     Noble
+SBR  39123      2002               25955     Ottawa
+SBR  39125      2002                8719     Paulding
+SBR  39127      2002               13772     Perry
+SBR  39129      2002               19021     Pickaway
+SBR  39131      2002               11848     Pike
+SBR  39133      2002               62019     Portage
+SBR  39135      2002               17527     Preble
+SBR  39137      2002               13016     Putnam
+SBR  39139      2002               54011     Richland
+SBR  39141      2002               29981     Ross
+SBR  39143      2002               25482     Sandusky
+SBR  39145      2002               34096     Scioto
+SBR  39147      2002               24012     Seneca
+SBR  39149      2002               19062     Shelby
+SBR  39151      2002              158895     Stark
+SBR  39153      2002              235248     Summit
+SBR  39155      2002               95827     Trumbull
+SBR  39157      2002               38421     Tuscarawas
+SBR  39159      2002               16235     Union
+SBR  39161      2002               12477     Van Wert
+SBR  39163      2002                5733     Vinton
+SBR  39165      2002               64639     Warren
+SBR  39167      2002               28086     Washington
+SBR  39169      2002               43590     Wayne
+SBR  39171      2002               16440     Williams
+SBR  39173      2002               49161     Wood
+SBR  39175      2002                9422     Wyandot
+/END/

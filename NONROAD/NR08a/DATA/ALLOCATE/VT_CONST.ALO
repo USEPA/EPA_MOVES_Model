@@ -1,0 +1,41 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2003 DOLLAR VALUE of CONSTRUCTION
+adjusted for relative geographic cost of construction materials.
+   Const_Dollars * (1-(1/(1+100/Area_Mod_Factor)))
+from McGraw-Hill Construction (values) and Craftsman (cost adj)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+CON  50000      2003              883892     VT
+CON  50001      2003               22774     Addison
+CON  50003      2003               33606     Bennington
+CON  50005      2003               23364     Caledonia
+CON  50007      2003              217590     Chittenden
+CON  50009      2003                3317     Essex
+CON  50011      2003               59187     Franklin
+CON  50013      2003                7516     Grand Isle
+CON  50015      2003               49961     Lamoille
+CON  50017      2003               37641     Orange
+CON  50019      2003               21220     Orleans
+CON  50021      2003               55026     Rutland
+CON  50023      2003               86045     Washington
+CON  50025      2003              172292     Windham
+CON  50027      2003               94353     Windsor
+/END/

@@ -1,0 +1,130 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RELATIVE NUMBER OF SNOWMOBILES
+Allocated to counties using snowfall limit of 40" and inverse human population; Alaska uses direct human population
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+SNM  20000      2002                   0     KS
+SNM  20001      2002                   0     Allen
+SNM  20003      2002                   0     Anderson
+SNM  20005      2002                   0     Atchison
+SNM  20007      2002                   0     Barber
+SNM  20009      2002                   0     Barton
+SNM  20011      2002                   0     Bourbon
+SNM  20013      2002                   0     Brown
+SNM  20015      2002                   0     Butler
+SNM  20017      2002                   0     Chase
+SNM  20019      2002                   0     Chautauqua
+SNM  20021      2002                   0     Cherokee
+SNM  20023      2002                   0     Cheyenne
+SNM  20025      2002                   0     Clark
+SNM  20027      2002                   0     Clay
+SNM  20029      2002                   0     Cloud
+SNM  20031      2002                   0     Coffey
+SNM  20033      2002                   0     Comanche
+SNM  20035      2002                   0     Cowley
+SNM  20037      2002                   0     Crawford
+SNM  20039      2002                   0     Decatur
+SNM  20041      2002                   0     Dickinson
+SNM  20043      2002                   0     Doniphan
+SNM  20045      2002                   0     Douglas
+SNM  20047      2002                   0     Edwards
+SNM  20049      2002                   0     Elk
+SNM  20051      2002                   0     Ellis
+SNM  20053      2002                   0     Ellsworth
+SNM  20055      2002                   0     Finney
+SNM  20057      2002                   0     Ford
+SNM  20059      2002                   0     Franklin
+SNM  20061      2002                   0     Geary
+SNM  20063      2002                   0     Gove
+SNM  20065      2002                   0     Graham
+SNM  20067      2002                   0     Grant
+SNM  20069      2002                   0     Gray
+SNM  20071      2002                   0     Greeley
+SNM  20073      2002                   0     Greenwood
+SNM  20075      2002                   0     Hamilton
+SNM  20077      2002                   0     Harper
+SNM  20079      2002                   0     Harvey
+SNM  20081      2002                   0     Haskell
+SNM  20083      2002                   0     Hodgeman
+SNM  20085      2002                   0     Jackson
+SNM  20087      2002                   0     Jefferson
+SNM  20089      2002                   0     Jewell
+SNM  20091      2002                   0     Johnson
+SNM  20093      2002                   0     Kearny
+SNM  20095      2002                   0     Kingman
+SNM  20097      2002                   0     Kiowa
+SNM  20099      2002                   0     Labette
+SNM  20101      2002                   0     Lane
+SNM  20103      2002                   0     Leavenworth
+SNM  20105      2002                   0     Lincoln
+SNM  20107      2002                   0     Linn
+SNM  20109      2002                   0     Logan
+SNM  20111      2002                   0     Lyon
+SNM  20113      2002                   0     McPherson
+SNM  20115      2002                   0     Marion
+SNM  20117      2002                   0     Marshall
+SNM  20119      2002                   0     Meade
+SNM  20121      2002                   0     Miami
+SNM  20123      2002                   0     Mitchell
+SNM  20125      2002                   0     Montgomery
+SNM  20127      2002                   0     Morris
+SNM  20129      2002                   0     Morton
+SNM  20131      2002                   0     Nemaha
+SNM  20133      2002                   0     Neosho
+SNM  20135      2002                   0     Ness
+SNM  20137      2002                   0     Norton
+SNM  20139      2002                   0     Osage
+SNM  20141      2002                   0     Osborne
+SNM  20143      2002                   0     Ottawa
+SNM  20145      2002                   0     Pawnee
+SNM  20147      2002                   0     Phillips
+SNM  20149      2002                   0     Pottawatomie
+SNM  20151      2002                   0     Pratt
+SNM  20153      2002                   0     Rawlins
+SNM  20155      2002                   0     Reno
+SNM  20157      2002                   0     Republic
+SNM  20159      2002                   0     Rice
+SNM  20161      2002                   0     Riley
+SNM  20163      2002                   0     Rooks
+SNM  20165      2002                   0     Rush
+SNM  20167      2002                   0     Russell
+SNM  20169      2002                   0     Saline
+SNM  20171      2002                   0     Scott
+SNM  20173      2002                   0     Sedgwick
+SNM  20175      2002                   0     Seward
+SNM  20177      2002                   0     Shawnee
+SNM  20179      2002                   0     Sheridan
+SNM  20181      2002                   0     Sherman
+SNM  20183      2002                   0     Smith
+SNM  20185      2002                   0     Stafford
+SNM  20187      2002                   0     Stanton
+SNM  20189      2002                   0     Stevens
+SNM  20191      2002                   0     Sumner
+SNM  20193      2002                   0     Thomas
+SNM  20195      2002                   0     Trego
+SNM  20197      2002                   0     Wabaunsee
+SNM  20199      2002                   0     Wallace
+SNM  20201      2002                   0     Washington
+SNM  20203      2002                   0     Wichita
+SNM  20205      2002                   0     Wilson
+SNM  20207      2002                   0     Woodson
+SNM  20209      2002                   0     Wyandotte
+/END/

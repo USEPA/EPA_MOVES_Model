@@ -1,0 +1,118 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WATER SURFACE AREA FOR INBOARD RECREATIONAL MARINE CRAFT (sq km navigable water)
+1990 GICS (inland water area); GIS analysis of coast lengths (coastal navigable water)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+WIB  31000      1990                1241     NE
+WIB  31001      1990                   2     Adams
+WIB  31003      1990                   4     Antelope
+WIB  31005      1990                   8     Arthur
+WIB  31007      1990                   0     Banner
+WIB  31009      1990                   9     Blaine
+WIB  31011      1990                   1     Boone
+WIB  31013      1990                   7     Box Butte
+WIB  31015      1990                  12     Boyd
+WIB  31017      1990                  10     Brown
+WIB  31019      1990                  19     Buffalo
+WIB  31021      1990                  11     Burt
+WIB  31023      1990                   2     Butler
+WIB  31025      1990                  18     Cass
+WIB  31027      1990                  14     Cedar
+WIB  31029      1990                   8     Chase
+WIB  31031      1990                 127     Cherry
+WIB  31033      1990                   0     Cheyenne
+WIB  31035      1990                   1     Clay
+WIB  31037      1990                  14     Colfax
+WIB  31039      1990                   7     Cuming
+WIB  31041      1990                   1     Custer
+WIB  31043      1990                   9     Dakota
+WIB  31045      1990                  12     Dawes
+WIB  31047      1990                  17     Dawson
+WIB  31049      1990                   2     Deuel
+WIB  31051      1990                  16     Dixon
+WIB  31053      1990                  25     Dodge
+WIB  31055      1990                  22     Douglas
+WIB  31057      1990                   2     Dundy
+WIB  31059      1990                   0     Fillmore
+WIB  31061      1990                   0     Franklin
+WIB  31063      1990                  14     Frontier
+WIB  31065      1990                   6     Furnas
+WIB  31067      1990                  12     Gage
+WIB  31069      1990                  69     Garden
+WIB  31071      1990                   3     Garfield
+WIB  31073      1990                  12     Gosper
+WIB  31075      1990                  18     Grant
+WIB  31077      1990                   2     Greeley
+WIB  31079      1990                  15     Hall
+WIB  31081      1990                   8     Hamilton
+WIB  31083      1990                  56     Harlan
+WIB  31085      1990                   1     Hayes
+WIB  31087      1990                  22     Hitchcock
+WIB  31089      1990                  13     Holt
+WIB  31091      1990                   1     Hooker
+WIB  31093      1990                  16     Howard
+WIB  31095      1990                   6     Jefferson
+WIB  31097      1990                   2     Johnson
+WIB  31099      1990                   0     Kearney
+WIB  31101      1990                 126     Keith
+WIB  31103      1990                   2     Keya Paha
+WIB  31105      1990                   2     Kimball
+WIB  31107      1990                  82     Knox
+WIB  31109      1990                  20     Lancaster
+WIB  31111      1990                  29     Lincoln
+WIB  31113      1990                   1     Logan
+WIB  31115      1990                   3     Loup
+WIB  31117      1990                   3     McPherson
+WIB  31119      1990                   6     Madison
+WIB  31121      1990                  25     Merrick
+WIB  31123      1990                  16     Morrill
+WIB  31125      1990                  17     Nance
+WIB  31127      1990                   7     Nemaha
+WIB  31129      1990                   2     Nuckolls
+WIB  31131      1990                   8     Otoe
+WIB  31133      1990                   3     Pawnee
+WIB  31135      1990                   3     Perkins
+WIB  31137      1990                   2     Phelps
+WIB  31139      1990                   3     Pierce
+WIB  31141      1990                  29     Platte
+WIB  31143      1990                   5     Polk
+WIB  31145      1990                   4     Red Willow
+WIB  31147      1990                   6     Richardson
+WIB  31149      1990                   9     Rock
+WIB  31151      1990                   2     Saline
+WIB  31153      1990                  17     Sarpy
+WIB  31155      1990                  13     Saunders
+WIB  31157      1990                  16     Scotts Bluff
+WIB  31159      1990                   2     Seward
+WIB  31161      1990                  75     Sheridan
+WIB  31163      1990                  15     Sherman
+WIB  31165      1990                   2     Sioux
+WIB  31167      1990                   3     Stanton
+WIB  31169      1990                   2     Thayer
+WIB  31171      1990                   2     Thomas
+WIB  31173      1990                   6     Thurston
+WIB  31175      1990                   6     Valley
+WIB  31177      1990                   9     Washington
+WIB  31179      1990                   0     Wayne
+WIB  31181      1990                   0     Webster
+WIB  31183      1990                   1     Wheeler
+WIB  31185      1990                   1     York
+/END/

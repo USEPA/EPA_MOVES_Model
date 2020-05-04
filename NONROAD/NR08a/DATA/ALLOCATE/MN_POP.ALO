@@ -1,0 +1,112 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent HUMAN POPULATION
+
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+POP  27000      2002             5025081     MN
+POP  27001      2002               15622     Aitkin
+POP  27003      2002              310319     Anoka
+POP  27005      2002               30803     Becker
+POP  27007      2002               41169     Beltrami
+POP  27009      2002               36664     Benton
+POP  27011      2002                5720     Big Stone
+POP  27013      2002               56682     Blue Earth
+POP  27015      2002               26906     Brown
+POP  27017      2002               32553     Carlton
+POP  27019      2002               76102     Carver
+POP  27021      2002               27930     Cass
+POP  27023      2002               12919     Chippewa
+POP  27025      2002               44965     Chisago
+POP  27027      2002               51805     Clay
+POP  27029      2002                8440     Clearwater
+POP  27031      2002                5207     Cook
+POP  27033      2002               12013     Cottonwood
+POP  27035      2002               57347     Crow Wing
+POP  27037      2002              368955     Dakota
+POP  27039      2002               18609     Dodge
+POP  27041      2002               33664     Douglas
+POP  27043      2002               15893     Faribault
+POP  27045      2002               21323     Fillmore
+POP  27047      2002               32122     Freeborn
+POP  27049      2002               44992     Goodhue
+POP  27051      2002                6275     Grant
+POP  27053      2002             1120443     Hennepin
+POP  27055      2002               19925     Houston
+POP  27057      2002               18548     Hubbard
+POP  27059      2002               33909     Isanti
+POP  27061      2002               44078     Itasca
+POP  27063      2002               11273     Jackson
+POP  27065      2002               15529     Kanabec
+POP  27067      2002               40861     Kandiyohi
+POP  27069      2002                5044     Kittson
+POP  27071      2002               13986     Koochiching
+POP  27073      2002                7936     Lac qui Parle
+POP  27075      2002               11137     Lake
+POP  27077      2002                4336     Lake of the Woods
+POP  27079      2002               26132     Le Sueur
+POP  27081      2002                6245     Lincoln
+POP  27083      2002               24952     Lyon
+POP  27085      2002               35643     McLeod
+POP  27087      2002                5168     Mahnomen
+POP  27089      2002                9956     Marshall
+POP  27091      2002               21329     Martin
+POP  27093      2002               23032     Meeker
+POP  27095      2002               23762     Mille Lacs
+POP  27097      2002               32466     Morrison
+POP  27099      2002               38770     Mower
+POP  27101      2002                9064     Murray
+POP  27103      2002               30455     Nicollet
+POP  27105      2002               20602     Nobles
+POP  27107      2002                7311     Norman
+POP  27109      2002              129090     Olmsted
+POP  27111      2002               57457     Otter Tail
+POP  27113      2002               13612     Pennington
+POP  27115      2002               27566     Pine
+POP  27117      2002                9737     Pipestone
+POP  27119      2002               30925     Polk
+POP  27121      2002               11232     Pope
+POP  27123      2002              509518     Ramsey
+POP  27125      2002                4274     Red Lake
+POP  27127      2002               16413     Redwood
+POP  27129      2002               16972     Renville
+POP  27131      2002               58669     Rice
+POP  27133      2002                9683     Rock
+POP  27135      2002               16166     Roseau
+POP  27137      2002              199941     St. Louis
+POP  27139      2002              103852     Scott
+POP  27141      2002               72263     Sherburne
+POP  27143      2002               15333     Sibley
+POP  27145      2002              138228     Stearns
+POP  27147      2002               34371     Steele
+POP  27149      2002                9902     Stevens
+POP  27151      2002               11476     Swift
+POP  27153      2002               24425     Todd
+POP  27155      2002                3933     Traverse
+POP  27157      2002               21980     Wabasha
+POP  27159      2002               13734     Wadena
+POP  27161      2002               19555     Waseca
+POP  27163      2002              210455     Washington
+POP  27165      2002               11740     Watonwan
+POP  27167      2002                6959     Wilkin
+POP  27169      2002               49445     Winona
+POP  27171      2002               98472     Wright
+POP  27173      2002               10812     Yellow Medicine
+/END/

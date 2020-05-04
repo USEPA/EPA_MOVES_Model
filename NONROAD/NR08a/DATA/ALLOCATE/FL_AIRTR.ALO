@@ -1,0 +1,94 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent AIRCRAFT NOx TONS
+from Draft 2002 NEI
+
+9/1/05 epa: Modifies to treat PR & VI as additional to US Total.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+AIR  12000      2002            6810.120     FL
+AIR  12001      2002               9.280     Alachua
+AIR  12003      2002               0.000     Baker
+AIR  12005      2002              21.880     Bay
+AIR  12007      2002               0.160     Bradford
+AIR  12009      2002              22.210     Brevard
+AIR  12011      2002             863.430     Broward
+AIR  12013      2002               0.000     Calhoun
+AIR  12015      2002               0.660     Charlotte
+AIR  12017      2002               0.000     Citrus
+AIR  12019      2002               0.000     Clay
+AIR  12021      2002               1.395     Collier
+AIR  12023      2002               0.000     Columbia
+AIR  12027      2002               0.000     DeSoto
+AIR  12029      2002               0.060     Dixie
+AIR  12031      2002             316.980     Duval
+AIR  12033      2002              62.150     Escambia
+AIR  12035      2002               0.944     Flagler
+AIR  12037      2002               0.000     Franklin
+AIR  12039      2002               0.047     Gadsden
+AIR  12041      2002               0.000     Gilchrist
+AIR  12043      2002               0.000     Glades
+AIR  12045      2002               0.000     Gulf
+AIR  12047      2002               0.000     Hamilton
+AIR  12049      2002               0.000     Hardee
+AIR  12051      2002               0.000     Hendry
+AIR  12053      2002               0.197     Hernando
+AIR  12055      2002               0.480     Highlands
+AIR  12057      2002             766.610     Hillsborough
+AIR  12059      2002               0.924     Holmes
+AIR  12061      2002               1.297     Indian River
+AIR  12063      2002               0.450     Jackson
+AIR  12065      2002               0.000     Jefferson
+AIR  12067      2002               0.000     Lafayette
+AIR  12069      2002               0.000     Lake
+AIR  12071      2002             201.640     Lee
+AIR  12073      2002              22.840     Leon
+AIR  12075      2002               0.090     Levy
+AIR  12077      2002               0.000     Liberty
+AIR  12079      2002               0.000     Madison
+AIR  12081      2002              55.420     Manatee
+AIR  12083      2002               0.313     Marion
+AIR  12085      2002               0.000     Martin
+AIR  12086      2002            2611.330     Miami-Dade
+AIR  12087      2002              11.820     Monroe
+AIR  12089      2002               0.000     Nassau
+AIR  12091      2002               0.340     Okaloosa
+AIR  12093      2002               0.000     Okeechobee
+AIR  12095      2002            1410.210     Orange
+AIR  12097      2002               0.534     Osceola
+AIR  12099      2002             274.180     Palm Beach
+AIR  12101      2002               0.083     Pasco
+AIR  12103      2002              56.420     Pinellas
+AIR  12105      2002               1.500     Polk
+AIR  12107      2002               0.330     Putnam
+AIR  12109      2002               0.718     St. Johns
+AIR  12111      2002               0.947     St. Lucie
+AIR  12113      2002               0.000     Santa Rosa
+AIR  12115      2002               0.695     Sarasota
+AIR  12117      2002              66.732     Seminole
+AIR  12119      2002               0.000     Sumter
+AIR  12121      2002               0.000     Suwannee
+AIR  12123      2002               0.076     Taylor
+AIR  12125      2002               0.000     Union
+AIR  12127      2002              24.750     Volusia
+AIR  12129      2002               0.000     Wakulla
+AIR  12131      2002               0.000     Walton
+AIR  12133      2002               0.000     Washington
+/END/

@@ -1,0 +1,41 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WATER SURFACE AREA FOR INBOARD RECREATIONAL MARINE CRAFT (sq km navigable water)
+1990 GICS (inland water area); GIS analysis of coast lengths (coastal navigable water)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+WIB  23000      1990                9685     ME
+WIB  23001      1990                  70     Androscoggin
+WIB  23003      1990                 407     Aroostook
+WIB  23005      1990                 880     Cumberland
+WIB  23007      1990                 120     Franklin
+WIB  23009      1990                1646     Hancock
+WIB  23011      1990                 217     Kennebec
+WIB  23013      1990                1187     Knox
+WIB  23015      1990                 513     Lincoln
+WIB  23017      1990                 252     Oxford
+WIB  23019      1990                 415     Penobscot
+WIB  23021      1990                1065     Piscataquis
+WIB  23023      1990                 274     Sagadahoc
+WIB  23025      1990                 437     Somerset
+WIB  23027      1990                 228     Waldo
+WIB  23029      1990                1577     Washington
+WIB  23031      1990                 397     York
+/END/

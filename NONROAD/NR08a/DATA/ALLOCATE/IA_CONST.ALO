@@ -1,0 +1,126 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2003 DOLLAR VALUE of CONSTRUCTION
+adjusted for relative geographic cost of construction materials.
+   Const_Dollars * (1-(1/(1+100/Area_Mod_Factor)))
+from McGraw-Hill Construction (values) and Craftsman (cost adj)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+CON  19000      2003             6467683     IA
+CON  19001      2003                8317     Adair
+CON  19003      2003                3270     Adams
+CON  19005      2003                9718     Allamakee
+CON  19007      2003                4979     Appanoose
+CON  19009      2003                4078     Audubon
+CON  19011      2003               25195     Benton
+CON  19013      2003              175725     Black Hawk
+CON  19015      2003               29196     Boone
+CON  19017      2003               48570     Bremer
+CON  19019      2003               29380     Buchanan
+CON  19021      2003               20196     Buena Vista
+CON  19023      2003                8987     Butler
+CON  19025      2003                2539     Calhoun
+CON  19027      2003               35330     Carroll
+CON  19029      2003               18997     Cass
+CON  19031      2003               20482     Cedar
+CON  19033      2003              489998     Cerro Gordo
+CON  19035      2003               13368     Cherokee
+CON  19037      2003               16381     Chickasaw
+CON  19039      2003                9187     Clarke
+CON  19041      2003               58403     Clay
+CON  19043      2003               12558     Clayton
+CON  19045      2003               43837     Clinton
+CON  19047      2003               13400     Crawford
+CON  19049      2003              132265     Dallas
+CON  19051      2003                5797     Davis
+CON  19053      2003                5845     Decatur
+CON  19055      2003               13808     Delaware
+CON  19057      2003              112061     Des Moines
+CON  19059      2003               97669     Dickinson
+CON  19061      2003              130390     Dubuque
+CON  19063      2003                9121     Emmet
+CON  19065      2003                4730     Fayette
+CON  19067      2003               18582     Floyd
+CON  19069      2003                5431     Franklin
+CON  19071      2003                7746     Fremont
+CON  19073      2003                7247     Greene
+CON  19075      2003               14893     Grundy
+CON  19077      2003                9059     Guthrie
+CON  19079      2003               12708     Hamilton
+CON  19081      2003                5361     Hancock
+CON  19083      2003                6407     Hardin
+CON  19085      2003               14745     Harrison
+CON  19087      2003               32168     Henry
+CON  19089      2003                6357     Howard
+CON  19091      2003                4986     Humboldt
+CON  19093      2003                2279     Ida
+CON  19095      2003               10077     Iowa
+CON  19097      2003               13382     Jackson
+CON  19099      2003               34282     Jasper
+CON  19101      2003               23754     Jefferson
+CON  19103      2003              374168     Johnson
+CON  19105      2003               23722     Jones
+CON  19107      2003               10378     Keokuk
+CON  19109      2003                9025     Kossuth
+CON  19111      2003               42890     Lee
+CON  19113      2003              235321     Linn
+CON  19115      2003                3119     Louisa
+CON  19117      2003                6519     Lucas
+CON  19119      2003                6010     Lyon
+CON  19121      2003               12347     Madison
+CON  19123      2003               41344     Mahaska
+CON  19125      2003               31083     Marion
+CON  19127      2003               29734     Marshall
+CON  19129      2003                9859     Mills
+CON  19131      2003                3298     Mitchell
+CON  19133      2003               14666     Monona
+CON  19135      2003                4898     Monroe
+CON  19137      2003                9394     Montgomery
+CON  19139      2003               46117     Muscatine
+CON  19141      2003               21197     O'Brien
+CON  19143      2003                1522     Osceola
+CON  19145      2003               15769     Page
+CON  19147      2003                3706     Palo Alto
+CON  19149      2003               29288     Plymouth
+CON  19151      2003                5107     Pocahontas
+CON  19153      2003             1339528     Polk
+CON  19155      2003             1320782     Pottawattamie
+CON  19157      2003                9083     Poweshiek
+CON  19159      2003                5523     Ringgold
+CON  19161      2003                5340     Sac
+CON  19163      2003              294647     Scott
+CON  19165      2003               13431     Shelby
+CON  19167      2003               44480     Sioux
+CON  19169      2003              234749     Story
+CON  19171      2003               13339     Tama
+CON  19173      2003                6683     Taylor
+CON  19175      2003                8605     Union
+CON  19177      2003               12020     Van Buren
+CON  19179      2003               26046     Wapello
+CON  19181      2003               63191     Warren
+CON  19183      2003               17619     Washington
+CON  19185      2003                4295     Wayne
+CON  19187      2003               43364     Webster
+CON  19189      2003                7469     Winnebago
+CON  19191      2003               30612     Winneshiek
+CON  19193      2003              107811     Woodbury
+CON  19195      2003               17566     Worth
+CON  19197      2003                7777     Wright
+/END/

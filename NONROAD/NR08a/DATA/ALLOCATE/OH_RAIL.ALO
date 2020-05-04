@@ -1,0 +1,115 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent LOCOMOTIVE NOx TONS
+from Draft 2002 NEI
+
+9/1/05 epa: Modifies to treat PR & VI as additional to US Total.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+RR   39000      2002           31537.150     OH
+RR   39001      2002              54.480     Adams
+RR   39003      2002             197.400     Allen
+RR   39005      2002             390.220     Ashland
+RR   39007      2002             858.630     Ashtabula
+RR   39009      2002              20.860     Athens
+RR   39011      2002             218.720     Auglaize
+RR   39013      2002              14.870     Belmont
+RR   39015      2002             127.660     Brown
+RR   39017      2002             591.520     Butler
+RR   39019      2002               5.880     Carroll
+RR   39021      2002               0.000     Champaign
+RR   39023      2002              92.550     Clark
+RR   39025      2002              95.390     Clermont
+RR   39027      2002              52.110     Clinton
+RR   39029      2002             740.200     Columbiana
+RR   39031      2002               0.000     Coshocton
+RR   39033      2002             565.830     Crawford
+RR   39035      2002            1447.080     Cuyahoga
+RR   39037      2002             234.590     Darke
+RR   39039      2002             542.760     Defiance
+RR   39041      2002            1219.020     Delaware
+RR   39043      2002             571.730     Erie
+RR   39045      2002              22.090     Fairfield
+RR   39047      2002              43.790     Fayette
+RR   39049      2002            1323.640     Franklin
+RR   39051      2002             854.220     Fulton
+RR   39053      2002               4.430     Gallia
+RR   39055      2002               3.060     Geauga
+RR   39057      2002              53.150     Greene
+RR   39059      2002              14.870     Guernsey
+RR   39061      2002             674.340     Hamilton
+RR   39063      2002             369.200     Hancock
+RR   39065      2002             302.980     Hardin
+RR   39067      2002               0.000     Harrison
+RR   39069      2002             531.980     Henry
+RR   39071      2002               0.000     Highland
+RR   39073      2002               0.000     Hocking
+RR   39075      2002              41.080     Holmes
+RR   39077      2002            1086.880     Huron
+RR   39079      2002               0.000     Jackson
+RR   39081      2002              57.810     Jefferson
+RR   39083      2002              10.700     Knox
+RR   39085      2002             993.140     Lake
+RR   39087      2002             192.050     Lawrence
+RR   39089      2002              39.340     Licking
+RR   39091      2002             277.390     Logan
+RR   39093      2002             949.560     Lorain
+RR   39095      2002            1038.570     Lucas
+RR   39097      2002             151.630     Madison
+RR   39099      2002             668.290     Mahoning
+RR   39101      2002             986.010     Marion
+RR   39103      2002             635.660     Medina
+RR   39105      2002              14.740     Meigs
+RR   39107      2002               0.000     Mercer
+RR   39109      2002             269.350     Miami
+RR   39111      2002               4.270     Monroe
+RR   39113      2002             408.000     Montgomery
+RR   39115      2002               8.430     Morgan
+RR   39117      2002             207.910     Morrow
+RR   39119      2002              16.880     Muskingum
+RR   39121      2002               0.000     Noble
+RR   39123      2002             425.260     Ottawa
+RR   39125      2002             280.790     Paulding
+RR   39127      2002              13.980     Perry
+RR   39129      2002             569.370     Pickaway
+RR   39131      2002             555.900     Pike
+RR   39133      2002             696.510     Portage
+RR   39135      2002             164.820     Preble
+RR   39137      2002             531.790     Putnam
+RR   39139      2002             151.020     Richland
+RR   39141      2002             541.980     Ross
+RR   39143      2002             400.880     Sandusky
+RR   39145      2002             537.300     Scioto
+RR   39147      2002            1484.380     Seneca
+RR   39149      2002             449.080     Shelby
+RR   39151      2002             248.430     Stark
+RR   39153      2002             747.780     Summit
+RR   39155      2002             782.790     Trumbull
+RR   39157      2002               0.000     Tuscarawas
+RR   39159      2002              43.370     Union
+RR   39161      2002               8.640     Van Wert
+RR   39163      2002               0.000     Vinton
+RR   39165      2002             202.760     Warren
+RR   39167      2002              13.590     Washington
+RR   39169      2002             348.240     Wayne
+RR   39171      2002             446.150     Williams
+RR   39173      2002            1302.340     Wood
+RR   39175      2002             293.060     Wyandot
+/END/

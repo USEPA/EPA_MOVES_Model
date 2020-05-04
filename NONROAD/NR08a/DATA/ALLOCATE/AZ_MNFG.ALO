@@ -1,0 +1,40 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent NUMBER OF EMPLOYEES IN MANUFACTURING
+CBP NAICS 31----, 321///, 322///, 323///, 324///, 325///, 326///, 327///, 331///,
+332///, 333///, 334///, 335///, 336///, 337///, 339///, and 5111//; pre-2002 CBP SIC 20--
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+MFG  04000      2002              330859     AZ
+MFG  04001      2002                 272     Apache
+MFG  04003      2002                1131     Cochise
+MFG  04005      2002                4946     Coconino
+MFG  04007      2002                2982     Gila
+MFG  04009      2002                 514     Graham
+MFG  04011      2002                  23     Greenlee
+MFG  04012      2002                 562     La Paz
+MFG  04013      2002              235362     Maricopa
+MFG  04015      2002                6336     Mohave
+MFG  04017      2002                1393     Navajo
+MFG  04019      2002               59941     Pima
+MFG  04021      2002                5369     Pinal
+MFG  04023      2002                1159     Santa Cruz
+MFG  04025      2002                6612     Yavapai
+MFG  04027      2002                4257     Yuma
+/END/

@@ -1,0 +1,39 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent SINGLE AND DOUBLE (DUPLEX) FAMILY HOMES
+
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+HOU  25000      2002             2648992     MA
+HOU  25001      2002              150163     Barnstable
+HOU  25003      2002               66631     Berkshire
+HOU  25005      2002              219484     Bristol
+HOU  25007      2002               15198     Dukes
+HOU  25009      2002              290086     Essex
+HOU  25011      2002               32236     Franklin
+HOU  25013      2002              186860     Hampden
+HOU  25015      2002               59274     Hampshire
+HOU  25017      2002              581090     Middlesex
+HOU  25019      2002                9636     Nantucket
+HOU  25021      2002              257917     Norfolk
+HOU  25023      2002              184764     Plymouth
+HOU  25025      2002              292465     Suffolk
+HOU  25027      2002              303188     Worcester
+/END/

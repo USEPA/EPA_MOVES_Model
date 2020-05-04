@@ -1,0 +1,54 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RELATIVE NUMBER OF SNOWMOBILES
+Allocated to counties using snowfall limit of 40" and inverse human population; Alaska uses direct human population
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+SNM  49000      2002                1891     UT
+SNM  49001      2002                   0     Beaver
+SNM  49003      2002                   0     Box Elder
+SNM  49005      2002                  10     Cache
+SNM  49007      2002                   0     Carbon
+SNM  49009      2002                   0     Daggett
+SNM  49011      2002                   0     Davis
+SNM  49013      2002                  67     Duchesne
+SNM  49015      2002                   0     Emery
+SNM  49017      2002                 217     Garfield
+SNM  49019      2002                   0     Grand
+SNM  49021      2002                   0     Iron
+SNM  49023      2002                   0     Juab
+SNM  49025      2002                   0     Kane
+SNM  49027      2002                   0     Millard
+SNM  49029      2002                 135     Morgan
+SNM  49031      2002                 724     Piute
+SNM  49033      2002                 512     Rich
+SNM  49035      2002                   0     Salt Lake
+SNM  49037      2002                   0     San Juan
+SNM  49039      2002                  43     Sanpete
+SNM  49041      2002                  52     Sevier
+SNM  49043      2002                  31     Summit
+SNM  49045      2002                   0     Tooele
+SNM  49047      2002                  38     Uintah
+SNM  49049      2002                   3     Utah
+SNM  49051      2002                  59     Wasatch
+SNM  49053      2002                   0     Washington
+SNM  49055      2002                   0     Wayne
+SNM  49057      2002                   0     Weber
+/END/

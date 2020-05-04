@@ -1,0 +1,125 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent EMPLOYEES IN OIL & GAS EXTRACTION, AND DRILLING OIL & GAS WELLS
+CBP NAICS 211/// and 213111; pre-2002 CBP SIC 1300
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+OIL  37000      2002                  86     NC
+OIL  37001      2002                   0     Alamance
+OIL  37003      2002                   0     Alexander
+OIL  37005      2002                   0     Alleghany
+OIL  37007      2002                   0     Anson
+OIL  37009      2002                   0     Ashe
+OIL  37011      2002                   0     Avery
+OIL  37013      2002                   0     Beaufort
+OIL  37015      2002                   0     Bertie
+OIL  37017      2002                   0     Bladen
+OIL  37019      2002                   0     Brunswick
+OIL  37021      2002                   0     Buncombe
+OIL  37023      2002                   0     Burke
+OIL  37025      2002                   0     Cabarrus
+OIL  37027      2002                   0     Caldwell
+OIL  37029      2002                   0     Camden
+OIL  37031      2002                   0     Carteret
+OIL  37033      2002                   0     Caswell
+OIL  37035      2002                   5     Catawba
+OIL  37037      2002                   0     Chatham
+OIL  37039      2002                   0     Cherokee
+OIL  37041      2002                   0     Chowan
+OIL  37043      2002                   0     Clay
+OIL  37045      2002                   0     Cleveland
+OIL  37047      2002                   0     Columbus
+OIL  37049      2002                   0     Craven
+OIL  37051      2002                   2     Cumberland
+OIL  37053      2002                   0     Currituck
+OIL  37055      2002                   0     Dare
+OIL  37057      2002                   0     Davidson
+OIL  37059      2002                   0     Davie
+OIL  37061      2002                   0     Duplin
+OIL  37063      2002                   0     Durham
+OIL  37065      2002                   0     Edgecombe
+OIL  37067      2002                   2     Forsyth
+OIL  37069      2002                   0     Franklin
+OIL  37071      2002                   5     Gaston
+OIL  37073      2002                   0     Gates
+OIL  37075      2002                   0     Graham
+OIL  37077      2002                   0     Granville
+OIL  37079      2002                   0     Greene
+OIL  37081      2002                   0     Guilford
+OIL  37083      2002                   0     Halifax
+OIL  37085      2002                   0     Harnett
+OIL  37087      2002                   0     Haywood
+OIL  37089      2002                   0     Henderson
+OIL  37091      2002                   0     Hertford
+OIL  37093      2002                   0     Hoke
+OIL  37095      2002                   0     Hyde
+OIL  37097      2002                   0     Iredell
+OIL  37099      2002                   0     Jackson
+OIL  37101      2002                   5     Johnston
+OIL  37103      2002                   0     Jones
+OIL  37105      2002                   5     Lee
+OIL  37107      2002                   0     Lenoir
+OIL  37109      2002                   0     Lincoln
+OIL  37111      2002                   0     McDowell
+OIL  37113      2002                   0     Macon
+OIL  37115      2002                   0     Madison
+OIL  37117      2002                   0     Martin
+OIL  37119      2002                   6     Mecklenburg
+OIL  37121      2002                   0     Mitchell
+OIL  37123      2002                   0     Montgomery
+OIL  37125      2002                   5     Moore
+OIL  37127      2002                   0     Nash
+OIL  37129      2002                   0     New Hanover
+OIL  37131      2002                   0     Northampton
+OIL  37133      2002                   0     Onslow
+OIL  37135      2002                   1     Orange
+OIL  37137      2002                   0     Pamlico
+OIL  37139      2002                   0     Pasquotank
+OIL  37141      2002                   0     Pender
+OIL  37143      2002                   0     Perquimans
+OIL  37145      2002                   0     Person
+OIL  37147      2002                   0     Pitt
+OIL  37149      2002                   0     Polk
+OIL  37151      2002                   0     Randolph
+OIL  37153      2002                   0     Richmond
+OIL  37155      2002                   0     Robeson
+OIL  37157      2002                   0     Rockingham
+OIL  37159      2002                   5     Rowan
+OIL  37161      2002                   0     Rutherford
+OIL  37163      2002                   5     Sampson
+OIL  37165      2002                   0     Scotland
+OIL  37167      2002                   0     Stanly
+OIL  37169      2002                   0     Stokes
+OIL  37171      2002                   5     Surry
+OIL  37173      2002                   5     Swain
+OIL  37175      2002                   0     Transylvania
+OIL  37177      2002                   0     Tyrrell
+OIL  37179      2002                   0     Union
+OIL  37181      2002                   0     Vance
+OIL  37183      2002                  25     Wake
+OIL  37185      2002                   0     Warren
+OIL  37187      2002                   0     Washington
+OIL  37189      2002                   5     Watauga
+OIL  37191      2002                   0     Wayne
+OIL  37193      2002                   0     Wilkes
+OIL  37195      2002                   0     Wilson
+OIL  37197      2002                   0     Yadkin
+OIL  37199      2002                   0     Yancey
+/END/

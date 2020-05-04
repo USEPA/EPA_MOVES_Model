@@ -1,0 +1,140 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WATER SURFACE AREA FOR INBOARD RECREATIONAL MARINE CRAFT (sq km navigable water)
+1990 GICS (inland water area); GIS analysis of coast lengths (coastal navigable water)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+WIB  29000      1990                2102     MO
+WIB  29001      1990                   4     Adair
+WIB  29003      1990                   3     Andrew
+WIB  29005      1990                   7     Atchison
+WIB  29007      1990                   9     Audrain
+WIB  29009      1990                  31     Barry
+WIB  29011      1990                   6     Barton
+WIB  29013      1990                   8     Bates
+WIB  29015      1990                 122     Benton
+WIB  29017      1990                   1     Bollinger
+WIB  29019      1990                  15     Boone
+WIB  29021      1990                  13     Buchanan
+WIB  29023      1990                   4     Butler
+WIB  29025      1990                   1     Caldwell
+WIB  29027      1990                  21     Callaway
+WIB  29029      1990                 139     Camden
+WIB  29031      1990                  20     Cape Girardeau
+WIB  29033      1990                  20     Carroll
+WIB  29035      1990                   4     Carter
+WIB  29037      1990                   9     Cass
+WIB  29039      1990                  58     Cedar
+WIB  29041      1990                  32     Chariton
+WIB  29043      1990                   2     Christian
+WIB  29045      1990                  12     Clark
+WIB  29047      1990                  33     Clay
+WIB  29049      1990                  12     Clinton
+WIB  29051      1990                  20     Cole
+WIB  29053      1990                  13     Cooper
+WIB  29055      1990                   3     Crawford
+WIB  29057      1990                  41     Dade
+WIB  29059      1990                   3     Dallas
+WIB  29061      1990                   5     Daviess
+WIB  29063      1990                   4     DeKalb
+WIB  29065      1990                   3     Dent
+WIB  29067      1990                   0     Douglas
+WIB  29069      1990                   4     Dunklin
+WIB  29071      1990                  20     Franklin
+WIB  29073      1990                  13     Gasconade
+WIB  29075      1990                   1     Gentry
+WIB  29077      1990                   7     Greene
+WIB  29079      1990                   6     Grundy
+WIB  29081      1990                   3     Harrison
+WIB  29083      1990                  78     Henry
+WIB  29085      1990                  34     Hickory
+WIB  29087      1990                  19     Holt
+WIB  29089      1990                  12     Howard
+WIB  29091      1990                   1     Howell
+WIB  29093      1990                   2     Iron
+WIB  29095      1990                  29     Jackson
+WIB  29097      1990                   4     Jasper
+WIB  29099      1990                  19     Jefferson
+WIB  29101      1990                   6     Johnson
+WIB  29103      1990                   3     Knox
+WIB  29105      1990                   6     Laclede
+WIB  29107      1990                  25     Lafayette
+WIB  29109      1990                   1     Lawrence
+WIB  29111      1990                  15     Lewis
+WIB  29113      1990                  26     Lincoln
+WIB  29115      1990                   3     Linn
+WIB  29117      1990                  10     Livingston
+WIB  29119      1990                   0     McDonald
+WIB  29121      1990                  23     Macon
+WIB  29123      1990                   2     Madison
+WIB  29125      1990                   6     Maries
+WIB  29127      1990                  15     Marion
+WIB  29129      1990                   2     Mercer
+WIB  29131      1990                  20     Miller
+WIB  29133      1990                  41     Mississippi
+WIB  29135      1990                   6     Moniteau
+WIB  29137      1990                  63     Monroe
+WIB  29139      1990                   8     Montgomery
+WIB  29141      1990                  43     Morgan
+WIB  29143      1990                  52     New Madrid
+WIB  29145      1990                   1     Newton
+WIB  29147      1990                   3     Nodaway
+WIB  29149      1990                   0     Oregon
+WIB  29151      1990                  19     Osage
+WIB  29153      1990                  21     Ozark
+WIB  29155      1990                  50     Pemiscot
+WIB  29157      1990                  25     Perry
+WIB  29159      1990                   4     Pettis
+WIB  29161      1990                   4     Phelps
+WIB  29163      1990                  31     Pike
+WIB  29165      1990                  18     Platte
+WIB  29167      1990                  14     Polk
+WIB  29169      1990                  11     Pulaski
+WIB  29171      1990                   5     Putnam
+WIB  29173      1990                  33     Ralls
+WIB  29175      1990                  14     Randolph
+WIB  29177      1990                  11     Ray
+WIB  29179      1990                   8     Reynolds
+WIB  29181      1990                   6     Ripley
+WIB  29183      1990                  83     St. Charles
+WIB  29185      1990                  65     St. Clair
+WIB  29186      1990                  17     Ste. Genevieve
+WIB  29187      1990                   8     St. Francois
+WIB  29189      1990                  41     St. Louis
+WIB  29195      1990                  23     Saline
+WIB  29197      1990                   1     Schuyler
+WIB  29199      1990                   2     Scotland
+WIB  29201      1990                  13     Scott
+WIB  29203      1990                   0     Shannon
+WIB  29205      1990                   4     Shelby
+WIB  29207      1990                   5     Stoddard
+WIB  29209      1990                 123     Stone
+WIB  29211      1990                   1     Sullivan
+WIB  29213      1990                  50     Taney
+WIB  29215      1990                   2     Texas
+WIB  29217      1990                   8     Vernon
+WIB  29219      1990                  16     Warren
+WIB  29221      1990                   7     Washington
+WIB  29223      1990                  34     Wayne
+WIB  29225      1990                   1     Webster
+WIB  29227      1990                   1     Worth
+WIB  29229      1990                   2     Wright
+WIB  29510      1990                  11     St. Louis
+/END/

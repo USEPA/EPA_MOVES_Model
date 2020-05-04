@@ -1,0 +1,100 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RELATIVE NUMBER OF RESIDENTIAL SNOWBLOWERS
+Same as HOUSE allocation factors, with value set to 0 for counties with snowfall < 15"
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+SBR  05000      2002                   0     AR
+SBR  05001      2002                   0     Arkansas
+SBR  05003      2002                   0     Ashley
+SBR  05005      2002                   0     Baxter
+SBR  05007      2002                   0     Benton
+SBR  05009      2002                   0     Boone
+SBR  05011      2002                   0     Bradley
+SBR  05013      2002                   0     Calhoun
+SBR  05015      2002                   0     Carroll
+SBR  05017      2002                   0     Chicot
+SBR  05019      2002                   0     Clark
+SBR  05021      2002                   0     Clay
+SBR  05023      2002                   0     Cleburne
+SBR  05025      2002                   0     Cleveland
+SBR  05027      2002                   0     Columbia
+SBR  05029      2002                   0     Conway
+SBR  05031      2002                   0     Craighead
+SBR  05033      2002                   0     Crawford
+SBR  05035      2002                   0     Crittenden
+SBR  05037      2002                   0     Cross
+SBR  05039      2002                   0     Dallas
+SBR  05041      2002                   0     Desha
+SBR  05043      2002                   0     Drew
+SBR  05045      2002                   0     Faulkner
+SBR  05047      2002                   0     Franklin
+SBR  05049      2002                   0     Fulton
+SBR  05051      2002                   0     Garland
+SBR  05053      2002                   0     Grant
+SBR  05055      2002                   0     Greene
+SBR  05057      2002                   0     Hempstead
+SBR  05059      2002                   0     Hot Spring
+SBR  05061      2002                   0     Howard
+SBR  05063      2002                   0     Independence
+SBR  05065      2002                   0     Izard
+SBR  05067      2002                   0     Jackson
+SBR  05069      2002                   0     Jefferson
+SBR  05071      2002                   0     Johnson
+SBR  05073      2002                   0     Lafayette
+SBR  05075      2002                   0     Lawrence
+SBR  05077      2002                   0     Lee
+SBR  05079      2002                   0     Lincoln
+SBR  05081      2002                   0     Little River
+SBR  05083      2002                   0     Logan
+SBR  05085      2002                   0     Lonoke
+SBR  05087      2002                   0     Madison
+SBR  05089      2002                   0     Marion
+SBR  05091      2002                   0     Miller
+SBR  05093      2002                   0     Mississippi
+SBR  05095      2002                   0     Monroe
+SBR  05097      2002                   0     Montgomery
+SBR  05099      2002                   0     Nevada
+SBR  05101      2002                   0     Newton
+SBR  05103      2002                   0     Ouachita
+SBR  05105      2002                   0     Perry
+SBR  05107      2002                   0     Phillips
+SBR  05109      2002                   0     Pike
+SBR  05111      2002                   0     Poinsett
+SBR  05113      2002                   0     Polk
+SBR  05115      2002                   0     Pope
+SBR  05117      2002                   0     Prairie
+SBR  05119      2002                   0     Pulaski
+SBR  05121      2002                   0     Randolph
+SBR  05123      2002                   0     St. Francis
+SBR  05125      2002                   0     Saline
+SBR  05127      2002                   0     Scott
+SBR  05129      2002                   0     Searcy
+SBR  05131      2002                   0     Sebastian
+SBR  05133      2002                   0     Sevier
+SBR  05135      2002                   0     Sharp
+SBR  05137      2002                   0     Stone
+SBR  05139      2002                   0     Union
+SBR  05141      2002                   0     Van Buren
+SBR  05143      2002                   0     Washington
+SBR  05145      2002                   0     White
+SBR  05147      2002                   0     Woodruff
+SBR  05149      2002                   0     Yell
+/END/

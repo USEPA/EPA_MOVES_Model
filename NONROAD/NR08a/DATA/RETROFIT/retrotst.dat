@@ -1,0 +1,50 @@
+Retrofit Input Data File
+This optional file contains parameters specifying details of 
+whatever voluntary retrofit program(s) the user wishes to model. 
+The model will accept overlapping (multiple) retrofit specifications
+for the same set of engines (same SCC, TechType, Hp, ModelYear, and 
+pollutant), so the user must be careful to properly enter 
+different retrofit technologies that affect the same equipment. 
+Entering something in the Description area can help keep track of this.
+
+12/6/2005 retrotst.dat Test file. 
+
+-----------------------------------------------------------------
+This data file contains only one packet.
+
+The format is as follows:
+
+
+    1-4   integer   --- Retrofit Year start (first calendar year when retrofits are done)
+      5   blank
+    6-9   integer   --- Retrofit Year end (last calendar year when retrofits are done)
+      10   blank
+   11-14  integer   --- Model Year start (first model year equipment that is receiving retrofit)
+      15   blank
+   16-19  integer   --- Model Year end (last model year equipment that is receiving retrofit)
+      20   blank
+   21-30  character --- SCC Code
+      31   blank
+   32-41  character --- Exhaust Technology Type (e.g., Base, T0, T1, T2, T2M)
+      42   blank
+   43-47  real      --- Minimum HP
+   48-52  real      --- Maximum HP
+      53   blank
+   54-71  real      --- Annual Retrofit Fraction (0.0 - 1.0) OR Actual Total Number Retrofitted (greater than 1.0)
+      72   blank
+   73-78  real      --- Retrofit Effectiveness. Range = 0.0 - 1.0 (zero is no benefit). 
+      79   blank
+   80-89  character --- Exhaust Pollutant affected by retrofit (HC, CO, NOx, or PM)
+      90   blank
+   91-95  integer   --- Retrofit identifier (use same arbitrary number for different pollutants being affected by same retrofit)
+   96+    Can enter a description of specific retrofit technology. Not read into model. 
+
+
+RYst RYen MYst MYen SCC        TechType    HPmn HPmx AnnualRetroFracOrN Effect Pollutant  RetID Description (not used)
+---- ---- ---- ---- ---------- ---------- ---------- ------------------ ------ ---------- ----- -----------------------
+/RETROFIT/
+2008 2009 1996 1997 2270002000 ALL           50  300               0.05   0.50 PM             1 funded by xxxx
+2008 2008 1991 1996 2270002069 T1           175  600               0.06   0.05 NOx            2
+2007 2008 1996 1997 2270005015 ALL          100  300               0.04   0.80 PM             3
+2007 2008 1996 1997 2270005015 ALL          100  300               0.04   0.03 NOx            3
+/END/

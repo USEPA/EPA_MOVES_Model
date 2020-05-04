@@ -1,0 +1,134 @@
+This file contains deterioration factors data for exhaust NOx
+emissions.  The deterioration factors are specified by tech 
+type.  The values are actually the coefficients of the 
+deterioration equation: 
+               DF = 1 + A * (age)**b
+                      where:
+                            DF = new deterioation factor
+                            A  = coefficient specified here
+                            age = age of the engine
+            (cum. hours * load factor / median life in hours)
+                            b  = coefficient specified here
+An ALL in the tech type field will apply to all technology 
+types. 
+Any tech type not listed in this file will assume to have
+no deterioration on the emission factor.
+
+9/28/07 16f: like 16e but change dsl recmarine Base, T0, T1 to BaseM, T0M, T1M; 
+  & RecEq TechTypes to RM2, RM4, RM40 (closed crankcase), RM21, RM41, RSxx (snowmobile), RAxx (ATV), etc. for MOVES. 
+
+--------------------------------------------------------------
+The format is as follows:
+       1-10  character     -- technology type code
+      21-30  real          -- A coefficient in the equation
+      31-40  real          -- b coefficient in the equation
+      41-50  real          -- emissions cap (in median life units)
+      51-60  character     -- pollutant name
+--------------------------------------------------------------
+
+/DETFAC/
+G2H3                         0       1.0       1.0       NOx
+G2H31                        0       1.0       1.0       NOx
+G2H3C1                       0       1.0       1.0       NOx
+G2H32                        0       1.0       1.0       NOx
+G2H3C2                       0       1.0       1.0       NOx
+G2H4                         0       1.0       1.0       NOx
+G2H41                        0       1.0       1.0       NOx
+G2H4C1                       0       1.0       1.0       NOx
+G4H41                        0       0.5       1.0       NOx
+G2H42                        0       1.0       1.0       NOx
+G2H4C2                       0       1.0       1.0       NOx
+G4H42                        0       0.5       1.0       NOx
+G2H5                         0       1.0       1.0       NOx
+G2H51                        0       1.0       1.0       NOx
+G2H5C1                       0       1.0       1.0       NOx
+G2H52                        0       1.0       1.0       NOx
+G2H5C2                       0       1.0       1.0       NOx
+G2N1                         0       1.0       2.0       NOx
+G4N1S                        0       0.5       2.0       NOx
+G4N1O                        0       0.5       2.0       NOx
+G2N1                         0       1.0       2.0       NOx
+G4N1S1                       0       0.5       2.0       NOx
+G4N1O1                       0       0.5       2.0       NOx
+G4N1SC1                      0       0.5       2.0       NOx
+G4N1S2                    0.18       0.5       2.0       NOx
+G4N1O2                    0.18       0.5       2.0       NOx
+G4N1S3                   0.302       0.5       2.0       NOx
+G4N1O3                   0.302       0.5       2.0       NOx
+G2N2                         0       1.0       2.0       NOx
+G4N2S                        0       0.5       2.0       NOx
+G4N2O                        0       0.5       2.0       NOx
+G4N2S1                       0       0.5       2.0       NOx
+G4N2O1                       0       0.5       2.0       NOx
+G4N2S2                       0       0.5       2.0       NOx
+G4N2O2                       0       0.5       2.0       NOx
+G4N23                    0.302       0.5       2.0       NOx
+G4N23a                   0.302       0.5       2.0       NOx
+G4N23b                   0.302       0.5       2.0       NOx
+G2GT25                       0       1.0       1.0       NOx
+G4GT25                    0.03       1.0       1.0       NOx
+G4GT251                   0.15       1.0       1.0       NOx
+G4GT252                   0.15       1.0       1.0       NOx
+RM2                          0       1.0       1.0       NOx
+RM21                         0       1.0       1.0       NOx
+RS2                          0       1.0       1.0       NOx
+RS21                         0       1.0       1.0       NOx
+RS22                         0       1.0       1.0       NOx
+RA2                          0       1.0       1.0       NOx
+RA21                         0       1.0       1.0       NOx
+RM4                          0       1.0       1.0       NOx
+RM40                         0       1.0       1.0       NOx
+RM41                         0       1.0       1.0       NOx
+RM42                         0       1.0       1.0       NOx
+RS4                          0       1.0       1.0       NOx
+RS40                         0       1.0       1.0       NOx
+RS41                         0       1.0       1.0       NOx
+RS42                         0       1.0       1.0       NOx
+RA4                          0       1.0       1.0       NOx
+RA40                         0       1.0       1.0       NOx
+RA41                         0       1.0       1.0       NOx
+RA42                         0       1.0       1.0       NOx
+LGT25                     0.03       1.0       1.0       NOx
+LGT251                    0.15       1.0       1.0       NOx
+LGT252                    0.15       1.0       1.0       NOx
+NGT25                     0.03       1.0       1.0       NOx
+NGT251                    0.15       1.0       1.0       NOx
+NGT252                    0.15       1.0       1.0       NOx
+Base                     0.024       1.0       1.0       NOx
+T0                       0.024       1.0       1.0       NOx
+T1                       0.024       1.0       1.0       NOx
+T2                       0.009       1.0       1.0       NOx
+T3                       0.008       1.0       1.0       NOx
+T3B                      0.008       1.0       1.0       NOx
+T4A                      0.008       1.0       1.0       NOx
+T4B                      0.008       1.0       1.0       NOx
+T4                       0.008       1.0       1.0       NOx
+T4N1                     0.008       1.0       1.0       NOx
+T4N                      0.008       1.0       1.0       NOx
+BaseM                    0.024       1.0       1.0       NOx
+T0M                      0.024       1.0       1.0       NOx
+T1M                      0.024       1.0       1.0       NOx
+T2M                      0.009       1.0       1.0       NOx
+T3M                      0.009       1.0       1.0       NOx
+T4M                      0.009       1.0       1.0       NOx
+MO2C                       0.0       1.0       1.0       NOx
+MO2I                      0.08       1.0       1.0       NOx
+MO2D                      0.05       1.0       1.0       NOx
+MO4C                      0.05       1.0       1.0       NOx
+MO4I                      0.03       1.0       1.0       NOx
+MO4D                      0.03       1.0       1.0       NOx
+MOC1                      0.05       1.0       1.0       NOx
+MOC2                      0.05       1.0       1.0       NOx
+MP2C                       0.0       1.0       1.0       NOx
+MP2CA                     0.06       1.0       1.0       NOx
+MP2I                      0.08       1.0       1.0       NOx
+MP2D                      0.05       1.0       1.0       NOx
+MP4C                      0.05       1.0       1.0       NOx
+MP4I                      0.03       1.0       1.0       NOx
+MP4D                      0.03       1.0       1.0       NOx
+MPC1                      0.05       1.0       1.0       NOx
+MS4C                      0.03       1.0       1.0       NOx
+MS4D                      0.03       1.0       1.0       NOx
+MSC1                      0.15       1.0       1.0       NOx
+MS4X                      0.03       1.0       1.0       NOx
+/END/

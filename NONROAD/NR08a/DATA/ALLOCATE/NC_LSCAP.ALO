@@ -1,0 +1,125 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent EMPLOYEES IN LANDSCAPING SERVICES
+CBP NAICS 561730; pre-2002 CBP SIC 0780
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+LSC  37000      2002               14751     NC
+LSC  37001      2002                 416     Alamance
+LSC  37003      2002                  81     Alexander
+LSC  37005      2002                  13     Alleghany
+LSC  37007      2002                  13     Anson
+LSC  37009      2002                  13     Ashe
+LSC  37011      2002                  81     Avery
+LSC  37013      2002                  81     Beaufort
+LSC  37015      2002                   0     Bertie
+LSC  37017      2002                  13     Bladen
+LSC  37019      2002                 135     Brunswick
+LSC  37021      2002                 203     Buncombe
+LSC  37023      2002                  81     Burke
+LSC  37025      2002                 298     Cabarrus
+LSC  37027      2002                  81     Caldwell
+LSC  37029      2002                  13     Camden
+LSC  37031      2002                  82     Carteret
+LSC  37033      2002                  13     Caswell
+LSC  37035      2002                 179     Catawba
+LSC  37037      2002                  79     Chatham
+LSC  37039      2002                  13     Cherokee
+LSC  37041      2002                  13     Chowan
+LSC  37043      2002                  13     Clay
+LSC  37045      2002                  57     Cleveland
+LSC  37047      2002                  56     Columbus
+LSC  37049      2002                  74     Craven
+LSC  37051      2002                 389     Cumberland
+LSC  37053      2002                  81     Currituck
+LSC  37055      2002                 112     Dare
+LSC  37057      2002                 115     Davidson
+LSC  37059      2002                  81     Davie
+LSC  37061      2002                  13     Duplin
+LSC  37063      2002                 366     Durham
+LSC  37065      2002                  44     Edgecombe
+LSC  37067      2002                 423     Forsyth
+LSC  37069      2002                  81     Franklin
+LSC  37071      2002                 194     Gaston
+LSC  37073      2002                  13     Gates
+LSC  37075      2002                  13     Graham
+LSC  37077      2002                  93     Granville
+LSC  37079      2002                  13     Greene
+LSC  37081      2002                 996     Guilford
+LSC  37083      2002                  81     Halifax
+LSC  37085      2002                 177     Harnett
+LSC  37087      2002                  81     Haywood
+LSC  37089      2002                 153     Henderson
+LSC  37091      2002                  13     Hertford
+LSC  37093      2002                  13     Hoke
+LSC  37095      2002                  13     Hyde
+LSC  37097      2002                  63     Iredell
+LSC  37099      2002                  73     Jackson
+LSC  37101      2002                 210     Johnston
+LSC  37103      2002                  13     Jones
+LSC  37105      2002                  60     Lee
+LSC  37107      2002                  57     Lenoir
+LSC  37109      2002                  70     Lincoln
+LSC  37111      2002                  81     McDowell
+LSC  37113      2002                  87     Macon
+LSC  37115      2002                  13     Madison
+LSC  37117      2002                  80     Martin
+LSC  37119      2002                2651     Mecklenburg
+LSC  37121      2002                  13     Mitchell
+LSC  37123      2002                  13     Montgomery
+LSC  37125      2002                 164     Moore
+LSC  37127      2002                  85     Nash
+LSC  37129      2002                 381     New Hanover
+LSC  37131      2002                  13     Northampton
+LSC  37133      2002                  75     Onslow
+LSC  37135      2002                 163     Orange
+LSC  37137      2002                   0     Pamlico
+LSC  37139      2002                  80     Pasquotank
+LSC  37141      2002                  94     Pender
+LSC  37143      2002                  13     Perquimans
+LSC  37145      2002                  64     Person
+LSC  37147      2002                 137     Pitt
+LSC  37149      2002                  80     Polk
+LSC  37151      2002                 166     Randolph
+LSC  37153      2002                  80     Richmond
+LSC  37155      2002                  80     Robeson
+LSC  37157      2002                  53     Rockingham
+LSC  37159      2002                  70     Rowan
+LSC  37161      2002                  80     Rutherford
+LSC  37163      2002                  16     Sampson
+LSC  37165      2002                  13     Scotland
+LSC  37167      2002                  80     Stanly
+LSC  37169      2002                  13     Stokes
+LSC  37171      2002                 196     Surry
+LSC  37173      2002                  13     Swain
+LSC  37175      2002                  55     Transylvania
+LSC  37177      2002                   0     Tyrrell
+LSC  37179      2002                 593     Union
+LSC  37181      2002                  80     Vance
+LSC  37183      2002                2130     Wake
+LSC  37185      2002                   0     Warren
+LSC  37187      2002                  13     Washington
+LSC  37189      2002                 128     Watauga
+LSC  37191      2002                  54     Wayne
+LSC  37193      2002                  96     Wilkes
+LSC  37195      2002                 127     Wilson
+LSC  37197      2002                  43     Yadkin
+LSC  37199      2002                  80     Yancey
+/END/

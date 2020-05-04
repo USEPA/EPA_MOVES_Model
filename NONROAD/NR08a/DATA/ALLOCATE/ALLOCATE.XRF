@@ -1,0 +1,358 @@
+This is the allocation indicator lookup table file used by the NONROAD model.  
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to 
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from county to subcounty.
+
+To calculate the allocation factors, the model first calculates
+a linear combination of allocation indicator values.  The linear
+combinations are defined in the /ALLOC XREF/ packet.  Once the 
+linear combinations are calculated, the model then takes the ratio
+of smaller region to larger region (e.g. the ratio of county to state).
+This ratio is used to allocate the portion of equipment population 
+contained in the smaller region.
+
+3/13/98 c.harvey changed Ag Equipment to just use AGG instead of 
+ combination of AGG - LSC (model can't deal with negative combo).
+5/20/98 g.wilson added some new indicators (HOU and FRM) and
+ remapped some categories (e.g. Lawn and Garden)
+1/28/99 c.harvey changes AC/Refrig (x3060) indicator to POP.
+2/22/99 c.harvey changes RVP & GC from employees to establishments.
+2/25/99 c.harvey sets all 2285000000 to POP (hadn't included 2285006000).
+1/01 c.harvey incorps new inbd/outbd, coal mining, snowmobile, snowblower, const, etc.
+8/11/05 epa: Add 'RR' indicator for rail as NEI locomotive NOx; change AIR from CBP Employees to NEI NOx. 
+
+
+The indicator codes are arbitrary.  The codes in this file are
+
+AIR -- Tons of Aircraft NOx (per NEI)
+HOU -- Number of single and double (duplex) family housing
+LSC -- Employees in Landscape Horiticulture Services 
+CON -- Dollars Spent in Construction
+FRM -- Harvested Cropland in Farming Industry
+COM -- Number of Wholesale Establishments
+MFG -- Employees in Manufacturing Industry 
+LOG -- Employees in Lumber and Wood Products
+OIL -- Employees engaged in Oil and Gas Extraction
+RVP -- Number of Camps & Recreational Vehicle Park Establishments
+GC  -- Number of Public Golf Courses
+POP -- Human Population
+MIN -- Employees engaged in Coal Mining
+SNM -- Snowmobiles: state registration, county snowfall & inverse human pop
+SBR -- Snowblowers Residential
+SBC -- Snowblowers Commercial
+WIB -- Rec marine state fuel consumption, county water surface area Inboard
+WOB -- Rec marine state fuel consumption, county water surface area Outboard
+RR  -- Railroads: Tons of Locomotive NOx (per NEI)
+
+------------------------------------------------------------------------
+This is the packet that defines the linear combination of indicator
+values used for calculation of allocation factors.  Each SCC is cross
+referenced to a list of indicator codes and their asscociated
+coefficients.  The model will retrieve the indicator data identified
+by the indicator codes and calculate the linear combination.
+
+The format is as follows:
+
+Line1:  1-10  Equipment code  (can use global equipment codes, e.g.
+                               2260004000 = all 2-stroke gas Lawn
+                               and Garden equipment)
+        11-20 Coefficient for indicator 1
+        21-30 Coffficient for indicator 2
+        31-40 Coffficient for indicator 3
+
+Line2:  1-10  Equipment code  (must match the code in Line1 )
+        11-20 Indicator code of indicator 1
+        21-30 Indicator code of indicator 2
+        31-40 Indicator code of indicator 3
+
+------------------------------------------------------------------------
+
+/ALLOC XREF/
+2260001000  1.0
+2260001000 RVP
+2260001020  1.0
+2260001020 SNM
+2260001050  1.0
+2260001050 GC
+2260002000  1.0
+2260002000 CON
+2260003000  1.0
+2260003000 MFG
+2260003060  1.0
+2260003060 POP
+2260004000  1.0
+2260004000 HOU
+2260004011  1.0
+2260004011 LSC
+2260004016  1.0
+2260004016 LSC
+2260004021  1.0
+2260004021 LSC
+2260004026  1.0
+2260004026 LSC
+2260004031  1.0
+2260004031 LSC
+2260004035  1.0
+2260004035 SBR
+2260004036  1.0
+2260004036 SBC
+2260004041  1.0
+2260004041 LSC
+2260004046  1.0
+2260004046 LSC
+2260004051  1.0
+2260004051 LSC
+2260004056  1.0
+2260004056 LSC
+2260004061  1.0
+2260004061 LSC
+2260004066  1.0
+2260004066 LSC
+2260004071  1.0
+2260004071 LSC
+2260004076  1.0
+2260004076 LSC
+2260005000  1.0
+2260005000 FRM
+2260006000  1.0
+2260006000 COM
+2260007000  1.0
+2260007000 LOG
+2260008000  1.0
+2260008000 AIR
+2260009000  1.0
+2260009000 MIN
+2260010000  1.0
+2260010000 OIL
+2265001000  1.0
+2265001000 RVP
+2265001020  1.0
+2265001020 SNM
+2265001050  1.0
+2265001050 GC
+2265002000  1.0
+2265002000 CON
+2265003000  1.0
+2265003000 MFG
+2265003060  1.0
+2265003060 POP
+2265004000  1.0
+2265004000 HOU
+2265004011  1.0
+2265004011 LSC
+2265004016  1.0
+2265004016 LSC
+2265004021  1.0
+2265004021 LSC
+2265004026  1.0
+2265004026 LSC
+2265004031  1.0
+2265004031 LSC
+2265004035  1.0
+2265004035 SBR
+2265004036  1.0
+2265004036 SBC
+2265004041  1.0
+2265004041 LSC
+2265004046  1.0
+2265004046 LSC
+2265004051  1.0
+2265004051 LSC
+2265004056  1.0
+2265004056 LSC
+2265004061  1.0
+2265004061 LSC
+2265004066  1.0
+2265004066 LSC
+2265004071  1.0
+2265004071 LSC
+2265004076  1.0
+2265004076 LSC
+2265005000  1.0
+2265005000 FRM
+2265006000  1.0
+2265006000 COM
+2265007000  1.0
+2265007000 LOG
+2265008000  1.0
+2265008000 AIR
+2265009000  1.0
+2265009000 MIN
+2265010000  1.0
+2265010000 OIL
+2267001000  1.0
+2267001000 RVP
+2267001050  1.0
+2267001050 GC
+2267002000  1.0
+2267002000 CON
+2267003000  1.0
+2267003000 MFG
+2267003060  1.0
+2267003060 POP
+2267004000  1.0
+2267004000 HOU
+2267004011  1.0
+2267004011 LSC
+2267004016  1.0
+2267004016 LSC
+2267004021  1.0
+2267004021 LSC
+2267004026  1.0
+2267004026 LSC
+2267004031  1.0
+2267004031 LSC
+2267004035  1.0
+2267004035 SBR
+2267004036  1.0
+2267004036 SBC
+2267004041  1.0
+2267004041 LSC
+2267004046  1.0
+2267004046 LSC
+2267004051  1.0
+2267004051 LSC
+2267004056  1.0
+2267004056 LSC
+2267004061  1.0
+2267004061 LSC
+2267004066  1.0
+2267004066 LSC
+2267004071  1.0
+2267004071 LSC
+2267004076  1.0
+2267004076 LSC
+2267005000  1.0
+2267005000 FRM
+2267006000  1.0
+2267006000 COM
+2267007000  1.0
+2267007000 LOG
+2267008000  1.0
+2267008000 AIR
+2267009000  1.0
+2267009000 MIN
+2267010000  1.0
+2267010000 OIL
+2268001000  1.0
+2268001000 RVP
+2268001050  1.0
+2268001050 GC
+2268002000  1.0
+2268002000 CON
+2268003000  1.0
+2268003000 MFG
+2268003060  1.0
+2268003060 POP
+2268004000  1.0
+2268004000 HOU
+2268004011  1.0
+2268004011 LSC
+2268004016  1.0
+2268004016 LSC
+2268004021  1.0
+2268004021 LSC
+2268004026  1.0
+2268004026 LSC
+2268004031  1.0
+2268004031 LSC
+2268004035  1.0
+2268004035 SBR
+2268004036  1.0
+2268004036 SBC
+2268004041  1.0
+2268004041 LSC
+2268004046  1.0
+2268004046 LSC
+2268004051  1.0
+2268004051 LSC
+2268004056  1.0
+2268004056 LSC
+2268004061  1.0
+2268004061 LSC
+2268004066  1.0
+2268004066 LSC
+2268004071  1.0
+2268004071 LSC
+2268004076  1.0
+2268004076 LSC
+2268005000  1.0
+2268005000 FRM
+2268006000  1.0
+2268006000 COM
+2268007000  1.0
+2268007000 LOG
+2268008000  1.0
+2268008000 AIR
+2268009000  1.0
+2268009000 MIN
+2268010000  1.0
+2268010000 OIL
+2270001000  1.0
+2270001000 RVP
+2270001050  1.0
+2270001050 GC
+2270002000  1.0
+2270002000 CON
+2270003000  1.0
+2270003000 MFG
+2270003060  1.0
+2270003060 POP
+2270004000  1.0
+2270004000 HOU
+2270004011  1.0
+2270004011 LSC
+2270004016  1.0
+2270004016 LSC
+2270004021  1.0
+2270004021 LSC
+2270004026  1.0
+2270004026 LSC
+2270004031  1.0
+2270004031 LSC
+2270004035  1.0
+2270004035 SBR
+2270004036  1.0
+2270004036 SBC
+2270004041  1.0
+2270004041 LSC
+2270004046  1.0
+2270004046 LSC
+2270004051  1.0
+2270004051 LSC
+2270004056  1.0
+2270004056 LSC
+2270004061  1.0
+2270004061 LSC
+2270004066  1.0
+2270004066 LSC
+2270004071  1.0
+2270004071 LSC
+2270004076  1.0
+2270004076 LSC
+2270005000  1.0
+2270005000 FRM
+2270006000  1.0
+2270006000 COM
+2270007000  1.0
+2270007000 LOG
+2270008000  1.0
+2270008000 AIR
+2270009000  1.0
+2270009000 MIN
+2270010000  1.0
+2270010000 OIL
+2282005010  1.0
+2282005010 WOB
+2282005015  1.0
+2282005015 WOB
+2282010005  1.0
+2282010005 WIB
+2282020005  1.0
+2282020005 WIB
+2282020010  1.0
+2282020010 WOB
+2285000000  1.0
+2285000000 RR
+/END/

@@ -1,0 +1,108 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent HUMAN POPULATION
+
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+POP  26000      2002            10042495     MI
+POP  26001      2002               11573     Alcona
+POP  26003      2002                9818     Alger
+POP  26005      2002              109330     Allegan
+POP  26007      2002               30974     Alpena
+POP  26009      2002               23863     Antrim
+POP  26011      2002               17339     Arenac
+POP  26013      2002                8757     Baraga
+POP  26015      2002               58192     Barry
+POP  26017      2002              109733     Bay
+POP  26019      2002               16773     Benzie
+POP  26021      2002              162500     Berrien
+POP  26023      2002               46517     Branch
+POP  26025      2002              138739     Calhoun
+POP  26027      2002               51488     Cass
+POP  26029      2002               26513     Charlevoix
+POP  26031      2002               27267     Cheboygan
+POP  26033      2002               38794     Chippewa
+POP  26035      2002               31704     Clare
+POP  26037      2002               66802     Clinton
+POP  26039      2002               14671     Crawford
+POP  26041      2002               38439     Delta
+POP  26043      2002               27275     Dickinson
+POP  26045      2002              105503     Eaton
+POP  26047      2002               32504     Emmet
+POP  26049      2002              440894     Genesee
+POP  26051      2002               26728     Gladwin
+POP  26053      2002               17489     Gogebic
+POP  26055      2002               81090     Grand Traverse
+POP  26057      2002               42316     Gratiot
+POP  26059      2002               46998     Hillsdale
+POP  26061      2002               35677     Houghton
+POP  26063      2002               35400     Huron
+POP  26065      2002              280063     Ingham
+POP  26067      2002               63193     Ionia
+POP  26069      2002               26989     Iosco
+POP  26071      2002               12794     Iron
+POP  26073      2002               63955     Isabella
+POP  26075      2002              161214     Jackson
+POP  26077      2002              240420     Kalamazoo
+POP  26079      2002               16988     Kalkaska
+POP  26081      2002              586576     Kent
+POP  26083      2002                2255     Keweenaw
+POP  26085      2002               11560     Lake
+POP  26087      2002               90765     Lapeer
+POP  26089      2002               21569     Leelanau
+POP  26091      2002              100458     Lenawee
+POP  26093      2002              169038     Livingston
+POP  26095      2002                7019     Luce
+POP  26097      2002               11590     Mackinac
+POP  26099      2002              808001     Macomb
+POP  26101      2002               25074     Manistee
+POP  26103      2002               64714     Marquette
+POP  26105      2002               28731     Mason
+POP  26107      2002               41468     Mecosta
+POP  26109      2002               25132     Menominee
+POP  26111      2002               83815     Midland
+POP  26113      2002               14994     Missaukee
+POP  26115      2002              149285     Monroe
+POP  26117      2002               62552     Montcalm
+POP  26119      2002               10485     Montmorency
+POP  26121      2002              172232     Muskegon
+POP  26123      2002               48926     Newaygo
+POP  26125      2002             1203287     Oakland
+POP  26127      2002               27756     Oceana
+POP  26129      2002               21785     Ogemaw
+POP  26131      2002                7698     Ontonagon
+POP  26133      2002               23565     Osceola
+POP  26135      2002                9453     Oscoda
+POP  26137      2002               24135     Otsego
+POP  26139      2002              246449     Ottawa
+POP  26141      2002               14338     Presque Isle
+POP  26143      2002               25857     Roscommon
+POP  26145      2002              209851     Saginaw
+POP  26147      2002              167434     St. Clair
+POP  26149      2002               62434     St. Joseph
+POP  26151      2002               44755     Sanilac
+POP  26153      2002                8785     Schoolcraft
+POP  26155      2002               72233     Shiawassee
+POP  26157      2002               58272     Tuscola
+POP  26159      2002               77469     Van Buren
+POP  26161      2002              332449     Washtenaw
+POP  26163      2002             2040153     Wayne
+POP  26165      2002               30822     Wexford
+/END/

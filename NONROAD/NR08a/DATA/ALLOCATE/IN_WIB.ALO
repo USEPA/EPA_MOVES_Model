@@ -1,0 +1,117 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WATER SURFACE AREA FOR INBOARD RECREATIONAL MARINE CRAFT (sq km navigable water)
+1990 GICS (inland water area); GIS analysis of coast lengths (coastal navigable water)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+WIB  18000      1990                1035     IN
+WIB  18001      1990                   1     Adams
+WIB  18003      1990                   7     Allen
+WIB  18005      1990                   7     Bartholomew
+WIB  18007      1990                   0     Benton
+WIB  18009      1990                   1     Blackford
+WIB  18011      1990                   1     Boone
+WIB  18013      1990                  11     Brown
+WIB  18015      1990                   7     Carroll
+WIB  18017      1990                   5     Cass
+WIB  18019      1990                   3     Clark
+WIB  18021      1990                   7     Clay
+WIB  18023      1990                   0     Clinton
+WIB  18025      1990                   8     Crawford
+WIB  18027      1990                  16     Daviess
+WIB  18029      1990                   5     Dearborn
+WIB  18031      1990                   2     Decatur
+WIB  18033      1990                   2     De Kalb
+WIB  18035      1990                   7     Delaware
+WIB  18037      1990                  13     Dubois
+WIB  18039      1990                  10     Elkhart
+WIB  18041      1990                   0     Fayette
+WIB  18043      1990                   1     Floyd
+WIB  18045      1990                   6     Fountain
+WIB  18047      1990                  14     Franklin
+WIB  18049      1990                   7     Fulton
+WIB  18051      1990                  26     Gibson
+WIB  18053      1990                   2     Grant
+WIB  18055      1990                  10     Greene
+WIB  18057      1990                  12     Hamilton
+WIB  18059      1990                   1     Hancock
+WIB  18061      1990                   4     Harrison
+WIB  18063      1990                   1     Hendricks
+WIB  18065      1990                   5     Henry
+WIB  18067      1990                   2     Howard
+WIB  18069      1990                  14     Huntington
+WIB  18071      1990                  11     Jackson
+WIB  18073      1990                   4     Jasper
+WIB  18075      1990                   0     Jay
+WIB  18077      1990                   4     Jefferson
+WIB  18079      1990                   3     Jennings
+WIB  18081      1990                   4     Johnson
+WIB  18083      1990                  21     Knox
+WIB  18085      1990                  44     Kosciusko
+WIB  18087      1990                  19     Lagrange
+WIB  18089      1990                 126     Lake
+WIB  18091      1990                  42     La Porte
+WIB  18093      1990                   8     Lawrence
+WIB  18095      1990                   2     Madison
+WIB  18097      1990                  17     Marion
+WIB  18099      1990                  15     Marshall
+WIB  18101      1990                  11     Martin
+WIB  18103      1990                   4     Miami
+WIB  18105      1990                  44     Monroe
+WIB  18107      1990                   2     Montgomery
+WIB  18109      1990                   8     Morgan
+WIB  18111      1990                   4     Newton
+WIB  18113      1990                  17     Noble
+WIB  18115      1990                   2     Ohio
+WIB  18117      1990                  22     Orange
+WIB  18119      1990                   7     Owen
+WIB  18121      1990                  14     Parke
+WIB  18123      1990                  13     Perry
+WIB  18125      1990                  13     Pike
+WIB  18127      1990                  90     Porter
+WIB  18129      1990                  28     Posey
+WIB  18131      1990                   2     Pulaski
+WIB  18133      1990                   6     Putnam
+WIB  18135      1990                   1     Randolph
+WIB  18137      1990                   4     Ripley
+WIB  18139      1990                   1     Rush
+WIB  18141      1990                   9     St. Joseph
+WIB  18143      1990                   6     Scott
+WIB  18145      1990                   1     Shelby
+WIB  18147      1990                   7     Spencer
+WIB  18149      1990                   8     Starke
+WIB  18151      1990                  36     Steuben
+WIB  18153      1990                  18     Sullivan
+WIB  18155      1990                   6     Switzerland
+WIB  18157      1990                   8     Tippecanoe
+WIB  18159      1990                   0     Tipton
+WIB  18161      1990                  10     Union
+WIB  18163      1990                   3     Vanderburgh
+WIB  18165      1990                   8     Vermillion
+WIB  18167      1990                  19     Vigo
+WIB  18169      1990                  20     Wabash
+WIB  18171      1990                   4     Warren
+WIB  18173      1990                  18     Warrick
+WIB  18175      1990                   5     Washington
+WIB  18177      1990                   2     Wayne
+WIB  18179      1990                   1     Wells
+WIB  18181      1990                   9     White
+WIB  18183      1990                   6     Whitley
+/END/

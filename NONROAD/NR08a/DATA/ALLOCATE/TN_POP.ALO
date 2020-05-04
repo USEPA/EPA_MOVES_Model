@@ -1,0 +1,120 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent HUMAN POPULATION
+
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+POP  47000      2002             5792297     TN
+POP  47001      2002               71691     Anderson
+POP  47003      2002               39262     Bedford
+POP  47005      2002               16576     Benton
+POP  47007      2002               12510     Bledsoe
+POP  47009      2002              109720     Blount
+POP  47011      2002               89518     Bradley
+POP  47013      2002               39948     Campbell
+POP  47015      2002               13109     Cannon
+POP  47017      2002               29357     Carroll
+POP  47019      2002               56914     Carter
+POP  47021      2002               37107     Cheatham
+POP  47023      2002               15928     Chester
+POP  47025      2002               30095     Claiborne
+POP  47027      2002                7973     Clay
+POP  47029      2002               34127     Cocke
+POP  47031      2002               49192     Coffee
+POP  47033      2002               14541     Crockett
+POP  47035      2002               48709     Cumberland
+POP  47037      2002              569174     Davidson
+POP  47039      2002               11716     Decatur
+POP  47041      2002               17784     DeKalb
+POP  47043      2002               44323     Dickson
+POP  47045      2002               37161     Dyer
+POP  47047      2002               31193     Fayette
+POP  47049      2002               16875     Fentress
+POP  47051      2002               40131     Franklin
+POP  47053      2002               48151     Gibson
+POP  47055      2002               29484     Giles
+POP  47057      2002               21202     Grainger
+POP  47059      2002               63707     Greene
+POP  47061      2002               14322     Grundy
+POP  47063      2002               58444     Hamblen
+POP  47065      2002              309311     Hamilton
+POP  47067      2002                6755     Hancock
+POP  47069      2002               28280     Hardeman
+POP  47071      2002               25930     Hardin
+POP  47073      2002               54718     Hawkins
+POP  47075      2002               19602     Haywood
+POP  47077      2002               25849     Henderson
+POP  47079      2002               31355     Henry
+POP  47081      2002               23228     Hickman
+POP  47083      2002                7995     Houston
+POP  47085      2002               18087     Humphreys
+POP  47087      2002               11182     Jackson
+POP  47089      2002               45831     Jefferson
+POP  47091      2002               17822     Johnson
+POP  47093      2002              391494     Knox
+POP  47095      2002                7890     Lake
+POP  47097      2002               27150     Lauderdale
+POP  47099      2002               40631     Lawrence
+POP  47101      2002               11440     Lewis
+POP  47103      2002               31714     Lincoln
+POP  47105      2002               40778     Loudon
+POP  47107      2002               50141     McMinn
+POP  47109      2002               24720     McNairy
+POP  47111      2002               20862     Macon
+POP  47113      2002               93432     Madison
+POP  47115      2002               27793     Marion
+POP  47117      2002               27435     Marshall
+POP  47119      2002               71505     Maury
+POP  47121      2002               11312     Meigs
+POP  47123      2002               40399     Monroe
+POP  47125      2002              136855     Montgomery
+POP  47127      2002                5967     Moore
+POP  47129      2002               20057     Morgan
+POP  47131      2002               32435     Obion
+POP  47133      2002               20254     Overton
+POP  47135      2002                7546     Perry
+POP  47137      2002                5058     Pickett
+POP  47139      2002               16124     Polk
+POP  47141      2002               64060     Putnam
+POP  47143      2002               28955     Rhea
+POP  47145      2002               52245     Roane
+POP  47147      2002               57234     Robertson
+POP  47149      2002              195668     Rutherford
+POP  47151      2002               21689     Scott
+POP  47153      2002               11798     Sequatchie
+POP  47155      2002               74340     Sevier
+POP  47157      2002              901725     Shelby
+POP  47159      2002               18181     Smith
+POP  47161      2002               12796     Stewart
+POP  47163      2002              152791     Sullivan
+POP  47165      2002              136458     Sumner
+POP  47167      2002               53383     Tipton
+POP  47169      2002                7397     Trousdale
+POP  47171      2002               17660     Unicoi
+POP  47173      2002               18568     Union
+POP  47175      2002                5536     Van Buren
+POP  47177      2002               38781     Warren
+POP  47179      2002              109163     Washington
+POP  47181      2002               17039     Wayne
+POP  47183      2002               34274     Weakley
+POP  47185      2002               23496     White
+POP  47187      2002              136714     Williamson
+POP  47189      2002               93465     Wilson
+/END/

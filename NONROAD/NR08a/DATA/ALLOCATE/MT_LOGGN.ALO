@@ -1,0 +1,84 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2002 Timber Product Output (cu ft)
+from US Forest Service TPO database. http://www.fia.fs.fed.us/program-features/tpo/
+
+10/19/05 epa: use TPO data instead of CBP employee data.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+LOG  30000      2002           224467391     MT
+LOG  30001      2002              534993     Beaverhead
+LOG  30003      2002             4025196     Big Horn
+LOG  30005      2002              407760     Blaine
+LOG  30007      2002              962711     Broadwater
+LOG  30009      2002              164828     Carbon
+LOG  30011      2002             1253166     Carter
+LOG  30013      2002             3020855     Cascade
+LOG  30015      2002              434433     Chouteau
+LOG  30017      2002             1172454     Custer
+LOG  30019      2002                   0     Daniels
+LOG  30021      2002                   0     Dawson
+LOG  30023      2002             2079829     Deer Lodge
+LOG  30025      2002                   0     Fallon
+LOG  30027      2002             3002905     Fergus
+LOG  30029      2002            37064763     Flathead
+LOG  30031      2002             1461325     Gallatin
+LOG  30033      2002              105192     Garfield Park
+LOG  30035      2002              281899     Glacier
+LOG  30037      2002              140552     Golden Valley
+LOG  30039      2002             9640245     Granite
+LOG  30041      2002              218950     Hill
+LOG  30043      2002             2371335     Jefferson
+LOG  30045      2002             1005660     Judith Basin
+LOG  30047      2002            10739941     Lake
+LOG  30049      2002             9108576     Lewis & Clark
+LOG  30051      2002                4809     Liberty
+LOG  30053      2002            34225643     Lincoln
+LOG  30055      2002                   0     McCone
+LOG  30057      2002             2621222     Madison
+LOG  30059      2002             6502734     Meagher
+LOG  30061      2002             4713463     Mineral
+LOG  30063      2002            34469250     Missoula
+LOG  30065      2002             2136102     Musselshell
+LOG  30067      2002             1501375     Park
+LOG  30069      2002              184010     Petroleum
+LOG  30071      2002                   0     Phillips
+LOG  30073      2002                   0     Pondera
+LOG  30075      2002             2723570     Powder River
+LOG  30077      2002            13809791     Powell
+LOG  30079      2002                   0     Prairie
+LOG  30081      2002             5754278     Ravalli
+LOG  30083      2002                   0     Richland
+LOG  30085      2002                   0     Roosevelt
+LOG  30087      2002             3746875     Rosebud
+LOG  30089      2002            17775320     Sanders
+LOG  30091      2002                   0     Sheridan
+LOG  30093      2002              330589     Silver Bow
+LOG  30095      2002              386937     Stillwater
+LOG  30097      2002             1510712     Sweet Grass
+LOG  30099      2002                   0     Teton
+LOG  30101      2002                   0     Toole
+LOG  30103      2002             1367480     Treasure
+LOG  30105      2002                   0     Valley
+LOG  30107      2002             1069077     Wheatland
+LOG  30109      2002                   0     Wibaux
+LOG  30111      2002              436587     Yellowstone
+LOG  30113      2002                   0     Yellowstone National Park
+/END/

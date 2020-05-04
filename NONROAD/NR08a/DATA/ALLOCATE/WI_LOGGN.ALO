@@ -1,0 +1,99 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2002 Timber Product Output (cu ft)
+from US Forest Service TPO database. http://www.fia.fs.fed.us/program-features/tpo/
+
+10/19/05 epa: use TPO data instead of CBP employee data.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+LOG  55000      2002           569478138     WI
+LOG  55001      2002            14724716     Adams
+LOG  55003      2002            14927236     Ashland
+LOG  55005      2002             7556681     Barron
+LOG  55007      2002            29001791     Bayfield
+LOG  55009      2002              747717     Brown
+LOG  55011      2002             5899298     Buffalo
+LOG  55013      2002            10883548     Burnett
+LOG  55015      2002             1348117     Calumet
+LOG  55017      2002             8708869     Chippewa
+LOG  55019      2002            14121508     Clark
+LOG  55021      2002             3224288     Columbia
+LOG  55023      2002             2909005     Crawford
+LOG  55025      2002             3361919     Dane
+LOG  55027      2002              644966     Dodge
+LOG  55029      2002             1563032     Door
+LOG  55031      2002            21523100     Douglas
+LOG  55033      2002             5782868     Dunn
+LOG  55035      2002             5743976     Eau Claire
+LOG  55037      2002             9869127     Florence
+LOG  55039      2002              589516     Fond du Lac
+LOG  55041      2002            20171575     Forest
+LOG  55043      2002             5514729     Grant
+LOG  55045      2002             1313713     Green
+LOG  55047      2002              516022     Green Lake
+LOG  55049      2002             2002620     Iowa
+LOG  55051      2002            18247286     Iron
+LOG  55053      2002            13260033     Jackson
+LOG  55055      2002             1835320     Jefferson
+LOG  55057      2002             9247054     Juneau
+LOG  55059      2002              529356     Kenosha
+LOG  55061      2002              444490     Kewaunee
+LOG  55063      2002             5025314     La Crosse
+LOG  55065      2002              300065     Lafayette
+LOG  55067      2002            21310886     Langlade
+LOG  55069      2002            19589455     Lincoln
+LOG  55071      2002             1805767     Manitowoc
+LOG  55073      2002            18728446     Marathon
+LOG  55075      2002            23495252     Marinette
+LOG  55077      2002             2932613     Marquette
+LOG  55078      2002            20853530     Menominee
+LOG  55079      2002              346382     Milwaukee
+LOG  55081      2002            14119623     Monroe
+LOG  55083      2002             8725269     Oconto
+LOG  55085      2002            19752628     Oneida
+LOG  55087      2002              862947     Outagamie
+LOG  55089      2002              298543     Ozaukee
+LOG  55091      2002             1298707     Pepin
+LOG  55093      2002             1716477     Pierce
+LOG  55095      2002             4773253     Polk
+LOG  55097      2002             6624750     Portage
+LOG  55099      2002            18055119     Price
+LOG  55101      2002               41027     Racine
+LOG  55103      2002             3940392     Richland
+LOG  55105      2002              242309     Rock
+LOG  55107      2002            14194236     Rusk
+LOG  55109      2002             2003567     St. Croix
+LOG  55111      2002             8123888     Sauk
+LOG  55113      2002            27907242     Sawyer
+LOG  55115      2002             9214743     Shawano
+LOG  55117      2002             1190131     Sheboygan
+LOG  55119      2002            12544815     Taylor
+LOG  55121      2002             4534473     Trempealeau
+LOG  55123      2002             5051697     Vernon
+LOG  55125      2002            16063802     Vilas
+LOG  55127      2002              845247     Walworth
+LOG  55129      2002            16749979     Washburn
+LOG  55131      2002              918237     Washington
+LOG  55133      2002             1120322     Waukesha
+LOG  55135      2002             5337286     Waupaca
+LOG  55137      2002             4455513     Waushara
+LOG  55139      2002             1121044     Winnebago
+LOG  55141      2002             7049686     Wood
+/END/

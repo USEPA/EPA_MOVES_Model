@@ -1,0 +1,89 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent EMPLOYEES IN OIL & GAS EXTRACTION, AND DRILLING OIL & GAS WELLS
+CBP NAICS 211/// and 213111; pre-2002 CBP SIC 1300
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+OIL  22000      2002               18115     LA
+OIL  22001      2002                 315     Acadia
+OIL  22003      2002                   0     Allen
+OIL  22005      2002                 111     Ascension
+OIL  22007      2002                 154     Assumption
+OIL  22009      2002                   0     Avoyelles
+OIL  22011      2002                 111     Beauregard
+OIL  22013      2002                 111     Bienville
+OIL  22015      2002                 110     Bossier
+OIL  22017      2002                 988     Caddo
+OIL  22019      2002                 346     Calcasieu
+OIL  22021      2002                   0     Caldwell
+OIL  22023      2002                 161     Cameron
+OIL  22025      2002                  43     Catahoula
+OIL  22027      2002                  53     Claiborn
+OIL  22029      2002                 278     Concordia
+OIL  22031      2002                  19     De Soto
+OIL  22033      2002                 117     E. Baton Rouge
+OIL  22035      2002                   0     E. Carroll
+OIL  22037      2002                   0     E. Feliciana
+OIL  22039      2002                  90     Evangeline
+OIL  22041      2002                   0     Franklin
+OIL  22043      2002                   0     Grant
+OIL  22045      2002                 959     Iberia
+OIL  22047      2002                 370     Iberville
+OIL  22049      2002                   0     Jackson
+OIL  22051      2002                 862     Jefferson
+OIL  22053      2002                  62     Jefferson Davis
+OIL  22055      2002                2319     Lafayette
+OIL  22057      2002                1081     Lafourche
+OIL  22059      2002                 338     La Salle
+OIL  22061      2002                  19     Lincoln
+OIL  22063      2002                  43     Livingston
+OIL  22065      2002                   0     Madison
+OIL  22067      2002                  19     Morehouse
+OIL  22069      2002                  19     Natchitoches
+OIL  22071      2002                3482     Orleans
+OIL  22073      2002                 142     Ouachita
+OIL  22075      2002                 740     Plaquemines
+OIL  22077      2002                  43     Pointe Coupee
+OIL  22079      2002                  19     Rapides
+OIL  22081      2002                   0     Red River
+OIL  22083      2002                  43     Richland
+OIL  22085      2002                  62     Sabine
+OIL  22087      2002                  80     St. Bernard
+OIL  22089      2002                 325     St. Charles
+OIL  22091      2002                   0     St. Helena
+OIL  22093      2002                  19     St. James
+OIL  22095      2002                   0     St. John the Baptist
+OIL  22097      2002                  85     St. Landry
+OIL  22099      2002                 154     St. Martin
+OIL  22101      2002                 740     St. Mary
+OIL  22103      2002                  52     St. Tammany
+OIL  22105      2002                  19     Tangipahoa
+OIL  22107      2002                   0     Tensas
+OIL  22109      2002                2397     Terrebonne
+OIL  22111      2002                  62     Union
+OIL  22113      2002                 177     Vermilion
+OIL  22115      2002                   0     Vernon
+OIL  22117      2002                   0     Washington
+OIL  22119      2002                 111     Webster
+OIL  22121      2002                 111     W. Baton Rouge
+OIL  22123      2002                   0     W. Carroll
+OIL  22125      2002                   0     W. Feliciana
+OIL  22127      2002                 154     Winn
+/END/

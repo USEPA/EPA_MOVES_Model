@@ -1,0 +1,145 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WHOLESALE ESTABLISHMENTS
+CBP NAICS 42----; pre-2002 CBP SIC 50--
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+COM  21000      2002                4713     KY
+COM  21001      2002                  14     Adair
+COM  21003      2002                  11     Allen
+COM  21005      2002                   9     Anderson
+COM  21007      2002                   7     Ballard
+COM  21009      2002                  35     Barren
+COM  21011      2002                   2     Bath
+COM  21013      2002                  22     Bell
+COM  21015      2002                 152     Boone
+COM  21017      2002                  20     Bourbon
+COM  21019      2002                  84     Boyd
+COM  21021      2002                  32     Boyle
+COM  21023      2002                   4     Bracken
+COM  21025      2002                   4     Breathitt
+COM  21027      2002                  13     Breckinridge
+COM  21029      2002                  38     Bullitt
+COM  21031      2002                   6     Butler
+COM  21033      2002                   8     Caldwell
+COM  21035      2002                  57     Calloway
+COM  21037      2002                  75     Campbell
+COM  21039      2002                   5     Carlisle
+COM  21041      2002                  13     Carroll
+COM  21043      2002                  11     Carter
+COM  21045      2002                  16     Casey
+COM  21047      2002                  76     Christian
+COM  21049      2002                  40     Clark
+COM  21051      2002                  12     Clay
+COM  21053      2002                  10     Clinton
+COM  21055      2002                   5     Crittenden
+COM  21057      2002                   3     Cumberland
+COM  21059      2002                 125     Daviess
+COM  21061      2002                   3     Edmonson
+COM  21063      2002                   0     Elliott
+COM  21065      2002                   6     Estill
+COM  21067      2002                 441     Fayette
+COM  21069      2002                  13     Fleming
+COM  21071      2002                  48     Floyd
+COM  21073      2002                  35     Franklin
+COM  21075      2002                  14     Fulton
+COM  21077      2002                   5     Gallatin
+COM  21079      2002                   8     Garrard
+COM  21081      2002                  12     Grant
+COM  21083      2002                  36     Graves
+COM  21085      2002                  21     Grayson
+COM  21087      2002                   6     Green
+COM  21089      2002                  15     Greenup
+COM  21091      2002                   2     Hancock
+COM  21093      2002                  66     Hardin
+COM  21095      2002                  21     Harlan
+COM  21097      2002                  11     Harrison
+COM  21099      2002                  15     Hart
+COM  21101      2002                  53     Henderson
+COM  21103      2002                  11     Henry
+COM  21105      2002                   5     Hickman
+COM  21107      2002                  46     Hopkins
+COM  21109      2002                   3     Jackson
+COM  21111      2002                1386     Jefferson
+COM  21113      2002                  50     Jessamine
+COM  21115      2002                  22     Johnson
+COM  21117      2002                 189     Kenton
+COM  21119      2002                   2     Knott
+COM  21121      2002                  11     Knox
+COM  21123      2002                  11     Larue
+COM  21125      2002                  57     Laurel
+COM  21127      2002                   7     Lawrence
+COM  21129      2002                   3     Lee
+COM  21131      2002                   1     Leslie
+COM  21133      2002                  10     Letcher
+COM  21135      2002                   7     Lewis
+COM  21137      2002                  15     Lincoln
+COM  21139      2002                   3     Livingston
+COM  21141      2002                  32     Logan
+COM  21143      2002                   5     Lyon
+COM  21145      2002                 126     McCracken
+COM  21147      2002                   1     McCreary
+COM  21149      2002                   8     McLean
+COM  21151      2002                  40     Madison
+COM  21153      2002                   4     Magoffin
+COM  21155      2002                  13     Marion
+COM  21157      2002                  43     Marshall
+COM  21159      2002                   4     Martin
+COM  21161      2002                  29     Mason
+COM  21163      2002                   8     Meade
+COM  21165      2002                   0     Menifee
+COM  21167      2002                  16     Mercer
+COM  21169      2002                   1     Metcalfe
+COM  21171      2002                  10     Monroe
+COM  21173      2002                  31     Montgomery
+COM  21175      2002                   3     Morgan
+COM  21177      2002                  10     Muhlenberg
+COM  21179      2002                  31     Nelson
+COM  21181      2002                   2     Nicholas
+COM  21183      2002                  10     Ohio
+COM  21185      2002                  70     Oldham
+COM  21187      2002                   6     Owen
+COM  21189      2002                   0     Owsley
+COM  21191      2002                   9     Pendleton
+COM  21193      2002                  35     Perry
+COM  21195      2002                  66     Pike
+COM  21197      2002                   7     Powell
+COM  21199      2002                  75     Pulaski
+COM  21201      2002                   0     Robertson
+COM  21203      2002                  10     Rockcastle
+COM  21205      2002                  28     Rowan
+COM  21207      2002                  14     Russell
+COM  21209      2002                  35     Scott
+COM  21211      2002                  39     Shelby
+COM  21213      2002                  13     Simpson
+COM  21215      2002                   4     Spencer
+COM  21217      2002                  32     Taylor
+COM  21219      2002                  15     Todd
+COM  21221      2002                   6     Trigg
+COM  21223      2002                   1     Trimble
+COM  21225      2002                  13     Union
+COM  21227      2002                 137     Warren
+COM  21229      2002                  13     Washington
+COM  21231      2002                  11     Wayne
+COM  21233      2002                   4     Webster
+COM  21235      2002                  35     Whitley
+COM  21237      2002                   4     Wolfe
+COM  21239      2002                  25     Woodford
+/END/

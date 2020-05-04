@@ -1,0 +1,92 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent EMPLOYEES IN OIL & GAS EXTRACTION, AND DRILLING OIL & GAS WELLS
+CBP NAICS 211/// and 213111; pre-2002 CBP SIC 1300
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+OIL  01000      2002                1061     AL
+OIL  01001      2002                   0     Autauga
+OIL  01003      2002                  28     Baldwin
+OIL  01005      2002                   0     Barbour
+OIL  01007      2002                   0     Bibb
+OIL  01009      2002                   0     Blount
+OIL  01011      2002                   0     Bullock
+OIL  01013      2002                   0     Butler
+OIL  01015      2002                   0     Calhoun
+OIL  01017      2002                   0     Chambers
+OIL  01019      2002                   0     Cherokee
+OIL  01021      2002                   0     Chilton
+OIL  01023      2002                   0     Choctaw
+OIL  01025      2002                   0     Clarke
+OIL  01027      2002                   0     Clay
+OIL  01029      2002                   0     Cleburne
+OIL  01031      2002                   0     Coffee
+OIL  01033      2002                   0     Colbert
+OIL  01035      2002                   0     Conecuh
+OIL  01037      2002                   0     Coosa
+OIL  01039      2002                   0     Covington
+OIL  01041      2002                  28     Crenshaw
+OIL  01043      2002                   0     Cullman
+OIL  01045      2002                   0     Dale
+OIL  01047      2002                   0     Dallas
+OIL  01049      2002                   0     DeKalb
+OIL  01051      2002                   0     Elmore
+OIL  01053      2002                  69     Escambia
+OIL  01055      2002                   0     Etowah
+OIL  01057      2002                  29     Fayette
+OIL  01059      2002                   0     Franklin
+OIL  01061      2002                   0     Geneva
+OIL  01063      2002                   0     Greene
+OIL  01065      2002                   0     Hale
+OIL  01067      2002                   0     Henry
+OIL  01069      2002                   0     Houston
+OIL  01071      2002                   0     Jackson
+OIL  01073      2002                 203     Jefferson
+OIL  01075      2002                  11     Lamar
+OIL  01077      2002                  29     Lauderdale
+OIL  01079      2002                   0     Lawrence
+OIL  01081      2002                   0     Lee
+OIL  01083      2002                   0     Limestone
+OIL  01085      2002                   0     Lowndes
+OIL  01087      2002                   0     Macon
+OIL  01089      2002                   0     Madison
+OIL  01091      2002                   0     Marengo
+OIL  01093      2002                   0     Marion
+OIL  01095      2002                   0     Marshall
+OIL  01097      2002                 422     Mobile
+OIL  01099      2002                  68     Monroe
+OIL  01101      2002                  11     Montgomery
+OIL  01103      2002                   0     Morgan
+OIL  01105      2002                   0     Perry
+OIL  01107      2002                   0     Pickens
+OIL  01109      2002                   0     Pike
+OIL  01111      2002                   0     Randolph
+OIL  01113      2002                   0     Russell
+OIL  01115      2002                   0     St. Clair
+OIL  01117      2002                  29     Shelby
+OIL  01119      2002                   0     Sumter
+OIL  01121      2002                   0     Talladega
+OIL  01123      2002                   0     Tallapoosa
+OIL  01125      2002                 112     Tuscaloosa
+OIL  01127      2002                  11     Walker
+OIL  01129      2002                  11     Washington
+OIL  01131      2002                   0     Wilcox
+OIL  01133      2002                   0     Winston
+/END/

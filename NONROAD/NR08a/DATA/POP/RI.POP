@@ -1,0 +1,1218 @@
+This file contains the equipment population estimates for the NONROAD model.
+These data drive the rest of the model in terms of which equipment types
+will be processed.  Unless overwritten by user options, all of the data
+in this file will be processed and written to the output data file.  The model
+will use the closest year which comes before the episode year.  Population
+estimates for an entire state may be allocated to county level.
+
+8/12/05 25a, NR05 release: like 25 but corrects SI 50-100 bin(s) properly into 50-75 & 75-100.
+12/12/05 25e, like 25a but updates OB & PWC HPavg per Samulski (Cert data).
+3/31/06 25f, like 25e but adds CMV <= 50hp as SCC 22800002030 (propulsion) & 2280002040 (aux)
+5/12/06 25g, like 25f but change CMV 22800002030/40 pops & life.
+8/24/06 25h, like 25g but updates SI SDI rec marine 600-750 hp pop from 1 to 7500, 650 HPavg, 8 yr MedLife, 30 hrs/yr.
+7/21/08 25j, like 25h but remove 2280* temporary <50hp commercial marine (was just for Loco/Marine rule modeling).
+
+NOTE: Many of the <25hp SI engine pop numbers have been "lumped" into either
+2-stroke or 4-stroke SCC.  Differing EF's are handled by Tech Type within that SCC.
+
+The format of the data is as follows:
+
+  1 -   5   FIPS code
+  7 -  11   subregion code (used for subcounty estimates)
+ 13 -  16   year of population estimates
+ 18 -  27   SCC code (no globals accepted)
+ 29 -  68   equipment description (ignored)
+ 70 -  74   minimum HP range
+ 76 -  80   maximum HP range (ranges must match those internal to model)
+ 82 -  86   average HP in range (if blank model uses midpoint)
+ 88 -  92   expected useful life (in hours of use)
+ 93 - 102   flag for scrappage distribution curve (DEFAULT = standard curve)
+106 - 122   population estimate
+State  44000 RI  Rhode Island                                                                                    425,405.9
+FIPS        Year SCC        Equipment Description                    HPmn  HPmx HPavg  Life ScrapFlag          Population
+------------------------------------------------------------------------------
+/POPULATION/
+44000       1999 2260001020 2-Str Snowmobiles                            1     3   2.5   252  DEFAULT                  0.0
+44000       1999 2260001020 2-Str Snowmobiles                            3     6     4   252  DEFAULT                  0.0
+44000       1999 2260001020 2-Str Snowmobiles                           11    16 15.66   252  DEFAULT                  0.0
+44000       1999 2260001020 2-Str Snowmobiles                           16    25 20.26   252  DEFAULT                  0.0
+44000       1999 2260001020 2-Str Snowmobiles                           25    40 32.86   252  DEFAULT                  0.0
+44000       1999 2260001020 2-Str Snowmobiles                           40    50 45.68   252  DEFAULT                  0.0
+44000       1999 2260001020 2-Str Snowmobiles                           50    75 58.48   252  DEFAULT                  0.0
+44000       1999 2260001020 2-Str Snowmobiles                           75   100 85.78   252  DEFAULT                  0.0
+44000       1999 2260001020 2-Str Snowmobiles                          100   175 112.4   252  DEFAULT                  0.0
+44000       1998 2260001010 2-Str Offroad Motorcycles                    0     1     1 19200  DEFAULT                953.2
+44000       1998 2265001010 4-Str Offroad Motorcycles                    0     1     1 19200  DEFAULT                469.5
+44000       1998 2260001030 2-Str All Terrain Vehicles                   0     1     1 20410  DEFAULT                481.8
+44000       1998 2265001030 4-Str All Terrain Vehicles                   0     1     1 20410  DEFAULT               4169.5
+44000       1998 2265001050 4-Str Golf Carts                             6    11  9.15   400  DEFAULT                904.2
+44000       1998 2260001060 2-Str Specialty Vehicle Carts                6    11 8.046   200  DEFAULT               1212.3
+44000       1998 2260001060 2-Str Specialty Vehicle Carts               25    40    37   942  DEFAULT                  0.4
+44000       1998 2260001060 2-Str Specialty Vehicle Carts               50    75    55   942  DEFAULT                  0.2
+44000       1998 2265001060 4-Str Specialty Vehicle Carts                1     3     3   200  DEFAULT                  0.6
+44000       1998 2265001060 4-Str Specialty Vehicle Carts                3     6 4.424   200  DEFAULT                 24.9
+44000       1998 2265001060 4-Str Specialty Vehicle Carts               11    16 15.99   400  DEFAULT                 47.1
+44000       1998 2265001060 4-Str Specialty Vehicle Carts               16    25 19.62   750  DEFAULT                371.4
+44000       1998 2265001060 4-Str Specialty Vehicle Carts               25    40 30.55   942  DEFAULT                  3.8
+44000       1998 2265001060 4-Str Specialty Vehicle Carts               40    50    46   942  DEFAULT                  0.1
+44000       1998 2265001060 4-Str Specialty Vehicle Carts               50    75 61.48   942  DEFAULT                  9.2
+44000       1998 2265001060 4-Str Specialty Vehicle Carts               75   100  86.5   942  DEFAULT                  0.1
+44000       1998 2265001060 4-Str Specialty Vehicle Carts              100   175 118.3   942  DEFAULT                  3.5
+44000       1998 2267001060 LPG - Specialty Vehicle Carts               25    40 30.55   942  DEFAULT                  3.8
+44000       1998 2267001060 LPG - Specialty Vehicle Carts               40    50    46   942  DEFAULT                  0.1
+44000       1998 2267001060 LPG - Specialty Vehicle Carts               50    75 61.48   942  DEFAULT                  9.2
+44000       1998 2267001060 LPG - Specialty Vehicle Carts               75   100  86.5   942  DEFAULT                  0.1
+44000       1998 2267001060 LPG - Specialty Vehicle Carts              100   175 118.3   942  DEFAULT                  3.5
+44000       1998 2265002003 4-Str Pavers                                 3     6  5.35   200  DEFAULT                  1.6
+44000       1998 2265002003 4-Str Pavers                                 6    11 9.328   400  DEFAULT                 11.3
+44000       1998 2265002003 4-Str Pavers                                11    16 12.56   400  DEFAULT                  0.5
+44000       1998 2265002003 4-Str Pavers                                16    25 20.85   750  DEFAULT                  4.1
+44000       1998 2265002003 4-Str Pavers                                25    40 31.75  1500  DEFAULT                  0.7
+44000       1998 2265002003 4-Str Pavers                                50    75 62.41  3000  DEFAULT                  0.8
+44000       1998 2267002003 LPG - Pavers                                25    40 31.75  1500  DEFAULT                  0.7
+44000       1998 2267002003 LPG - Pavers                                50    75 62.41  3000  DEFAULT                  0.8
+44000       1998 2260002006 2-Str Tampers/Rammers                        3     6  3.75   200  DEFAULT                337.0
+44000       1998 2265002006 4-Str Tampers/Rammers                        6    11 7.518   400  DEFAULT                  0.7
+44000       1998 2260002009 2-Str Plate Compactors                       1     3 1.649   150  DEFAULT                 31.7
+44000       1998 2265002009 4-Str Plate Compactors                       3     6 4.409   200  DEFAULT                160.7
+44000       1998 2265002009 4-Str Plate Compactors                       6    11 8.225   400  DEFAULT                 49.5
+44000       1998 2265002009 4-Str Plate Compactors                      11    16 12.67   400  DEFAULT                  8.8
+44000       1998 2265002015 4-Str Rollers                                6    11 8.901   400  DEFAULT                 12.2
+44000       1998 2265002015 4-Str Rollers                               11    16 14.82   400  DEFAULT                  2.2
+44000       1998 2265002015 4-Str Rollers                               16    25 19.08   750  DEFAULT                  5.7
+44000       1998 2265002015 4-Str Rollers                               25    40 36.82  1500  DEFAULT                  0.7
+44000       1998 2265002015 4-Str Rollers                               50    75 60.76  3000  DEFAULT                  0.5
+44000       1998 2265002015 4-Str Rollers                               75   100    83  3000  DEFAULT                  0.3
+44000       1998 2267002015 LPG - Rollers                               25    40 36.82  1500  DEFAULT                  0.7
+44000       1998 2267002015 LPG - Rollers                               50    75 60.76  3000  DEFAULT                  0.5
+44000       1998 2267002015 LPG - Rollers                               75   100    83  3000  DEFAULT                  0.3
+44000       1998 2260002021 2-Str Paving Equipment                       1     3 1.823   150  DEFAULT                 30.3
+44000       1998 2265002021 4-Str Paving Equipment                       3     6 5.136   200  DEFAULT                 88.7
+44000       1998 2265002021 4-Str Paving Equipment                       6    11 8.535   400  DEFAULT                 75.2
+44000       1998 2265002021 4-Str Paving Equipment                      11    16 13.26   400  DEFAULT                 37.7
+44000       1998 2265002021 4-Str Paving Equipment                      16    25    20   750  DEFAULT                 26.5
+44000       1998 2265002021 4-Str Paving Equipment                      25    40  36.6  1500  DEFAULT                  1.1
+44000       1998 2265002021 4-Str Paving Equipment                      50    75    66  2581  DEFAULT                  0.1
+44000       1998 2267002021 LPG - Paving Equipment                      25    40  36.6  1500  DEFAULT                  1.1
+44000       1998 2267002021 LPG - Paving Equipment                      50    75    66  2581  DEFAULT                  0.1
+44000       1998 2265002024 4-Str Surfacing Equipment                    3     6  5.16   200  DEFAULT                 13.2
+44000       1998 2265002024 4-Str Surfacing Equipment                    6    11 8.918   400  DEFAULT                 20.3
+44000       1998 2265002024 4-Str Surfacing Equipment                   11    16 15.61   400  DEFAULT                  5.9
+44000       1998 2265002024 4-Str Surfacing Equipment                   16    25 19.05   750  DEFAULT                  2.5
+44000       1998 2265002024 4-Str Surfacing Equipment                   25    40 30.24  1500  DEFAULT                  0.2
+44000       1998 2265002024 4-Str Surfacing Equipment                   50    75    66  3000  DEFAULT                  0.1
+44000       1998 2267002024 LPG - Surfacing Equipment                   25    40 30.24  1500  DEFAULT                  0.2
+44000       1998 2267002024 LPG - Surfacing Equipment                   50    75    66  3000  DEFAULT                  0.1
+44000       1998 2260002027 2-Str Signal Boards/Light Plants             1     3   2.2   150  DEFAULT                  0.1
+44000       1998 2265002027 4-Str Signal Boards/Light Plants             3     6 5.032   200  DEFAULT                  1.5
+44000       1998 2265002027 4-Str Signal Boards/Light Plants             6    11  8.25   400  DEFAULT                  1.5
+44000       1998 2265002027 4-Str Signal Boards/Light Plants            16    25    18   750  DEFAULT                  0.1
+44000       1998 2265002030 4-Str Trenchers                              1     3     3   200  DEFAULT                  0.1
+44000       1998 2265002030 4-Str Trenchers                              3     6 5.211   200  DEFAULT                 23.1
+44000       1998 2265002030 4-Str Trenchers                              6    11 8.883   400  DEFAULT                 22.6
+44000       1998 2265002030 4-Str Trenchers                             11    16 13.44   400  DEFAULT                  8.1
+44000       1998 2265002030 4-Str Trenchers                             16    25  19.3   750  DEFAULT                  9.2
+44000       1998 2265002030 4-Str Trenchers                             25    40    30  1500  DEFAULT                  1.5
+44000       1998 2265002030 4-Str Trenchers                             50    75 61.69  3000  DEFAULT                  1.3
+44000       1998 2265002030 4-Str Trenchers                             75   100    80  3000  DEFAULT                  1.0
+44000       1998 2267002030 LPG - Trenchers                             25    40    30  1500  DEFAULT                  1.5
+44000       1998 2267002030 LPG - Trenchers                             50    75 61.69  3000  DEFAULT                  1.3
+44000       1998 2267002030 LPG - Trenchers                             75   100    80  3000  DEFAULT                  1.0
+44000       1998 2265002033 4-Str Bore/Drill Rigs                        0     1   0.9   200  DEFAULT                  9.5
+44000       1998 2265002033 4-Str Bore/Drill Rigs                        1     3 2.209   200  DEFAULT                194.7
+44000       1998 2265002033 4-Str Bore/Drill Rigs                        3     6 4.809   200  DEFAULT                  7.9
+44000       1998 2265002033 4-Str Bore/Drill Rigs                        6    11 8.754   400  DEFAULT                  2.4
+44000       1998 2265002033 4-Str Bore/Drill Rigs                       11    16    16   400  DEFAULT                  3.1
+44000       1998 2265002033 4-Str Bore/Drill Rigs                       16    25 21.31   750  DEFAULT                  2.0
+44000       1998 2265002033 4-Str Bore/Drill Rigs                       25    40 31.39  1500  DEFAULT                  0.8
+44000       1998 2265002033 4-Str Bore/Drill Rigs                       50    75 61.34  2113  DEFAULT                  0.7
+44000       1998 2265002033 4-Str Bore/Drill Rigs                      100   175 118.1  2113  DEFAULT                  1.2
+44000       1998 2267002033 LPG - Bore/Drill Rigs                       25    40 31.39  1500  DEFAULT                  0.8
+44000       1998 2267002033 LPG - Bore/Drill Rigs                       50    75 61.34  2113  DEFAULT                  0.7
+44000       1998 2267002033 LPG - Bore/Drill Rigs                      100   175 118.1  2113  DEFAULT                  1.2
+44000       1998 2260002039 2-Str Concrete/Industrial Saws               1     3 1.897   150  DEFAULT                 24.9
+44000       1998 2260002039 2-Str Concrete/Industrial Saws               3     6 4.532   200  DEFAULT                119.3
+44000       1998 2265002039 4-Str Concrete/Industrial Saws               6    11 8.535   400  DEFAULT                 61.4
+44000       1998 2265002039 4-Str Concrete/Industrial Saws              11    16 14.68   400  DEFAULT                 12.9
+44000       1998 2265002039 4-Str Concrete/Industrial Saws              16    25 19.41   750  DEFAULT                  5.7
+44000       1998 2265002039 4-Str Concrete/Industrial Saws              25    40 34.79  1500  DEFAULT                  1.6
+44000       1998 2265002039 4-Str Concrete/Industrial Saws              50    75 65.78  3000  DEFAULT                  0.8
+44000       1998 2267002039 LPG - Concrete/Industrial Saws              25    40 34.79  1500  DEFAULT                  1.6
+44000       1998 2267002039 LPG - Concrete/Industrial Saws              50    75 65.78  3000  DEFAULT                  0.8
+44000       1998 2265002042 4-Str Cement & Mortar Mixers                 1     3  2.89   200  DEFAULT                  3.4
+44000       1998 2265002042 4-Str Cement & Mortar Mixers                 3     6  5.22   200  DEFAULT                189.2
+44000       1998 2265002042 4-Str Cement & Mortar Mixers                 6    11 8.373   400  DEFAULT                316.2
+44000       1998 2265002042 4-Str Cement & Mortar Mixers                11    16 13.52   400  DEFAULT                 10.7
+44000       1998 2265002042 4-Str Cement & Mortar Mixers                16    25 17.87   750  DEFAULT                  8.2
+44000       1998 2265002045 4-Str Cranes                                 6    11     8   400  DEFAULT                  0.3
+44000       1998 2265002045 4-Str Cranes                                11    16 14.02   400  DEFAULT                  0.5
+44000       1998 2265002045 4-Str Cranes                                16    25 18.16   750  DEFAULT                  0.2
+44000       1998 2265002045 4-Str Cranes                                25    40    37  1500  DEFAULT                  0.0
+44000       1998 2265002045 4-Str Cranes                                50    75 69.04  3000  DEFAULT                  1.1
+44000       1998 2265002045 4-Str Cranes                               100   175 115.2  3000  DEFAULT                  0.2
+44000       1998 2267002045 LPG - Cranes                                25    40    37  1500  DEFAULT                  0.0
+44000       1998 2267002045 LPG - Cranes                                50    75 69.04  3000  DEFAULT                  1.1
+44000       1998 2267002045 LPG - Cranes                               100   175 115.2  3000  DEFAULT                  0.2
+44000       1998 2260002054 2-Str Crushing/Proc. Equipment               1     3   1.8   150  DEFAULT                  3.0
+44000       1998 2265002054 4-Str Crushing/Proc. Equipment               3     6 4.321   200  DEFAULT                  4.3
+44000       1998 2265002054 4-Str Crushing/Proc. Equipment               6    11  8.93   400  DEFAULT                  7.8
+44000       1998 2265002054 4-Str Crushing/Proc. Equipment              11    16    16   400  DEFAULT                  2.0
+44000       1998 2265002054 4-Str Crushing/Proc. Equipment              50    75 62.53  3000  DEFAULT                  0.2
+44000       1998 2267002054 LPG - Crushing/Proc. Equipment              50    75 62.53  3000  DEFAULT                  0.2
+44000       1998 2265002057 4-Str Rough Terrain Forklift                16    25    23   750  DEFAULT                  0.1
+44000       1998 2265002057 4-Str Rough Terrain Forklift                25    40    29  1500  DEFAULT                  0.2
+44000       1998 2265002057 4-Str Rough Terrain Forklift                40    50    46  1500  DEFAULT                  0.0
+44000       1998 2265002057 4-Str Rough Terrain Forklift                50    75  65.9  3000  DEFAULT                  1.6
+44000       1998 2265002057 4-Str Rough Terrain Forklift                75   100    80  3000  DEFAULT                  0.0
+44000       1998 2265002057 4-Str Rough Terrain Forklift               100   175 113.3  3000  DEFAULT                  0.2
+44000       1998 2267002057 LPG - Rough Terrain Forklift                25    40    29  1500  DEFAULT                  0.2
+44000       1998 2267002057 LPG - Rough Terrain Forklift                40    50    46  1500  DEFAULT                  0.0
+44000       1998 2267002057 LPG - Rough Terrain Forklift                50    75  65.9  3000  DEFAULT                  1.6
+44000       1998 2267002057 LPG - Rough Terrain Forklift                75   100    80  3000  DEFAULT                  0.0
+44000       1998 2267002057 LPG - Rough Terrain Forklift               100   175 113.3  3000  DEFAULT                  0.2
+44000       1998 2265002060 4-Str Rubber Tire Loaders                   25    40    37  1500  DEFAULT                  0.1
+44000       1998 2265002060 4-Str Rubber Tire Loaders                   50    75  70.4  3000  DEFAULT                  3.2
+44000       1998 2265002060 4-Str Rubber Tire Loaders                  100   175 113.0  3000  DEFAULT                  0.1
+44000       1998 2267002060 LPG - Rubber Tire Loaders                   25    40    37  1500  DEFAULT                  0.1
+44000       1998 2267002060 LPG - Rubber Tire Loaders                   50    75  70.4  3000  DEFAULT                  3.2
+44000       1998 2267002060 LPG - Rubber Tire Loaders                  100   175   113  3000  DEFAULT                  0.1
+44000       1998 2265002066 4-Str Tractors/Loaders/Backhoes              6    11  10.8   400  DEFAULT                  0.8
+44000       1998 2265002066 4-Str Tractors/Loaders/Backhoes             16    25 19.08   750  DEFAULT                 16.3
+44000       1998 2265002066 4-Str Tractors/Loaders/Backhoes             25    40    30  1500  DEFAULT                  0.1
+44000       1998 2265002066 4-Str Tractors/Loaders/Backhoes             50    75    61  3000  DEFAULT                  0.3
+44000       1998 2265002066 4-Str Tractors/Loaders/Backhoes             75   100    80  3000  DEFAULT                  0.0
+44000       1998 2267002066 LPG - Tractors/Loaders/Backhoes             25    40    30  1500  DEFAULT                  0.1
+44000       1998 2267002066 LPG - Tractors/Loaders/Backhoes             50    75    61  3000  DEFAULT                  0.3
+44000       1998 2267002066 LPG - Tractors/Loaders/Backhoes             75   100    80  3000  DEFAULT                  0.0
+44000       1998 2265002072 4-Str Skid Steer Loaders                    11    16 15.93   400  DEFAULT                  0.6
+44000       1998 2265002072 4-Str Skid Steer Loaders                    16    25 18.41   750  DEFAULT                 13.0
+44000       1998 2265002072 4-Str Skid Steer Loaders                    25    40 31.93  1500  DEFAULT                  3.7
+44000       1998 2265002072 4-Str Skid Steer Loaders                    50    75 54.44  3000  DEFAULT                  2.0
+44000       1998 2265002072 4-Str Skid Steer Loaders                    75   100    79  3000  DEFAULT                  2.2
+44000       1998 2267002072 LPG - Skid Steer Loaders                    25    40 31.93  1500  DEFAULT                  3.7
+44000       1998 2267002072 LPG - Skid Steer Loaders                    50    75 54.58  3000  DEFAULT                  2.0
+44000       1998 2267002072 LPG - Skid Steer Loaders                    75   100    79  3000  DEFAULT                  2.2
+44000       1998 2265002078 4-Str Dumpers/Tenders                        3     6  4.96   200  DEFAULT                 11.4
+44000       1998 2265002078 4-Str Dumpers/Tenders                        6    11  8.52   400  DEFAULT                 37.7
+44000       1998 2265002078 4-Str Dumpers/Tenders                       11    16 12.28   400  DEFAULT                  5.7
+44000       1998 2265002078 4-Str Dumpers/Tenders                       16    25 18.74   750  DEFAULT                  6.9
+44000       1998 2265002078 4-Str Dumpers/Tenders                       50    75    66  1301  DEFAULT                  0.3
+44000       1998 2265002081 4-Str Other Construction Equipment          16    25    18   750  DEFAULT                  0.0
+44000       1998 2265002081 4-Str Other Construction Equipment         100   175   126  3000  DEFAULT                  1.4
+44000       1998 2267002081 LPG - Other Construction Equipment         100   175   126  3000  DEFAULT                  1.3
+44000       1998 2268002081 CNG - Other Construction Equipment         100   175   105  3000  DEFAULT                  0.1
+44000       1998 2265003010 4-Str Aerial Lifts                           6    11 8.075   400  DEFAULT                  9.3
+44000       1998 2265003010 4-Str Aerial Lifts                          11    16 14.39   400  DEFAULT                  2.6
+44000       1998 2265003010 4-Str Aerial Lifts                          16    25 21.13   750  DEFAULT                 59.5
+44000       1998 2265003010 4-Str Aerial Lifts                          25    40 31.22  1500  DEFAULT                 26.3
+44000       1998 2265003010 4-Str Aerial Lifts                          50    75 59.86  3000  DEFAULT                 54.8
+44000       1998 2265003010 4-Str Aerial Lifts                         100   175 111.5  3000  DEFAULT                  1.2
+44000       1998 2267003010 LPG - Aerial Lifts                          25    40 31.22  1500  DEFAULT                 26.3
+44000       1998 2267003010 LPG - Aerial Lifts                          50    75 59.88  3000  DEFAULT                 54.8
+44000       1998 2267003010 LPG - Aerial Lifts                         100   175 111.5  3000  DEFAULT                  1.2
+44000       1996 2265003020 4-Str Forklifts                             25    40 36.12  4500  DEFAULT                  7.0
+44000       1996 2265003020 4-Str Forklifts                             40    50 45.16  4500  DEFAULT                 24.9
+44000       1996 2265003020 4-Str Forklifts                             50    75 62.77  4500  DEFAULT                 40.1
+44000       1996 2265003020 4-Str Forklifts                             75   100 89.03  4500  DEFAULT                  2.9
+44000       1996 2265003020 4-Str Forklifts                            100   175 144.7  4500  DEFAULT                 18.7
+44000       1996 2265003020 4-Str Forklifts                            175   300 215.8  4500  DEFAULT                  0.1
+44000       1996 2267003020 LPG - Forklifts                             25    40 33.44  4500  DEFAULT                132.6
+44000       1996 2267003020 LPG - Forklifts                             40    50 45.43  4500  DEFAULT                289.8
+44000       1996 2267003020 LPG - Forklifts                             50    75 58.18  4500  DEFAULT                762.7
+44000       1996 2267003020 LPG - Forklifts                             75   100 79.83  4500  DEFAULT                 55.7
+44000       1996 2267003020 LPG - Forklifts                            100   175 131.5  4500  DEFAULT                354.5
+44000       1996 2267003020 LPG - Forklifts                            175   300 215.8  4500  DEFAULT                  1.7
+44000       1996 2268003020 CNG - Forklifts                             40    50    48  4500  DEFAULT                183.7
+44000       1998 2260003030 2-Str Sweepers/Scrubbers                     1     3 1.276   150  DEFAULT                 14.0
+44000       1998 2265003030 4-Str Sweepers/Scrubbers                     3     6 4.735   200  DEFAULT                 16.0
+44000       1998 2265003030 4-Str Sweepers/Scrubbers                     6    11 9.855   400  DEFAULT                 24.5
+44000       1998 2265003030 4-Str Sweepers/Scrubbers                    11    16 14.85   400  DEFAULT                  6.6
+44000       1998 2265003030 4-Str Sweepers/Scrubbers                    16    25 18.23   750  DEFAULT                 14.2
+44000       1998 2265003030 4-Str Sweepers/Scrubbers                    25    40 31.91  1500  DEFAULT                  8.5
+44000       1998 2265003030 4-Str Sweepers/Scrubbers                    40    50    46  1500  DEFAULT                  9.6
+44000       1998 2265003030 4-Str Sweepers/Scrubbers                    50    75 63.35  3000  DEFAULT                  9.8
+44000       1998 2265003030 4-Str Sweepers/Scrubbers                    75   100    90  3000  DEFAULT                  0.1
+44000       1998 2265003030 4-Str Sweepers/Scrubbers                   100   175 150.0  3000  DEFAULT                  0.2
+44000       1998 2265003030 4-Str Sweepers/Scrubbers                   300   600 411.0  3000  DEFAULT                  0.0
+44000       1998 2267003030 LPG - Sweepers/Scrubbers                    25    40    31  1500  DEFAULT                  8.5
+44000       1998 2267003030 LPG - Sweepers/Scrubbers                    40    50    47  1500  DEFAULT                  9.6
+44000       1998 2267003030 LPG - Sweepers/Scrubbers                    50    75 63.35  3000  DEFAULT                  9.8
+44000       1998 2267003030 LPG - Sweepers/Scrubbers                    75   100    90  3000  DEFAULT                  0.1
+44000       1998 2267003030 LPG - Sweepers/Scrubbers                   100   175   150  3000  DEFAULT                  0.2
+44000       1998 2267003030 LPG - Sweepers/Scrubbers                   300   600   411  3000  DEFAULT                  0.0
+44000       1998 2268003030 CNG - Sweepers/Scrubbers                   175   300   190  3000  DEFAULT                  0.1
+44000       1998 2260003040 2-Str Other General Industrial Eqp           1     3 2.044   150  DEFAULT                  0.7
+44000       1998 2265003040 4-Str Other General Industrial Eqp           3     6 4.289   200  DEFAULT                271.4
+44000       1998 2265003040 4-Str Other General Industrial Eqp           6    11 9.063   400  DEFAULT                 51.3
+44000       1998 2265003040 4-Str Other General Industrial Eqp          11    16 13.53   400  DEFAULT                 26.1
+44000       1998 2265003040 4-Str Other General Industrial Eqp          16    25 18.24   750  DEFAULT                 22.1
+44000       1998 2265003040 4-Str Other General Industrial Eqp          25    40 30.12  1500  DEFAULT                  2.0
+44000       1998 2265003040 4-Str Other General Industrial Eqp          50    75 60.96  3000  DEFAULT                  2.7
+44000       1998 2265003040 4-Str Other General Industrial Eqp          75   100    80  3000  DEFAULT                  0.4
+44000       1998 2265003040 4-Str Other General Industrial Eqp         100   175   136  3000  DEFAULT                  1.0
+44000       1998 2265003040 4-Str Other General Industrial Eqp         175   300   195  3000  DEFAULT                  0.0
+44000       1998 2267003040 LPG - Other General Industrial Eqp          25    40 30.12  1500  DEFAULT                  2.0
+44000       1998 2267003040 LPG - Other General Industrial Eqp          50    75 60.96  3000  DEFAULT                  2.7
+44000       1998 2267003040 LPG - Other General Industrial Eqp          75   100    80  3000  DEFAULT                  0.3
+44000       1998 2267003040 LPG - Other General Industrial Eqp         100   175   136  3000  DEFAULT                  1.0
+44000       1998 2267003040 LPG - Other General Industrial Eqp         175   300   195  3000  DEFAULT                  0.0
+44000       1998 2268003040 CNG - Other General Industrial Eqp          75   100  98.5  3000  DEFAULT                  0.1
+44000       1998 2265003050 4-Str Other Material Handling Eqp            1     3     3   200  DEFAULT                  0.1
+44000       1998 2265003050 4-Str Other Material Handling Eqp           16    25 18.12   750  DEFAULT                  5.4
+44000       1998 2265003050 4-Str Other Material Handling Eqp           50    75 63.00  3000  DEFAULT                  3.3
+44000       1998 2265003050 4-Str Other Material Handling Eqp           75   100 86.00  3000  DEFAULT                  0.1
+44000       1998 2267003050 LPG - Other Material Handling Eqp           50    75  53.6  3000  DEFAULT                  3.3
+44000       1998 2267003050 LPG - Other Material Handling Eqp           75   100  86.0  3000  DEFAULT                  0.1
+44000       1998 2265003060 4-Str AC\Refrigeration                       6    11   9.0   400  DEFAULT                  0.1
+44000       1998 2265003060 4-Str AC\Refrigeration                      11    16  13.0   400  DEFAULT                  0.1
+44000       1998 2265003060 4-Str AC\Refrigeration                      16    25  18.0   750  DEFAULT                  4.0
+44000       1998 2268003060 CNG - AC\Refrigeration                      40    50    48  1500  DEFAULT                  0.4
+44000       1998 2268003060 CNG - AC\Refrigeration                      50    75    74  3000  DEFAULT                  0.2
+44000       1998 2265003070 4-Str Terminal Tractors                     25    40    35  1500  DEFAULT                  0.0
+44000       1998 2265003070 4-Str Terminal Tractors                     50    75 58.19  3000  DEFAULT                  1.7
+44000       1998 2265003070 4-Str Terminal Tractors                     75   100 98.62  3000  DEFAULT                  0.8
+44000       1998 2265003070 4-Str Terminal Tractors                    100   175 114.2  3000  DEFAULT                  3.1
+44000       1998 2265003070 4-Str Terminal Tractors                    175   300   250  3000  DEFAULT                  0.0
+44000       1998 2267003070 LPG - Terminal Tractors                     25    40    35  1500  DEFAULT                  0.0
+44000       1998 2267003070 LPG - Terminal Tractors                     50    75    57  3000  DEFAULT                  1.6
+44000       1998 2267003070 LPG - Terminal Tractors                     75   100    97  3000  DEFAULT                  0.6
+44000       1998 2267003070 LPG - Terminal Tractors                    100   175   104  3000  DEFAULT                  3.1
+44000       1998 2267003070 LPG - Terminal Tractors                    175   300   190  3000  DEFAULT                  0.0
+44000       1998 2268003070 CNG - Terminal Tractors                     50    75    62  3000  DEFAULT                  0.1
+44000       1998 2268003070 CNG - Terminal Tractors                     75   100    94  3000  DEFAULT                  0.2
+44000       1998 2268003070 CNG - Terminal Tractors                    100   175   125  3000  DEFAULT                  0.0
+44000       1998 2268003070 CNG - Terminal Tractors                    175   300   250  3000  DEFAULT                  0.0
+44000       1996 2265004010 4-Str Lawn mowers (res)                      1     3  2.55  47.9  DEFAULT               2368.6
+44000       1996 2265004010 4-Str Lawn mowers (res)                      3     6   4.1  47.9  DEFAULT             117714.8
+44000       1996 2265004010 4-Str Lawn mowers (res)                      6    11  6.24   400  DEFAULT                 38.8
+44000       1996 2265004011 4-Str Lawn mowers (Com)                      1     3  2.55   268  DEFAULT                 68.0
+44000       1996 2265004011 4-Str Lawn mowers (Com)                      3     6   4.1   268  DEFAULT               3380.9
+44000       1996 2265004011 4-Str Lawn mowers (Com)                      6    11  6.24   400  DEFAULT                  1.1
+44000       1998 2260004015 2-Str Rotary Tillers < 6 HP (res)            0     1 0.957  39.4  DEFAULT                219.6
+44000       1998 2260004015 2-Str Rotary Tillers < 6 HP (res)            1     3 2.514  39.4  DEFAULT               1552.7
+44000       1998 2265004015 4-Str Rotary Tillers < 6 HP (res)            3     6 4.712  39.4  DEFAULT              11026.7
+44000       1998 2260004016 2-Str Rotary Tillers < 6 HP (com)            0     1 0.957 830.7  DEFAULT                 22.7
+44000       1998 2260004016 2-Str Rotary Tillers < 6 HP (com)            1     3 2.514 830.7  DEFAULT                160.2
+44000       1998 2265004016 4-Str Rotary Tillers < 6 HP (com)            3     6 4.712 830.7  DEFAULT               1137.9
+44000       1996 2260004020 2-Str Chain Saws < 6 HP (res)                1     3  2.11  39.2  DEFAULT              19155.2
+44000       1996 2260004020 2-Str Chain Saws < 6 HP (res)                3     6 3.916  39.2  DEFAULT                  0.0
+44000       1996 2260004021 2-Str Chain Saws < 6 HP (com)                1     3  2.11   191  DEFAULT                366.4
+44000       1996 2260004021 2-Str Chain Saws < 6 HP (com)                3     6 3.916   191  DEFAULT               1289.2
+44000       1996 2260004025 2-Str Trimmers/Edgers/Brush Cutter (res)     0     1  0.81  35.3  DEFAULT              14318.0
+44000       1996 2260004025 2-Str Trimmers/Edgers/Brush Cutter (res)     1     3   1.4  35.3  DEFAULT              36259.8
+44000       1996 2260004025 2-Str Trimmers/Edgers/Brush Cutter (res)     3     6   3.3  35.3  DEFAULT                  0.0
+44000       1996 2260004026 2-Str Trimmers/Edgers/Brush Cutter (com)     0     1  0.81 286.8  DEFAULT                  0.0
+44000       1996 2260004026 2-Str Trimmers/Edgers/Brush Cutter (com)     1     3   1.4 286.8  DEFAULT               3865.5
+44000       1996 2260004026 2-Str Trimmers/Edgers/Brush Cutter (com)     3     6  3.30 286.8  DEFAULT                274.5
+44000       1996 2265004025 4-Str Trimmers/Edgers/Brush Cutter (res)     3     6   3.3  35.3  DEFAULT                826.9
+44000       1996 2265004025 4-Str Trimmers/Edgers/Brush Cutter (res)     6    11   7.9  35.3  DEFAULT                  0.0
+44000       1996 2265004025 4-Str Trimmers/Edgers/Brush Cutter (res)    11    16    16  35.3  DEFAULT                  0.0
+44000       1996 2265004025 4-Str Trimmers/Edgers/Brush Cutter (res)    16    25 18.00  35.3  DEFAULT                  0.0
+44000       1996 2265004026 4-Str Trimmers/Edgers/Brush Cutter (com)     3     6   3.3 286.8  DEFAULT                 60.6
+44000       1996 2265004026 4-Str Trimmers/Edgers/Brush Cutter (com)     6    11   7.9 286.8  DEFAULT                 16.2
+44000       1996 2265004026 4-Str Trimmers/Edgers/Brush Cutter (com)    11    16    16 286.8  DEFAULT                  0.9
+44000       1996 2265004026 4-Str Trimmers/Edgers/Brush Cutter (com)    16    25    18 286.8  DEFAULT                  1.9
+44000       1996 2260004030 2-Str Leafblowers/Vacuums (res)              0     1  0.84  40.4  DEFAULT               2119.8
+44000       1996 2260004030 2-Str Leafblowers/Vacuums (res)              1     3  1.41  40.4  DEFAULT              23541.0
+44000       1996 2260004030 2-Str Leafblowers/Vacuums (res)              3     6  3.42  40.4  DEFAULT                  0.0
+44000       1996 2260004031 2-Str Leafblowers/Vacuums (com)              0     1  0.84 609.7  DEFAULT                  0.0
+44000       1996 2260004031 2-Str Leafblowers/Vacuums (com)              1     3  1.41 609.7  DEFAULT               1173.0
+44000       1996 2260004031 2-Str Leafblowers/Vacuums (com)              3     6  3.42 609.7  DEFAULT                437.0
+44000       1996 2265004030 4-Str Leafblowers/Vacuums (res)              3     6   3.4  40.4  DEFAULT               1334.0
+44000       1996 2265004030 4-Str Leafblowers/Vacuums (res)              6    11   8.3  40.4  DEFAULT                  0.0
+44000       1996 2265004030 4-Str Leafblowers/Vacuums (res)             11    16 14.23  40.4  DEFAULT                  0.0
+44000       1996 2265004030 4-Str Leafblowers/Vacuums (res)             16    25 20.96  40.4  DEFAULT                  0.0
+44000       1996 2265004031 4-Str Leafblowers/Vacuums (com)              3     6   3.4 609.7  DEFAULT                 66.9
+44000       1996 2265004031 4-Str Leafblowers/Vacuums (com)              6    11   8.3 609.7  DEFAULT                654.2
+44000       1996 2265004031 4-Str Leafblowers/Vacuums (com)             11    16  14.2 609.7  DEFAULT                 20.6
+44000       1996 2265004031 4-Str Leafblowers/Vacuums (com)             16    25  21.0 609.7  DEFAULT                 22.4
+44000       1996 2265004031 4-Str Leafblowers/Vacuums (com)             25    40    31  1500  DEFAULT                  1.7
+44000       1996 2265004031 4-Str Leafblowers/Vacuums (com)             50    75 61.21  3000  DEFAULT                 11.6
+44000       1996 2265004031 4-Str Leafblowers/Vacuums (com)            100   175 120.8  3000  DEFAULT                 11.5
+44000       1998 2260004035 2-Str Snowblowers (res)                      1     3 2.921  12.3  DEFAULT               6476.0
+44000       1998 2260004035 2-Str Snowblowers (res)                      3     6 4.686  12.3  DEFAULT               9916.8
+44000       1998 2265004035 4-Str Snowblowers (res)                      6    11 8.699  12.3  DEFAULT              16730.2
+44000       1998 2265004035 4-Str Snowblowers (res)                     11    16 12.59  12.3  DEFAULT                781.9
+44000       1998 2260004036 2-Str Snowblowers (com)                      1     3 2.921 209.4  DEFAULT                527.8
+44000       1998 2260004036 2-Str Snowblowers (com)                      3     6 4.686 209.4  DEFAULT                808.2
+44000       1998 2265004036 4-Str Snowblowers (com)                      6    11 8.699 209.4  DEFAULT               1363.4
+44000       1998 2265004036 4-Str Snowblowers (com)                     11    16 12.59 209.4  DEFAULT                 63.7
+44000       1998 2265004040 4-Str Rear Engine Riding Mowers (res)        3     6 5.105  79.3  DEFAULT                 25.9
+44000       1998 2265004040 4-Str Rear Engine Riding Mowers (res)        6    11 9.153  79.3  DEFAULT               3741.9
+44000       1998 2265004040 4-Str Rear Engine Riding Mowers (res)       11    16 12.61  79.3  DEFAULT               2901.8
+44000       1998 2265004040 4-Str Rear Engine Riding Mowers (res)       16    25 18.26   750  DEFAULT                 13.7
+44000       1998 2265004041 4-Str Rear Engine Riding Mowers (com)        3     6 5.105   200  DEFAULT                  0.4
+44000       1998 2265004041 4-Str Rear Engine Riding Mowers (com)        6    11 9.153   627  DEFAULT                 61.8
+44000       1998 2265004041 4-Str Rear Engine Riding Mowers (com)       11    16 12.61   627  DEFAULT                 47.9
+44000       1998 2265004041 4-Str Rear Engine Riding Mowers (com)       16    25 18.26   750  DEFAULT                  0.2
+44000       1998 2265004046 4-Str Front Mowers (com)                     6    11     8   400  DEFAULT                 63.9
+44000       1998 2265004046 4-Str Front Mowers (com)                    11    16 13.47   400  DEFAULT                218.4
+44000       1998 2265004046 4-Str Front Mowers (com)                    16    25    17   750  DEFAULT                 96.5
+44000       1998 2265004046 4-Str Front Mowers (com)                    25    40 32.27  1397  DEFAULT                  1.4
+44000       1998 2265004051 4-Str Shredders < 6 HP (com)                 1     3 2.986   200  DEFAULT                234.2
+44000       1998 2265004051 4-Str Shredders < 6 HP (com)                 3     6 4.835   200  DEFAULT                458.4
+44000       1998 2265004055 4-Str Lawn & Garden Tractors (res)           3     6 5.002 114.8  DEFAULT                 92.4
+44000       1998 2265004055 4-Str Lawn & Garden Tractors (res)           6    11 9.735 114.8  DEFAULT               2897.1
+44000       1998 2265004055 4-Str Lawn & Garden Tractors (res)          11    16 13.61 114.8  DEFAULT              32190.2
+44000       1998 2265004055 4-Str Lawn & Garden Tractors (res)          16    25 18.41 114.8  DEFAULT              10491.5
+44000       1998 2265004056 4-Str Lawn & Garden Tractors (com)           3     6 5.002   200  DEFAULT                  1.5
+44000       1998 2265004056 4-Str Lawn & Garden Tractors (com)           6    11 9.735   920  DEFAULT                 47.8
+44000       1998 2265004056 4-Str Lawn & Garden Tractors (com)          11    16 13.61   920  DEFAULT                531.4
+44000       1998 2265004056 4-Str Lawn & Garden Tractors (com)          16    25 18.41   920  DEFAULT                173.2
+44000       1998 2265004066 4-Str Chippers/Stump Grinders (com)          3     6   3.5   200  DEFAULT                  0.1
+44000       1998 2265004066 4-Str Chippers/Stump Grinders (com)          6    11 9.791   400  DEFAULT                  3.9
+44000       1998 2265004066 4-Str Chippers/Stump Grinders (com)         11    16 15.32   400  DEFAULT                 15.9
+44000       1998 2265004066 4-Str Chippers/Stump Grinders (com)         16    25 20.05   750  DEFAULT                 30.0
+44000       1998 2265004066 4-Str Chippers/Stump Grinders (com)         25    40  35.1  1500  DEFAULT                  2.3
+44000       1998 2265004066 4-Str Chippers/Stump Grinders (com)         50    75 60.77  3000  DEFAULT                  9.7
+44000       1998 2265004066 4-Str Chippers/Stump Grinders (com)         75   100    80  3000  DEFAULT                  0.1
+44000       1998 2265004066 4-Str Chippers/Stump Grinders (com)        100   175   119  3000  DEFAULT                  2.3
+44000       1998 2267004066 LPG - Chippers/Stump Grinders (com)         25    40  35.1  1500  DEFAULT                  2.3
+44000       1998 2267004066 LPG - Chippers/Stump Grinders (com)         50    75 60.77  3000  DEFAULT                  9.7
+44000       1998 2267004066 LPG - Chippers/Stump Grinders (com)         75   100    80  3000  DEFAULT                  0.1
+44000       1998 2267004066 LPG - Chippers/Stump Grinders (com)        100   175   119  3000  DEFAULT                  2.3
+44000       1998 2260004071 2-Str Commercial Turf Equipment (com)        1     3     3 988.9  DEFAULT                  0.3
+44000       1998 2265004071 4-Str Commercial Turf Equipment (com)        3     6 5.217 988.9  DEFAULT                789.0
+44000       1998 2265004071 4-Str Commercial Turf Equipment (com)        6    11 8.771 988.9  DEFAULT                209.9
+44000       1998 2265004071 4-Str Commercial Turf Equipment (com)       11    16 13.99 988.9  DEFAULT                468.4
+44000       1998 2265004071 4-Str Commercial Turf Equipment (com)       16    25 19.33 988.9  DEFAULT                610.5
+44000       1998 2265004071 4-Str Commercial Turf Equipment (com)       25    40 27.24  1500  DEFAULT                121.0
+44000       1998 2265004071 4-Str Commercial Turf Equipment (com)       50    75 59.59  3000  DEFAULT                  1.0
+44000       1998 2265004075 4-Str Other Lawn & Garden Eqp. (res)         0     1 0.914   200  DEFAULT                 94.4
+44000       1998 2265004075 4-Str Other Lawn & Garden Eqp. (res)         1     3  2.34   200  DEFAULT                408.7
+44000       1998 2265004075 4-Str Other Lawn & Garden Eqp. (res)         3     6 4.867   200  DEFAULT               1041.6
+44000       1998 2265004075 4-Str Other Lawn & Garden Eqp. (res)         6    11 8.208   400  DEFAULT                688.2
+44000       1998 2265004075 4-Str Other Lawn & Garden Eqp. (res)        11    16 15.54   400  DEFAULT                 10.1
+44000       1998 2265004075 4-Str Other Lawn & Garden Eqp. (res)        16    25 20.04   750  DEFAULT                  6.6
+44000       1998 2265004076 4-Str Other Lawn & Garden Eqp. (com)         0     1 0.914   200  DEFAULT                 69.4
+44000       1998 2265004076 4-Str Other Lawn & Garden Eqp. (com)         1     3  2.34   200  DEFAULT                300.3
+44000       1998 2265004076 4-Str Other Lawn & Garden Eqp. (com)         3     6 4.867   200  DEFAULT                765.4
+44000       1998 2265004076 4-Str Other Lawn & Garden Eqp. (com)         6    11 8.208   400  DEFAULT                505.7
+44000       1998 2265004076 4-Str Other Lawn & Garden Eqp. (com)        11    16 15.54   400  DEFAULT                  7.4
+44000       1998 2265004076 4-Str Other Lawn & Garden Eqp. (com)        16    25 20.04   750  DEFAULT                  4.9
+44000       1998 2265004076 4-Str Other Lawn & Garden Eqp. (com)        25    40 36.04   884  DEFAULT                  0.5
+44000       1998 2265004076 4-Str Other Lawn & Garden Eqp. (com)        50    75 66.00   884  DEFAULT                  0.2
+44000       1998 2265004076 4-Str Other Lawn & Garden Eqp. (com)        75   100 86.00   884  DEFAULT                  0.1
+44000       1998 2265004076 4-Str Other Lawn & Garden Eqp. (com)       100   175   113   884  DEFAULT                  0.2
+44000       1998 2265005010 4-Str 2-Wheel Tractors                       6    11 8.197   400  DEFAULT                  0.2
+44000       1998 2265005010 4-Str 2-Wheel Tractors                      11    16 14.19   400  DEFAULT                  0.1
+44000       1998 2265005015 4-Str Agricultural Tractors                 16    25  20.4   750  DEFAULT                  0.1
+44000       1998 2265005015 4-Str Agricultural Tractors                 25    40  30.5  1500  DEFAULT                  0.0
+44000       1998 2265005015 4-Str Agricultural Tractors                 75   100 82.13  3000  DEFAULT                  0.1
+44000       1998 2265005015 4-Str Agricultural Tractors                100   175   125  3000  DEFAULT                  0.0
+44000       1998 2265005020 4-Str Combines                              50    75    60  2312  DEFAULT                  0.0
+44000       1998 2265005020 4-Str Combines                              75   100    90  2312  DEFAULT                  0.0
+44000       1998 2265005020 4-Str Combines                             100   175 141.2  2312  DEFAULT                  0.0
+44000       1998 2265005025 4-Str Balers                                25    40 34.57  1054  DEFAULT                  0.8
+44000       1998 2265005025 4-Str Balers                                50    75 65.28  1054  DEFAULT                  0.2
+44000       1998 2265005025 4-Str Balers                               100   175   113  1054  DEFAULT                  0.0
+44000       1998 2265005030 4-Str Agricultural Mowers                    3     6     6   200  DEFAULT                  0.0
+44000       1998 2265005030 4-Str Agricultural Mowers                    6    11 9.206   400  DEFAULT                  0.4
+44000       1998 2265005030 4-Str Agricultural Mowers                   11    16    16   400  DEFAULT                  0.0
+44000       1998 2265005030 4-Str Agricultural Mowers                   16    25    18   750  DEFAULT                  0.1
+44000       1998 2260005035 2-Str Sprayers                               0     1  0.88   150  DEFAULT                  1.3
+44000       1998 2260005035 2-Str Sprayers                               1     3 2.567   150  DEFAULT                  1.2
+44000       1998 2265005035 4-Str Sprayers                               3     6  4.37   200  DEFAULT                  4.8
+44000       1998 2265005035 4-Str Sprayers                               6    11 8.204   400  DEFAULT                  1.8
+44000       1998 2265005035 4-Str Sprayers                              11    16 14.85   400  DEFAULT                  0.6
+44000       1998 2265005035 4-Str Sprayers                              16    25 20.51   750  DEFAULT                  1.0
+44000       1998 2265005035 4-Str Sprayers                              25    40 33.28  1300  DEFAULT                  0.2
+44000       1998 2265005035 4-Str Sprayers                              50    75    62  1300  DEFAULT                  0.1
+44000       1998 2265005035 4-Str Sprayers                              75   100 89.87  1300  DEFAULT                  0.1
+44000       1998 2265005035 4-Str Sprayers                             100   175 130.3  1300  DEFAULT                  0.1
+44000       1998 2265005040 4-Str Tillers > 6 HP                         6    11 7.501 830.7  DEFAULT                 42.3
+44000       1998 2265005040 4-Str Tillers > 6 HP                        11    16 14.76 830.7  DEFAULT                  0.1
+44000       1998 2265005045 4-Str Swathers                              75   100    80  1235  DEFAULT                  0.4
+44000       1998 2265005045 4-Str Swathers                             100   175 121.9  1235  DEFAULT                  0.2
+44000       1998 2265005055 4-Str Other Agricultural Equipment           3     6  4.84   200  DEFAULT                  0.1
+44000       1998 2265005055 4-Str Other Agricultural Equipment           6    11  9.14   400  DEFAULT                  0.4
+44000       1998 2265005055 4-Str Other Agricultural Equipment          11    16 14.11   400  DEFAULT                  0.3
+44000       1998 2265005055 4-Str Other Agricultural Equipment          16    25 18.64   750  DEFAULT                  0.2
+44000       1998 2265005055 4-Str Other Agricultural Equipment          25    40 32.23  1500  DEFAULT                  0.0
+44000       1998 2265005055 4-Str Other Agricultural Equipment          50    75 62.38  1705  DEFAULT                  0.0
+44000       1998 2265005055 4-Str Other Agricultural Equipment          75   100 88.04  1705  DEFAULT                  0.0
+44000       1998 2265005055 4-Str Other Agricultural Equipment         100   175 167.4  1705  DEFAULT                  0.2
+44000       1998 2265005055 4-Str Other Agricultural Equipment         175   300 230.1  1705  DEFAULT                  0.1
+44000       1998 2267005055 LPG - Other Agricultural Equipment         100   175   154  1705  DEFAULT                  0.0
+44000       1998 2268005055 CNG - Other Agricultural Equipment         100   175   148  1705  DEFAULT                  0.0
+44000       1998 2265005060 4-Str Irrigation Sets                        3     6 4.692   200  DEFAULT                  0.0
+44000       1998 2265005060 4-Str Irrigation Sets                        6    11 8.918   400  DEFAULT                  0.0
+44000       1998 2265005060 4-Str Irrigation Sets                       16    25    18   750  DEFAULT                  0.0
+44000       1998 2265005060 4-Str Irrigation Sets                       50    75  59.7  3000  DEFAULT                  0.0
+44000       1998 2265005060 4-Str Irrigation Sets                       75   100 80.25  3000  DEFAULT                  0.1
+44000       1998 2265005060 4-Str Irrigation Sets                      100   175 120.5  3000  DEFAULT                  0.0
+44000       1998 2265005060 4-Str Irrigation Sets                      175   300 210.2  3000  DEFAULT                  0.0
+44000       1998 2267005060 LPG - Irrigation Sets                      100   175   113  3000  DEFAULT                  0.0
+44000       1998 2268005060 CNG - Irrigation Sets                       25    40    32  1500  DEFAULT                  0.0
+44000       1998 2268005060 CNG - Irrigation Sets                       50    75 72.78  3000  DEFAULT                  0.1
+44000       1998 2268005060 CNG - Irrigation Sets                       75   100 96.19  3000  DEFAULT                  0.1
+44000       1998 2268005060 CNG - Irrigation Sets                      100   175 138.9  3000  DEFAULT                  0.0
+44000       1998 2268005060 CNG - Irrigation Sets                      175   300 233.3  3000  DEFAULT                  0.0
+44000       1998 2268005060 CNG - Irrigation Sets                      300   600 384.4  3000  DEFAULT                  0.0
+44000       1998 2260006005 2-Str Generator Sets                         0     1   0.8   150  DEFAULT                 13.7
+44000       1998 2260006005 2-Str Generator Sets                         1     3 1.663   150  DEFAULT                340.9
+44000       1998 2265006005 4-Str Generator Sets                         3     6 4.567   200  DEFAULT               2398.6
+44000       1998 2265006005 4-Str Generator Sets                         6    11 8.816   400  DEFAULT               5759.8
+44000       1998 2265006005 4-Str Generator Sets                        11    16 14.34   400  DEFAULT               1274.0
+44000       1998 2265006005 4-Str Generator Sets                        16    25 20.72   750  DEFAULT               1823.0
+44000       1998 2265006005 4-Str Generator Sets                        25    40 30.32  1500  DEFAULT                  0.0
+44000       1998 2265006005 4-Str Generator Sets                        40    50 45.99  1500  DEFAULT                  0.0
+44000       1998 2265006005 4-Str Generator Sets                        50    75  59.5  1955  DEFAULT                  0.0
+44000       1998 2265006005 4-Str Generator Sets                        75   100 81.28  1955  DEFAULT                  0.0
+44000       1998 2265006005 4-Str Generator Sets                       100   175 138.5  1955  DEFAULT                  0.0
+44000       1998 2265006005 4-Str Generator Sets                       175   300 212.6  1955  DEFAULT                  0.0
+44000       1998 2267006005 LPG - Generator Sets                        25    40 30.32  1500  DEFAULT                168.8
+44000       1998 2267006005 LPG - Generator Sets                        40    50 45.99  1500  DEFAULT                  1.3
+44000       1998 2267006005 LPG - Generator Sets                        50    75 62.91  1955  DEFAULT                 78.7
+44000       1998 2267006005 LPG - Generator Sets                        75   100 81.28  1955  DEFAULT                 70.0
+44000       1998 2267006005 LPG - Generator Sets                       100   175 138.8  1955  DEFAULT                 26.3
+44000       1998 2267006005 LPG - Generator Sets                       175   300 239.6  1955  DEFAULT                  0.6
+44000       1998 2267006005 LPG - Generator Sets                       300   600   372  1955  DEFAULT                  0.1
+44000       1998 2268006005 CNG - Generator Sets                        25    40 31.73  1500  DEFAULT                  1.6
+44000       1998 2268006005 CNG - Generator Sets                        40    50 47.67  1500  DEFAULT                  2.7
+44000       1998 2268006005 CNG - Generator Sets                        50    75 60.44  1955  DEFAULT                 53.9
+44000       1998 2268006005 CNG - Generator Sets                        75   100 95.41  1955  DEFAULT                 18.2
+44000       1998 2268006005 CNG - Generator Sets                       100   175 147.8  1955  DEFAULT                  6.3
+44000       1998 2268006005 CNG - Generator Sets                       175   300 239.8  1955  DEFAULT                  2.6
+44000       1998 2268006005 CNG - Generator Sets                       300   600 392.6  1955  DEFAULT                  1.3
+44000       1998 2260006010 2-Str Pumps                                  0     1 0.991   150  DEFAULT                431.7
+44000       1998 2260006010 2-Str Pumps                                  1     3 1.998   150  DEFAULT                780.0
+44000       1998 2260006010 2-Str Pumps                                 25    40    38  1500  DEFAULT                  0.5
+44000       1998 2260006010 2-Str Pumps                                 50    75    55  3000  DEFAULT                  0.1
+44000       1998 2265006010 4-Str Pumps                                  3     6 4.631   200  DEFAULT               1117.9
+44000       1998 2265006010 4-Str Pumps                                  6    11 8.337   400  DEFAULT                701.1
+44000       1998 2265006010 4-Str Pumps                                 11    16 14.81   400  DEFAULT                 67.9
+44000       1998 2265006010 4-Str Pumps                                 16    25 18.35   750  DEFAULT                 39.6
+44000       1998 2265006010 4-Str Pumps                                 25    40 31.95  1500  DEFAULT                 34.4
+44000       1998 2265006010 4-Str Pumps                                 40    50    46  1500  DEFAULT                  0.3
+44000       1998 2265006010 4-Str Pumps                                 50    75  60.6  3000  DEFAULT                 16.0
+44000       1998 2265006010 4-Str Pumps                                 75   100 81.25  3000  DEFAULT                  1.1
+44000       1998 2265006010 4-Str Pumps                                100   175 115.3  3000  DEFAULT                  2.5
+44000       1998 2267006010 LPG - Pumps                                 25    40 31.95  1500  DEFAULT                 33.3
+44000       1998 2267006010 LPG - Pumps                                 40    50    46  1500  DEFAULT                  0.3
+44000       1998 2267006010 LPG - Pumps                                 50    75    57  3000  DEFAULT                 16.0
+44000       1998 2267006010 LPG - Pumps                                 75   100 81.25  3000  DEFAULT                  1.1
+44000       1998 2267006010 LPG - Pumps                                100   175 115.3  3000  DEFAULT                  2.3
+44000       1998 2268006010 CNG - Pumps                                 25    40    32  1500  DEFAULT                  1.1
+44000       1998 2268006010 CNG - Pumps                                 50    75    52  3000  DEFAULT                  0.0
+44000       1998 2268006010 CNG - Pumps                                100   175   175  3000  DEFAULT                  0.2
+44000       1998 2268006010 CNG - Pumps                                175   300   246  3000  DEFAULT                  0.2
+44000       1998 2268006010 CNG - Pumps                                300   600 423.3  3000  DEFAULT                  0.2
+44000       1998 2260006015 2-Str Air Compressors                        1     3 2.209   150  DEFAULT                  0.2
+44000       1998 2265006015 4-Str Air Compressors                        3     6 5.188   200  DEFAULT                177.2
+44000       1998 2265006015 4-Str Air Compressors                        6    11 9.925   400  DEFAULT                165.4
+44000       1998 2265006015 4-Str Air Compressors                       11    16 13.63   400  DEFAULT                 20.3
+44000       1998 2265006015 4-Str Air Compressors                       16    25 18.67   750  DEFAULT                 22.0
+44000       1998 2265006015 4-Str Air Compressors                       25    40 31.67  1500  DEFAULT                  3.2
+44000       1998 2265006015 4-Str Air Compressors                       50    75 60.73  3000  DEFAULT                 17.8
+44000       1998 2265006015 4-Str Air Compressors                       75   100 81.69  3000  DEFAULT                  3.8
+44000       1998 2265006015 4-Str Air Compressors                      100   175 131.9  3000  DEFAULT                  1.8
+44000       1998 2267006015 LPG - Air Compressors                       25    40 31.67  1500  DEFAULT                  3.2
+44000       1998 2267006015 LPG - Air Compressors                       50    75 60.73  3000  DEFAULT                 17.3
+44000       1998 2267006015 LPG - Air Compressors                       75   100 81.69  3000  DEFAULT                  3.8
+44000       1998 2267006015 LPG - Air Compressors                      100   175 131.9  3000  DEFAULT                  0.9
+44000       1998 2268006015 CNG - Air Compressors                       50    75    52  3000  DEFAULT                  0.5
+44000       1998 2268006015 CNG - Air Compressors                      100   175   148  3000  DEFAULT                  0.8
+44000       1998 2268006020 CNG - Gas Compressors                       25    40  27.5  1500  DEFAULT                  0.5
+44000       1998 2268006020 CNG - Gas Compressors                       40    50 45.24  1500  DEFAULT                  0.3
+44000       1998 2268006020 CNG - Gas Compressors                       50    75    69  3000  DEFAULT                  0.1
+44000       1998 2268006020 CNG - Gas Compressors                       75   100  91.2  3000  DEFAULT                  0.9
+44000       1998 2268006020 CNG - Gas Compressors                      100   175 145.9  3000  DEFAULT                  0.2
+44000       1998 2268006020 CNG - Gas Compressors                      175   300 242.1  3000  DEFAULT                  0.4
+44000       1998 2268006020 CNG - Gas Compressors                      300   600 401.9  3000  DEFAULT                  0.1
+44000       1998 2265006025 4-Str Welders                                3     6 5.974   200  DEFAULT                 23.4
+44000       1998 2265006025 4-Str Welders                                6    11 9.326   400  DEFAULT                 90.8
+44000       1998 2265006025 4-Str Welders                               11    16 15.71   400  DEFAULT                334.8
+44000       1998 2265006025 4-Str Welders                               16    25 18.20   750  DEFAULT                111.7
+44000       1998 2265006025 4-Str Welders                               50    75 63.63  3000  DEFAULT                 26.4
+44000       1998 2265006025 4-Str Welders                               75   100 80.00  3000  DEFAULT                  2.3
+44000       1998 2265006025 4-Str Welders                              100   175 130.0  3000  DEFAULT                  0.5
+44000       1998 2267006025 LPG - Welders                               50    75 63.63  3000  DEFAULT                 26.4
+44000       1998 2267006025 LPG - Welders                               75   100 80.00  3000  DEFAULT                  2.3
+44000       1998 2267006025 LPG - Welders                              100   175   130  3000  DEFAULT                  0.5
+44000       1998 2265006030 4-Str Pressure Washers                       1     3  3.00   150  DEFAULT                  0.6
+44000       1998 2265006030 4-Str Pressure Washers                       3     6 4.827   200  DEFAULT               2957.8
+44000       1998 2265006030 4-Str Pressure Washers                       6    11 9.104   400  DEFAULT               1829.3
+44000       1998 2265006030 4-Str Pressure Washers                      11    16 14.13   400  DEFAULT                542.7
+44000       1998 2265006030 4-Str Pressure Washers                      16    25  18.8   750  DEFAULT                102.1
+44000       1998 2265006030 4-Str Pressure Washers                      25    40 36.55  1500  DEFAULT                  1.7
+44000       1998 2265006030 4-Str Pressure Washers                      50    75    66  2443  DEFAULT                  0.1
+44000       1998 2265006030 4-Str Pressure Washers                      75   100    86  2443  DEFAULT                  0.0
+44000       1998 2267006030 LPG - Pressure Washers                      25    40 36.55  1500  DEFAULT                  1.7
+44000       1998 2267006030 LPG - Pressure Washers                      50    75    66  2443  DEFAULT                  0.1
+44000       1998 2267006030 LPG - Pressure Washers                      75   100    86  2443  DEFAULT                  0.0
+44000       1998 2260006035 2-Str Hydro Power Units                      1     3 1.709   150  DEFAULT                  4.3
+44000       1998 2265006035 4-Str Hydro Power Units                      3     6 4.834   200  DEFAULT                 20.5
+44000       1998 2265006035 4-Str Hydro Power Units                      6    11 9.855   400  DEFAULT                 18.6
+44000       1998 2265006035 4-Str Hydro Power Units                     11    16  13.1   400  DEFAULT                 14.7
+44000       1998 2265006035 4-Str Hydro Power Units                     16    25 18.35   750  DEFAULT                 15.0
+44000       1998 2265006035 4-Str Hydro Power Units                     25    40 33.91  1500  DEFAULT                  0.2
+44000       1998 2265006035 4-Str Hydro Power Units                     40    50    46  1500  DEFAULT                  0.1
+44000       1998 2265006035 4-Str Hydro Power Units                     50    75 66.79  3000  DEFAULT                  0.2
+44000       1998 2265006035 4-Str Hydro Power Units                    100   175   113  3000  DEFAULT                  0.0
+44000       1998 2267006035 LPG - Hydro Power Units                     25    40 33.91  1500  DEFAULT                  0.2
+44000       1998 2267006035 LPG - Hydro Power Units                     40    50    46  1500  DEFAULT                  0.1
+44000       1998 2267006035 LPG - Hydro Power Units                     50    75 66.79  3000  DEFAULT                  0.2
+44000       1998 2267006035 LPG - Hydro Power Units                    100   175   154  3000  DEFAULT                  0.0
+44000       1998 2268006035 CNG - Hydro Power Units                    100   175   148  3000  DEFAULT                  0.0
+44000       1996 2260007005 2-Str Chain Saws > 6 HP                      6    11  6.81   191  DEFAULT                 13.7
+44000       1998 2265007010 4-Str Shredders > 6 HP                       6    11 8.117   400  DEFAULT                 86.8
+44000       1998 2265007010 4-Str Shredders > 6 HP                      11    16 12.62   400  DEFAULT                  4.8
+44000       1998 2265007010 4-Str Shredders > 6 HP                      16    25 20.56   750  DEFAULT                  1.6
+44000       1998 2265007015 4-Str Forest Eqp - Feller/Bunch/Skidder      3     6  5.50   200  DEFAULT                  0.2
+44000       1998 2265007015 4-Str Forest Eqp - Feller/Bunch/Skidder      6    11  9.00   400  DEFAULT                  0.1
+44000       1998 2265008005 4-Str Airport Support Equipment              3     6 4.861   200  DEFAULT                  3.5
+44000       1998 2265008005 4-Str Airport Support Equipment              6    11 8.171   400  DEFAULT                  0.4
+44000       1998 2265008005 4-Str Airport Support Equipment             11    16 16.00   400  DEFAULT                  1.4
+44000       1998 2265008005 4-Str Airport Support Equipment             16    25 18.36   750  DEFAULT                  0.1
+44000       1998 2265008005 4-Str Airport Support Equipment             25    40  37.0  1500  DEFAULT                  0.1
+44000       1998 2265008005 4-Str Airport Support Equipment             40    50  46.0  1500  DEFAULT                  0.0
+44000       1998 2265008005 4-Str Airport Support Equipment             50    75  59.0  3000  DEFAULT                  0.1
+44000       1998 2265008005 4-Str Airport Support Equipment             75   100 86.16  3000  DEFAULT                  0.4
+44000       1998 2265008005 4-Str Airport Support Equipment            100   175 113.0  3000  DEFAULT                  1.1
+44000       1998 2267008005 LPG - Airport Support Equipment             25    40  37.0  1500  DEFAULT                  0.1
+44000       1998 2267008005 LPG - Airport Support Equipment             40    50  46.0  1500  DEFAULT                  0.0
+44000       1998 2267008005 LPG - Airport Support Equipment             50    75  59.0  3000  DEFAULT                  0.1
+44000       1998 2267008005 LPG - Airport Support Equipment             75   100 86.16  3000  DEFAULT                  0.4
+44000       1998 2267008005 LPG - Airport Support Equipment            100   175 113.0  3000  DEFAULT                  1.1
+44000       1998 2265010010 4-Str Other Oil Field Equipment              6    11 9.568   400  DEFAULT                  0.2
+44000       1998 2265010010 4-Str Other Oil Field Equipment             11    16 12.68   400  DEFAULT                  0.4
+44000       1998 2265010010 4-Str Other Oil Field Equipment             16    25 20.31   750  DEFAULT                  0.2
+44000       1998 2265010010 4-Str Other Oil Field Equipment             25    40    37  1500  DEFAULT                  0.0
+44000       1998 2268010010 CNG - Other Oil Field Equipment             25    40 32.59  1500  DEFAULT                  0.2
+44000       1998 2268010010 CNG - Other Oil Field Equipment             40    50 43.74  1500  DEFAULT                  0.0
+44000       1998 2268010010 CNG - Other Oil Field Equipment             50    75 57.77  3000  DEFAULT                  0.1
+44000       1998 2268010010 CNG - Other Oil Field Equipment             75   100  81.7  3000  DEFAULT                  0.0
+44000       1998 2268010010 CNG - Other Oil Field Equipment            100   175 131.1  3000  DEFAULT                  0.0
+44000       1998 2268010010 CNG - Other Oil Field Equipment            600   750   725  3000  DEFAULT                  0.0
+44000       2000 2270001060 Dsl - Specialty Vehicle Carts               11    16    15  2500  DEFAULT                  1.7
+44000       2000 2270001060 Dsl - Specialty Vehicle Carts               16    25 21.27  2500  DEFAULT                 62.7
+44000       2000 2270001060 Dsl - Specialty Vehicle Carts               25    40 28.44  2500  DEFAULT                 43.3
+44000       2000 2270001060 Dsl - Specialty Vehicle Carts               40    50  46.5  2500  DEFAULT                  0.1
+44000       2000 2270001060 Dsl - Specialty Vehicle Carts               50    75 62.54  4667  DEFAULT                  0.9
+44000       2000 2270001060 Dsl - Specialty Vehicle Carts               75   100 88.43  4667  DEFAULT                  0.9
+44000       2000 2270001060 Dsl - Specialty Vehicle Carts              100   175 144.7  4667  DEFAULT                  7.7
+44000       2000 2270001060 Dsl - Specialty Vehicle Carts              175   300 252.4  4667  DEFAULT                  6.8
+44000       2000 2270001060 Dsl - Specialty Vehicle Carts              300   600 373.8  7000  DEFAULT                  3.0
+44000       2000 2270001060 Dsl - Specialty Vehicle Carts             1000  1200  1200  7000  DEFAULT                  0.1
+44000       2000 2270002003 Dsl - Pavers                                16    25  21.9  2500  DEFAULT                  0.2
+44000       2000 2270002003 Dsl - Pavers                                25    40  32.8  2500  DEFAULT                  5.4
+44000       2000 2270002003 Dsl - Pavers                                40    50 45.34  2500  DEFAULT                  0.5
+44000       2000 2270002003 Dsl - Pavers                                50    75 62.96  4667  DEFAULT                 10.3
+44000       2000 2270002003 Dsl - Pavers                                75   100 86.65  4667  DEFAULT                  6.4
+44000       2000 2270002003 Dsl - Pavers                               100   175 134.6  4667  DEFAULT                 14.0
+44000       2000 2270002003 Dsl - Pavers                               175   300 221.1  4667  DEFAULT                  9.8
+44000       2000 2270002003 Dsl - Pavers                               300   600 386.9  7000  DEFAULT                  1.3
+44000       2000 2270002006 Dsl - Tampers/Rammers                        3     6   4.2  2500  DEFAULT                  5.3
+44000       2000 2270002009 Dsl - Plate Compactors                       3     6 4.937  2500  DEFAULT                 26.5
+44000       2000 2270002009 Dsl - Plate Compactors                       6    11 8.554  2500  DEFAULT                 11.9
+44000       2000 2270002009 Dsl - Plate Compactors                      11    16 14.22  2500  DEFAULT                  7.2
+44000       2000 2270002009 Dsl - Plate Compactors                      16    25 20.35  2500  DEFAULT                  0.7
+44000       2000 2270002015 Dsl - Rollers                                3     6 5.438  2500  DEFAULT                  2.9
+44000       2000 2270002015 Dsl - Rollers                                6    11 8.695  2500  DEFAULT                  5.4
+44000       2000 2270002015 Dsl - Rollers                               11    16 13.55  2500  DEFAULT                  6.4
+44000       2000 2270002015 Dsl - Rollers                               16    25 19.68  2500  DEFAULT                 11.5
+44000       2000 2270002015 Dsl - Rollers                               25    40 32.52  2500  DEFAULT                 16.4
+44000       2000 2270002015 Dsl - Rollers                               40    50 45.81  2500  DEFAULT                 15.2
+44000       2000 2270002015 Dsl - Rollers                               50    75 60.74  4667  DEFAULT                 15.4
+44000       2000 2270002015 Dsl - Rollers                               75   100 84.76  4667  DEFAULT                 42.2
+44000       2000 2270002015 Dsl - Rollers                              100   175 132.2  4667  DEFAULT                 39.1
+44000       2000 2270002015 Dsl - Rollers                              175   300   217  4667  DEFAULT                 13.4
+44000       2000 2270002015 Dsl - Rollers                              300   600 420.5  7000  DEFAULT                  4.0
+44000       2000 2270002018 Dsl - Scrapers                              50    75    66  4667  DEFAULT                  0.0
+44000       2000 2270002018 Dsl - Scrapers                             100   175 160.8  4667  DEFAULT                  1.1
+44000       2000 2270002018 Dsl - Scrapers                             175   300 246.9  4667  DEFAULT                 12.2
+44000       2000 2270002018 Dsl - Scrapers                             300   600 422.5  7000  DEFAULT                 15.8
+44000       2000 2270002018 Dsl - Scrapers                             600   750 687.6  7000  DEFAULT                  7.4
+44000       2000 2270002018 Dsl - Scrapers                             750  1000   760  7000  DEFAULT                  0.0
+44000       2000 2270002021 Dsl - Paving Equipment                       3     6  4.62  2500  DEFAULT                  2.3
+44000       2000 2270002021 Dsl - Paving Equipment                       6    11   7.3  2500  DEFAULT                  2.6
+44000       2000 2270002021 Dsl - Paving Equipment                      11    16  14.7  2500  DEFAULT                  0.2
+44000       2000 2270002021 Dsl - Paving Equipment                      16    25 19.72  2500  DEFAULT                  1.3
+44000       2000 2270002021 Dsl - Paving Equipment                      25    40 33.82  2500  DEFAULT                  1.8
+44000       2000 2270002021 Dsl - Paving Equipment                      40    50    41  2500  DEFAULT                  0.0
+44000       2000 2270002021 Dsl - Paving Equipment                      50    75 61.05  4667  DEFAULT                  1.7
+44000       2000 2270002021 Dsl - Paving Equipment                      75   100 83.23  4667  DEFAULT                  2.0
+44000       2000 2270002021 Dsl - Paving Equipment                     100   175 131.3  4667  DEFAULT                  3.7
+44000       2000 2270002021 Dsl - Paving Equipment                     175   300 230.2  4667  DEFAULT                  1.2
+44000       2000 2270002021 Dsl - Paving Equipment                     300   600   460  7000  DEFAULT                  0.1
+44000       2000 2270002024 Dsl - Surfacing Equipment                    6    11   6.7  2500  DEFAULT                  0.0
+44000       2000 2270002024 Dsl - Surfacing Equipment                   11    16  13.3  2500  DEFAULT                  0.1
+44000       2000 2270002024 Dsl - Surfacing Equipment                   16    25 21.66  2500  DEFAULT                  2.0
+44000       2000 2270002024 Dsl - Surfacing Equipment                   25    40 31.69  2500  DEFAULT                  1.7
+44000       2000 2270002024 Dsl - Surfacing Equipment                   40    50  44.9  2500  DEFAULT                  0.6
+44000       2000 2270002024 Dsl - Surfacing Equipment                   50    75 54.93  4667  DEFAULT                  0.0
+44000       2000 2270002024 Dsl - Surfacing Equipment                   75   100  80.9  4667  DEFAULT                  1.6
+44000       2000 2270002024 Dsl - Surfacing Equipment                  100   175 126.5  4667  DEFAULT                  0.5
+44000       2000 2270002024 Dsl - Surfacing Equipment                  175   300   233  4667  DEFAULT                  0.0
+44000       2000 2270002024 Dsl - Surfacing Equipment                  300   600 492.6  7000  DEFAULT                  0.5
+44000       2000 2270002024 Dsl - Surfacing Equipment                  600   750 713.5  7000  DEFAULT                  0.2
+44000       2000 2270002024 Dsl - Surfacing Equipment                  750  1000   897  7000  DEFAULT                  0.0
+44000       2000 2270002024 Dsl - Surfacing Equipment                 1000  1200  1050  7000  DEFAULT                  0.0
+44000       2000 2270002024 Dsl - Surfacing Equipment                 1200  2000  1544  7000  DEFAULT                  0.0
+44000       2000 2270002027 Dsl - Signal Boards/Light Plants             3     6   5.4  2500  DEFAULT                  4.3
+44000       2000 2270002027 Dsl - Signal Boards/Light Plants             6    11 7.775  2500  DEFAULT                 10.1
+44000       2000 2270002027 Dsl - Signal Boards/Light Plants            11    16 13.73  2500  DEFAULT                  5.4
+44000       2000 2270002027 Dsl - Signal Boards/Light Plants            16    25 22.18  2500  DEFAULT                 85.5
+44000       2000 2270002027 Dsl - Signal Boards/Light Plants            25    40 30.32  2500  DEFAULT                 26.2
+44000       2000 2270002027 Dsl - Signal Boards/Light Plants            40    50  42.2  2500  DEFAULT                  0.0
+44000       2000 2270002027 Dsl - Signal Boards/Light Plants            50    75 59.28  4667  DEFAULT                  1.9
+44000       2000 2270002027 Dsl - Signal Boards/Light Plants            75   100    89  4667  DEFAULT                  1.1
+44000       2000 2270002027 Dsl - Signal Boards/Light Plants           100   175 157.5  4667  DEFAULT                  0.9
+44000       2000 2270002027 Dsl - Signal Boards/Light Plants           175   300   216  4667  DEFAULT                  0.2
+44000       2000 2270002030 Dsl - Trenchers                              3     6     5  2500  DEFAULT                  0.0
+44000       2000 2270002030 Dsl - Trenchers                              6    11   9.6  2500  DEFAULT                  0.0
+44000       2000 2270002030 Dsl - Trenchers                             11    16  15.5  2500  DEFAULT                  0.2
+44000       2000 2270002030 Dsl - Trenchers                             16    25  21.6  2500  DEFAULT                  0.2
+44000       2000 2270002030 Dsl - Trenchers                             25    40  34.1  2500  DEFAULT                 11.8
+44000       2000 2270002030 Dsl - Trenchers                             40    50 45.05  2500  DEFAULT                 29.5
+44000       2000 2270002030 Dsl - Trenchers                             50    75 61.02  4667  DEFAULT                 49.0
+44000       2000 2270002030 Dsl - Trenchers                             75   100 86.75  4667  DEFAULT                 19.8
+44000       2000 2270002030 Dsl - Trenchers                            100   175 134.3  4667  DEFAULT                  6.2
+44000       2000 2270002030 Dsl - Trenchers                            175   300 250.5  4667  DEFAULT                  4.1
+44000       2000 2270002030 Dsl - Trenchers                            300   600 414.6  7000  DEFAULT                  2.1
+44000       2000 2270002030 Dsl - Trenchers                            600   750 741.7  7000  DEFAULT                  0.2
+44000       2000 2270002030 Dsl - Trenchers                           1200  2000  1500  7000  DEFAULT                  0.0
+44000       2000 2270002033 Dsl - Bore/Drill Rigs                        6    11     8  2500  DEFAULT                  0.1
+44000       2000 2270002033 Dsl - Bore/Drill Rigs                       11    16  14.5  2500  DEFAULT                  0.2
+44000       2000 2270002033 Dsl - Bore/Drill Rigs                       16    25 23.48  2500  DEFAULT                  0.4
+44000       2000 2270002033 Dsl - Bore/Drill Rigs                       25    40 31.48  2500  DEFAULT                  7.3
+44000       2000 2270002033 Dsl - Bore/Drill Rigs                       40    50 44.93  2500  DEFAULT                  7.4
+44000       2000 2270002033 Dsl - Bore/Drill Rigs                       50    75 61.85  4667  DEFAULT                 12.0
+44000       2000 2270002033 Dsl - Bore/Drill Rigs                       75   100 85.12  4667  DEFAULT                 12.2
+44000       2000 2270002033 Dsl - Bore/Drill Rigs                      100   175 131.8  4667  DEFAULT                 18.0
+44000       2000 2270002033 Dsl - Bore/Drill Rigs                      175   300 239.2  4667  DEFAULT                 15.6
+44000       2000 2270002033 Dsl - Bore/Drill Rigs                      300   600 447.1  7000  DEFAULT                  9.0
+44000       2000 2270002033 Dsl - Bore/Drill Rigs                      600   750 690.5  7000  DEFAULT                  2.1
+44000       2000 2270002033 Dsl - Bore/Drill Rigs                      750  1000   869  7000  DEFAULT                  1.2
+44000       2000 2270002033 Dsl - Bore/Drill Rigs                     1000  1200  1050  7000  DEFAULT                  0.0
+44000       2000 2270002033 Dsl - Bore/Drill Rigs                     1200  2000  1500  7000  DEFAULT                  0.0
+44000       2000 2270002036 Dsl - Excavators                             3     6     6  2500  DEFAULT                  0.1
+44000       2000 2270002036 Dsl - Excavators                             6    11 7.967  2500  DEFAULT                  0.8
+44000       2000 2270002036 Dsl - Excavators                            11    16 13.14  2500  DEFAULT                  1.6
+44000       2000 2270002036 Dsl - Excavators                            16    25 21.54  2500  DEFAULT                  7.2
+44000       2000 2270002036 Dsl - Excavators                            25    40 33.05  2500  DEFAULT                 15.0
+44000       2000 2270002036 Dsl - Excavators                            40    50 45.77  2500  DEFAULT                  8.0
+44000       2000 2270002036 Dsl - Excavators                            50    75  61.3  4667  DEFAULT                  6.2
+44000       2000 2270002036 Dsl - Excavators                            75   100 91.67  4667  DEFAULT                 28.0
+44000       2000 2270002036 Dsl - Excavators                           100   175 137.6  4667  DEFAULT                104.6
+44000       2000 2270002036 Dsl - Excavators                           175   300 233.3  4667  DEFAULT                 76.4
+44000       2000 2270002036 Dsl - Excavators                           300   600 410.6  7000  DEFAULT                 20.2
+44000       2000 2270002036 Dsl - Excavators                           600   750 719.4  7000  DEFAULT                  0.6
+44000       2000 2270002036 Dsl - Excavators                           750  1000   884  7000  DEFAULT                  0.7
+44000       2000 2270002036 Dsl - Excavators                          1000  1200  1200  7000  DEFAULT                  0.0
+44000       2000 2270002036 Dsl - Excavators                          1200  2000  1768  7000  DEFAULT                  0.3
+44000       2000 2270002036 Dsl - Excavators                          2000  3000  2350  7000  DEFAULT                  0.0
+44000       2000 2270002039 Dsl - Concrete/Industrial Saws               6    11    10  2500  DEFAULT                  0.7
+44000       2000 2270002039 Dsl - Concrete/Industrial Saws              16    25 20.12  2500  DEFAULT                  1.1
+44000       2000 2270002039 Dsl - Concrete/Industrial Saws              25    40 32.94  2500  DEFAULT                  6.5
+44000       2000 2270002039 Dsl - Concrete/Industrial Saws              40    50  43.2  2500  DEFAULT                  0.2
+44000       2000 2270002039 Dsl - Concrete/Industrial Saws              50    75 57.85  4667  DEFAULT                  2.1
+44000       2000 2270002039 Dsl - Concrete/Industrial Saws              75   100 81.47  4667  DEFAULT                  3.0
+44000       2000 2270002039 Dsl - Concrete/Industrial Saws             100   175 120.9  4667  DEFAULT                  0.4
+44000       2000 2270002039 Dsl - Concrete/Industrial Saws             175   300 241.5  4667  DEFAULT                  0.0
+44000       2000 2270002042 Dsl - Cement & Mortar Mixers                 3     6 5.983  2500  DEFAULT                 13.1
+44000       2000 2270002042 Dsl - Cement & Mortar Mixers                 6    11 8.082  2500  DEFAULT                  7.8
+44000       2000 2270002042 Dsl - Cement & Mortar Mixers                11    16 13.08  2500  DEFAULT                  1.5
+44000       2000 2270002042 Dsl - Cement & Mortar Mixers                16    25 21.08  2500  DEFAULT                  1.3
+44000       2000 2270002042 Dsl - Cement & Mortar Mixers                25    40 32.78  2500  DEFAULT                  1.0
+44000       2000 2270002042 Dsl - Cement & Mortar Mixers                40    50  45.5  2500  DEFAULT                  0.0
+44000       2000 2270002042 Dsl - Cement & Mortar Mixers                50    75 59.56  4667  DEFAULT                  1.6
+44000       2000 2270002042 Dsl - Cement & Mortar Mixers                75   100 83.46  4667  DEFAULT                  2.8
+44000       2000 2270002042 Dsl - Cement & Mortar Mixers               100   175 128.9  4667  DEFAULT                  0.9
+44000       2000 2270002042 Dsl - Cement & Mortar Mixers               175   300 253.1  4667  DEFAULT                  0.3
+44000       2000 2270002042 Dsl - Cement & Mortar Mixers               300   600 402.3  7000  DEFAULT                  0.4
+44000       2000 2270002042 Dsl - Cement & Mortar Mixers               600   750 704.7  7000  DEFAULT                  0.1
+44000       2000 2270002045 Dsl - Cranes                                16    25    23  2500  DEFAULT                  0.0
+44000       2000 2270002045 Dsl - Cranes                                25    40  39.4  2500  DEFAULT                  1.2
+44000       2000 2270002045 Dsl - Cranes                                40    50  41.7  2500  DEFAULT                  0.0
+44000       2000 2270002045 Dsl - Cranes                                50    75    64  4667  DEFAULT                  0.6
+44000       2000 2270002045 Dsl - Cranes                                75   100 88.14  4667  DEFAULT                  6.2
+44000       2000 2270002045 Dsl - Cranes                               100   175 145.2  4667  DEFAULT                 23.2
+44000       2000 2270002045 Dsl - Cranes                               175   300 237.7  4667  DEFAULT                 23.7
+44000       2000 2270002045 Dsl - Cranes                               300   600   412  7000  DEFAULT                 14.6
+44000       2000 2270002045 Dsl - Cranes                               600   750   669  7000  DEFAULT                  0.6
+44000       2000 2270002045 Dsl - Cranes                               750  1000 882.8  7000  DEFAULT                  0.2
+44000       2000 2270002045 Dsl - Cranes                              1000  1200  1071  7000  DEFAULT                  0.0
+44000       2000 2270002048 Dsl - Graders                               25    40    35  2500  DEFAULT                  0.0
+44000       2000 2270002048 Dsl - Graders                               40    50  48.3  2500  DEFAULT                  0.0
+44000       2000 2270002048 Dsl - Graders                               50    75 59.54  4667  DEFAULT                  0.3
+44000       2000 2270002048 Dsl - Graders                               75   100 84.21  4667  DEFAULT                  2.1
+44000       2000 2270002048 Dsl - Graders                              100   175 140.8  4667  DEFAULT                 21.5
+44000       2000 2270002048 Dsl - Graders                              175   300 231.2  4667  DEFAULT                 36.0
+44000       2000 2270002048 Dsl - Graders                              300   600 341.8  7000  DEFAULT                  4.1
+44000       2000 2270002048 Dsl - Graders                              600   750   750  7000  DEFAULT                  0.2
+44000       2000 2270002051 Dsl - Off-highway Trucks                   100   175 160.5  4667  DEFAULT                  0.1
+44000       2000 2270002051 Dsl - Off-highway Trucks                   175   300 244.3  4667  DEFAULT                  5.4
+44000       2000 2270002051 Dsl - Off-highway Trucks                   300   600 419.9  7000  DEFAULT                 11.5
+44000       2000 2270002051 Dsl - Off-highway Trucks                   600   750 688.1  7000  DEFAULT                  6.5
+44000       2000 2270002051 Dsl - Off-highway Trucks                   750  1000   868  7000  DEFAULT                  3.2
+44000       2000 2270002051 Dsl - Off-highway Trucks                  1000  1200  1153  7000  DEFAULT                  1.0
+44000       2000 2270002051 Dsl - Off-highway Trucks                  1200  2000  1787  7000  DEFAULT                  5.1
+44000       2000 2270002051 Dsl - Off-highway Trucks                  2000  3000  2424  7000  DEFAULT                  1.2
+44000       2000 2270002054 Dsl - Crushing/Proc. Equipment              16    25 20.42  2500  DEFAULT                  0.1
+44000       2000 2270002054 Dsl - Crushing/Proc. Equipment              25    40  32.1  2500  DEFAULT                  0.2
+44000       2000 2270002054 Dsl - Crushing/Proc. Equipment              40    50  45.6  2500  DEFAULT                  0.7
+44000       2000 2270002054 Dsl - Crushing/Proc. Equipment              50    75 60.74  4667  DEFAULT                  8.3
+44000       2000 2270002054 Dsl - Crushing/Proc. Equipment              75   100 88.98  4667  DEFAULT                  2.0
+44000       2000 2270002054 Dsl - Crushing/Proc. Equipment             100   175 132.3  4667  DEFAULT                  3.1
+44000       2000 2270002054 Dsl - Crushing/Proc. Equipment             175   300 241.3  4667  DEFAULT                  1.2
+44000       2000 2270002054 Dsl - Crushing/Proc. Equipment             300   600 423.2  7000  DEFAULT                  3.1
+44000       2000 2270002054 Dsl - Crushing/Proc. Equipment             600   750 666.3  7000  DEFAULT                  0.2
+44000       2000 2270002054 Dsl - Crushing/Proc. Equipment             750  1000   920  7000  DEFAULT                  0.0
+44000       2000 2270002057 Dsl - Rough Terrain Forklifts               11    16  13.5  2500  DEFAULT                  0.0
+44000       2000 2270002057 Dsl - Rough Terrain Forklifts               16    25 22.45  2500  DEFAULT                  0.4
+44000       2000 2270002057 Dsl - Rough Terrain Forklifts               25    40 33.36  2500  DEFAULT                  9.9
+44000       2000 2270002057 Dsl - Rough Terrain Forklifts               40    50 45.06  2500  DEFAULT                 11.0
+44000       2000 2270002057 Dsl - Rough Terrain Forklifts               50    75 61.42  4667  DEFAULT                 21.8
+44000       2000 2270002057 Dsl - Rough Terrain Forklifts               75   100  85.6  4667  DEFAULT                124.8
+44000       2000 2270002057 Dsl - Rough Terrain Forklifts              100   175   126  4667  DEFAULT                 64.1
+44000       2000 2270002057 Dsl - Rough Terrain Forklifts              175   300 229.1  4667  DEFAULT                  3.3
+44000       2000 2270002057 Dsl - Rough Terrain Forklifts              300   600 346.1  7000  DEFAULT                  4.4
+44000       2000 2270002060 Dsl - Rubber Tire Loaders                    6    11 8.336  2500  DEFAULT                  0.0
+44000       2000 2270002060 Dsl - Rubber Tire Loaders                   11    16  15.4  2500  DEFAULT                  0.0
+44000       2000 2270002060 Dsl - Rubber Tire Loaders                   16    25 22.83  2500  DEFAULT                  0.1
+44000       2000 2270002060 Dsl - Rubber Tire Loaders                   25    40 34.38  2500  DEFAULT                  5.0
+44000       2000 2270002060 Dsl - Rubber Tire Loaders                   40    50 45.44  2500  DEFAULT                  5.7
+44000       2000 2270002060 Dsl - Rubber Tire Loaders                   50    75  61.7  4667  DEFAULT                  8.1
+44000       2000 2270002060 Dsl - Rubber Tire Loaders                   75   100 85.48  4667  DEFAULT                 34.9
+44000       2000 2270002060 Dsl - Rubber Tire Loaders                  100   175 136.3  4667  DEFAULT                 88.3
+44000       2000 2270002060 Dsl - Rubber Tire Loaders                  175   300   230  4667  DEFAULT                 84.3
+44000       2000 2270002060 Dsl - Rubber Tire Loaders                  300   600 419.4  7000  DEFAULT                 61.8
+44000       2000 2270002060 Dsl - Rubber Tire Loaders                  600   750 692.2  7000  DEFAULT                  4.7
+44000       2000 2270002060 Dsl - Rubber Tire Loaders                  750  1000 866.3  7000  DEFAULT                  2.3
+44000       2000 2270002060 Dsl - Rubber Tire Loaders                 1000  1200  1082  7000  DEFAULT                  0.5
+44000       2000 2270002060 Dsl - Rubber Tire Loaders                 1200  2000  1867  7000  DEFAULT                  2.8
+44000       2000 2270002060 Dsl - Rubber Tire Loaders                 2000  3000  2243  7000  DEFAULT                  0.1
+44000       2000 2270002066 Dsl - Tractors/Loaders/Backhoes             11    16  15.5  2500  DEFAULT                  0.0
+44000       2000 2270002066 Dsl - Tractors/Loaders/Backhoes             16    25 22.78  2500  DEFAULT                  5.1
+44000       2000 2270002066 Dsl - Tractors/Loaders/Backhoes             25    40 32.49  2500  DEFAULT                 10.2
+44000       2000 2270002066 Dsl - Tractors/Loaders/Backhoes             40    50 46.23  2500  DEFAULT                  5.4
+44000       2000 2270002066 Dsl - Tractors/Loaders/Backhoes             50    75 62.46  4667  DEFAULT                101.4
+44000       2000 2270002066 Dsl - Tractors/Loaders/Backhoes             75   100 87.17  4667  DEFAULT                358.3
+44000       2000 2270002066 Dsl - Tractors/Loaders/Backhoes            100   175 120.7  4667  DEFAULT                238.4
+44000       2000 2270002066 Dsl - Tractors/Loaders/Backhoes            175   300   200  4667  DEFAULT                  1.3
+44000       2000 2270002069 Dsl - Crawler Tractor/Dozers                25    40 25.75  2500  DEFAULT                  0.0
+44000       2000 2270002069 Dsl - Crawler Tractor/Dozers                40    50  42.5  2500  DEFAULT                  0.0
+44000       2000 2270002069 Dsl - Crawler Tractor/Dozers                50    75 57.98  4667  DEFAULT                  1.1
+44000       2000 2270002069 Dsl - Crawler Tractor/Dozers                75   100 87.86  4667  DEFAULT                 30.3
+44000       2000 2270002069 Dsl - Crawler Tractor/Dozers               100   175 136.1  4667  DEFAULT                 68.4
+44000       2000 2270002069 Dsl - Crawler Tractor/Dozers               175   300 235.5  4667  DEFAULT                 59.2
+44000       2000 2270002069 Dsl - Crawler Tractor/Dozers               300   600 425.3  7000  DEFAULT                 30.0
+44000       2000 2270002069 Dsl - Crawler Tractor/Dozers               600   750   707  7000  DEFAULT                 11.8
+44000       2000 2270002069 Dsl - Crawler Tractor/Dozers               750  1000   923  7000  DEFAULT                  2.4
+44000       2000 2270002069 Dsl - Crawler Tractor/Dozers              1000  1200  1065  7000  DEFAULT                  4.3
+44000       2000 2270002069 Dsl - Crawler Tractor/Dozers              1200  2000  1473  7000  DEFAULT                  0.0
+44000       2000 2270002072 Dsl - Skid Steer Loaders                     6    11   9.5  2500  DEFAULT                  0.3
+44000       2000 2270002072 Dsl - Skid Steer Loaders                    11    16 15.47  2500  DEFAULT                 44.7
+44000       2000 2270002072 Dsl - Skid Steer Loaders                    16    25  20.3  2500  DEFAULT                 99.2
+44000       2000 2270002072 Dsl - Skid Steer Loaders                    25    40 34.97  2500  DEFAULT                194.1
+44000       2000 2270002072 Dsl - Skid Steer Loaders                    40    50 44.94  2500  DEFAULT                 76.8
+44000       2000 2270002072 Dsl - Skid Steer Loaders                    50    75 57.67  4667  DEFAULT                421.5
+44000       2000 2270002072 Dsl - Skid Steer Loaders                    75   100 84.35  4667  DEFAULT                277.1
+44000       2000 2270002072 Dsl - Skid Steer Loaders                   100   175 115.3  4667  DEFAULT                  7.0
+44000       2000 2270002075 Dsl - Off-Highway Tractors                 100   175 144.5  4667  DEFAULT                  0.0
+44000       2000 2270002075 Dsl - Off-Highway Tractors                 175   300   290  4667  DEFAULT                  0.9
+44000       2000 2270002075 Dsl - Off-Highway Tractors                 300   600 410.3  7000  DEFAULT                  1.6
+44000       2000 2270002075 Dsl - Off-Highway Tractors                 600   750   676  7000  DEFAULT                  3.9
+44000       2000 2270002075 Dsl - Off-Highway Tractors                 750  1000 907.8  7000  DEFAULT                  1.3
+44000       2000 2270002075 Dsl - Off-Highway Tractors                1000  1200  1139  7000  DEFAULT                  0.1
+44000       2000 2270002075 Dsl - Off-Highway Tractors                1200  2000  1516  7000  DEFAULT                  1.0
+44000       2000 2270002075 Dsl - Off-Highway Tractors                2000  3000  2283  7000  DEFAULT                  0.0
+44000       2000 2270002078 Dsl - Dumpers/Tenders                        6    11    10  2500  DEFAULT                  1.9
+44000       2000 2270002078 Dsl - Dumpers/Tenders                       11    16 14.31  2500  DEFAULT                  1.8
+44000       2000 2270002078 Dsl - Dumpers/Tenders                       16    25 23.75  2500  DEFAULT                  1.3
+44000       2000 2270002078 Dsl - Dumpers/Tenders                       25    40 32.15  2500  DEFAULT                  1.5
+44000       2000 2270002078 Dsl - Dumpers/Tenders                       40    50  48.5  2500  DEFAULT                  0.3
+44000       2000 2270002078 Dsl - Dumpers/Tenders                       50    75  57.8  4667  DEFAULT                  0.2
+44000       2000 2270002078 Dsl - Dumpers/Tenders                       75   100  85.4  4667  DEFAULT                  1.0
+44000       2000 2270002078 Dsl - Dumpers/Tenders                      100   175 109.7  4667  DEFAULT                  0.4
+44000       2000 2270002081 Dsl - Other Construction Equipment           6    11   7.9  2500  DEFAULT                  0.1
+44000       2000 2270002081 Dsl - Other Construction Equipment          11    16    15  2500  DEFAULT                  0.0
+44000       2000 2270002081 Dsl - Other Construction Equipment          16    25  21.1  2500  DEFAULT                  0.3
+44000       2000 2270002081 Dsl - Other Construction Equipment          25    40 34.14  2500  DEFAULT                  0.8
+44000       2000 2270002081 Dsl - Other Construction Equipment          40    50 44.43  2500  DEFAULT                  0.1
+44000       2000 2270002081 Dsl - Other Construction Equipment          50    75 59.85  4667  DEFAULT                  0.8
+44000       2000 2270002081 Dsl - Other Construction Equipment          75   100 84.28  4667  DEFAULT                  0.8
+44000       2000 2270002081 Dsl - Other Construction Equipment         100   175 137.7  4667  DEFAULT                  5.3
+44000       2000 2270002081 Dsl - Other Construction Equipment         175   300 233.7  4667  DEFAULT                  4.7
+44000       2000 2270002081 Dsl - Other Construction Equipment         300   600 442.6  7000  DEFAULT                 11.3
+44000       2000 2270002081 Dsl - Other Construction Equipment         600   750 710.2  7000  DEFAULT                  2.1
+44000       2000 2270002081 Dsl - Other Construction Equipment         750  1000 827.5  7000  DEFAULT                  0.0
+44000       2000 2270002081 Dsl - Other Construction Equipment        1000  1200  1200  7000  DEFAULT                  0.1
+44000       2000 2270003010 Dsl - Aerial Lifts                           6    11     8  2500  DEFAULT                  0.5
+44000       2000 2270003010 Dsl - Aerial Lifts                          11    16 13.18  2500  DEFAULT                  3.4
+44000       2000 2270003010 Dsl - Aerial Lifts                          16    25 21.63  2500  DEFAULT                 48.4
+44000       2000 2270003010 Dsl - Aerial Lifts                          25    40 33.05  2500  DEFAULT                 60.1
+44000       2000 2270003010 Dsl - Aerial Lifts                          40    50 45.46  2500  DEFAULT                 14.2
+44000       2000 2270003010 Dsl - Aerial Lifts                          50    75 60.46  4667  DEFAULT                101.0
+44000       2000 2270003010 Dsl - Aerial Lifts                          75   100 83.86  4667  DEFAULT                 35.9
+44000       2000 2270003010 Dsl - Aerial Lifts                         100   175   113  4667  DEFAULT                  0.4
+44000       2000 2270003020 Dsl - Forklifts                             11    16    15  2500  DEFAULT                  0.1
+44000       2000 2270003020 Dsl - Forklifts                             16    25    25  2500  DEFAULT                  0.0
+44000       2000 2270003020 Dsl - Forklifts                             25    40 34.68  2500  DEFAULT                  0.2
+44000       2000 2270003020 Dsl - Forklifts                             40    50 47.02  2500  DEFAULT                  2.1
+44000       2000 2270003020 Dsl - Forklifts                             50    75 61.74  4667  DEFAULT                 76.2
+44000       2000 2270003020 Dsl - Forklifts                             75   100 85.48  4667  DEFAULT                 76.8
+44000       2000 2270003020 Dsl - Forklifts                            100   175 135.6  4667  DEFAULT                 27.6
+44000       2000 2270003020 Dsl - Forklifts                            175   300 220.3  4667  DEFAULT                  4.5
+44000       2000 2270003020 Dsl - Forklifts                            300   600 353.9  7000  DEFAULT                  5.7
+44000       2000 2270003030 Dsl - Sweepers/Scrubbers                     3     6     5  2500  DEFAULT                  1.3
+44000       2000 2270003030 Dsl - Sweepers/Scrubbers                     6    11    11  2500  DEFAULT                  0.1
+44000       2000 2270003030 Dsl - Sweepers/Scrubbers                    11    16 13.65  2500  DEFAULT                  0.0
+44000       2000 2270003030 Dsl - Sweepers/Scrubbers                    16    25 21.69  2500  DEFAULT                  7.8
+44000       2000 2270003030 Dsl - Sweepers/Scrubbers                    25    40 34.83  2500  DEFAULT                 18.8
+44000       2000 2270003030 Dsl - Sweepers/Scrubbers                    40    50 43.64  2500  DEFAULT                 12.7
+44000       2000 2270003030 Dsl - Sweepers/Scrubbers                    50    75 60.81  4667  DEFAULT                 12.3
+44000       2000 2270003030 Dsl - Sweepers/Scrubbers                    75   100 81.86  4667  DEFAULT                 45.3
+44000       2000 2270003030 Dsl - Sweepers/Scrubbers                   100   175 134.3  4667  DEFAULT                 50.8
+44000       2000 2270003030 Dsl - Sweepers/Scrubbers                   175   300 216.7  4667  DEFAULT                 13.7
+44000       2000 2270003030 Dsl - Sweepers/Scrubbers                   300   600 363.8  7000  DEFAULT                  0.2
+44000       2000 2270003040 Dsl - Other General Industrial Eqp           3     6 4.367  2500  DEFAULT                  8.9
+44000       2000 2270003040 Dsl - Other General Industrial Eqp           6    11  9.58  2500  DEFAULT                  1.7
+44000       2000 2270003040 Dsl - Other General Industrial Eqp          11    16 13.72  2500  DEFAULT                  1.1
+44000       2000 2270003040 Dsl - Other General Industrial Eqp          16    25 22.62  2500  DEFAULT                  1.9
+44000       2000 2270003040 Dsl - Other General Industrial Eqp          25    40 32.48  2500  DEFAULT                  6.0
+44000       2000 2270003040 Dsl - Other General Industrial Eqp          40    50 44.31  2500  DEFAULT                  2.2
+44000       2000 2270003040 Dsl - Other General Industrial Eqp          50    75 61.31  4667  DEFAULT                 16.9
+44000       2000 2270003040 Dsl - Other General Industrial Eqp          75   100 86.11  4667  DEFAULT                 52.7
+44000       2000 2270003040 Dsl - Other General Industrial Eqp         100   175 130.4  4667  DEFAULT                 74.9
+44000       2000 2270003040 Dsl - Other General Industrial Eqp         175   300 234.2  4667  DEFAULT                 23.4
+44000       2000 2270003040 Dsl - Other General Industrial Eqp         300   600 389.4  7000  DEFAULT                  2.4
+44000       2000 2270003040 Dsl - Other General Industrial Eqp         600   750   650  7000  DEFAULT                  0.4
+44000       2000 2270003040 Dsl - Other General Industrial Eqp        1200  2000  1350  7000  DEFAULT                  0.0
+44000       2000 2270003050 Dsl - Other Material Handling Eqp            6    11   8.5  2500  DEFAULT                  0.0
+44000       2000 2270003050 Dsl - Other Material Handling Eqp           16    25    19  2500  DEFAULT                  0.0
+44000       2000 2270003050 Dsl - Other Material Handling Eqp           25    40  37.2  2500  DEFAULT                  1.4
+44000       2000 2270003050 Dsl - Other Material Handling Eqp           50    75 64.73  4667  DEFAULT                  7.2
+44000       2000 2270003050 Dsl - Other Material Handling Eqp           75   100 86.43  4667  DEFAULT                  2.2
+44000       2000 2270003050 Dsl - Other Material Handling Eqp          100   175 128.9  4667  DEFAULT                  9.9
+44000       2000 2270003050 Dsl - Other Material Handling Eqp          175   300 245.2  4667  DEFAULT                  3.8
+44000       2000 2270003050 Dsl - Other Material Handling Eqp          300   600 428.3  7000  DEFAULT                  0.5
+44000       2000 2270003050 Dsl - Other Material Handling Eqp         1000  1200  1071  7000  DEFAULT                  0.0
+44000       2000 2270003060 Dsl - AC\Refrigeration                       6    11   9.6  2500  DEFAULT                 23.5
+44000       2000 2270003060 Dsl - AC\Refrigeration                      11    16 13.24  2500  DEFAULT                 72.1
+44000       2000 2270003060 Dsl - AC\Refrigeration                      16    25 19.45  2500  DEFAULT                 67.6
+44000       2000 2270003060 Dsl - AC\Refrigeration                      25    40 31.83  2500  DEFAULT                 17.3
+44000       2000 2270003060 Dsl - AC\Refrigeration                      40    50  44.9  2500  DEFAULT                127.1
+44000       2000 2270003060 Dsl - AC\Refrigeration                      50    75    57  4667  DEFAULT                488.9
+44000       2000 2270003060 Dsl - AC\Refrigeration                      75   100    76  4667  DEFAULT                  0.0
+44000       2000 2270003070 Dsl - Terminal Tractors                      6    11   8.3  2500  DEFAULT                  0.0
+44000       2000 2270003070 Dsl - Terminal Tractors                     11    16  11.7  2500  DEFAULT                  0.0
+44000       2000 2270003070 Dsl - Terminal Tractors                     16    25  21.2  2500  DEFAULT                  0.0
+44000       2000 2270003070 Dsl - Terminal Tractors                     25    40  38.5  2500  DEFAULT                  0.0
+44000       2000 2270003070 Dsl - Terminal Tractors                     40    50    41  2500  DEFAULT                  0.0
+44000       2000 2270003070 Dsl - Terminal Tractors                     50    75 62.82  4667  DEFAULT                  9.6
+44000       2000 2270003070 Dsl - Terminal Tractors                     75   100 84.18  4667  DEFAULT                 16.7
+44000       2000 2270003070 Dsl - Terminal Tractors                    100   175 141.1  4667  DEFAULT                 26.9
+44000       2000 2270003070 Dsl - Terminal Tractors                    175   300 221.4  4667  DEFAULT                 44.8
+44000       2000 2270003070 Dsl - Terminal Tractors                    300   600   419  7000  DEFAULT                  1.4
+44000       2000 2270003070 Dsl - Terminal Tractors                    600   750   655  7000  DEFAULT                  0.0
+44000       2000 2270004031 Dsl - Leafblowers/Vacuums (com)              3     6 5.667  2500  DEFAULT                  0.6
+44000       2000 2270004031 Dsl - Leafblowers/Vacuums (com)             25    40    28  2500  DEFAULT                  0.2
+44000       2000 2270004031 Dsl - Leafblowers/Vacuums (com)             40    50    49  2500  DEFAULT                  0.0
+44000       2000 2270004031 Dsl - Leafblowers/Vacuums (com)             50    75    61  4667  DEFAULT                  0.0
+44000       2000 2270004031 Dsl - Leafblowers/Vacuums (com)             75   100    95  4667  DEFAULT                  0.0
+44000       2000 2270004031 Dsl - Leafblowers/Vacuums (com)            100   175 118.5  4667  DEFAULT                  0.0
+44000       2000 2270004036 Dsl - Snowblowers (com)                    100   175   165  4667  DEFAULT                  0.1
+44000       2000 2270004036 Dsl - Snowblowers (com)                    175   300 251.8  4667  DEFAULT                  0.9
+44000       2000 2270004036 Dsl - Snowblowers (com)                    300   600 384.4  7000  DEFAULT                  1.2
+44000       2000 2270004046 Dsl - Commercial Mowers (com)                3     6     5  2500  DEFAULT                  0.6
+44000       2000 2270004046 Dsl - Commercial Mowers (com)                6    11  7.35  2500  DEFAULT                  0.0
+44000       2000 2270004046 Dsl - Commercial Mowers (com)               11    16 14.12  2500  DEFAULT                 18.1
+44000       2000 2270004046 Dsl - Commercial Mowers (com)               16    25 20.87  2500  DEFAULT                251.2
+44000       2000 2270004046 Dsl - Commercial Mowers (com)               25    40 31.28  2500  DEFAULT                121.7
+44000       2000 2270004046 Dsl - Commercial Mowers (com)               40    50 44.66  2500  DEFAULT                 27.2
+44000       2000 2270004046 Dsl - Commercial Mowers (com)               50    75 55.08  4667  DEFAULT                 44.7
+44000       2000 2270004046 Dsl - Commercial Mowers (com)               75   100 82.63  4667  DEFAULT                  9.5
+44000       2000 2270004056 Dsl - Lawn & Garden Tractors (com)           6    11  10.5  2500  DEFAULT                  0.1
+44000       2000 2270004056 Dsl - Lawn & Garden Tractors (com)          11    16 14.62  2500  DEFAULT                  4.4
+44000       2000 2270004056 Dsl - Lawn & Garden Tractors (com)          16    25 20.03  2500  DEFAULT                110.3
+44000       2000 2270004056 Dsl - Lawn & Garden Tractors (com)          25    40 26.33  2500  DEFAULT                  1.9
+44000       2000 2270004056 Dsl - Lawn & Garden Tractors (com)          40    50  44.5  2500  DEFAULT                  1.1
+44000       2000 2270004056 Dsl - Lawn & Garden Tractors (com)          75   100    80  4667  DEFAULT                  1.7
+44000       2000 2270004066 Dsl - Chippers/Stump Grinders (com)         16    25    25  2500  DEFAULT                  0.0
+44000       2000 2270004066 Dsl - Chippers/Stump Grinders (com)         25    40  37.2  2500  DEFAULT                  0.4
+44000       2000 2270004066 Dsl - Chippers/Stump Grinders (com)         40    50 47.12  2500  DEFAULT                  4.4
+44000       2000 2270004066 Dsl - Chippers/Stump Grinders (com)         50    75 61.07  4667  DEFAULT                 16.2
+44000       2000 2270004066 Dsl - Chippers/Stump Grinders (com)         75   100 84.47  4667  DEFAULT                 71.7
+44000       2000 2270004066 Dsl - Chippers/Stump Grinders (com)        100   175 121.3  4667  DEFAULT                 22.7
+44000       2000 2270004066 Dsl - Chippers/Stump Grinders (com)        175   300 241.7  4667  DEFAULT                 13.7
+44000       2000 2270004066 Dsl - Chippers/Stump Grinders (com)        300   600 434.4  7000  DEFAULT                 11.6
+44000       2000 2270004066 Dsl - Chippers/Stump Grinders (com)        600   750 702.9  7000  DEFAULT                  2.6
+44000       2000 2270004066 Dsl - Chippers/Stump Grinders (com)        750  1000 947.8  7000  DEFAULT                  0.4
+44000       2000 2270004066 Dsl - Chippers/Stump Grinders (com)       1000  1200  1095  7000  DEFAULT                  0.1
+44000       2000 2270004071 Dsl - Commercial Turf Equipment (com)        6    11  7.75  2500  DEFAULT                  0.0
+44000       2000 2270004071 Dsl - Commercial Turf Equipment (com)       11    16 13.56  2500  DEFAULT                  2.6
+44000       2000 2270004071 Dsl - Commercial Turf Equipment (com)       16    25 21.15  2500  DEFAULT                  3.4
+44000       2000 2270004071 Dsl - Commercial Turf Equipment (com)       25    40 34.57  2500  DEFAULT                  6.2
+44000       2000 2270004071 Dsl - Commercial Turf Equipment (com)       40    50 45.47  2500  DEFAULT                  3.0
+44000       2000 2270004071 Dsl - Commercial Turf Equipment (com)       50    75 62.87  4667  DEFAULT                  0.1
+44000       2000 2270004071 Dsl - Commercial Turf Equipment (com)       75   100 83.82  4667  DEFAULT                  3.2
+44000       2000 2270004071 Dsl - Commercial Turf Equipment (com)      100   175   113  4667  DEFAULT                  2.6
+44000       2000 2270004076 Dsl - Other Lawn & Garden Eqp. (com)        11    16    15  2500  DEFAULT                  0.1
+44000       2000 2270004076 Dsl - Other Lawn & Garden Eqp. (com)        16    25  22.9  2500  DEFAULT                  0.6
+44000       2000 2270004076 Dsl - Other Lawn & Garden Eqp. (com)        25    40    32  2500  DEFAULT                  0.0
+44000       2000 2270004076 Dsl - Other Lawn & Garden Eqp. (com)        40    50    47  2500  DEFAULT                  0.0
+44000       2000 2270004076 Dsl - Other Lawn & Garden Eqp. (com)        50    75    51  4667  DEFAULT                  0.5
+44000       2000 2270004076 Dsl - Other Lawn & Garden Eqp. (com)        75   100    80  4667  DEFAULT                  0.1
+44000       2000 2270004076 Dsl - Other Lawn & Garden Eqp. (com)       100   175   131  4667  DEFAULT                  0.0
+44000       2000 2270005010 Dsl - 2-Wheel Tractors                       3     6     6  2500  DEFAULT                  0.0
+44000       2000 2270005010 Dsl - 2-Wheel Tractors                       6    11 8.333  2500  DEFAULT                  0.0
+44000       2000 2270005015 Dsl - Agricultural Tractors                 11    16    16  2500  DEFAULT                  0.0
+44000       2000 2270005015 Dsl - Agricultural Tractors                 16    25 20.97  2500  DEFAULT                  4.7
+44000       2000 2270005015 Dsl - Agricultural Tractors                 25    40 32.48  2500  DEFAULT                 12.5
+44000       2000 2270005015 Dsl - Agricultural Tractors                 40    50 46.39  2500  DEFAULT                  7.2
+44000       2000 2270005015 Dsl - Agricultural Tractors                 50    75 62.18  4667  DEFAULT                 11.3
+44000       2000 2270005015 Dsl - Agricultural Tractors                 75   100 86.14  4667  DEFAULT                 10.0
+44000       2000 2270005015 Dsl - Agricultural Tractors                100   175 133.6  4667  DEFAULT                 16.7
+44000       2000 2270005015 Dsl - Agricultural Tractors                175   300 236.5  4667  DEFAULT                 14.4
+44000       2000 2270005015 Dsl - Agricultural Tractors                300   600 415.2  7000  DEFAULT                  7.4
+44000       2000 2270005015 Dsl - Agricultural Tractors                600   750   635  7000  DEFAULT                  0.0
+44000       2000 2270005020 Dsl - Combines                              75   100    91  4667  DEFAULT                  0.8
+44000       2000 2270005020 Dsl - Combines                             100   175 141.8  4667  DEFAULT                  7.2
+44000       2000 2270005020 Dsl - Combines                             175   300 231.5  4667  DEFAULT                  8.6
+44000       2000 2270005020 Dsl - Combines                             300   600 345.8  7000  DEFAULT                  0.4
+44000       2000 2270005025 Dsl - Balers                                40    50    50  2500  DEFAULT                  0.0
+44000       2000 2270005025 Dsl - Balers                                50    75  61.8  4667  DEFAULT                  0.2
+44000       2000 2270005025 Dsl - Balers                                75   100 85.83  4667  DEFAULT                  0.1
+44000       2000 2270005025 Dsl - Balers                               100   175   140  4667  DEFAULT                  0.1
+44000       2000 2270005025 Dsl - Balers                               175   300   177  4667  DEFAULT                  0.0
+44000       2000 2270005030 Dsl - Agricultural Mowers                   75   100    76  4667  DEFAULT                  0.0
+44000       2000 2270005035 Dsl - Sprayers                              16    25  22.6  2500  DEFAULT                  0.1
+44000       2000 2270005035 Dsl - Sprayers                              25    40 32.06  2500  DEFAULT                  0.0
+44000       2000 2270005035 Dsl - Sprayers                              40    50 47.97  2500  DEFAULT                  0.0
+44000       2000 2270005035 Dsl - Sprayers                              50    75 63.66  4667  DEFAULT                  0.1
+44000       2000 2270005035 Dsl - Sprayers                              75   100 86.24  4667  DEFAULT                  0.4
+44000       2000 2270005035 Dsl - Sprayers                             100   175 128.4  4667  DEFAULT                  0.8
+44000       2000 2270005035 Dsl - Sprayers                             175   300 226.6  4667  DEFAULT                  0.9
+44000       2000 2270005035 Dsl - Sprayers                             300   600 358.5  7000  DEFAULT                  0.2
+44000       2000 2270005040 Dsl - Tillers > 6 HP                         3     6     6  2500  DEFAULT                  0.0
+44000       2000 2270005040 Dsl - Tillers > 6 HP                       175   300   245  4667  DEFAULT                  0.0
+44000       2000 2270005040 Dsl - Tillers > 6 HP                       300   600 424.5  7000  DEFAULT                  0.0
+44000       2000 2270005045 Dsl - Swathers                              50    75    70  4667  DEFAULT                  0.5
+44000       2000 2270005045 Dsl - Swathers                              75   100    85  4667  DEFAULT                  2.5
+44000       2000 2270005045 Dsl - Swathers                             100   175 131.3  4667  DEFAULT                  0.5
+44000       2000 2270005045 Dsl - Swathers                             175   300   200  4667  DEFAULT                  0.0
+44000       2000 2270005055 Dsl - Other Agricultural Equipment           6    11  10.5  2500  DEFAULT                  0.0
+44000       2000 2270005055 Dsl - Other Agricultural Equipment          11    16 14.38  2500  DEFAULT                  0.0
+44000       2000 2270005055 Dsl - Other Agricultural Equipment          16    25 20.87  2500  DEFAULT                  0.1
+44000       2000 2270005055 Dsl - Other Agricultural Equipment          25    40 32.08  2500  DEFAULT                  0.0
+44000       2000 2270005055 Dsl - Other Agricultural Equipment          40    50 45.02  2500  DEFAULT                  0.0
+44000       2000 2270005055 Dsl - Other Agricultural Equipment          50    75 62.64  4667  DEFAULT                  0.1
+44000       2000 2270005055 Dsl - Other Agricultural Equipment          75   100 84.95  4667  DEFAULT                  0.2
+44000       2000 2270005055 Dsl - Other Agricultural Equipment         100   175 135.5  4667  DEFAULT                  0.5
+44000       2000 2270005055 Dsl - Other Agricultural Equipment         175   300 230.4  4667  DEFAULT                  0.5
+44000       2000 2270005055 Dsl - Other Agricultural Equipment         300   600 375.1  7000  DEFAULT                  0.2
+44000       2000 2270005055 Dsl - Other Agricultural Equipment         750  1000   965  7000  DEFAULT                  0.0
+44000       2000 2270005060 Dsl - Irrigation Sets                        6    11     8  2500  DEFAULT                  0.0
+44000       2000 2270005060 Dsl - Irrigation Sets                       11    16  15.6  2500  DEFAULT                  0.0
+44000       2000 2270005060 Dsl - Irrigation Sets                       16    25 21.88  2500  DEFAULT                  0.0
+44000       2000 2270005060 Dsl - Irrigation Sets                       25    40    33  2500  DEFAULT                  0.1
+44000       2000 2270005060 Dsl - Irrigation Sets                       40    50 45.08  2500  DEFAULT                  0.0
+44000       2000 2270005060 Dsl - Irrigation Sets                       50    75 60.24  4667  DEFAULT                  0.1
+44000       2000 2270005060 Dsl - Irrigation Sets                       75   100 85.87  4667  DEFAULT                  0.6
+44000       2000 2270005060 Dsl - Irrigation Sets                      100   175 136.3  4667  DEFAULT                  0.3
+44000       2000 2270005060 Dsl - Irrigation Sets                      175   300 224.5  4667  DEFAULT                  0.1
+44000       2000 2270005060 Dsl - Irrigation Sets                      300   600   390  7000  DEFAULT                  0.0
+44000       2000 2270005060 Dsl - Irrigation Sets                      600   750 704.7  7000  DEFAULT                  0.0
+44000       2000 2270006005 Dsl - Generator Sets                         3     6  5.35  2500  DEFAULT                204.6
+44000       2000 2270006005 Dsl - Generator Sets                         6    11 8.418  2500  DEFAULT                204.3
+44000       2000 2270006005 Dsl - Generator Sets                        11    16 13.56  2500  DEFAULT                157.4
+44000       2000 2270006005 Dsl - Generator Sets                        16    25 21.29  2500  DEFAULT                247.9
+44000       2000 2270006005 Dsl - Generator Sets                        25    40 33.44  2500  DEFAULT                410.3
+44000       2000 2270006005 Dsl - Generator Sets                        40    50 45.19  2500  DEFAULT                 56.0
+44000       2000 2270006005 Dsl - Generator Sets                        50    75 59.96  4667  DEFAULT                206.8
+44000       2000 2270006005 Dsl - Generator Sets                        75   100 86.42  4667  DEFAULT                251.7
+44000       2000 2270006005 Dsl - Generator Sets                       100   175 135.7  4667  DEFAULT                 85.9
+44000       2000 2270006005 Dsl - Generator Sets                       175   300   238  4667  DEFAULT                 47.8
+44000       2000 2270006005 Dsl - Generator Sets                       300   600 419.3  7000  DEFAULT                 24.8
+44000       2000 2270006005 Dsl - Generator Sets                       600   750 682.1  7000  DEFAULT                  0.0
+44000       2000 2270006005 Dsl - Generator Sets                       750  1000 887.1  7000  DEFAULT                  0.0
+44000       2000 2270006005 Dsl - Generator Sets                      1000  1200  1112  7000  DEFAULT                  0.0
+44000       2000 2270006005 Dsl - Generator Sets                      1200  2000  1655  7000  DEFAULT                  0.0
+44000       2000 2270006005 Dsl - Generator Sets                      2000  3000  2401  7000  DEFAULT                  0.0
+44000       2000 2270006010 Dsl - Pumps                                  1     3     3  2500  DEFAULT                  0.1
+44000       2000 2270006010 Dsl - Pumps                                  3     6 5.225  2500  DEFAULT                 35.2
+44000       2000 2270006010 Dsl - Pumps                                  6    11 8.464  2500  DEFAULT                 84.7
+44000       2000 2270006010 Dsl - Pumps                                 11    16 13.73  2500  DEFAULT                 21.2
+44000       2000 2270006010 Dsl - Pumps                                 16    25 21.72  2500  DEFAULT                 16.9
+44000       2000 2270006010 Dsl - Pumps                                 25    40 34.32  2500  DEFAULT                 29.4
+44000       2000 2270006010 Dsl - Pumps                                 40    50 44.78  2500  DEFAULT                  8.3
+44000       2000 2270006010 Dsl - Pumps                                 50    75 62.38  4667  DEFAULT                 56.4
+44000       2000 2270006010 Dsl - Pumps                                 75   100 86.31  4667  DEFAULT                 62.8
+44000       2000 2270006010 Dsl - Pumps                                100   175 132.4  4667  DEFAULT                 27.7
+44000       2000 2270006010 Dsl - Pumps                                175   300 243.2  4667  DEFAULT                  6.9
+44000       2000 2270006010 Dsl - Pumps                                300   600 397.6  7000  DEFAULT                  3.5
+44000       2000 2270006010 Dsl - Pumps                                600   750 687.2  7000  DEFAULT                  0.0
+44000       2000 2270006010 Dsl - Pumps                                750  1000   860  7000  DEFAULT                  0.0
+44000       2000 2270006010 Dsl - Pumps                               1000  1200  1200  7000  DEFAULT                  0.0
+44000       2000 2270006010 Dsl - Pumps                               1200  2000  1633  7000  DEFAULT                  0.0
+44000       2000 2270006010 Dsl - Pumps                               2000  3000  2373  7000  DEFAULT                  0.0
+44000       2000 2270006015 Dsl - Air Compressors                        3     6 5.567  2500  DEFAULT                  1.2
+44000       2000 2270006015 Dsl - Air Compressors                        6    11  9.47  2500  DEFAULT                  2.9
+44000       2000 2270006015 Dsl - Air Compressors                       11    16 13.34  2500  DEFAULT                  0.4
+44000       2000 2270006015 Dsl - Air Compressors                       16    25 22.68  2500  DEFAULT                  0.6
+44000       2000 2270006015 Dsl - Air Compressors                       25    40  33.5  2500  DEFAULT                 22.5
+44000       2000 2270006015 Dsl - Air Compressors                       40    50 44.26  2500  DEFAULT                 15.6
+44000       2000 2270006015 Dsl - Air Compressors                       50    75 60.76  4667  DEFAULT                 99.8
+44000       2000 2270006015 Dsl - Air Compressors                       75   100 83.86  4667  DEFAULT                130.0
+44000       2000 2270006015 Dsl - Air Compressors                      100   175 129.2  4667  DEFAULT                 14.9
+44000       2000 2270006015 Dsl - Air Compressors                      175   300 243.3  4667  DEFAULT                 13.4
+44000       2000 2270006015 Dsl - Air Compressors                      300   600 427.4  7000  DEFAULT                  3.8
+44000       2000 2270006015 Dsl - Air Compressors                      600   750   700  7000  DEFAULT                  0.0
+44000       2000 2270006020 Dsl - Gas Compressors                       25    40    38  2500  DEFAULT                  0.0
+44000       2000 2270006020 Dsl - Gas Compressors                       40    50  40.1  2500  DEFAULT                  0.0
+44000       2000 2270006020 Dsl - Gas Compressors                       50    75 54.65  4667  DEFAULT                  0.0
+44000       2000 2270006020 Dsl - Gas Compressors                       75   100    90  4667  DEFAULT                  0.0
+44000       2000 2270006020 Dsl - Gas Compressors                      300   600 400.3  7000  DEFAULT                  0.0
+44000       2000 2270006025 Dsl - Welders                                6    11 8.843  2500  DEFAULT                 13.0
+44000       2000 2270006025 Dsl - Welders                               11    16 14.68  2500  DEFAULT                 72.0
+44000       2000 2270006025 Dsl - Welders                               16    25 21.29  2500  DEFAULT                104.9
+44000       2000 2270006025 Dsl - Welders                               25    40 32.98  2500  DEFAULT                 65.0
+44000       2000 2270006025 Dsl - Welders                               40    50 46.24  2500  DEFAULT                180.3
+44000       2000 2270006025 Dsl - Welders                               50    75 64.27  4667  DEFAULT                131.0
+44000       2000 2270006025 Dsl - Welders                               75   100  84.6  4667  DEFAULT                 57.5
+44000       2000 2270006025 Dsl - Welders                              100   175 151.8  4667  DEFAULT                  3.0
+44000       2000 2270006025 Dsl - Welders                              300   600   380  7000  DEFAULT                  0.1
+44000       2000 2270006025 Dsl - Welders                              750  1000   800  7000  DEFAULT                  0.0
+44000       2000 2270006030 Dsl - Pressure Washers                       3     6  5.18  2500  DEFAULT                  2.3
+44000       2000 2270006030 Dsl - Pressure Washers                       6    11 9.041  2500  DEFAULT                 19.4
+44000       2000 2270006030 Dsl - Pressure Washers                      11    16 13.97  2500  DEFAULT                 22.2
+44000       2000 2270006030 Dsl - Pressure Washers                      16    25 20.42  2500  DEFAULT                 27.8
+44000       2000 2270006030 Dsl - Pressure Washers                      25    40 31.23  2500  DEFAULT                 26.5
+44000       2000 2270006030 Dsl - Pressure Washers                      40    50 45.31  2500  DEFAULT                  3.3
+44000       2000 2270006030 Dsl - Pressure Washers                      50    75 61.34  4667  DEFAULT                 11.2
+44000       2000 2270006030 Dsl - Pressure Washers                      75   100 88.53  4667  DEFAULT                  3.1
+44000       2000 2270006030 Dsl - Pressure Washers                     100   175 128.3  4667  DEFAULT                 10.4
+44000       2000 2270006030 Dsl - Pressure Washers                     175   300 226.2  4667  DEFAULT                  8.4
+44000       2000 2270006030 Dsl - Pressure Washers                     300   600 415.5  7000  DEFAULT                  1.3
+44000       2000 2270006030 Dsl - Pressure Washers                     600   750 688.9  7000  DEFAULT                  0.6
+44000       2000 2270006035 Dsl - Hydro Power Units                      3     6   5.1  2500  DEFAULT                  0.3
+44000       2000 2270006035 Dsl - Hydro Power Units                      6    11 8.575  2500  DEFAULT                  0.7
+44000       2000 2270006035 Dsl - Hydro Power Units                     11    16 13.97  2500  DEFAULT                  0.2
+44000       2000 2270006035 Dsl - Hydro Power Units                     16    25 20.54  2500  DEFAULT                  2.0
+44000       2000 2270006035 Dsl - Hydro Power Units                     25    40 33.26  2500  DEFAULT                  2.9
+44000       2000 2270006035 Dsl - Hydro Power Units                     40    50 42.73  2500  DEFAULT                  0.9
+44000       2000 2270006035 Dsl - Hydro Power Units                     50    75 58.03  4667  DEFAULT                  4.4
+44000       2000 2270006035 Dsl - Hydro Power Units                     75   100 83.95  4667  DEFAULT                  5.1
+44000       2000 2270006035 Dsl - Hydro Power Units                    100   175 137.7  4667  DEFAULT                  1.4
+44000       2000 2270006035 Dsl - Hydro Power Units                    175   300 226.8  4667  DEFAULT                  0.2
+44000       2000 2270006035 Dsl - Hydro Power Units                    300   600   439  7000  DEFAULT                  0.0
+44000       2000 2270006035 Dsl - Hydro Power Units                    600   750   700  7000  DEFAULT                  0.0
+44000       2000 2270007010 Dsl - Shredders > 6 HP                      40    50        2500  DEFAULT                  0.0
+44000       2000 2270007015 Dsl - Forest Eqp - Feller/Bunch/Skidder     25    40 35.47  2500  DEFAULT                  0.0
+44000       2000 2270007015 Dsl - Forest Eqp - Feller/Bunch/Skidder     40    50 44.93  2500  DEFAULT                  0.0
+44000       2000 2270007015 Dsl - Forest Eqp - Feller/Bunch/Skidder     50    75 65.09  4667  DEFAULT                  0.0
+44000       2000 2270007015 Dsl - Forest Eqp - Feller/Bunch/Skidder     75   100 88.96  4667  DEFAULT                  0.6
+44000       2000 2270007015 Dsl - Forest Eqp - Feller/Bunch/Skidder    100   175   137  4667  DEFAULT                  3.8
+44000       2000 2270007015 Dsl - Forest Eqp - Feller/Bunch/Skidder    175   300 225.2  4667  DEFAULT                  5.5
+44000       2000 2270007015 Dsl - Forest Eqp - Feller/Bunch/Skidder    300   600 421.3  7000  DEFAULT                  0.5
+44000       2000 2270007015 Dsl - Forest Eqp - Feller/Bunch/Skidder    600   750 689.3  7000  DEFAULT                  0.2
+44000       2000 2270007015 Dsl - Forest Eqp - Feller/Bunch/Skidder   1000  1200  1050  7000  DEFAULT                  0.0
+44000       2000 2270008005 Dsl - Airport Support Equipment              6    11  7.65  2500  DEFAULT                  4.4
+44000       2000 2270008005 Dsl - Airport Support Equipment             11    16  15.5  2500  DEFAULT                  0.0
+44000       2000 2270008005 Dsl - Airport Support Equipment             16    25    25  2500  DEFAULT                  0.1
+44000       2000 2270008005 Dsl - Airport Support Equipment             25    40 32.46  2500  DEFAULT                  0.2
+44000       2000 2270008005 Dsl - Airport Support Equipment             40    50 42.82  2500  DEFAULT                  0.2
+44000       2000 2270008005 Dsl - Airport Support Equipment             50    75 61.23  4667  DEFAULT                  4.6
+44000       2000 2270008005 Dsl - Airport Support Equipment             75   100  85.4  4667  DEFAULT                  8.3
+44000       2000 2270008005 Dsl - Airport Support Equipment            100   175 135.6  4667  DEFAULT                 24.6
+44000       2000 2270008005 Dsl - Airport Support Equipment            175   300 228.8  4667  DEFAULT                  8.3
+44000       2000 2270008005 Dsl - Airport Support Equipment            300   600 443.4  7000  DEFAULT                  9.6
+44000       2000 2270008005 Dsl - Airport Support Equipment            600   750   667  7000  DEFAULT                  1.0
+44000       2000 2270008005 Dsl - Airport Support Equipment           1000  1200  1071  7000  DEFAULT                  0.1
+44000       2000 2270009010 Dsl - Other Underground Mining Equip        16    25 22.76  2500  DEFAULT                  0.0
+44000       2000 2270009010 Dsl - Other Underground Mining Equip        25    40 31.89  2500  DEFAULT                  0.0
+44000       2000 2270009010 Dsl - Other Underground Mining Equip        40    50 44.42  2500  DEFAULT                  0.0
+44000       2000 2270009010 Dsl - Other Underground Mining Equip        50    75    60  4667  DEFAULT                  0.0
+44000       2000 2270009010 Dsl - Other Underground Mining Equip        75   100 92.49  4667  DEFAULT                  0.0
+44000       2000 2270009010 Dsl - Other Underground Mining Equip       100   175   145  4667  DEFAULT                  0.0
+44000       2000 2270009010 Dsl - Other Underground Mining Equip       175   300 251.1  4667  DEFAULT                  0.0
+44000       2000 2270009010 Dsl - Other Underground Mining Equip       300   600 339.6  7000  DEFAULT                  0.0
+44000       2000 2270010010 Dsl - Other Oil Field Equipment              6    11     9  2500  DEFAULT                  0.0
+44000       2000 2270010010 Dsl - Other Oil Field Equipment             16    25  20.1  2500  DEFAULT                  0.0
+44000       2000 2270010010 Dsl - Other Oil Field Equipment             25    40 36.79  2500  DEFAULT                  0.0
+44000       2000 2270010010 Dsl - Other Oil Field Equipment             40    50 44.36  2500  DEFAULT                  0.0
+44000       2000 2270010010 Dsl - Other Oil Field Equipment             50    75 62.68  4667  DEFAULT                  0.1
+44000       2000 2270010010 Dsl - Other Oil Field Equipment             75   100 87.93  4667  DEFAULT                  0.0
+44000       2000 2270010010 Dsl - Other Oil Field Equipment            100   175 136.7  4667  DEFAULT                  0.1
+44000       2000 2270010010 Dsl - Other Oil Field Equipment            175   300 255.3  4667  DEFAULT                  0.1
+44000       2000 2270010010 Dsl - Other Oil Field Equipment            300   600 401.9  7000  DEFAULT                  0.1
+44000       2000 2270010010 Dsl - Other Oil Field Equipment            600   750 681.7  7000  DEFAULT                  0.0
+44000       2000 2270010010 Dsl - Other Oil Field Equipment            750  1000 887.3  7000  DEFAULT                  0.0
+44000       2000 2270010010 Dsl - Other Oil Field Equipment           1000  1200  1110  7000  DEFAULT                  0.0
+44000       2000 2270010010 Dsl - Other Oil Field Equipment           1200  2000  1492  7000  DEFAULT                  0.0
+44000       2000 2270010010 Dsl - Other Oil Field Equipment           2000  3000  2268  7000  DEFAULT                  0.0
+44000       1998 2282005010 2-Str Outboard                               1     3  2.08   194  DEFAULT                565.9
+44000       1998 2282005010 2-Str Outboard                               3     6  4.43   194  DEFAULT               2110.8
+44000       1998 2282005010 2-Str Outboard                               6    11  9.07   191  DEFAULT               3179.2
+44000       1998 2282005010 2-Str Outboard                              11    16 14.83   177  DEFAULT                706.8
+44000       1998 2282005010 2-Str Outboard                              16    25 22.76   162  DEFAULT               1392.2
+44000       1998 2282005010 2-Str Outboard                              25    40 32.01   148  DEFAULT               2689.2
+44000       1998 2282005010 2-Str Outboard                              40    50 45.58   140  DEFAULT               2068.7
+44000       1998 2282005010 2-Str Outboard                              50    75 63.58   126  DEFAULT               3459.7
+44000       1998 2282005010 2-Str Outboard                              75   100 85.05   126  DEFAULT               2350.2
+44000       1998 2282005010 2-Str Outboard                             100   175 127.8   108  DEFAULT               5257.6
+44000       1998 2282005010 2-Str Outboard                             175   300 212.3    97  DEFAULT               4719.5
+44000       1998 2282005015 2-Str Personal Water Craft                   1     3  2.01   160  DEFAULT                  2.2
+44000       1998 2282005015 2-Str Personal Water Craft                   3     6  4.96   160  DEFAULT                  2.2
+44000       1998 2282005015 2-Str Personal Water Craft                   6    11  9.12   160  DEFAULT                 20.7
+44000       1998 2282005015 2-Str Personal Water Craft                  16    25 25.00   160  DEFAULT                  0.0
+44000       1998 2282005015 2-Str Personal Water Craft                  25    40 29.59   160  DEFAULT                 22.0
+44000       1998 2282005015 2-Str Personal Water Craft                  40    50 46.59   160  DEFAULT                  8.9
+44000       1998 2282005015 2-Str Personal Water Craft                  50    75 61.51   160  DEFAULT                196.7
+44000       1998 2282005015 2-Str Personal Water Craft                  75   100 88.85   160  DEFAULT                727.5
+44000       1998 2282005015 2-Str Personal Water Craft                 100   175 130.0   160  DEFAULT               2695.1
+44000       1998 2282005015 2-Str Personal Water Craft                 175   300 212.7   160  DEFAULT                177.3
+44000       1998 2282010005 4-Str Inboard/Sterndrive                     3     6  5.00   197  DEFAULT                  2.5
+44000       1998 2282010005 4-Str Inboard/Sterndrive                     6    11 10.00   197  DEFAULT                  1.8
+44000       1998 2282010005 4-Str Inboard/Sterndrive                    11    16 15.00   197  DEFAULT                  1.0
+44000       1998 2282010005 4-Str Inboard/Sterndrive                    25    40 30.47   197  DEFAULT                  4.5
+44000       1998 2282010005 4-Str Inboard/Sterndrive                    50    75 59.55   197  DEFAULT                 39.7
+44000       1998 2282010005 4-Str Inboard/Sterndrive                    75   100         197  DEFAULT                  0.0
+44000       1998 2282010005 4-Str Inboard/Sterndrive                   100   175 149.7   197  DEFAULT                952.9
+44000       1998 2282010005 4-Str Inboard/Sterndrive                   175   300 211.1   197  DEFAULT               3536.8
+44000       1998 2282010005 4-Str Inboard/Sterndrive                   300   600 380.8   197  DEFAULT               1420.4
+44000       1998 2282010005 4-Str Inboard/Sterndrive                   600   750 650.0    50  DEFAULT                 24.0
+44000       2000 2282020005 Dsl - Inboard                                6    11 9.736  1400  DEFAULT                 29.2
+44000       2000 2282020005 Dsl - Inboard                               11    16 14.92  1400  DEFAULT                 14.3
+44000       2000 2282020005 Dsl - Inboard                               16    25 21.41  1400  DEFAULT                 31.7
+44000       2000 2282020005 Dsl - Inboard                               25    40  31.2  1400  DEFAULT                 17.3
+44000       2000 2282020005 Dsl - Inboard                               40    50  42.4  1400  DEFAULT                  3.2
+44000       2000 2282020005 Dsl - Inboard                               50    75 56.19  1400  DEFAULT                 28.1
+44000       2000 2282020005 Dsl - Inboard                               75   100 94.22  1400  DEFAULT                 23.6
+44000       2000 2282020005 Dsl - Inboard                              100   175 144.9  1400  DEFAULT                193.7
+44000       2000 2282020005 Dsl - Inboard                              175   300 223.1  1400  DEFAULT                318.6
+44000       2000 2282020005 Dsl - Inboard                              300   600 387.1  1400  DEFAULT                235.0
+44000       2000 2282020005 Dsl - Inboard                              600   750   677  1400  DEFAULT                  9.3
+44000       2000 2282020005 Dsl - Inboard                              750  1000 876.5  1400  DEFAULT                 17.6
+44000       2000 2282020005 Dsl - Inboard                             1000  1200  1154  1400  DEFAULT                  1.4
+44000       2000 2282020005 Dsl - Inboard                             1200  2000  1369  1400  DEFAULT                  5.0
+44000       2000 2282020005 Dsl - Inboard                             2000  3000  2294  1400  DEFAULT                  3.1
+44000       2000 2282020010 Dsl - Outboard                              25    40 32.25  1050  DEFAULT                 31.4
+44000       2000 2285002015 Dsl - Railway Maintenance                    3     6   4.2  2500  DEFAULT                  0.0
+44000       2000 2285002015 Dsl - Railway Maintenance                    6    11  8.32  2500  DEFAULT                  0.0
+44000       2000 2285002015 Dsl - Railway Maintenance                   11    16 14.13  2500  DEFAULT                  0.0
+44000       2000 2285002015 Dsl - Railway Maintenance                   16    25  17.5  2500  DEFAULT                  0.0
+44000       2000 2285002015 Dsl - Railway Maintenance                   25    40 33.34  2500  DEFAULT                  0.0
+44000       2000 2285002015 Dsl - Railway Maintenance                   40    50 44.12  2500  DEFAULT                  0.0
+44000       2000 2285002015 Dsl - Railway Maintenance                   50    75 59.61  4667  DEFAULT                  0.0
+44000       2000 2285002015 Dsl - Railway Maintenance                   75   100 87.84  4667  DEFAULT                  0.0
+44000       2000 2285002015 Dsl - Railway Maintenance                  100   175   134  4667  DEFAULT                  0.0
+44000       2000 2285002015 Dsl - Railway Maintenance                  175   300   234  4667  DEFAULT                  0.0
+44000       2000 2285002015 Dsl - Railway Maintenance                  300   600 453.2  7000  DEFAULT                  0.0
+44000       2000 2285002015 Dsl - Railway Maintenance                  600   750 689.2  7000  DEFAULT                  0.0
+44000       2000 2285002015 Dsl - Railway Maintenance                  750  1000   850  7000  DEFAULT                  0.0
+44000       2000 2285002015 Dsl - Railway Maintenance                 1000  1200  1200  7000  DEFAULT                  0.0
+44000       2000 2285002015 Dsl - Railway Maintenance                 1200  2000  1633  7000  DEFAULT                  0.0
+44000       1998 2285004015 4-Str Railway Maintenance                    1     3  3.00   200  DEFAULT                  0.0
+44000       1998 2285004015 4-Str Railway Maintenance                    3     6  3.52   200  DEFAULT                  0.0
+44000       1998 2285004015 4-Str Railway Maintenance                    6    11  6.59   400  DEFAULT                  0.0
+44000       1998 2285004015 4-Str Railway Maintenance                   11    16 12.07   400  DEFAULT                  0.0
+44000       1998 2285004015 4-Str Railway Maintenance                   16    25 18.19   750  DEFAULT                  0.0
+44000       1998 2285004015 4-Str Railway Maintenance                   25    40 33.15  1500  DEFAULT                  0.0
+44000       1998 2285004015 4-Str Railway Maintenance                  100   175 113.0  2852  DEFAULT                  0.0
+44000       1998 2285006015 LPG - Railway Maintenance                   25    40 33.15  1500  DEFAULT                  0.0
+44000       1998 2285006015 LPG - Railway Maintenance                  100   175 113.0  2852  DEFAULT                  0.0
+/END/

@@ -1,0 +1,130 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RELATIVE NUMBER OF COMMERCIAL SNOWBLOWERS
+Same as LSCAP allocation factors, with value set to 0 for counties with snowfall < 15"
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+SBC  20000      2002                3084     KS
+SBC  20001      2002                   0     Allen
+SBC  20003      2002                   7     Anderson
+SBC  20005      2002                  15     Atchison
+SBC  20007      2002                   0     Barber
+SBC  20009      2002                  24     Barton
+SBC  20011      2002                   0     Bourbon
+SBC  20013      2002                   9     Brown
+SBC  20015      2002                  53     Butler
+SBC  20017      2002                   0     Chase
+SBC  20019      2002                   0     Chautauqua
+SBC  20021      2002                   0     Cherokee
+SBC  20023      2002                   3     Cheyenne
+SBC  20025      2002                   0     Clark
+SBC  20027      2002                   8     Clay
+SBC  20029      2002                   9     Cloud
+SBC  20031      2002                   8     Coffey
+SBC  20033      2002                   0     Comanche
+SBC  20035      2002                   0     Cowley
+SBC  20037      2002                   0     Crawford
+SBC  20039      2002                   3     Decatur
+SBC  20041      2002                   3     Dickinson
+SBC  20043      2002                   0     Doniphan
+SBC  20045      2002                  88     Douglas
+SBC  20047      2002                   0     Edwards
+SBC  20049      2002                   0     Elk
+SBC  20051      2002                  27     Ellis
+SBC  20053      2002                   0     Ellsworth
+SBC  20055      2002                  35     Finney
+SBC  20057      2002                  15     Ford
+SBC  20059      2002                  22     Franklin
+SBC  20061      2002                  23     Geary
+SBC  20063      2002                   3     Gove
+SBC  20065      2002                   0     Graham
+SBC  20067      2002                   7     Grant
+SBC  20069      2002                   5     Gray
+SBC  20071      2002                   0     Greeley
+SBC  20073      2002                   0     Greenwood
+SBC  20075      2002                   2     Hamilton
+SBC  20077      2002                   0     Harper
+SBC  20079      2002                   9     Harvey
+SBC  20081      2002                   4     Haskell
+SBC  20083      2002                   0     Hodgeman
+SBC  20085      2002                  11     Jackson
+SBC  20087      2002                  16     Jefferson
+SBC  20089      2002                   0     Jewell
+SBC  20091      2002                1171     Johnson
+SBC  20093      2002                   0     Kearny
+SBC  20095      2002                   7     Kingman
+SBC  20097      2002                   0     Kiowa
+SBC  20099      2002                   0     Labette
+SBC  20101      2002                   2     Lane
+SBC  20103      2002                  43     Leavenworth
+SBC  20105      2002                   3     Lincoln
+SBC  20107      2002                   0     Linn
+SBC  20109      2002                   3     Logan
+SBC  20111      2002                   4     Lyon
+SBC  20113      2002                  26     McPherson
+SBC  20115      2002                  12     Marion
+SBC  20117      2002                   9     Marshall
+SBC  20119      2002                   0     Meade
+SBC  20121      2002                  43     Miami
+SBC  20123      2002                   6     Mitchell
+SBC  20125      2002                   0     Montgomery
+SBC  20127      2002                   0     Morris
+SBC  20129      2002                   0     Morton
+SBC  20131      2002                   9     Nemaha
+SBC  20133      2002                   0     Neosho
+SBC  20135      2002                   3     Ness
+SBC  20137      2002                   5     Norton
+SBC  20139      2002                  15     Osage
+SBC  20141      2002                   4     Osborne
+SBC  20143      2002                   5     Ottawa
+SBC  20145      2002                   6     Pawnee
+SBC  20147      2002                   5     Phillips
+SBC  20149      2002                   1     Pottawatomie
+SBC  20151      2002                   8     Pratt
+SBC  20153      2002                   3     Rawlins
+SBC  20155      2002                  57     Reno
+SBC  20157      2002                   5     Republic
+SBC  20159      2002                   9     Rice
+SBC  20161      2002                 172     Riley
+SBC  20163      2002                   0     Rooks
+SBC  20165      2002                   3     Rush
+SBC  20167      2002                   0     Russell
+SBC  20169      2002                  77     Saline
+SBC  20171      2002                   0     Scott
+SBC  20173      2002                 676     Sedgwick
+SBC  20175      2002                  20     Seward
+SBC  20177      2002                 104     Shawnee
+SBC  20179      2002                   2     Sheridan
+SBC  20181      2002                   4     Sherman
+SBC  20183      2002                   0     Smith
+SBC  20185      2002                   4     Stafford
+SBC  20187      2002                   0     Stanton
+SBC  20189      2002                   5     Stevens
+SBC  20191      2002                   0     Sumner
+SBC  20193      2002                  13     Thomas
+SBC  20195      2002                   0     Trego
+SBC  20197      2002                   6     Wabaunsee
+SBC  20199      2002                   0     Wallace
+SBC  20201      2002                   5     Washington
+SBC  20203      2002                   0     Wichita
+SBC  20205      2002                   0     Wilson
+SBC  20207      2002                   3     Woodson
+SBC  20209      2002                 117     Wyandotte
+/END/

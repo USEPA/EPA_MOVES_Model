@@ -1,0 +1,78 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RECREATIONAL VEHICLE PARKS AND CAMPGROUNDS
+CBP NAICS 72121/; pre-2002 CBP SIC 7030
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+RVP  38000      2002                  25     ND
+RVP  38001      2002                   0     Adams
+RVP  38003      2002                   0     Barnes
+RVP  38005      2002                   1     Benson
+RVP  38007      2002                   0     Billings
+RVP  38009      2002                   0     Bottineau
+RVP  38011      2002                   0     Bowman
+RVP  38013      2002                   0     Burke
+RVP  38015      2002                   1     Burleigh
+RVP  38017      2002                   0     Cass
+RVP  38019      2002                   0     Cavalier
+RVP  38021      2002                   2     Dickey
+RVP  38023      2002                   0     Divide
+RVP  38025      2002                   0     Dunn
+RVP  38027      2002                   0     Eddy
+RVP  38029      2002                   0     Emmons
+RVP  38031      2002                   0     Foster
+RVP  38033      2002                   0     Golden Valley
+RVP  38035      2002                   1     Grand Forks
+RVP  38037      2002                   1     Grant
+RVP  38039      2002                   0     Griggs
+RVP  38041      2002                   0     Hettinger
+RVP  38043      2002                   1     Kidder
+RVP  38045      2002                   0     LaMoure
+RVP  38047      2002                   0     Logan
+RVP  38049      2002                   0     McHenry
+RVP  38051      2002                   0     McIntosh
+RVP  38053      2002                   1     McKenzie
+RVP  38055      2002                   2     McLean
+RVP  38057      2002                   1     Mercer
+RVP  38059      2002                   0     Morton
+RVP  38061      2002                   1     Mountrail
+RVP  38063      2002                   0     Nelson
+RVP  38065      2002                   0     Oliver
+RVP  38067      2002                   0     Pembina
+RVP  38069      2002                   1     Pierce
+RVP  38071      2002                   0     Ramsey
+RVP  38073      2002                   0     Ransom
+RVP  38075      2002                   0     Renville
+RVP  38077      2002                   0     Richland
+RVP  38079      2002                   0     Rolette
+RVP  38081      2002                   0     Sargent
+RVP  38083      2002                   1     Sheridan
+RVP  38085      2002                   0     Sioux
+RVP  38087      2002                   0     Slope
+RVP  38089      2002                   3     Stark
+RVP  38091      2002                   0     Steele
+RVP  38093      2002                   3     Stutsman
+RVP  38095      2002                   0     Towner
+RVP  38097      2002                   1     Traill
+RVP  38099      2002                   0     Walsh
+RVP  38101      2002                   1     Ward
+RVP  38103      2002                   0     Wells
+RVP  38105      2002                   3     Williams
+/END/

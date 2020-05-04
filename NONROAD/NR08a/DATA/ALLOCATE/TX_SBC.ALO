@@ -1,0 +1,279 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RELATIVE NUMBER OF COMMERCIAL SNOWBLOWERS
+Same as LSCAP allocation factors, with value set to 0 for counties with snowfall < 15"
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+SBC  48000      2002                 113     TX
+SBC  48001      2002                   0     Anderson
+SBC  48003      2002                   0     Andrews
+SBC  48005      2002                   0     Angelina
+SBC  48007      2002                   0     Aransas
+SBC  48009      2002                   0     Archer
+SBC  48011      2002                   0     Armstrong
+SBC  48013      2002                   0     Atascosa
+SBC  48015      2002                   0     Austin
+SBC  48017      2002                   0     Bailey
+SBC  48019      2002                   0     Bandera
+SBC  48021      2002                   0     Bastrop
+SBC  48023      2002                   0     Baylor
+SBC  48025      2002                   0     Bee
+SBC  48027      2002                   0     Bell
+SBC  48029      2002                   0     Bexar
+SBC  48031      2002                   0     Blanco
+SBC  48033      2002                   0     Borden
+SBC  48035      2002                   0     Bosque
+SBC  48037      2002                   0     Bowie
+SBC  48039      2002                   0     Brazoria
+SBC  48041      2002                   0     Brazos
+SBC  48043      2002                   0     Brewster
+SBC  48045      2002                   0     Briscoe
+SBC  48047      2002                   0     Brooks
+SBC  48049      2002                   0     Brown
+SBC  48051      2002                   0     Burleson
+SBC  48053      2002                   0     Burnet
+SBC  48055      2002                   0     Caldwell
+SBC  48057      2002                   0     Calhoun
+SBC  48059      2002                   0     Callahan
+SBC  48061      2002                   0     Cameron
+SBC  48063      2002                   0     Camp
+SBC  48065      2002                   0     Carson
+SBC  48067      2002                   0     Cass
+SBC  48069      2002                   0     Castro
+SBC  48071      2002                   0     Chambers
+SBC  48073      2002                   0     Cherokee
+SBC  48075      2002                   0     Childress
+SBC  48077      2002                   0     Clay
+SBC  48079      2002                   0     Cochran
+SBC  48081      2002                   0     Coke
+SBC  48083      2002                   0     Coleman
+SBC  48085      2002                   0     Collin
+SBC  48087      2002                   0     Collingsworth
+SBC  48089      2002                   0     Colorado
+SBC  48091      2002                   0     Comal
+SBC  48093      2002                   0     Comanche
+SBC  48095      2002                   0     Concho
+SBC  48097      2002                   0     Cooke
+SBC  48099      2002                   0     Coryell
+SBC  48101      2002                   0     Cottle
+SBC  48103      2002                   0     Crane
+SBC  48105      2002                   0     Crockett
+SBC  48107      2002                   0     Crosby
+SBC  48109      2002                   0     Culberson
+SBC  48111      2002                   0     Dallam
+SBC  48113      2002                   0     Dallas
+SBC  48115      2002                   0     Dawson
+SBC  48117      2002                   0     Deaf Smith
+SBC  48119      2002                   0     Delta
+SBC  48121      2002                   0     Denton
+SBC  48123      2002                   0     DeWitt
+SBC  48125      2002                   0     Dickens
+SBC  48127      2002                   0     Dimmit
+SBC  48129      2002                   0     Donley
+SBC  48131      2002                   0     Duval
+SBC  48133      2002                   0     Eastland
+SBC  48135      2002                   0     Ector
+SBC  48137      2002                   0     Edwards
+SBC  48139      2002                   0     Ellis
+SBC  48141      2002                   0     El Paso
+SBC  48143      2002                   0     Erath
+SBC  48145      2002                   0     Falls
+SBC  48147      2002                   0     Fannin
+SBC  48149      2002                   0     Fayette
+SBC  48151      2002                   0     Fisher
+SBC  48153      2002                   0     Floyd
+SBC  48155      2002                   0     Foard
+SBC  48157      2002                   0     Fort Bend
+SBC  48159      2002                   0     Franklin
+SBC  48161      2002                   0     Freestone
+SBC  48163      2002                   0     Frio
+SBC  48165      2002                   0     Gaines
+SBC  48167      2002                   0     Galveston
+SBC  48169      2002                   0     Garza
+SBC  48171      2002                   0     Gillespie
+SBC  48173      2002                   0     Glasscock
+SBC  48175      2002                   0     Goliad
+SBC  48177      2002                   0     Gonzales
+SBC  48179      2002                  40     Gray
+SBC  48181      2002                   0     Grayson
+SBC  48183      2002                   0     Gregg
+SBC  48185      2002                   0     Grimes
+SBC  48187      2002                   0     Guadalupe
+SBC  48189      2002                   0     Hale
+SBC  48191      2002                   0     Hall
+SBC  48193      2002                   0     Hamilton
+SBC  48195      2002                   2     Hansford
+SBC  48197      2002                   0     Hardeman
+SBC  48199      2002                   0     Hardin
+SBC  48201      2002                   0     Harris
+SBC  48203      2002                   0     Harrison
+SBC  48205      2002                   2     Hartley
+SBC  48207      2002                   0     Haskell
+SBC  48209      2002                   0     Hays
+SBC  48211      2002                   1     Hemphill
+SBC  48213      2002                   0     Henderson
+SBC  48215      2002                   0     Hidalgo
+SBC  48217      2002                   0     Hill
+SBC  48219      2002                   0     Hockley
+SBC  48221      2002                   0     Hood
+SBC  48223      2002                   0     Hopkins
+SBC  48225      2002                   0     Houston
+SBC  48227      2002                   0     Howard
+SBC  48229      2002                   0     Hudspeth
+SBC  48231      2002                   0     Hunt
+SBC  48233      2002                   8     Hutchinson
+SBC  48235      2002                   0     Irion
+SBC  48237      2002                   0     Jack
+SBC  48239      2002                   0     Jackson
+SBC  48241      2002                   0     Jasper
+SBC  48243      2002                   1     Jeff Davis
+SBC  48245      2002                   0     Jefferson
+SBC  48247      2002                   0     Jim Hogg
+SBC  48249      2002                   0     Jim Wells
+SBC  48251      2002                   0     Johnson
+SBC  48253      2002                   0     Jones
+SBC  48255      2002                   0     Karnes
+SBC  48257      2002                   0     Kaufman
+SBC  48259      2002                   0     Kendall
+SBC  48261      2002                   0     Kenedy
+SBC  48263      2002                   0     Kent
+SBC  48265      2002                   0     Kerr
+SBC  48267      2002                   0     Kimble
+SBC  48269      2002                   0     King
+SBC  48271      2002                   0     Kinney
+SBC  48273      2002                   0     Kleberg
+SBC  48275      2002                   0     Knox
+SBC  48277      2002                   0     Lamar
+SBC  48279      2002                   0     Lamb
+SBC  48281      2002                   0     Lampasas
+SBC  48283      2002                   0     La Salle
+SBC  48285      2002                   0     Lavaca
+SBC  48287      2002                   0     Lee
+SBC  48289      2002                   0     Leon
+SBC  48291      2002                   0     Liberty
+SBC  48293      2002                   0     Limestone
+SBC  48295      2002                   0     Lipscomb
+SBC  48297      2002                   0     Live Oak
+SBC  48299      2002                   0     Llano
+SBC  48301      2002                   0     Loving
+SBC  48303      2002                   0     Lubbock
+SBC  48305      2002                   0     Lynn
+SBC  48307      2002                   0     McCulloch
+SBC  48309      2002                   0     McLennan
+SBC  48311      2002                   0     McMullen
+SBC  48313      2002                   0     Madison
+SBC  48315      2002                   0     Marion
+SBC  48317      2002                   0     Martin
+SBC  48319      2002                   0     Mason
+SBC  48321      2002                   0     Matagorda
+SBC  48323      2002                   0     Maverick
+SBC  48325      2002                   0     Medina
+SBC  48327      2002                   0     Menard
+SBC  48329      2002                   0     Midland
+SBC  48331      2002                   0     Milam
+SBC  48333      2002                   0     Mills
+SBC  48335      2002                   0     Mitchell
+SBC  48337      2002                   0     Montague
+SBC  48339      2002                   0     Montgomery
+SBC  48341      2002                   7     Moore
+SBC  48343      2002                   0     Morris
+SBC  48345      2002                   0     Motley
+SBC  48347      2002                   0     Nacogdoches
+SBC  48349      2002                   0     Navarro
+SBC  48351      2002                   0     Newton
+SBC  48353      2002                   0     Nolan
+SBC  48355      2002                   0     Nueces
+SBC  48357      2002                   0     Ochiltree
+SBC  48359      2002                   0     Oldham
+SBC  48361      2002                   0     Orange
+SBC  48363      2002                   0     Palo Pinto
+SBC  48365      2002                   0     Panola
+SBC  48367      2002                   0     Parker
+SBC  48369      2002                   0     Parmer
+SBC  48371      2002                   0     Pecos
+SBC  48373      2002                   0     Polk
+SBC  48375      2002                  51     Potter
+SBC  48377      2002                   0     Presidio
+SBC  48379      2002                   0     Rains
+SBC  48381      2002                   0     Randall
+SBC  48383      2002                   0     Reagan
+SBC  48385      2002                   0     Real
+SBC  48387      2002                   0     Red River
+SBC  48389      2002                   0     Reeves
+SBC  48391      2002                   0     Refugio
+SBC  48393      2002                   0     Roberts
+SBC  48395      2002                   0     Robertson
+SBC  48397      2002                   0     Rockwall
+SBC  48399      2002                   0     Runnels
+SBC  48401      2002                   0     Rusk
+SBC  48403      2002                   0     Sabine
+SBC  48405      2002                   0     San Augustine
+SBC  48407      2002                   0     San Jacinto
+SBC  48409      2002                   0     San Patricio
+SBC  48411      2002                   0     San Saba
+SBC  48413      2002                   0     Schleicher
+SBC  48415      2002                   0     Scurry
+SBC  48417      2002                   0     Shackelford
+SBC  48419      2002                   0     Shelby
+SBC  48421      2002                   1     Sherman
+SBC  48423      2002                   0     Smith
+SBC  48425      2002                   0     Somervell
+SBC  48427      2002                   0     Starr
+SBC  48429      2002                   0     Stephens
+SBC  48431      2002                   0     Sterling
+SBC  48433      2002                   0     Stonewall
+SBC  48435      2002                   0     Sutton
+SBC  48437      2002                   0     Swisher
+SBC  48439      2002                   0     Tarrant
+SBC  48441      2002                   0     Taylor
+SBC  48443      2002                   0     Terrell
+SBC  48445      2002                   0     Terry
+SBC  48447      2002                   0     Throckmorton
+SBC  48449      2002                   0     Titus
+SBC  48451      2002                   0     Tom Green
+SBC  48453      2002                   0     Travis
+SBC  48455      2002                   0     Trinity
+SBC  48457      2002                   0     Tyler
+SBC  48459      2002                   0     Upshur
+SBC  48461      2002                   0     Upton
+SBC  48463      2002                   0     Uvalde
+SBC  48465      2002                   0     Val Verde
+SBC  48467      2002                   0     Van Zandt
+SBC  48469      2002                   0     Victoria
+SBC  48471      2002                   0     Walker
+SBC  48473      2002                   0     Waller
+SBC  48475      2002                   0     Ward
+SBC  48477      2002                   0     Washington
+SBC  48479      2002                   0     Webb
+SBC  48481      2002                   0     Wharton
+SBC  48483      2002                   0     Wheeler
+SBC  48485      2002                   0     Wichita
+SBC  48487      2002                   0     Wilbarger
+SBC  48489      2002                   0     Willacy
+SBC  48491      2002                   0     Williamson
+SBC  48493      2002                   0     Wilson
+SBC  48495      2002                   0     Winkler
+SBC  48497      2002                   0     Wise
+SBC  48499      2002                   0     Wood
+SBC  48501      2002                   0     Yoakum
+SBC  48503      2002                   0     Young
+SBC  48505      2002                   0     Zapata
+SBC  48507      2002                   0     Zavala
+/END/

@@ -1,0 +1,89 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2002 Timber Product Output (cu ft)
+from US Forest Service TPO database. http://www.fia.fs.fed.us/program-features/tpo/
+
+10/19/05 epa: use TPO data instead of CBP employee data.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+LOG  36000      2002           303998463     NY
+LOG  36001      2002              813747     Albany
+LOG  36003      2002             8182878     Allegany
+LOG  36005      2002                   0     Bronx
+LOG  36007      2002             6114625     Broome
+LOG  36009      2002            14723731     Cattaraugus
+LOG  36011      2002             4214663     Cayuga
+LOG  36013      2002            12476932     Chautauqua
+LOG  36015      2002             2623042     Chemung
+LOG  36017      2002            10566359     Chenango
+LOG  36019      2002             5380050     Clinton
+LOG  36021      2002             3310923     Columbia
+LOG  36023      2002             8489597     Cortland
+LOG  36025      2002            14828766     Delaware
+LOG  36027      2002             2105017     Dutchess
+LOG  36029      2002             2783228     Erie
+LOG  36031      2002            15219742     Essex
+LOG  36033      2002            13238746     Franklin
+LOG  36035      2002             4219826     Fulton
+LOG  36037      2002              731981     Genesee
+LOG  36039      2002             3176591     Greene
+LOG  36041      2002            12430776     Hamilton
+LOG  36043      2002             4102043     Herkimer
+LOG  36045      2002             3583226     Jefferson
+LOG  36047      2002                   0     Kings
+LOG  36049      2002            10858917     Lewis
+LOG  36051      2002             1261319     Livingston
+LOG  36053      2002             5825728     Madison
+LOG  36055      2002             1544673     Monroe
+LOG  36057      2002             1214457     Montgomery
+LOG  36059      2002               11163     Nassau
+LOG  36061      2002                   0     New York
+LOG  36063      2002               36442     Niagara
+LOG  36065      2002            10804074     Oneida
+LOG  36067      2002             1254067     Onondaga
+LOG  36069      2002             2306884     Ontario
+LOG  36071      2002             1425860     Orange
+LOG  36073      2002              483971     Orleans
+LOG  36075      2002             9255824     Oswego
+LOG  36077      2002            10732977     Otsego
+LOG  36079      2002              414275     Putnam
+LOG  36081      2002                   0     Queens
+LOG  36083      2002             3954461     Rensselaer
+LOG  36085      2002               97799     Richmond
+LOG  36087      2002              227204     Rockland
+LOG  36089      2002            15829322     St. Lawrence
+LOG  36091      2002             9034365     Saratoga
+LOG  36093      2002              209293     Schenectady
+LOG  36095      2002             2622951     Schoharie
+LOG  36097      2002             1955466     Schuyler
+LOG  36099      2002              483075     Seneca
+LOG  36101      2002             5859686     Steuben
+LOG  36103      2002              502116     Suffolk
+LOG  36105      2002             5928111     Sullivan
+LOG  36107      2002             7361921     Tioga
+LOG  36109      2002             4625656     Tompkins
+LOG  36111      2002             4352800     Ulster
+LOG  36113      2002            16028332     Warren
+LOG  36115      2002             6086057     Washington
+LOG  36117      2002             1843327     Wayne
+LOG  36119      2002              478397     Westchester
+LOG  36121      2002             5319532     Wyoming
+LOG  36123      2002              451472     Yates
+/END/

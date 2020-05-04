@@ -1,0 +1,127 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RELATIVE NUMBER OF SNOWMOBILES
+Allocated to counties using snowfall limit of 40" and inverse human population; Alaska uses direct human population
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+SNM  17000      2002                 232     IL
+SNM  17001      2002                   0     Adams
+SNM  17003      2002                   0     Alexander
+SNM  17005      2002                   0     Bond
+SNM  17007      2002                  22     Boone
+SNM  17009      2002                   0     Brown
+SNM  17011      2002                   0     Bureau
+SNM  17013      2002                   0     Calhoun
+SNM  17015      2002                  61     Carroll
+SNM  17017      2002                   0     Cass
+SNM  17019      2002                   0     Champaign
+SNM  17021      2002                   0     Christian
+SNM  17023      2002                   0     Clark
+SNM  17025      2002                   0     Clay
+SNM  17027      2002                   0     Clinton
+SNM  17029      2002                   0     Coles
+SNM  17031      2002                   0     Cook
+SNM  17033      2002                   0     Crawford
+SNM  17035      2002                   0     Cumberland
+SNM  17037      2002                  11     DeKalb
+SNM  17039      2002                   0     De Witt
+SNM  17041      2002                   0     Douglas
+SNM  17043      2002                   0     DuPage
+SNM  17045      2002                   0     Edgar
+SNM  17047      2002                   0     Edwards
+SNM  17049      2002                   0     Effingham
+SNM  17051      2002                   0     Fayette
+SNM  17053      2002                   0     Ford
+SNM  17055      2002                   0     Franklin
+SNM  17057      2002                   0     Fulton
+SNM  17059      2002                   0     Gallatin
+SNM  17061      2002                   0     Greene
+SNM  17063      2002                   0     Grundy
+SNM  17065      2002                   0     Hamilton
+SNM  17067      2002                   0     Hancock
+SNM  17069      2002                   0     Hardin
+SNM  17071      2002                   0     Henderson
+SNM  17073      2002                   0     Henry
+SNM  17075      2002                   0     Iroquois
+SNM  17077      2002                   0     Jackson
+SNM  17079      2002                   0     Jasper
+SNM  17081      2002                   0     Jefferson
+SNM  17083      2002                   0     Jersey
+SNM  17085      2002                  45     Jo Daviess
+SNM  17087      2002                   0     Johnson
+SNM  17089      2002                   0     Kane
+SNM  17091      2002                   9     Kankakee
+SNM  17093      2002                  16     Kendall
+SNM  17095      2002                   0     Knox
+SNM  17097      2002                   0     Lake
+SNM  17099      2002                   0     La Salle
+SNM  17101      2002                   0     Lawrence
+SNM  17103      2002                  28     Lee
+SNM  17105      2002                   0     Livingston
+SNM  17107      2002                   0     Logan
+SNM  17109      2002                   0     McDonough
+SNM  17111      2002                   0     McHenry
+SNM  17113      2002                   0     McLean
+SNM  17115      2002                   0     Macon
+SNM  17117      2002                   0     Macoupin
+SNM  17119      2002                   0     Madison
+SNM  17121      2002                   0     Marion
+SNM  17123      2002                   0     Marshall
+SNM  17125      2002                   0     Mason
+SNM  17127      2002                   0     Massac
+SNM  17129      2002                   0     Menard
+SNM  17131      2002                   0     Mercer
+SNM  17133      2002                   0     Monroe
+SNM  17135      2002                   0     Montgomery
+SNM  17137      2002                   0     Morgan
+SNM  17139      2002                   0     Moultrie
+SNM  17141      2002                  19     Ogle
+SNM  17143      2002                   0     Peoria
+SNM  17145      2002                   0     Perry
+SNM  17147      2002                   0     Piatt
+SNM  17149      2002                   0     Pike
+SNM  17151      2002                   0     Pope
+SNM  17153      2002                   0     Pulaski
+SNM  17155      2002                   0     Putnam
+SNM  17157      2002                   0     Randolph
+SNM  17159      2002                   0     Richland
+SNM  17161      2002                   0     Rock Island
+SNM  17163      2002                   0     St. Clair
+SNM  17165      2002                   0     Saline
+SNM  17167      2002                   0     Sangamon
+SNM  17169      2002                   0     Schuyler
+SNM  17171      2002                   0     Scott
+SNM  17173      2002                   0     Shelby
+SNM  17175      2002                   0     Stark
+SNM  17177      2002                  21     Stephenson
+SNM  17179      2002                   0     Tazewell
+SNM  17181      2002                   0     Union
+SNM  17183      2002                   0     Vermilion
+SNM  17185      2002                   0     Wabash
+SNM  17187      2002                   0     Warren
+SNM  17189      2002                   0     Washington
+SNM  17191      2002                   0     Wayne
+SNM  17193      2002                   0     White
+SNM  17195      2002                   0     Whiteside
+SNM  17197      2002                   0     Will
+SNM  17199      2002                   0     Williamson
+SNM  17201      2002                   0     Winnebago
+SNM  17203      2002                   0     Woodford
+/END/

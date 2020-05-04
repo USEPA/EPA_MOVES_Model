@@ -1,0 +1,225 @@
+This file contains emission factors (EFs) for Hot Soak THC emissions.
+The EFs are specified by SCC code, HP range and Technology type.
+An ALL in the tech type field applies to all Hot Soak technology types.
+The model will use the EF for the closest year that is less than or
+equal to the current model year.
+
+11/14/05 6b: EPA: Make 4-stk rec equip match 2-stk 0-9999 hp range.  Add 0-25 non-rec 226x001050/60.
+
+--------------------------------------------------------------
+The format is as follows:
+Line 1:
+6-15  character     -- SCC Code
+21-25  real          -- beginning of HP range
+26-30  real          -- end of horsepower range
+35-44  character     -- technology type
+x5-x4  character     -- technology type (repeating fields of 10)
+x5-x4  character     -- units (10 characters max) g/start (meaning grams per full hotsoak event)
+x5-x4  character     -- pollutant (12 characters max)
+Line 2:
+1-5   integer       -- year
+35-44  real          -- emission factors for technology type 1
+x5-x4  real          -- EF's for tech types (repeating fields of 10)
+
+     2200000000      HPmn HPmx    techtyp1  techtyp2  techtyp3  techtyp4  techtyp5  techtyp6  techtyp7  techtyp8  techtyp9  techtyp10 g/start THC
+1900                              999.99    999.99    999.99    999.99    999.99    999.99    999.99    999.99    999.99    999.99
+--------------------------------------------------------------
+
+/EMSFAC/
+     2260000000        25 9999    E0        E1        g/start   THC
+1900                              4.34      0.43
+     2260001000         0 9999    ALL       g/start   THC
+1900                              3.00
+     2260001050         0   25    ALL       g/start   THC
+1900                              3.00
+     2260001060         0   25    ALL       g/start   THC
+1900                              3.00
+     2260001060        25 9999    E0        E1        g/start   THC
+1900                              3.00      0.30
+     2260002000         0   25    ALL       g/start   THC
+1900                              10.50
+     2260002027         0   25    ALL       g/start   THC
+1900                              3.24
+     2260002033         0   25    ALL       g/start   THC
+1900                              3.24
+     2260003000         0   25    ALL       g/start   THC
+1900                              10.50
+     2260004010         0   25    ALL       g/start   THC
+1900                              0.85
+     2260004011         0   25    ALL       g/start   THC
+1900                              0.85
+     2260004015         0   25    ALL       g/start   THC
+1900                              0.57
+     2260004016         0   25    ALL       g/start   THC
+1900                              0.57
+     2260004020         0   25    ALL       g/start   THC
+1900                              0.27
+     2260004021         0   25    ALL       g/start   THC
+1900                              0.27
+     2260004025         0   25    ALL       g/start   THC
+1900                              0.29
+     2260004026         0   25    ALL       g/start   THC
+1900                              0.29
+     2260004030         0   25    ALL       g/start   THC
+1900                              0.15
+     2260004031         0   25    ALL       g/start   THC
+1900                              0.15
+     2260004035         0   25    ALL       g/start   THC
+1900                              0.85
+     2260004036         0   25    ALL       g/start   THC
+1900                              0.85
+     2260004040         0   25    ALL       g/start   THC
+1900                              1.52
+     2260004041         0   25    ALL       g/start   THC
+1900                              1.52
+     2260004045         0   25    ALL       g/start   THC
+1900                              1.52
+     2260004046         0   25    ALL       g/start   THC
+1900                              1.52
+     2260004050         0   25    ALL       g/start   THC
+1900                              0.27
+     2260004051         0   25    ALL       g/start   THC
+1900                              0.27
+     2260004055         0   25    ALL       g/start   THC
+1900                              1.52
+     2260004056         0   25    ALL       g/start   THC
+1900                              1.52
+     2260004065         0   25    ALL       g/start   THC
+1900                              0.85
+     2260004066         0   25    ALL       g/start   THC
+1900                              0.85
+     2260004071         0   25    ALL       g/start   THC
+1900                              1.52
+     2260004075         0   25    ALL       g/start   THC
+1900                              0.85
+     2260004076         0   25    ALL       g/start   THC
+1900                              0.85
+     2260005000         0   25    ALL       g/start   THC
+1900                              3.00
+     2260005020         0   25    ALL       g/start   THC
+1900                              10.50
+     2260005025         0   25    ALL       g/start   THC
+1900                              10.50
+     2260005045         0   25    ALL       g/start   THC
+1900                              10.50
+     2260006000         0   25    ALL       g/start   THC
+1900                              3.24
+     2260007000         0   25    ALL       g/start   THC
+1900                              0.27
+     2260007015         0   25    ALL       g/start   THC
+1900                              10.50
+     2260008005         0   25    ALL       g/start   THC
+1900                              10.50
+     2260009010         0   25    ALL       g/start   THC
+1900                              3.24
+     2260010010         0   25    ALL       g/start   THC
+1900                              3.24
+     2265000000        25 9999    E0        E1        g/start   THC
+1900                              4.34      0.43
+     2265001000         0 9999    ALL       g/start   THC
+1900                              3.00
+     2265001050         0   25    ALL       g/start   THC
+1900                              3.00
+     2265001060         0   25    ALL       g/start   THC
+1900                              3.00
+     2265001060        25 9999    E0        E1        g/start   THC
+1900                              3.00      0.30
+     2265002000         0   25    ALL       g/start   THC
+1900                              10.50
+     2265002027         0   25    ALL       g/start   THC
+1900                              3.24
+     2265002033         0   25    ALL       g/start   THC
+1900                              3.24
+     2265003000         0   25    ALL       g/start   THC
+1900                              10.50
+     2265004010         0   25    ALL       g/start   THC
+1900                              0.85
+     2265004011         0   25    ALL       g/start   THC
+1900                              0.85
+     2265004015         0   25    ALL       g/start   THC
+1900                              0.57
+     2265004016         0   25    ALL       g/start   THC
+1900                              0.57
+     2265004020         0   25    ALL       g/start   THC
+1900                              0.27
+     2265004021         0   25    ALL       g/start   THC
+1900                              0.27
+     2265004025         0   25    ALL       g/start   THC
+1900                              0.29
+     2265004026         0   25    ALL       g/start   THC
+1900                              0.29
+     2265004030         0   25    ALL       g/start   THC
+1900                              0.15
+     2265004031         0   25    ALL       g/start   THC
+1900                              0.15
+     2265004035         0   25    ALL       g/start   THC
+1900                              0.85
+     2265004036         0   25    ALL       g/start   THC
+1900                              0.85
+     2265004040         0   25    ALL       g/start   THC
+1900                              1.52
+     2265004041         0   25    ALL       g/start   THC
+1900                              1.52
+     2265004045         0   25    ALL       g/start   THC
+1900                              1.52
+     2265004046         0   25    ALL       g/start   THC
+1900                              1.52
+     2265004050         0   25    ALL       g/start   THC
+1900                              0.27
+     2265004051         0   25    ALL       g/start   THC
+1900                              0.27
+     2265004055         0   25    ALL       g/start   THC
+1900                              1.52
+     2265004056         0   25    ALL       g/start   THC
+1900                              1.52
+     2265004065         0   25    ALL       g/start   THC
+1900                              0.85
+     2265004066         0   25    ALL       g/start   THC
+1900                              0.85
+     2265004071         0   25    ALL       g/start   THC
+1900                              1.52
+     2265004075         0   25    ALL       g/start   THC
+1900                              0.85
+     2265004076         0   25    ALL       g/start   THC
+1900                              0.85
+     2265005000         0   25    ALL       g/start   THC
+1900                              3.00
+     2265005020         0   25    ALL       g/start   THC
+1900                              10.50
+     2265005025         0   25    ALL       g/start   THC
+1900                              10.50
+     2265005045         0   25    ALL       g/start   THC
+1900                              10.50
+     2265006000         0   25    ALL       g/start   THC
+1900                              3.24
+     2265007000         0   25    ALL       g/start   THC
+1900                              0.27
+     2265007015         0   25    ALL       g/start   THC
+1900                              10.50
+     2265008005         0   25    ALL       g/start   THC
+1900                              10.50
+     2265009010         0   25    ALL       g/start   THC
+1900                              3.24
+     2265010010         0   25    ALL       g/start   THC
+1900                              3.24
+     2267000000         0 9999    ALL       g/start   THC
+1900                              0.00
+     2268000000         0 9999    ALL       g/start   THC
+1900                              0.00
+     2270000000         0 9999    ALL       g/start   THC
+1900                              0.00
+     2282005000         0 9999    ALL       g/start   THC
+1900                              3.00
+     2282005010         0   25    ALL       g/start   THC
+1900                              0.00
+     2282010000         0 9999    ALL       g/start   THC
+1900                              3.00
+     2282020000         0 9999    ALL       g/start   THC
+1900                              0.00
+     2285004015         0   25    ALL       g/start   THC
+1900                              3.00
+     2285004015        25 9999    E0        E1        g/start   THC
+1900                              4.34      0.43
+     2285006015         0 9999    ALL       g/start   THC
+1900                              0.00
+/END/

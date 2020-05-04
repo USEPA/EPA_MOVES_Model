@@ -1,0 +1,71 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2003 DOLLAR VALUE of CONSTRUCTION
+adjusted for relative geographic cost of construction materials.
+   Const_Dollars * (1-(1/(1+100/Area_Mod_Factor)))
+from McGraw-Hill Construction (values) and Craftsman (cost adj)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+CON  16000      2003             3024820     ID
+CON  16001      2003             1100707     Ada
+CON  16003      2003               15407     Adams
+CON  16005      2003               80069     Bannock
+CON  16007      2003               10923     Bear Lake
+CON  16009      2003               16998     Benewah
+CON  16011      2003               40476     Bingham
+CON  16013      2003              158426     Blaine
+CON  16015      2003               13531     Boise
+CON  16017      2003               20449     Bonner
+CON  16019      2003              102623     Bonneville
+CON  16021      2003               30785     Boundary
+CON  16023      2003                2567     Butte
+CON  16025      2003                2277     Camas
+CON  16027      2003              412635     Canyon
+CON  16029      2003                2391     Caribou
+CON  16031      2003               15220     Cassia
+CON  16033      2003                 630     Clark
+CON  16035      2003                6506     Clearwater
+CON  16037      2003               10893     Custer
+CON  16039      2003               65365     Elmore
+CON  16041      2003                8535     Franklin
+CON  16043      2003               24205     Fremont
+CON  16045      2003               17621     Gem
+CON  16047      2003                7353     Gooding
+CON  16049      2003               14941     Idaho
+CON  16051      2003               42927     Jefferson
+CON  16053      2003               12069     Jerome
+CON  16055      2003              337442     Kootenai
+CON  16057      2003               60958     Latah
+CON  16059      2003               10333     Lemhi
+CON  16061      2003                 598     Lewis
+CON  16063      2003                5223     Lincoln
+CON  16065      2003               58793     Madison
+CON  16067      2003                5718     Minidoka
+CON  16069      2003               69038     Nez Perce
+CON  16071      2003               11866     Oneida
+CON  16073      2003               10435     Owyhee
+CON  16075      2003               19109     Payette
+CON  16077      2003                4838     Power
+CON  16079      2003               13509     Shoshone
+CON  16081      2003               25126     Teton
+CON  16083      2003              107059     Twin Falls
+CON  16085      2003               38412     Valley
+CON  16087      2003                9833     Washington
+/END/

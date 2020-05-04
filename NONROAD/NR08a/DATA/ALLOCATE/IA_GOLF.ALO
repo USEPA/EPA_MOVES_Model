@@ -1,0 +1,124 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent GOLF COURSES AND COUNTRY CLUBS
+CBP NAICS 713910; pre-2002 CBP SIC 7992
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+GC   19000      2002                 318     IA
+GC   19001      2002                   2     Adair
+GC   19003      2002                   1     Adams
+GC   19005      2002                   1     Allamakee
+GC   19007      2002                   1     Appanoose
+GC   19009      2002                   2     Audubon
+GC   19011      2002                   3     Benton
+GC   19013      2002                   4     Black Hawk
+GC   19015      2002                   2     Boone
+GC   19017      2002                   5     Bremer
+GC   19019      2002                   4     Buchanan
+GC   19021      2002                   4     Buena Vista
+GC   19023      2002                   2     Butler
+GC   19025      2002                   3     Calhoun
+GC   19027      2002                   4     Carroll
+GC   19029      2002                   4     Cass
+GC   19031      2002                   4     Cedar
+GC   19033      2002                   6     Cerro Gordo
+GC   19035      2002                   4     Cherokee
+GC   19037      2002                   4     Chickasaw
+GC   19039      2002                   1     Clarke
+GC   19041      2002                   1     Clay
+GC   19043      2002                   4     Clayton
+GC   19045      2002                   4     Clinton
+GC   19047      2002                   2     Crawford
+GC   19049      2002                   4     Dallas
+GC   19051      2002                   1     Davis
+GC   19053      2002                   2     Decatur
+GC   19055      2002                   3     Delaware
+GC   19057      2002                   3     Des Moines
+GC   19059      2002                   7     Dickinson
+GC   19061      2002                   7     Dubuque
+GC   19063      2002                   2     Emmet
+GC   19065      2002                   5     Fayette
+GC   19067      2002                   2     Floyd
+GC   19069      2002                   3     Franklin
+GC   19071      2002                   0     Fremont
+GC   19073      2002                   2     Greene
+GC   19075      2002                   5     Grundy
+GC   19077      2002                   2     Guthrie
+GC   19079      2002                   2     Hamilton
+GC   19081      2002                   3     Hancock
+GC   19083      2002                   7     Hardin
+GC   19085      2002                   3     Harrison
+GC   19087      2002                   3     Henry
+GC   19089      2002                   2     Howard
+GC   19091      2002                   1     Humboldt
+GC   19093      2002                   2     Ida
+GC   19095      2002                   4     Iowa
+GC   19097      2002                   3     Jackson
+GC   19099      2002                   5     Jasper
+GC   19101      2002                   2     Jefferson
+GC   19103      2002                   5     Johnson
+GC   19105      2002                   4     Jones
+GC   19107      2002                   0     Keokuk
+GC   19109      2002                   7     Kossuth
+GC   19111      2002                   2     Lee
+GC   19113      2002                   7     Linn
+GC   19115      2002                   2     Louisa
+GC   19117      2002                   1     Lucas
+GC   19119      2002                   3     Lyon
+GC   19121      2002                   1     Madison
+GC   19123      2002                   2     Mahaska
+GC   19125      2002                   3     Marion
+GC   19127      2002                   4     Marshall
+GC   19129      2002                   2     Mills
+GC   19131      2002                   2     Mitchell
+GC   19133      2002                   2     Monona
+GC   19135      2002                   1     Monroe
+GC   19137      2002                   1     Montgomery
+GC   19139      2002                   3     Muscatine
+GC   19141      2002                   3     O'Brien
+GC   19143      2002                   1     Osceola
+GC   19145      2002                   3     Page
+GC   19147      2002                   2     Palo Alto
+GC   19149      2002                   4     Plymouth
+GC   19151      2002                   4     Pocahontas
+GC   19153      2002                  16     Polk
+GC   19155      2002                   6     Pottawattamie
+GC   19157      2002                   3     Poweshiek
+GC   19159      2002                   2     Ringgold
+GC   19161      2002                   2     Sac
+GC   19163      2002                   9     Scott
+GC   19165      2002                   2     Shelby
+GC   19167      2002                   6     Sioux
+GC   19169      2002                   7     Story
+GC   19171      2002                   3     Tama
+GC   19173      2002                   1     Taylor
+GC   19175      2002                   2     Union
+GC   19177      2002                   1     Van Buren
+GC   19179      2002                   1     Wapello
+GC   19181      2002                   4     Warren
+GC   19183      2002                   2     Washington
+GC   19185      2002                   0     Wayne
+GC   19187      2002                   5     Webster
+GC   19189      2002                   2     Winnebago
+GC   19191      2002                   5     Winneshiek
+GC   19193      2002                   9     Woodbury
+GC   19195      2002                   2     Worth
+GC   19197      2002                   2     Wright
+/END/

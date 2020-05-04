@@ -1,0 +1,87 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WATER SURFACE AREA FOR INBOARD RECREATIONAL MARINE CRAFT (sq km navigable water)
+1990 GICS (inland water area); GIS analysis of coast lengths (coastal navigable water)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+WIB  36000      1990                9483     NY
+WIB  36001      1990                  25     Albany
+WIB  36003      1990                  11     Allegany
+WIB  36005      1990                  54     Bronx
+WIB  36007      1990                  22     Broome
+WIB  36009      1990                  32     Cattaraugus
+WIB  36011      1990                 160     Cayuga
+WIB  36013      1990                 263     Chautauqua
+WIB  36015      1990                   7     Chemung
+WIB  36017      1990                  11     Chenango
+WIB  36019      1990                 203     Clinton
+WIB  36021      1990                  32     Columbia
+WIB  36023      1990                   5     Cortland
+WIB  36025      1990                  56     Delaware
+WIB  36027      1990                  62     Dutchess
+WIB  36029      1990                 238     Erie
+WIB  36031      1990                 310     Essex
+WIB  36033      1990                 171     Franklin
+WIB  36035      1990                  95     Fulton
+WIB  36037      1990                   3     Genesee
+WIB  36039      1990                  27     Greene
+WIB  36041      1990                 226     Hamilton
+WIB  36043      1990                 121     Herkimer
+WIB  36045      1990                 982     Jefferson
+WIB  36047      1990                  89     Kings
+WIB  36049      1990                  37     Lewis
+WIB  36051      1990                  22     Livingston
+WIB  36053      1990                  15     Madison
+WIB  36055      1990                 208     Monroe
+WIB  36057      1990                  14     Montgomery
+WIB  36059      1990                 324     Nassau
+WIB  36061      1990                  24     New York
+WIB  36063      1990                 293     Niagara
+WIB  36065      1990                 115     Oneida
+WIB  36067      1990                  66     Onondaga
+WIB  36069      1990                  47     Ontario
+WIB  36071      1990                  58     Orange
+WIB  36073      1990                 129     Orleans
+WIB  36075      1990                 408     Oswego
+WIB  36077      1990                  32     Otsego
+WIB  36079      1990                  38     Putnam
+WIB  36081      1990                 133     Queens
+WIB  36083      1990                  30     Rensselaer
+WIB  36085      1990                  80     Richmond
+WIB  36087      1990                  65     Rockland
+WIB  36089      1990                 352     St. Lawrence
+WIB  36091      1990                  83     Saratoga
+WIB  36093      1990                   9     Schenectady
+WIB  36095      1990                  11     Schoharie
+WIB  36097      1990                  45     Schuyler
+WIB  36099      1990                 170     Seneca
+WIB  36101      1990                  30     Steuben
+WIB  36103      1990                2517     Suffolk
+WIB  36105      1990                  70     Sullivan
+WIB  36107      1990                  11     Tioga
+WIB  36109      1990                  40     Tompkins
+WIB  36111      1990                  89     Ulster
+WIB  36113      1990                 161     Warren
+WIB  36115      1990                  27     Washington
+WIB  36117      1990                 284     Wayne
+WIB  36119      1990                 145     Westchester
+WIB  36121      1990                   9     Wyoming
+WIB  36123      1990                  87     Yates
+/END/

@@ -1,0 +1,165 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2003 DOLLAR VALUE of CONSTRUCTION
+adjusted for relative geographic cost of construction materials.
+   Const_Dollars * (1-(1/(1+100/Area_Mod_Factor)))
+from McGraw-Hill Construction (values) and Craftsman (cost adj)
+
+9/16/05 epa: 2001 & 2002 Clifton Forge & Alleghany values allocated from 2003.
+10/17/05 epa: Use corrected geo adjustments.
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+------------------------------------------------------------------------
+/INDICATORS/
+CON  51000      2003            15269033     VA
+CON  51001      2003               76595     Accomack
+CON  51003      2003              403494     Albemarle
+CON  51005      2001               12692     Alleghany       0.083%
+CON  51005      2002              212718     Alleghany       1.393%
+CON  51007      2003               23824     Amelia
+CON  51009      2003               79567     Amherst
+CON  51011      2003               11936     Appomattox
+CON  51013      2003              902079     Arlington
+CON  51015      2003              181180     Augusta
+CON  51017      2003                8762     Bath
+CON  51019      2003              143203     Bedford
+CON  51021      2003                4848     Bland
+CON  51023      2003               80387     Botetourt
+CON  51025      2003               10573     Brunswick
+CON  51027      2003                8147     Buchanan
+CON  51029      2003               17320     Buckingham
+CON  51031      2003              200740     Campbell
+CON  51033      2003               73519     Caroline
+CON  51035      2003               88006     Carroll
+CON  51036      2003               15346     Charles City
+CON  51037      2003                7878     Charlotte
+CON  51041      2003              542604     Chesterfield
+CON  51043      2003               33503     Clarke
+CON  51045      2003                3335     Craig
+CON  51047      2003              202588     Culpeper
+CON  51049      2003                6727     Cumberland
+CON  51051      2003               20147     Dickenson
+CON  51053      2003               58652     Dinwiddie
+CON  51057      2003               16152     Essex
+CON  51059      2003             1452013     Fairfax
+CON  51061      2003              459654     Fauquier
+CON  51063      2003               25179     Floyd
+CON  51065      2003               64164     Fluvanna
+CON  51067      2003              113518     Franklin
+CON  51069      2003              299153     Frederick
+CON  51071      2003               12065     Giles
+CON  51073      2003               52843     Gloucester
+CON  51075      2003              148446     Goochland
+CON  51077      2003               15573     Grayson
+CON  51079      2003               29079     Greene
+CON  51081      2003               16021     Greensville
+CON  51083      2003               57113     Halifax
+CON  51085      2003              177234     Hanover
+CON  51087      2003              967892     Henrico
+CON  51089      2003               66156     Henry
+CON  51091      2003                3438     Highland
+CON  51093      2003               63734     Isle of Wight
+CON  51095      2003              285878     James City
+CON  51097      2003                5447     King and Queen
+CON  51099      2003               88555     King George
+CON  51101      2003               18572     King William
+CON  51103      2003               25586     Lancaster
+CON  51105      2003               30084     Lee
+CON  51107      2003             1393234     Loudoun
+CON  51109      2003               92566     Louisa
+CON  51111      2003               14102     Lunenburg
+CON  51113      2003               26206     Madison
+CON  51115      2003               18513     Mathews
+CON  51117      2003               60453     Mecklenburg
+CON  51119      2003               32356     Middlesex
+CON  51121      2003              216062     Montgomery
+CON  51125      2003               33735     Nelson
+CON  51127      2003               49720     New Kent
+CON  51131      2003               22300     Northampton
+CON  51133      2003               38350     Northumberland
+CON  51135      2003               27780     Nottoway
+CON  51137      2003              101794     Orange
+CON  51139      2003               23065     Page
+CON  51141      2003               53849     Patrick
+CON  51143      2003               89124     Pittsylvania
+CON  51145      2003               85394     Powhatan
+CON  51147      2003               49710     Prince Edward
+CON  51149      2003               56879     Prince George
+CON  51153      2003              950639     Prince William
+CON  51155      2003               31363     Pulaski
+CON  51157      2003               17899     Rappahannock
+CON  51159      2003               25606     Richmond
+CON  51161      2003              249047     Roanoke
+CON  51163      2003               34215     Rockbridge
+CON  51165      2003              151285     Rockingham
+CON  51167      2003               12082     Russell
+CON  51169      2003               41000     Scott
+CON  51171      2003               73788     Shenandoah
+CON  51173      2003               41600     Smyth
+CON  51175      2003               20462     Southampton
+CON  51177      2003              391943     Spotsylvania
+CON  51179      2003              434477     Stafford
+CON  51181      2003                8242     Surry
+CON  51183      2003               19726     Sussex
+CON  51185      2003               25552     Tazewell
+CON  51187      2003               79420     Warren
+CON  51191      2003               89054     Washington
+CON  51193      2003               14340     Westmoreland
+CON  51195      2003               26359     Wise
+CON  51197      2003              119740     Wythe
+CON  51199      2003              129386     York
+CON  51510      2003                   0     Alexandria
+CON  51515      2003                   0     Bedford
+CON  51520      2003                   0     Bristol
+CON  51530      2003                   0     Buena Vista
+CON  51540      2003                   0     Charlottesville
+CON  51550      2003                   0     Chesapeake
+CON  51560      2001              200026     Clifton Forge   1.310%
+CON  51560      2002                   0     Clifton Forge   0.000%
+CON  51570      2003                   0     Colonial Heights
+CON  51580      2003                   0     Covington
+CON  51590      2003                   0     Danville
+CON  51595      2003                   0     Emporia
+CON  51600      2003                   0     Fairfax
+CON  51610      2003                   0     Falls Church
+CON  51620      2003                   0     Franklin
+CON  51630      2003                   0     Fredericksburg
+CON  51640      2003                   0     Galax
+CON  51650      2003                   0     Hampton
+CON  51660      2003                   0     Harrisonburg
+CON  51670      2003                   0     Hopewell
+CON  51678      2003                   0     Lexington
+CON  51680      2003                   0     Lynchburg
+CON  51683      2003                   0     Manassas
+CON  51685      2003                   0     Manassas Park
+CON  51690      2003                   0     Martinsville
+CON  51700      2003              219045     Newport News
+CON  51710      2003              741001     Norfolk
+CON  51720      2003                   0     Norton
+CON  51730      2003                   0     Petersburg
+CON  51735      2003                   0     Poquoson
+CON  51740      2003                   0     Portsmouth
+CON  51750      2003                   0     Radford
+CON  51760      2003                   0     Richmond
+CON  51770      2003                   0     Roanoke
+CON  51775      2003                   0     Salem
+CON  51780      2003                   0     South Boston
+CON  51790      2003                   0     Staunton
+CON  51800      2003              215212     Suffolk
+CON  51810      2003              710127     Virginia Beach
+CON  51820      2003                   0     Waynesboro
+CON  51830      2003                   0     Williamsburg
+CON  51840      2003                   0     Winchester
+/END/

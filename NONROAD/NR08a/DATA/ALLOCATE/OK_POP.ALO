@@ -1,0 +1,102 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent HUMAN POPULATION
+
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+POP  40000      2002             3488201     OK
+POP  40001      2002               21354     Adair
+POP  40003      2002                5955     Alfalfa
+POP  40005      2002               14004     Atoka
+POP  40007      2002                5562     Beaver
+POP  40009      2002               19965     Beckham
+POP  40011      2002               11681     Blaine
+POP  40013      2002               36961     Bryan
+POP  40015      2002               30006     Caddo
+POP  40017      2002               91093     Canadian
+POP  40019      2002               46106     Carter
+POP  40021      2002               43413     Cherokee
+POP  40023      2002               15379     Choctaw
+POP  40025      2002                3019     Cimarron
+POP  40027      2002              215129     Cleveland
+POP  40029      2002                5984     Coal
+POP  40031      2002              111761     Comanche
+POP  40033      2002                6466     Cotton
+POP  40035      2002               14764     Craig
+POP  40037      2002               68693     Creek
+POP  40039      2002               25097     Custer
+POP  40041      2002               37993     Delaware
+POP  40043      2002                4598     Dewey
+POP  40045      2002                4008     Ellis
+POP  40047      2002               57218     Garfield
+POP  40049      2002               27251     Garvin
+POP  40051      2002               46833     Grady
+POP  40053      2002                5033     Grant
+POP  40055      2002                5944     Greer
+POP  40057      2002                3118     Harmon
+POP  40059      2002                3455     Harper
+POP  40061      2002               11786     Haskell
+POP  40063      2002               14032     Hughes
+POP  40065      2002               27388     Jackson
+POP  40067      2002                6535     Jefferson
+POP  40069      2002               10439     Johnston
+POP  40071      2002               47657     Kay
+POP  40073      2002               13932     Kingfisher
+POP  40075      2002                9982     Kiowa
+POP  40077      2002               10562     Latimer
+POP  40079      2002               48608     Le Flore
+POP  40081      2002               32270     Lincoln
+POP  40083      2002               34882     Logan
+POP  40085      2002                8879     Love
+POP  40087      2002               28063     McClain
+POP  40089      2002               34150     McCurtain
+POP  40091      2002               19723     McIntosh
+POP  40093      2002                7540     Major
+POP  40095      2002               13598     Marshall
+POP  40097      2002               38764     Mayes
+POP  40099      2002               12645     Murray
+POP  40101      2002               69941     Muskogee
+POP  40103      2002               11304     Noble
+POP  40105      2002               10657     Nowata
+POP  40107      2002               11644     Okfuskee
+POP  40109      2002              671558     Oklahoma
+POP  40111      2002               39728     Okmulgee
+POP  40113      2002               45198     Osage
+POP  40115      2002               32888     Ottawa
+POP  40117      2002               16841     Pawnee
+POP  40119      2002               69045     Payne
+POP  40121      2002               44146     Pittsburg
+POP  40123      2002               34864     Pontotoc
+POP  40125      2002               66788     Pottawatomie
+POP  40127      2002               11721     Pushmataha
+POP  40129      2002                3216     Roger Mills
+POP  40131      2002               75255     Rogers
+POP  40133      2002               24580     Seminole
+POP  40135      2002               39665     Sequoyah
+POP  40137      2002               42619     Stephens
+POP  40139      2002               20045     Texas
+POP  40141      2002                8924     Tillman
+POP  40143      2002              569934     Tulsa
+POP  40145      2002               60533     Wagoner
+POP  40147      2002               49189     Washington
+POP  40149      2002               11366     Washita
+POP  40151      2002                8776     Woods
+POP  40153      2002               18498     Woodward
+/END/

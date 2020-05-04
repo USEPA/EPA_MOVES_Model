@@ -1,0 +1,104 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2003 DOLLAR VALUE of CONSTRUCTION
+adjusted for relative geographic cost of construction materials.
+   Const_Dollars * (1-(1/(1+100/Area_Mod_Factor)))
+from McGraw-Hill Construction (values) and Craftsman (cost adj)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+CON  40000      2003             5230108     OK
+CON  40001      2003                8224     Adair
+CON  40003      2003               11464     Alfalfa
+CON  40005      2003                3444     Atoka
+CON  40007      2003                2583     Beaver
+CON  40009      2003               22525     Beckham
+CON  40011      2003               10759     Blaine
+CON  40013      2003              125522     Bryan
+CON  40015      2003                9795     Caddo
+CON  40017      2003              117434     Canadian
+CON  40019      2003              101965     Carter
+CON  40021      2003               43782     Cherokee
+CON  40023      2003               11081     Choctaw
+CON  40025      2003                 404     Cimarron
+CON  40027      2003              428435     Cleveland
+CON  40029      2003                1752     Coal
+CON  40031      2003               74027     Comanche
+CON  40033      2003                7188     Cotton
+CON  40035      2003                8518     Craig
+CON  40037      2003               63135     Creek
+CON  40039      2003               30195     Custer
+CON  40041      2003               55838     Delaware
+CON  40043      2003                1990     Dewey
+CON  40045      2003                1316     Ellis
+CON  40047      2003               53322     Garfield
+CON  40049      2003               12856     Garvin
+CON  40051      2003               41486     Grady
+CON  40053      2003                1806     Grant
+CON  40055      2003                2138     Greer
+CON  40057      2003                2142     Harmon
+CON  40059      2003                2460     Harper
+CON  40061      2003                4577     Haskell
+CON  40063      2003                9781     Hughes
+CON  40065      2003               39318     Jackson
+CON  40067      2003                6396     Jefferson
+CON  40069      2003                3863     Johnston
+CON  40071      2003               43844     Kay
+CON  40073      2003               13858     Kingfisher
+CON  40075      2003                2329     Kiowa
+CON  40077      2003                9107     Latimer
+CON  40079      2003               27240     Le Flore
+CON  40081      2003               25093     Lincoln
+CON  40083      2003               35623     Logan
+CON  40085      2003               16111     Love
+CON  40087      2003               37362     McClain
+CON  40089      2003              126915     McCurtain
+CON  40091      2003               15369     McIntosh
+CON  40093      2003                3711     Major
+CON  40095      2003                7813     Marshall
+CON  40097      2003               32511     Mayes
+CON  40099      2003                5704     Murray
+CON  40101      2003               68318     Muskogee
+CON  40103      2003               14321     Noble
+CON  40105      2003                4024     Nowata
+CON  40107      2003                6458     Okfuskee
+CON  40109      2003             1589709     Oklahoma
+CON  40111      2003               30753     Okmulgee
+CON  40113      2003               32545     Osage
+CON  40115      2003               21393     Ottawa
+CON  40117      2003                4958     Pawnee
+CON  40119      2003              134161     Payne
+CON  40121      2003               30188     Pittsburg
+CON  40123      2003               35192     Pontotoc
+CON  40125      2003               53789     Pottawatomie
+CON  40127      2003                5961     Pushmataha
+CON  40129      2003                2060     Roger Mills
+CON  40131      2003              186086     Rogers
+CON  40133      2003               27384     Seminole
+CON  40135      2003               19989     Sequoyah
+CON  40137      2003               53657     Stephens
+CON  40139      2003               10886     Texas
+CON  40141      2003                2000     Tillman
+CON  40143      2003              975224     Tulsa
+CON  40145      2003               79924     Wagoner
+CON  40147      2003               46032     Washington
+CON  40149      2003                7844     Washita
+CON  40151      2003                3531     Woods
+CON  40153      2003               59610     Woodward
+/END/

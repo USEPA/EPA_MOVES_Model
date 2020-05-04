@@ -1,0 +1,129 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2003 DOLLAR VALUE of CONSTRUCTION
+adjusted for relative geographic cost of construction materials.
+   Const_Dollars * (1-(1/(1+100/Area_Mod_Factor)))
+from McGraw-Hill Construction (values) and Craftsman (cost adj)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+CON  17000      2003            19816529     IL
+CON  17001      2003               85689     Adams
+CON  17003      2003                9438     Alexander
+CON  17005      2003               20817     Bond
+CON  17007      2003              122662     Boone
+CON  17009      2003                4103     Brown
+CON  17011      2003               43160     Bureau
+CON  17013      2003                4046     Calhoun
+CON  17015      2003               16952     Carroll
+CON  17017      2003               25563     Cass
+CON  17019      2003              379354     Champaign
+CON  17021      2003               22003     Christian
+CON  17023      2003               19331     Clark
+CON  17025      2003               14577     Clay
+CON  17027      2003               58761     Clinton
+CON  17029      2003               25145     Coles
+CON  17031      2003             6540297     Cook
+CON  17033      2003               19898     Crawford
+CON  17035      2003                5219     Cumberland
+CON  17037      2003              166138     DeKalb
+CON  17039      2003               15188     De Witt
+CON  17041      2003               13023     Douglas
+CON  17043      2003             1640189     DuPage
+CON  17045      2003               20037     Edgar
+CON  17047      2003                5351     Edwards
+CON  17049      2003               49802     Effingham
+CON  17051      2003               25891     Fayette
+CON  17053      2003               17446     Ford
+CON  17055      2003               30113     Franklin
+CON  17057      2003               15158     Fulton
+CON  17059      2003               11954     Gallatin
+CON  17061      2003               21863     Greene
+CON  17063      2003              104978     Grundy
+CON  17065      2003                6714     Hamilton
+CON  17067      2003               11367     Hancock
+CON  17069      2003                1976     Hardin
+CON  17071      2003                1298     Henderson
+CON  17073      2003               27722     Henry
+CON  17075      2003               32511     Iroquois
+CON  17077      2003               68667     Jackson
+CON  17079      2003                4230     Jasper
+CON  17081      2003               43119     Jefferson
+CON  17083      2003               27748     Jersey
+CON  17085      2003               48674     Jo Daviess
+CON  17087      2003               13419     Johnson
+CON  17089      2003             1502472     Kane
+CON  17091      2003              193853     Kankakee
+CON  17093      2003              350223     Kendall
+CON  17095      2003               23421     Knox
+CON  17097      2003             1211423     Lake
+CON  17099      2003              122831     La Salle
+CON  17101      2003               16076     Lawrence
+CON  17103      2003               43571     Lee
+CON  17105      2003               27574     Livingston
+CON  17107      2003               22997     Logan
+CON  17109      2003               20934     McDonough
+CON  17111      2003              917872     McHenry
+CON  17113      2003              319207     McLean
+CON  17115      2003              126593     Macon
+CON  17117      2003               34269     Macoupin
+CON  17119      2003              544276     Madison
+CON  17121      2003               26503     Marion
+CON  17123      2003                8291     Marshall
+CON  17125      2003               12320     Mason
+CON  17127      2003                9602     Massac
+CON  17129      2003               15918     Menard
+CON  17131      2003                4442     Mercer
+CON  17133      2003               63520     Monroe
+CON  17135      2003               14924     Montgomery
+CON  17137      2003               21342     Morgan
+CON  17139      2003               10301     Moultrie
+CON  17141      2003              177727     Ogle
+CON  17143      2003              260601     Peoria
+CON  17145      2003               25888     Perry
+CON  17147      2003               24683     Piatt
+CON  17149      2003               21593     Pike
+CON  17151      2003                4557     Pope
+CON  17153      2003               22948     Pulaski
+CON  17155      2003                4707     Putnam
+CON  17157      2003               19765     Randolph
+CON  17159      2003               11270     Richland
+CON  17161      2003              105981     Rock Island
+CON  17163      2003              400793     St. Clair
+CON  17165      2003               29707     Saline
+CON  17167      2003              245472     Sangamon
+CON  17169      2003                7234     Schuyler
+CON  17171      2003                3189     Scott
+CON  17173      2003                9369     Shelby
+CON  17175      2003                1393     Stark
+CON  17177      2003               26926     Stephenson
+CON  17179      2003              210747     Tazewell
+CON  17181      2003                6909     Union
+CON  17183      2003               72384     Vermilion
+CON  17185      2003                5266     Wabash
+CON  17187      2003                7886     Warren
+CON  17189      2003               13774     Washington
+CON  17191      2003                6131     Wayne
+CON  17193      2003               11863     White
+CON  17195      2003               22642     Whiteside
+CON  17197      2003             2151820     Will
+CON  17199      2003               81304     Williamson
+CON  17201      2003              271779     Winnebago
+CON  17203      2003               43879     Woodford
+/END/

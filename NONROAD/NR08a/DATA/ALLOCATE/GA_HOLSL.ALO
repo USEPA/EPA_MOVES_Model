@@ -1,0 +1,184 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WHOLESALE ESTABLISHMENTS
+CBP NAICS 42----; pre-2002 CBP SIC 50--
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+COM  13000      2002               13617     GA
+COM  13001      2002                  23     Appling
+COM  13003      2002                   6     Atkinson
+COM  13005      2002                  14     Bacon
+COM  13007      2002                   2     Baker
+COM  13009      2002                  29     Baldwin
+COM  13011      2002                   7     Banks
+COM  13013      2002                  44     Barrow
+COM  13015      2002                 117     Bartow
+COM  13017      2002                  14     Ben Hill
+COM  13019      2002                  23     Berrien
+COM  13021      2002                 241     Bibb
+COM  13023      2002                   5     Bleckley
+COM  13025      2002                   6     Brantley
+COM  13027      2002                   6     Brooks
+COM  13029      2002                  17     Bryan
+COM  13031      2002                  53     Bulloch
+COM  13033      2002                  19     Burke
+COM  13035      2002                  10     Butts
+COM  13037      2002                   9     Calhoun
+COM  13039      2002                   8     Camden
+COM  13043      2002                  10     Candler
+COM  13045      2002                 110     Carroll
+COM  13047      2002                  40     Catoosa
+COM  13049      2002                   6     Charlton
+COM  13051      2002                 342     Chatham
+COM  13053      2002                   0     Chattahoochee
+COM  13055      2002                  15     Chattooga
+COM  13057      2002                 247     Cherokee
+COM  13059      2002                 116     Clarke
+COM  13061      2002                   4     Clay
+COM  13063      2002                 282     Clayton
+COM  13065      2002                   5     Clinch
+COM  13067      2002                1553     Cobb
+COM  13069      2002                  51     Coffee
+COM  13071      2002                  49     Colquitt
+COM  13073      2002                  85     Columbia
+COM  13075      2002                  20     Cook
+COM  13077      2002                  88     Coweta
+COM  13079      2002                   2     Crawford
+COM  13081      2002                  38     Crisp
+COM  13083      2002                  10     Dade
+COM  13085      2002                  19     Dawson
+COM  13087      2002                  33     Decatur
+COM  13089      2002                1169     DeKalb
+COM  13091      2002                  14     Dodge
+COM  13093      2002                  14     Dooly
+COM  13095      2002                 164     Dougherty
+COM  13097      2002                 111     Douglas
+COM  13099      2002                  13     Early
+COM  13101      2002                   0     Echols
+COM  13103      2002                  10     Effingham
+COM  13105      2002                  49     Elbert
+COM  13107      2002                  29     Emanuel
+COM  13109      2002                  11     Evans
+COM  13111      2002                  18     Fannin
+COM  13113      2002                 188     Fayette
+COM  13115      2002                  97     Floyd
+COM  13117      2002                 352     Forsyth
+COM  13119      2002                  26     Franklin
+COM  13121      2002                2264     Fulton
+COM  13123      2002                  27     Gilmer
+COM  13125      2002                   0     Glascock
+COM  13127      2002                 100     Glynn
+COM  13129      2002                  50     Gordon
+COM  13131      2002                  20     Grady
+COM  13133      2002                  19     Greene
+COM  13135      2002                2018     Gwinnett
+COM  13137      2002                  39     Habersham
+COM  13139      2002                 264     Hall
+COM  13141      2002                   1     Hancock
+COM  13143      2002                  14     Haralson
+COM  13145      2002                  15     Harris
+COM  13147      2002                  18     Hart
+COM  13149      2002                   2     Heard
+COM  13151      2002                 118     Henry
+COM  13153      2002                  55     Houston
+COM  13155      2002                   9     Irwin
+COM  13157      2002                  56     Jackson
+COM  13159      2002                   1     Jasper
+COM  13161      2002                  22     Jeff Davis
+COM  13163      2002                  20     Jefferson
+COM  13165      2002                   5     Jenkins
+COM  13167      2002                  10     Johnson
+COM  13169      2002                  11     Jones
+COM  13171      2002                   4     Lamar
+COM  13173      2002                   2     Lanier
+COM  13175      2002                  48     Laurens
+COM  13177      2002                  11     Lee
+COM  13179      2002                   8     Liberty
+COM  13181      2002                   7     Lincoln
+COM  13183      2002                   2     Long
+COM  13185      2002                 133     Lowndes
+COM  13187      2002                  16     Lumpkin
+COM  13189      2002                  13     McDuffie
+COM  13191      2002                   5     McIntosh
+COM  13193      2002                  17     Macon
+COM  13195      2002                  18     Madison
+COM  13197      2002                   4     Marion
+COM  13199      2002                   9     Meriwether
+COM  13201      2002                   9     Miller
+COM  13205      2002                  25     Mitchell
+COM  13207      2002                  18     Monroe
+COM  13209      2002                   3     Montgomery
+COM  13211      2002                  15     Morgan
+COM  13213      2002                  33     Murray
+COM  13215      2002                 214     Muscogee
+COM  13217      2002                  58     Newton
+COM  13219      2002                  37     Oconee
+COM  13221      2002                   9     Oglethorpe
+COM  13223      2002                  78     Paulding
+COM  13225      2002                  22     Peach
+COM  13227      2002                  27     Pickens
+COM  13229      2002                  19     Pierce
+COM  13231      2002                  10     Pike
+COM  13233      2002                  22     Polk
+COM  13235      2002                  11     Pulaski
+COM  13237      2002                  18     Putnam
+COM  13239      2002                   2     Quitman
+COM  13241      2002                   6     Rabun
+COM  13243      2002                  10     Randolph
+COM  13245      2002                 214     Richmond
+COM  13247      2002                 118     Rockdale
+COM  13249      2002                   6     Schley
+COM  13251      2002                   6     Screven
+COM  13253      2002                  12     Seminole
+COM  13255      2002                  58     Spalding
+COM  13257      2002                  30     Stephens
+COM  13259      2002                   8     Stewart
+COM  13261      2002                  38     Sumter
+COM  13263      2002                   4     Talbot
+COM  13265      2002                   2     Taliaferro
+COM  13267      2002                  18     Tattnall
+COM  13269      2002                   6     Taylor
+COM  13271      2002                  12     Telfair
+COM  13273      2002                  13     Terrell
+COM  13275      2002                  68     Thomas
+COM  13277      2002                  78     Tift
+COM  13279      2002                  42     Toombs
+COM  13281      2002                   8     Towns
+COM  13283      2002                   6     Treutlen
+COM  13285      2002                  61     Troup
+COM  13287      2002                  14     Turner
+COM  13289      2002                   1     Twiggs
+COM  13291      2002                  13     Union
+COM  13293      2002                  16     Upson
+COM  13295      2002                  49     Walker
+COM  13297      2002                  81     Walton
+COM  13299      2002                  61     Ware
+COM  13301      2002                   5     Warren
+COM  13303      2002                  19     Washington
+COM  13305      2002                  17     Wayne
+COM  13307      2002                   2     Webster
+COM  13309      2002                   3     Wheeler
+COM  13311      2002                  17     White
+COM  13313      2002                 302     Whitfield
+COM  13315      2002                   5     Wilcox
+COM  13317      2002                  14     Wilkes
+COM  13319      2002                   9     Wilkinson
+COM  13321      2002                  37     Worth
+/END/

@@ -1,0 +1,50 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2003 DOLLAR VALUE of CONSTRUCTION
+adjusted for relative geographic cost of construction materials.
+   Const_Dollars * (1-(1/(1+100/Area_Mod_Factor)))
+from McGraw-Hill Construction (values) and Craftsman (cost adj)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+CON  56000      2003             1032996     WY
+CON  56001      2003               80836     Albany
+CON  56003      2003               12666     Big Horn
+CON  56005      2003               41655     Campbell
+CON  56007      2003               33288     Carbon
+CON  56009      2003               12515     Converse
+CON  56011      2003                9343     Crook
+CON  56013      2003               77562     Fremont
+CON  56015      2003               14551     Goshen
+CON  56017      2003                1029     Hot Springs
+CON  56019      2003               28278     Johnson
+CON  56021      2003              144440     Laramie
+CON  56023      2003               45975     Lincoln
+CON  56025      2003               73319     Natrona
+CON  56027      2003               14944     Niobrara
+CON  56029      2003               78961     Park
+CON  56031      2003                8404     Platte
+CON  56033      2003               69852     Sheridan
+CON  56035      2003               17454     Sublette
+CON  56037      2003               53165     Sweetwater
+CON  56039      2003              160226     Teton
+CON  56041      2003               20696     Uinta
+CON  56043      2003               22599     Washakie
+CON  56045      2003               11240     Weston
+/END/

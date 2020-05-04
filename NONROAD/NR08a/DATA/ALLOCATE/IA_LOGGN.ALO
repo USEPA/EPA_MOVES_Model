@@ -1,0 +1,126 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2002 Timber Product Output (cu ft)
+from US Forest Service TPO database. http://www.fia.fs.fed.us/program-features/tpo/
+
+10/19/05 epa: use TPO data instead of CBP employee data.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+LOG  19000      2002            63279873     IA
+LOG  19001      2002               75953     Adair
+LOG  19003      2002              217377     Adams
+LOG  19005      2002             4360515     Allamakee
+LOG  19007      2002              337348     Appanoose
+LOG  19009      2002               63059     Audubon
+LOG  19011      2002              316201     Benton
+LOG  19013      2002              688648     Black Hawk
+LOG  19015      2002              440028     Boone
+LOG  19017      2002              508030     Bremer
+LOG  19019      2002              674064     Buchanan
+LOG  19021      2002              159257     Buena Vista
+LOG  19023      2002              509572     Butler
+LOG  19025      2002               96219     Calhoun
+LOG  19027      2002              169192     Carroll
+LOG  19029      2002              163284     Cass
+LOG  19031      2002              403484     Cedar
+LOG  19033      2002              400398     Cerro Gordo
+LOG  19035      2002              319149     Cherokee
+LOG  19037      2002              627174     Chickasaw
+LOG  19039      2002              168999     Clarke
+LOG  19041      2002              156286     Clay
+LOG  19043      2002             3887966     Clayton
+LOG  19045      2002              366696     Clinton
+LOG  19047      2002              252570     Crawford
+LOG  19049      2002              282649     Dallas
+LOG  19051      2002              427035     Davis
+LOG  19053      2002             1579048     Decatur
+LOG  19055      2002             1079544     Delaware
+LOG  19057      2002              835810     Des Moines
+LOG  19059      2002              128283     Dickinson
+LOG  19061      2002             1918671     Dubuque
+LOG  19063      2002              101335     Emmet
+LOG  19065      2002             1884259     Fayette
+LOG  19067      2002              154185     Floyd
+LOG  19069      2002              151644     Franklin
+LOG  19071      2002              726603     Fremont
+LOG  19073      2002              155268     Greene
+LOG  19075      2002               78909     Grundy
+LOG  19077      2002              295602     Guthrie
+LOG  19079      2002              187573     Hamilton
+LOG  19081      2002              112251     Hancock
+LOG  19083      2002              582013     Hardin
+LOG  19085      2002             1137156     Harrison
+LOG  19087      2002             1054968     Henry
+LOG  19089      2002              225347     Howard
+LOG  19091      2002              136971     Humboldt
+LOG  19093      2002               70202     Ida
+LOG  19095      2002              717076     Iowa
+LOG  19097      2002             1953838     Jackson
+LOG  19099      2002              345752     Jasper
+LOG  19101      2002              934212     Jefferson
+LOG  19103      2002             1098181     Johnson
+LOG  19105      2002              505334     Jones
+LOG  19107      2002             1143796     Keokuk
+LOG  19109      2002              299125     Kossuth
+LOG  19111      2002             2470367     Lee
+LOG  19113      2002             1740799     Linn
+LOG  19115      2002              462046     Louisa
+LOG  19117      2002              670346     Lucas
+LOG  19119      2002               97929     Lyon
+LOG  19121      2002              798518     Madison
+LOG  19123      2002             1241173     Mahaska
+LOG  19125      2002              478506     Marion
+LOG  19127      2002              359278     Marshall
+LOG  19129      2002              250649     Mills
+LOG  19131      2002               66955     Mitchell
+LOG  19133      2002              266247     Monona
+LOG  19135      2002              719221     Monroe
+LOG  19137      2002              138180     Montgomery
+LOG  19139      2002             1143562     Muscatine
+LOG  19141      2002              126353     O'Brien
+LOG  19143      2002               64043     Osceola
+LOG  19145      2002              178217     Page
+LOG  19147      2002               94379     Palo Alto
+LOG  19149      2002              310823     Plymouth
+LOG  19151      2002               82563     Pocahontas
+LOG  19153      2002             2135435     Polk
+LOG  19155      2002              768951     Pottawattamie
+LOG  19157      2002              440713     Poweshiek
+LOG  19159      2002              489097     Ringgold
+LOG  19161      2002              108131     Sac
+LOG  19163      2002             1414485     Scott
+LOG  19165      2002              136677     Shelby
+LOG  19167      2002              215268     Sioux
+LOG  19169      2002              423182     Story
+LOG  19171      2002              817272     Tama
+LOG  19173      2002              521052     Taylor
+LOG  19175      2002              266194     Union
+LOG  19177      2002              631893     Van Buren
+LOG  19179      2002              791879     Wapello
+LOG  19181      2002              925771     Warren
+LOG  19183      2002             1427001     Washington
+LOG  19185      2002              193025     Wayne
+LOG  19187      2002              447050     Webster
+LOG  19189      2002              105829     Winnebago
+LOG  19191      2002             1386746     Winneshiek
+LOG  19193      2002             1977357     Woodbury
+LOG  19195      2002               98536     Worth
+LOG  19197      2002              134073     Wright
+/END/

@@ -1,0 +1,117 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RELATIVE NUMBER OF COMMERCIAL SNOWBLOWERS
+Same as LSCAP allocation factors, with value set to 0 for counties with snowfall < 15"
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+SBC  18000      2002                7648     IN
+SBC  18001      2002                  69     Adams
+SBC  18003      2002                1090     Allen
+SBC  18005      2002                  51     Bartholomew
+SBC  18007      2002                  13     Benton
+SBC  18009      2002                  19     Blackford
+SBC  18011      2002                 220     Boone
+SBC  18013      2002                  21     Brown
+SBC  18015      2002                  28     Carroll
+SBC  18017      2002                  55     Cass
+SBC  18019      2002                  80     Clark
+SBC  18021      2002                  11     Clay
+SBC  18023      2002                  18     Clinton
+SBC  18025      2002                   0     Crawford
+SBC  18027      2002                  40     Daviess
+SBC  18029      2002                  64     Dearborn
+SBC  18031      2002                  33     Decatur
+SBC  18033      2002                  55     De Kalb
+SBC  18035      2002                  66     Delaware
+SBC  18037      2002                   0     Dubois
+SBC  18039      2002                 165     Elkhart
+SBC  18041      2002                  34     Fayette
+SBC  18043      2002                 114     Floyd
+SBC  18045      2002                  24     Fountain
+SBC  18047      2002                  30     Franklin
+SBC  18049      2002                  28     Fulton
+SBC  18051      2002                   0     Gibson
+SBC  18053      2002                  98     Grant
+SBC  18055      2002                  45     Greene
+SBC  18057      2002                 624     Hamilton
+SBC  18059      2002                 128     Hancock
+SBC  18061      2002                   0     Harrison
+SBC  18063      2002                 113     Hendricks
+SBC  18065      2002                  30     Henry
+SBC  18067      2002                 114     Howard
+SBC  18069      2002                  43     Huntington
+SBC  18071      2002                  13     Jackson
+SBC  18073      2002                  14     Jasper
+SBC  18075      2002                   0     Jay
+SBC  18077      2002                  40     Jefferson
+SBC  18079      2002                  38     Jennings
+SBC  18081      2002                 116     Johnson
+SBC  18083      2002                  84     Knox
+SBC  18085      2002                 101     Kosciusko
+SBC  18087      2002                  48     Lagrange
+SBC  18089      2002                 395     Lake
+SBC  18091      2002                  96     La Porte
+SBC  18093      2002                  31     Lawrence
+SBC  18095      2002                 121     Madison
+SBC  18097      2002                1156     Marion
+SBC  18099      2002                   3     Marshall
+SBC  18101      2002                  14     Martin
+SBC  18103      2002                  49     Miami
+SBC  18105      2002                 163     Monroe
+SBC  18107      2002                   7     Montgomery
+SBC  18109      2002                 228     Morgan
+SBC  18111      2002                  19     Newton
+SBC  18113      2002                  37     Noble
+SBC  18115      2002                   8     Ohio
+SBC  18117      2002                   0     Orange
+SBC  18119      2002                  30     Owen
+SBC  18121      2002                  23     Parke
+SBC  18123      2002                   0     Perry
+SBC  18125      2002                   0     Pike
+SBC  18127      2002                 270     Porter
+SBC  18129      2002                   0     Posey
+SBC  18131      2002                  19     Pulaski
+SBC  18133      2002                  49     Putnam
+SBC  18135      2002                  37     Randolph
+SBC  18137      2002                  37     Ripley
+SBC  18139      2002                  24     Rush
+SBC  18141      2002                 314     St. Joseph
+SBC  18143      2002                  32     Scott
+SBC  18145      2002                  59     Shelby
+SBC  18147      2002                   0     Spencer
+SBC  18149      2002                  31     Starke
+SBC  18151      2002                  45     Steuben
+SBC  18153      2002                   9     Sullivan
+SBC  18155      2002                   0     Switzerland
+SBC  18157      2002                 114     Tippecanoe
+SBC  18159      2002                  10     Tipton
+SBC  18161      2002                  10     Union
+SBC  18163      2002                   0     Vanderburgh
+SBC  18165      2002                  22     Vermillion
+SBC  18167      2002                  51     Vigo
+SBC  18169      2002                  47     Wabash
+SBC  18171      2002                   0     Warren
+SBC  18173      2002                   0     Warrick
+SBC  18175      2002                   0     Washington
+SBC  18177      2002                  16     Wayne
+SBC  18179      2002                  38     Wells
+SBC  18181      2002                  22     White
+SBC  18183      2002                  35     Whitley
+/END/

@@ -1,0 +1,117 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent HUMAN POPULATION
+
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+POP  18000      2002             6158327     IN
+POP  18001      2002               33540     Adams
+POP  18003      2002              337580     Allen
+POP  18005      2002               71854     Bartholomew
+POP  18007      2002                9270     Benton
+POP  18009      2002               13870     Blackford
+POP  18011      2002               48468     Boone
+POP  18013      2002               15267     Brown
+POP  18015      2002               20340     Carroll
+POP  18017      2002               40516     Cass
+POP  18019      2002               97988     Clark
+POP  18021      2002               26559     Clay
+POP  18023      2002               34080     Clinton
+POP  18025      2002               11076     Crawford
+POP  18027      2002               29817     Daviess
+POP  18029      2002               47309     Dearborn
+POP  18031      2002               24656     Decatur
+POP  18033      2002               40740     De Kalb
+POP  18035      2002              118924     Delaware
+POP  18037      2002               40030     Dubois
+POP  18039      2002              185900     Elkhart
+POP  18041      2002               25138     Fayette
+POP  18043      2002               71454     Floyd
+POP  18045      2002               17822     Fountain
+POP  18047      2002               22547     Franklin
+POP  18049      2002               20645     Fulton
+POP  18051      2002               32673     Gibson
+POP  18053      2002               72390     Grant
+POP  18055      2002               33147     Greene
+POP  18057      2002              208628     Hamilton
+POP  18059      2002               58273     Hancock
+POP  18061      2002               35268     Harrison
+POP  18063      2002              114959     Hendricks
+POP  18065      2002               48076     Henry
+POP  18067      2002               84725     Howard
+POP  18069      2002               38271     Huntington
+POP  18071      2002               41547     Jackson
+POP  18073      2002               30720     Jasper
+POP  18075      2002               21698     Jay
+POP  18077      2002               32083     Jefferson
+POP  18079      2002               28218     Jennings
+POP  18081      2002              121598     Johnson
+POP  18083      2002               38992     Knox
+POP  18085      2002               74954     Kosciusko
+POP  18087      2002               35691     Lagrange
+POP  18089      2002              486105     Lake
+POP  18091      2002              110233     La Porte
+POP  18093      2002               46121     Lawrence
+POP  18095      2002              131976     Madison
+POP  18097      2002              862451     Marion
+POP  18099      2002               45804     Marshall
+POP  18101      2002               10382     Martin
+POP  18103      2002               36375     Miami
+POP  18105      2002              119937     Monroe
+POP  18107      2002               37913     Montgomery
+POP  18109      2002               67981     Morgan
+POP  18111      2002               14365     Newton
+POP  18113      2002               46946     Noble
+POP  18115      2002                5764     Ohio
+POP  18117      2002               19463     Orange
+POP  18119      2002               22488     Owen
+POP  18121      2002               17254     Parke
+POP  18123      2002               18868     Perry
+POP  18125      2002               12955     Pike
+POP  18127      2002              150693     Porter
+POP  18129      2002               27041     Posey
+POP  18131      2002               13744     Pulaski
+POP  18133      2002               36407     Putnam
+POP  18135      2002               27109     Randolph
+POP  18137      2002               27279     Ripley
+POP  18139      2002               17979     Rush
+POP  18141      2002              265960     St. Joseph
+POP  18143      2002               23394     Scott
+POP  18145      2002               43777     Shelby
+POP  18147      2002               20288     Spencer
+POP  18149      2002               22594     Starke
+POP  18151      2002               33484     Steuben
+POP  18153      2002               21850     Sullivan
+POP  18155      2002                9491     Switzerland
+POP  18157      2002              149933     Tippecanoe
+POP  18159      2002               16569     Tipton
+POP  18161      2002                7349     Union
+POP  18163      2002              172052     Vanderburgh
+POP  18165      2002               16575     Vermillion
+POP  18167      2002              104622     Vigo
+POP  18169      2002               34525     Wabash
+POP  18171      2002                8684     Warren
+POP  18173      2002               53622     Warrick
+POP  18175      2002               27678     Washington
+POP  18177      2002               70444     Wayne
+POP  18179      2002               27893     Wells
+POP  18181      2002               25181     White
+POP  18183      2002               31428     Whitley
+/END/

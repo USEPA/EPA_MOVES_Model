@@ -1,0 +1,120 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WHOLESALE ESTABLISHMENTS
+CBP NAICS 42----; pre-2002 CBP SIC 50--
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+COM  47000      2002                7613     TN
+COM  47001      2002                  52     Anderson
+COM  47003      2002                  31     Bedford
+COM  47005      2002                  11     Benton
+COM  47007      2002                   4     Bledsoe
+COM  47009      2002                 102     Blount
+COM  47011      2002                  79     Bradley
+COM  47013      2002                  21     Campbell
+COM  47015      2002                  10     Cannon
+COM  47017      2002                  29     Carroll
+COM  47019      2002                  18     Carter
+COM  47021      2002                  18     Cheatham
+COM  47023      2002                   7     Chester
+COM  47025      2002                  12     Claiborne
+COM  47027      2002                   4     Clay
+COM  47029      2002                  13     Cocke
+COM  47031      2002                  51     Coffee
+COM  47033      2002                  14     Crockett
+COM  47035      2002                  32     Cumberland
+COM  47037      2002                1207     Davidson
+COM  47039      2002                   5     Decatur
+COM  47041      2002                   7     DeKalb
+COM  47043      2002                  39     Dickson
+COM  47045      2002                  48     Dyer
+COM  47047      2002                  28     Fayette
+COM  47049      2002                   6     Fentress
+COM  47051      2002                  17     Franklin
+COM  47053      2002                  42     Gibson
+COM  47055      2002                  24     Giles
+COM  47057      2002                   2     Grainger
+COM  47059      2002                  37     Greene
+COM  47061      2002                   4     Grundy
+COM  47063      2002                  81     Hamblen
+COM  47065      2002                 625     Hamilton
+COM  47067      2002                   2     Hancock
+COM  47069      2002                  21     Hardeman
+COM  47071      2002                  18     Hardin
+COM  47073      2002                  18     Hawkins
+COM  47075      2002                  15     Haywood
+COM  47077      2002                  19     Henderson
+COM  47079      2002                  39     Henry
+COM  47081      2002                  10     Hickman
+COM  47083      2002                   0     Houston
+COM  47085      2002                  19     Humphreys
+COM  47087      2002                   1     Jackson
+COM  47089      2002                  30     Jefferson
+COM  47091      2002                   5     Johnson
+COM  47093      2002                 875     Knox
+COM  47095      2002                   7     Lake
+COM  47097      2002                  23     Lauderdale
+COM  47099      2002                  41     Lawrence
+COM  47101      2002                   8     Lewis
+COM  47103      2002                  25     Lincoln
+COM  47105      2002                  52     Loudon
+COM  47107      2002                  34     McMinn
+COM  47109      2002                  22     McNairy
+COM  47111      2002                  11     Macon
+COM  47113      2002                 166     Madison
+COM  47115      2002                  11     Marion
+COM  47117      2002                  17     Marshall
+COM  47119      2002                  62     Maury
+COM  47121      2002                   2     Meigs
+COM  47123      2002                  22     Monroe
+COM  47125      2002                  79     Montgomery
+COM  47127      2002                   1     Moore
+COM  47129      2002                   5     Morgan
+COM  47131      2002                  39     Obion
+COM  47133      2002                  10     Overton
+COM  47135      2002                   2     Perry
+COM  47137      2002                   1     Pickett
+COM  47139      2002                   5     Polk
+COM  47141      2002                  87     Putnam
+COM  47143      2002                  15     Rhea
+COM  47145      2002                  17     Roane
+COM  47147      2002                  59     Robertson
+COM  47149      2002                 226     Rutherford
+COM  47151      2002                  14     Scott
+COM  47153      2002                  12     Sequatchie
+COM  47155      2002                  51     Sevier
+COM  47157      2002                1660     Shelby
+COM  47159      2002                  13     Smith
+COM  47161      2002                   4     Stewart
+COM  47163      2002                 215     Sullivan
+COM  47165      2002                 137     Sumner
+COM  47167      2002                  28     Tipton
+COM  47169      2002                   8     Trousdale
+COM  47171      2002                   9     Unicoi
+COM  47173      2002                   6     Union
+COM  47175      2002                   1     Van Buren
+COM  47177      2002                  47     Warren
+COM  47179      2002                 146     Washington
+COM  47181      2002                   5     Wayne
+COM  47183      2002                  39     Weakley
+COM  47185      2002                  15     White
+COM  47187      2002                 285     Williamson
+COM  47189      2002                 117     Wilson
+/END/

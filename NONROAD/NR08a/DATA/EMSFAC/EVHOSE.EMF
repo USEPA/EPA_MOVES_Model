@@ -1,0 +1,132 @@
+This file contains the emission factors (EF) for non-metal HOSE
+Permeation THC for NON-REC MARINE EQUIPMENT ONLY.
+The EFs are specified by SCC code, HP range and Technology type.
+An ALL in the tech type field applies to all HOSE technology types.
+The model will use the EF for the closest year that is less than or equal
+to the current model year.
+Metal hoses have zero permeation.  Metal fractions are in spillage.emf.
+
+NOTE: The rec-marine permeations for neck, supply/return, and
+vent are in EVNECK.EMF, EVSUPRET.EMF, and EVVENT.EMF respectively.
+
+11/1/06 5b:  Like 5a but new SmSI EFs, Dates per 10/31/06 spreadsheet.
+     and use pseudo-EFs to model some of the evap phase-ins.
+
+Unit options: (g/m2/day)
+
+--------------------------------------------------------------
+The format is as follows:
+Line 1:
+6-15  character     -- SCC code
+21-25  real          -- beginning of HP range
+26-30  real          -- end of horsepower range
+35-44  character     -- technology type
+46-55  character     -- units
+56-67  character     -- pollutant
+Line 2:
+1-5   integer       -- year
+35-44  real          -- emission factor (EF) for technology type 1
+x5-x4  real          -- EF's for tech types (repeating fields of 10)
+
+     2200000000      HPmn HPmx    techtyp1  techtyp2  techtyp3  techtyp4  techtyp5  techtyp6  techtyp7  techtyp8  techtyp9  techtyp10 g/m2/day  THC
+1900                              999.99    999.99    999.99    999.99    999.99    999.99    999.99    999.99    999.99    999.99
+--------------------------------------------------------------
+
+/EMSFAC/
+     2260000000         0   25    E0        E1        g/m2/day  THC
+1900                              122.0     3.75
+     2260000000        25 9999    ALL       g/m2/day  THC
+1900                              0.0
+     2260001010         0 9999    E0        E1        g/m2/day  THC
+1900                              450.0     7.50
+     2260001020         0 9999    E0        E1        g/m2/day  THC
+1900                              450.0     7.50
+     2260001030         0 9999    E0        E1        g/m2/day  THC
+1900                              450.0     7.50
+     2260002006         0    6    E0        E1        E2        g/m2/day  THC
+1900                              140.0     17.38     3.75
+     2260002009         0    3    E0        E1        E2        g/m2/day  THC
+1900                              140.0     17.38     3.75
+     2260002021         0    3    E0        E1        E2        g/m2/day  THC
+1900                              140.0     17.38     3.75
+     2260002027         0    3    E0        E1        E2        g/m2/day  THC
+1900                              140.0     17.38     3.75
+     2260002039         0    6    E0        E1        E2        g/m2/day  THC
+1900                              140.0     17.38     3.75
+     2260002054         0    3    E0        E1        E2        g/m2/day  THC
+1900                              140.0     17.38     3.75
+     2260003030         0    3    E0        E1        E2        g/m2/day  THC
+1900                              140.0     17.38     3.75
+     2260003040         0    3    E0        E1        E2        g/m2/day  THC
+1900                              140.0     17.38     3.75
+     2260004015         0    3    E0        E1        E2        g/m2/day  THC
+1900                              140.0     17.38     3.75
+     2260004016         0    3    E0        E1        E2        g/m2/day  THC
+1900                              140.0     17.38     3.75
+     2260004020         0    3    E0        E1        E2        g/m2/day  THC
+1900                              140.0     140.00    140.00
+     2260004021         0    6    E0        E1        E2        g/m2/day  THC
+1900                              140.0     140.00    140.00
+     2260004025         0    3    E0        E1        E2        g/m2/day  THC
+1900                              140.0     17.38     3.75
+     2260004026         0    6    E0        E1        E2        g/m2/day  THC
+1900                              140.0     17.38     3.75
+     2260004030         0    3    E0        E1        E2        g/m2/day  THC
+1900                              140.0     17.38     3.75
+     2260004031         0    6    E0        E1        E2        g/m2/day  THC
+1900                              140.0     17.38     3.75
+     2260004071         0    3    E0        E1        E2        g/m2/day  THC
+1900                              140.0     17.38     3.75
+     2260005035         0    3    E0        E1        E2        g/m2/day  THC
+1900                              140.0     17.38     3.75
+     2260006005         0    3    E0        E1        E2        g/m2/day  THC
+1900                              140.0     17.38     3.75
+     2260006010         0    3    E0        E1        E2        g/m2/day  THC
+1900                              140.0     17.38     3.75
+     2260006015         0    3    E0        E1        E2        g/m2/day  THC
+1900                              140.0     17.38     3.75
+     2260006035         0    3    E0        E1        E2        g/m2/day  THC
+1900                              140.0     17.38     3.75
+     2260007005         0   11    E0        E1        E2        g/m2/day  THC
+1900                              140.0     140.00    140.00
+     2265000000         0   25    E0        E1        g/m2/day  THC
+1900                              122.0     3.75
+     2265000000        25 9999    ALL       g/m2/day  THC
+1900                              0.0
+     2265001010         0 9999    E0        E1        g/m2/day  THC
+1900                              450.0     7.50
+     2265001020         0 9999    E0        E1        g/m2/day  THC
+1900                              450.0     7.50
+     2265001030         0 9999    E0        E1        g/m2/day  THC
+1900                              450.0     7.50
+     2267000000         0 9999    ALL       g/m2/day  THC
+1900                              0.0
+     2268000000         0 9999    ALL       g/m2/day  THC
+1900                              0.0
+     2270000000         0 9999    ALL       g/m2/day  THC
+1900                              0.0
+     2282005010         0 9999    ALL       g/m2/day  THC
+1900                              0.0
+     2282005015         0 9999    ALL       g/m2/day  THC
+1900                              0.0
+     2282010005         0 9999    ALL       g/m2/day  THC
+1900                              0.0
+     2282020005         0 9999    ALL       g/m2/day  THC
+1900                              0.0
+     2282020010         0 9999    ALL       g/m2/day  THC
+1900                              0.0
+     2285002015         0 9999    ALL       g/m2/day  THC
+1900                              0.0
+     2285003015         0   25    ALL       g/m2/day  THC
+1900                              122.0     3.75
+     2285003015        25 9999    ALL       g/m2/day  THC
+1900                              0.0
+     2285004015         0   25    E0        E1        g/m2/day  THC
+1900                              122.0     3.75
+     2285004015        25 9999    ALL       g/m2/day  THC
+1900                              0.0
+     2285006015         0 9999    ALL       g/m2/day  THC
+1900                              0.0
+     2285008015         0 9999    ALL       g/m2/day  THC
+1900                              0.0
+/END/

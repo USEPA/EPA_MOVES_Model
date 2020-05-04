@@ -1,0 +1,87 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RELATIVE NUMBER OF COMMERCIAL SNOWBLOWERS
+Same as LSCAP allocation factors, with value set to 0 for counties with snowfall < 15"
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+SBC  36000      2002               13080     NY
+SBC  36001      2002                 176     Albany
+SBC  36003      2002                  28     Allegany
+SBC  36005      2002                 206     Bronx
+SBC  36007      2002                  83     Broome
+SBC  36009      2002                  47     Cattaraugus
+SBC  36011      2002                  14     Cayuga
+SBC  36013      2002                  58     Chautauqua
+SBC  36015      2002                  51     Chemung
+SBC  36017      2002                  29     Chenango
+SBC  36019      2002                   9     Clinton
+SBC  36021      2002                  67     Columbia
+SBC  36023      2002                  27     Cortland
+SBC  36025      2002                  26     Delaware
+SBC  36027      2002                 312     Dutchess
+SBC  36029      2002                 617     Erie
+SBC  36031      2002                  22     Essex
+SBC  36033      2002                  28     Franklin
+SBC  36035      2002                  31     Fulton
+SBC  36037      2002                  34     Genesee
+SBC  36039      2002                  89     Greene
+SBC  36041      2002                   0     Hamilton
+SBC  36043      2002                  36     Herkimer
+SBC  36045      2002                   9     Jefferson
+SBC  36047      2002                 154     Kings
+SBC  36049      2002                  15     Lewis
+SBC  36051      2002                  36     Livingston
+SBC  36053      2002                  39     Madison
+SBC  36055      2002                1262     Monroe
+SBC  36057      2002                  28     Montgomery
+SBC  36059      2002                1499     Nassau
+SBC  36061      2002                 172     New York
+SBC  36063      2002                 125     Niagara
+SBC  36065      2002                  62     Oneida
+SBC  36067      2002                 327     Onondaga
+SBC  36069      2002                 127     Ontario
+SBC  36071      2002                 254     Orange
+SBC  36073      2002                  25     Orleans
+SBC  36075      2002                  68     Oswego
+SBC  36077      2002                  17     Otsego
+SBC  36079      2002                 166     Putnam
+SBC  36081      2002                 255     Queens
+SBC  36083      2002                  62     Rensselaer
+SBC  36085      2002                 325     Richmond
+SBC  36087      2002                 356     Rockland
+SBC  36089      2002                  61     St. Lawrence
+SBC  36091      2002                  74     Saratoga
+SBC  36093      2002                  53     Schenectady
+SBC  36095      2002                  18     Schoharie
+SBC  36097      2002                  11     Schuyler
+SBC  36099      2002                  20     Seneca
+SBC  36101      2002                  23     Steuben
+SBC  36103      2002                3154     Suffolk
+SBC  36105      2002                  42     Sullivan
+SBC  36107      2002                  29     Tioga
+SBC  36109      2002                  67     Tompkins
+SBC  36111      2002                 129     Ulster
+SBC  36113      2002                  50     Warren
+SBC  36115      2002                  34     Washington
+SBC  36117      2002                  52     Wayne
+SBC  36119      2002                1852     Westchester
+SBC  36121      2002                  24     Wyoming
+SBC  36123      2002                  14     Yates
+/END/

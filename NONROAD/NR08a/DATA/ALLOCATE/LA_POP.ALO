@@ -1,0 +1,89 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent HUMAN POPULATION
+
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+POP  22000      2002             4477042     LA
+POP  22001      2002               59144     Acadia
+POP  22003      2002               25163     Allen
+POP  22005      2002               81775     Ascension
+POP  22007      2002               23228     Assumption
+POP  22009      2002               41547     Avoyelles
+POP  22011      2002               33218     Beauregard
+POP  22013      2002               15419     Bienville
+POP  22015      2002              100829     Bossier
+POP  22017      2002              250506     Caddo
+POP  22019      2002              183250     Calcasieu
+POP  22021      2002               10617     Caldwell
+POP  22023      2002                9770     Cameron
+POP  22025      2002               10758     Catahoula
+POP  22027      2002               16626     Claiborn
+POP  22029      2002               19948     Concordia
+POP  22031      2002               25784     De Soto
+POP  22033      2002              410295     E. Baton Rouge
+POP  22035      2002                9101     E. Carroll
+POP  22037      2002               21117     E. Feliciana
+POP  22039      2002               35375     Evangeline
+POP  22041      2002               20908     Franklin
+POP  22043      2002               18746     Grant
+POP  22045      2002               73723     Iberia
+POP  22047      2002               33075     Iberville
+POP  22049      2002               15273     Jackson
+POP  22051      2002              451938     Jefferson
+POP  22053      2002               31135     Jefferson Davis
+POP  22055      2002              192850     Lafayette
+POP  22057      2002               90807     Lafourche
+POP  22059      2002               14249     La Salle
+POP  22061      2002               41871     Lincoln
+POP  22063      2002               98982     Livingston
+POP  22065      2002               13199     Madison
+POP  22067      2002               30526     Morehouse
+POP  22069      2002               38944     Natchitoches
+POP  22071      2002              472540     Orleans
+POP  22073      2002              147131     Ouachita
+POP  22075      2002               27346     Plaquemines
+POP  22077      2002               22569     Pointe Coupee
+POP  22079      2002              126742     Rapides
+POP  22081      2002                9580     Red River
+POP  22083      2002               20723     Richland
+POP  22085      2002               23407     Sabine
+POP  22087      2002               66388     St. Bernard
+POP  22089      2002               49124     St. Charles
+POP  22091      2002               10429     St. Helena
+POP  22093      2002               21271     St. James
+POP  22095      2002               44207     St. John the Baptist
+POP  22097      2002               88390     St. Landry
+POP  22099      2002               49526     St. Martin
+POP  22101      2002               52532     St. Mary
+POP  22103      2002              201920     St. Tammany
+POP  22105      2002              102413     Tangipahoa
+POP  22107      2002                6421     Tensas
+POP  22109      2002              105503     Terrebonne
+POP  22111      2002               22821     Union
+POP  22113      2002               54113     Vermilion
+POP  22115      2002               51226     Vernon
+POP  22117      2002               43892     Washington
+POP  22119      2002               41523     Webster
+POP  22121      2002               21703     W. Baton Rouge
+POP  22123      2002               12170     W. Carroll
+POP  22125      2002               15168     W. Feliciana
+POP  22127      2002               16568     Winn
+/END/

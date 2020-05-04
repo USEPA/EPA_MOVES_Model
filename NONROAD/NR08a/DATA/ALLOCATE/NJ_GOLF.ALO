@@ -1,0 +1,46 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent GOLF COURSES AND COUNTRY CLUBS
+CBP NAICS 713910; pre-2002 CBP SIC 7992
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+GC   34000      2002                 235     NJ
+GC   34001      2002                  20     Atlantic
+GC   34003      2002                  16     Bergen
+GC   34005      2002                  19     Burlington
+GC   34007      2002                  12     Camden
+GC   34009      2002                  12     Cape May
+GC   34011      2002                   1     Cumberland
+GC   34013      2002                  15     Essex
+GC   34015      2002                   9     Gloucester
+GC   34017      2002                   0     Hudson
+GC   34019      2002                   5     Hunterdon
+GC   34021      2002                   5     Mercer
+GC   34023      2002                   9     Middlesex
+GC   34025      2002                  23     Monmouth
+GC   34027      2002                  19     Morris
+GC   34029      2002                  10     Ocean
+GC   34031      2002                   7     Passaic
+GC   34033      2002                   7     Salem
+GC   34035      2002                  15     Somerset
+GC   34037      2002                  16     Sussex
+GC   34039      2002                   8     Union
+GC   34041      2002                   7     Warren
+/END/

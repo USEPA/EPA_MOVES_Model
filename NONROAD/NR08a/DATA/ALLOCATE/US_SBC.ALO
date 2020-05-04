@@ -1,0 +1,78 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RELATIVE NUMBER OF COMMERCIAL SNOWBLOWERS
+Same as LSCAP allocation factors, with value set to 0 for counties with snowfall < 15"
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+SBC  00000      2002              198293     US
+SBC  01000      2002                   0     AL
+SBC  02000      2002                 287     AK
+SBC  04000      2002                 409     AZ
+SBC  05000      2002                   0     AR
+SBC  06000      2002                5297     CA
+SBC  08000      2002                9499     CO
+SBC  09000      2002                5674     CT
+SBC  10000      2002                   0     DE
+SBC  11000      2002                  38     DC
+SBC  12000      2002                   0     FL
+SBC  13000      2002                  18     GA
+SBC  15000      2002                   0     HI
+SBC  16000      2002                1813     ID
+SBC  17000      2002               13929     IL
+SBC  18000      2002                7648     IN
+SBC  19000      2002                2577     IA
+SBC  20000      2002                3084     KS
+SBC  21000      2002                2044     KY
+SBC  22000      2002                   0     LA
+SBC  23000      2002                1386     ME
+SBC  24000      2002               10559     MD
+SBC  25000      2002                7824     MA
+SBC  26000      2002               10310     MI
+SBC  27000      2002                4837     MN
+SBC  28000      2002                   0     MS
+SBC  29000      2002                6922     MO
+SBC  30000      2002                 527     MT
+SBC  31000      2002                1697     NE
+SBC  32000      2002                 914     NV
+SBC  33000      2002                1735     NH
+SBC  34000      2002               12736     NJ
+SBC  35000      2002                1764     NM
+SBC  36000      2002               13080     NY
+SBC  37000      2002                 980     NC
+SBC  38000      2002                 284     ND
+SBC  39000      2002               18792     OH
+SBC  40000      2002                   4     OK
+SBC  41000      2002                5200     OR
+SBC  42000      2002               15590     PA
+SBC  44000      2002                 974     RI
+SBC  45000      2002                   0     SC
+SBC  46000      2002                 445     SD
+SBC  47000      2002                 804     TN
+SBC  48000      2002                 113     TX
+SBC  49000      2002                2253     UT
+SBC  50000      2002                 597     VT
+SBC  51000      2002                9931     VA
+SBC  53000      2002                8246     WA
+SBC  54000      2002                1498     WV
+SBC  55000      2002                5615     WI
+SBC  56000      2002                 359     WY
+SBC  72000      2002                   0     PR
+SBC  78000      2002                   0     VI
+/END/

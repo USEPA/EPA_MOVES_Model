@@ -1,0 +1,82 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent EMPLOYEES IN LANDSCAPING SERVICES
+CBP NAICS 561730; pre-2002 CBP SIC 0780
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+LSC  30000      2002                 527     MT
+LSC  30001      2002                   2     Beaverhead
+LSC  30003      2002                   0     Big Horn
+LSC  30005      2002                   0     Blaine
+LSC  30007      2002                   2     Broadwater
+LSC  30009      2002                   2     Carbon
+LSC  30011      2002                   0     Carter
+LSC  30013      2002                 103     Cascade
+LSC  30015      2002                   0     Chouteau
+LSC  30017      2002                   2     Custer
+LSC  30019      2002                   0     Daniels
+LSC  30021      2002                   0     Dawson
+LSC  30023      2002                   2     Deer Lodge
+LSC  30025      2002                   0     Fallon
+LSC  30027      2002                   2     Fergus
+LSC  30029      2002                  67     Flathead
+LSC  30031      2002                  72     Gallatin
+LSC  30033      2002                   0     Garfield Park
+LSC  30035      2002                   0     Glacier
+LSC  30037      2002                   0     Golden Valley
+LSC  30039      2002                   0     Granite
+LSC  30041      2002                   2     Hill
+LSC  30043      2002                   2     Jefferson
+LSC  30045      2002                   0     Judith Basin
+LSC  30047      2002                   2     Lake
+LSC  30049      2002                  22     Lewis & Clark
+LSC  30051      2002                   0     Liberty
+LSC  30053      2002                   2     Lincoln
+LSC  30055      2002                   0     McCone
+LSC  30057      2002                   0     Madison
+LSC  30059      2002                   2     Meagher
+LSC  30061      2002                   0     Mineral
+LSC  30063      2002                  43     Missoula
+LSC  30065      2002                   2     Musselshell
+LSC  30067      2002                   2     Park
+LSC  30069      2002                   0     Petroleum
+LSC  30071      2002                   0     Phillips
+LSC  30073      2002                   2     Pondera
+LSC  30075      2002                   0     Powder River
+LSC  30077      2002                   0     Powell
+LSC  30079      2002                   0     Prairie
+LSC  30081      2002                  60     Ravalli
+LSC  30083      2002                   2     Richland
+LSC  30085      2002                   2     Roosevelt
+LSC  30087      2002                   2     Rosebud
+LSC  30089      2002                   2     Sanders
+LSC  30091      2002                   0     Sheridan
+LSC  30093      2002                   2     Silver Bow
+LSC  30095      2002                   2     Stillwater
+LSC  30097      2002                   2     Sweet Grass
+LSC  30099      2002                   2     Teton
+LSC  30101      2002                   2     Toole
+LSC  30103      2002                   0     Treasure
+LSC  30105      2002                   0     Valley
+LSC  30107      2002                   0     Wheatland
+LSC  30109      2002                   0     Wibaux
+LSC  30111      2002                 114     Yellowstone
+LSC  30113      2002                   0     Yellowstone National Park
+/END/

@@ -1,0 +1,114 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2002 Timber Product Output (cu ft)
+from US Forest Service TPO database. http://www.fia.fs.fed.us/program-features/tpo/
+
+10/19/05 epa: use TPO data instead of CBP employee data.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+LOG  27000      2002           494351073     MN
+LOG  27001      2002            18093898     Aitkin
+LOG  27003      2002             1155963     Anoka
+LOG  27005      2002            12567534     Becker
+LOG  27007      2002            27743166     Beltrami
+LOG  27009      2002              880605     Benton
+LOG  27011      2002                4787     Big Stone
+LOG  27013      2002              358706     Blue Earth
+LOG  27015      2002               87512     Brown
+LOG  27017      2002             9274180     Carlton
+LOG  27019      2002              747339     Carver
+LOG  27021      2002            32238985     Cass
+LOG  27023      2002              147077     Chippewa
+LOG  27025      2002             2019778     Chisago
+LOG  27027      2002              783650     Clay
+LOG  27029      2002            11447106     Clearwater
+LOG  27031      2002            10136178     Cook
+LOG  27033      2002               71778     Cottonwood
+LOG  27035      2002            16871614     Crow Wing
+LOG  27037      2002              672006     Dakota
+LOG  27039      2002              432077     Dodge
+LOG  27041      2002             1988949     Douglas
+LOG  27043      2002               76393     Faribault
+LOG  27045      2002             2413167     Fillmore
+LOG  27047      2002              263252     Freeborn
+LOG  27049      2002             2105221     Goodhue
+LOG  27051      2002              267312     Grant
+LOG  27053      2002             1042507     Hennepin
+LOG  27055      2002             3138963     Houston
+LOG  27057      2002            21108339     Hubbard
+LOG  27059      2002              496518     Isanti
+LOG  27061      2002            63060697     Itasca
+LOG  27063      2002               70045     Jackson
+LOG  27065      2002             4126164     Kanabec
+LOG  27067      2002              289730     Kandiyohi
+LOG  27069      2002             2762778     Kittson
+LOG  27071      2002            56014267     Koochiching
+LOG  27073      2002                   0     Lac qui Parle
+LOG  27075      2002            14122812     Lake
+LOG  27077      2002            11019958     Lake of the Woods
+LOG  27079      2002              958919     Le Sueur
+LOG  27081      2002                8354     Lincoln
+LOG  27083      2002               78255     Lyon
+LOG  27085      2002              214767     McLeod
+LOG  27087      2002             2486048     Mahnomen
+LOG  27089      2002             3229195     Marshall
+LOG  27091      2002              404503     Martin
+LOG  27093      2002              186433     Meeker
+LOG  27095      2002             6225495     Mille Lacs
+LOG  27097      2002             4448700     Morrison
+LOG  27099      2002              140787     Mower
+LOG  27101      2002                1223     Murray
+LOG  27103      2002             1157630     Nicollet
+LOG  27105      2002               18722     Nobles
+LOG  27107      2002             1632761     Norman
+LOG  27109      2002              977751     Olmsted
+LOG  27111      2002             6808906     Otter Tail
+LOG  27113      2002             1542755     Pennington
+LOG  27115      2002            18645267     Pine
+LOG  27117      2002                   0     Pipestone
+LOG  27119      2002             4900363     Polk
+LOG  27121      2002              559393     Pope
+LOG  27123      2002              837605     Ramsey
+LOG  27125      2002             1701496     Red Lake
+LOG  27127      2002              212821     Redwood
+LOG  27129      2002              582397     Renville
+LOG  27131      2002              702926     Rice
+LOG  27133      2002                7336     Rock
+LOG  27135      2002             6339213     Roseau
+LOG  27137      2002            82530621     St. Louis
+LOG  27139      2002              603994     Scott
+LOG  27141      2002              811709     Sherburne
+LOG  27143      2002              515720     Sibley
+LOG  27145      2002              891082     Stearns
+LOG  27147      2002              431317     Steele
+LOG  27149      2002               18177     Stevens
+LOG  27151      2002                6045     Swift
+LOG  27153      2002             2633842     Todd
+LOG  27155      2002               54446     Traverse
+LOG  27157      2002             1447998     Wabasha
+LOG  27159      2002             3862019     Wadena
+LOG  27161      2002              433736     Waseca
+LOG  27163      2002             1470571     Washington
+LOG  27165      2002                   0     Watonwan
+LOG  27167      2002               52395     Wilkin
+LOG  27169      2002             2573046     Winona
+LOG  27171      2002              723156     Wright
+LOG  27173      2002              180171     Yellow Medicine
+/END/

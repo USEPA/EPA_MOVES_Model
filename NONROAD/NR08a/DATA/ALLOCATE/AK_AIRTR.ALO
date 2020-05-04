@@ -1,0 +1,54 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent AIRCRAFT NOx TONS
+from Draft 2002 NEI
+
+9/1/05 epa: Modifies to treat PR & VI as additional to US Total.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+AIR  02000      2002            1305.879     AK
+AIR  02013      2002               3.226     Aleutians East
+AIR  02016      2002               2.804     Aleutians West
+AIR  02020      2002             872.670     Anchorage
+AIR  02050      2002              24.140     Bethel
+AIR  02060      2002              10.070     Bristol Bay
+AIR  02068      2002               0.000     Denali
+AIR  02070      2002              10.571     Dillingham
+AIR  02090      2002             120.140     Fairbanks North Star
+AIR  02100      2002               0.000     Haines
+AIR  02110      2002              44.470     Juneau
+AIR  02122      2002              19.550     Kenai Peninsula
+AIR  02130      2002              25.451     Ketchikan Gateway
+AIR  02150      2002               7.790     Kodiak Island
+AIR  02164      2002               0.000     Lake and Peninsula
+AIR  02170      2002               0.490     Matanuska-Susitna
+AIR  02180      2002              11.610     Nome
+AIR  02185      2002              34.590     North Slope
+AIR  02188      2002              28.980     Northwest Arctic
+AIR  02201      2002               0.000     Prince of Wales-Outer Ketchikan
+AIR  02220      2002               9.020     Sitka
+AIR  02232      2002               5.100     Skagway-Hoonah-Angoon
+AIR  02240      2002               1.380     Southeast Fairbanks
+AIR  02261      2002              27.770     Valdez-Cordova
+AIR  02270      2002               0.093     Wade Hampton
+AIR  02280      2002              34.984     Wrangell-Petersburg
+AIR  02282      2002               0.000     Yakutat
+AIR  02290      2002              10.980     Yukon-Koyukuk
+/END/

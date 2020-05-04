@@ -1,0 +1,41 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent EMPLOYEES IN LANDSCAPING SERVICES
+CBP NAICS 561730; pre-2002 CBP SIC 0780
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+LSC  23000      2002                1386     ME
+LSC  23001      2002                  35     Androscoggin
+LSC  23003      2002                  35     Aroostook
+LSC  23005      2002                 613     Cumberland
+LSC  23007      2002                   6     Franklin
+LSC  23009      2002                  49     Hancock
+LSC  23011      2002                  71     Kennebec
+LSC  23013      2002                  78     Knox
+LSC  23015      2002                 151     Lincoln
+LSC  23017      2002                   6     Oxford
+LSC  23019      2002                  93     Penobscot
+LSC  23021      2002                   6     Piscataquis
+LSC  23023      2002                  40     Sagadahoc
+LSC  23025      2002                   6     Somerset
+LSC  23027      2002                   6     Waldo
+LSC  23029      2002                   6     Washington
+LSC  23031      2002                 185     York
+/END/

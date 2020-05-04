@@ -1,0 +1,80 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent AIRCRAFT NOx TONS
+from Draft 2002 NEI
+
+9/1/05 epa: Modifies to treat PR & VI as additional to US Total.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+AIR  00000      2002           80274.883     US
+AIR  01000      2002             378.981     AL
+AIR  02000      2002            1305.879     AK
+AIR  04000      2002            2399.051     AZ
+AIR  05000      2002             234.857     AR
+AIR  06000      2002            9865.522     CA
+AIR  08000      2002            2093.170     CO
+AIR  09000      2002             412.004     CT
+AIR  10000      2002               6.990     DE
+AIR  11000      2002               0.000     DC
+AIR  12000      2002            6810.120     FL
+AIR  13000      2002            3613.656     GA
+AIR  15000      2002            1932.330     HI
+AIR  16000      2002             219.042     ID
+AIR  17000      2002            4684.488     IL
+AIR  18000      2002             742.879     IN
+AIR  19000      2002             277.302     IA
+AIR  20000      2002             139.027     KS
+AIR  21000      2002            1385.494     KY
+AIR  22000      2002             721.629     LA
+AIR  23000      2002             228.730     ME
+AIR  24000      2002            1203.205     MD
+AIR  25000      2002            1536.288     MA
+AIR  26000      2002            1975.557     MI
+AIR  27000      2002            1307.324     MN
+AIR  28000      2002             162.906     MS
+AIR  29000      2002            2487.690     MO
+AIR  30000      2002             279.679     MT
+AIR  31000      2002             366.671     NE
+AIR  32000      2002            1967.699     NV
+AIR  33000      2002             233.382     NH
+AIR  34000      2002            2112.657     NJ
+AIR  35000      2002             490.036     NM
+AIR  36000      2002            4849.026     NY
+AIR  37000      2002            2413.449     NC
+AIR  38000      2002             133.085     ND
+AIR  39000      2002            1345.613     OH
+AIR  40000      2002             504.578     OK
+AIR  41000      2002             766.367     OR
+AIR  42000      2002            2937.256     PA
+AIR  44000      2002             311.990     RI
+AIR  45000      2002             254.625     SC
+AIR  46000      2002             144.910     SD
+AIR  47000      2002            1937.315     TN
+AIR  48000      2002            7646.956     TX
+AIR  49000      2002             843.961     UT
+AIR  50000      2002              47.254     VT
+AIR  51000      2002            2059.020     VA
+AIR  53000      2002            1690.312     WA
+AIR  54000      2002             134.574     WV
+AIR  55000      2002             638.164     WI
+AIR  56000      2002              42.184     WY
+AIR  72000      2002             552.500     PR
+AIR  78000      2002              66.690     VI
+/END/

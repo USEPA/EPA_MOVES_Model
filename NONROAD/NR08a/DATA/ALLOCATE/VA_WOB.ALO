@@ -1,0 +1,161 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WATER SURFACE AREA FOR OUTBOARD RECREATIONAL MARINE CRAFT (sq km navigable water)
+1990 GICS (inland water area); GIS analysis of coast lengths (coastal navigable water)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+WOB  51000      1990                3022     VA
+WOB  51001      1990                 516     Accomack
+WOB  51003      1990                   9     Albemarle
+WOB  51005      1990                   3     Alleghany
+WOB  51007      1990                   5     Amelia
+WOB  51009      1990                   9     Amherst
+WOB  51011      1990                   3     Appomattox
+WOB  51013      1990                   0     Arlington
+WOB  51015      1990                   1     Augusta
+WOB  51017      1990                   7     Bath
+WOB  51019      1990                  38     Bedford
+WOB  51021      1990                   0     Bland
+WOB  51023      1990                   8     Botetourt
+WOB  51025      1990                   8     Brunswick
+WOB  51027      1990                   0     Buchanan
+WOB  51029      1990                   7     Buckingham
+WOB  51031      1990                   7     Campbell
+WOB  51033      1990                  16     Caroline
+WOB  51035      1990                   3     Carroll
+WOB  51036      1990                  56     Charles City
+WOB  51037      1990                   6     Charlotte
+WOB  51041      1990                  33     Chesterfield
+WOB  51043      1990                   4     Clarke
+WOB  51045      1990                   0     Craig
+WOB  51047      1990                   3     Culpeper
+WOB  51049      1990                   3     Cumberland
+WOB  51051      1990                   5     Dickenson
+WOB  51053      1990                   8     Dinwiddie
+WOB  51057      1990                  50     Essex
+WOB  51059      1990                  24     Fairfax
+WOB  51061      1990                   4     Fauquier
+WOB  51063      1990                   0     Floyd
+WOB  51065      1990                   7     Fluvanna
+WOB  51067      1990                  50     Franklin
+WOB  51069      1990                   3     Frederick
+WOB  51071      1990                   8     Giles
+WOB  51073      1990                 108     Gloucester
+WOB  51075      1990                  14     Goochland
+WOB  51077      1990                   8     Grayson
+WOB  51079      1990                   1     Greene
+WOB  51081      1990                   4     Greensville
+WOB  51083      1990                  27     Halifax
+WOB  51085      1990                   3     Hanover
+WOB  51087      1990                  13     Henrico
+WOB  51089      1990                   5     Henry
+WOB  51091      1990                   0     Highland
+WOB  51093      1990                  28     Isle of Wight
+WOB  51095      1990                  62     James City
+WOB  51097      1990                  26     King and Queen
+WOB  51099      1990                  19     King George
+WOB  51101      1990                  26     King William
+WOB  51103      1990                  58     Lancaster
+WOB  51105      1990                   0     Lee
+WOB  51107      1990                   3     Loudoun
+WOB  51109      1990                  35     Louisa
+WOB  51111      1990                   2     Lunenburg
+WOB  51113      1990                   1     Madison
+WOB  51115      1990                  73     Mathews
+WOB  51117      1990                 143     Mecklenburg
+WOB  51119      1990                  41     Middlesex
+WOB  51121      1990                   3     Montgomery
+WOB  51125      1990                   5     Nelson
+WOB  51127      1990                  36     New Kent
+WOB  51131      1990                 432     Northampton
+WOB  51133      1990                  80     Northumberland
+WOB  51135      1990                   4     Nottoway
+WOB  51137      1990                   4     Orange
+WOB  51139      1990                   8     Page
+WOB  51141      1990                   7     Patrick
+WOB  51143      1990                  19     Pittsylvania
+WOB  51145      1990                   3     Powhatan
+WOB  51147      1990                   3     Prince Edward
+WOB  51149      1990                  42     Prince George
+WOB  51153      1990                  18     Prince William
+WOB  51155      1990                  23     Pulaski
+WOB  51157      1990                   1     Rappahannock
+WOB  51159      1990                  41     Richmond
+WOB  51161      1990                   0     Roanoke
+WOB  51163      1990                   4     Rockbridge
+WOB  51165      1990                   6     Rockingham
+WOB  51167      1990                   5     Russell
+WOB  51169      1990                   5     Scott
+WOB  51171      1990                   1     Shenandoah
+WOB  51173      1990                   1     Smyth
+WOB  51175      1990                   7     Southampton
+WOB  51177      1990                  30     Spotsylvania
+WOB  51179      1990                  23     Stafford
+WOB  51181      1990                  40     Surry
+WOB  51183      1990                   5     Sussex
+WOB  51185      1990                   0     Tazewell
+WOB  51187      1990                   7     Warren
+WOB  51191      1990                   9     Washington
+WOB  51193      1990                  48     Westmoreland
+WOB  51195      1990                   3     Wise
+WOB  51197      1990                   4     Wythe
+WOB  51199      1990                  70     York
+WOB  51510      1990                   0     Alexandria
+WOB  51515      1990                   0     Bedford
+WOB  51520      1990                   0     Bristol
+WOB  51530      1990                   0     Buena Vista
+WOB  51540      1990                   0     Charlottesville
+WOB  51550      1990                  27     Chesapeake
+WOB  51560      1990                   0     Clifton Forge
+WOB  51570      1990                   1     Colonial Heights
+WOB  51580      1990                   0     Covington
+WOB  51590      1990                   2     Danville
+WOB  51595      1990                   0     Emporia
+WOB  51600      1990                   0     Fairfax
+WOB  51610      1990                   0     Falls Church
+WOB  51620      1990                   0     Franklin
+WOB  51630      1990                   0     Fredericksburg
+WOB  51640      1990                   0     Galax
+WOB  51650      1990                  50     Hampton
+WOB  51660      1990                   0     Harrisonburg
+WOB  51670      1990                   1     Hopewell
+WOB  51678      1990                   0     Lexington
+WOB  51680      1990                   1     Lynchburg
+WOB  51683      1990                   0     Manassas
+WOB  51685      1990                   0     Manassas Park
+WOB  51690      1990                   0     Martinsville
+WOB  51700      1990                  16     Newport News
+WOB  51710      1990                  34     Norfolk
+WOB  51720      1990                   0     Norton
+WOB  51730      1990                   1     Petersburg
+WOB  51735      1990                  23     Poquoson
+WOB  51740      1990                  21     Portsmouth
+WOB  51750      1990                   1     Radford
+WOB  51760      1990                   6     Richmond
+WOB  51770      1990                   0     Roanoke
+WOB  51775      1990                   0     Salem
+WOB  51780      1990                   0     South Boston
+WOB  51790      1990                   0     Staunton
+WOB  51800      1990                  48     Suffolk
+WOB  51810      1990                 189     Virginia Beach
+WOB  51820      1990                   0     Waynesboro
+WOB  51830      1990                   0     Williamsburg
+WOB  51840      1990                   0     Winchester
+/END/

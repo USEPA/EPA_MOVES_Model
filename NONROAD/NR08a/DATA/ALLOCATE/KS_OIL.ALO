@@ -1,0 +1,130 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent EMPLOYEES IN OIL & GAS EXTRACTION, AND DRILLING OIL & GAS WELLS
+CBP NAICS 211/// and 213111; pre-2002 CBP SIC 1300
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+OIL  20000      2002                3632     KS
+OIL  20001      2002                 104     Allen
+OIL  20003      2002                  15     Anderson
+OIL  20005      2002                   0     Atchison
+OIL  20007      2002                  57     Barber
+OIL  20009      2002                 361     Barton
+OIL  20011      2002                  31     Bourbon
+OIL  20013      2002                   0     Brown
+OIL  20015      2002                  88     Butler
+OIL  20017      2002                  15     Chase
+OIL  20019      2002                  15     Chautauqua
+OIL  20021      2002                   0     Cherokee
+OIL  20023      2002                   0     Cheyenne
+OIL  20025      2002                   0     Clark
+OIL  20027      2002                   0     Clay
+OIL  20029      2002                   0     Cloud
+OIL  20031      2002                  88     Coffey
+OIL  20033      2002                  15     Comanche
+OIL  20035      2002                  37     Cowley
+OIL  20037      2002                  15     Crawford
+OIL  20039      2002                   0     Decatur
+OIL  20041      2002                  16     Dickinson
+OIL  20043      2002                   0     Doniphan
+OIL  20045      2002                  15     Douglas
+OIL  20047      2002                   0     Edwards
+OIL  20049      2002                  15     Elk
+OIL  20051      2002                 176     Ellis
+OIL  20053      2002                   0     Ellsworth
+OIL  20055      2002                  51     Finney
+OIL  20057      2002                   0     Ford
+OIL  20059      2002                  31     Franklin
+OIL  20061      2002                   0     Geary
+OIL  20063      2002                   0     Gove
+OIL  20065      2002                  31     Graham
+OIL  20067      2002                 182     Grant
+OIL  20069      2002                   0     Gray
+OIL  20071      2002                   0     Greeley
+OIL  20073      2002                  93     Greenwood
+OIL  20075      2002                   0     Hamilton
+OIL  20077      2002                  15     Harper
+OIL  20079      2002                   9     Harvey
+OIL  20081      2002                  31     Haskell
+OIL  20083      2002                  15     Hodgeman
+OIL  20085      2002                   0     Jackson
+OIL  20087      2002                  15     Jefferson
+OIL  20089      2002                   0     Jewell
+OIL  20091      2002                   8     Johnson
+OIL  20093      2002                  15     Kearny
+OIL  20095      2002                   5     Kingman
+OIL  20097      2002                   0     Kiowa
+OIL  20099      2002                   0     Labette
+OIL  20101      2002                   0     Lane
+OIL  20103      2002                  15     Leavenworth
+OIL  20105      2002                   0     Lincoln
+OIL  20107      2002                  31     Linn
+OIL  20109      2002                   0     Logan
+OIL  20111      2002                  31     Lyon
+OIL  20113      2002                 125     McPherson
+OIL  20115      2002                 104     Marion
+OIL  20117      2002                   0     Marshall
+OIL  20119      2002                  15     Meade
+OIL  20121      2002                  43     Miami
+OIL  20123      2002                   0     Mitchell
+OIL  20125      2002                  15     Montgomery
+OIL  20127      2002                  15     Morris
+OIL  20129      2002                  88     Morton
+OIL  20131      2002                  15     Nemaha
+OIL  20133      2002                  15     Neosho
+OIL  20135      2002                 100     Ness
+OIL  20137      2002                  15     Norton
+OIL  20139      2002                  16     Osage
+OIL  20141      2002                   0     Osborne
+OIL  20143      2002                   0     Ottawa
+OIL  20145      2002                   0     Pawnee
+OIL  20147      2002                 104     Phillips
+OIL  20149      2002                   0     Pottawatomie
+OIL  20151      2002                  32     Pratt
+OIL  20153      2002                   0     Rawlins
+OIL  20155      2002                  88     Reno
+OIL  20157      2002                   0     Republic
+OIL  20159      2002                  88     Rice
+OIL  20161      2002                   0     Riley
+OIL  20163      2002                  46     Rooks
+OIL  20165      2002                   0     Rush
+OIL  20167      2002                  81     Russell
+OIL  20169      2002                   0     Saline
+OIL  20171      2002                  15     Scott
+OIL  20173      2002                 682     Sedgwick
+OIL  20175      2002                  48     Seward
+OIL  20177      2002                   0     Shawnee
+OIL  20179      2002                   0     Sheridan
+OIL  20181      2002                  15     Sherman
+OIL  20183      2002                   0     Smith
+OIL  20185      2002                  31     Stafford
+OIL  20187      2002                   0     Stanton
+OIL  20189      2002                   0     Stevens
+OIL  20191      2002                  31     Sumner
+OIL  20193      2002                   0     Thomas
+OIL  20195      2002                  16     Trego
+OIL  20197      2002                   0     Wabaunsee
+OIL  20199      2002                   0     Wallace
+OIL  20201      2002                   0     Washington
+OIL  20203      2002                   0     Wichita
+OIL  20205      2002                  88     Wilson
+OIL  20207      2002                  45     Woodson
+OIL  20209      2002                  15     Wyandotte
+/END/

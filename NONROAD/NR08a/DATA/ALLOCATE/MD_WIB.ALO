@@ -1,0 +1,49 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WATER SURFACE AREA FOR INBOARD RECREATIONAL MARINE CRAFT (sq km navigable water)
+1990 GICS (inland water area); GIS analysis of coast lengths (coastal navigable water)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+WIB  24000      1990                5029     MD
+WIB  24001      1990                  11     Allegany
+WIB  24003      1990                 323     Anne Arundel
+WIB  24005      1990                 185     Baltimore
+WIB  24009      1990                 226     Calvert
+WIB  24011      1990                  15     Caroline
+WIB  24013      1990                   8     Carroll
+WIB  24015      1990                 174     Cecil
+WIB  24017      1990                 299     Charles
+WIB  24019      1990                 770     Dorchester
+WIB  24021      1990                  12     Frederick
+WIB  24023      1990                  21     Garrett
+WIB  24025      1990                 167     Harford
+WIB  24027      1990                   4     Howard
+WIB  24029      1990                 231     Kent
+WIB  24031      1990                  30     Montgomery
+WIB  24033      1990                  34     Prince George's
+WIB  24035      1990                 251     Queen Anne's
+WIB  24037      1990                 653     St. Mary's
+WIB  24039      1990                 489     Somerset
+WIB  24041      1990                 421     Talbot
+WIB  24043      1990                  24     Washington
+WIB  24045      1990                  62     Wicomico
+WIB  24047      1990                 573     Worcester
+WIB  24510      1990                  46     Baltimore
+/END/

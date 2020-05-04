@@ -1,0 +1,124 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RECREATIONAL VEHICLE PARKS AND CAMPGROUNDS
+CBP NAICS 72121/; pre-2002 CBP SIC 7030
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+RVP  19000      2002                  48     IA
+RVP  19001      2002                   0     Adair
+RVP  19003      2002                   0     Adams
+RVP  19005      2002                   2     Allamakee
+RVP  19007      2002                   1     Appanoose
+RVP  19009      2002                   0     Audubon
+RVP  19011      2002                   1     Benton
+RVP  19013      2002                   0     Black Hawk
+RVP  19015      2002                   4     Boone
+RVP  19017      2002                   0     Bremer
+RVP  19019      2002                   0     Buchanan
+RVP  19021      2002                   0     Buena Vista
+RVP  19023      2002                   1     Butler
+RVP  19025      2002                   1     Calhoun
+RVP  19027      2002                   0     Carroll
+RVP  19029      2002                   0     Cass
+RVP  19031      2002                   1     Cedar
+RVP  19033      2002                   2     Cerro Gordo
+RVP  19035      2002                   0     Cherokee
+RVP  19037      2002                   0     Chickasaw
+RVP  19039      2002                   1     Clarke
+RVP  19041      2002                   0     Clay
+RVP  19043      2002                   3     Clayton
+RVP  19045      2002                   0     Clinton
+RVP  19047      2002                   0     Crawford
+RVP  19049      2002                   2     Dallas
+RVP  19051      2002                   0     Davis
+RVP  19053      2002                   0     Decatur
+RVP  19055      2002                   0     Delaware
+RVP  19057      2002                   0     Des Moines
+RVP  19059      2002                   2     Dickinson
+RVP  19061      2002                   2     Dubuque
+RVP  19063      2002                   0     Emmet
+RVP  19065      2002                   0     Fayette
+RVP  19067      2002                   0     Floyd
+RVP  19069      2002                   0     Franklin
+RVP  19071      2002                   0     Fremont
+RVP  19073      2002                   0     Greene
+RVP  19075      2002                   0     Grundy
+RVP  19077      2002                   1     Guthrie
+RVP  19079      2002                   0     Hamilton
+RVP  19081      2002                   0     Hancock
+RVP  19083      2002                   0     Hardin
+RVP  19085      2002                   2     Harrison
+RVP  19087      2002                   0     Henry
+RVP  19089      2002                   0     Howard
+RVP  19091      2002                   0     Humboldt
+RVP  19093      2002                   0     Ida
+RVP  19095      2002                   0     Iowa
+RVP  19097      2002                   1     Jackson
+RVP  19099      2002                   0     Jasper
+RVP  19101      2002                   0     Jefferson
+RVP  19103      2002                   3     Johnson
+RVP  19105      2002                   1     Jones
+RVP  19107      2002                   0     Keokuk
+RVP  19109      2002                   0     Kossuth
+RVP  19111      2002                   0     Lee
+RVP  19113      2002                   2     Linn
+RVP  19115      2002                   0     Louisa
+RVP  19117      2002                   0     Lucas
+RVP  19119      2002                   0     Lyon
+RVP  19121      2002                   1     Madison
+RVP  19123      2002                   0     Mahaska
+RVP  19125      2002                   0     Marion
+RVP  19127      2002                   0     Marshall
+RVP  19129      2002                   0     Mills
+RVP  19131      2002                   0     Mitchell
+RVP  19133      2002                   0     Monona
+RVP  19135      2002                   0     Monroe
+RVP  19137      2002                   0     Montgomery
+RVP  19139      2002                   0     Muscatine
+RVP  19141      2002                   0     O'Brien
+RVP  19143      2002                   0     Osceola
+RVP  19145      2002                   1     Page
+RVP  19147      2002                   0     Palo Alto
+RVP  19149      2002                   0     Plymouth
+RVP  19151      2002                   0     Pocahontas
+RVP  19153      2002                   4     Polk
+RVP  19155      2002                   1     Pottawattamie
+RVP  19157      2002                   0     Poweshiek
+RVP  19159      2002                   0     Ringgold
+RVP  19161      2002                   0     Sac
+RVP  19163      2002                   4     Scott
+RVP  19165      2002                   0     Shelby
+RVP  19167      2002                   0     Sioux
+RVP  19169      2002                   1     Story
+RVP  19171      2002                   0     Tama
+RVP  19173      2002                   0     Taylor
+RVP  19175      2002                   0     Union
+RVP  19177      2002                   0     Van Buren
+RVP  19179      2002                   0     Wapello
+RVP  19181      2002                   0     Warren
+RVP  19183      2002                   1     Washington
+RVP  19185      2002                   0     Wayne
+RVP  19187      2002                   1     Webster
+RVP  19189      2002                   0     Winnebago
+RVP  19191      2002                   0     Winneshiek
+RVP  19193      2002                   1     Woodbury
+RVP  19195      2002                   0     Worth
+RVP  19197      2002                   0     Wright
+/END/

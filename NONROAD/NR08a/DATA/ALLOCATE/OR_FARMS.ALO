@@ -1,0 +1,61 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent HARVESTED CROPLAND
+2002 USDA Census of Agriculture
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+FRM  41000      2002             3119384     OR
+FRM  41001      2002               77370     Baker
+FRM  41003      2002               78906     Benton
+FRM  41005      2002               86291     Clackamas
+FRM  41007      2002                4207     Clatsop
+FRM  41009      2002               17189     Columbia
+FRM  41011      2002               13638     Coos
+FRM  41013      2002               43822     Crook
+FRM  41015      2002                2973     Curry
+FRM  41017      2002               24395     Deschutes
+FRM  41019      2002               38433     Douglas
+FRM  41021      2002              116490     Gilliam
+FRM  41023      2002               36295     Grant
+FRM  41025      2002              110263     Harney
+FRM  41027      2002               17974     Hood River
+FRM  41029      2002               34470     Jackson
+FRM  41031      2002               53496     Jefferson
+FRM  41033      2002                8405     Josephine
+FRM  41035      2002              152165     Klamath
+FRM  41037      2002              154418     Lake
+FRM  41039      2002               91965     Lane
+FRM  41041      2002                3617     Lincoln
+FRM  41043      2002              228987     Linn
+FRM  41045      2002              189374     Malheur
+FRM  41047      2002              213215     Marion
+FRM  41049      2002              212531     Morrow
+FRM  41051      2002               15083     Multnomah
+FRM  41053      2002              101629     Polk
+FRM  41055      2002              130328     Sherman
+FRM  41057      2002                6452     Tillamook
+FRM  41059      2002              396024     Umatilla
+FRM  41061      2002              104913     Union
+FRM  41063      2002               51574     Wallowa
+FRM  41065      2002              103069     Wasco
+FRM  41067      2002               81449     Washington
+FRM  41069      2002               12877     Wheeler
+FRM  41071      2002              105097     Yamhill
+/END/

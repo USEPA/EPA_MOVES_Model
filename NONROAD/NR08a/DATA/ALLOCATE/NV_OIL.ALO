@@ -1,0 +1,42 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent EMPLOYEES IN OIL & GAS EXTRACTION, AND DRILLING OIL & GAS WELLS
+CBP NAICS 211/// and 213111; pre-2002 CBP SIC 1300
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+OIL  32000      2002                 134     NV
+OIL  32001      2002                   0     Churchill
+OIL  32003      2002                  22     Clark
+OIL  32005      2002                   3     Douglas
+OIL  32007      2002                  73     Elko
+OIL  32009      2002                   0     Esmeralda
+OIL  32011      2002                   0     Eureka
+OIL  32013      2002                   0     Humboldt
+OIL  32015      2002                   0     Lander
+OIL  32017      2002                   9     Lincoln
+OIL  32019      2002                   0     Lyon
+OIL  32021      2002                   0     Mineral
+OIL  32023      2002                   0     Nye
+OIL  32027      2002                   0     Pershing
+OIL  32029      2002                   0     Storey
+OIL  32031      2002                  12     Washoe
+OIL  32033      2002                   3     White Pine
+OIL  32510      2002                  12     Carson City
+/END/

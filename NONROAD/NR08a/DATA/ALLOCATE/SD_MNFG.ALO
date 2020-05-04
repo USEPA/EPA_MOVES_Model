@@ -1,0 +1,91 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent NUMBER OF EMPLOYEES IN MANUFACTURING
+CBP NAICS 31----, 321///, 322///, 323///, 324///, 325///, 326///, 327///, 331///,
+332///, 333///, 334///, 335///, 336///, 337///, 339///, and 5111//; pre-2002 CBP SIC 20--
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+MFG  46000      2002               66115     SD
+MFG  46003      2002                   4     Aurora
+MFG  46005      2002                1274     Beadle
+MFG  46007      2002                  10     Bennett
+MFG  46009      2002                 577     Bon Homme
+MFG  46011      2002                7323     Brookings
+MFG  46013      2002                3192     Brown
+MFG  46015      2002                  96     Brule
+MFG  46017      2002                   0     Buffalo
+MFG  46019      2002                 262     Butte
+MFG  46021      2002                  69     Campbell
+MFG  46023      2002                 180     Charles Mix
+MFG  46025      2002                 116     Clark
+MFG  46027      2002                 321     Clay
+MFG  46029      2002                5902     Codington
+MFG  46031      2002                  18     Corson
+MFG  46033      2002                  91     Custer
+MFG  46035      2002                3036     Davison
+MFG  46037      2002                 301     Day
+MFG  46039      2002                 612     Deuel
+MFG  46041      2002                  29     Dewey
+MFG  46043      2002                 140     Douglas
+MFG  46045      2002                  24     Edmunds
+MFG  46047      2002                  46     Fall River
+MFG  46049      2002                  25     Faulk
+MFG  46051      2002                 463     Grant
+MFG  46053      2002                  67     Gregory
+MFG  46055      2002                 155     Haakon
+MFG  46057      2002                 197     Hamlin
+MFG  46059      2002                 115     Hand
+MFG  46061      2002                  17     Hanson
+MFG  46063      2002                   4     Harding
+MFG  46065      2002                 175     Hughes
+MFG  46067      2002                 357     Hutchinson
+MFG  46069      2002                  14     Hyde
+MFG  46071      2002                  10     Jackson
+MFG  46073      2002                 359     Jerauld
+MFG  46075      2002                   0     Jones
+MFG  46077      2002                 688     Kingsbury
+MFG  46079      2002                1778     Lake
+MFG  46081      2002                1175     Lawrence
+MFG  46083      2002                1359     Lincoln
+MFG  46085      2002                   4     Lyman
+MFG  46087      2002                 447     McCook
+MFG  46089      2002                  75     McPherson
+MFG  46091      2002                 376     Marshall
+MFG  46093      2002                 549     Meade
+MFG  46095      2002                   0     Mellette
+MFG  46097      2002                 310     Miner
+MFG  46099      2002               17086     Minnehaha
+MFG  46101      2002                 342     Moody
+MFG  46103      2002                7169     Pennington
+MFG  46105      2002                 366     Perkins
+MFG  46107      2002                  81     Potter
+MFG  46109      2002                 277     Roberts
+MFG  46111      2002                 312     Sanborn
+MFG  46113      2002                  17     Shannon
+MFG  46115      2002                  50     Spink
+MFG  46117      2002                  10     Stanley
+MFG  46119      2002                  20     Sully
+MFG  46121      2002                   4     Todd
+MFG  46123      2002                 111     Tripp
+MFG  46125      2002                 193     Turner
+MFG  46127      2002                3367     Union
+MFG  46129      2002                  40     Walworth
+MFG  46135      2002                4311     Yankton
+MFG  46137      2002                  17     Ziebach
+/END/

@@ -1,0 +1,102 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2003 DOLLAR VALUE of CONSTRUCTION
+adjusted for relative geographic cost of construction materials.
+   Const_Dollars * (1-(1/(1+100/Area_Mod_Factor)))
+from McGraw-Hill Construction (values) and Craftsman (cost adj)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+CON  05000      2003             4105039     AR
+CON  05001      2003               23506     Arkansas
+CON  05003      2003               23198     Ashley
+CON  05005      2003               25433     Baxter
+CON  05007      2003              523893     Benton
+CON  05009      2003               25886     Boone
+CON  05011      2003                8528     Bradley
+CON  05013      2003                2636     Calhoun
+CON  05015      2003               16041     Carroll
+CON  05017      2003                8318     Chicot
+CON  05019      2003               15942     Clark
+CON  05021      2003               10506     Clay
+CON  05023      2003               17902     Cleburne
+CON  05025      2003                3671     Cleveland
+CON  05027      2003               33369     Columbia
+CON  05029      2003               19451     Conway
+CON  05031      2003              106565     Craighead
+CON  05033      2003               59600     Crawford
+CON  05035      2003               59477     Crittenden
+CON  05037      2003                9466     Cross
+CON  05039      2003                9571     Dallas
+CON  05041      2003               20508     Desha
+CON  05043      2003               14969     Drew
+CON  05045      2003              211981     Faulkner
+CON  05047      2003               33393     Franklin
+CON  05049      2003               13110     Fulton
+CON  05051      2003               77888     Garland
+CON  05053      2003               14753     Grant
+CON  05055      2003               72876     Greene
+CON  05057      2003               15194     Hempstead
+CON  05059      2003               58150     Hot Spring
+CON  05061      2003               14904     Howard
+CON  05063      2003               25854     Independence
+CON  05065      2003                7327     Izard
+CON  05067      2003                5129     Jackson
+CON  05069      2003               51424     Jefferson
+CON  05071      2003               19112     Johnson
+CON  05073      2003                3448     Lafayette
+CON  05075      2003               27751     Lawrence
+CON  05077      2003                8266     Lee
+CON  05079      2003               10562     Lincoln
+CON  05081      2003               14275     Little River
+CON  05083      2003               12874     Logan
+CON  05085      2003               85700     Lonoke
+CON  05087      2003               10455     Madison
+CON  05089      2003                2779     Marion
+CON  05091      2003               68811     Miller
+CON  05093      2003               33460     Mississippi
+CON  05095      2003               18618     Monroe
+CON  05097      2003                5983     Montgomery
+CON  05099      2003               13114     Nevada
+CON  05101      2003                7186     Newton
+CON  05103      2003               13829     Ouachita
+CON  05105      2003                4832     Perry
+CON  05107      2003               20834     Phillips
+CON  05109      2003                7425     Pike
+CON  05111      2003               23631     Poinsett
+CON  05113      2003               19768     Polk
+CON  05115      2003               39254     Pope
+CON  05117      2003                2824     Prairie
+CON  05119      2003              822033     Pulaski
+CON  05121      2003                5003     Randolph
+CON  05123      2003               20810     St. Francis
+CON  05125      2003              162158     Saline
+CON  05127      2003               17657     Scott
+CON  05129      2003                4515     Searcy
+CON  05131      2003              163288     Sebastian
+CON  05133      2003               21206     Sevier
+CON  05135      2003               24894     Sharp
+CON  05137      2003                5694     Stone
+CON  05139      2003               44145     Union
+CON  05141      2003               16043     Van Buren
+CON  05143      2003              569936     Washington
+CON  05145      2003               88944     White
+CON  05147      2003                7945     Woodruff
+CON  05149      2003               15555     Yell
+/END/

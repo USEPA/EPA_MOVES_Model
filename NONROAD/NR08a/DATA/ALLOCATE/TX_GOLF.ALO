@@ -1,0 +1,279 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent GOLF COURSES AND COUNTRY CLUBS
+CBP NAICS 713910; pre-2002 CBP SIC 7992
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+GC   48000      2002                 581     TX
+GC   48001      2002                   3     Anderson
+GC   48003      2002                   1     Andrews
+GC   48005      2002                   2     Angelina
+GC   48007      2002                   2     Aransas
+GC   48009      2002                   1     Archer
+GC   48011      2002                   0     Armstrong
+GC   48013      2002                   1     Atascosa
+GC   48015      2002                   3     Austin
+GC   48017      2002                   1     Bailey
+GC   48019      2002                   1     Bandera
+GC   48021      2002                   4     Bastrop
+GC   48023      2002                   0     Baylor
+GC   48025      2002                   1     Bee
+GC   48027      2002                   4     Bell
+GC   48029      2002                  15     Bexar
+GC   48031      2002                   0     Blanco
+GC   48033      2002                   0     Borden
+GC   48035      2002                   1     Bosque
+GC   48037      2002                   4     Bowie
+GC   48039      2002                   7     Brazoria
+GC   48041      2002                   3     Brazos
+GC   48043      2002                   1     Brewster
+GC   48045      2002                   0     Briscoe
+GC   48047      2002                   1     Brooks
+GC   48049      2002                   2     Brown
+GC   48051      2002                   1     Burleson
+GC   48053      2002                   2     Burnet
+GC   48055      2002                   0     Caldwell
+GC   48057      2002                   2     Calhoun
+GC   48059      2002                   1     Callahan
+GC   48061      2002                   5     Cameron
+GC   48063      2002                   1     Camp
+GC   48065      2002                   1     Carson
+GC   48067      2002                   2     Cass
+GC   48069      2002                   0     Castro
+GC   48071      2002                   1     Chambers
+GC   48073      2002                   1     Cherokee
+GC   48075      2002                   1     Childress
+GC   48077      2002                   0     Clay
+GC   48079      2002                   1     Cochran
+GC   48081      2002                   2     Coke
+GC   48083      2002                   1     Coleman
+GC   48085      2002                  12     Collin
+GC   48087      2002                   1     Collingsworth
+GC   48089      2002                   3     Colorado
+GC   48091      2002                   4     Comal
+GC   48093      2002                   1     Comanche
+GC   48095      2002                   0     Concho
+GC   48097      2002                   1     Cooke
+GC   48099      2002                   1     Coryell
+GC   48101      2002                   1     Cottle
+GC   48103      2002                   0     Crane
+GC   48105      2002                   1     Crockett
+GC   48107      2002                   1     Crosby
+GC   48109      2002                   0     Culberson
+GC   48111      2002                   1     Dallam
+GC   48113      2002                  48     Dallas
+GC   48115      2002                   2     Dawson
+GC   48117      2002                   0     Deaf Smith
+GC   48119      2002                   1     Delta
+GC   48121      2002                  13     Denton
+GC   48123      2002                   1     DeWitt
+GC   48125      2002                   0     Dickens
+GC   48127      2002                   1     Dimmit
+GC   48129      2002                   1     Donley
+GC   48131      2002                   0     Duval
+GC   48133      2002                   5     Eastland
+GC   48135      2002                   3     Ector
+GC   48137      2002                   0     Edwards
+GC   48139      2002                   4     Ellis
+GC   48141      2002                   8     El Paso
+GC   48143      2002                   2     Erath
+GC   48145      2002                   1     Falls
+GC   48147      2002                   2     Fannin
+GC   48149      2002                   2     Fayette
+GC   48151      2002                   0     Fisher
+GC   48153      2002                   1     Floyd
+GC   48155      2002                   0     Foard
+GC   48157      2002                  16     Fort Bend
+GC   48159      2002                   1     Franklin
+GC   48161      2002                   0     Freestone
+GC   48163      2002                   0     Frio
+GC   48165      2002                   0     Gaines
+GC   48167      2002                   7     Galveston
+GC   48169      2002                   0     Garza
+GC   48171      2002                   0     Gillespie
+GC   48173      2002                   0     Glasscock
+GC   48175      2002                   1     Goliad
+GC   48177      2002                   1     Gonzales
+GC   48179      2002                   2     Gray
+GC   48181      2002                   2     Grayson
+GC   48183      2002                   5     Gregg
+GC   48185      2002                   1     Grimes
+GC   48187      2002                   5     Guadalupe
+GC   48189      2002                   0     Hale
+GC   48191      2002                   1     Hall
+GC   48193      2002                   1     Hamilton
+GC   48195      2002                   1     Hansford
+GC   48197      2002                   0     Hardeman
+GC   48199      2002                   2     Hardin
+GC   48201      2002                  59     Harris
+GC   48203      2002                   2     Harrison
+GC   48205      2002                   0     Hartley
+GC   48207      2002                   1     Haskell
+GC   48209      2002                   4     Hays
+GC   48211      2002                   0     Hemphill
+GC   48213      2002                   5     Henderson
+GC   48215      2002                   5     Hidalgo
+GC   48217      2002                   1     Hill
+GC   48219      2002                   1     Hockley
+GC   48221      2002                   4     Hood
+GC   48223      2002                   1     Hopkins
+GC   48225      2002                   1     Houston
+GC   48227      2002                   1     Howard
+GC   48229      2002                   0     Hudspeth
+GC   48231      2002                   4     Hunt
+GC   48233      2002                   1     Hutchinson
+GC   48235      2002                   0     Irion
+GC   48237      2002                   1     Jack
+GC   48239      2002                   1     Jackson
+GC   48241      2002                   2     Jasper
+GC   48243      2002                   0     Jeff Davis
+GC   48245      2002                   7     Jefferson
+GC   48247      2002                   0     Jim Hogg
+GC   48249      2002                   1     Jim Wells
+GC   48251      2002                   2     Johnson
+GC   48253      2002                   3     Jones
+GC   48255      2002                   1     Karnes
+GC   48257      2002                   6     Kaufman
+GC   48259      2002                   1     Kendall
+GC   48261      2002                   0     Kenedy
+GC   48263      2002                   1     Kent
+GC   48265      2002                   1     Kerr
+GC   48267      2002                   1     Kimble
+GC   48269      2002                   0     King
+GC   48271      2002                   0     Kinney
+GC   48273      2002                   0     Kleberg
+GC   48275      2002                   2     Knox
+GC   48277      2002                   2     Lamar
+GC   48279      2002                   0     Lamb
+GC   48281      2002                   1     Lampasas
+GC   48283      2002                   0     La Salle
+GC   48285      2002                   1     Lavaca
+GC   48287      2002                   0     Lee
+GC   48289      2002                   0     Leon
+GC   48291      2002                   0     Liberty
+GC   48293      2002                   0     Limestone
+GC   48295      2002                   0     Lipscomb
+GC   48297      2002                   0     Live Oak
+GC   48299      2002                   3     Llano
+GC   48301      2002                   0     Loving
+GC   48303      2002                   7     Lubbock
+GC   48305      2002                   1     Lynn
+GC   48307      2002                   0     McCulloch
+GC   48309      2002                   7     McLennan
+GC   48311      2002                   0     McMullen
+GC   48313      2002                   1     Madison
+GC   48315      2002                   1     Marion
+GC   48317      2002                   1     Martin
+GC   48319      2002                   0     Mason
+GC   48321      2002                   2     Matagorda
+GC   48323      2002                   1     Maverick
+GC   48325      2002                   1     Medina
+GC   48327      2002                   1     Menard
+GC   48329      2002                   5     Midland
+GC   48331      2002                   2     Milam
+GC   48333      2002                   1     Mills
+GC   48335      2002                   0     Mitchell
+GC   48337      2002                   1     Montague
+GC   48339      2002                   8     Montgomery
+GC   48341      2002                   0     Moore
+GC   48343      2002                   1     Morris
+GC   48345      2002                   0     Motley
+GC   48347      2002                   3     Nacogdoches
+GC   48349      2002                   2     Navarro
+GC   48351      2002                   0     Newton
+GC   48353      2002                   2     Nolan
+GC   48355      2002                   3     Nueces
+GC   48357      2002                   0     Ochiltree
+GC   48359      2002                   1     Oldham
+GC   48361      2002                   2     Orange
+GC   48363      2002                   1     Palo Pinto
+GC   48365      2002                   1     Panola
+GC   48367      2002                   5     Parker
+GC   48369      2002                   2     Parmer
+GC   48371      2002                   0     Pecos
+GC   48373      2002                   0     Polk
+GC   48375      2002                   2     Potter
+GC   48377      2002                   0     Presidio
+GC   48379      2002                   1     Rains
+GC   48381      2002                   3     Randall
+GC   48383      2002                   1     Reagan
+GC   48385      2002                   0     Real
+GC   48387      2002                   1     Red River
+GC   48389      2002                   0     Reeves
+GC   48391      2002                   1     Refugio
+GC   48393      2002                   0     Roberts
+GC   48395      2002                   3     Robertson
+GC   48397      2002                   3     Rockwall
+GC   48399      2002                   1     Runnels
+GC   48401      2002                   2     Rusk
+GC   48403      2002                   0     Sabine
+GC   48405      2002                   0     San Augustine
+GC   48407      2002                   1     San Jacinto
+GC   48409      2002                   0     San Patricio
+GC   48411      2002                   0     San Saba
+GC   48413      2002                   1     Schleicher
+GC   48415      2002                   2     Scurry
+GC   48417      2002                   0     Shackelford
+GC   48419      2002                   1     Shelby
+GC   48421      2002                   1     Sherman
+GC   48423      2002                  11     Smith
+GC   48425      2002                   1     Somervell
+GC   48427      2002                   0     Starr
+GC   48429      2002                   1     Stephens
+GC   48431      2002                   0     Sterling
+GC   48433      2002                   0     Stonewall
+GC   48435      2002                   1     Sutton
+GC   48437      2002                   1     Swisher
+GC   48439      2002                  28     Tarrant
+GC   48441      2002                   6     Taylor
+GC   48443      2002                   0     Terrell
+GC   48445      2002                   1     Terry
+GC   48447      2002                   0     Throckmorton
+GC   48449      2002                   2     Titus
+GC   48451      2002                   3     Tom Green
+GC   48453      2002                  20     Travis
+GC   48455      2002                   0     Trinity
+GC   48457      2002                   1     Tyler
+GC   48459      2002                   2     Upshur
+GC   48461      2002                   1     Upton
+GC   48463      2002                   0     Uvalde
+GC   48465      2002                   2     Val Verde
+GC   48467      2002                   2     Van Zandt
+GC   48469      2002                   3     Victoria
+GC   48471      2002                   1     Walker
+GC   48473      2002                   4     Waller
+GC   48475      2002                   0     Ward
+GC   48477      2002                   1     Washington
+GC   48479      2002                   2     Webb
+GC   48481      2002                   2     Wharton
+GC   48483      2002                   1     Wheeler
+GC   48485      2002                   3     Wichita
+GC   48487      2002                   1     Wilbarger
+GC   48489      2002                   0     Willacy
+GC   48491      2002                   6     Williamson
+GC   48493      2002                   1     Wilson
+GC   48495      2002                   1     Winkler
+GC   48497      2002                   3     Wise
+GC   48499      2002                   3     Wood
+GC   48501      2002                   1     Yoakum
+GC   48503      2002                   2     Young
+GC   48505      2002                   1     Zapata
+GC   48507      2002                   0     Zavala
+/END/

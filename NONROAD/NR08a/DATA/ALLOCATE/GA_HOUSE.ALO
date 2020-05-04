@@ -1,0 +1,184 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent SINGLE AND DOUBLE (DUPLEX) FAMILY HOMES
+
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+HOU  13000      2002             3487058     GA
+HOU  13001      2002                8000     Appling
+HOU  13003      2002                3248     Atkinson
+HOU  13005      2002                4549     Bacon
+HOU  13007      2002                1783     Baker
+HOU  13009      2002               17626     Baldwin
+HOU  13011      2002                6110     Banks
+HOU  13013      2002               19269     Barrow
+HOU  13015      2002               31779     Bartow
+HOU  13017      2002                7710     Ben Hill
+HOU  13019      2002                7253     Berrien
+HOU  13021      2002               68397     Bibb
+HOU  13023      2002                4965     Bleckley
+HOU  13025      2002                6687     Brantley
+HOU  13027      2002                7228     Brooks
+HOU  13029      2002                9477     Bryan
+HOU  13031      2002               24109     Bulloch
+HOU  13033      2002                9013     Burke
+HOU  13035      2002                8056     Butts
+HOU  13037      2002                2335     Calhoun
+HOU  13039      2002               18169     Camden
+HOU  13043      2002                3962     Candler
+HOU  13045      2002               38260     Carroll
+HOU  13047      2002               22925     Catoosa
+HOU  13049      2002                3948     Charlton
+HOU  13051      2002              103167     Chatham
+HOU  13053      2002                3326     Chattahoochee
+HOU  13055      2002               10818     Chattooga
+HOU  13057      2002               60014     Cherokee
+HOU  13059      2002               44157     Clarke
+HOU  13061      2002                1956     Clay
+HOU  13063      2002               93724     Clayton
+HOU  13065      2002                2874     Clinch
+HOU  13067      2002              251007     Cobb
+HOU  13069      2002               16084     Coffee
+HOU  13071      2002               17806     Colquitt
+HOU  13073      2002               35579     Columbia
+HOU  13075      2002                6717     Cook
+HOU  13077      2002               36720     Coweta
+HOU  13079      2002                5182     Crawford
+HOU  13081      2002                9759     Crisp
+HOU  13083      2002                6334     Dade
+HOU  13085      2002                7832     Dawson
+HOU  13087      2002               12197     Decatur
+HOU  13089      2002              276446     DeKalb
+HOU  13091      2002                8319     Dodge
+HOU  13093      2002                4556     Dooly
+HOU  13095      2002               40353     Dougherty
+HOU  13097      2002               37585     Douglas
+HOU  13099      2002                5426     Early
+HOU  13101      2002                1527     Echols
+HOU  13103      2002               15283     Effingham
+HOU  13105      2002                9292     Elbert
+HOU  13107      2002                9551     Emanuel
+HOU  13109      2002                4475     Evans
+HOU  13111      2002               12846     Fannin
+HOU  13113      2002               34828     Fayette
+HOU  13115      2002               37411     Floyd
+HOU  13117      2002               42991     Forsyth
+HOU  13119      2002                9476     Franklin
+HOU  13121      2002              368422     Fulton
+HOU  13123      2002               13124     Gilmer
+HOU  13125      2002                1211     Glascock
+HOU  13127      2002               33985     Glynn
+HOU  13129      2002               18401     Gordon
+HOU  13131      2002               10186     Grady
+HOU  13133      2002                7030     Greene
+HOU  13135      2002              235921     Gwinnett
+HOU  13137      2002               15510     Habersham
+HOU  13139      2002               55285     Hall
+HOU  13141      2002                4409     Hancock
+HOU  13143      2002               11121     Haralson
+HOU  13145      2002               10915     Harris
+HOU  13147      2002               11292     Hart
+HOU  13149      2002                4680     Heard
+HOU  13151      2002               51856     Henry
+HOU  13153      2002               48445     Houston
+HOU  13155      2002                4211     Irwin
+HOU  13157      2002               18078     Jackson
+HOU  13159      2002                5165     Jasper
+HOU  13161      2002                5688     Jeff Davis
+HOU  13163      2002                7301     Jefferson
+HOU  13165      2002                3936     Jenkins
+HOU  13167      2002                3681     Johnson
+HOU  13169      2002                9872     Jones
+HOU  13171      2002                6388     Lamar
+HOU  13173      2002                3104     Lanier
+HOU  13175      2002               20026     Laurens
+HOU  13177      2002                9836     Lee
+HOU  13179      2002               22674     Liberty
+HOU  13181      2002                4621     Lincoln
+HOU  13183      2002                4360     Long
+HOU  13185      2002               38159     Lowndes
+HOU  13187      2002                9002     Lumpkin
+HOU  13189      2002                9082     McDuffie
+HOU  13191      2002                5985     McIntosh
+HOU  13193      2002                5567     Macon
+HOU  13195      2002               10946     Madison
+HOU  13197      2002                3212     Marion
+HOU  13199      2002                9564     Meriwether
+HOU  13201      2002                2809     Miller
+HOU  13205      2002                9111     Mitchell
+HOU  13207      2002                8786     Monroe
+HOU  13209      2002                3593     Montgomery
+HOU  13211      2002                6459     Morgan
+HOU  13213      2002               14961     Murray
+HOU  13215      2002               78205     Muscogee
+HOU  13217      2002               27001     Newton
+HOU  13219      2002               10108     Oconee
+HOU  13221      2002                5461     Oglethorpe
+HOU  13223      2002               35226     Paulding
+HOU  13225      2002                9443     Peach
+HOU  13227      2002               11617     Pickens
+HOU  13229      2002                6892     Pierce
+HOU  13231      2002                5521     Pike
+HOU  13233      2002               15596     Polk
+HOU  13235      2002                4070     Pulaski
+HOU  13237      2002               10744     Putnam
+HOU  13239      2002                1816     Quitman
+HOU  13241      2002               10763     Rabun
+HOU  13243      2002                3420     Randolph
+HOU  13245      2002               83510     Richmond
+HOU  13247      2002               26788     Rockdale
+HOU  13249      2002                1650     Schley
+HOU  13251      2002                6985     Screven
+HOU  13253      2002                4829     Seminole
+HOU  13255      2002               24030     Spalding
+HOU  13257      2002               12003     Stephens
+HOU  13259      2002                2364     Stewart
+HOU  13261      2002               13944     Sumter
+HOU  13263      2002                2971     Talbot
+HOU  13265      2002                1104     Taliaferro
+HOU  13267      2002                8662     Tattnall
+HOU  13269      2002                4047     Taylor
+HOU  13271      2002                5142     Telfair
+HOU  13273      2002                4565     Terrell
+HOU  13275      2002               18704     Thomas
+HOU  13277      2002               15772     Tift
+HOU  13279      2002               11546     Toombs
+HOU  13281      2002                6706     Towns
+HOU  13283      2002                2911     Treutlen
+HOU  13285      2002               24833     Troup
+HOU  13287      2002                3980     Turner
+HOU  13289      2002                4374     Twiggs
+HOU  13291      2002               10830     Union
+HOU  13293      2002               11883     Upson
+HOU  13295      2002               26401     Walker
+HOU  13297      2002               25209     Walton
+HOU  13299      2002               16051     Ware
+HOU  13301      2002                2805     Warren
+HOU  13303      2002                8461     Washington
+HOU  13305      2002               11044     Wayne
+HOU  13307      2002                1136     Webster
+HOU  13309      2002                2484     Wheeler
+HOU  13311      2002               10186     White
+HOU  13313      2002               32558     Whitfield
+HOU  13315      2002                3369     Wilcox
+HOU  13317      2002                5074     Wilkes
+HOU  13319      2002                4535     Wilkinson
+HOU  13321      2002                9283     Worth
+/END/

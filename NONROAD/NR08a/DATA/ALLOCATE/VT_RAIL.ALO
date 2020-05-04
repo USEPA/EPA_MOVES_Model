@@ -1,0 +1,42 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent LOCOMOTIVE NOx TONS
+from Draft 2002 NEI
+
+9/1/05 epa: Modifies to treat PR & VI as additional to US Total.
+9/26/05 epa: Adds AK, CT, ME, NH, VT using NEI Loco NOx per person. 
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+RR   50000      2002            1988.655     VT
+RR   50001      2002             117.674     Addison
+RR   50003      2002             119.742     Bennington
+RR   50005      2002              96.694     Caledonia
+RR   50007      2002             479.029     Chittenden
+RR   50009      2002              21.141     Essex
+RR   50011      2002             150.457     Franklin
+RR   50013      2002              23.599     Grand Isle
+RR   50015      2002              77.420     Lamoille
+RR   50017      2002              93.068     Orange
+RR   50019      2002              86.098     Orleans
+RR   50021      2002             204.282     Rutland
+RR   50023      2002             190.114     Washington
+RR   50025      2002             142.561     Windham
+RR   50027      2002             186.776     Windsor
+/END/

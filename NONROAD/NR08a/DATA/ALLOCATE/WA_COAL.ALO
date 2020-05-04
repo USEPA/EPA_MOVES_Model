@@ -1,0 +1,64 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent UNDERGROUND COAL PRODUCTION TONS
+DOE/EIA 2002 Annual Coal Report
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+MIN  53000      2002                   0     WA
+MIN  53001      2002                   0     Adams
+MIN  53003      2002                   0     Asotin
+MIN  53005      2002                   0     Benton
+MIN  53007      2002                   0     Chelan
+MIN  53009      2002                   0     Clallam
+MIN  53011      2002                   0     Clark
+MIN  53013      2002                   0     Columbia
+MIN  53015      2002                   0     Cowlitz
+MIN  53017      2002                   0     Douglas
+MIN  53019      2002                   0     Ferry
+MIN  53021      2002                   0     Franklin
+MIN  53023      2002                   0     Garfield
+MIN  53025      2002                   0     Grant
+MIN  53027      2002                   0     Grays Harbor
+MIN  53029      2002                   0     Island
+MIN  53031      2002                   0     Jefferson
+MIN  53033      2002                   0     King
+MIN  53035      2002                   0     Kitsap
+MIN  53037      2002                   0     Kittitas
+MIN  53039      2002                   0     Klickitat
+MIN  53041      2002                   0     Lewis
+MIN  53043      2002                   0     Lincoln
+MIN  53045      2002                   0     Mason
+MIN  53047      2002                   0     Okanogan
+MIN  53049      2002                   0     Pacific
+MIN  53051      2002                   0     Pend Oreille
+MIN  53053      2002                   0     Pierce
+MIN  53055      2002                   0     San Juan
+MIN  53057      2002                   0     Skagit
+MIN  53059      2002                   0     Skamania
+MIN  53061      2002                   0     Snohomish
+MIN  53063      2002                   0     Spokane
+MIN  53065      2002                   0     Stevens
+MIN  53067      2002                   0     Thurston
+MIN  53069      2002                   0     Wahkiakum
+MIN  53071      2002                   0     Walla Walla
+MIN  53073      2002                   0     Whatcom
+MIN  53075      2002                   0     Whitman
+MIN  53077      2002                   0     Yakima
+/END/

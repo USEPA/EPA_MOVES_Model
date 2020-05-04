@@ -1,0 +1,134 @@
+This file contains deterioration factors data for exhaust THC
+emissions.  The deterioration factors are specified by tech 
+type.  The values are actually the coefficients of the 
+deterioration equation: 
+               DF = 1 + A * (age)**b
+                      where:
+                            DF = new deterioation factor
+                            A  = coefficient specified here
+                            age = age of the engine
+            (cum. hours * load factor / median life in hours)
+                            b  = coefficient specified here
+An ALL in the tech type field will apply to all technology 
+types. 
+Any tech type not listed in this file will assume to have
+no deterioration on the emission factor.
+
+9/28/07 16e: like 16c but change dsl recmarine Base, T0, T1 to BaseM, T0M, T1M; 
+  & RecEq TechTypes to RM2, RM4, RM40 (closed crankcase), RM21, RM41, RSxx (snowmobile), RAxx (ATV), etc. for MOVES. 
+
+--------------------------------------------------------------
+The format is as follows:
+       1-10  character     -- technology type code
+      21-30  real          -- A coefficient in the equation
+      31-40  real          -- b coefficient in the equation
+      41-50  character     -- emissions cap (in median life units)
+      51-60  real          -- pollutant name
+--------------------------------------------------------------
+
+/DETFAC/
+G2H3                       0.2       1.0       1.0       THC
+G2H31                     0.24       1.0       1.0       THC
+G2H3C1                    0.24       1.0       1.0       THC
+G2H32                     0.24       1.0       1.0       THC
+G2H3C2                    0.72       1.0       1.0       THC
+G2H4                       0.2       1.0       1.0       THC
+G2H41                     0.29       1.0       1.0       THC
+G2H4C1                    0.29       1.0       1.0       THC
+G4H41                     1.10       0.5       1.0       THC
+G2H42                     0.29       1.0       1.0       THC
+G2H4C2                    0.77       1.0       1.0       THC
+G4H42                     1.10       0.5       1.0       THC
+G2H5                       0.2       1.0       1.0       THC
+G2H51                    0.266       1.0       1.0       THC
+G2H5C1                   0.266       1.0       1.0       THC
+G2H52                    0.266       1.0       1.0       THC
+G2H5C2                   0.626       1.0       1.0       THC
+G2N1                     0.201       1.0       2.0       THC
+G4N1S                     1.10       0.5       2.0       THC
+G4N1O                     1.10       0.5       2.0       THC
+G2N1                     0.266       1.0       2.0       THC
+G4N1S1                   5.103       0.5       2.0       THC
+G4N1O1                   1.753       0.5       2.0       THC
+G4N1SC1                  5.103       0.5       2.0       THC
+G4N1S2                   1.753       0.5       2.0       THC
+G4N1O2                   1.753       0.5       2.0       THC
+G4N1S3                   0.797       0.5       2.0       THC
+G4N1O3                   0.797       0.5       2.0       THC
+G2N2                     0.201       1.0       2.0       THC
+G4N2S                     1.10       0.5       2.0       THC
+G4N2O                     1.10       0.5       2.0       THC
+G4N2S1                   1.935       0.5       2.0       THC
+G4N2O1                   1.095       0.5       2.0       THC
+G4N2S2                   1.095       0.5       2.0       THC
+G4N2O2                   1.095       0.5       2.0       THC
+G4N23                    0.797       0.5       2.0       THC
+G4N23a                   0.797       0.5       2.0       THC
+G4N23b                   0.797       0.5       2.0       THC
+G2GT25                   0.201       1.0       1.0       THC
+G4GT25                    0.26       1.0       1.0       THC
+G4GT251                   0.64       1.0       1.0       THC
+G4GT252                   0.64       1.0       1.0       THC
+RM2                      0.201       1.0       1.0       THC
+RM21                     0.201       1.0       1.0       THC
+RS2                      0.201       1.0       1.0       THC
+RS21                     0.201       1.0       1.0       THC
+RS22                     0.201       1.0       1.0       THC
+RA2                      0.201       1.0       1.0       THC
+RA21                     0.201       1.0       1.0       THC
+RM4                       0.15       0.5       1.0       THC
+RM40                      0.15       0.5       1.0       THC
+RM41                      0.15       0.5       1.0       THC
+RM42                      0.15       0.5       1.0       THC
+RS4                       0.15       0.5       1.0       THC
+RS40                      0.15       0.5       1.0       THC
+RS41                      0.15       0.5       1.0       THC
+RS42                      0.15       0.5       1.0       THC
+RA4                       0.15       0.5       1.0       THC
+RA40                      0.15       0.5       1.0       THC
+RA41                      0.15       0.5       1.0       THC
+RA42                      0.15       0.5       1.0       THC
+LGT25                     0.26       1.0       1.0       THC
+LGT251                    0.64       1.0       1.0       THC
+LGT252                    0.64       1.0       1.0       THC
+NGT25                     0.26       1.0       1.0       THC
+NGT251                    0.64       1.0       1.0       THC
+NGT252                    0.64       1.0       1.0       THC
+Base                     0.047       1.0       1.0       THC
+T0                       0.047       1.0       1.0       THC
+T1                       0.036       1.0       1.0       THC
+T2                       0.034       1.0       1.0       THC
+T3                       0.027       1.0       1.0       THC
+T3B                      0.027       1.0       1.0       THC
+T4A                      0.027       1.0       1.0       THC
+T4B                      0.027       1.0       1.0       THC
+T4                       0.027       1.0       1.0       THC
+T4N1                     0.027       1.0       1.0       THC
+T4N                      0.027       1.0       1.0       THC
+BaseM                    0.047       1.0       1.0       THC
+T0M                      0.047       1.0       1.0       THC
+T1M                      0.036       1.0       1.0       THC
+T2M                      0.034       1.0       1.0       THC
+T3M                      0.034       1.0       1.0       THC
+T4M                      0.034       1.0       1.0       THC
+MO2C                       0.0       1.0       1.0       THC
+MO2I                      0.03       1.0       1.0       THC
+MO2D                      0.03       1.0       1.0       THC
+MO4C                      0.05       1.0       1.0       THC
+MO4I                      0.03       1.0       1.0       THC
+MO4D                      0.03       1.0       1.0       THC
+MOC1                      0.05       1.0       1.0       THC
+MOC2                      0.05       1.0       1.0       THC
+MP2C                       0.0       1.0       1.0       THC
+MP2CA                     0.26       1.0       1.0       THC
+MP2I                      0.03       1.0       1.0       THC
+MP2D                      0.03       1.0       1.0       THC
+MP4C                      0.05       1.0       1.0       THC
+MP4I                      0.03       1.0       1.0       THC
+MP4D                      0.03       1.0       1.0       THC
+MPC1                      0.05       1.0       1.0       THC
+MS4C                      0.26       1.0       1.0       THC
+MS4D                      0.26       1.0       1.0       THC
+MSC1                      0.64       1.0       1.0       THC
+MS4X                      0.26       1.0       1.0       THC
+/END/

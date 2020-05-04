@@ -1,0 +1,1249 @@
+// Registration	OutputPollutantName	OutputPollutantID	ProcessName	ProcessID	ModuleName
+// Subscribe	ModuleName	ProcessName	ProcessID	Granularity	Priority
+// Chain	OutputModuleName	InputModuleName
+Registration	Benzene	20	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Benzene	20	Crankcase Running Exhaust	15	NRAirToxicsCalculator
+Registration	Benzene	20	Refueling Displacement Vapor Loss	18	NRAirToxicsCalculator
+Registration	Benzene	20	Refueling Spillage Loss	19	NRAirToxicsCalculator
+Registration	Benzene	20	Evap Tank Permeation	20	NRAirToxicsCalculator
+Registration	Benzene	20	Evap Hose Permeation	21	NRAirToxicsCalculator
+Registration	Benzene	20	Evap RecMar Neck Hose Permeation	22	NRAirToxicsCalculator
+Registration	Benzene	20	Evap RecMar Supply/Ret Hose Permeation	23	NRAirToxicsCalculator
+Registration	Benzene	20	Evap RecMar Vent Hose Permeation	24	NRAirToxicsCalculator
+Registration	Benzene	20	Diurnal Fuel Vapor Venting	30	NRAirToxicsCalculator
+Registration	Benzene	20	HotSoak Fuel Vapor Venting	31	NRAirToxicsCalculator
+Registration	Benzene	20	RunningLoss Fuel Vapor Venting	32	NRAirToxicsCalculator
+Registration	Ethanol	21	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Ethanol	21	Crankcase Running Exhaust	15	NRAirToxicsCalculator
+Registration	Ethanol	21	Refueling Displacement Vapor Loss	18	NRAirToxicsCalculator
+Registration	Ethanol	21	Refueling Spillage Loss	19	NRAirToxicsCalculator
+Registration	Ethanol	21	Evap Tank Permeation	20	NRAirToxicsCalculator
+Registration	Ethanol	21	Evap Hose Permeation	21	NRAirToxicsCalculator
+Registration	Ethanol	21	Evap RecMar Neck Hose Permeation	22	NRAirToxicsCalculator
+Registration	Ethanol	21	Evap RecMar Supply/Ret Hose Permeation	23	NRAirToxicsCalculator
+Registration	Ethanol	21	Evap RecMar Vent Hose Permeation	24	NRAirToxicsCalculator
+Registration	Ethanol	21	Diurnal Fuel Vapor Venting	30	NRAirToxicsCalculator
+Registration	Ethanol	21	HotSoak Fuel Vapor Venting	31	NRAirToxicsCalculator
+Registration	Ethanol	21	RunningLoss Fuel Vapor Venting	32	NRAirToxicsCalculator
+Registration	MTBE	22	Running Exhaust	1	NRAirToxicsCalculator
+Registration	MTBE	22	Crankcase Running Exhaust	15	NRAirToxicsCalculator
+Registration	MTBE	22	Refueling Displacement Vapor Loss	18	NRAirToxicsCalculator
+Registration	MTBE	22	Refueling Spillage Loss	19	NRAirToxicsCalculator
+Registration	MTBE	22	Evap Tank Permeation	20	NRAirToxicsCalculator
+Registration	MTBE	22	Evap Hose Permeation	21	NRAirToxicsCalculator
+Registration	MTBE	22	Evap RecMar Neck Hose Permeation	22	NRAirToxicsCalculator
+Registration	MTBE	22	Evap RecMar Supply/Ret Hose Permeation	23	NRAirToxicsCalculator
+Registration	MTBE	22	Evap RecMar Vent Hose Permeation	24	NRAirToxicsCalculator
+Registration	MTBE	22	Diurnal Fuel Vapor Venting	30	NRAirToxicsCalculator
+Registration	MTBE	22	HotSoak Fuel Vapor Venting	31	NRAirToxicsCalculator
+Registration	MTBE	22	RunningLoss Fuel Vapor Venting	32	NRAirToxicsCalculator
+Registration	Naphthalene particle	23	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Naphthalene particle	23	Crankcase Running Exhaust	15	NRAirToxicsCalculator
+Registration	1,3-Butadiene	24	Running Exhaust	1	NRAirToxicsCalculator
+Registration	1,3-Butadiene	24	Crankcase Running Exhaust	15	NRAirToxicsCalculator
+Registration	Formaldehyde	25	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Formaldehyde	25	Crankcase Running Exhaust	15	NRAirToxicsCalculator
+Registration	Acetaldehyde	26	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Acetaldehyde	26	Crankcase Running Exhaust	15	NRAirToxicsCalculator
+Registration	Acrolein	27	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Acrolein	27	Crankcase Running Exhaust	15	NRAirToxicsCalculator
+Registration	2,2,4-Trimethylpentane	40	Running Exhaust	1	NRAirToxicsCalculator
+Registration	2,2,4-Trimethylpentane	40	Crankcase Running Exhaust	15	NRAirToxicsCalculator
+Registration	2,2,4-Trimethylpentane	40	Refueling Displacement Vapor Loss	18	NRAirToxicsCalculator
+Registration	2,2,4-Trimethylpentane	40	Refueling Spillage Loss	19	NRAirToxicsCalculator
+Registration	2,2,4-Trimethylpentane	40	Evap Tank Permeation	20	NRAirToxicsCalculator
+Registration	2,2,4-Trimethylpentane	40	Evap Hose Permeation	21	NRAirToxicsCalculator
+Registration	2,2,4-Trimethylpentane	40	Evap RecMar Neck Hose Permeation	22	NRAirToxicsCalculator
+Registration	2,2,4-Trimethylpentane	40	Evap RecMar Supply/Ret Hose Permeation	23	NRAirToxicsCalculator
+Registration	2,2,4-Trimethylpentane	40	Evap RecMar Vent Hose Permeation	24	NRAirToxicsCalculator
+Registration	2,2,4-Trimethylpentane	40	Diurnal Fuel Vapor Venting	30	NRAirToxicsCalculator
+Registration	2,2,4-Trimethylpentane	40	HotSoak Fuel Vapor Venting	31	NRAirToxicsCalculator
+Registration	2,2,4-Trimethylpentane	40	RunningLoss Fuel Vapor Venting	32	NRAirToxicsCalculator
+Registration	Ethyl Benzene	41	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Ethyl Benzene	41	Crankcase Running Exhaust	15	NRAirToxicsCalculator
+Registration	Ethyl Benzene	41	Refueling Displacement Vapor Loss	18	NRAirToxicsCalculator
+Registration	Ethyl Benzene	41	Refueling Spillage Loss	19	NRAirToxicsCalculator
+Registration	Ethyl Benzene	41	Evap Tank Permeation	20	NRAirToxicsCalculator
+Registration	Ethyl Benzene	41	Evap Hose Permeation	21	NRAirToxicsCalculator
+Registration	Ethyl Benzene	41	Evap RecMar Neck Hose Permeation	22	NRAirToxicsCalculator
+Registration	Ethyl Benzene	41	Evap RecMar Supply/Ret Hose Permeation	23	NRAirToxicsCalculator
+Registration	Ethyl Benzene	41	Evap RecMar Vent Hose Permeation	24	NRAirToxicsCalculator
+Registration	Ethyl Benzene	41	Diurnal Fuel Vapor Venting	30	NRAirToxicsCalculator
+Registration	Ethyl Benzene	41	HotSoak Fuel Vapor Venting	31	NRAirToxicsCalculator
+Registration	Ethyl Benzene	41	RunningLoss Fuel Vapor Venting	32	NRAirToxicsCalculator
+Registration	Hexane	42	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Hexane	42	Crankcase Running Exhaust	15	NRAirToxicsCalculator
+Registration	Hexane	42	Refueling Displacement Vapor Loss	18	NRAirToxicsCalculator
+Registration	Hexane	42	Refueling Spillage Loss	19	NRAirToxicsCalculator
+Registration	Hexane	42	Evap Tank Permeation	20	NRAirToxicsCalculator
+Registration	Hexane	42	Evap Hose Permeation	21	NRAirToxicsCalculator
+Registration	Hexane	42	Evap RecMar Neck Hose Permeation	22	NRAirToxicsCalculator
+Registration	Hexane	42	Evap RecMar Supply/Ret Hose Permeation	23	NRAirToxicsCalculator
+Registration	Hexane	42	Evap RecMar Vent Hose Permeation	24	NRAirToxicsCalculator
+Registration	Hexane	42	Diurnal Fuel Vapor Venting	30	NRAirToxicsCalculator
+Registration	Hexane	42	HotSoak Fuel Vapor Venting	31	NRAirToxicsCalculator
+Registration	Hexane	42	RunningLoss Fuel Vapor Venting	32	NRAirToxicsCalculator
+Registration	Propionaldehyde	43	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Propionaldehyde	43	Crankcase Running Exhaust	15	NRAirToxicsCalculator
+Registration	Styrene	44	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Styrene	44	Crankcase Running Exhaust	15	NRAirToxicsCalculator
+Registration	Toluene	45	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Toluene	45	Crankcase Running Exhaust	15	NRAirToxicsCalculator
+Registration	Toluene	45	Refueling Displacement Vapor Loss	18	NRAirToxicsCalculator
+Registration	Toluene	45	Refueling Spillage Loss	19	NRAirToxicsCalculator
+Registration	Toluene	45	Evap Tank Permeation	20	NRAirToxicsCalculator
+Registration	Toluene	45	Evap Hose Permeation	21	NRAirToxicsCalculator
+Registration	Toluene	45	Evap RecMar Neck Hose Permeation	22	NRAirToxicsCalculator
+Registration	Toluene	45	Evap RecMar Supply/Ret Hose Permeation	23	NRAirToxicsCalculator
+Registration	Toluene	45	Evap RecMar Vent Hose Permeation	24	NRAirToxicsCalculator
+Registration	Toluene	45	Diurnal Fuel Vapor Venting	30	NRAirToxicsCalculator
+Registration	Toluene	45	HotSoak Fuel Vapor Venting	31	NRAirToxicsCalculator
+Registration	Toluene	45	RunningLoss Fuel Vapor Venting	32	NRAirToxicsCalculator
+Registration	Xylene	46	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Xylene	46	Crankcase Running Exhaust	15	NRAirToxicsCalculator
+Registration	Xylene	46	Refueling Displacement Vapor Loss	18	NRAirToxicsCalculator
+Registration	Xylene	46	Refueling Spillage Loss	19	NRAirToxicsCalculator
+Registration	Xylene	46	Evap Tank Permeation	20	NRAirToxicsCalculator
+Registration	Xylene	46	Evap Hose Permeation	21	NRAirToxicsCalculator
+Registration	Xylene	46	Evap RecMar Neck Hose Permeation	22	NRAirToxicsCalculator
+Registration	Xylene	46	Evap RecMar Supply/Ret Hose Permeation	23	NRAirToxicsCalculator
+Registration	Xylene	46	Evap RecMar Vent Hose Permeation	24	NRAirToxicsCalculator
+Registration	Xylene	46	Diurnal Fuel Vapor Venting	30	NRAirToxicsCalculator
+Registration	Xylene	46	HotSoak Fuel Vapor Venting	31	NRAirToxicsCalculator
+Registration	Xylene	46	RunningLoss Fuel Vapor Venting	32	NRAirToxicsCalculator
+Registration	Mercury Elemental Gaseous	60	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Mercury Divalent Gaseous	61	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Mercury Particulate	62	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Arsenic Compounds	63	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Chromium 6+	65	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Manganese Compounds	66	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Nickel Compounds	67	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Dibenzo(a,h)anthracene particle	68	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Dibenzo(a,h)anthracene particle	68	Crankcase Running Exhaust	15	NRAirToxicsCalculator
+Registration	Fluoranthene particle	69	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Fluoranthene particle	69	Crankcase Running Exhaust	15	NRAirToxicsCalculator
+Registration	Acenaphthene particle	70	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Acenaphthene particle	70	Crankcase Running Exhaust	15	NRAirToxicsCalculator
+Registration	Acenaphthylene particle	71	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Acenaphthylene particle	71	Crankcase Running Exhaust	15	NRAirToxicsCalculator
+Registration	Anthracene particle	72	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Anthracene particle	72	Crankcase Running Exhaust	15	NRAirToxicsCalculator
+Registration	Benz(a)anthracene particle	73	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Benz(a)anthracene particle	73	Crankcase Running Exhaust	15	NRAirToxicsCalculator
+Registration	Benzo(a)pyrene particle	74	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Benzo(a)pyrene particle	74	Crankcase Running Exhaust	15	NRAirToxicsCalculator
+Registration	Benzo(b)fluoranthene particle	75	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Benzo(b)fluoranthene particle	75	Crankcase Running Exhaust	15	NRAirToxicsCalculator
+Registration	Benzo(g,h,i)perylene particle	76	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Benzo(g,h,i)perylene particle	76	Crankcase Running Exhaust	15	NRAirToxicsCalculator
+Registration	Benzo(k)fluoranthene particle	77	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Benzo(k)fluoranthene particle	77	Crankcase Running Exhaust	15	NRAirToxicsCalculator
+Registration	Chrysene particle	78	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Chrysene particle	78	Crankcase Running Exhaust	15	NRAirToxicsCalculator
+Registration	Fluorene particle	81	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Fluorene particle	81	Crankcase Running Exhaust	15	NRAirToxicsCalculator
+Registration	Indeno(1,2,3,c,d)pyrene particle	82	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Indeno(1,2,3,c,d)pyrene particle	82	Crankcase Running Exhaust	15	NRAirToxicsCalculator
+Registration	Phenanthrene particle	83	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Phenanthrene particle	83	Crankcase Running Exhaust	15	NRAirToxicsCalculator
+Registration	Pyrene particle	84	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Pyrene particle	84	Crankcase Running Exhaust	15	NRAirToxicsCalculator
+Registration	NonHAPTOG	88	Running Exhaust	1	NRAirToxicsCalculator
+Registration	NonHAPTOG	88	Crankcase Running Exhaust	15	NRAirToxicsCalculator
+Registration	NonHAPTOG	88	Refueling Displacement Vapor Loss	18	NRAirToxicsCalculator
+Registration	NonHAPTOG	88	Refueling Spillage Loss	19	NRAirToxicsCalculator
+Registration	NonHAPTOG	88	Evap Tank Permeation	20	NRAirToxicsCalculator
+Registration	NonHAPTOG	88	Evap Hose Permeation	21	NRAirToxicsCalculator
+Registration	NonHAPTOG	88	Diurnal Fuel Vapor Venting	30	NRAirToxicsCalculator
+Registration	NonHAPTOG	88	HotSoak Fuel Vapor Venting	31	NRAirToxicsCalculator
+Registration	NonHAPTOG	88	RunningLoss Fuel Vapor Venting	32	NRAirToxicsCalculator
+Registration	1,2,3,7,8,9-Hexachlorodibenzo-p-Dioxin	130	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Octachlorodibenzo-p-dioxin	131	Running Exhaust	1	NRAirToxicsCalculator
+Registration	1,2,3,4,6,7,8-Heptachlorodibenzo-p-Dioxin	132	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Octachlorodibenzofuran	133	Running Exhaust	1	NRAirToxicsCalculator
+Registration	1,2,3,4,7,8-Hexachlorodibenzo-p-Dioxin	134	Running Exhaust	1	NRAirToxicsCalculator
+Registration	1,2,3,7,8-Pentachlorodibenzo-p-Dioxin	135	Running Exhaust	1	NRAirToxicsCalculator
+Registration	2,3,7,8-Tetrachlorodibenzofuran	136	Running Exhaust	1	NRAirToxicsCalculator
+Registration	1,2,3,4,7,8,9-Heptachlorodibenzofuran	137	Running Exhaust	1	NRAirToxicsCalculator
+Registration	2,3,4,7,8-Pentachlorodibenzofuran	138	Running Exhaust	1	NRAirToxicsCalculator
+Registration	1,2,3,7,8-Pentachlorodibenzofuran	139	Running Exhaust	1	NRAirToxicsCalculator
+Registration	1,2,3,6,7,8-Hexachlorodibenzofuran	140	Running Exhaust	1	NRAirToxicsCalculator
+Registration	1,2,3,6,7,8-Hexachlorodibenzo-p-Dioxin	141	Running Exhaust	1	NRAirToxicsCalculator
+Registration	2,3,7,8-Tetrachlorodibenzo-p-Dioxin	142	Running Exhaust	1	NRAirToxicsCalculator
+Registration	2,3,4,6,7,8-Hexachlorodibenzofuran	143	Running Exhaust	1	NRAirToxicsCalculator
+Registration	1,2,3,4,6,7,8-Heptachlorodibenzofuran	144	Running Exhaust	1	NRAirToxicsCalculator
+Registration	1,2,3,4,7,8-Hexachlorodibenzofuran	145	Running Exhaust	1	NRAirToxicsCalculator
+Registration	1,2,3,7,8,9-Hexachlorodibenzofuran	146	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Dibenzo(a,h)anthracene gas	168	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Dibenzo(a,h)anthracene gas	168	Crankcase Running Exhaust	15	NRAirToxicsCalculator
+Registration	Fluoranthene gas	169	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Fluoranthene gas	169	Crankcase Running Exhaust	15	NRAirToxicsCalculator
+Registration	Acenaphthene gas	170	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Acenaphthene gas	170	Crankcase Running Exhaust	15	NRAirToxicsCalculator
+Registration	Acenaphthylene gas	171	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Acenaphthylene gas	171	Crankcase Running Exhaust	15	NRAirToxicsCalculator
+Registration	Anthracene gas	172	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Anthracene gas	172	Crankcase Running Exhaust	15	NRAirToxicsCalculator
+Registration	Benz(a)anthracene gas	173	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Benz(a)anthracene gas	173	Crankcase Running Exhaust	15	NRAirToxicsCalculator
+Registration	Benzo(a)pyrene gas	174	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Benzo(a)pyrene gas	174	Crankcase Running Exhaust	15	NRAirToxicsCalculator
+Registration	Benzo(b)fluoranthene gas	175	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Benzo(b)fluoranthene gas	175	Crankcase Running Exhaust	15	NRAirToxicsCalculator
+Registration	Benzo(g,h,i)perylene gas	176	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Benzo(g,h,i)perylene gas	176	Crankcase Running Exhaust	15	NRAirToxicsCalculator
+Registration	Benzo(k)fluoranthene gas	177	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Benzo(k)fluoranthene gas	177	Crankcase Running Exhaust	15	NRAirToxicsCalculator
+Registration	Chrysene gas	178	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Chrysene gas	178	Crankcase Running Exhaust	15	NRAirToxicsCalculator
+Registration	Fluorene gas	181	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Fluorene gas	181	Crankcase Running Exhaust	15	NRAirToxicsCalculator
+Registration	Indeno(1,2,3,c,d)pyrene gas	182	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Indeno(1,2,3,c,d)pyrene gas	182	Crankcase Running Exhaust	15	NRAirToxicsCalculator
+Registration	Phenanthrene gas	183	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Phenanthrene gas	183	Crankcase Running Exhaust	15	NRAirToxicsCalculator
+Registration	Pyrene gas	184	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Pyrene gas	184	Crankcase Running Exhaust	15	NRAirToxicsCalculator
+Registration	Naphthalene gas	185	Running Exhaust	1	NRAirToxicsCalculator
+Registration	Naphthalene gas	185	Crankcase Running Exhaust	15	NRAirToxicsCalculator
+Registration	Methane (CH4)	5	Running Exhaust	1	NRHCSpeciationCalculator
+Registration	Methane (CH4)	5	Crankcase Running Exhaust	15	NRHCSpeciationCalculator
+Registration	Methane (CH4)	5	Refueling Displacement Vapor Loss	18	NRHCSpeciationCalculator
+Registration	Methane (CH4)	5	Refueling Spillage Loss	19	NRHCSpeciationCalculator
+Registration	Methane (CH4)	5	Evap Tank Permeation	20	NRHCSpeciationCalculator
+Registration	Methane (CH4)	5	Evap Hose Permeation	21	NRHCSpeciationCalculator
+Registration	Methane (CH4)	5	Diurnal Fuel Vapor Venting	30	NRHCSpeciationCalculator
+Registration	Methane (CH4)	5	HotSoak Fuel Vapor Venting	31	NRHCSpeciationCalculator
+Registration	Methane (CH4)	5	RunningLoss Fuel Vapor Venting	32	NRHCSpeciationCalculator
+Registration	Non-Methane Hydrocarbons	79	Running Exhaust	1	NRHCSpeciationCalculator
+Registration	Non-Methane Hydrocarbons	79	Crankcase Running Exhaust	15	NRHCSpeciationCalculator
+Registration	Non-Methane Hydrocarbons	79	Refueling Displacement Vapor Loss	18	NRHCSpeciationCalculator
+Registration	Non-Methane Hydrocarbons	79	Refueling Spillage Loss	19	NRHCSpeciationCalculator
+Registration	Non-Methane Hydrocarbons	79	Evap Tank Permeation	20	NRHCSpeciationCalculator
+Registration	Non-Methane Hydrocarbons	79	Evap Hose Permeation	21	NRHCSpeciationCalculator
+Registration	Non-Methane Hydrocarbons	79	Diurnal Fuel Vapor Venting	30	NRHCSpeciationCalculator
+Registration	Non-Methane Hydrocarbons	79	HotSoak Fuel Vapor Venting	31	NRHCSpeciationCalculator
+Registration	Non-Methane Hydrocarbons	79	RunningLoss Fuel Vapor Venting	32	NRHCSpeciationCalculator
+Registration	Non-Methane Organic Gases	80	Running Exhaust	1	NRHCSpeciationCalculator
+Registration	Non-Methane Organic Gases	80	Crankcase Running Exhaust	15	NRHCSpeciationCalculator
+Registration	Non-Methane Organic Gases	80	Refueling Displacement Vapor Loss	18	NRHCSpeciationCalculator
+Registration	Non-Methane Organic Gases	80	Refueling Spillage Loss	19	NRHCSpeciationCalculator
+Registration	Non-Methane Organic Gases	80	Evap Tank Permeation	20	NRHCSpeciationCalculator
+Registration	Non-Methane Organic Gases	80	Evap Hose Permeation	21	NRHCSpeciationCalculator
+Registration	Non-Methane Organic Gases	80	Diurnal Fuel Vapor Venting	30	NRHCSpeciationCalculator
+Registration	Non-Methane Organic Gases	80	HotSoak Fuel Vapor Venting	31	NRHCSpeciationCalculator
+Registration	Non-Methane Organic Gases	80	RunningLoss Fuel Vapor Venting	32	NRHCSpeciationCalculator
+Registration	Total Organic Gases	86	Running Exhaust	1	NRHCSpeciationCalculator
+Registration	Total Organic Gases	86	Crankcase Running Exhaust	15	NRHCSpeciationCalculator
+Registration	Total Organic Gases	86	Refueling Displacement Vapor Loss	18	NRHCSpeciationCalculator
+Registration	Total Organic Gases	86	Refueling Spillage Loss	19	NRHCSpeciationCalculator
+Registration	Total Organic Gases	86	Evap Tank Permeation	20	NRHCSpeciationCalculator
+Registration	Total Organic Gases	86	Evap Hose Permeation	21	NRHCSpeciationCalculator
+Registration	Total Organic Gases	86	Diurnal Fuel Vapor Venting	30	NRHCSpeciationCalculator
+Registration	Total Organic Gases	86	HotSoak Fuel Vapor Venting	31	NRHCSpeciationCalculator
+Registration	Total Organic Gases	86	RunningLoss Fuel Vapor Venting	32	NRHCSpeciationCalculator
+Registration	Volatile Organic Compounds	87	Running Exhaust	1	NRHCSpeciationCalculator
+Registration	Volatile Organic Compounds	87	Crankcase Running Exhaust	15	NRHCSpeciationCalculator
+Registration	Volatile Organic Compounds	87	Refueling Displacement Vapor Loss	18	NRHCSpeciationCalculator
+Registration	Volatile Organic Compounds	87	Refueling Spillage Loss	19	NRHCSpeciationCalculator
+Registration	Volatile Organic Compounds	87	Evap Tank Permeation	20	NRHCSpeciationCalculator
+Registration	Volatile Organic Compounds	87	Evap Hose Permeation	21	NRHCSpeciationCalculator
+Registration	Volatile Organic Compounds	87	Diurnal Fuel Vapor Venting	30	NRHCSpeciationCalculator
+Registration	Volatile Organic Compounds	87	HotSoak Fuel Vapor Venting	31	NRHCSpeciationCalculator
+Registration	Volatile Organic Compounds	87	RunningLoss Fuel Vapor Venting	32	NRHCSpeciationCalculator
+Registration	Total Gaseous Hydrocarbons	1	HotSoak Fuel Vapor Venting	31	NonroadEmissionCalculator
+Registration	Total Gaseous Hydrocarbons	1	Diurnal Fuel Vapor Venting	30	NonroadEmissionCalculator
+Registration	Total Gaseous Hydrocarbons	1	Refueling Displacement Vapor Loss	18	NonroadEmissionCalculator
+Registration	Total Gaseous Hydrocarbons	1	Refueling Spillage Loss	19	NonroadEmissionCalculator
+Registration	Total Gaseous Hydrocarbons	1	RunningLoss Fuel Vapor Venting	32	NonroadEmissionCalculator
+Registration	Total Gaseous Hydrocarbons	1	Evap Tank Permeation	20	NonroadEmissionCalculator
+Registration	Total Gaseous Hydrocarbons	1	Evap Hose Permeation	21	NonroadEmissionCalculator
+Registration	Atmospheric CO2	90	Running Exhaust	1	NonroadEmissionCalculator
+Registration	Total Energy Consumption	91	Running Exhaust	1	NonroadEmissionCalculator
+Registration	Brake Specific Fuel Consumption (BSFC)	99	Running Exhaust	1	NonroadEmissionCalculator
+Registration	Total Gaseous Hydrocarbons	1	Running Exhaust	1	NonroadEmissionCalculator
+Registration	Carbon Monoxide (CO)	2	Running Exhaust	1	NonroadEmissionCalculator
+Registration	Oxides of Nitrogen (NOx)	3	Running Exhaust	1	NonroadEmissionCalculator
+Registration	Ammonia (NH3)	30	Running Exhaust	1	NonroadEmissionCalculator
+Registration	Sulfur Dioxide (SO2)	31	Running Exhaust	1	NonroadEmissionCalculator
+Registration	Primary Exhaust PM10  - Total	100	Running Exhaust	1	NonroadEmissionCalculator
+Registration	Primary Exhaust PM2.5 - Total	110	Running Exhaust	1	NonroadEmissionCalculator
+Registration	Total Gaseous Hydrocarbons	1	Crankcase Running Exhaust	15	NonroadEmissionCalculator
+Chain	NRAirToxicsCalculator	NRHCSpeciationCalculator
+Chain	NRAirToxicsCalculator	NonroadEmissionCalculator
+Chain	NRHCSpeciationCalculator	NonroadEmissionCalculator
+Subscribe	NonroadEmissionCalculator	HotSoak Fuel Vapor Venting	31	DAY	EMISSION_CALCULATOR
+Subscribe	NonroadEmissionCalculator	Diurnal Fuel Vapor Venting	30	DAY	EMISSION_CALCULATOR
+Subscribe	NonroadEmissionCalculator	Refueling Displacement Vapor Loss	18	DAY	EMISSION_CALCULATOR
+Subscribe	NonroadEmissionCalculator	Refueling Spillage Loss	19	DAY	EMISSION_CALCULATOR
+Subscribe	NonroadEmissionCalculator	RunningLoss Fuel Vapor Venting	32	DAY	EMISSION_CALCULATOR
+Subscribe	NonroadEmissionCalculator	Evap Tank Permeation	20	DAY	EMISSION_CALCULATOR
+Subscribe	NonroadEmissionCalculator	Evap Hose Permeation	21	DAY	EMISSION_CALCULATOR
+Subscribe	NonroadEmissionCalculator	Running Exhaust	1	DAY	EMISSION_CALCULATOR
+Subscribe	NonroadEmissionCalculator	Running Exhaust	1	DAY	EMISSION_CALCULATOR
+Subscribe	NonroadEmissionCalculator	Running Exhaust	1	DAY	EMISSION_CALCULATOR
+Subscribe	NonroadEmissionCalculator	Running Exhaust	1	DAY	EMISSION_CALCULATOR
+Subscribe	NonroadEmissionCalculator	Running Exhaust	1	DAY	EMISSION_CALCULATOR
+Subscribe	NonroadEmissionCalculator	Running Exhaust	1	DAY	EMISSION_CALCULATOR
+Subscribe	NonroadEmissionCalculator	Running Exhaust	1	DAY	EMISSION_CALCULATOR
+Subscribe	NonroadEmissionCalculator	Running Exhaust	1	DAY	EMISSION_CALCULATOR
+Subscribe	NonroadEmissionCalculator	Running Exhaust	1	DAY	EMISSION_CALCULATOR
+Subscribe	NonroadEmissionCalculator	Crankcase Running Exhaust	15	DAY	EMISSION_CALCULATOR
+Registration	Benzene	20	Running Exhaust	1	AirToxicsCalculator
+Registration	Benzene	20	Start Exhaust	2	AirToxicsCalculator
+Registration	Benzene	20	Evap Permeation	11	AirToxicsCalculator
+Registration	Benzene	20	Evap Fuel Vapor Venting	12	AirToxicsCalculator
+Registration	Benzene	20	Evap Fuel Leaks	13	AirToxicsCalculator
+Registration	Benzene	20	Refueling Displacement Vapor Loss	18	AirToxicsCalculator
+Registration	Benzene	20	Refueling Spillage Loss	19	AirToxicsCalculator
+Registration	Benzene	20	Extended Idle Exhaust	90	AirToxicsCalculator
+Registration	Benzene	20	Auxiliary Power Exhaust	91	AirToxicsCalculator
+Registration	Ethanol	21	Running Exhaust	1	AirToxicsCalculator
+Registration	Ethanol	21	Start Exhaust	2	AirToxicsCalculator
+Registration	Ethanol	21	Evap Permeation	11	AirToxicsCalculator
+Registration	Ethanol	21	Evap Fuel Vapor Venting	12	AirToxicsCalculator
+Registration	Ethanol	21	Evap Fuel Leaks	13	AirToxicsCalculator
+Registration	Ethanol	21	Refueling Displacement Vapor Loss	18	AirToxicsCalculator
+Registration	Ethanol	21	Refueling Spillage Loss	19	AirToxicsCalculator
+Registration	MTBE	22	Running Exhaust	1	AirToxicsCalculator
+Registration	MTBE	22	Start Exhaust	2	AirToxicsCalculator
+Registration	MTBE	22	Evap Permeation	11	AirToxicsCalculator
+Registration	MTBE	22	Evap Fuel Vapor Venting	12	AirToxicsCalculator
+Registration	MTBE	22	Evap Fuel Leaks	13	AirToxicsCalculator
+Registration	MTBE	22	Refueling Displacement Vapor Loss	18	AirToxicsCalculator
+Registration	MTBE	22	Refueling Spillage Loss	19	AirToxicsCalculator
+Registration	Naphthalene particle	23	Running Exhaust	1	AirToxicsCalculator
+Registration	Naphthalene particle	23	Start Exhaust	2	AirToxicsCalculator
+Registration	Naphthalene particle	23	Extended Idle Exhaust	90	AirToxicsCalculator
+Registration	Naphthalene particle	23	Auxiliary Power Exhaust	91	AirToxicsCalculator
+Registration	1,3-Butadiene	24	Running Exhaust	1	AirToxicsCalculator
+Registration	1,3-Butadiene	24	Start Exhaust	2	AirToxicsCalculator
+Registration	1,3-Butadiene	24	Extended Idle Exhaust	90	AirToxicsCalculator
+Registration	1,3-Butadiene	24	Auxiliary Power Exhaust	91	AirToxicsCalculator
+Registration	Formaldehyde	25	Running Exhaust	1	AirToxicsCalculator
+Registration	Formaldehyde	25	Start Exhaust	2	AirToxicsCalculator
+Registration	Formaldehyde	25	Extended Idle Exhaust	90	AirToxicsCalculator
+Registration	Formaldehyde	25	Auxiliary Power Exhaust	91	AirToxicsCalculator
+Registration	Acetaldehyde	26	Running Exhaust	1	AirToxicsCalculator
+Registration	Acetaldehyde	26	Start Exhaust	2	AirToxicsCalculator
+Registration	Acetaldehyde	26	Extended Idle Exhaust	90	AirToxicsCalculator
+Registration	Acetaldehyde	26	Auxiliary Power Exhaust	91	AirToxicsCalculator
+Registration	Acrolein	27	Running Exhaust	1	AirToxicsCalculator
+Registration	Acrolein	27	Start Exhaust	2	AirToxicsCalculator
+Registration	Acrolein	27	Extended Idle Exhaust	90	AirToxicsCalculator
+Registration	Acrolein	27	Auxiliary Power Exhaust	91	AirToxicsCalculator
+Registration	2,2,4-Trimethylpentane	40	Running Exhaust	1	AirToxicsCalculator
+Registration	2,2,4-Trimethylpentane	40	Start Exhaust	2	AirToxicsCalculator
+Registration	2,2,4-Trimethylpentane	40	Evap Permeation	11	AirToxicsCalculator
+Registration	2,2,4-Trimethylpentane	40	Evap Fuel Vapor Venting	12	AirToxicsCalculator
+Registration	2,2,4-Trimethylpentane	40	Evap Fuel Leaks	13	AirToxicsCalculator
+Registration	2,2,4-Trimethylpentane	40	Refueling Displacement Vapor Loss	18	AirToxicsCalculator
+Registration	2,2,4-Trimethylpentane	40	Refueling Spillage Loss	19	AirToxicsCalculator
+Registration	2,2,4-Trimethylpentane	40	Extended Idle Exhaust	90	AirToxicsCalculator
+Registration	2,2,4-Trimethylpentane	40	Auxiliary Power Exhaust	91	AirToxicsCalculator
+Registration	Ethyl Benzene	41	Running Exhaust	1	AirToxicsCalculator
+Registration	Ethyl Benzene	41	Start Exhaust	2	AirToxicsCalculator
+Registration	Ethyl Benzene	41	Evap Permeation	11	AirToxicsCalculator
+Registration	Ethyl Benzene	41	Evap Fuel Vapor Venting	12	AirToxicsCalculator
+Registration	Ethyl Benzene	41	Evap Fuel Leaks	13	AirToxicsCalculator
+Registration	Ethyl Benzene	41	Refueling Displacement Vapor Loss	18	AirToxicsCalculator
+Registration	Ethyl Benzene	41	Refueling Spillage Loss	19	AirToxicsCalculator
+Registration	Ethyl Benzene	41	Extended Idle Exhaust	90	AirToxicsCalculator
+Registration	Ethyl Benzene	41	Auxiliary Power Exhaust	91	AirToxicsCalculator
+Registration	Hexane	42	Running Exhaust	1	AirToxicsCalculator
+Registration	Hexane	42	Start Exhaust	2	AirToxicsCalculator
+Registration	Hexane	42	Evap Permeation	11	AirToxicsCalculator
+Registration	Hexane	42	Evap Fuel Vapor Venting	12	AirToxicsCalculator
+Registration	Hexane	42	Evap Fuel Leaks	13	AirToxicsCalculator
+Registration	Hexane	42	Refueling Displacement Vapor Loss	18	AirToxicsCalculator
+Registration	Hexane	42	Refueling Spillage Loss	19	AirToxicsCalculator
+Registration	Hexane	42	Extended Idle Exhaust	90	AirToxicsCalculator
+Registration	Hexane	42	Auxiliary Power Exhaust	91	AirToxicsCalculator
+Registration	Propionaldehyde	43	Running Exhaust	1	AirToxicsCalculator
+Registration	Propionaldehyde	43	Start Exhaust	2	AirToxicsCalculator
+Registration	Propionaldehyde	43	Extended Idle Exhaust	90	AirToxicsCalculator
+Registration	Propionaldehyde	43	Auxiliary Power Exhaust	91	AirToxicsCalculator
+Registration	Styrene	44	Running Exhaust	1	AirToxicsCalculator
+Registration	Styrene	44	Start Exhaust	2	AirToxicsCalculator
+Registration	Styrene	44	Extended Idle Exhaust	90	AirToxicsCalculator
+Registration	Styrene	44	Auxiliary Power Exhaust	91	AirToxicsCalculator
+Registration	Toluene	45	Running Exhaust	1	AirToxicsCalculator
+Registration	Toluene	45	Start Exhaust	2	AirToxicsCalculator
+Registration	Toluene	45	Evap Permeation	11	AirToxicsCalculator
+Registration	Toluene	45	Evap Fuel Vapor Venting	12	AirToxicsCalculator
+Registration	Toluene	45	Evap Fuel Leaks	13	AirToxicsCalculator
+Registration	Toluene	45	Refueling Displacement Vapor Loss	18	AirToxicsCalculator
+Registration	Toluene	45	Refueling Spillage Loss	19	AirToxicsCalculator
+Registration	Toluene	45	Extended Idle Exhaust	90	AirToxicsCalculator
+Registration	Toluene	45	Auxiliary Power Exhaust	91	AirToxicsCalculator
+Registration	Xylene	46	Running Exhaust	1	AirToxicsCalculator
+Registration	Xylene	46	Start Exhaust	2	AirToxicsCalculator
+Registration	Xylene	46	Evap Permeation	11	AirToxicsCalculator
+Registration	Xylene	46	Evap Fuel Vapor Venting	12	AirToxicsCalculator
+Registration	Xylene	46	Evap Fuel Leaks	13	AirToxicsCalculator
+Registration	Xylene	46	Refueling Displacement Vapor Loss	18	AirToxicsCalculator
+Registration	Xylene	46	Refueling Spillage Loss	19	AirToxicsCalculator
+Registration	Xylene	46	Extended Idle Exhaust	90	AirToxicsCalculator
+Registration	Xylene	46	Auxiliary Power Exhaust	91	AirToxicsCalculator
+Registration	Dibenzo(a,h)anthracene particle	68	Running Exhaust	1	AirToxicsCalculator
+Registration	Dibenzo(a,h)anthracene particle	68	Start Exhaust	2	AirToxicsCalculator
+Registration	Fluoranthene particle	69	Running Exhaust	1	AirToxicsCalculator
+Registration	Fluoranthene particle	69	Start Exhaust	2	AirToxicsCalculator
+Registration	Acenaphthene particle	70	Running Exhaust	1	AirToxicsCalculator
+Registration	Acenaphthene particle	70	Start Exhaust	2	AirToxicsCalculator
+Registration	Acenaphthylene particle	71	Running Exhaust	1	AirToxicsCalculator
+Registration	Acenaphthylene particle	71	Start Exhaust	2	AirToxicsCalculator
+Registration	Anthracene particle	72	Running Exhaust	1	AirToxicsCalculator
+Registration	Anthracene particle	72	Start Exhaust	2	AirToxicsCalculator
+Registration	Benz(a)anthracene particle	73	Running Exhaust	1	AirToxicsCalculator
+Registration	Benz(a)anthracene particle	73	Start Exhaust	2	AirToxicsCalculator
+Registration	Benzo(a)pyrene particle	74	Running Exhaust	1	AirToxicsCalculator
+Registration	Benzo(a)pyrene particle	74	Start Exhaust	2	AirToxicsCalculator
+Registration	Benzo(b)fluoranthene particle	75	Running Exhaust	1	AirToxicsCalculator
+Registration	Benzo(b)fluoranthene particle	75	Start Exhaust	2	AirToxicsCalculator
+Registration	Benzo(g,h,i)perylene particle	76	Running Exhaust	1	AirToxicsCalculator
+Registration	Benzo(g,h,i)perylene particle	76	Start Exhaust	2	AirToxicsCalculator
+Registration	Benzo(k)fluoranthene particle	77	Running Exhaust	1	AirToxicsCalculator
+Registration	Benzo(k)fluoranthene particle	77	Start Exhaust	2	AirToxicsCalculator
+Registration	Chrysene particle	78	Running Exhaust	1	AirToxicsCalculator
+Registration	Chrysene particle	78	Start Exhaust	2	AirToxicsCalculator
+Registration	Fluorene particle	81	Running Exhaust	1	AirToxicsCalculator
+Registration	Fluorene particle	81	Start Exhaust	2	AirToxicsCalculator
+Registration	Indeno(1,2,3,c,d)pyrene particle	82	Running Exhaust	1	AirToxicsCalculator
+Registration	Indeno(1,2,3,c,d)pyrene particle	82	Start Exhaust	2	AirToxicsCalculator
+Registration	Phenanthrene particle	83	Running Exhaust	1	AirToxicsCalculator
+Registration	Phenanthrene particle	83	Start Exhaust	2	AirToxicsCalculator
+Registration	Pyrene particle	84	Running Exhaust	1	AirToxicsCalculator
+Registration	Pyrene particle	84	Start Exhaust	2	AirToxicsCalculator
+Registration	Dibenzo(a,h)anthracene gas	168	Running Exhaust	1	AirToxicsCalculator
+Registration	Dibenzo(a,h)anthracene gas	168	Start Exhaust	2	AirToxicsCalculator
+Registration	Dibenzo(a,h)anthracene gas	168	Extended Idle Exhaust	90	AirToxicsCalculator
+Registration	Dibenzo(a,h)anthracene gas	168	Auxiliary Power Exhaust	91	AirToxicsCalculator
+Registration	Fluoranthene gas	169	Running Exhaust	1	AirToxicsCalculator
+Registration	Fluoranthene gas	169	Start Exhaust	2	AirToxicsCalculator
+Registration	Fluoranthene gas	169	Extended Idle Exhaust	90	AirToxicsCalculator
+Registration	Fluoranthene gas	169	Auxiliary Power Exhaust	91	AirToxicsCalculator
+Registration	Acenaphthene gas	170	Running Exhaust	1	AirToxicsCalculator
+Registration	Acenaphthene gas	170	Start Exhaust	2	AirToxicsCalculator
+Registration	Acenaphthene gas	170	Extended Idle Exhaust	90	AirToxicsCalculator
+Registration	Acenaphthene gas	170	Auxiliary Power Exhaust	91	AirToxicsCalculator
+Registration	Acenaphthylene gas	171	Running Exhaust	1	AirToxicsCalculator
+Registration	Acenaphthylene gas	171	Start Exhaust	2	AirToxicsCalculator
+Registration	Acenaphthylene gas	171	Extended Idle Exhaust	90	AirToxicsCalculator
+Registration	Acenaphthylene gas	171	Auxiliary Power Exhaust	91	AirToxicsCalculator
+Registration	Anthracene gas	172	Running Exhaust	1	AirToxicsCalculator
+Registration	Anthracene gas	172	Start Exhaust	2	AirToxicsCalculator
+Registration	Anthracene gas	172	Extended Idle Exhaust	90	AirToxicsCalculator
+Registration	Anthracene gas	172	Auxiliary Power Exhaust	91	AirToxicsCalculator
+Registration	Benz(a)anthracene gas	173	Running Exhaust	1	AirToxicsCalculator
+Registration	Benz(a)anthracene gas	173	Start Exhaust	2	AirToxicsCalculator
+Registration	Benz(a)anthracene gas	173	Extended Idle Exhaust	90	AirToxicsCalculator
+Registration	Benz(a)anthracene gas	173	Auxiliary Power Exhaust	91	AirToxicsCalculator
+Registration	Benzo(a)pyrene gas	174	Running Exhaust	1	AirToxicsCalculator
+Registration	Benzo(a)pyrene gas	174	Start Exhaust	2	AirToxicsCalculator
+Registration	Benzo(a)pyrene gas	174	Extended Idle Exhaust	90	AirToxicsCalculator
+Registration	Benzo(a)pyrene gas	174	Auxiliary Power Exhaust	91	AirToxicsCalculator
+Registration	Benzo(b)fluoranthene gas	175	Running Exhaust	1	AirToxicsCalculator
+Registration	Benzo(b)fluoranthene gas	175	Start Exhaust	2	AirToxicsCalculator
+Registration	Benzo(b)fluoranthene gas	175	Extended Idle Exhaust	90	AirToxicsCalculator
+Registration	Benzo(b)fluoranthene gas	175	Auxiliary Power Exhaust	91	AirToxicsCalculator
+Registration	Benzo(g,h,i)perylene gas	176	Running Exhaust	1	AirToxicsCalculator
+Registration	Benzo(g,h,i)perylene gas	176	Start Exhaust	2	AirToxicsCalculator
+Registration	Benzo(g,h,i)perylene gas	176	Extended Idle Exhaust	90	AirToxicsCalculator
+Registration	Benzo(g,h,i)perylene gas	176	Auxiliary Power Exhaust	91	AirToxicsCalculator
+Registration	Benzo(k)fluoranthene gas	177	Running Exhaust	1	AirToxicsCalculator
+Registration	Benzo(k)fluoranthene gas	177	Start Exhaust	2	AirToxicsCalculator
+Registration	Benzo(k)fluoranthene gas	177	Extended Idle Exhaust	90	AirToxicsCalculator
+Registration	Benzo(k)fluoranthene gas	177	Auxiliary Power Exhaust	91	AirToxicsCalculator
+Registration	Chrysene gas	178	Running Exhaust	1	AirToxicsCalculator
+Registration	Chrysene gas	178	Start Exhaust	2	AirToxicsCalculator
+Registration	Chrysene gas	178	Extended Idle Exhaust	90	AirToxicsCalculator
+Registration	Chrysene gas	178	Auxiliary Power Exhaust	91	AirToxicsCalculator
+Registration	Fluorene gas	181	Running Exhaust	1	AirToxicsCalculator
+Registration	Fluorene gas	181	Start Exhaust	2	AirToxicsCalculator
+Registration	Fluorene gas	181	Extended Idle Exhaust	90	AirToxicsCalculator
+Registration	Fluorene gas	181	Auxiliary Power Exhaust	91	AirToxicsCalculator
+Registration	Indeno(1,2,3,c,d)pyrene gas	182	Running Exhaust	1	AirToxicsCalculator
+Registration	Indeno(1,2,3,c,d)pyrene gas	182	Start Exhaust	2	AirToxicsCalculator
+Registration	Indeno(1,2,3,c,d)pyrene gas	182	Extended Idle Exhaust	90	AirToxicsCalculator
+Registration	Indeno(1,2,3,c,d)pyrene gas	182	Auxiliary Power Exhaust	91	AirToxicsCalculator
+Registration	Phenanthrene gas	183	Running Exhaust	1	AirToxicsCalculator
+Registration	Phenanthrene gas	183	Start Exhaust	2	AirToxicsCalculator
+Registration	Phenanthrene gas	183	Extended Idle Exhaust	90	AirToxicsCalculator
+Registration	Phenanthrene gas	183	Auxiliary Power Exhaust	91	AirToxicsCalculator
+Registration	Pyrene gas	184	Running Exhaust	1	AirToxicsCalculator
+Registration	Pyrene gas	184	Start Exhaust	2	AirToxicsCalculator
+Registration	Pyrene gas	184	Extended Idle Exhaust	90	AirToxicsCalculator
+Registration	Pyrene gas	184	Auxiliary Power Exhaust	91	AirToxicsCalculator
+Registration	Naphthalene gas	185	Running Exhaust	1	AirToxicsCalculator
+Registration	Naphthalene gas	185	Start Exhaust	2	AirToxicsCalculator
+Registration	Naphthalene gas	185	Evap Permeation	11	AirToxicsCalculator
+Registration	Naphthalene gas	185	Evap Fuel Vapor Venting	12	AirToxicsCalculator
+Registration	Naphthalene gas	185	Evap Fuel Leaks	13	AirToxicsCalculator
+Registration	Naphthalene gas	185	Refueling Displacement Vapor Loss	18	AirToxicsCalculator
+Registration	Naphthalene gas	185	Refueling Spillage Loss	19	AirToxicsCalculator
+Registration	Naphthalene gas	185	Extended Idle Exhaust	90	AirToxicsCalculator
+Registration	Naphthalene gas	185	Auxiliary Power Exhaust	91	AirToxicsCalculator
+Registration	Total Gaseous Hydrocarbons	1	Running Exhaust	1	BaseRateCalculator
+Registration	Total Gaseous Hydrocarbons	1	Start Exhaust	2	BaseRateCalculator
+Registration	Total Gaseous Hydrocarbons	1	Brakewear	9	BaseRateCalculator
+Registration	Total Gaseous Hydrocarbons	1	Tirewear	10	BaseRateCalculator
+Registration	Total Gaseous Hydrocarbons	1	Extended Idle Exhaust	90	BaseRateCalculator
+Registration	Total Gaseous Hydrocarbons	1	Auxiliary Power Exhaust	91	BaseRateCalculator
+Registration	Carbon Monoxide (CO)	2	Running Exhaust	1	BaseRateCalculator
+Registration	Carbon Monoxide (CO)	2	Start Exhaust	2	BaseRateCalculator
+Registration	Carbon Monoxide (CO)	2	Brakewear	9	BaseRateCalculator
+Registration	Carbon Monoxide (CO)	2	Tirewear	10	BaseRateCalculator
+Registration	Carbon Monoxide (CO)	2	Extended Idle Exhaust	90	BaseRateCalculator
+Registration	Carbon Monoxide (CO)	2	Auxiliary Power Exhaust	91	BaseRateCalculator
+Registration	Oxides of Nitrogen (NOx)	3	Running Exhaust	1	BaseRateCalculator
+Registration	Oxides of Nitrogen (NOx)	3	Start Exhaust	2	BaseRateCalculator
+Registration	Oxides of Nitrogen (NOx)	3	Brakewear	9	BaseRateCalculator
+Registration	Oxides of Nitrogen (NOx)	3	Tirewear	10	BaseRateCalculator
+Registration	Oxides of Nitrogen (NOx)	3	Extended Idle Exhaust	90	BaseRateCalculator
+Registration	Oxides of Nitrogen (NOx)	3	Auxiliary Power Exhaust	91	BaseRateCalculator
+Registration	Nitrous Oxide (N2O)	6	Running Exhaust	1	BaseRateCalculator
+Registration	Nitrous Oxide (N2O)	6	Start Exhaust	2	BaseRateCalculator
+Registration	Nitrous Oxide (N2O)	6	Brakewear	9	BaseRateCalculator
+Registration	Nitrous Oxide (N2O)	6	Tirewear	10	BaseRateCalculator
+Registration	Nitrous Oxide (N2O)	6	Extended Idle Exhaust	90	BaseRateCalculator
+Registration	Nitrous Oxide (N2O)	6	Auxiliary Power Exhaust	91	BaseRateCalculator
+Registration	Ammonia (NH3)	30	Running Exhaust	1	BaseRateCalculator
+Registration	Ammonia (NH3)	30	Start Exhaust	2	BaseRateCalculator
+Registration	Ammonia (NH3)	30	Brakewear	9	BaseRateCalculator
+Registration	Ammonia (NH3)	30	Tirewear	10	BaseRateCalculator
+Registration	Ammonia (NH3)	30	Extended Idle Exhaust	90	BaseRateCalculator
+Registration	Ammonia (NH3)	30	Auxiliary Power Exhaust	91	BaseRateCalculator
+Registration	Total Energy Consumption	91	Running Exhaust	1	BaseRateCalculator
+Registration	Total Energy Consumption	91	Start Exhaust	2	BaseRateCalculator
+Registration	Total Energy Consumption	91	Brakewear	9	BaseRateCalculator
+Registration	Total Energy Consumption	91	Tirewear	10	BaseRateCalculator
+Registration	Total Energy Consumption	91	Extended Idle Exhaust	90	BaseRateCalculator
+Registration	Total Energy Consumption	91	Auxiliary Power Exhaust	91	BaseRateCalculator
+Registration	Composite - NonECPM	118	Running Exhaust	1	BaseRateCalculator
+Registration	Composite - NonECPM	118	Start Exhaust	2	BaseRateCalculator
+Registration	Composite - NonECPM	118	Brakewear	9	BaseRateCalculator
+Registration	Composite - NonECPM	118	Tirewear	10	BaseRateCalculator
+Registration	Composite - NonECPM	118	Extended Idle Exhaust	90	BaseRateCalculator
+Registration	Composite - NonECPM	118	Auxiliary Power Exhaust	91	BaseRateCalculator
+Registration	Elemental Carbon	112	Running Exhaust	1	BaseRateCalculator
+Registration	Elemental Carbon	112	Start Exhaust	2	BaseRateCalculator
+Registration	Elemental Carbon	112	Brakewear	9	BaseRateCalculator
+Registration	Elemental Carbon	112	Tirewear	10	BaseRateCalculator
+Registration	Elemental Carbon	112	Extended Idle Exhaust	90	BaseRateCalculator
+Registration	Elemental Carbon	112	Auxiliary Power Exhaust	91	BaseRateCalculator
+Registration	Primary PM2.5 - Brakewear Particulate	116	Running Exhaust	1	BaseRateCalculator
+Registration	Primary PM2.5 - Brakewear Particulate	116	Start Exhaust	2	BaseRateCalculator
+Registration	Primary PM2.5 - Brakewear Particulate	116	Brakewear	9	BaseRateCalculator
+Registration	Primary PM2.5 - Brakewear Particulate	116	Tirewear	10	BaseRateCalculator
+Registration	Primary PM2.5 - Brakewear Particulate	116	Extended Idle Exhaust	90	BaseRateCalculator
+Registration	Primary PM2.5 - Brakewear Particulate	116	Auxiliary Power Exhaust	91	BaseRateCalculator
+Registration	Primary PM2.5 - Tirewear Particulate	117	Running Exhaust	1	BaseRateCalculator
+Registration	Primary PM2.5 - Tirewear Particulate	117	Start Exhaust	2	BaseRateCalculator
+Registration	Primary PM2.5 - Tirewear Particulate	117	Brakewear	9	BaseRateCalculator
+Registration	Primary PM2.5 - Tirewear Particulate	117	Tirewear	10	BaseRateCalculator
+Registration	Primary PM2.5 - Tirewear Particulate	117	Extended Idle Exhaust	90	BaseRateCalculator
+Registration	Primary PM2.5 - Tirewear Particulate	117	Auxiliary Power Exhaust	91	BaseRateCalculator
+Registration	Mercury Elemental Gaseous	60	Running Exhaust	1	BaseRateCalculator
+Registration	Mercury Divalent Gaseous	61	Running Exhaust	1	BaseRateCalculator
+Registration	Mercury Particulate	62	Running Exhaust	1	BaseRateCalculator
+Registration	Arsenic Compounds	63	Running Exhaust	1	BaseRateCalculator
+Registration	Chromium 6+	65	Running Exhaust	1	BaseRateCalculator
+Registration	Manganese Compounds	66	Running Exhaust	1	BaseRateCalculator
+Registration	Nickel Compounds	67	Running Exhaust	1	BaseRateCalculator
+Registration	1,2,3,7,8,9-Hexachlorodibenzo-p-Dioxin	130	Running Exhaust	1	BaseRateCalculator
+Registration	Octachlorodibenzo-p-dioxin	131	Running Exhaust	1	BaseRateCalculator
+Registration	1,2,3,4,6,7,8-Heptachlorodibenzo-p-Dioxin	132	Running Exhaust	1	BaseRateCalculator
+Registration	Octachlorodibenzofuran	133	Running Exhaust	1	BaseRateCalculator
+Registration	1,2,3,4,7,8-Hexachlorodibenzo-p-Dioxin	134	Running Exhaust	1	BaseRateCalculator
+Registration	1,2,3,7,8-Pentachlorodibenzo-p-Dioxin	135	Running Exhaust	1	BaseRateCalculator
+Registration	2,3,7,8-Tetrachlorodibenzofuran	136	Running Exhaust	1	BaseRateCalculator
+Registration	1,2,3,4,7,8,9-Heptachlorodibenzofuran	137	Running Exhaust	1	BaseRateCalculator
+Registration	2,3,4,7,8-Pentachlorodibenzofuran	138	Running Exhaust	1	BaseRateCalculator
+Registration	1,2,3,7,8-Pentachlorodibenzofuran	139	Running Exhaust	1	BaseRateCalculator
+Registration	1,2,3,6,7,8-Hexachlorodibenzofuran	140	Running Exhaust	1	BaseRateCalculator
+Registration	1,2,3,6,7,8-Hexachlorodibenzo-p-Dioxin	141	Running Exhaust	1	BaseRateCalculator
+Registration	2,3,7,8-Tetrachlorodibenzo-p-Dioxin	142	Running Exhaust	1	BaseRateCalculator
+Registration	2,3,4,6,7,8-Hexachlorodibenzofuran	143	Running Exhaust	1	BaseRateCalculator
+Registration	1,2,3,4,6,7,8-Heptachlorodibenzofuran	144	Running Exhaust	1	BaseRateCalculator
+Registration	1,2,3,4,7,8-Hexachlorodibenzofuran	145	Running Exhaust	1	BaseRateCalculator
+Registration	1,2,3,7,8,9-Hexachlorodibenzofuran	146	Running Exhaust	1	BaseRateCalculator
+Registration	Petroleum Energy Consumption	92	Running Exhaust	1	BaseRateCalculator
+Registration	Petroleum Energy Consumption	92	Start Exhaust	2	BaseRateCalculator
+Registration	Petroleum Energy Consumption	92	Brakewear	9	BaseRateCalculator
+Registration	Petroleum Energy Consumption	92	Tirewear	10	BaseRateCalculator
+Registration	Petroleum Energy Consumption	92	Extended Idle Exhaust	90	BaseRateCalculator
+Registration	Petroleum Energy Consumption	92	Auxiliary Power Exhaust	91	BaseRateCalculator
+Registration	Fossil Fuel Energy Consumption	93	Running Exhaust	1	BaseRateCalculator
+Registration	Fossil Fuel Energy Consumption	93	Start Exhaust	2	BaseRateCalculator
+Registration	Fossil Fuel Energy Consumption	93	Brakewear	9	BaseRateCalculator
+Registration	Fossil Fuel Energy Consumption	93	Tirewear	10	BaseRateCalculator
+Registration	Fossil Fuel Energy Consumption	93	Extended Idle Exhaust	90	BaseRateCalculator
+Registration	Fossil Fuel Energy Consumption	93	Auxiliary Power Exhaust	91	BaseRateCalculator
+Registration	Atmospheric CO2	90	Running Exhaust	1	CO2AERunningStartExtendedIdleCalculator
+Registration	CO2 Equivalent	98	Running Exhaust	1	CO2AERunningStartExtendedIdleCalculator
+Registration	Atmospheric CO2	90	Start Exhaust	2	CO2AERunningStartExtendedIdleCalculator
+Registration	CO2 Equivalent	98	Start Exhaust	2	CO2AERunningStartExtendedIdleCalculator
+Registration	Atmospheric CO2	90	Extended Idle Exhaust	90	CO2AERunningStartExtendedIdleCalculator
+Registration	CO2 Equivalent	98	Extended Idle Exhaust	90	CO2AERunningStartExtendedIdleCalculator
+Registration	Atmospheric CO2	90	Auxiliary Power Exhaust	91	CO2AERunningStartExtendedIdleCalculator
+Registration	CO2 Equivalent	98	Auxiliary Power Exhaust	91	CO2AERunningStartExtendedIdleCalculator
+Registration	Total Gaseous Hydrocarbons	1	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Carbon Monoxide (CO)	2	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Oxides of Nitrogen (NOx)	3	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Methane (CH4)	5	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Nitrous Oxide (N2O)	6	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Benzene	20	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Ethanol	21	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	MTBE	22	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Naphthalene particle	23	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	1,3-Butadiene	24	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Formaldehyde	25	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Acetaldehyde	26	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Acrolein	27	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Ammonia (NH3)	30	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Sulfur Dioxide (SO2)	31	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Nitrogen Oxide (NO)	32	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Nitrogen Dioxide (NO2)	33	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Nitrous Acid (HONO)	34	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Non-Methane Hydrocarbons	79	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Non-Methane Organic Gases	80	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Total Organic Gases	86	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Volatile Organic Compounds	87	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	2,2,4-Trimethylpentane	40	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Ethyl Benzene	41	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Hexane	42	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Propionaldehyde	43	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Styrene	44	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Toluene	45	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Xylene	46	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Dibenzo(a,h)anthracene particle	68	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Fluoranthene particle	69	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Acenaphthene particle	70	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Acenaphthylene particle	71	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Anthracene particle	72	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Benz(a)anthracene particle	73	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Benzo(a)pyrene particle	74	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Benzo(b)fluoranthene particle	75	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Benzo(g,h,i)perylene particle	76	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Benzo(k)fluoranthene particle	77	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Chrysene particle	78	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Fluorene particle	81	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Indeno(1,2,3,c,d)pyrene particle	82	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Phenanthrene particle	83	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Pyrene particle	84	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Dibenzo(a,h)anthracene gas	168	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Fluoranthene gas	169	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Acenaphthene gas	170	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Acenaphthylene gas	171	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Anthracene gas	172	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Benz(a)anthracene gas	173	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Benzo(a)pyrene gas	174	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Benzo(b)fluoranthene gas	175	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Benzo(g,h,i)perylene gas	176	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Benzo(k)fluoranthene gas	177	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Chrysene gas	178	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Fluorene gas	181	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Indeno(1,2,3,c,d)pyrene gas	182	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Phenanthrene gas	183	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Pyrene gas	184	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Naphthalene gas	185	Crankcase Running Exhaust	15	CrankcaseEmissionCalculatorNonPM
+Registration	Total Gaseous Hydrocarbons	1	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Carbon Monoxide (CO)	2	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Oxides of Nitrogen (NOx)	3	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Methane (CH4)	5	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Nitrous Oxide (N2O)	6	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Benzene	20	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Ethanol	21	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	MTBE	22	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Naphthalene particle	23	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	1,3-Butadiene	24	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Formaldehyde	25	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Acetaldehyde	26	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Acrolein	27	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Ammonia (NH3)	30	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Sulfur Dioxide (SO2)	31	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Nitrogen Oxide (NO)	32	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Nitrogen Dioxide (NO2)	33	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Nitrous Acid (HONO)	34	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Non-Methane Hydrocarbons	79	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Non-Methane Organic Gases	80	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Total Organic Gases	86	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Volatile Organic Compounds	87	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	2,2,4-Trimethylpentane	40	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Ethyl Benzene	41	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Hexane	42	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Propionaldehyde	43	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Styrene	44	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Toluene	45	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Xylene	46	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Dibenzo(a,h)anthracene particle	68	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Fluoranthene particle	69	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Acenaphthene particle	70	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Acenaphthylene particle	71	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Anthracene particle	72	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Benz(a)anthracene particle	73	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Benzo(a)pyrene particle	74	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Benzo(b)fluoranthene particle	75	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Benzo(g,h,i)perylene particle	76	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Benzo(k)fluoranthene particle	77	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Chrysene particle	78	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Fluorene particle	81	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Indeno(1,2,3,c,d)pyrene particle	82	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Phenanthrene particle	83	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Pyrene particle	84	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Dibenzo(a,h)anthracene gas	168	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Fluoranthene gas	169	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Acenaphthene gas	170	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Acenaphthylene gas	171	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Anthracene gas	172	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Benz(a)anthracene gas	173	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Benzo(a)pyrene gas	174	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Benzo(b)fluoranthene gas	175	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Benzo(g,h,i)perylene gas	176	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Benzo(k)fluoranthene gas	177	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Chrysene gas	178	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Fluorene gas	181	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Indeno(1,2,3,c,d)pyrene gas	182	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Phenanthrene gas	183	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Pyrene gas	184	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Naphthalene gas	185	Crankcase Start Exhaust	16	CrankcaseEmissionCalculatorNonPM
+Registration	Total Gaseous Hydrocarbons	1	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Carbon Monoxide (CO)	2	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Oxides of Nitrogen (NOx)	3	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Methane (CH4)	5	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Nitrous Oxide (N2O)	6	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Benzene	20	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Ethanol	21	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	MTBE	22	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Naphthalene particle	23	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	1,3-Butadiene	24	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Formaldehyde	25	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Acetaldehyde	26	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Acrolein	27	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Ammonia (NH3)	30	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Sulfur Dioxide (SO2)	31	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Nitrogen Oxide (NO)	32	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Nitrogen Dioxide (NO2)	33	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Nitrous Acid (HONO)	34	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Non-Methane Hydrocarbons	79	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Non-Methane Organic Gases	80	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Total Organic Gases	86	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Volatile Organic Compounds	87	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	2,2,4-Trimethylpentane	40	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Ethyl Benzene	41	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Hexane	42	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Propionaldehyde	43	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Styrene	44	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Toluene	45	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Xylene	46	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Dibenzo(a,h)anthracene particle	68	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Fluoranthene particle	69	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Acenaphthene particle	70	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Acenaphthylene particle	71	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Anthracene particle	72	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Benz(a)anthracene particle	73	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Benzo(a)pyrene particle	74	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Benzo(b)fluoranthene particle	75	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Benzo(g,h,i)perylene particle	76	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Benzo(k)fluoranthene particle	77	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Chrysene particle	78	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Fluorene particle	81	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Indeno(1,2,3,c,d)pyrene particle	82	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Phenanthrene particle	83	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Pyrene particle	84	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Dibenzo(a,h)anthracene gas	168	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Fluoranthene gas	169	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Acenaphthene gas	170	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Acenaphthylene gas	171	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Anthracene gas	172	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Benz(a)anthracene gas	173	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Benzo(a)pyrene gas	174	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Benzo(b)fluoranthene gas	175	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Benzo(g,h,i)perylene gas	176	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Benzo(k)fluoranthene gas	177	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Chrysene gas	178	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Fluorene gas	181	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Indeno(1,2,3,c,d)pyrene gas	182	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Phenanthrene gas	183	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Pyrene gas	184	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Naphthalene gas	185	Crankcase Extended Idle Exhaust	17	CrankcaseEmissionCalculatorNonPM
+Registration	Total Gaseous Hydrocarbons	1	Evap Permeation	11	EvaporativePermeationCalculator
+Registration	Methane (CH4)	5	Running Exhaust	1	HCSpeciationCalculator
+Registration	Non-Methane Hydrocarbons	79	Running Exhaust	1	HCSpeciationCalculator
+Registration	Non-Methane Organic Gases	80	Running Exhaust	1	HCSpeciationCalculator
+Registration	Total Organic Gases	86	Running Exhaust	1	HCSpeciationCalculator
+Registration	Volatile Organic Compounds	87	Running Exhaust	1	HCSpeciationCalculator
+Registration	Methane (CH4)	5	Start Exhaust	2	HCSpeciationCalculator
+Registration	Non-Methane Hydrocarbons	79	Start Exhaust	2	HCSpeciationCalculator
+Registration	Non-Methane Organic Gases	80	Start Exhaust	2	HCSpeciationCalculator
+Registration	Total Organic Gases	86	Start Exhaust	2	HCSpeciationCalculator
+Registration	Volatile Organic Compounds	87	Start Exhaust	2	HCSpeciationCalculator
+Registration	Non-Methane Hydrocarbons	79	Evap Permeation	11	HCSpeciationCalculator
+Registration	Non-Methane Organic Gases	80	Evap Permeation	11	HCSpeciationCalculator
+Registration	Total Organic Gases	86	Evap Permeation	11	HCSpeciationCalculator
+Registration	Volatile Organic Compounds	87	Evap Permeation	11	HCSpeciationCalculator
+Registration	Non-Methane Hydrocarbons	79	Evap Fuel Vapor Venting	12	HCSpeciationCalculator
+Registration	Non-Methane Organic Gases	80	Evap Fuel Vapor Venting	12	HCSpeciationCalculator
+Registration	Total Organic Gases	86	Evap Fuel Vapor Venting	12	HCSpeciationCalculator
+Registration	Volatile Organic Compounds	87	Evap Fuel Vapor Venting	12	HCSpeciationCalculator
+Registration	Non-Methane Hydrocarbons	79	Evap Fuel Leaks	13	HCSpeciationCalculator
+Registration	Non-Methane Organic Gases	80	Evap Fuel Leaks	13	HCSpeciationCalculator
+Registration	Total Organic Gases	86	Evap Fuel Leaks	13	HCSpeciationCalculator
+Registration	Volatile Organic Compounds	87	Evap Fuel Leaks	13	HCSpeciationCalculator
+Registration	Non-Methane Hydrocarbons	79	Refueling Displacement Vapor Loss	18	HCSpeciationCalculator
+Registration	Non-Methane Organic Gases	80	Refueling Displacement Vapor Loss	18	HCSpeciationCalculator
+Registration	Total Organic Gases	86	Refueling Displacement Vapor Loss	18	HCSpeciationCalculator
+Registration	Volatile Organic Compounds	87	Refueling Displacement Vapor Loss	18	HCSpeciationCalculator
+Registration	Non-Methane Hydrocarbons	79	Refueling Spillage Loss	19	HCSpeciationCalculator
+Registration	Non-Methane Organic Gases	80	Refueling Spillage Loss	19	HCSpeciationCalculator
+Registration	Total Organic Gases	86	Refueling Spillage Loss	19	HCSpeciationCalculator
+Registration	Volatile Organic Compounds	87	Refueling Spillage Loss	19	HCSpeciationCalculator
+Registration	Methane (CH4)	5	Extended Idle Exhaust	90	HCSpeciationCalculator
+Registration	Non-Methane Hydrocarbons	79	Extended Idle Exhaust	90	HCSpeciationCalculator
+Registration	Non-Methane Organic Gases	80	Extended Idle Exhaust	90	HCSpeciationCalculator
+Registration	Total Organic Gases	86	Extended Idle Exhaust	90	HCSpeciationCalculator
+Registration	Volatile Organic Compounds	87	Extended Idle Exhaust	90	HCSpeciationCalculator
+Registration	Methane (CH4)	5	Auxiliary Power Exhaust	91	HCSpeciationCalculator
+Registration	Non-Methane Hydrocarbons	79	Auxiliary Power Exhaust	91	HCSpeciationCalculator
+Registration	Non-Methane Organic Gases	80	Auxiliary Power Exhaust	91	HCSpeciationCalculator
+Registration	Total Organic Gases	86	Auxiliary Power Exhaust	91	HCSpeciationCalculator
+Registration	Volatile Organic Compounds	87	Auxiliary Power Exhaust	91	HCSpeciationCalculator
+Registration	Total Gaseous Hydrocarbons	1	Evap Fuel Leaks	13	LiquidLeakingCalculator
+Registration	Nitrogen Dioxide (NO2)	33	Running Exhaust	1	NO2Calculator
+Registration	Nitrogen Dioxide (NO2)	33	Start Exhaust	2	NO2Calculator
+Registration	Nitrogen Dioxide (NO2)	33	Extended Idle Exhaust	90	NO2Calculator
+Registration	Nitrogen Dioxide (NO2)	33	Auxiliary Power Exhaust	91	NO2Calculator
+Registration	Nitrogen Oxide (NO)	32	Running Exhaust	1	NOCalculator
+Registration	Nitrogen Oxide (NO)	32	Start Exhaust	2	NOCalculator
+Registration	Nitrogen Oxide (NO)	32	Extended Idle Exhaust	90	NOCalculator
+Registration	Nitrogen Oxide (NO)	32	Auxiliary Power Exhaust	91	NOCalculator
+Registration	Nitrous Acid (HONO)	34	Running Exhaust	1	NOCalculator
+Registration	Nitrous Acid (HONO)	34	Start Exhaust	2	NOCalculator
+Registration	Nitrous Acid (HONO)	34	Extended Idle Exhaust	90	NOCalculator
+Registration	Nitrous Acid (HONO)	34	Auxiliary Power Exhaust	91	NOCalculator
+Registration	Primary PM10 - Brakewear Particulate	106	Brakewear	9	PM10BrakeTireCalculator
+Registration	Primary PM10 - Tirewear Particulate	107	Tirewear	10	PM10BrakeTireCalculator
+Registration	Primary Exhaust PM10  - Total	100	Running Exhaust	1	PM10EmissionCalculator
+Registration	Primary Exhaust PM10  - Total	100	Start Exhaust	2	PM10EmissionCalculator
+Registration	Primary Exhaust PM10  - Total	100	Extended Idle Exhaust	90	PM10EmissionCalculator
+Registration	Primary Exhaust PM10  - Total	100	Auxiliary Power Exhaust	91	PM10EmissionCalculator
+Registration	Primary Exhaust PM10  - Total	100	Crankcase Running Exhaust	15	PM10EmissionCalculator
+Registration	Primary Exhaust PM10  - Total	100	Crankcase Start Exhaust	16	PM10EmissionCalculator
+Registration	Primary Exhaust PM10  - Total	100	Crankcase Extended Idle Exhaust	17	PM10EmissionCalculator
+Registration	Total Gaseous Hydrocarbons	1	Refueling Displacement Vapor Loss	18	RefuelingLossCalculator
+Registration	Total Gaseous Hydrocarbons	1	Refueling Spillage Loss	19	RefuelingLossCalculator
+Registration	Sulfur Dioxide (SO2)	31	Running Exhaust	1	SO2Calculator
+Registration	Sulfur Dioxide (SO2)	31	Start Exhaust	2	SO2Calculator
+Registration	Sulfur Dioxide (SO2)	31	Extended Idle Exhaust	90	SO2Calculator
+Registration	Sulfur Dioxide (SO2)	31	Auxiliary Power Exhaust	91	SO2Calculator
+Registration	Nitrate (NO3)	35	Running Exhaust	1	SulfatePMCalculator
+Registration	Nitrate (NO3)	35	Start Exhaust	2	SulfatePMCalculator
+Registration	Nitrate (NO3)	35	Extended Idle Exhaust	90	SulfatePMCalculator
+Registration	Nitrate (NO3)	35	Auxiliary Power Exhaust	91	SulfatePMCalculator
+Registration	Nitrate (NO3)	35	Crankcase Running Exhaust	15	SulfatePMCalculator
+Registration	Nitrate (NO3)	35	Crankcase Start Exhaust	16	SulfatePMCalculator
+Registration	Nitrate (NO3)	35	Crankcase Extended Idle Exhaust	17	SulfatePMCalculator
+Registration	Ammonium (NH4)	36	Running Exhaust	1	SulfatePMCalculator
+Registration	Ammonium (NH4)	36	Start Exhaust	2	SulfatePMCalculator
+Registration	Ammonium (NH4)	36	Extended Idle Exhaust	90	SulfatePMCalculator
+Registration	Ammonium (NH4)	36	Auxiliary Power Exhaust	91	SulfatePMCalculator
+Registration	Ammonium (NH4)	36	Crankcase Running Exhaust	15	SulfatePMCalculator
+Registration	Ammonium (NH4)	36	Crankcase Start Exhaust	16	SulfatePMCalculator
+Registration	Ammonium (NH4)	36	Crankcase Extended Idle Exhaust	17	SulfatePMCalculator
+Registration	Chloride	51	Running Exhaust	1	SulfatePMCalculator
+Registration	Chloride	51	Start Exhaust	2	SulfatePMCalculator
+Registration	Chloride	51	Extended Idle Exhaust	90	SulfatePMCalculator
+Registration	Chloride	51	Auxiliary Power Exhaust	91	SulfatePMCalculator
+Registration	Chloride	51	Crankcase Running Exhaust	15	SulfatePMCalculator
+Registration	Chloride	51	Crankcase Start Exhaust	16	SulfatePMCalculator
+Registration	Chloride	51	Crankcase Extended Idle Exhaust	17	SulfatePMCalculator
+Registration	Sodium	52	Running Exhaust	1	SulfatePMCalculator
+Registration	Sodium	52	Start Exhaust	2	SulfatePMCalculator
+Registration	Sodium	52	Extended Idle Exhaust	90	SulfatePMCalculator
+Registration	Sodium	52	Auxiliary Power Exhaust	91	SulfatePMCalculator
+Registration	Sodium	52	Crankcase Running Exhaust	15	SulfatePMCalculator
+Registration	Sodium	52	Crankcase Start Exhaust	16	SulfatePMCalculator
+Registration	Sodium	52	Crankcase Extended Idle Exhaust	17	SulfatePMCalculator
+Registration	Potassium	53	Running Exhaust	1	SulfatePMCalculator
+Registration	Potassium	53	Start Exhaust	2	SulfatePMCalculator
+Registration	Potassium	53	Extended Idle Exhaust	90	SulfatePMCalculator
+Registration	Potassium	53	Auxiliary Power Exhaust	91	SulfatePMCalculator
+Registration	Potassium	53	Crankcase Running Exhaust	15	SulfatePMCalculator
+Registration	Potassium	53	Crankcase Start Exhaust	16	SulfatePMCalculator
+Registration	Potassium	53	Crankcase Extended Idle Exhaust	17	SulfatePMCalculator
+Registration	Magnesium	54	Running Exhaust	1	SulfatePMCalculator
+Registration	Magnesium	54	Start Exhaust	2	SulfatePMCalculator
+Registration	Magnesium	54	Extended Idle Exhaust	90	SulfatePMCalculator
+Registration	Magnesium	54	Auxiliary Power Exhaust	91	SulfatePMCalculator
+Registration	Magnesium	54	Crankcase Running Exhaust	15	SulfatePMCalculator
+Registration	Magnesium	54	Crankcase Start Exhaust	16	SulfatePMCalculator
+Registration	Magnesium	54	Crankcase Extended Idle Exhaust	17	SulfatePMCalculator
+Registration	Calcium	55	Running Exhaust	1	SulfatePMCalculator
+Registration	Calcium	55	Start Exhaust	2	SulfatePMCalculator
+Registration	Calcium	55	Extended Idle Exhaust	90	SulfatePMCalculator
+Registration	Calcium	55	Auxiliary Power Exhaust	91	SulfatePMCalculator
+Registration	Calcium	55	Crankcase Running Exhaust	15	SulfatePMCalculator
+Registration	Calcium	55	Crankcase Start Exhaust	16	SulfatePMCalculator
+Registration	Calcium	55	Crankcase Extended Idle Exhaust	17	SulfatePMCalculator
+Registration	Titanium	56	Running Exhaust	1	SulfatePMCalculator
+Registration	Titanium	56	Start Exhaust	2	SulfatePMCalculator
+Registration	Titanium	56	Extended Idle Exhaust	90	SulfatePMCalculator
+Registration	Titanium	56	Auxiliary Power Exhaust	91	SulfatePMCalculator
+Registration	Titanium	56	Crankcase Running Exhaust	15	SulfatePMCalculator
+Registration	Titanium	56	Crankcase Start Exhaust	16	SulfatePMCalculator
+Registration	Titanium	56	Crankcase Extended Idle Exhaust	17	SulfatePMCalculator
+Registration	Silicon	57	Running Exhaust	1	SulfatePMCalculator
+Registration	Silicon	57	Start Exhaust	2	SulfatePMCalculator
+Registration	Silicon	57	Extended Idle Exhaust	90	SulfatePMCalculator
+Registration	Silicon	57	Auxiliary Power Exhaust	91	SulfatePMCalculator
+Registration	Silicon	57	Crankcase Running Exhaust	15	SulfatePMCalculator
+Registration	Silicon	57	Crankcase Start Exhaust	16	SulfatePMCalculator
+Registration	Silicon	57	Crankcase Extended Idle Exhaust	17	SulfatePMCalculator
+Registration	Aluminum	58	Running Exhaust	1	SulfatePMCalculator
+Registration	Aluminum	58	Start Exhaust	2	SulfatePMCalculator
+Registration	Aluminum	58	Extended Idle Exhaust	90	SulfatePMCalculator
+Registration	Aluminum	58	Auxiliary Power Exhaust	91	SulfatePMCalculator
+Registration	Aluminum	58	Crankcase Running Exhaust	15	SulfatePMCalculator
+Registration	Aluminum	58	Crankcase Start Exhaust	16	SulfatePMCalculator
+Registration	Aluminum	58	Crankcase Extended Idle Exhaust	17	SulfatePMCalculator
+Registration	Iron	59	Running Exhaust	1	SulfatePMCalculator
+Registration	Iron	59	Start Exhaust	2	SulfatePMCalculator
+Registration	Iron	59	Extended Idle Exhaust	90	SulfatePMCalculator
+Registration	Iron	59	Auxiliary Power Exhaust	91	SulfatePMCalculator
+Registration	Iron	59	Crankcase Running Exhaust	15	SulfatePMCalculator
+Registration	Iron	59	Crankcase Start Exhaust	16	SulfatePMCalculator
+Registration	Iron	59	Crankcase Extended Idle Exhaust	17	SulfatePMCalculator
+Registration	Primary Exhaust PM2.5 - Total	110	Running Exhaust	1	SulfatePMCalculator
+Registration	Primary Exhaust PM2.5 - Total	110	Start Exhaust	2	SulfatePMCalculator
+Registration	Primary Exhaust PM2.5 - Total	110	Extended Idle Exhaust	90	SulfatePMCalculator
+Registration	Primary Exhaust PM2.5 - Total	110	Auxiliary Power Exhaust	91	SulfatePMCalculator
+Registration	Primary Exhaust PM2.5 - Total	110	Crankcase Running Exhaust	15	SulfatePMCalculator
+Registration	Primary Exhaust PM2.5 - Total	110	Crankcase Start Exhaust	16	SulfatePMCalculator
+Registration	Primary Exhaust PM2.5 - Total	110	Crankcase Extended Idle Exhaust	17	SulfatePMCalculator
+Registration	Organic Carbon	111	Running Exhaust	1	SulfatePMCalculator
+Registration	Organic Carbon	111	Start Exhaust	2	SulfatePMCalculator
+Registration	Organic Carbon	111	Extended Idle Exhaust	90	SulfatePMCalculator
+Registration	Organic Carbon	111	Auxiliary Power Exhaust	91	SulfatePMCalculator
+Registration	Organic Carbon	111	Crankcase Running Exhaust	15	SulfatePMCalculator
+Registration	Organic Carbon	111	Crankcase Start Exhaust	16	SulfatePMCalculator
+Registration	Organic Carbon	111	Crankcase Extended Idle Exhaust	17	SulfatePMCalculator
+Registration	Elemental Carbon	112	Running Exhaust	1	SulfatePMCalculator
+Registration	Elemental Carbon	112	Start Exhaust	2	SulfatePMCalculator
+Registration	Elemental Carbon	112	Extended Idle Exhaust	90	SulfatePMCalculator
+Registration	Elemental Carbon	112	Auxiliary Power Exhaust	91	SulfatePMCalculator
+Registration	Elemental Carbon	112	Crankcase Running Exhaust	15	SulfatePMCalculator
+Registration	Elemental Carbon	112	Crankcase Start Exhaust	16	SulfatePMCalculator
+Registration	Elemental Carbon	112	Crankcase Extended Idle Exhaust	17	SulfatePMCalculator
+Registration	Sulfate Particulate	115	Running Exhaust	1	SulfatePMCalculator
+Registration	Sulfate Particulate	115	Start Exhaust	2	SulfatePMCalculator
+Registration	Sulfate Particulate	115	Extended Idle Exhaust	90	SulfatePMCalculator
+Registration	Sulfate Particulate	115	Auxiliary Power Exhaust	91	SulfatePMCalculator
+Registration	Sulfate Particulate	115	Crankcase Running Exhaust	15	SulfatePMCalculator
+Registration	Sulfate Particulate	115	Crankcase Start Exhaust	16	SulfatePMCalculator
+Registration	Sulfate Particulate	115	Crankcase Extended Idle Exhaust	17	SulfatePMCalculator
+Registration	Composite - NonECPM	118	Running Exhaust	1	SulfatePMCalculator
+Registration	Composite - NonECPM	118	Start Exhaust	2	SulfatePMCalculator
+Registration	Composite - NonECPM	118	Extended Idle Exhaust	90	SulfatePMCalculator
+Registration	Composite - NonECPM	118	Auxiliary Power Exhaust	91	SulfatePMCalculator
+Registration	Composite - NonECPM	118	Crankcase Running Exhaust	15	SulfatePMCalculator
+Registration	Composite - NonECPM	118	Crankcase Start Exhaust	16	SulfatePMCalculator
+Registration	Composite - NonECPM	118	Crankcase Extended Idle Exhaust	17	SulfatePMCalculator
+Registration	H2O (aerosol)	119	Running Exhaust	1	SulfatePMCalculator
+Registration	H2O (aerosol)	119	Start Exhaust	2	SulfatePMCalculator
+Registration	H2O (aerosol)	119	Extended Idle Exhaust	90	SulfatePMCalculator
+Registration	H2O (aerosol)	119	Auxiliary Power Exhaust	91	SulfatePMCalculator
+Registration	H2O (aerosol)	119	Crankcase Running Exhaust	15	SulfatePMCalculator
+Registration	H2O (aerosol)	119	Crankcase Start Exhaust	16	SulfatePMCalculator
+Registration	H2O (aerosol)	119	Crankcase Extended Idle Exhaust	17	SulfatePMCalculator
+Registration	CMAQ5.0 Unspeciated (PMOTHR)	121	Running Exhaust	1	SulfatePMCalculator
+Registration	CMAQ5.0 Unspeciated (PMOTHR)	121	Start Exhaust	2	SulfatePMCalculator
+Registration	CMAQ5.0 Unspeciated (PMOTHR)	121	Extended Idle Exhaust	90	SulfatePMCalculator
+Registration	CMAQ5.0 Unspeciated (PMOTHR)	121	Auxiliary Power Exhaust	91	SulfatePMCalculator
+Registration	CMAQ5.0 Unspeciated (PMOTHR)	121	Crankcase Running Exhaust	15	SulfatePMCalculator
+Registration	CMAQ5.0 Unspeciated (PMOTHR)	121	Crankcase Start Exhaust	16	SulfatePMCalculator
+Registration	CMAQ5.0 Unspeciated (PMOTHR)	121	Crankcase Extended Idle Exhaust	17	SulfatePMCalculator
+Registration	Non-carbon Organic Matter (NCOM)	122	Running Exhaust	1	SulfatePMCalculator
+Registration	Non-carbon Organic Matter (NCOM)	122	Start Exhaust	2	SulfatePMCalculator
+Registration	Non-carbon Organic Matter (NCOM)	122	Extended Idle Exhaust	90	SulfatePMCalculator
+Registration	Non-carbon Organic Matter (NCOM)	122	Auxiliary Power Exhaust	91	SulfatePMCalculator
+Registration	Non-carbon Organic Matter (NCOM)	122	Crankcase Running Exhaust	15	SulfatePMCalculator
+Registration	Non-carbon Organic Matter (NCOM)	122	Crankcase Start Exhaust	16	SulfatePMCalculator
+Registration	Non-carbon Organic Matter (NCOM)	122	Crankcase Extended Idle Exhaust	17	SulfatePMCalculator
+Registration	CB05 Mechanism	1000	Running Exhaust	1	TOGSpeciationCalculator
+Registration	NonHAPTOG	88	Running Exhaust	1	TOGSpeciationCalculator
+Registration	CB05_ALD2	1001	Running Exhaust	1	TOGSpeciationCalculator
+Registration	CB05_ALDX	1002	Running Exhaust	1	TOGSpeciationCalculator
+Registration	CB05_ETH	1005	Running Exhaust	1	TOGSpeciationCalculator
+Registration	CB05_ETHA	1006	Running Exhaust	1	TOGSpeciationCalculator
+Registration	CB05_FORM	1008	Running Exhaust	1	TOGSpeciationCalculator
+Registration	CB05_IOLE	1009	Running Exhaust	1	TOGSpeciationCalculator
+Registration	CB05_OLE	1012	Running Exhaust	1	TOGSpeciationCalculator
+Registration	CB05_PAR	1013	Running Exhaust	1	TOGSpeciationCalculator
+Registration	CB05_TOL	1015	Running Exhaust	1	TOGSpeciationCalculator
+Registration	CB05_UNR	1017	Running Exhaust	1	TOGSpeciationCalculator
+Registration	CB05_XYL	1018	Running Exhaust	1	TOGSpeciationCalculator
+Registration	CB05_ISOP	1010	Running Exhaust	1	TOGSpeciationCalculator
+Registration	CB05_MEOH	1011	Running Exhaust	1	TOGSpeciationCalculator
+Registration	CB05_TERP	1014	Running Exhaust	1	TOGSpeciationCalculator
+Registration	CB05_UNK	1016	Running Exhaust	1	TOGSpeciationCalculator
+Registration	CB05 Mechanism	1000	Start Exhaust	2	TOGSpeciationCalculator
+Registration	NonHAPTOG	88	Start Exhaust	2	TOGSpeciationCalculator
+Registration	CB05_ALD2	1001	Start Exhaust	2	TOGSpeciationCalculator
+Registration	CB05_ALDX	1002	Start Exhaust	2	TOGSpeciationCalculator
+Registration	CB05_ETH	1005	Start Exhaust	2	TOGSpeciationCalculator
+Registration	CB05_ETHA	1006	Start Exhaust	2	TOGSpeciationCalculator
+Registration	CB05_FORM	1008	Start Exhaust	2	TOGSpeciationCalculator
+Registration	CB05_IOLE	1009	Start Exhaust	2	TOGSpeciationCalculator
+Registration	CB05_OLE	1012	Start Exhaust	2	TOGSpeciationCalculator
+Registration	CB05_PAR	1013	Start Exhaust	2	TOGSpeciationCalculator
+Registration	CB05_TOL	1015	Start Exhaust	2	TOGSpeciationCalculator
+Registration	CB05_UNR	1017	Start Exhaust	2	TOGSpeciationCalculator
+Registration	CB05_XYL	1018	Start Exhaust	2	TOGSpeciationCalculator
+Registration	CB05_ISOP	1010	Start Exhaust	2	TOGSpeciationCalculator
+Registration	CB05_MEOH	1011	Start Exhaust	2	TOGSpeciationCalculator
+Registration	CB05_TERP	1014	Start Exhaust	2	TOGSpeciationCalculator
+Registration	CB05_UNK	1016	Start Exhaust	2	TOGSpeciationCalculator
+Registration	CB05 Mechanism	1000	Evap Permeation	11	TOGSpeciationCalculator
+Registration	NonHAPTOG	88	Evap Permeation	11	TOGSpeciationCalculator
+Registration	CB05_ALD2	1001	Evap Permeation	11	TOGSpeciationCalculator
+Registration	CB05_ALDX	1002	Evap Permeation	11	TOGSpeciationCalculator
+Registration	CB05_ETH	1005	Evap Permeation	11	TOGSpeciationCalculator
+Registration	CB05_FORM	1008	Evap Permeation	11	TOGSpeciationCalculator
+Registration	CB05_IOLE	1009	Evap Permeation	11	TOGSpeciationCalculator
+Registration	CB05_ISOP	1010	Evap Permeation	11	TOGSpeciationCalculator
+Registration	CB05_MEOH	1011	Evap Permeation	11	TOGSpeciationCalculator
+Registration	CB05_OLE	1012	Evap Permeation	11	TOGSpeciationCalculator
+Registration	CB05_PAR	1013	Evap Permeation	11	TOGSpeciationCalculator
+Registration	CB05_TERP	1014	Evap Permeation	11	TOGSpeciationCalculator
+Registration	CB05_TOL	1015	Evap Permeation	11	TOGSpeciationCalculator
+Registration	CB05_UNR	1017	Evap Permeation	11	TOGSpeciationCalculator
+Registration	CB05_XYL	1018	Evap Permeation	11	TOGSpeciationCalculator
+Registration	CB05_ETHA	1006	Evap Permeation	11	TOGSpeciationCalculator
+Registration	CB05 Mechanism	1000	Evap Fuel Vapor Venting	12	TOGSpeciationCalculator
+Registration	NonHAPTOG	88	Evap Fuel Vapor Venting	12	TOGSpeciationCalculator
+Registration	CB05_ALD2	1001	Evap Fuel Vapor Venting	12	TOGSpeciationCalculator
+Registration	CB05_ALDX	1002	Evap Fuel Vapor Venting	12	TOGSpeciationCalculator
+Registration	CB05_FORM	1008	Evap Fuel Vapor Venting	12	TOGSpeciationCalculator
+Registration	CB05_IOLE	1009	Evap Fuel Vapor Venting	12	TOGSpeciationCalculator
+Registration	CB05_ISOP	1010	Evap Fuel Vapor Venting	12	TOGSpeciationCalculator
+Registration	CB05_OLE	1012	Evap Fuel Vapor Venting	12	TOGSpeciationCalculator
+Registration	CB05_PAR	1013	Evap Fuel Vapor Venting	12	TOGSpeciationCalculator
+Registration	CB05_TOL	1015	Evap Fuel Vapor Venting	12	TOGSpeciationCalculator
+Registration	CB05_UNR	1017	Evap Fuel Vapor Venting	12	TOGSpeciationCalculator
+Registration	CB05_XYL	1018	Evap Fuel Vapor Venting	12	TOGSpeciationCalculator
+Registration	CB05_TERP	1014	Evap Fuel Vapor Venting	12	TOGSpeciationCalculator
+Registration	CB05 Mechanism	1000	Evap Fuel Leaks	13	TOGSpeciationCalculator
+Registration	NonHAPTOG	88	Evap Fuel Leaks	13	TOGSpeciationCalculator
+Registration	CB05_ALD2	1001	Evap Fuel Leaks	13	TOGSpeciationCalculator
+Registration	CB05_ALDX	1002	Evap Fuel Leaks	13	TOGSpeciationCalculator
+Registration	CB05_FORM	1008	Evap Fuel Leaks	13	TOGSpeciationCalculator
+Registration	CB05_IOLE	1009	Evap Fuel Leaks	13	TOGSpeciationCalculator
+Registration	CB05_ISOP	1010	Evap Fuel Leaks	13	TOGSpeciationCalculator
+Registration	CB05_OLE	1012	Evap Fuel Leaks	13	TOGSpeciationCalculator
+Registration	CB05_PAR	1013	Evap Fuel Leaks	13	TOGSpeciationCalculator
+Registration	CB05_TOL	1015	Evap Fuel Leaks	13	TOGSpeciationCalculator
+Registration	CB05_UNR	1017	Evap Fuel Leaks	13	TOGSpeciationCalculator
+Registration	CB05_XYL	1018	Evap Fuel Leaks	13	TOGSpeciationCalculator
+Registration	CB05_TERP	1014	Evap Fuel Leaks	13	TOGSpeciationCalculator
+Registration	CB05 Mechanism	1000	Crankcase Running Exhaust	15	TOGSpeciationCalculator
+Registration	NonHAPTOG	88	Crankcase Running Exhaust	15	TOGSpeciationCalculator
+Registration	CB05_ALD2	1001	Crankcase Running Exhaust	15	TOGSpeciationCalculator
+Registration	CB05_ALDX	1002	Crankcase Running Exhaust	15	TOGSpeciationCalculator
+Registration	CB05_ETH	1005	Crankcase Running Exhaust	15	TOGSpeciationCalculator
+Registration	CB05_ETHA	1006	Crankcase Running Exhaust	15	TOGSpeciationCalculator
+Registration	CB05_FORM	1008	Crankcase Running Exhaust	15	TOGSpeciationCalculator
+Registration	CB05_IOLE	1009	Crankcase Running Exhaust	15	TOGSpeciationCalculator
+Registration	CB05_OLE	1012	Crankcase Running Exhaust	15	TOGSpeciationCalculator
+Registration	CB05_PAR	1013	Crankcase Running Exhaust	15	TOGSpeciationCalculator
+Registration	CB05_TOL	1015	Crankcase Running Exhaust	15	TOGSpeciationCalculator
+Registration	CB05_UNR	1017	Crankcase Running Exhaust	15	TOGSpeciationCalculator
+Registration	CB05_XYL	1018	Crankcase Running Exhaust	15	TOGSpeciationCalculator
+Registration	CB05_ISOP	1010	Crankcase Running Exhaust	15	TOGSpeciationCalculator
+Registration	CB05_MEOH	1011	Crankcase Running Exhaust	15	TOGSpeciationCalculator
+Registration	CB05_TERP	1014	Crankcase Running Exhaust	15	TOGSpeciationCalculator
+Registration	CB05_UNK	1016	Crankcase Running Exhaust	15	TOGSpeciationCalculator
+Registration	CB05 Mechanism	1000	Crankcase Start Exhaust	16	TOGSpeciationCalculator
+Registration	NonHAPTOG	88	Crankcase Start Exhaust	16	TOGSpeciationCalculator
+Registration	CB05_ALD2	1001	Crankcase Start Exhaust	16	TOGSpeciationCalculator
+Registration	CB05_ALDX	1002	Crankcase Start Exhaust	16	TOGSpeciationCalculator
+Registration	CB05_ETH	1005	Crankcase Start Exhaust	16	TOGSpeciationCalculator
+Registration	CB05_ETHA	1006	Crankcase Start Exhaust	16	TOGSpeciationCalculator
+Registration	CB05_FORM	1008	Crankcase Start Exhaust	16	TOGSpeciationCalculator
+Registration	CB05_IOLE	1009	Crankcase Start Exhaust	16	TOGSpeciationCalculator
+Registration	CB05_OLE	1012	Crankcase Start Exhaust	16	TOGSpeciationCalculator
+Registration	CB05_PAR	1013	Crankcase Start Exhaust	16	TOGSpeciationCalculator
+Registration	CB05_TOL	1015	Crankcase Start Exhaust	16	TOGSpeciationCalculator
+Registration	CB05_UNR	1017	Crankcase Start Exhaust	16	TOGSpeciationCalculator
+Registration	CB05_XYL	1018	Crankcase Start Exhaust	16	TOGSpeciationCalculator
+Registration	CB05_ISOP	1010	Crankcase Start Exhaust	16	TOGSpeciationCalculator
+Registration	CB05_MEOH	1011	Crankcase Start Exhaust	16	TOGSpeciationCalculator
+Registration	CB05_TERP	1014	Crankcase Start Exhaust	16	TOGSpeciationCalculator
+Registration	CB05_UNK	1016	Crankcase Start Exhaust	16	TOGSpeciationCalculator
+Registration	CB05 Mechanism	1000	Crankcase Extended Idle Exhaust	17	TOGSpeciationCalculator
+Registration	NonHAPTOG	88	Crankcase Extended Idle Exhaust	17	TOGSpeciationCalculator
+Registration	CB05_ALD2	1001	Crankcase Extended Idle Exhaust	17	TOGSpeciationCalculator
+Registration	CB05_ALDX	1002	Crankcase Extended Idle Exhaust	17	TOGSpeciationCalculator
+Registration	CB05_ETH	1005	Crankcase Extended Idle Exhaust	17	TOGSpeciationCalculator
+Registration	CB05_ETHA	1006	Crankcase Extended Idle Exhaust	17	TOGSpeciationCalculator
+Registration	CB05_FORM	1008	Crankcase Extended Idle Exhaust	17	TOGSpeciationCalculator
+Registration	CB05_IOLE	1009	Crankcase Extended Idle Exhaust	17	TOGSpeciationCalculator
+Registration	CB05_ISOP	1010	Crankcase Extended Idle Exhaust	17	TOGSpeciationCalculator
+Registration	CB05_OLE	1012	Crankcase Extended Idle Exhaust	17	TOGSpeciationCalculator
+Registration	CB05_PAR	1013	Crankcase Extended Idle Exhaust	17	TOGSpeciationCalculator
+Registration	CB05_TERP	1014	Crankcase Extended Idle Exhaust	17	TOGSpeciationCalculator
+Registration	CB05_TOL	1015	Crankcase Extended Idle Exhaust	17	TOGSpeciationCalculator
+Registration	CB05_UNK	1016	Crankcase Extended Idle Exhaust	17	TOGSpeciationCalculator
+Registration	CB05_UNR	1017	Crankcase Extended Idle Exhaust	17	TOGSpeciationCalculator
+Registration	CB05_XYL	1018	Crankcase Extended Idle Exhaust	17	TOGSpeciationCalculator
+Registration	CB05 Mechanism	1000	Refueling Displacement Vapor Loss	18	TOGSpeciationCalculator
+Registration	NonHAPTOG	88	Refueling Displacement Vapor Loss	18	TOGSpeciationCalculator
+Registration	CB05_ALD2	1001	Refueling Displacement Vapor Loss	18	TOGSpeciationCalculator
+Registration	CB05_ALDX	1002	Refueling Displacement Vapor Loss	18	TOGSpeciationCalculator
+Registration	CB05_FORM	1008	Refueling Displacement Vapor Loss	18	TOGSpeciationCalculator
+Registration	CB05_IOLE	1009	Refueling Displacement Vapor Loss	18	TOGSpeciationCalculator
+Registration	CB05_ISOP	1010	Refueling Displacement Vapor Loss	18	TOGSpeciationCalculator
+Registration	CB05_OLE	1012	Refueling Displacement Vapor Loss	18	TOGSpeciationCalculator
+Registration	CB05_PAR	1013	Refueling Displacement Vapor Loss	18	TOGSpeciationCalculator
+Registration	CB05_TERP	1014	Refueling Displacement Vapor Loss	18	TOGSpeciationCalculator
+Registration	CB05_TOL	1015	Refueling Displacement Vapor Loss	18	TOGSpeciationCalculator
+Registration	CB05_UNR	1017	Refueling Displacement Vapor Loss	18	TOGSpeciationCalculator
+Registration	CB05_XYL	1018	Refueling Displacement Vapor Loss	18	TOGSpeciationCalculator
+Registration	CB05 Mechanism	1000	Refueling Spillage Loss	19	TOGSpeciationCalculator
+Registration	NonHAPTOG	88	Refueling Spillage Loss	19	TOGSpeciationCalculator
+Registration	CB05_ALD2	1001	Refueling Spillage Loss	19	TOGSpeciationCalculator
+Registration	CB05_ALDX	1002	Refueling Spillage Loss	19	TOGSpeciationCalculator
+Registration	CB05_FORM	1008	Refueling Spillage Loss	19	TOGSpeciationCalculator
+Registration	CB05_IOLE	1009	Refueling Spillage Loss	19	TOGSpeciationCalculator
+Registration	CB05_ISOP	1010	Refueling Spillage Loss	19	TOGSpeciationCalculator
+Registration	CB05_OLE	1012	Refueling Spillage Loss	19	TOGSpeciationCalculator
+Registration	CB05_PAR	1013	Refueling Spillage Loss	19	TOGSpeciationCalculator
+Registration	CB05_TOL	1015	Refueling Spillage Loss	19	TOGSpeciationCalculator
+Registration	CB05_UNR	1017	Refueling Spillage Loss	19	TOGSpeciationCalculator
+Registration	CB05_XYL	1018	Refueling Spillage Loss	19	TOGSpeciationCalculator
+Registration	CB05_TERP	1014	Refueling Spillage Loss	19	TOGSpeciationCalculator
+Registration	CB05 Mechanism	1000	Extended Idle Exhaust	90	TOGSpeciationCalculator
+Registration	NonHAPTOG	88	Extended Idle Exhaust	90	TOGSpeciationCalculator
+Registration	CB05_ALD2	1001	Extended Idle Exhaust	90	TOGSpeciationCalculator
+Registration	CB05_ALDX	1002	Extended Idle Exhaust	90	TOGSpeciationCalculator
+Registration	CB05_ETH	1005	Extended Idle Exhaust	90	TOGSpeciationCalculator
+Registration	CB05_ETHA	1006	Extended Idle Exhaust	90	TOGSpeciationCalculator
+Registration	CB05_FORM	1008	Extended Idle Exhaust	90	TOGSpeciationCalculator
+Registration	CB05_IOLE	1009	Extended Idle Exhaust	90	TOGSpeciationCalculator
+Registration	CB05_ISOP	1010	Extended Idle Exhaust	90	TOGSpeciationCalculator
+Registration	CB05_OLE	1012	Extended Idle Exhaust	90	TOGSpeciationCalculator
+Registration	CB05_PAR	1013	Extended Idle Exhaust	90	TOGSpeciationCalculator
+Registration	CB05_TERP	1014	Extended Idle Exhaust	90	TOGSpeciationCalculator
+Registration	CB05_TOL	1015	Extended Idle Exhaust	90	TOGSpeciationCalculator
+Registration	CB05_UNK	1016	Extended Idle Exhaust	90	TOGSpeciationCalculator
+Registration	CB05_UNR	1017	Extended Idle Exhaust	90	TOGSpeciationCalculator
+Registration	CB05_XYL	1018	Extended Idle Exhaust	90	TOGSpeciationCalculator
+Registration	CB05 Mechanism	1000	Auxiliary Power Exhaust	91	TOGSpeciationCalculator
+Registration	NonHAPTOG	88	Auxiliary Power Exhaust	91	TOGSpeciationCalculator
+Registration	CB05_ALD2	1001	Auxiliary Power Exhaust	91	TOGSpeciationCalculator
+Registration	CB05_ALDX	1002	Auxiliary Power Exhaust	91	TOGSpeciationCalculator
+Registration	CB05_ETH	1005	Auxiliary Power Exhaust	91	TOGSpeciationCalculator
+Registration	CB05_ETHA	1006	Auxiliary Power Exhaust	91	TOGSpeciationCalculator
+Registration	CB05_FORM	1008	Auxiliary Power Exhaust	91	TOGSpeciationCalculator
+Registration	CB05_IOLE	1009	Auxiliary Power Exhaust	91	TOGSpeciationCalculator
+Registration	CB05_ISOP	1010	Auxiliary Power Exhaust	91	TOGSpeciationCalculator
+Registration	CB05_OLE	1012	Auxiliary Power Exhaust	91	TOGSpeciationCalculator
+Registration	CB05_PAR	1013	Auxiliary Power Exhaust	91	TOGSpeciationCalculator
+Registration	CB05_TERP	1014	Auxiliary Power Exhaust	91	TOGSpeciationCalculator
+Registration	CB05_TOL	1015	Auxiliary Power Exhaust	91	TOGSpeciationCalculator
+Registration	CB05_UNK	1016	Auxiliary Power Exhaust	91	TOGSpeciationCalculator
+Registration	CB05_UNR	1017	Auxiliary Power Exhaust	91	TOGSpeciationCalculator
+Registration	CB05_XYL	1018	Auxiliary Power Exhaust	91	TOGSpeciationCalculator
+Registration	Total Gaseous Hydrocarbons	1	Evap Fuel Vapor Venting	12	TankVaporVentingCalculator
+Subscribe	MeteorologyGenerator	Running Exhaust	1	PROCESS	GENERATOR
+Subscribe	MeteorologyGenerator	Extended Idle Exhaust	90	PROCESS	GENERATOR
+Subscribe	MeteorologyGenerator	Start Exhaust	2	PROCESS	GENERATOR
+Subscribe	MeteorologyGenerator	Auxiliary Power Exhaust	91	PROCESS	GENERATOR
+Subscribe	MeteorologyGenerator	Tirewear	10	PROCESS	GENERATOR
+Subscribe	MeteorologyGenerator	Brakewear	9	PROCESS	GENERATOR
+Chain	AirToxicsCalculator	HCSpeciationCalculator
+Chain	AirToxicsCalculator	SulfatePMCalculator
+Subscribe	AverageSpeedOperatingModeDistributionGenerator	Tirewear	10	PROCESS	GENERATOR
+Subscribe	BaseRateCalculator	Running Exhaust	1	MONTH	EMISSION_CALCULATOR
+Subscribe	BaseRateCalculator	Start Exhaust	2	MONTH	EMISSION_CALCULATOR
+Subscribe	BaseRateCalculator	Brakewear	9	MONTH	EMISSION_CALCULATOR
+Subscribe	BaseRateCalculator	Tirewear	10	MONTH	EMISSION_CALCULATOR
+Subscribe	BaseRateCalculator	Extended Idle Exhaust	90	MONTH	EMISSION_CALCULATOR
+Subscribe	BaseRateCalculator	Auxiliary Power Exhaust	91	MONTH	EMISSION_CALCULATOR
+Subscribe	BaseRateGenerator	Running Exhaust	1	YEAR	GENERATOR-2
+Subscribe	BaseRateGenerator	Start Exhaust	2	YEAR	GENERATOR-2
+Subscribe	BaseRateGenerator	Extended Idle Exhaust	90	YEAR	GENERATOR-2
+Subscribe	BaseRateGenerator	Auxiliary Power Exhaust	91	YEAR	GENERATOR-2
+Subscribe	BaseRateGenerator	Brakewear	9	YEAR	GENERATOR-2
+Subscribe	BaseRateGenerator	Tirewear	10	YEAR	GENERATOR-2
+Chain	CO2AERunningStartExtendedIdleCalculator	BaseRateCalculator
+Chain	CO2AERunningStartExtendedIdleCalculator	CrankcaseEmissionCalculatorNonPM
+Chain	CO2AERunningStartExtendedIdleCalculator	HCSpeciationCalculator
+Chain	CrankcaseEmissionCalculatorNonPM	BaseRateCalculator
+Chain	CrankcaseEmissionCalculatorNonPM	HCSpeciationCalculator
+Chain	CrankcaseEmissionCalculatorNonPM	AirToxicsCalculator
+Chain	CrankcaseEmissionCalculatorNonPM	SO2Calculator
+Chain	CrankcaseEmissionCalculatorNonPM	NOCalculator
+Chain	CrankcaseEmissionCalculatorNonPM	NO2Calculator
+Subscribe	EvaporativeEmissionsOperatingModeDistributionGenerator	Evap Permeation	11	MONTH	GENERATOR
+Subscribe	EvaporativeEmissionsOperatingModeDistributionGenerator	Evap Fuel Vapor Venting	12	MONTH	GENERATOR
+Subscribe	EvaporativeEmissionsOperatingModeDistributionGenerator	Evap Fuel Leaks	13	MONTH	GENERATOR
+Subscribe	EvaporativePermeationCalculator	Evap Permeation	11	MONTH	EMISSION_CALCULATOR+1
+Subscribe	FuelEffectsGenerator	Running Exhaust	1	PROCESS	GENERATOR-1
+Subscribe	FuelEffectsGenerator	Start Exhaust	2	PROCESS	GENERATOR-1
+Subscribe	FuelEffectsGenerator	Brakewear	9	PROCESS	GENERATOR-1
+Subscribe	FuelEffectsGenerator	Tirewear	10	PROCESS	GENERATOR-1
+Subscribe	FuelEffectsGenerator	Evap Permeation	11	PROCESS	GENERATOR-1
+Subscribe	FuelEffectsGenerator	Evap Fuel Vapor Venting	12	PROCESS	GENERATOR-1
+Subscribe	FuelEffectsGenerator	Evap Fuel Leaks	13	PROCESS	GENERATOR-1
+Subscribe	FuelEffectsGenerator	Crankcase Running Exhaust	15	PROCESS	GENERATOR-1
+Subscribe	FuelEffectsGenerator	Crankcase Start Exhaust	16	PROCESS	GENERATOR-1
+Subscribe	FuelEffectsGenerator	Crankcase Extended Idle Exhaust	17	PROCESS	GENERATOR-1
+Subscribe	FuelEffectsGenerator	Refueling Displacement Vapor Loss	18	PROCESS	GENERATOR-1
+Subscribe	FuelEffectsGenerator	Refueling Spillage Loss	19	PROCESS	GENERATOR-1
+Subscribe	FuelEffectsGenerator	Extended Idle Exhaust	90	PROCESS	GENERATOR-1
+Subscribe	FuelEffectsGenerator	Auxiliary Power Exhaust	91	PROCESS	GENERATOR-1
+Chain	HCSpeciationCalculator	BaseRateCalculator
+Chain	HCSpeciationCalculator	EvaporativePermeationCalculator
+Chain	HCSpeciationCalculator	TankVaporVentingCalculator
+Chain	HCSpeciationCalculator	LiquidLeakingCalculator
+Chain	HCSpeciationCalculator	RefuelingLossCalculator
+Subscribe	LiquidLeakingCalculator	Evap Fuel Leaks	13	MONTH	EMISSION_CALCULATOR
+Chain	NO2Calculator	BaseRateCalculator
+Chain	NOCalculator	BaseRateCalculator
+Chain	PM10BrakeTireCalculator	BaseRateCalculator
+Chain	PM10EmissionCalculator	SulfatePMCalculator
+Subscribe	RatesOperatingModeDistributionGenerator	Running Exhaust	1	YEAR	GENERATOR
+Subscribe	RatesOperatingModeDistributionGenerator	Extended Idle Exhaust	90	YEAR	GENERATOR
+Subscribe	RatesOperatingModeDistributionGenerator	Auxiliary Power Exhaust	91	YEAR	GENERATOR
+Chain	RefuelingLossCalculator	BaseRateCalculator
+Chain	SO2Calculator	BaseRateCalculator
+Subscribe	SourceBinDistributionGenerator	Running Exhaust	1	YEAR	GENERATOR+1
+Subscribe	SourceBinDistributionGenerator	Start Exhaust	2	YEAR	GENERATOR+1
+Subscribe	SourceBinDistributionGenerator	Extended Idle Exhaust	90	YEAR	GENERATOR+1
+Subscribe	SourceBinDistributionGenerator	Auxiliary Power Exhaust	91	YEAR	GENERATOR+1
+Subscribe	SourceBinDistributionGenerator	Evap Permeation	11	YEAR	GENERATOR+1
+Subscribe	SourceBinDistributionGenerator	Evap Fuel Vapor Venting	12	YEAR	GENERATOR+1
+Subscribe	SourceBinDistributionGenerator	Evap Fuel Leaks	13	YEAR	GENERATOR+1
+Subscribe	SourceBinDistributionGenerator	Brakewear	9	YEAR	GENERATOR+1
+Subscribe	SourceBinDistributionGenerator	Tirewear	10	YEAR	GENERATOR+1
+Subscribe	StartOperatingModeDistributionGenerator	Start Exhaust	2	PROCESS	GENERATOR
+Chain	SulfatePMCalculator	BaseRateCalculator
+Chain	TOGSpeciationCalculator	CrankcaseEmissionCalculatorNonPM
+Chain	TOGSpeciationCalculator	AirToxicsCalculator
+Chain	TOGSpeciationCalculator	HCSpeciationCalculator
+Subscribe	TankFuelGenerator	Evap Fuel Vapor Venting	12	YEAR	GENERATOR
+Subscribe	TankFuelGenerator	Evap Fuel Leaks	13	YEAR	GENERATOR
+Subscribe	TankTemperatureGenerator	Evap Permeation	11	ZONE	GENERATOR
+Subscribe	TankTemperatureGenerator	Evap Fuel Vapor Venting	12	ZONE	GENERATOR
+Subscribe	TankTemperatureGenerator	Evap Fuel Leaks	13	ZONE	GENERATOR
+Subscribe	TankVaporVentingCalculator	Evap Fuel Vapor Venting	12	MONTH	EMISSION_CALCULATOR
+Subscribe	TotalActivityGenerator	Running Exhaust	1	YEAR	GENERATOR
+Subscribe	TotalActivityGenerator	Start Exhaust	2	YEAR	GENERATOR
+Subscribe	TotalActivityGenerator	Extended Idle Exhaust	90	YEAR	GENERATOR
+Subscribe	TotalActivityGenerator	Auxiliary Power Exhaust	91	YEAR	GENERATOR
+Subscribe	TotalActivityGenerator	Evap Permeation	11	YEAR	GENERATOR
+Subscribe	TotalActivityGenerator	Evap Fuel Vapor Venting	12	YEAR	GENERATOR
+Subscribe	TotalActivityGenerator	Evap Fuel Leaks	13	YEAR	GENERATOR
+Subscribe	TotalActivityGenerator	Brakewear	9	YEAR	GENERATOR
+Subscribe	TotalActivityGenerator	Tirewear	10	YEAR	GENERATOR

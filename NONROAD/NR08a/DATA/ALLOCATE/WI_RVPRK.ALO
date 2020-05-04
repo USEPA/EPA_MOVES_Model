@@ -1,0 +1,97 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RECREATIONAL VEHICLE PARKS AND CAMPGROUNDS
+CBP NAICS 72121/; pre-2002 CBP SIC 7030
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+RVP  55000      2002                 265     WI
+RVP  55001      2002                   3     Adams
+RVP  55003      2002                   1     Ashland
+RVP  55005      2002                   7     Barron
+RVP  55007      2002                   6     Bayfield
+RVP  55009      2002                   0     Brown
+RVP  55011      2002                   1     Buffalo
+RVP  55013      2002                   5     Burnett
+RVP  55015      2002                   0     Calumet
+RVP  55017      2002                   4     Chippewa
+RVP  55019      2002                   1     Clark
+RVP  55021      2002                  13     Columbia
+RVP  55023      2002                   1     Crawford
+RVP  55025      2002                   5     Dane
+RVP  55027      2002                   3     Dodge
+RVP  55029      2002                   9     Door
+RVP  55031      2002                   3     Douglas
+RVP  55033      2002                   2     Dunn
+RVP  55035      2002                   1     Eau Claire
+RVP  55037      2002                   0     Florence
+RVP  55039      2002                   5     Fond du Lac
+RVP  55041      2002                   1     Forest
+RVP  55043      2002                   4     Grant
+RVP  55045      2002                   1     Green
+RVP  55047      2002                   1     Green Lake
+RVP  55049      2002                   0     Iowa
+RVP  55051      2002                   0     Iron
+RVP  55053      2002                   1     Jackson
+RVP  55055      2002                   4     Jefferson
+RVP  55057      2002                   5     Juneau
+RVP  55059      2002                   2     Kenosha
+RVP  55061      2002                   1     Kewaunee
+RVP  55063      2002                   4     La Crosse
+RVP  55065      2002                   0     Lafayette
+RVP  55067      2002                   3     Langlade
+RVP  55069      2002                   4     Lincoln
+RVP  55071      2002                   3     Manitowoc
+RVP  55073      2002                   2     Marathon
+RVP  55075      2002                   1     Marinette
+RVP  55077      2002                   6     Marquette
+RVP  55078      2002                   0     Menominee
+RVP  55079      2002                   3     Milwaukee
+RVP  55081      2002                   3     Monroe
+RVP  55083      2002                   5     Oconto
+RVP  55085      2002                   8     Oneida
+RVP  55087      2002                   2     Outagamie
+RVP  55089      2002                   0     Ozaukee
+RVP  55091      2002                   1     Pepin
+RVP  55093      2002                   0     Pierce
+RVP  55095      2002                   7     Polk
+RVP  55097      2002                   6     Portage
+RVP  55099      2002                   1     Price
+RVP  55101      2002                   2     Racine
+RVP  55103      2002                   1     Richland
+RVP  55105      2002                   4     Rock
+RVP  55107      2002                   1     Rusk
+RVP  55109      2002                   6     St. Croix
+RVP  55111      2002                   8     Sauk
+RVP  55113      2002                  19     Sawyer
+RVP  55115      2002                   2     Shawano
+RVP  55117      2002                   6     Sheboygan
+RVP  55119      2002                   1     Taylor
+RVP  55121      2002                   1     Trempealeau
+RVP  55123      2002                   2     Vernon
+RVP  55125      2002                  29     Vilas
+RVP  55127      2002                   6     Walworth
+RVP  55129      2002                   7     Washburn
+RVP  55131      2002                   3     Washington
+RVP  55133      2002                   3     Waukesha
+RVP  55135      2002                   8     Waupaca
+RVP  55137      2002                   5     Waushara
+RVP  55139      2002                   2     Winnebago
+RVP  55141      2002                   0     Wood
+/END/

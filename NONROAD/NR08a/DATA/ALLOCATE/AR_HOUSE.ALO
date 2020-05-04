@@ -1,0 +1,100 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent SINGLE AND DOUBLE (DUPLEX) FAMILY HOMES
+
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+HOU  05000      2002             1201909     AR
+HOU  05001      2002                9735     Arkansas
+HOU  05003      2002               10816     Ashley
+HOU  05005      2002               20406     Baxter
+HOU  05007      2002               68328     Benton
+HOU  05009      2002               15676     Boone
+HOU  05011      2002                5931     Bradley
+HOU  05013      2002                3063     Calhoun
+HOU  05015      2002               11970     Carroll
+HOU  05017      2002                6049     Chicot
+HOU  05019      2002               10470     Clark
+HOU  05021      2002                8561     Clay
+HOU  05023      2002               13993     Cleburne
+HOU  05025      2002                3900     Cleveland
+HOU  05027      2002               11702     Columbia
+HOU  05029      2002                9141     Conway
+HOU  05031      2002               36057     Craighead
+HOU  05033      2002               21812     Crawford
+HOU  05035      2002               21165     Crittenden
+HOU  05037      2002                8222     Cross
+HOU  05039      2002                4440     Dallas
+HOU  05041      2002                6759     Desha
+HOU  05043      2002                8557     Drew
+HOU  05045      2002               36301     Faulkner
+HOU  05047      2002                7763     Franklin
+HOU  05049      2002                6073     Fulton
+HOU  05051      2002               45528     Garland
+HOU  05053      2002                7135     Grant
+HOU  05055      2002               16674     Greene
+HOU  05057      2002               10285     Hempstead
+HOU  05059      2002               13606     Hot Spring
+HOU  05061      2002                6388     Howard
+HOU  05063      2002               15107     Independence
+HOU  05065      2002                6694     Izard
+HOU  05067      2002                8044     Jackson
+HOU  05069      2002               34785     Jefferson
+HOU  05071      2002               10064     Johnson
+HOU  05073      2002                4645     Lafayette
+HOU  05075      2002                8169     Lawrence
+HOU  05077      2002                4877     Lee
+HOU  05079      2002                5065     Lincoln
+HOU  05081      2002                6507     Little River
+HOU  05083      2002               10029     Logan
+HOU  05085      2002               21848     Lonoke
+HOU  05087      2002                6621     Madison
+HOU  05089      2002                8539     Marion
+HOU  05091      2002               18125     Miller
+HOU  05093      2002               22482     Mississippi
+HOU  05095      2002                5150     Monroe
+HOU  05097      2002                5147     Montgomery
+HOU  05099      2002                4815     Nevada
+HOU  05101      2002                4366     Newton
+HOU  05103      2002               13533     Ouachita
+HOU  05105      2002                4779     Perry
+HOU  05107      2002               10923     Phillips
+HOU  05109      2002                5631     Pike
+HOU  05111      2002               11218     Poinsett
+HOU  05113      2002                9380     Polk
+HOU  05115      2002               23487     Pope
+HOU  05117      2002                4840     Prairie
+HOU  05119      2002              164211     Pulaski
+HOU  05121      2002                8424     Randolph
+HOU  05123      2002               11446     St. Francis
+HOU  05125      2002               35276     Saline
+HOU  05127      2002                5014     Scott
+HOU  05129      2002                4341     Searcy
+HOU  05131      2002               50153     Sebastian
+HOU  05133      2002                6515     Sevier
+HOU  05135      2002                9435     Sharp
+HOU  05137      2002                5826     Stone
+HOU  05139      2002               20854     Union
+HOU  05141      2002                9298     Van Buren
+HOU  05143      2002               67976     Washington
+HOU  05145      2002               28285     White
+HOU  05147      2002                4131     Woodruff
+HOU  05149      2002                9348     Yell
+/END/

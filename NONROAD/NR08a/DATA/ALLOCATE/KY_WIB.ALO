@@ -1,0 +1,145 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WATER SURFACE AREA FOR INBOARD RECREATIONAL MARINE CRAFT (sq km navigable water)
+1990 GICS (inland water area); GIS analysis of coast lengths (coastal navigable water)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+WIB  21000      1990                1759     KY
+WIB  21001      1990                  14     Adair
+WIB  21003      1990                  15     Allen
+WIB  21005      1990                   4     Anderson
+WIB  21007      1990                  58     Ballard
+WIB  21009      1990                  23     Barren
+WIB  21011      1990                  12     Bath
+WIB  21013      1990                   2     Bell
+WIB  21015      1990                  28     Boone
+WIB  21017      1990                   1     Bourbon
+WIB  21019      1990                   4     Boyd
+WIB  21021      1990                   3     Boyle
+WIB  21023      1990                  15     Bracken
+WIB  21025      1990                   0     Breathitt
+WIB  21027      1990                  34     Breckinridge
+WIB  21029      1990                   3     Bullitt
+WIB  21031      1990                   9     Butler
+WIB  21033      1990                   3     Caldwell
+WIB  21035      1990                  64     Calloway
+WIB  21037      1990                  20     Campbell
+WIB  21039      1990                  17     Carlisle
+WIB  21041      1990                  19     Carroll
+WIB  21043      1990                   4     Carter
+WIB  21045      1990                   0     Casey
+WIB  21047      1990                   7     Christian
+WIB  21049      1990                   2     Clark
+WIB  21051      1990                   0     Clay
+WIB  21053      1990                  21     Clinton
+WIB  21055      1990                  23     Crittenden
+WIB  21057      1990                  13     Cumberland
+WIB  21059      1990                  36     Daviess
+WIB  21061      1990                  14     Edmonson
+WIB  21063      1990                   3     Elliott
+WIB  21065      1990                   4     Estill
+WIB  21067      1990                   3     Fayette
+WIB  21069      1990                   1     Fleming
+WIB  21071      1990                   3     Floyd
+WIB  21073      1990                   4     Franklin
+WIB  21075      1990                  56     Fulton
+WIB  21077      1990                  15     Gallatin
+WIB  21079      1990                   7     Garrard
+WIB  21081      1990                   2     Grant
+WIB  21083      1990                   2     Graves
+WIB  21085      1990                  19     Grayson
+WIB  21087      1990                   0     Green
+WIB  21089      1990                  22     Greenup
+WIB  21091      1990                  26     Hancock
+WIB  21093      1990                   5     Hardin
+WIB  21095      1990                   2     Harlan
+WIB  21097      1990                   0     Harrison
+WIB  21099      1990                   5     Hart
+WIB  21101      1990                  70     Henderson
+WIB  21103      1990                   5     Henry
+WIB  21105      1990                  22     Hickman
+WIB  21107      1990                  10     Hopkins
+WIB  21109      1990                   1     Jackson
+WIB  21111      1990                  35     Jefferson
+WIB  21113      1990                   3     Jessamine
+WIB  21115      1990                   6     Johnson
+WIB  21117      1990                   6     Kenton
+WIB  21119      1990                   2     Knott
+WIB  21121      1990                   0     Knox
+WIB  21123      1990                   1     Larue
+WIB  21125      1990                  21     Laurel
+WIB  21127      1990                   3     Lawrence
+WIB  21129      1990                   4     Lee
+WIB  21131      1990                   1     Leslie
+WIB  21133      1990                   0     Letcher
+WIB  21135      1990                  29     Lewis
+WIB  21137      1990                   1     Lincoln
+WIB  21139      1990                  68     Livingston
+WIB  21141      1990                   4     Logan
+WIB  21143      1990                 105     Lyon
+WIB  21145      1990                  44     McCracken
+WIB  21147      1990                   8     McCreary
+WIB  21149      1990                   5     McLean
+WIB  21151      1990                   6     Madison
+WIB  21153      1990                   0     Magoffin
+WIB  21155      1990                   1     Marion
+WIB  21157      1990                  92     Marshall
+WIB  21159      1990                   0     Martin
+WIB  21161      1990                  14     Mason
+WIB  21163      1990                  41     Meade
+WIB  21165      1990                   6     Menifee
+WIB  21167      1990                   6     Mercer
+WIB  21169      1990                   0     Metcalfe
+WIB  21171      1990                   3     Monroe
+WIB  21173      1990                   1     Montgomery
+WIB  21175      1990                   6     Morgan
+WIB  21177      1990                  12     Muhlenberg
+WIB  21179      1990                   4     Nelson
+WIB  21181      1990                   1     Nicholas
+WIB  21183      1990                   8     Ohio
+WIB  21185      1990                  19     Oldham
+WIB  21187      1990                   5     Owen
+WIB  21189      1990                   0     Owsley
+WIB  21191      1990                   3     Pendleton
+WIB  21193      1990                   1     Perry
+WIB  21195      1990                   3     Pike
+WIB  21197      1990                   0     Powell
+WIB  21199      1990                  40     Pulaski
+WIB  21201      1990                   0     Robertson
+WIB  21203      1990                   1     Rockcastle
+WIB  21205      1990                  14     Rowan
+WIB  21207      1990                  76     Russell
+WIB  21209      1990                   0     Scott
+WIB  21211      1990                   4     Shelby
+WIB  21213      1990                   0     Simpson
+WIB  21215      1990                  15     Spencer
+WIB  21217      1990                  19     Taylor
+WIB  21219      1990                   2     Todd
+WIB  21221      1990                  98     Trigg
+WIB  21223      1990                  19     Trimble
+WIB  21225      1990                  47     Union
+WIB  21227      1990                   6     Warren
+WIB  21229      1990                   2     Washington
+WIB  21231      1990                  64     Wayne
+WIB  21233      1990                   3     Webster
+WIB  21235      1990                  13     Whitley
+WIB  21237      1990                   0     Wolfe
+WIB  21239      1990                   3     Woodford
+/END/

@@ -1,0 +1,100 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WHOLESALE ESTABLISHMENTS
+CBP NAICS 42----; pre-2002 CBP SIC 50--
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+COM  05000      2002                3535     AR
+COM  05001      2002                  38     Arkansas
+COM  05003      2002                  18     Ashley
+COM  05005      2002                  25     Baxter
+COM  05007      2002                 214     Benton
+COM  05009      2002                  43     Boone
+COM  05011      2002                  10     Bradley
+COM  05013      2002                   2     Calhoun
+COM  05015      2002                  26     Carroll
+COM  05017      2002                  17     Chicot
+COM  05019      2002                  20     Clark
+COM  05021      2002                  19     Clay
+COM  05023      2002                  34     Cleburne
+COM  05025      2002                   5     Cleveland
+COM  05027      2002                  26     Columbia
+COM  05029      2002                  22     Conway
+COM  05031      2002                 134     Craighead
+COM  05033      2002                  68     Crawford
+COM  05035      2002                  59     Crittenden
+COM  05037      2002                  24     Cross
+COM  05039      2002                  10     Dallas
+COM  05041      2002                  17     Desha
+COM  05043      2002                  22     Drew
+COM  05045      2002                  83     Faulkner
+COM  05047      2002                   5     Franklin
+COM  05049      2002                   7     Fulton
+COM  05051      2002                 114     Garland
+COM  05053      2002                  14     Grant
+COM  05055      2002                  46     Greene
+COM  05057      2002                  17     Hempstead
+COM  05059      2002                  18     Hot Spring
+COM  05061      2002                  14     Howard
+COM  05063      2002                  38     Independence
+COM  05065      2002                  11     Izard
+COM  05067      2002                  24     Jackson
+COM  05069      2002                  83     Jefferson
+COM  05071      2002                  10     Johnson
+COM  05073      2002                   1     Lafayette
+COM  05075      2002                  19     Lawrence
+COM  05077      2002                   8     Lee
+COM  05079      2002                   7     Lincoln
+COM  05081      2002                  14     Little River
+COM  05083      2002                  14     Logan
+COM  05085      2002                  48     Lonoke
+COM  05087      2002                   5     Madison
+COM  05089      2002                   5     Marion
+COM  05091      2002                  51     Miller
+COM  05093      2002                  55     Mississippi
+COM  05095      2002                  13     Monroe
+COM  05097      2002                   6     Montgomery
+COM  05099      2002                   5     Nevada
+COM  05101      2002                   8     Newton
+COM  05103      2002                  34     Ouachita
+COM  05105      2002                   4     Perry
+COM  05107      2002                  31     Phillips
+COM  05109      2002                  18     Pike
+COM  05111      2002                  26     Poinsett
+COM  05113      2002                  18     Polk
+COM  05115      2002                  97     Pope
+COM  05117      2002                   7     Prairie
+COM  05119      2002                 845     Pulaski
+COM  05121      2002                  10     Randolph
+COM  05123      2002                  24     St. Francis
+COM  05125      2002                  89     Saline
+COM  05127      2002                   5     Scott
+COM  05129      2002                   5     Searcy
+COM  05131      2002                 229     Sebastian
+COM  05133      2002                   7     Sevier
+COM  05135      2002                  12     Sharp
+COM  05137      2002                   7     Stone
+COM  05139      2002                  70     Union
+COM  05141      2002                  15     Van Buren
+COM  05143      2002                 283     Washington
+COM  05145      2002                  82     White
+COM  05147      2002                  12     Woodruff
+COM  05149      2002                   9     Yell
+/END/

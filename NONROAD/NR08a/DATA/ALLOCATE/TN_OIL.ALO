@@ -1,0 +1,120 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent EMPLOYEES IN OIL & GAS EXTRACTION, AND DRILLING OIL & GAS WELLS
+CBP NAICS 211/// and 213111; pre-2002 CBP SIC 1300
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+OIL  47000      2002                 157     TN
+OIL  47001      2002                   6     Anderson
+OIL  47003      2002                   0     Bedford
+OIL  47005      2002                   0     Benton
+OIL  47007      2002                   0     Bledsoe
+OIL  47009      2002                   0     Blount
+OIL  47011      2002                   0     Bradley
+OIL  47013      2002                   0     Campbell
+OIL  47015      2002                   0     Cannon
+OIL  47017      2002                   0     Carroll
+OIL  47019      2002                   0     Carter
+OIL  47021      2002                   0     Cheatham
+OIL  47023      2002                   0     Chester
+OIL  47025      2002                   6     Claiborne
+OIL  47027      2002                   0     Clay
+OIL  47029      2002                   0     Cocke
+OIL  47031      2002                   0     Coffee
+OIL  47033      2002                   0     Crockett
+OIL  47035      2002                   0     Cumberland
+OIL  47037      2002                  36     Davidson
+OIL  47039      2002                   0     Decatur
+OIL  47041      2002                   0     DeKalb
+OIL  47043      2002                  14     Dickson
+OIL  47045      2002                   0     Dyer
+OIL  47047      2002                   0     Fayette
+OIL  47049      2002                  13     Fentress
+OIL  47051      2002                   0     Franklin
+OIL  47053      2002                   0     Gibson
+OIL  47055      2002                   0     Giles
+OIL  47057      2002                   0     Grainger
+OIL  47059      2002                   0     Greene
+OIL  47061      2002                   0     Grundy
+OIL  47063      2002                   0     Hamblen
+OIL  47065      2002                   0     Hamilton
+OIL  47067      2002                   0     Hancock
+OIL  47069      2002                   0     Hardeman
+OIL  47071      2002                   0     Hardin
+OIL  47073      2002                   0     Hawkins
+OIL  47075      2002                   0     Haywood
+OIL  47077      2002                   0     Henderson
+OIL  47079      2002                   0     Henry
+OIL  47081      2002                   0     Hickman
+OIL  47083      2002                   0     Houston
+OIL  47085      2002                   0     Humphreys
+OIL  47087      2002                   0     Jackson
+OIL  47089      2002                   0     Jefferson
+OIL  47091      2002                   0     Johnson
+OIL  47093      2002                   6     Knox
+OIL  47095      2002                   6     Lake
+OIL  47097      2002                   0     Lauderdale
+OIL  47099      2002                   0     Lawrence
+OIL  47101      2002                   0     Lewis
+OIL  47103      2002                   0     Lincoln
+OIL  47105      2002                   0     Loudon
+OIL  47107      2002                   0     McMinn
+OIL  47109      2002                   0     McNairy
+OIL  47111      2002                   0     Macon
+OIL  47113      2002                   0     Madison
+OIL  47115      2002                   0     Marion
+OIL  47117      2002                   0     Marshall
+OIL  47119      2002                   0     Maury
+OIL  47121      2002                   0     Meigs
+OIL  47123      2002                   6     Monroe
+OIL  47125      2002                   0     Montgomery
+OIL  47127      2002                   0     Moore
+OIL  47129      2002                   0     Morgan
+OIL  47131      2002                   0     Obion
+OIL  47133      2002                  13     Overton
+OIL  47135      2002                  13     Perry
+OIL  47137      2002                   0     Pickett
+OIL  47139      2002                   0     Polk
+OIL  47141      2002                   0     Putnam
+OIL  47143      2002                   0     Rhea
+OIL  47145      2002                  13     Roane
+OIL  47147      2002                   0     Robertson
+OIL  47149      2002                   0     Rutherford
+OIL  47151      2002                   0     Scott
+OIL  47153      2002                   0     Sequatchie
+OIL  47155      2002                   0     Sevier
+OIL  47157      2002                   6     Shelby
+OIL  47159      2002                   0     Smith
+OIL  47161      2002                   0     Stewart
+OIL  47163      2002                   0     Sullivan
+OIL  47165      2002                  13     Sumner
+OIL  47167      2002                   6     Tipton
+OIL  47169      2002                   0     Trousdale
+OIL  47171      2002                   0     Unicoi
+OIL  47173      2002                   0     Union
+OIL  47175      2002                   0     Van Buren
+OIL  47177      2002                   0     Warren
+OIL  47179      2002                   0     Washington
+OIL  47181      2002                   0     Wayne
+OIL  47183      2002                   0     Weakley
+OIL  47185      2002                   0     White
+OIL  47187      2002                   0     Williamson
+OIL  47189      2002                   0     Wilson
+/END/

@@ -1,0 +1,71 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent EMPLOYEES IN OIL & GAS EXTRACTION, AND DRILLING OIL & GAS WELLS
+CBP NAICS 211/// and 213111; pre-2002 CBP SIC 1300
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+OIL  45000      2002                  86     SC
+OIL  45001      2002                   0     Abbeville
+OIL  45003      2002                   9     Aiken
+OIL  45005      2002                   0     Allendale
+OIL  45007      2002                   0     Anderson
+OIL  45009      2002                   0     Bamberg
+OIL  45011      2002                   0     Barnwell
+OIL  45013      2002                   0     Beaufort
+OIL  45015      2002                  10     Berkeley
+OIL  45017      2002                   0     Calhoun
+OIL  45019      2002                  17     Charleston
+OIL  45021      2002                   0     Cherokee
+OIL  45023      2002                   0     Chester
+OIL  45025      2002                   0     Chesterfield
+OIL  45027      2002                   0     Clarendon
+OIL  45029      2002                   0     Colleton
+OIL  45031      2002                   0     Darlington
+OIL  45033      2002                   0     Dillon
+OIL  45035      2002                   0     Dorchester
+OIL  45037      2002                   0     Edgefield
+OIL  45039      2002                   0     Fairfield
+OIL  45041      2002                   0     Florence
+OIL  45043      2002                   0     Georgetown
+OIL  45045      2002                   0     Greenville
+OIL  45047      2002                   0     Greenwood
+OIL  45049      2002                   0     Hampton
+OIL  45051      2002                   0     Horry
+OIL  45053      2002                   0     Jasper
+OIL  45055      2002                   0     Kershaw
+OIL  45057      2002                   0     Lancaster
+OIL  45059      2002                   0     Laurens
+OIL  45061      2002                   0     Lee
+OIL  45063      2002                  10     Lexington
+OIL  45065      2002                   0     McCormick
+OIL  45067      2002                   0     Marion
+OIL  45069      2002                   0     Marlboro
+OIL  45071      2002                   0     Newberry
+OIL  45073      2002                   0     Oconee
+OIL  45075      2002                   0     Orangeburg
+OIL  45077      2002                   0     Pickens
+OIL  45079      2002                  10     Richland
+OIL  45081      2002                   0     Saluda
+OIL  45083      2002                   0     Spartanburg
+OIL  45085      2002                  10     Sumter
+OIL  45087      2002                   0     Union
+OIL  45089      2002                  10     Williamsburg
+OIL  45091      2002                  10     York
+/END/

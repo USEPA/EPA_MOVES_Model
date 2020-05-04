@@ -1,0 +1,82 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WHOLESALE ESTABLISHMENTS
+CBP NAICS 42----; pre-2002 CBP SIC 50--
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+COM  30000      2002                1566     MT
+COM  30001      2002                  11     Beaverhead
+COM  30003      2002                   6     Big Horn
+COM  30005      2002                   8     Blaine
+COM  30007      2002                   8     Broadwater
+COM  30009      2002                   9     Carbon
+COM  30011      2002                   1     Carter
+COM  30013      2002                 132     Cascade
+COM  30015      2002                  14     Chouteau
+COM  30017      2002                  15     Custer
+COM  30019      2002                   7     Daniels
+COM  30021      2002                  21     Dawson
+COM  30023      2002                   1     Deer Lodge
+COM  30025      2002                   7     Fallon
+COM  30027      2002                  25     Fergus
+COM  30029      2002                 124     Flathead
+COM  30031      2002                 142     Gallatin
+COM  30033      2002                   1     Garfield Park
+COM  30035      2002                  11     Glacier
+COM  30037      2002                   2     Golden Valley
+COM  30039      2002                   5     Granite
+COM  30041      2002                  22     Hill
+COM  30043      2002                   8     Jefferson
+COM  30045      2002                   9     Judith Basin
+COM  30047      2002                  24     Lake
+COM  30049      2002                  69     Lewis & Clark
+COM  30051      2002                   4     Liberty
+COM  30053      2002                  10     Lincoln
+COM  30055      2002                   4     McCone
+COM  30057      2002                   6     Madison
+COM  30059      2002                   0     Meagher
+COM  30061      2002                   0     Mineral
+COM  30063      2002                 191     Missoula
+COM  30065      2002                  11     Musselshell
+COM  30067      2002                  22     Park
+COM  30069      2002                   0     Petroleum
+COM  30071      2002                   5     Phillips
+COM  30073      2002                  16     Pondera
+COM  30075      2002                   0     Powder River
+COM  30077      2002                   2     Powell
+COM  30079      2002                   2     Prairie
+COM  30081      2002                  57     Ravalli
+COM  30083      2002                  22     Richland
+COM  30085      2002                  11     Roosevelt
+COM  30087      2002                   1     Rosebud
+COM  30089      2002                  12     Sanders
+COM  30091      2002                   7     Sheridan
+COM  30093      2002                  48     Silver Bow
+COM  30095      2002                  10     Stillwater
+COM  30097      2002                   4     Sweet Grass
+COM  30099      2002                   9     Teton
+COM  30101      2002                  15     Toole
+COM  30103      2002                   2     Treasure
+COM  30105      2002                  18     Valley
+COM  30107      2002                   4     Wheatland
+COM  30109      2002                   1     Wibaux
+COM  30111      2002                 390     Yellowstone
+COM  30113      2002                   0     Yellowstone National Park
+/END/

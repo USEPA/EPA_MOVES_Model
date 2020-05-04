@@ -1,0 +1,279 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent EMPLOYEES IN OIL & GAS EXTRACTION, AND DRILLING OIL & GAS WELLS
+CBP NAICS 211/// and 213111; pre-2002 CBP SIC 1300
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+OIL  48000      2002               60013     TX
+OIL  48001      2002                 104     Anderson
+OIL  48003      2002                 159     Andrews
+OIL  48005      2002                  29     Angelina
+OIL  48007      2002                  17     Aransas
+OIL  48009      2002                 174     Archer
+OIL  48011      2002                  17     Armstrong
+OIL  48013      2002                 221     Atascosa
+OIL  48015      2002                  17     Austin
+OIL  48017      2002                   0     Bailey
+OIL  48019      2002                  17     Bandera
+OIL  48021      2002                   0     Bastrop
+OIL  48023      2002                  17     Baylor
+OIL  48025      2002                  92     Bee
+OIL  48027      2002                  17     Bell
+OIL  48029      2002                1509     Bexar
+OIL  48031      2002                  12     Blanco
+OIL  48033      2002                   0     Borden
+OIL  48035      2002                   0     Bosque
+OIL  48037      2002                   0     Bowie
+OIL  48039      2002                 372     Brazoria
+OIL  48041      2002                 116     Brazos
+OIL  48043      2002                  17     Brewster
+OIL  48045      2002                   0     Briscoe
+OIL  48047      2002                  17     Brooks
+OIL  48049      2002                  29     Brown
+OIL  48051      2002                 104     Burleson
+OIL  48053      2002                  17     Burnet
+OIL  48055      2002                 104     Caldwell
+OIL  48057      2002                 104     Calhoun
+OIL  48059      2002                  87     Callahan
+OIL  48061      2002                   0     Cameron
+OIL  48063      2002                   0     Camp
+OIL  48065      2002                  17     Carson
+OIL  48067      2002                  17     Cass
+OIL  48069      2002                   0     Castro
+OIL  48071      2002                 524     Chambers
+OIL  48073      2002                  12     Cherokee
+OIL  48075      2002                   0     Childress
+OIL  48077      2002                  17     Clay
+OIL  48079      2002                  17     Cochran
+OIL  48081      2002                 302     Coke
+OIL  48083      2002                  17     Coleman
+OIL  48085      2002                 206     Collin
+OIL  48087      2002                  12     Collingsworth
+OIL  48089      2002                 116     Colorado
+OIL  48091      2002                  17     Comal
+OIL  48093      2002                  29     Comanche
+OIL  48095      2002                   0     Concho
+OIL  48097      2002                 179     Cooke
+OIL  48099      2002                   0     Coryell
+OIL  48101      2002                   0     Cottle
+OIL  48103      2002                 302     Crane
+OIL  48105      2002                 104     Crockett
+OIL  48107      2002                  17     Crosby
+OIL  48109      2002                  17     Culberson
+OIL  48111      2002                   0     Dallam
+OIL  48113      2002                7288     Dallas
+OIL  48115      2002                 116     Dawson
+OIL  48117      2002                   0     Deaf Smith
+OIL  48119      2002                   0     Delta
+OIL  48121      2002                 109     Denton
+OIL  48123      2002                  17     DeWitt
+OIL  48125      2002                  17     Dickens
+OIL  48127      2002                  19     Dimmit
+OIL  48129      2002                   0     Donley
+OIL  48131      2002                 174     Duval
+OIL  48133      2002                 116     Eastland
+OIL  48135      2002                 804     Ector
+OIL  48137      2002                   0     Edwards
+OIL  48139      2002                  12     Ellis
+OIL  48141      2002                  29     El Paso
+OIL  48143      2002                  29     Erath
+OIL  48145      2002                   0     Falls
+OIL  48147      2002                   0     Fannin
+OIL  48149      2002                 104     Fayette
+OIL  48151      2002                   0     Fisher
+OIL  48153      2002                  17     Floyd
+OIL  48155      2002                  17     Foard
+OIL  48157      2002                  86     Fort Bend
+OIL  48159      2002                  29     Franklin
+OIL  48161      2002                 116     Freestone
+OIL  48163      2002                 116     Frio
+OIL  48165      2002                 128     Gaines
+OIL  48167      2002                  17     Galveston
+OIL  48169      2002                  55     Garza
+OIL  48171      2002                  17     Gillespie
+OIL  48173      2002                  17     Glasscock
+OIL  48175      2002                  17     Goliad
+OIL  48177      2002                  29     Gonzales
+OIL  48179      2002                 364     Gray
+OIL  48181      2002                 104     Grayson
+OIL  48183      2002                1737     Gregg
+OIL  48185      2002                 116     Grimes
+OIL  48187      2002                  29     Guadalupe
+OIL  48189      2002                  29     Hale
+OIL  48191      2002                   0     Hall
+OIL  48193      2002                   0     Hamilton
+OIL  48195      2002                  65     Hansford
+OIL  48197      2002                   0     Hardeman
+OIL  48199      2002                  17     Hardin
+OIL  48201      2002               22347     Harris
+OIL  48203      2002                 506     Harrison
+OIL  48205      2002                   0     Hartley
+OIL  48207      2002                  29     Haskell
+OIL  48209      2002                  20     Hays
+OIL  48211      2002                 174     Hemphill
+OIL  48213      2002                 116     Henderson
+OIL  48215      2002                 171     Hidalgo
+OIL  48217      2002                   0     Hill
+OIL  48219      2002                 446     Hockley
+OIL  48221      2002                  29     Hood
+OIL  48223      2002                   0     Hopkins
+OIL  48225      2002                  17     Houston
+OIL  48227      2002                 174     Howard
+OIL  48229      2002                   0     Hudspeth
+OIL  48231      2002                  12     Hunt
+OIL  48233      2002                 248     Hutchinson
+OIL  48235      2002                 104     Irion
+OIL  48237      2002                 209     Jack
+OIL  48239      2002                 104     Jackson
+OIL  48241      2002                  17     Jasper
+OIL  48243      2002                   0     Jeff Davis
+OIL  48245      2002                  95     Jefferson
+OIL  48247      2002                 104     Jim Hogg
+OIL  48249      2002                  87     Jim Wells
+OIL  48251      2002                  29     Johnson
+OIL  48253      2002                  87     Jones
+OIL  48255      2002                  29     Karnes
+OIL  48257      2002                  17     Kaufman
+OIL  48259      2002                  29     Kendall
+OIL  48261      2002                   0     Kenedy
+OIL  48263      2002                 104     Kent
+OIL  48265      2002                  48     Kerr
+OIL  48267      2002                  12     Kimble
+OIL  48269      2002                   0     King
+OIL  48271      2002                   0     Kinney
+OIL  48273      2002                 302     Kleberg
+OIL  48275      2002                   0     Knox
+OIL  48277      2002                  17     Lamar
+OIL  48279      2002                   0     Lamb
+OIL  48281      2002                   0     Lampasas
+OIL  48283      2002                 104     La Salle
+OIL  48285      2002                  81     Lavaca
+OIL  48287      2002                   6     Lee
+OIL  48289      2002                  29     Leon
+OIL  48291      2002                  29     Liberty
+OIL  48293      2002                  17     Limestone
+OIL  48295      2002                 104     Lipscomb
+OIL  48297      2002                  29     Live Oak
+OIL  48299      2002                  17     Llano
+OIL  48301      2002                   0     Loving
+OIL  48303      2002                  23     Lubbock
+OIL  48305      2002                   0     Lynn
+OIL  48307      2002                   0     McCulloch
+OIL  48309      2002                  17     McLennan
+OIL  48311      2002                  17     McMullen
+OIL  48313      2002                  17     Madison
+OIL  48315      2002                   0     Marion
+OIL  48317      2002                  17     Martin
+OIL  48319      2002                   0     Mason
+OIL  48321      2002                  63     Matagorda
+OIL  48323      2002                   0     Maverick
+OIL  48325      2002                  80     Medina
+OIL  48327      2002                   0     Menard
+OIL  48329      2002                4843     Midland
+OIL  48331      2002                  24     Milam
+OIL  48333      2002                   0     Mills
+OIL  48335      2002                  17     Mitchell
+OIL  48337      2002                  93     Montague
+OIL  48339      2002                 351     Montgomery
+OIL  48341      2002                 104     Moore
+OIL  48343      2002                  12     Morris
+OIL  48345      2002                   0     Motley
+OIL  48347      2002                   0     Nacogdoches
+OIL  48349      2002                  98     Navarro
+OIL  48351      2002                   0     Newton
+OIL  48353      2002                 104     Nolan
+OIL  48355      2002                1159     Nueces
+OIL  48357      2002                  76     Ochiltree
+OIL  48359      2002                   0     Oldham
+OIL  48361      2002                  17     Orange
+OIL  48363      2002                 150     Palo Pinto
+OIL  48365      2002                 116     Panola
+OIL  48367      2002                 116     Parker
+OIL  48369      2002                  12     Parmer
+OIL  48371      2002                 154     Pecos
+OIL  48373      2002                   0     Polk
+OIL  48375      2002                 173     Potter
+OIL  48377      2002                   0     Presidio
+OIL  48379      2002                   0     Rains
+OIL  48381      2002                  29     Randall
+OIL  48383      2002                  17     Reagan
+OIL  48385      2002                  17     Real
+OIL  48387      2002                  17     Red River
+OIL  48389      2002                  17     Reeves
+OIL  48391      2002                  14     Refugio
+OIL  48393      2002                   0     Roberts
+OIL  48395      2002                  17     Robertson
+OIL  48397      2002                  29     Rockwall
+OIL  48399      2002                  29     Runnels
+OIL  48401      2002                 174     Rusk
+OIL  48403      2002                   0     Sabine
+OIL  48405      2002                   0     San Augustine
+OIL  48407      2002                  17     San Jacinto
+OIL  48409      2002                 174     San Patricio
+OIL  48411      2002                   0     San Saba
+OIL  48413      2002                   0     Schleicher
+OIL  48415      2002                 446     Scurry
+OIL  48417      2002                 289     Shackelford
+OIL  48419      2002                  29     Shelby
+OIL  48421      2002                   0     Sherman
+OIL  48423      2002                 277     Smith
+OIL  48425      2002                  12     Somervell
+OIL  48427      2002                  29     Starr
+OIL  48429      2002                 175     Stephens
+OIL  48431      2002                 116     Sterling
+OIL  48433      2002                   0     Stonewall
+OIL  48435      2002                 145     Sutton
+OIL  48437      2002                  17     Swisher
+OIL  48439      2002                1104     Tarrant
+OIL  48441      2002                1004     Taylor
+OIL  48443      2002                   0     Terrell
+OIL  48445      2002                  17     Terry
+OIL  48447      2002                  28     Throckmorton
+OIL  48449      2002                  17     Titus
+OIL  48451      2002                 948     Tom Green
+OIL  48453      2002                 222     Travis
+OIL  48455      2002                   0     Trinity
+OIL  48457      2002                   0     Tyler
+OIL  48459      2002                  29     Upshur
+OIL  48461      2002                 302     Upton
+OIL  48463      2002                  12     Uvalde
+OIL  48465      2002                   0     Val Verde
+OIL  48467      2002                 174     Van Zandt
+OIL  48469      2002                 177     Victoria
+OIL  48471      2002                  17     Walker
+OIL  48473      2002                  87     Waller
+OIL  48475      2002                 116     Ward
+OIL  48477      2002                  87     Washington
+OIL  48479      2002                 187     Webb
+OIL  48481      2002                  87     Wharton
+OIL  48483      2002                  28     Wheeler
+OIL  48485      2002                 574     Wichita
+OIL  48487      2002                  12     Wilbarger
+OIL  48489      2002                   0     Willacy
+OIL  48491      2002                  20     Williamson
+OIL  48493      2002                  17     Wilson
+OIL  48495      2002                  73     Winkler
+OIL  48497      2002                 508     Wise
+OIL  48499      2002                  29     Wood
+OIL  48501      2002                 314     Yoakum
+OIL  48503      2002                 417     Young
+OIL  48505      2002                 104     Zapata
+OIL  48507      2002                  17     Zavala
+/END/

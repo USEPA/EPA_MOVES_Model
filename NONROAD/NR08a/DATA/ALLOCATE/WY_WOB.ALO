@@ -1,0 +1,48 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WATER SURFACE AREA FOR OUTBOARD RECREATIONAL MARINE CRAFT (sq km navigable water)
+1990 GICS (inland water area); GIS analysis of coast lengths (coastal navigable water)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+WOB  56000      1990                1849     WY
+WOB  56001      1990                  91     Albany
+WOB  56003      1990                  57     Big Horn
+WOB  56005      1990                  12     Campbell
+WOB  56007      1990                 176     Carbon
+WOB  56009      1990                  27     Converse
+WOB  56011      1990                  31     Crook
+WOB  56013      1990                 216     Fremont
+WOB  56015      1990                  18     Goshen
+WOB  56017      1990                   6     Hot Springs
+WOB  56019      1990                  22     Johnson
+WOB  56021      1990                   4     Laramie
+WOB  56023      1990                  52     Lincoln
+WOB  56025      1990                  93     Natrona
+WOB  56027      1990                   5     Niobrara
+WOB  56029      1990                  68     Park
+WOB  56031      1990                  67     Platte
+WOB  56033      1990                  10     Sheridan
+WOB  56035      1990                 141     Sublette
+WOB  56037      1990                 171     Sweetwater
+WOB  56039      1990                 554     Teton
+WOB  56041      1990                  15     Uinta
+WOB  56043      1990                   7     Washakie
+WOB  56045      1990                   6     Weston
+/END/

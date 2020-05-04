@@ -1,0 +1,54 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WATER SURFACE AREA FOR OUTBOARD RECREATIONAL MARINE CRAFT (sq km navigable water)
+1990 GICS (inland water area); GIS analysis of coast lengths (coastal navigable water)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+WOB  49000      1990                7084     UT
+WOB  49001      1990                   6     Beaver
+WOB  49003      1990                2605     Box Elder
+WOB  49005      1990                  22     Cache
+WOB  49007      1990                  16     Carbon
+WOB  49009      1990                  64     Daggett
+WOB  49011      1990                 852     Davis
+WOB  49013      1990                  46     Duchesne
+WOB  49015      1990                  25     Emery
+WOB  49017      1990                  88     Garfield
+WOB  49019      1990                  32     Grand
+WOB  49021      1990                   9     Iron
+WOB  49023      1990                  38     Juab
+WOB  49025      1990                 302     Kane
+WOB  49027      1990                 619     Millard
+WOB  49029      1990                   4     Morgan
+WOB  49031      1990                  21     Piute
+WOB  49033      1990                 150     Rich
+WOB  49035      1990                 182     Salt Lake
+WOB  49037      1990                 292     San Juan
+WOB  49039      1990                  38     Sanpete
+WOB  49041      1990                  21     Sevier
+WOB  49043      1990                  28     Summit
+WOB  49045      1990                 885     Tooele
+WOB  49047      1990                  57     Uintah
+WOB  49049      1990                 369     Utah
+WOB  49051      1990                  73     Wasatch
+WOB  49053      1990                   7     Washington
+WOB  49055      1990                  16     Wayne
+WOB  49057      1990                 217     Weber
+/END/

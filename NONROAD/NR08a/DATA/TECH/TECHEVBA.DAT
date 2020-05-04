@@ -1,0 +1,107 @@
+This is the data file which defines the evap technology type distributions
+for the NONROAD model.  The tech types are specified by SCC, HP range,
+& model year.  Global SCC codes can be used to indicate entire groups
+of equipment types.  The data is separated into two lines.  The first
+line has the identification information and a list of up to 10
+technology types which make up the specified equipment population.
+The second line identifies the year and the fraction of population
+in each technology type.  The model will use this distribution
+for all years greater than or equal to the specified year, until
+a new distribution is provided.
+
+File History:
+11/17/2004 tech-ev2: EPA Base Case.
+
+The format of the data is as follows:
+
+Line 1:
+
+   6 - 15    SCC code (globals can be used)
+  21 - 25    Minimum HP range
+  26 - 30    Maximum HP range
+  35 - end   List of tech type codes (each in field of 10 chars)
+
+Key to Tech Group
+
+ 12345678
+E00000000
+
+c       E: Evap Tech Group
+c       1: Diurnal
+c       2: Tank Permeation
+c       3: Hose Permeation
+c       4: Hot Soak
+c       5: Displacement
+c       6: Spillage
+c       7: Running Loss
+c       8: Resting Loss
+
+Value:
+0: Base
+1: Control Level 1
+N: Control Level N
+
+Line 2:
+  1 - 5     Model Year start
+ 35 - end   Fractions for each tech type (each in field of 10 chars)
+
+Year SCC             HpMnHpMx     T1        T2        T3        T4        T5        T6        T7        T8        T9        T10
+---- ---------------------------------------------------------------------------------------------------------------------------------
+/EVAP TECH FRAC/
+     2260000000         0   25    E00000000
+1900                              1.000
+     2260000000        25 9999    E00000000 E00010000 E10010010
+1900                              1.000     0.000     0.000
+2004                              0.000     1.000     0.000
+2007                              0.000     0.000     1.000
+     2260001010         0 9999    E00000000 E01100000
+1900                              1.000     0.000
+2008                              0.000     1.000
+     2260001020         0 9999    E00000000 E01100000
+1900                              1.000     0.000
+2008                              0.000     1.000
+     2260001030         0 9999    E00000000 E01100000
+1900                              1.000     0.000
+2008                              0.000     1.000
+     2265000000         0   25    E00000000
+1900                              1.000
+     2265000000        25 9999    E00000000 E00010000 E10010010
+1900                              1.000     0.000     0.000
+2004                              0.000     1.000     0.000
+2007                              0.000     0.000     1.000
+     2265001010         0 9999    E00000000 E01100000
+1900                              1.000     0.000
+2008                              0.000     1.000
+     2265001020         0 9999    E00000000 E01100000
+1900                              1.000     0.000
+2008                              0.000     1.000
+     2265001030         0 9999    E00000000 E01100000
+1900                              1.000     0.000
+2008                              0.000     1.000
+     2267000000         0 9999    E00000000
+1900                              1.000
+     2268000000         0 9999    E00000000
+1900                              1.000
+     2270000000         0 9999    E00000000
+1900                              1.000
+     2282005010         0 9999    E00000000
+1900                              1.000
+     2282005015         0 9999    E00000000
+1900                              1.000
+     2282010005         0 9999    E00000000
+1900                              1.000
+     2282020000         0 9999    E00000000
+1900                              1.000
+     2285002015         0 9999    E00000000
+1900                              1.000
+     2285004015         0   25    E00000000
+1900                              1.000
+     2285004015        25 9999    E00000000 E00010000 E10010010
+1900                              1.000     0.0000    0.0000
+2004                              0.000     1.0000    0.0000
+2007                              0.000     0.0000    1.0000
+     2285006015         0 9999    E00000000
+1900                              1.000
+     2285008015         0 9999    E00000000
+1900                              1
+/END/

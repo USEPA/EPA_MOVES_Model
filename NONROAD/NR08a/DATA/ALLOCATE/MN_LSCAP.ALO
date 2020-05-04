@@ -1,0 +1,112 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent EMPLOYEES IN LANDSCAPING SERVICES
+CBP NAICS 561730; pre-2002 CBP SIC 0780
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+LSC  27000      2002                4837     MN
+LSC  27001      2002                   1     Aitkin
+LSC  27003      2002                 483     Anoka
+LSC  27005      2002                   6     Becker
+LSC  27007      2002                  15     Beltrami
+LSC  27009      2002                  31     Benton
+LSC  27011      2002                   6     Big Stone
+LSC  27013      2002                 290     Blue Earth
+LSC  27015      2002                  10     Brown
+LSC  27017      2002                  10     Carlton
+LSC  27019      2002                  90     Carver
+LSC  27021      2002                   6     Cass
+LSC  27023      2002                   6     Chippewa
+LSC  27025      2002                  20     Chisago
+LSC  27027      2002                   6     Clay
+LSC  27029      2002                   6     Clearwater
+LSC  27031      2002                   0     Cook
+LSC  27033      2002                   6     Cottonwood
+LSC  27035      2002                   8     Crow Wing
+LSC  27037      2002                 630     Dakota
+LSC  27039      2002                   4     Dodge
+LSC  27041      2002                   6     Douglas
+LSC  27043      2002                   6     Faribault
+LSC  27045      2002                   6     Fillmore
+LSC  27047      2002                   6     Freeborn
+LSC  27049      2002                  30     Goodhue
+LSC  27051      2002                   0     Grant
+LSC  27053      2002                1413     Hennepin
+LSC  27055      2002                   7     Houston
+LSC  27057      2002                   6     Hubbard
+LSC  27059      2002                  11     Isanti
+LSC  27061      2002                  89     Itasca
+LSC  27063      2002                   6     Jackson
+LSC  27065      2002                   6     Kanabec
+LSC  27067      2002                  30     Kandiyohi
+LSC  27069      2002                   6     Kittson
+LSC  27071      2002                   6     Koochiching
+LSC  27073      2002                   0     Lac qui Parle
+LSC  27075      2002                   0     Lake
+LSC  27077      2002                   0     Lake of the Woods
+LSC  27079      2002                   2     Le Sueur
+LSC  27081      2002                   6     Lincoln
+LSC  27083      2002                   2     Lyon
+LSC  27085      2002                  14     McLeod
+LSC  27087      2002                   0     Mahnomen
+LSC  27089      2002                   6     Marshall
+LSC  27091      2002                   0     Martin
+LSC  27093      2002                   6     Meeker
+LSC  27095      2002                   6     Mille Lacs
+LSC  27097      2002                   6     Morrison
+LSC  27099      2002                  23     Mower
+LSC  27101      2002                   6     Murray
+LSC  27103      2002                   3     Nicollet
+LSC  27105      2002                   0     Nobles
+LSC  27107      2002                   6     Norman
+LSC  27109      2002                 149     Olmsted
+LSC  27111      2002                 121     Otter Tail
+LSC  27113      2002                   6     Pennington
+LSC  27115      2002                   6     Pine
+LSC  27117      2002                   6     Pipestone
+LSC  27119      2002                   6     Polk
+LSC  27121      2002                   6     Pope
+LSC  27123      2002                 340     Ramsey
+LSC  27125      2002                   0     Red Lake
+LSC  27127      2002                   6     Redwood
+LSC  27129      2002                   2     Renville
+LSC  27131      2002                  30     Rice
+LSC  27133      2002                   6     Rock
+LSC  27135      2002                   6     Roseau
+LSC  27137      2002                  41     St. Louis
+LSC  27139      2002                 277     Scott
+LSC  27141      2002                  58     Sherburne
+LSC  27143      2002                   6     Sibley
+LSC  27145      2002                  75     Stearns
+LSC  27147      2002                  21     Steele
+LSC  27149      2002                   6     Stevens
+LSC  27151      2002                   0     Swift
+LSC  27153      2002                   6     Todd
+LSC  27155      2002                   0     Traverse
+LSC  27157      2002                   6     Wabasha
+LSC  27159      2002                   6     Wadena
+LSC  27161      2002                   6     Waseca
+LSC  27163      2002                 145     Washington
+LSC  27165      2002                   0     Watonwan
+LSC  27167      2002                   0     Wilkin
+LSC  27169      2002                  20     Winona
+LSC  27171      2002                 114     Wright
+LSC  27173      2002                   6     Yellow Medicine
+/END/

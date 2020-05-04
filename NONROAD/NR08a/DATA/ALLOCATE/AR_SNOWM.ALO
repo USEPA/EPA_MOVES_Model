@@ -1,0 +1,100 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RELATIVE NUMBER OF SNOWMOBILES
+Allocated to counties using snowfall limit of 40" and inverse human population; Alaska uses direct human population
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+SNM  05000      2002                   0     AR
+SNM  05001      2002                   0     Arkansas
+SNM  05003      2002                   0     Ashley
+SNM  05005      2002                   0     Baxter
+SNM  05007      2002                   0     Benton
+SNM  05009      2002                   0     Boone
+SNM  05011      2002                   0     Bradley
+SNM  05013      2002                   0     Calhoun
+SNM  05015      2002                   0     Carroll
+SNM  05017      2002                   0     Chicot
+SNM  05019      2002                   0     Clark
+SNM  05021      2002                   0     Clay
+SNM  05023      2002                   0     Cleburne
+SNM  05025      2002                   0     Cleveland
+SNM  05027      2002                   0     Columbia
+SNM  05029      2002                   0     Conway
+SNM  05031      2002                   0     Craighead
+SNM  05033      2002                   0     Crawford
+SNM  05035      2002                   0     Crittenden
+SNM  05037      2002                   0     Cross
+SNM  05039      2002                   0     Dallas
+SNM  05041      2002                   0     Desha
+SNM  05043      2002                   0     Drew
+SNM  05045      2002                   0     Faulkner
+SNM  05047      2002                   0     Franklin
+SNM  05049      2002                   0     Fulton
+SNM  05051      2002                   0     Garland
+SNM  05053      2002                   0     Grant
+SNM  05055      2002                   0     Greene
+SNM  05057      2002                   0     Hempstead
+SNM  05059      2002                   0     Hot Spring
+SNM  05061      2002                   0     Howard
+SNM  05063      2002                   0     Independence
+SNM  05065      2002                   0     Izard
+SNM  05067      2002                   0     Jackson
+SNM  05069      2002                   0     Jefferson
+SNM  05071      2002                   0     Johnson
+SNM  05073      2002                   0     Lafayette
+SNM  05075      2002                   0     Lawrence
+SNM  05077      2002                   0     Lee
+SNM  05079      2002                   0     Lincoln
+SNM  05081      2002                   0     Little River
+SNM  05083      2002                   0     Logan
+SNM  05085      2002                   0     Lonoke
+SNM  05087      2002                   0     Madison
+SNM  05089      2002                   0     Marion
+SNM  05091      2002                   0     Miller
+SNM  05093      2002                   0     Mississippi
+SNM  05095      2002                   0     Monroe
+SNM  05097      2002                   0     Montgomery
+SNM  05099      2002                   0     Nevada
+SNM  05101      2002                   0     Newton
+SNM  05103      2002                   0     Ouachita
+SNM  05105      2002                   0     Perry
+SNM  05107      2002                   0     Phillips
+SNM  05109      2002                   0     Pike
+SNM  05111      2002                   0     Poinsett
+SNM  05113      2002                   0     Polk
+SNM  05115      2002                   0     Pope
+SNM  05117      2002                   0     Prairie
+SNM  05119      2002                   0     Pulaski
+SNM  05121      2002                   0     Randolph
+SNM  05123      2002                   0     St. Francis
+SNM  05125      2002                   0     Saline
+SNM  05127      2002                   0     Scott
+SNM  05129      2002                   0     Searcy
+SNM  05131      2002                   0     Sebastian
+SNM  05133      2002                   0     Sevier
+SNM  05135      2002                   0     Sharp
+SNM  05137      2002                   0     Stone
+SNM  05139      2002                   0     Union
+SNM  05141      2002                   0     Van Buren
+SNM  05143      2002                   0     Washington
+SNM  05145      2002                   0     White
+SNM  05147      2002                   0     Woodruff
+SNM  05149      2002                   0     Yell
+/END/

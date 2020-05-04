@@ -1,0 +1,37 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent AIRCRAFT NOx TONS
+from Draft 2002 NEI
+
+9/1/05 epa: Modifies to treat PR & VI as additional to US Total.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+AIR  33000      2002             233.382     NH
+AIR  33001      2002               0.034     Belknap
+AIR  33003      2002               0.000     Carroll
+AIR  33005      2002              31.900     Cheshire
+AIR  33007      2002               0.060     Coos
+AIR  33009      2002               0.294     Grafton
+AIR  33011      2002             193.520     Hillsborough
+AIR  33013      2002               0.830     Merrimack
+AIR  33015      2002               6.710     Rockingham
+AIR  33017      2002               0.000     Strafford
+AIR  33019      2002               0.034     Sullivan
+/END/

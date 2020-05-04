@@ -1,0 +1,113 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent SINGLE AND DOUBLE (DUPLEX) FAMILY HOMES
+
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+HOU  39000      2002             4876698     OH
+HOU  39001      2002               12029     Adams
+HOU  39003      2002               44533     Allen
+HOU  39005      2002               21139     Ashland
+HOU  39007      2002               44516     Ashtabula
+HOU  39009      2002               25102     Athens
+HOU  39011      2002               18702     Auglaize
+HOU  39013      2002               31238     Belmont
+HOU  39015      2002               17628     Brown
+HOU  39017      2002              133062     Butler
+HOU  39019      2002               13079     Carroll
+HOU  39021      2002               16176     Champaign
+HOU  39023      2002               61745     Clark
+HOU  39025      2002               72437     Clermont
+HOU  39027      2002               16996     Clinton
+HOU  39029      2002               46475     Columbiana
+HOU  39031      2002               16279     Coshocton
+HOU  39033      2002               20343     Crawford
+HOU  39035      2002              617134     Cuyahoga
+HOU  39037      2002               21835     Darke
+HOU  39039      2002               16291     Defiance
+HOU  39041      2002               49414     Delaware
+HOU  39043      2002               36321     Erie
+HOU  39045      2002               50610     Fairfield
+HOU  39047      2002               12067     Fayette
+HOU  39049      2002              489821     Franklin
+HOU  39051      2002               16553     Fulton
+HOU  39053      2002               13614     Gallia
+HOU  39055      2002               33847     Geauga
+HOU  39057      2002               60542     Greene
+HOU  39059      2002               19079     Guernsey
+HOU  39061      2002              376344     Hamilton
+HOU  39063      2002               30380     Hancock
+HOU  39065      2002               12992     Hardin
+HOU  39067      2002                7724     Harrison
+HOU  39069      2002               11771     Henry
+HOU  39071      2002               17735     Highland
+HOU  39073      2002               12176     Hocking
+HOU  39075      2002               12305     Holmes
+HOU  39077      2002               23933     Huron
+HOU  39079      2002               14301     Jackson
+HOU  39081      2002               33487     Jefferson
+HOU  39083      2002               22430     Knox
+HOU  39085      2002               95138     Lake
+HOU  39087      2002               27529     Lawrence
+HOU  39089      2002               60954     Licking
+HOU  39091      2002               22158     Logan
+HOU  39093      2002              115085     Lorain
+HOU  39095      2002              198620     Lucas
+HOU  39097      2002               14744     Madison
+HOU  39099      2002              112593     Mahoning
+HOU  39101      2002               26609     Marion
+HOU  39103      2002               59849     Medina
+HOU  39105      2002               10881     Meigs
+HOU  39107      2002               16151     Mercer
+HOU  39109      2002               40902     Miami
+HOU  39111      2002                7227     Monroe
+HOU  39113      2002              250230     Montgomery
+HOU  39115      2002                7794     Morgan
+HOU  39117      2002               12334     Morrow
+HOU  39119      2002               35473     Muskingum
+HOU  39121      2002                5547     Noble
+HOU  39123      2002               25955     Ottawa
+HOU  39125      2002                8719     Paulding
+HOU  39127      2002               13772     Perry
+HOU  39129      2002               19021     Pickaway
+HOU  39131      2002               11848     Pike
+HOU  39133      2002               62019     Portage
+HOU  39135      2002               17527     Preble
+HOU  39137      2002               13016     Putnam
+HOU  39139      2002               54011     Richland
+HOU  39141      2002               29981     Ross
+HOU  39143      2002               25482     Sandusky
+HOU  39145      2002               34096     Scioto
+HOU  39147      2002               24012     Seneca
+HOU  39149      2002               19062     Shelby
+HOU  39151      2002              158895     Stark
+HOU  39153      2002              235248     Summit
+HOU  39155      2002               95827     Trumbull
+HOU  39157      2002               38421     Tuscarawas
+HOU  39159      2002               16235     Union
+HOU  39161      2002               12477     Van Wert
+HOU  39163      2002                5733     Vinton
+HOU  39165      2002               64639     Warren
+HOU  39167      2002               28086     Washington
+HOU  39169      2002               43590     Wayne
+HOU  39171      2002               16440     Williams
+HOU  39173      2002               49161     Wood
+HOU  39175      2002                9422     Wyandot
+/END/

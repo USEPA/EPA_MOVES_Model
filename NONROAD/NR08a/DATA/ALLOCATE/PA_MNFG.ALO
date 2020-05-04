@@ -1,0 +1,92 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent NUMBER OF EMPLOYEES IN MANUFACTURING
+CBP NAICS 31----, 321///, 322///, 323///, 324///, 325///, 326///, 327///, 331///,
+332///, 333///, 334///, 335///, 336///, 337///, 339///, and 5111//; pre-2002 CBP SIC 20--
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+MFG  42000      2002             1333729     PA
+MFG  42001      2002               12056     Adams
+MFG  42003      2002               92789     Allegheny
+MFG  42005      2002                5574     Armstrong
+MFG  42007      2002               18674     Beaver
+MFG  42009      2002                6496     Bedford
+MFG  42011      2002               61402     Berks
+MFG  42013      2002               15160     Blair
+MFG  42015      2002               10162     Bradford
+MFG  42017      2002               63067     Bucks
+MFG  42019      2002               26196     Butler
+MFG  42021      2002                9850     Cambria
+MFG  42023      2002                2203     Cameron
+MFG  42025      2002                4768     Carbon
+MFG  42027      2002               12881     Centre
+MFG  42029      2002               37754     Chester
+MFG  42031      2002                4976     Clarion
+MFG  42033      2002                7057     Clearfield
+MFG  42035      2002                4920     Clinton
+MFG  42037      2002               10801     Columbia
+MFG  42039      2002               14912     Crawford
+MFG  42041      2002               19030     Cumberland
+MFG  42043      2002               18166     Dauphin
+MFG  42045      2002               32772     Delaware
+MFG  42047      2002               12208     Elk
+MFG  42049      2002               56902     Erie
+MFG  42051      2002                6824     Fayette
+MFG  42053      2002                 469     Forest
+MFG  42055      2002               16430     Franklin
+MFG  42057      2002                4008     Fulton
+MFG  42059      2002                1259     Greene
+MFG  42061      2002                3960     Huntingdon
+MFG  42063      2002                7339     Indiana
+MFG  42065      2002                7688     Jefferson
+MFG  42067      2002                3380     Juniata
+MFG  42069      2002               23704     Lackawanna
+MFG  42071      2002               90303     Lancaster
+MFG  42073      2002                9738     Lawrence
+MFG  42075      2002               16656     Lebanon
+MFG  42077      2002               39368     Lehigh
+MFG  42079      2002               37468     Luzerne
+MFG  42081      2002               22877     Lycoming
+MFG  42083      2002                9498     McKean
+MFG  42085      2002               16746     Mercer
+MFG  42087      2002               10784     Mifflin
+MFG  42089      2002               10176     Monroe
+MFG  42091      2002              102437     Montgomery
+MFG  42093      2002                2393     Montour
+MFG  42095      2002               26231     Northampton
+MFG  42097      2002               10565     Northumberland
+MFG  42099      2002                1783     Perry
+MFG  42101      2002               68000     Philadelphia
+MFG  42103      2002                 771     Pike
+MFG  42105      2002                2084     Potter
+MFG  42107      2002               20570     Schuylkill
+MFG  42109      2002                9729     Snyder
+MFG  42111      2002                9088     Somerset
+MFG  42113      2002                 496     Sullivan
+MFG  42115      2002                1424     Susquehanna
+MFG  42117      2002                5324     Tioga
+MFG  42119      2002                6583     Union
+MFG  42121      2002                8226     Venango
+MFG  42123      2002                6888     Warren
+MFG  42125      2002               22124     Washington
+MFG  42127      2002                1676     Wayne
+MFG  42129      2002               43193     Westmoreland
+MFG  42131      2002                6368     Wyoming
+MFG  42133      2002               78325     York
+/END/

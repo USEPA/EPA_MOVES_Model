@@ -1,0 +1,41 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RECREATIONAL VEHICLE PARKS AND CAMPGROUNDS
+CBP NAICS 72121/; pre-2002 CBP SIC 7030
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+RVP  23000      2002                 218     ME
+RVP  23001      2002                   8     Androscoggin
+RVP  23003      2002                   6     Aroostook
+RVP  23005      2002                  41     Cumberland
+RVP  23007      2002                   6     Franklin
+RVP  23009      2002                  13     Hancock
+RVP  23011      2002                  22     Kennebec
+RVP  23013      2002                   6     Knox
+RVP  23015      2002                   9     Lincoln
+RVP  23017      2002                  23     Oxford
+RVP  23019      2002                  12     Penobscot
+RVP  23021      2002                   6     Piscataquis
+RVP  23023      2002                   2     Sagadahoc
+RVP  23025      2002                  10     Somerset
+RVP  23027      2002                   4     Waldo
+RVP  23029      2002                  12     Washington
+RVP  23031      2002                  38     York
+/END/

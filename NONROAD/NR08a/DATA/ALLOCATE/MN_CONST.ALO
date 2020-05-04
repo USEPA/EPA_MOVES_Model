@@ -1,0 +1,114 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent 2003 DOLLAR VALUE of CONSTRUCTION
+adjusted for relative geographic cost of construction materials.
+   Const_Dollars * (1-(1/(1+100/Area_Mod_Factor)))
+from McGraw-Hill Construction (values) and Craftsman (cost adj)
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+CON  27000      2003            10636156     MN
+CON  27001      2003               39667     Aitkin
+CON  27003      2003              619891     Anoka
+CON  27005      2003               59662     Becker
+CON  27007      2003               46377     Beltrami
+CON  27009      2003               65267     Benton
+CON  27011      2003                3278     Big Stone
+CON  27013      2003              116448     Blue Earth
+CON  27015      2003               30139     Brown
+CON  27017      2003               58742     Carlton
+CON  27019      2003              311597     Carver
+CON  27021      2003               84618     Cass
+CON  27023      2003                4697     Chippewa
+CON  27025      2003              137105     Chisago
+CON  27027      2003               98872     Clay
+CON  27029      2003                6643     Clearwater
+CON  27031      2003               23434     Cook
+CON  27033      2003               11038     Cottonwood
+CON  27035      2003              186078     Crow Wing
+CON  27037      2003              901420     Dakota
+CON  27039      2003               28105     Dodge
+CON  27041      2003               85647     Douglas
+CON  27043      2003               10364     Faribault
+CON  27045      2003               35107     Fillmore
+CON  27047      2003               26918     Freeborn
+CON  27049      2003               85830     Goodhue
+CON  27051      2003                7600     Grant
+CON  27053      2003             2151941     Hennepin
+CON  27055      2003               11663     Houston
+CON  27057      2003               16375     Hubbard
+CON  27059      2003               76329     Isanti
+CON  27061      2003               97290     Itasca
+CON  27063      2003               18651     Jackson
+CON  27065      2003               18100     Kanabec
+CON  27067      2003              101671     Kandiyohi
+CON  27069      2003                4988     Kittson
+CON  27071      2003               17460     Koochiching
+CON  27073      2003               11600     Lac qui Parle
+CON  27075      2003               42378     Lake
+CON  27077      2003                3329     Lake of the Woods
+CON  27079      2003               31493     Le Sueur
+CON  27081      2003                3795     Lincoln
+CON  27083      2003               39188     Lyon
+CON  27085      2003              102801     McLeod
+CON  27087      2003                8561     Mahnomen
+CON  27089      2003                6993     Marshall
+CON  27091      2003               11830     Martin
+CON  27093      2003               35326     Meeker
+CON  27095      2003               49229     Mille Lacs
+CON  27097      2003               74352     Morrison
+CON  27099      2003               31034     Mower
+CON  27101      2003               10339     Murray
+CON  27103      2003               47377     Nicollet
+CON  27105      2003               17709     Nobles
+CON  27107      2003                6853     Norman
+CON  27109      2003              620495     Olmsted
+CON  27111      2003               53929     Otter Tail
+CON  27113      2003               11839     Pennington
+CON  27115      2003               39993     Pine
+CON  27117      2003                5553     Pipestone
+CON  27119      2003               44092     Polk
+CON  27121      2003               40500     Pope
+CON  27123      2003              717081     Ramsey
+CON  27125      2003                5978     Red Lake
+CON  27127      2003                9068     Redwood
+CON  27129      2003                5632     Renville
+CON  27131      2003              124571     Rice
+CON  27133      2003               25074     Rock
+CON  27135      2003               15100     Roseau
+CON  27137      2003              265424     St. Louis
+CON  27139      2003              525070     Scott
+CON  27141      2003              275758     Sherburne
+CON  27143      2003               13700     Sibley
+CON  27145      2003              351019     Stearns
+CON  27147      2003               54001     Steele
+CON  27149      2003                9424     Stevens
+CON  27151      2003                9300     Swift
+CON  27153      2003               14887     Todd
+CON  27155      2003                8204     Traverse
+CON  27157      2003               40332     Wabasha
+CON  27159      2003               11901     Wadena
+CON  27161      2003               22149     Waseca
+CON  27163      2003              659401     Washington
+CON  27165      2003                6576     Watonwan
+CON  27167      2003               14179     Wilkin
+CON  27169      2003               51597     Winona
+CON  27171      2003              441427     Wright
+CON  27173      2003                9704     Yellow Medicine
+/END/

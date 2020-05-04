@@ -1,0 +1,120 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent AIRCRAFT NOx TONS
+from Draft 2002 NEI
+
+9/1/05 epa: Modifies to treat PR & VI as additional to US Total.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+AIR  31000      2002             366.671     NE
+AIR  31001      2002               0.049     Adams
+AIR  31003      2002               0.000     Antelope
+AIR  31005      2002               0.000     Arthur
+AIR  31007      2002               0.000     Banner
+AIR  31009      2002               0.000     Blaine
+AIR  31011      2002               0.010     Boone
+AIR  31013      2002               0.060     Box Butte
+AIR  31015      2002               0.000     Boyd
+AIR  31017      2002               0.009     Brown
+AIR  31019      2002               0.230     Buffalo
+AIR  31021      2002               0.020     Burt
+AIR  31023      2002               0.000     Butler
+AIR  31025      2002               0.092     Cass
+AIR  31027      2002               0.000     Cedar
+AIR  31029      2002               0.020     Chase
+AIR  31031      2002               0.010     Cherry
+AIR  31033      2002               0.020     Cheyenne
+AIR  31035      2002               0.003     Clay
+AIR  31037      2002               0.000     Colfax
+AIR  31039      2002               0.000     Cuming
+AIR  31041      2002               0.020     Custer
+AIR  31043      2002               0.000     Dakota
+AIR  31045      2002               0.022     Dawes
+AIR  31047      2002               0.051     Dawson
+AIR  31049      2002               0.005     Deuel
+AIR  31051      2002               0.000     Dixon
+AIR  31053      2002               0.040     Dodge
+AIR  31055      2002             254.960     Douglas
+AIR  31057      2002               0.000     Dundy
+AIR  31059      2002               0.020     Fillmore
+AIR  31061      2002               0.000     Franklin
+AIR  31063      2002               0.000     Frontier
+AIR  31065      2002               0.027     Furnas
+AIR  31067      2002               0.040     Gage
+AIR  31069      2002               0.009     Garden
+AIR  31071      2002               0.006     Garfield
+AIR  31073      2002               0.000     Gosper
+AIR  31075      2002               0.000     Grant
+AIR  31077      2002               0.000     Greeley
+AIR  31079      2002               0.810     Hall
+AIR  31081      2002               0.040     Hamilton
+AIR  31083      2002               0.000     Harlan
+AIR  31085      2002               0.000     Hayes
+AIR  31087      2002               0.000     Hitchcock
+AIR  31089      2002               0.040     Holt
+AIR  31091      2002               0.000     Hooker
+AIR  31093      2002               0.000     Howard
+AIR  31095      2002               0.020     Jefferson
+AIR  31097      2002               0.000     Johnson
+AIR  31099      2002               0.030     Kearney
+AIR  31101      2002               0.010     Keith
+AIR  31103      2002               0.000     Keya Paha
+AIR  31105      2002               0.020     Kimball
+AIR  31107      2002               0.000     Knox
+AIR  31109      2002              30.830     Lancaster
+AIR  31111      2002              26.040     Lincoln
+AIR  31113      2002               0.000     Logan
+AIR  31115      2002               0.000     Loup
+AIR  31117      2002               0.000     McPherson
+AIR  31119      2002              19.479     Madison
+AIR  31121      2002               0.000     Merrick
+AIR  31123      2002               0.000     Morrill
+AIR  31125      2002               0.000     Nance
+AIR  31127      2002               0.000     Nemaha
+AIR  31129      2002               0.008     Nuckolls
+AIR  31131      2002               0.000     Otoe
+AIR  31133      2002               0.000     Pawnee
+AIR  31135      2002               0.020     Perkins
+AIR  31137      2002               0.030     Phelps
+AIR  31139      2002               0.000     Pierce
+AIR  31141      2002               0.074     Platte
+AIR  31143      2002               0.000     Polk
+AIR  31145      2002               0.050     Red Willow
+AIR  31147      2002               0.037     Richardson
+AIR  31149      2002               0.009     Rock
+AIR  31151      2002               0.070     Saline
+AIR  31153      2002               0.000     Sarpy
+AIR  31155      2002               0.050     Saunders
+AIR  31157      2002              33.200     Scotts Bluff
+AIR  31159      2002               0.000     Seward
+AIR  31161      2002               0.010     Sheridan
+AIR  31163      2002               0.000     Sherman
+AIR  31165      2002               0.000     Sioux
+AIR  31167      2002               0.000     Stanton
+AIR  31169      2002               0.014     Thayer
+AIR  31171      2002               0.000     Thomas
+AIR  31173      2002               0.000     Thurston
+AIR  31175      2002               0.010     Valley
+AIR  31177      2002               0.000     Washington
+AIR  31179      2002               0.020     Wayne
+AIR  31181      2002               0.000     Webster
+AIR  31183      2002               0.000     Wheeler
+AIR  31185      2002               0.030     York
+/END/

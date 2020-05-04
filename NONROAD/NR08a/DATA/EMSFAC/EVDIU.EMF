@@ -1,0 +1,124 @@
+This file contains Wade equation emission factor multipliers (EFM)
+for Diurnal THC.
+The multipliers are specified by SCC, HP range, and technology type.
+An ALL in the tech type field applies to all diurnal technology types.
+The model will use the EFM for the closest year that is less than or
+equal to the current model year.
+
+8/15/06 8a: Split out HH to allow HandHeld no diffusion for base or control
+
+Unit options: (MULT)
+
+--------------------------------------------------------------
+The format is as follows:
+Line 1:
+       6-15  character     -- SCC code
+      21-25  real          -- beginning of HP range
+      26-30  real          -- end of horsepower range
+      35-44  character     -- technology type
+      x5-x4  character     -- technology type (repeating fields of 10)
+      x5-x4  character     -- units (10 characters max)
+      x5-x4  character     -- pollutant (10 characters max)
+Line 2:
+       1-5   integer       -- year
+      35-44  real          -- emission factor multiplier (EFM) for technology type 1
+      x5-x4  real          -- EFM's for tech types (repeating fields of 10)
+
+     2200000000      HPmn HPmx    techtyp1  techtyp2  techtyp3  techtyp4  techtyp5  techtyp6  techtyp7  techtyp8  techtyp9  techtyp10 Mult      THC
+1900                              37.7      0         37.7      999.99    999.99    999.99    999.99    999.99    999.99    999.99
+--------------------------------------------------------------
+
+/EMSFAC/
+     2260000000         0   25    E0        E1        Mult      THC
+1900                              1.46      1.00
+     2260000000        25 9999    E0        E1        Mult      THC
+1900                              1.46      0.10
+     2260001010         0 9999    ALL       Mult      THC
+1900                              1.00
+     2260001020         0 9999    ALL       Mult      THC
+1900                              1.00
+     2260001030         0 9999    ALL       Mult      THC
+1900                              1.00
+     2260002006         0    6    ALL       Mult      THC
+1900                              1.00
+     2260002009         0    3    ALL       Mult      THC
+1900                              1.00
+     2260002021         0    3    ALL       Mult      THC
+1900                              1.00
+     2260002027         0    3    ALL       Mult      THC
+1900                              1.00
+     2260002039         0    6    ALL       Mult      THC
+1900                              1.00
+     2260002054         0    3    ALL       Mult      THC
+1900                              1.00
+     2260003030         0    3    ALL       Mult      THC
+1900                              1.00
+     2260003040         0    3    ALL       Mult      THC
+1900                              1.00
+     2260004015         0    3    ALL       Mult      THC
+1900                              1.00
+     2260004016         0    3    ALL       Mult      THC
+1900                              1.00
+     2260004020         0    3    ALL       Mult      THC
+1900                              1.00
+     2260004021         0    6    ALL       Mult      THC
+1900                              1.00
+     2260004025         0    3    ALL       Mult      THC
+1900                              1.00
+     2260004026         0    6    ALL       Mult      THC
+1900                              1.00
+     2260004030         0    3    ALL       Mult      THC
+1900                              1.00
+     2260004031         0    6    ALL       Mult      THC
+1900                              1.00
+     2260004071         0    3    ALL       Mult      THC
+1900                              1.00
+     2260005035         0    3    ALL       Mult      THC
+1900                              1.00
+     2260006005         0    3    ALL       Mult      THC
+1900                              1.00
+     2260006010         0    3    ALL       Mult      THC
+1900                              1.00
+     2260006015         0    3    ALL       Mult      THC
+1900                              1.00
+     2260006035         0    3    ALL       Mult      THC
+1900                              1.00
+     2260007005         0   11    ALL       Mult      THC
+1900                              1.00
+     2265000000         0   25    E0        E1        Mult      THC
+1900                              1.46      1.00
+     2265000000        25 9999    E0        E1        Mult      THC
+1900                              1.46      0.10
+     2265001010         0 9999    ALL       Mult      THC
+1900                              1.00
+     2265001020         0 9999    ALL       Mult      THC
+1900                              1.00
+     2265001030         0 9999    ALL       Mult      THC
+1900                              1.00
+     2267000000         0 9999    ALL       Mult      THC
+1900                              0.00
+     2268000000         0 9999    ALL       Mult      THC
+1900                              0.00
+     2270000000         0 9999    ALL       Mult      THC
+1900                              0.00
+     2282005010         0   25    E0        E1        Mult      THC
+1900                              0.73      0.10
+     2282005010        25 9999    E0        E1        Mult      THC
+1900                              1.00      0.40
+     2282005015         0 9999    E0        E1        Mult      THC
+1900                              0.30      0.30
+     2282010005         0 9999    E0        E1        Mult      THC
+1900                              1.00      0.40
+     2282020000         0 9999    ALL       Mult      THC
+1900                              0.00
+     2285002015         0 9999    ALL       Mult      THC
+1900                              0.00
+     2285004015         0   25    E0        E1        Mult      THC
+1900                              1.46      1.00
+     2285004015        25 9999    E0        E1        Mult      THC
+1900                              1.46      0.10
+     2285006015         0 9999    ALL       Mult      THC
+1900                              0.00
+     2285008015         0 9999    ALL       Mult      THC
+1900                              0.00
+/END/

@@ -1,0 +1,112 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RECREATIONAL VEHICLE PARKS AND CAMPGROUNDS
+CBP NAICS 72121/; pre-2002 CBP SIC 7030
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+RVP  27000      2002                 255     MN
+RVP  27001      2002                   6     Aitkin
+RVP  27003      2002                   4     Anoka
+RVP  27005      2002                   8     Becker
+RVP  27007      2002                   6     Beltrami
+RVP  27009      2002                   1     Benton
+RVP  27011      2002                   0     Big Stone
+RVP  27013      2002                   1     Blue Earth
+RVP  27015      2002                   0     Brown
+RVP  27017      2002                   2     Carlton
+RVP  27019      2002                   2     Carver
+RVP  27021      2002                  28     Cass
+RVP  27023      2002                   0     Chippewa
+RVP  27025      2002                   3     Chisago
+RVP  27027      2002                   3     Clay
+RVP  27029      2002                   0     Clearwater
+RVP  27031      2002                   9     Cook
+RVP  27033      2002                   0     Cottonwood
+RVP  27035      2002                  13     Crow Wing
+RVP  27037      2002                   2     Dakota
+RVP  27039      2002                   0     Dodge
+RVP  27041      2002                   6     Douglas
+RVP  27043      2002                   0     Faribault
+RVP  27045      2002                   2     Fillmore
+RVP  27047      2002                   1     Freeborn
+RVP  27049      2002                   6     Goodhue
+RVP  27051      2002                   1     Grant
+RVP  27053      2002                   6     Hennepin
+RVP  27055      2002                   3     Houston
+RVP  27057      2002                   8     Hubbard
+RVP  27059      2002                   2     Isanti
+RVP  27061      2002                   8     Itasca
+RVP  27063      2002                   0     Jackson
+RVP  27065      2002                   1     Kanabec
+RVP  27067      2002                   4     Kandiyohi
+RVP  27069      2002                   0     Kittson
+RVP  27071      2002                   2     Koochiching
+RVP  27073      2002                   0     Lac qui Parle
+RVP  27075      2002                   4     Lake
+RVP  27077      2002                  14     Lake of the Woods
+RVP  27079      2002                   4     Le Sueur
+RVP  27081      2002                   0     Lincoln
+RVP  27083      2002                   0     Lyon
+RVP  27085      2002                   0     McLeod
+RVP  27087      2002                   2     Mahnomen
+RVP  27089      2002                   0     Marshall
+RVP  27091      2002                   1     Martin
+RVP  27093      2002                   0     Meeker
+RVP  27095      2002                   2     Mille Lacs
+RVP  27097      2002                   3     Morrison
+RVP  27099      2002                   1     Mower
+RVP  27101      2002                   1     Murray
+RVP  27103      2002                   1     Nicollet
+RVP  27105      2002                   1     Nobles
+RVP  27107      2002                   0     Norman
+RVP  27109      2002                   1     Olmsted
+RVP  27111      2002                  12     Otter Tail
+RVP  27113      2002                   0     Pennington
+RVP  27115      2002                   3     Pine
+RVP  27117      2002                   1     Pipestone
+RVP  27119      2002                   0     Polk
+RVP  27121      2002                   0     Pope
+RVP  27123      2002                   3     Ramsey
+RVP  27125      2002                   0     Red Lake
+RVP  27127      2002                   0     Redwood
+RVP  27129      2002                   1     Renville
+RVP  27131      2002                   3     Rice
+RVP  27133      2002                   0     Rock
+RVP  27135      2002                   0     Roseau
+RVP  27137      2002                  27     St. Louis
+RVP  27139      2002                   4     Scott
+RVP  27141      2002                   3     Sherburne
+RVP  27143      2002                   0     Sibley
+RVP  27145      2002                   5     Stearns
+RVP  27147      2002                   2     Steele
+RVP  27149      2002                   0     Stevens
+RVP  27151      2002                   0     Swift
+RVP  27153      2002                   2     Todd
+RVP  27155      2002                   0     Traverse
+RVP  27157      2002                   4     Wabasha
+RVP  27159      2002                   0     Wadena
+RVP  27161      2002                   1     Waseca
+RVP  27163      2002                   4     Washington
+RVP  27165      2002                   0     Watonwan
+RVP  27167      2002                   0     Wilkin
+RVP  27169      2002                   1     Winona
+RVP  27171      2002                   6     Wright
+RVP  27173      2002                   0     Yellow Medicine
+/END/

@@ -1,0 +1,97 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WHOLESALE ESTABLISHMENTS
+CBP NAICS 42----; pre-2002 CBP SIC 50--
+
+9/23/05 epa: allocate 2002 Broomfield to pre-2001 counties using 1996 ratios.
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/                                                   7458
+COM  08000      2002                7458     CO                7458
+COM  08001      2000                 700     Adams                         0.301402     700
+COM  08001      2001                 733     Adams              7330.315404
+COM  08003      2002                  30     Alamosa
+COM  08005      2002                1012     Arapahoe
+COM  08007      2002                  12     Archuleta
+COM  08009      2002                   9     Baca
+COM  08011      2002                   1     Bent
+COM  08013      2000                 556     Boulder                       0.239097     556
+COM  08013      2001                 511     Boulder            511 0.21988
+COM  08014      2000                   0     Broomfield                           0       0
+COM  08014      2001                  72     Broomfield          720.030981
+COM  08015      2002                  24     Chaffee
+COM  08017      2002                   4     Cheyenne
+COM  08019      2002                  19     Clear Creek
+COM  08021      2002                   3     Conejos
+COM  08023      2002                   1     Costilla
+COM  08025      2002                   0     Crowley
+COM  08027      2002                   3     Custer
+COM  08029      2002                  26     Delta
+COM  08031      2002                1585     Denver
+COM  08033      2002                   5     Dolores
+COM  08035      2002                 318     Douglas
+COM  08037      2002                  91     Eagle
+COM  08039      2002                  29     Elbert
+COM  08041      2002                 538     El Paso
+COM  08043      2002                  34     Fremont
+COM  08045      2002                  67     Garfield
+COM  08047      2002                   3     Gilpin
+COM  08049      2002                  12     Grand
+COM  08051      2002                  13     Gunnison
+COM  08053      2002                   1     Hinsdale
+COM  08055      2002                   6     Huerfano
+COM  08057      2002                   3     Jackson
+COM  08059      2000                 805     Jefferson                     0.346573     805
+COM  08059      2001                 766     Jefferson          7660.329604
+COM  08061      2002                   6     Kiowa
+COM  08063      2002                  23     Kit Carson
+COM  08065      2002                   6     Lake
+COM  08067      2002                  74     La Plata
+COM  08069      2002                 350     Larimer
+COM  08071      2002                  20     Las Animas
+COM  08073      2002                   7     Lincoln
+COM  08075      2002                  31     Logan
+COM  08077      2002                 221     Mesa
+COM  08079      2002                   0     Mineral
+COM  08081      2002                  26     Moffat
+COM  08083      2002                  19     Montezuma
+COM  08085      2002                  45     Montrose
+COM  08087      2002                  37     Morgan
+COM  08089      2002                  35     Otero
+COM  08091      2002                   4     Ouray
+COM  08093      2002                  20     Park
+COM  08095      2002                  14     Phillips
+COM  08097      2002                  21     Pitkin
+COM  08099      2002                  26     Prowers
+COM  08101      2002                 109     Pueblo
+COM  08103      2002                   6     Rio Blanco
+COM  08105      2002                  28     Rio Grande
+COM  08107      2002                  43     Routt
+COM  08109      2002                  10     Saguache
+COM  08111      2002                   0     San Juan
+COM  08113      2002                   4     San Miguel
+COM  08115      2002                  12     Sedgwick
+COM  08117      2002                  37     Summit
+COM  08119      2002                  15     Teller
+COM  08121      2002                   8     Washington
+COM  08123      2000                 262     Weld                          0.112928     262
+COM  08123      2001                 242     Weld               2420.104131
+COM  08125      2002                  28     Yuma
+/END/
+                                                             2324.0  1.0000  1.0000  2324.0

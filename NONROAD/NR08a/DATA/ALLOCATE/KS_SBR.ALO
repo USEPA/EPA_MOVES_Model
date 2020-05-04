@@ -1,0 +1,130 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent RELATIVE NUMBER OF RESIDENTIAL SNOWBLOWERS
+Same as HOUSE allocation factors, with value set to 0 for counties with snowfall < 15"
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+SBR  20000      2002             1050315     KS
+SBR  20001      2002                6463     Allen
+SBR  20003      2002                3620     Anderson
+SBR  20005      2002                6842     Atchison
+SBR  20007      2002                2736     Barber
+SBR  20009      2002               12931     Barton
+SBR  20011      2002                   0     Bourbon
+SBR  20013      2002                4861     Brown
+SBR  20015      2002               24132     Butler
+SBR  20017      2002                1531     Chase
+SBR  20019      2002                   0     Chautauqua
+SBR  20021      2002                   0     Cherokee
+SBR  20023      2002                1632     Cheyenne
+SBR  20025      2002                1122     Clark
+SBR  20027      2002                4094     Clay
+SBR  20029      2002                4823     Cloud
+SBR  20031      2002                3959     Coffey
+SBR  20033      2002                1079     Comanche
+SBR  20035      2002                   0     Cowley
+SBR  20037      2002                   0     Crawford
+SBR  20039      2002                1819     Decatur
+SBR  20041      2002                8748     Dickinson
+SBR  20043      2002                3519     Doniphan
+SBR  20045      2002               42167     Douglas
+SBR  20047      2002                1754     Edwards
+SBR  20049      2002                   0     Elk
+SBR  20051      2002               12160     Ellis
+SBR  20053      2002                3261     Ellsworth
+SBR  20055      2002               13956     Finney
+SBR  20057      2002               11837     Ford
+SBR  20059      2002               10546     Franklin
+SBR  20061      2002               12089     Geary
+SBR  20063      2002                1434     Gove
+SBR  20065      2002                1556     Graham
+SBR  20067      2002                3084     Grant
+SBR  20069      2002                2230     Gray
+SBR  20071      2002                 717     Greeley
+SBR  20073      2002                4293     Greenwood
+SBR  20075      2002                1223     Hamilton
+SBR  20077      2002                   0     Harper
+SBR  20079      2002               13678     Harvey
+SBR  20081      2002                1670     Haskell
+SBR  20083      2002                 955     Hodgeman
+SBR  20085      2002                5199     Jackson
+SBR  20087      2002                7727     Jefferson
+SBR  20089      2002                2101     Jewell
+SBR  20091      2002              194669     Johnson
+SBR  20093      2002                1704     Kearny
+SBR  20095      2002                3882     Kingman
+SBR  20097      2002                1646     Kiowa
+SBR  20099      2002                   0     Labette
+SBR  20101      2002                1062     Lane
+SBR  20103      2002               25280     Leavenworth
+SBR  20105      2002                1848     Lincoln
+SBR  20107      2002                4808     Linn
+SBR  20109      2002                1424     Logan
+SBR  20111      2002               14818     Lyon
+SBR  20113      2002               12093     McPherson
+SBR  20115      2002                5967     Marion
+SBR  20117      2002                4999     Marshall
+SBR  20119      2002                1975     Meade
+SBR  20121      2002               11327     Miami
+SBR  20123      2002                3327     Mitchell
+SBR  20125      2002                   0     Montgomery
+SBR  20127      2002                3187     Morris
+SBR  20129      2002                1533     Morton
+SBR  20131      2002                4376     Nemaha
+SBR  20133      2002                   0     Neosho
+SBR  20135      2002                1837     Ness
+SBR  20137      2002                2670     Norton
+SBR  20139      2002                7167     Osage
+SBR  20141      2002                2413     Osborne
+SBR  20143      2002                2759     Ottawa
+SBR  20145      2002                3124     Pawnee
+SBR  20147      2002                3090     Phillips
+SBR  20149      2002                7544     Pottawatomie
+SBR  20151      2002                4687     Pratt
+SBR  20153      2002                1565     Rawlins
+SBR  20155      2002               27786     Reno
+SBR  20157      2002                3115     Republic
+SBR  20159      2002                4604     Rice
+SBR  20161      2002               23764     Riley
+SBR  20163      2002                2751     Rooks
+SBR  20165      2002                1931     Rush
+SBR  20167      2002                3850     Russell
+SBR  20169      2002               22981     Saline
+SBR  20171      2002                2318     Scott
+SBR  20173      2002              195490     Sedgwick
+SBR  20175      2002                8108     Seward
+SBR  20177      2002               74988     Shawnee
+SBR  20179      2002                1280     Sheridan
+SBR  20181      2002                3220     Sherman
+SBR  20183      2002                2332     Smith
+SBR  20185      2002                2452     Stafford
+SBR  20187      2002                1023     Stanton
+SBR  20189      2002                2297     Stevens
+SBR  20191      2002                   0     Sumner
+SBR  20193      2002                3576     Thomas
+SBR  20195      2002                1710     Trego
+SBR  20197      2002                3081     Wabaunsee
+SBR  20199      2002                 797     Wallace
+SBR  20201      2002                3150     Washington
+SBR  20203      2002                1129     Wichita
+SBR  20205      2002                   0     Wilson
+SBR  20207      2002                2080     Woodson
+SBR  20209      2002               66173     Wyandotte
+/END/

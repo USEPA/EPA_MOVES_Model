@@ -1,0 +1,125 @@
+This is the allocation indicator file used by the NONROAD model.
+These data are used to allocate from state level equipment population
+to county level equipment populations.  It could also be used to
+allocate national level equipment populations to states level.  Additional
+data can be added to allocate from from county to subcounty.
+
+These data represent WHOLESALE ESTABLISHMENTS
+CBP NAICS 42----; pre-2002 CBP SIC 50--
+
+------------------------------------------------------------------------
+This is the packet that contains the allocation indicator data.  Each
+indicator value is a measured or projected value such as human
+population or land area.  The format is as follows.
+
+1-3    Indicator code
+6-10   FIPS code (can be global FIPS codes e.g. 06000 = all of CA)
+11-15  Subregion code (blank means is entire nation, state or county)
+16-20  Year of estimate or prediction
+21-40  Indicator value
+41-45  Blank (unused)
+46+    Optional Description (unused)
+------------------------------------------------------------------------
+/INDICATORS/
+COM  37000      2002               12070     NC
+COM  37001      2002                 172     Alamance
+COM  37003      2002                  20     Alexander
+COM  37005      2002                   6     Alleghany
+COM  37007      2002                  16     Anson
+COM  37009      2002                  24     Ashe
+COM  37011      2002                  17     Avery
+COM  37013      2002                  74     Beaufort
+COM  37015      2002                  17     Bertie
+COM  37017      2002                  24     Bladen
+COM  37019      2002                  54     Brunswick
+COM  37021      2002                 335     Buncombe
+COM  37023      2002                  70     Burke
+COM  37025      2002                 185     Cabarrus
+COM  37027      2002                  86     Caldwell
+COM  37029      2002                   7     Camden
+COM  37031      2002                  66     Carteret
+COM  37033      2002                   3     Caswell
+COM  37035      2002                 299     Catawba
+COM  37037      2002                  54     Chatham
+COM  37039      2002                  21     Cherokee
+COM  37041      2002                  16     Chowan
+COM  37043      2002                   5     Clay
+COM  37045      2002                 123     Cleveland
+COM  37047      2002                  52     Columbus
+COM  37049      2002                  68     Craven
+COM  37051      2002                 201     Cumberland
+COM  37053      2002                  18     Currituck
+COM  37055      2002                  50     Dare
+COM  37057      2002                 177     Davidson
+COM  37059      2002                  38     Davie
+COM  37061      2002                  44     Duplin
+COM  37063      2002                 208     Durham
+COM  37065      2002                  51     Edgecombe
+COM  37067      2002                 512     Forsyth
+COM  37069      2002                  38     Franklin
+COM  37071      2002                 214     Gaston
+COM  37073      2002                   9     Gates
+COM  37075      2002                   1     Graham
+COM  37077      2002                  30     Granville
+COM  37079      2002                  11     Greene
+COM  37081      2002                1323     Guilford
+COM  37083      2002                  32     Halifax
+COM  37085      2002                  57     Harnett
+COM  37087      2002                  49     Haywood
+COM  37089      2002                 103     Henderson
+COM  37091      2002                  28     Hertford
+COM  37093      2002                   8     Hoke
+COM  37095      2002                   7     Hyde
+COM  37097      2002                 240     Iredell
+COM  37099      2002                  12     Jackson
+COM  37101      2002                 116     Johnston
+COM  37103      2002                   4     Jones
+COM  37105      2002                  71     Lee
+COM  37107      2002                  69     Lenoir
+COM  37109      2002                  73     Lincoln
+COM  37111      2002                  37     McDowell
+COM  37113      2002                  31     Macon
+COM  37115      2002                  15     Madison
+COM  37117      2002                  30     Martin
+COM  37119      2002                2464     Mecklenburg
+COM  37121      2002                  16     Mitchell
+COM  37123      2002                  29     Montgomery
+COM  37125      2002                  80     Moore
+COM  37127      2002                 126     Nash
+COM  37129      2002                 330     New Hanover
+COM  37131      2002                  20     Northampton
+COM  37133      2002                  66     Onslow
+COM  37135      2002                  86     Orange
+COM  37137      2002                   9     Pamlico
+COM  37139      2002                  49     Pasquotank
+COM  37141      2002                  37     Pender
+COM  37143      2002                  10     Perquimans
+COM  37145      2002                  32     Person
+COM  37147      2002                 159     Pitt
+COM  37149      2002                  15     Polk
+COM  37151      2002                 173     Randolph
+COM  37153      2002                  41     Richmond
+COM  37155      2002                  72     Robeson
+COM  37157      2002                  68     Rockingham
+COM  37159      2002                 124     Rowan
+COM  37161      2002                  53     Rutherford
+COM  37163      2002                  49     Sampson
+COM  37165      2002                  26     Scotland
+COM  37167      2002                  68     Stanly
+COM  37169      2002                  20     Stokes
+COM  37171      2002                  86     Surry
+COM  37173      2002                  12     Swain
+COM  37175      2002                  16     Transylvania
+COM  37177      2002                   5     Tyrrell
+COM  37179      2002                 268     Union
+COM  37181      2002                  29     Vance
+COM  37183      2002                1282     Wake
+COM  37185      2002                   8     Warren
+COM  37187      2002                  13     Washington
+COM  37189      2002                  46     Watauga
+COM  37191      2002                 140     Wayne
+COM  37193      2002                  64     Wilkes
+COM  37195      2002                 117     Wilson
+COM  37197      2002                  35     Yadkin
+COM  37199      2002                   6     Yancey
+/END/
