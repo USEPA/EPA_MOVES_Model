@@ -6,7 +6,8 @@ sharedDistributedFolderPath = SharedWork
 concurrentStatements = 1
 nonroadApplicationPath = NONROAD\NR08a\nonroad.exe
 nonroadWorkingFolderPath = NONROAD\NR08a
-calculatorApplicationPath = calc\go\externalcalculatorgo64.exe
+calculatorApplicationPath = calc\externalcalculatorgo64.exe
 workerDebug = False
 mysqlUserName = moves
-mysqlPassword = 744EF51E4F93167816578A645279E592D2B4D8A76AD450DF6463
+mysqlPassword = 744ff5134053c418265b626f5d7035e3dff3d50c609c548f6f63
+

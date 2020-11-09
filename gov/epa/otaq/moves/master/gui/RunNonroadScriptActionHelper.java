@@ -27,8 +27,8 @@ import java.util.Date;
 /**
  * A helper class that generates reports from Nonroad post processing scripts
  *
- * @author  Daniel Cox 
- * @version	2014-10-17
+ * @author  Daniel Bizer-Cox 
+ * @version	2019-03-14
 **/
 public class RunNonroadScriptActionHelper {
 		
@@ -828,7 +828,7 @@ public class RunNonroadScriptActionHelper {
 		String tableName = "Inventory_by_Equipment_Horsepower_Pollutant";
 		
 		if (writer instanceof CellFileWriter) {
-			String sql = "SELECT MOVESRunID, countyID, sectorID, yearID, monthID, dayID, pollutantID, processID, description as equipment, hpID, hpBin, emissionQuant, massUnits, timeUnits " +
+			String sql = "SELECT MOVESRunID, countyID, sectorID, yearID, monthID, dayID, pollutantID, processID, equipDescription, hpID, hpBin, emissionQuant, massUnits, timeUnits " +
 					  "FROM " + tableName + " ORDER BY countyID, sectorID, yearID, monthID";
 			((CellFileWriter)writer).writeSQLResults(oConn, sql, null);
 		} else if (writer instanceof PrintWriter) {
@@ -868,7 +868,7 @@ public class RunNonroadScriptActionHelper {
 					for (Integer calendarYear : calendarYears) {
 						for (Integer month : months) {
 							for (Integer day : days) {
-								sql = "SELECT MOVESRunID, countyID, sectorID, yearID, monthID, dayID, pollutantID, processID, description, hpID, hpBin, emissionQuant, massUnits, timeUnits " +
+								sql = "SELECT MOVESRunID, countyID, sectorID, yearID, monthID, dayID, pollutantID, processID, equipDescription, hpID, hpBin, emissionQuant, massUnits, timeUnits " +
 									  "FROM " + tableName + " WHERE 1";
 								if (county > 0)
 									sql += " AND countyID = " + county.toString();
@@ -908,7 +908,7 @@ public class RunNonroadScriptActionHelper {
 										result += StringUtilities.rightSpacePad(StringUtilities.safeGetString(query.rs.getString("dayID")), 5);
 										result += StringUtilities.rightSpacePad(StringUtilities.safeGetString(query.rs.getString("pollutantID")), 11);
 										result += StringUtilities.rightSpacePad(StringUtilities.safeGetString(query.rs.getString("processID")), 10);
-										result += StringUtilities.rightSpacePad(StringUtilities.safeGetString(query.rs.getString("description")), 40);
+										result += StringUtilities.rightSpacePad(StringUtilities.safeGetString(query.rs.getString("equipDescription")), 40);
 										result += StringUtilities.rightSpacePad(StringUtilities.safeGetString(query.rs.getString("hpID")), 6);
 										result += StringUtilities.rightSpacePad(StringUtilities.safeGetString(query.rs.getString("hpBin")), 20);
 										result += StringUtilities.rightSpacePad(StringUtilities.safeGetString(query.rs.getString("emissionQuant")), 30);
@@ -951,7 +951,7 @@ public class RunNonroadScriptActionHelper {
 		String tableName = "Inventory_by_EquipmentType_Pollutant";
 		
 		if (writer instanceof CellFileWriter) {
-			String sql = "SELECT MOVESRunID, countyID, sectorID, yearID, monthID, dayID, pollutantID, processID, description as equipment, emissionQuant, massUnits, timeUnits " +
+			String sql = "SELECT MOVESRunID, countyID, sectorID, yearID, monthID, dayID, pollutantID, processID, equipDescription, emissionQuant, massUnits, timeUnits " +
 					  "FROM " + tableName + " ORDER BY countyID, sectorID, yearID, monthID";
 			((CellFileWriter)writer).writeSQLResults(oConn, sql, null);
 		} else if (writer instanceof PrintWriter) {
@@ -989,7 +989,7 @@ public class RunNonroadScriptActionHelper {
 					for (Integer calendarYear : calendarYears) {
 						for (Integer month : months) {
 							for (Integer day : days) {
-								sql = "SELECT MOVESRunID, countyID, sectorID, yearID, monthID, dayID, pollutantID, processID, description, emissionQuant, massUnits, timeUnits " +
+								sql = "SELECT MOVESRunID, countyID, sectorID, yearID, monthID, dayID, pollutantID, processID, equipDescription, emissionQuant, massUnits, timeUnits " +
 									  "FROM " + tableName + " WHERE 1";
 								if (county > 0)
 									sql += " AND countyID = " + county.toString();
@@ -1029,7 +1029,7 @@ public class RunNonroadScriptActionHelper {
 										result += StringUtilities.rightSpacePad(StringUtilities.safeGetString(query.rs.getString("dayID")), 5);
 										result += StringUtilities.rightSpacePad(StringUtilities.safeGetString(query.rs.getString("pollutantID")), 11);
 										result += StringUtilities.rightSpacePad(StringUtilities.safeGetString(query.rs.getString("processID")), 10);
-										result += StringUtilities.rightSpacePad(StringUtilities.safeGetString(query.rs.getString("description")), 40);
+										result += StringUtilities.rightSpacePad(StringUtilities.safeGetString(query.rs.getString("equipDescription")), 40);
 										result += StringUtilities.rightSpacePad(StringUtilities.safeGetString(query.rs.getString("emissionQuant")), 30);
 										result += StringUtilities.rightSpacePad(StringUtilities.safeGetString(query.rs.getString("massUnits"))
 																				+ " per " 

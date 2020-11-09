@@ -26,7 +26,7 @@ import java.util.*;
 **/
 
 /**
- * Calculate energy consumption (total, petroleum, and fossil fuel) for running exhaust,
+ * Calculate energy consumption for running exhaust,
  * start exhaust, extended idle exhaust, and well to pump emissions.
  * Operates at the YEAR level. The Start and Extended Idle processes operate at the
  * zone/year boundary, the Running Exhaust operates at Link/Year. This class registers
@@ -34,7 +34,7 @@ import java.util.*;
  * for a distributed worker to execute. This is called by EnergyConsumptionCalculator.executeLoop.
  *
  * @author		Wesley Faler
- * @version		2013-01-19
+ * @version		2016-08-30
 **/
 public class EnergyConsumptionCalculator extends EmissionCalculator {
 	/** true if the "Running Exhaust" process should be considered **/
@@ -45,10 +45,6 @@ public class EnergyConsumptionCalculator extends EmissionCalculator {
 	boolean shouldCalcExtendedIdleExhaust = false;
 	/** true if the "Auxiliary Power Exhaust" process should be considered **/
 	boolean shouldCalcAuxiliaryPowerExhaust = false;
-	/** true if the petroleum energy should be calculated **/
-	boolean shouldCalcPetroleumEnergy = false;
-	/** true if the fossil fuel energy should be calculated **/
-	boolean shouldCalcFossilFuelEnergy = false;
 	/** true if the total energy should be calculated **/
 	boolean shouldCalcTotalEnergy = false;
 
@@ -59,8 +55,6 @@ public class EnergyConsumptionCalculator extends EmissionCalculator {
 	**/
 	public EnergyConsumptionCalculator() {
 		Pollutant totalEnergy = Pollutant.findByID(91);
-		Pollutant petroleumEnergy = Pollutant.findByID(92);
-		Pollutant fossilEnergy = Pollutant.findByID(93);
 
 		EmissionProcess runningExhaust = EmissionProcess.findByID(1);
 		EmissionProcess startExhaust = EmissionProcess.findByID(2);
@@ -68,20 +62,9 @@ public class EnergyConsumptionCalculator extends EmissionCalculator {
 		EmissionProcess auxiliaryPowerExhaust = EmissionProcess.findByID(91);
 
 		EmissionCalculatorRegistration.register(totalEnergy,runningExhaust,this);
-		EmissionCalculatorRegistration.register(petroleumEnergy,runningExhaust,this);
-		EmissionCalculatorRegistration.register(fossilEnergy,runningExhaust,this);
-
 		EmissionCalculatorRegistration.register(totalEnergy,startExhaust,this);
-		EmissionCalculatorRegistration.register(petroleumEnergy,startExhaust,this);
-		EmissionCalculatorRegistration.register(fossilEnergy,startExhaust,this);
-
 		EmissionCalculatorRegistration.register(totalEnergy,extendedIdleExhaust,this);
-		EmissionCalculatorRegistration.register(petroleumEnergy,extendedIdleExhaust,this);
-		EmissionCalculatorRegistration.register(fossilEnergy,extendedIdleExhaust,this);
-
 		EmissionCalculatorRegistration.register(totalEnergy,auxiliaryPowerExhaust,this);
-		EmissionCalculatorRegistration.register(petroleumEnergy,auxiliaryPowerExhaust,this);
-		EmissionCalculatorRegistration.register(fossilEnergy,auxiliaryPowerExhaust,this);
 	}
 
 	/**
@@ -184,20 +167,6 @@ public class EnergyConsumptionCalculator extends EmissionCalculator {
 
 		boolean foundPollutant = false;
 		if(ExecutionRunSpec.theExecutionRunSpec.doesHavePollutantAndProcess(
-				"Petroleum Energy Consumption",context.iterProcess.processName)) {
-			shouldCalcPetroleumEnergy = true;
-			foundPollutant = true;
-		} else {
-			shouldCalcPetroleumEnergy = false;
-		}
-		if(ExecutionRunSpec.theExecutionRunSpec.doesHavePollutantAndProcess(
-				"Fossil Fuel Energy Consumption",context.iterProcess.processName)) {
-			shouldCalcFossilFuelEnergy = true;
-			foundPollutant = true;
-		} else {
-			shouldCalcFossilFuelEnergy = false;
-		}
-		if(ExecutionRunSpec.theExecutionRunSpec.doesHavePollutantAndProcess(
 				"Total Energy Consumption",context.iterProcess.processName)) {
 			shouldCalcTotalEnergy = true;
 			foundPollutant = true;
@@ -215,13 +184,6 @@ public class EnergyConsumptionCalculator extends EmissionCalculator {
 				return null;
 			}
 		}
-
-		// Note that there are no interactions between Total, Petroleum, and Fossil energy.
-		// The database script puts total energy into a temporary table then only copies
-		// it to the output if total energy is requested.  Petroleum and fossil energy
-		// are determined from this temporary table.  Thus, there is no need to turn on
-		// shouldCalcTotalEnergy just because shouldCalcPetroleumEnergy or
-		// shouldCalcFossilFuelEnergy are true.
 
 		SQLForWorker sqlForWorker = new SQLForWorker();
 
@@ -287,44 +249,6 @@ public class EnergyConsumptionCalculator extends EmissionCalculator {
 		}
 		*/
 
-		if(shouldCalcFossilFuelEnergy) {
-			enabledSectionNames.add("Fossil Fuel Energy");
-			PollutantProcessAssociation a = PollutantProcessAssociation.findByName(
-					"Fossil Fuel Energy Consumption",context.iterProcess.processName);
-			if(a != null) {
-				if(pollutantProcessIDs.length() > 0) {
-					pollutantProcessIDs += ",";
-				}
-				polProcessID = a.getDatabaseKey(executionDatabase);
-				pollutantProcessIDs += polProcessID;
-				if(a.doesHaveMultipleOperatingModes(executionDatabase,polProcessID)) {
-					enabledSectionNames.add("Fossil Energy With OpModeDistribution");
-				} else {
-					enabledSectionNames.add("Fossil Energy Without OpModeDistribution");
-					replacements.put("##FossilEnergyOpModeID##",
-							"" + a.getSingleOpModeID(executionDatabase,polProcessID));
-				}
-			}
-		}
-		if(shouldCalcPetroleumEnergy) {
-			enabledSectionNames.add("Petroleum Energy");
-			PollutantProcessAssociation a = PollutantProcessAssociation.findByName(
-					"Petroleum Energy Consumption",context.iterProcess.processName);
-			if(a != null) {
-				if(pollutantProcessIDs.length() > 0) {
-					pollutantProcessIDs += ",";
-				}
-				polProcessID = a.getDatabaseKey(executionDatabase);
-				pollutantProcessIDs += polProcessID;
-				if(a.doesHaveMultipleOperatingModes(executionDatabase,polProcessID)) {
-					enabledSectionNames.add("Petroleum Energy With OpModeDistribution");
-				} else {
-					enabledSectionNames.add("Petroleum Energy Without OpModeDistribution");
-					replacements.put("##PetroleumEnergyOpModeID##",
-							"" + a.getSingleOpModeID(executionDatabase,polProcessID));
-				}
-			}
-		}
 		if(shouldCalcTotalEnergy) {
 			enabledSectionNames.add("Total Energy");
 			PollutantProcessAssociation a = PollutantProcessAssociation.findByName(

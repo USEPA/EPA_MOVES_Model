@@ -174,7 +174,7 @@ public class GREETInterface {
 		for(Iterator<OnRoadVehicleSelection> i = runspec.onRoadVehicleSelections.iterator();
 				i.hasNext();) {
 			OnRoadVehicleSelection onRoadVehicleSelection = (OnRoadVehicleSelection) i.next();
-			fuelTypes.add(new Integer(onRoadVehicleSelection.fuelTypeID));
+			fuelTypes.add(Integer.valueOf(onRoadVehicleSelection.fuelTypeID));
 		}
 		String sql = "SELECT FuelType.fuelTypeID, fuelTypeDesc, "
 				+ "fuelSubTypeID, fuelSubTypeDesc "
@@ -215,7 +215,7 @@ public class GREETInterface {
 			sql = "SELECT ageID from AgeCategory;";
 			result = SQLRunner.executeQuery(defaultDatabase, sql);
 			while(result.next()) {
-				ageIDs.add(new Integer(result.getInt("ageID")));
+				ageIDs.add(Integer.valueOf(result.getInt("ageID")));
 			}
 			result.close();
 		} catch(Exception e) {
@@ -235,7 +235,7 @@ public class GREETInterface {
 			Integer y = (Integer)i.next();
 			for(Iterator<Integer> j = ageIDs.iterator(); j.hasNext(); ){
 				Integer a = (Integer)j.next();
-				modelYears.add(new Integer(y.intValue() - a.intValue()));
+				modelYears.add(Integer.valueOf(y.intValue() - a.intValue()));
 			}
 		}
 		return true;

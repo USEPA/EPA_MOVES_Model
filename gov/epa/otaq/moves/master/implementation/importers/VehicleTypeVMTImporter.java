@@ -32,7 +32,7 @@ import org.w3c.dom.*;
  *
  * @author		Wesley Faler
  * @author		Don Smith
- * @version		2015-09-15
+ * @version		2015-09-16
 **/
 public class VehicleTypeVMTImporter extends ImporterBase {
 	class TableSubsetSelectorPart extends JPanel implements IImporterPart, ActionListener {
@@ -223,7 +223,7 @@ public class VehicleTypeVMTImporter extends ImporterBase {
 			boolean shouldCloseDatabase = false;
 			Connection db = dbToUse;
 			if(db == null) {
-				db = importer.getImporterManager().openDatabase();
+				db = importer.getImporterManager().openDatabase(false);
 				if(db == null) {
 					return;
 				}
@@ -1024,85 +1024,108 @@ public class VehicleTypeVMTImporter extends ImporterBase {
 
 		if(selectorPart.hasHPMSAnnual) {
 			// HPMSVTypeYear: hpmsVTypeID, yearID
-			if(!manager.tableHasHPMSVTypes(db,"select distinct hpmsVTypeID from HPMSVTypeYear")) {
+			if(!manager.tableHasHPMSVTypes(db,"select distinct hpmsVTypeID from HPMSVTypeYear",
+					this,"HPMSVTypeYear is missing hpmsVTypeID(s)")) {
 				return false;
 			}
-			if(!manager.tableHasYears(db,"select distinct yearID from HPMSVTypeYear")) {
+			if(!manager.tableHasYears(db,"select distinct yearID from HPMSVTypeYear",
+					this,"HPMSVTypeYear is missing yearID(s)")) {
 				return false;
 			}
 		} else if(selectorPart.hasHPMSDaily) {
-			if(!manager.tableHasHPMSVTypes(db,"select distinct hpmsVTypeID from HPMSVTypeDay")) {
+			if(!manager.tableHasHPMSVTypes(db,"select distinct hpmsVTypeID from HPMSVTypeDay",
+					this,"HPMSVTypeDay is missing hpmsVTypeID(s)")) {
 				return false;
 			}
-			if(!manager.tableHasYears(db,"select distinct yearID from HPMSVTypeDay")) {
+			if(!manager.tableHasYears(db,"select distinct yearID from HPMSVTypeDay",
+					this,"HPMSVTypeDay is missing yearID(s)")) {
 				return false;
 			}
-			if(!manager.tableHasMonths(db,"select distinct monthID from HPMSVTypeDay")) {
+			if(!manager.tableHasMonths(db,"select distinct monthID from HPMSVTypeDay",
+					this,"HPMSVTypeDay is missing monthID(s)")) {
 				return false;
 			}
-			if(!manager.tableHasDays(db,"select distinct dayID from HPMSVTypeDay")) {
+			if(!manager.tableHasDays(db,"select distinct dayID from HPMSVTypeDay",
+					this,"HPMSVTypeDay is missing dayID(s)")) {
 				return false;
 			}
 		} else if(selectorPart.hasSourceTypeAnnual) {
-			if(!manager.tableHasSourceTypes(db,"select distinct sourceTypeID from SourceTypeYearVMT")) {
+			if(!manager.tableHasSourceTypes(db,"select distinct sourceTypeID from SourceTypeYearVMT",
+					this,"SourceTypeYearVMT is missing sourceTypeID(s)")) {
 				return false;
 			}
-			if(!manager.tableHasYears(db,"select distinct yearID from SourceTypeYearVMT")) {
+			if(!manager.tableHasYears(db,"select distinct yearID from SourceTypeYearVMT",
+					this,"sourceTypeYearVMT is missing yearID(s)")) {
 				return false;
 			}
 		} else if(selectorPart.hasSourceTypeDaily) {
-			if(!manager.tableHasSourceTypes(db,"select distinct sourceTypeID from SourceTypeDayVMT")) {
+			if(!manager.tableHasSourceTypes(db,"select distinct sourceTypeID from SourceTypeDayVMT",
+					this,"SourceTypeDayVMT is missing sourceTypeID(s)")) {
 				return false;
 			}
-			if(!manager.tableHasYears(db,"select distinct yearID from SourceTypeDayVMT")) {
+			if(!manager.tableHasYears(db,"select distinct yearID from SourceTypeDayVMT",
+					this,"sourceTypeDayVMT is missing yearID(s)")) {
 				return false;
 			}
-			if(!manager.tableHasMonths(db,"select distinct monthID from SourceTypeDayVMT")) {
+			if(!manager.tableHasMonths(db,"select distinct monthID from SourceTypeDayVMT",
+					this,"SourceTypeDayVMT is missing monthID(s)")) {
 				return false;
 			}
-			if(!manager.tableHasDays(db,"select distinct dayID from SourceTypeDayVMT")) {
+			if(!manager.tableHasDays(db,"select distinct dayID from SourceTypeDayVMT",
+					this,"SourceTypeDayVMT is missing dayID(s)")) {
 				return false;
 			}
 		} else if(requireUserInput) {
+			addQualityMessage("ERROR: VMT data has not been imported.");
 			return false;
 		}
 
 		if(selectorPart.hasHPMSAnnual || selectorPart.hasSourceTypeAnnual) {
 			// monthVMTFraction: sourceTypeID, monthID
-			if(!manager.tableHasSourceTypes(db,"select distinct sourceTypeID from monthVMTFraction where monthVMTFraction > 0")) {
+			if(!manager.tableHasSourceTypes(db,"select distinct sourceTypeID from monthVMTFraction where monthVMTFraction > 0",
+					this,"monthVMTFraction is missing sourceTypeID(s)")) {
 				return false;
 			}
-			if(!manager.tableHasMonths(db,"select distinct monthID from monthVMTFraction where monthVMTFraction > 0")) {
+			if(!manager.tableHasMonths(db,"select distinct monthID from monthVMTFraction where monthVMTFraction > 0",
+					this,"monthVMTFraction is missing monthID(s)")) {
 				return false;
 			}
 
 			// dayVMTFraction: sourceTypeID, monthID, roadTypeID, dayID
-			if(!manager.tableHasSourceTypes(db,"select distinct sourceTypeID from dayVMTFraction where dayVMTFraction > 0")) {
+			if(!manager.tableHasSourceTypes(db,"select distinct sourceTypeID from dayVMTFraction where dayVMTFraction > 0",
+					this,"dayVMTFraction is missing sourceTypeID(s)")) {
 				return false;
 			}
-			if(!manager.tableHasMonths(db,"select distinct monthID from dayVMTFraction where dayVMTFraction > 0")) {
+			if(!manager.tableHasMonths(db,"select distinct monthID from dayVMTFraction where dayVMTFraction > 0",
+					this,"dayVMTFraction is missing monthID(s)")) {
 				return false;
 			}
-			if(!manager.tableHasRoadTypes(db,"select distinct roadTypeID from dayVMTFraction where dayVMTFraction > 0")) {
+			if(!manager.tableHasRoadTypes(db,"select distinct roadTypeID from dayVMTFraction where dayVMTFraction > 0",
+					this,"dayVMTFraction is missing roadTypeID(s)")) {
 				return false;
 			}
-			if(!manager.tableHasDays(db,"select distinct dayID from dayVMTFraction where dayVMTFraction > 0")) {
+			if(!manager.tableHasDays(db,"select distinct dayID from dayVMTFraction where dayVMTFraction > 0",
+					this,"dayVMTFraction is missing dayID(s)")) {
 				return false;
 			}
 		}
 
 		if(requireUserInput) {
 			// hourVMTFraction: sourceTypeID, roadTypeID, dayID, hourID
-			if(!manager.tableHasSourceTypes(db,"select distinct sourceTypeID from hourVMTFraction where hourVMTFraction > 0")) {
+			if(!manager.tableHasSourceTypes(db,"select distinct sourceTypeID from hourVMTFraction where hourVMTFraction > 0",
+					this,"hourVMTFraction is missing sourceTypeID(s)")) {
 				return false;
 			}
-			if(!manager.tableHasRoadTypes(db,"select distinct roadTypeID from hourVMTFraction where hourVMTFraction > 0")) {
+			if(!manager.tableHasRoadTypes(db,"select distinct roadTypeID from hourVMTFraction where hourVMTFraction > 0",
+					this,"hourVMTFraction is missing roadTypeID(s)")) {
 				return false;
 			}
-			if(!manager.tableHasDays(db,"select distinct dayID from hourVMTFraction where hourVMTFraction > 0")) {
+			if(!manager.tableHasDays(db,"select distinct dayID from hourVMTFraction where hourVMTFraction > 0",
+					this,"hourVMTFraction is missing dayID(s)")) {
 				return false;
 			}
-			if(!manager.tableHasHours(db,"select distinct hourID from hourVMTFraction where hourVMTFraction > 0")) {
+			if(!manager.tableHasHours(db,"select distinct hourID from hourVMTFraction where hourVMTFraction > 0",
+					this,"hourVMTFraction is missing hourID(s)")) {
 				return false;
 			}
 		}
@@ -1150,10 +1173,10 @@ public class VehicleTypeVMTImporter extends ImporterBase {
 	**/
 	private boolean getDataStatusFromScript(Connection db) throws Exception {
 		ArrayList<String> messages = new ArrayList<String>();
-		BasicDataHandler.runScript(db,this,messages,1);
+		BasicDataHandler.runScript(db,this,messages,1,"database/VehicleTypeVMTImporter.sql");
 		for(Iterator<String> i=messages.iterator();i.hasNext();) {
 			String t = i.next();
-			if(t.toLowerCase().startsWith("error")) {
+			if(t.toUpperCase().startsWith("ERROR")) {
 				return false;
 			}
 		}

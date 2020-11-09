@@ -6,17 +6,54 @@
  *************************************************************************************************/
 package gov.epa.otaq.moves.master.gui;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.sql.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import java.util.*;
-import gov.epa.otaq.moves.master.runspec.*;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.TreeMap;
+
+import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.LayoutFocusTraversalPolicy;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import gov.epa.otaq.moves.common.ExtendedComboBox;
+import gov.epa.otaq.moves.common.JListWithToolTips;
+import gov.epa.otaq.moves.common.Logger;
+import gov.epa.otaq.moves.common.MOVESDatabaseType;
+import gov.epa.otaq.moves.common.Model;
+import gov.epa.otaq.moves.common.ModelDomain;
+import gov.epa.otaq.moves.common.ModelScale;
+import gov.epa.otaq.moves.common.Models;
+import gov.epa.otaq.moves.common.SQLRunner;
+import gov.epa.otaq.moves.common.TimeSpan;
+import gov.epa.otaq.moves.common.ToolTipHelper;
+import gov.epa.otaq.moves.master.framework.DatabaseConnectionManager;
 import gov.epa.otaq.moves.master.framework.EmissionProcess;
 import gov.epa.otaq.moves.master.framework.PollutantProcessAssociation;
-import gov.epa.otaq.moves.master.framework.DatabaseConnectionManager;
-import gov.epa.otaq.moves.common.*;
+import gov.epa.otaq.moves.master.runspec.OutputTimeStep;
+import gov.epa.otaq.moves.master.runspec.RunSpec;
 
 /**
  * Class for MOVES TimeSpans panel. Constructs a TimeSpans panel, creates and
@@ -33,7 +70,7 @@ import gov.epa.otaq.moves.common.*;
  * All button allows the selection of twenty four hours, and the Clear All button
  * resets the Start Hour and the End Hour selections. This class load/Saves
  * information to/from the runSpec.  TimeSpans was modified to allow calendar years
- * up to 2050.
+ * up to 2060.
  *
  * @author		Wesley Faler
  * @author		Sarah Luo
@@ -41,10 +78,16 @@ import gov.epa.otaq.moves.common.*;
  * @author		Tim Hull
  * @author		Bob G (Task 18 Item 99)
  * @author		EPA-elg (Update calendar year list)
- * @version     2015-05-21
+ * @author  	Bill Shaw (508 compliance mods)
+ * @author  	John Covey (Task 1903)
+ * @author		Mike Kender (Task 2003)
+ * @version     2020-07-27
 **/
 public class TimeSpans extends JPanel implements  ListSelectionListener,
 		ActionListener, RunSpecEditor {
+
+	public static TimeSpans singleton = null;
+	
 	/** Constant used for a lack of a year selection **/
 	static String EMPTY_YEAR_TEXT = "          ";
 
@@ -52,11 +95,11 @@ public class TimeSpans extends JPanel implements  ListSelectionListener,
 		public Integer v;
 
 		public IntegerWrapper() {
-			v = new Integer(0);
+			v = Integer.valueOf(0);
 		}
 
 		public IntegerWrapper(Integer i) {
-			v = new Integer(i.intValue());
+			v = Integer.valueOf(i.intValue());
 		}
 
 		public String toString() {
@@ -64,19 +107,6 @@ public class TimeSpans extends JPanel implements  ListSelectionListener,
 		}
 	}
 
-	/** Panel contains the Time Aggregation controls. **/
-	JPanel aggregatePanel;
-	/** Time Aggregation Radio button group. **/
-	ButtonGroup aggregateButtons;
-	/** Aggregate by Year radio button. **/
-	JRadioButton aggregateYear;
-	/** Aggregate by Month radio button. **/
-	JRadioButton aggregateMonth;
-	/** Aggregate by Day radio button. **/
-	JRadioButton aggregateDay;
-	/** Aggregate by Hour radio button. **/
-	JRadioButton aggregateHour;
-	/** Add button control. **/
 	JButton addYearButton;
 	/** Panel contains the Year UI controls. **/
 	JPanel yearPanel;
@@ -112,6 +142,9 @@ public class TimeSpans extends JPanel implements  ListSelectionListener,
 	JScrollPane yearScrollPane;
 	/** Year Remove button. **/
 	JButton yearRemove;
+	
+	private static final String CLEAR_ALL_MONTHS_BUTTON_NAME = "clearAllMonthsButton";
+	private static final String SELECT_ALL_MONTHS_BUTTON_NAME = "selectAllMonthsButton";
 
 	private static class MonthCheckBox {
 		public TimeSpan.Month month;
@@ -159,11 +192,12 @@ public class TimeSpans extends JPanel implements  ListSelectionListener,
 	ModelDomain loadedDomain = null;
 	/** Hour object shown when there is no hour selection **/
 	TimeSpan.Hour emptyHour = new TimeSpan.Hour(0,"");
-
+	
 	/**
 	 * Constructs a TimeSpans panel, also creates and sets the layouts of the controls.
 	**/
 	public TimeSpans() {
+		singleton = this;
 		if(!TimeSpan.isLoaded()) {
 			TimeSpan.loadTimeObjects();
 		}
@@ -218,74 +252,49 @@ public class TimeSpans extends JPanel implements  ListSelectionListener,
 
 	/** Creates and initializes all controls on this panel. **/
 	public void createControls() {
-		Dimension aggregatePanelSize = new Dimension(560,60);
-		aggregatePanel = new JPanel();
-		aggregatePanel.setName("aggregatePanel");
-		aggregatePanel = new JPanel();
-		aggregatePanel.setBorder(BorderFactory.createTitledBorder(
-				"Time Aggregation Level"));
-		aggregatePanel.setPreferredSize(aggregatePanelSize);
+		int leftWidth = 400;
+		int rightWidth = 325;
 
-		Dimension yearPanelSize = new Dimension(360,250);
+		Dimension yearPanelSize = new Dimension(leftWidth,250);
 		yearPanel = new JPanel();
 		yearPanel.setName("yearPanel");
-		yearPanel = new JPanel();
 		yearPanel.setBorder(BorderFactory.createTitledBorder(
 				"Years"));
 		yearPanel.setPreferredSize(yearPanelSize);
 
-		Dimension monthPanelSize = new Dimension(200,250);
+		Dimension monthPanelSize = new Dimension(rightWidth,250);
 		monthPanel = new JPanel();
 		monthPanel.setName("monthPanel");
 		monthPanel.setBorder(BorderFactory.createTitledBorder(
 				"Months"));
 		monthPanel.setPreferredSize(monthPanelSize);
 
-		Dimension dayPanelSize = new Dimension(360,120);
+		Dimension dayPanelSize = new Dimension(leftWidth,120);
 		dayPanel = new JPanel();
 		dayPanel.setName("dayPanel");
 		dayPanel.setBorder(BorderFactory.createTitledBorder(
 				"Days"));
 		dayPanel.setPreferredSize(dayPanelSize);
 
-		Dimension hourPanelSize = new Dimension(200,120);
+		Dimension hourPanelSize = new Dimension(rightWidth,120);
 		hourPanel = new JPanel();
 		hourPanel.setName("hourPanel");
 		hourPanel.setBorder(BorderFactory.createTitledBorder(
 				"Hours"));
 		hourPanel.setPreferredSize(hourPanelSize);
 
-		aggregateButtons = new ButtonGroup();
-
-		aggregateYear = new JRadioButton("Year");
-		aggregateYear.setName("aggregateYear");
-		aggregateYear.addActionListener(this);
-		ToolTipHelper.add(aggregateYear,"Aggregate input data by year");
-
-		aggregateMonth = new JRadioButton("Month");
-		aggregateMonth.setName("aggregateMonth");
-		aggregateMonth.addActionListener(this);
-		ToolTipHelper.add(aggregateMonth,"Aggregate input data by month");
-
-		aggregateDay = new JRadioButton("Day");
-		aggregateDay.setName("aggregateDay");
-		aggregateDay.addActionListener(this);
-		ToolTipHelper.add(aggregateDay,"Aggregate input data by day");
-
-		aggregateHour = new JRadioButton("Hour");
-		aggregateHour.setName("aggregateHour");
-		aggregateHour.addActionListener(this);
-		ToolTipHelper.add(aggregateHour,"Aggregate input data by hour");
 
 		yearLabel = new JLabel("Select Year:");
 		yearLabel.setName("yearLabel");
 		yearCombo = new ExtendedComboBox<String>();
 		yearCombo.setName("yearCombo");
 		yearCombo.setSelectedIndex(-1);
+		yearLabel.setDisplayedMnemonic('Y');
 		yearCombo.setEditable(false);
-		ToolTipHelper.add(addYearButton,"Select a year to add to the RunSpec");
+		yearLabel.setLabelFor(yearCombo);
 
 		addYearButton = new JButton("Add");
+		addYearButton.setMnemonic('d');
 		addYearButton.setName("addYearButton");
 		ToolTipHelper.add(addYearButton,"Add the selected year to the RunSpec");
 		yearSelectionLabel = new JLabel("Years:");
@@ -293,8 +302,7 @@ public class TimeSpans extends JPanel implements  ListSelectionListener,
 		yearListModel = new DefaultListModel<IntegerWrapper>();
 		yearList = new JListWithToolTips<IntegerWrapper>(yearListModel);
 		yearList.setName("yearList");
-		yearList.setSelectionMode(
-				ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		yearList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		yearList.setSelectedIndex(-1);
 		yearList.addListSelectionListener(this);
 		yearList.setVisibleRowCount(6);
@@ -304,15 +312,31 @@ public class TimeSpans extends JPanel implements  ListSelectionListener,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		yearScrollPane.setName("yearScrollPane");
 
+		yearScrollPane.addFocusListener(new FocusListener() {
+			
+			@Override
+			public void focusLost(FocusEvent e) {
+				//nothing special here, yet
+			}
+			
+			@Override
+			public void focusGained(FocusEvent e) {
+				if(yearList.getModel().getSize() > 0) {
+					yearList.setSelectedIndex(yearList.getModel().getSize() - 1);
+				}
+			}
+		});
+
 		yearRemove = new JButton("Remove");
+		yearRemove.setMnemonic('m');
 		yearRemove.setName("yearRemove");
 		yearRemove.setEnabled(false); // not enabled until item selected on list
 		yearRemove.setName("yearRemove");
 		ToolTipHelper.add(yearRemove,"Remove the select year(s) from the RunSpec");
 
-		Dimension buttonSize = new Dimension(87,25);
-		addYearButton.setPreferredSize(buttonSize);
-		yearRemove.setPreferredSize(buttonSize);
+		Dimension yearPanelButtonSize = new Dimension(100,25);
+		addYearButton.setPreferredSize(yearPanelButtonSize);
+		yearRemove.setPreferredSize(yearPanelButtonSize);
 
 		for(Iterator<TimeSpan.Month> i=TimeSpan.allMonths.iterator();i.hasNext();) {
 			TimeSpan.Month m = (TimeSpan.Month)i.next();
@@ -323,14 +347,17 @@ public class TimeSpans extends JPanel implements  ListSelectionListener,
 			monthCheckBoxes.add(b);
 		}
 
-		selectAllMonthsButton = new JButton("Select All");
-		selectAllMonthsButton.setName("selectAllMonthsButton");
-		selectAllMonthsButton.setPreferredSize(buttonSize);
+		Dimension monthPanelButtonSize = new Dimension(150,25);
+		selectAllMonthsButton = new JButton("Select All (Alt+0)");
+		selectAllMonthsButton.setMnemonic('0');
+		selectAllMonthsButton.setName(SELECT_ALL_MONTHS_BUTTON_NAME);
+		selectAllMonthsButton.setPreferredSize(monthPanelButtonSize);
 		ToolTipHelper.add(selectAllMonthsButton,"Select all months");
-		clearAllMonthsButton = new JButton("Clear All");
-		clearAllMonthsButton.setName("clearAllMonthsButton");
+		clearAllMonthsButton = new JButton("Clear All (Alt+2)");
+		clearAllMonthsButton.setMnemonic('2');
+		clearAllMonthsButton.setName(CLEAR_ALL_MONTHS_BUTTON_NAME);
+		clearAllMonthsButton.setPreferredSize(monthPanelButtonSize);
 		ToolTipHelper.add(clearAllMonthsButton,"Clear all months");
-		clearAllMonthsButton.setPreferredSize(buttonSize);
 
 		for(Iterator<TimeSpan.Day> i=TimeSpan.allDays.iterator();i.hasNext();) {
 			TimeSpan.Day d = (TimeSpan.Day)i.next();
@@ -341,13 +368,17 @@ public class TimeSpans extends JPanel implements  ListSelectionListener,
 			dayCheckBoxes.add(b);
 		}
 
-		selectAllDaysButton = new JButton("Select All");
+		Dimension dayPanelButtonSize = new Dimension(150,25);
+		selectAllDaysButton = new JButton("Select All (Alt+3)");
+		selectAllDaysButton.setMnemonic('3');
 		selectAllDaysButton.setName("selectAllDaysButton");
-		selectAllDaysButton.setPreferredSize(buttonSize);
+		selectAllDaysButton.setPreferredSize(dayPanelButtonSize);
 		ToolTipHelper.add(selectAllDaysButton,"Select all days");
-		clearAllDaysButton = new JButton("Clear All");
+
+		clearAllDaysButton = new JButton("Clear All (Alt+4)");
+		clearAllDaysButton.setMnemonic('4');
 		clearAllDaysButton.setName("clearAllDaysButton");
-		clearAllDaysButton.setPreferredSize(buttonSize);
+		clearAllDaysButton.setPreferredSize(dayPanelButtonSize);
 		ToolTipHelper.add(clearAllDaysButton,"Clear all days");
 
 		beginHourLabel = new JLabel("Start Hour:");
@@ -355,20 +386,28 @@ public class TimeSpans extends JPanel implements  ListSelectionListener,
 		beginHourCombo = new ExtendedComboBox<TimeSpan.Hour>();
 		beginHourCombo.setName("beginHourCombo");
 		beginHourCombo.setSelectedIndex(-1);
+		beginHourLabel.setDisplayedMnemonic('r');
+		beginHourLabel.setDisplayedMnemonicIndex(3);
+		beginHourLabel.setLabelFor(beginHourCombo);
 		ToolTipHelper.add(beginHourCombo,"First simulated hour of the day");
+
+		Dimension hourPanelButtonSize = new Dimension(150,25);
 		endHourLabel = new JLabel("End Hour:");
 		endHourLabel.setName("endHourLabel");
 		endHourCombo = new ExtendedComboBox<TimeSpan.Hour>();
 		endHourCombo.setName("endHourCombo");
 		endHourCombo.setSelectedIndex(-1);
+		endHourLabel.setLabelFor(endHourCombo);
 		ToolTipHelper.add(endHourCombo,"Last simulated hour of the day");
-		selectAllHoursButton = new JButton("Select All");
+		selectAllHoursButton = new JButton("Select All (Alt+5)");
+		selectAllHoursButton.setMnemonic('5');
 		selectAllHoursButton.setName("selectAllHoursButton");
-		selectAllHoursButton.setPreferredSize(buttonSize);
+		selectAllHoursButton.setPreferredSize(hourPanelButtonSize);
 		ToolTipHelper.add(selectAllHoursButton,"Select all hours of any day");
-		clearAllHoursButton = new JButton("Clear All");
+		clearAllHoursButton = new JButton("Clear All (Alt+6)");
+		clearAllHoursButton.setMnemonic('6');
 		clearAllHoursButton.setName("clearAllHoursButton");
-		clearAllHoursButton.setPreferredSize(buttonSize);
+		clearAllHoursButton.setPreferredSize(hourPanelButtonSize);
 		ToolTipHelper.add(clearAllHoursButton,"Clear all hours of any day");
 
 		beginHourCombo.addActionListener(this);
@@ -388,26 +427,6 @@ public class TimeSpans extends JPanel implements  ListSelectionListener,
 	public void arrangeControls() {
 		GridBagConstraints gbc = new GridBagConstraints();
 
-		aggregateButtons.add(aggregateYear);
-		aggregateButtons.add(aggregateMonth);
-		aggregateButtons.add(aggregateDay);
-		aggregateButtons.add(aggregateHour);
-
-		aggregatePanel.setLayout(new GridBagLayout());
-		gbc.fill = GridBagConstraints.NONE;
-		gbc.insets = new Insets(2,2,2,2);
-		gbc.gridwidth = 4;
-		gbc.gridheight = 1;
-		gbc.weightx = 0;
-		gbc.weighty = 0;
-		LayoutUtility.setPositionOnGrid(gbc, 0, 0, "WEST", 1, 1);
-		aggregatePanel.add(aggregateYear, gbc);
-		LayoutUtility.setPositionOnGrid(gbc, 1, 0, "WEST", 1, 1);
-		aggregatePanel.add(aggregateMonth, gbc);
-		LayoutUtility.setPositionOnGrid(gbc, 2, 0, "WEST", 1, 1);
-		aggregatePanel.add(aggregateDay, gbc);
-		LayoutUtility.setPositionOnGrid(gbc, 3, 0, "WEST", 1, 1);
-		aggregatePanel.add(aggregateHour, gbc);
 
 
 		yearPanel.setLayout(new GridBagLayout());
@@ -446,6 +465,9 @@ public class TimeSpans extends JPanel implements  ListSelectionListener,
 				c++;
 				r = 0;
 			}
+			if(b.checkBox.getText().equalsIgnoreCase("january")) {
+				b.checkBox.setMnemonic('J');
+			}
 			LayoutUtility.setPositionOnGrid(gbc, c, r, "WEST", 1, 1);
 			monthPanel.add(b.checkBox, gbc);
 		}
@@ -454,6 +476,7 @@ public class TimeSpans extends JPanel implements  ListSelectionListener,
 		monthPanel.add(selectAllMonthsButton, gbc);
 		LayoutUtility.setPositionOnGrid(gbc, 1, 6, "WEST", 1, 1);
 		monthPanel.add(clearAllMonthsButton, gbc);
+		monthPanel.setFocusTraversalPolicyProvider(true);
 
 		dayPanel.setLayout(new GridBagLayout());
 		gbc.fill = GridBagConstraints.NONE;
@@ -473,6 +496,9 @@ public class TimeSpans extends JPanel implements  ListSelectionListener,
 				r = 0;
 			}
 			LayoutUtility.setPositionOnGrid(gbc, c, r, "WEST", 1, 1);
+			if(b.checkBox.getText().equalsIgnoreCase("weekend")) {
+				b.checkBox.setMnemonic('W');
+			}
 			dayPanel.add(b.checkBox, gbc);
 		}
 
@@ -509,7 +535,7 @@ public class TimeSpans extends JPanel implements  ListSelectionListener,
 		gbc.weightx = 0;
 		gbc.weighty = 0;
 		LayoutUtility.setPositionOnGrid(gbc,0,0, "CENTER", 2, 1);
-		add(aggregatePanel,gbc);
+//jxc		add(aggregatePanel,gbc);
 		LayoutUtility.setPositionOnGrid(gbc,0,1, "CENTER", 1, 1);
 		add(yearPanel,gbc);
 		LayoutUtility.setPositionOnGrid(gbc,1,1, "WEST", 1, 1);
@@ -518,6 +544,128 @@ public class TimeSpans extends JPanel implements  ListSelectionListener,
 		add(dayPanel,gbc);
 		LayoutUtility.setPositionOnGrid(gbc,1,2, "WEST", 1, 1);
 		add(hourPanel,gbc);
+
+		monthPanel.setFocusTraversalPolicy(new LayoutFocusTraversalPolicy() {
+			@Override
+			public Component getLastComponent(Container aContainer) {
+				return clearAllMonthsButton;
+			}
+
+			@Override
+			public Component getFirstComponent(Container aContainer) {
+				return monthPanel.getComponent(0);
+			}
+
+			@Override
+			public Component getDefaultComponent(Container aContainer) {
+				return monthPanel.getComponent(0);
+			}
+
+			@Override
+			public Component getComponentAfter(Container aContainer, Component aComponent) {
+				//special cases
+				if(CLEAR_ALL_MONTHS_BUTTON_NAME.equals(aComponent.getName())) {
+					return dayPanel.getComponent(0);
+				}
+
+				if(SELECT_ALL_MONTHS_BUTTON_NAME.equals(aComponent.getName())) {
+					return clearAllMonthsButton;
+				}
+
+				if("december".equals(aComponent.getName())) {
+					return selectAllMonthsButton;
+				}
+
+				//now we can lookup normal
+				GridBagLayout gb = (GridBagLayout)monthPanel.getLayout();
+				GridBagConstraints gbc = gb.getConstraints(aComponent);
+				
+				int x = gbc.gridx;
+				int y = gbc.gridy;
+
+				int toGoTox = -1;
+				int toGoToy = -1;
+				
+				if(x == 0) {
+					if (y == 5) {
+						toGoTox = 1;
+						toGoToy = 0;
+					} else {
+						toGoTox = 0;
+						toGoToy = y + 1;
+					}
+				} else {
+					toGoToy = y + 1;
+					toGoTox = 1;
+				}
+
+				return getComponentOnGrid(toGoTox, toGoToy, gb, monthPanel);
+			}
+
+			@Override
+			public Component getComponentBefore(Container aContainer, Component aComponent) {
+				//special cases
+				if(aComponent.equals(monthPanel.getComponent(0))) {
+					yearPanel.requestFocus();
+					//figure out where to go
+					if(yearRemove.isEnabled()) {
+						return yearRemove;
+					} else if(yearList.getModel().getSize() > 0) {
+						return yearScrollPane;
+					} else if (yearCombo.getSelectedIndex() > 0) {
+						return addYearButton;
+					}
+
+					return yearCombo;
+				}
+
+				if(CLEAR_ALL_MONTHS_BUTTON_NAME.equals(aComponent.getName())) {
+					return selectAllMonthsButton;
+				}
+
+				GridBagLayout gb = (GridBagLayout)monthPanel.getLayout();
+
+				if(SELECT_ALL_MONTHS_BUTTON_NAME.equals(aComponent.getName())) {
+					return getComponentOnGrid(1, 5, gb, monthPanel);
+				}
+
+				//now we can lookup normal
+				GridBagConstraints gbc = gb.getConstraints(aComponent);
+				
+				int x = gbc.gridx;
+				int y = gbc.gridy;
+
+				int toGoTox = -1;
+				int toGoToy = -1;
+
+				if(x == 1) {
+					if (y == 0) {
+						toGoTox = 0;
+						toGoToy = 5;
+					} else {
+						toGoTox = 1;
+						toGoToy = y - 1;
+					}
+				} else {
+					toGoTox = 0;
+					toGoToy = y - 1;
+				}
+
+				return getComponentOnGrid(toGoTox, toGoToy, gb, monthPanel);
+			}
+		});
+	}
+
+	private Component getComponentOnGrid(int x, int y, GridBagLayout layout, JPanel panel) {
+		for (Component comp : panel.getComponents()) {
+		    GridBagConstraints gbc = layout.getConstraints(comp);
+		    if (gbc.gridx == x && gbc.gridy == y) {
+		        return comp;
+		    }
+		}
+		
+		//should not happens
+		return null;
 	}
 
 	/**
@@ -571,11 +719,11 @@ public class TimeSpans extends JPanel implements  ListSelectionListener,
 		switch (mc) {
 			case M1: // ONROAD
 				tsToSave.aggregateBy = OutputTimeStep.HOUR;
-				if(aggregateYear.isSelected()) {
+				if(PreaggregationOptions.singleton.aggregateYear.isSelected()) {
 					tsToSave.aggregateBy = OutputTimeStep.YEAR;
-				} else if(aggregateMonth.isSelected()) {
+				} else if(PreaggregationOptions.singleton.aggregateMonth.isSelected()) {
 					tsToSave.aggregateBy = OutputTimeStep.MONTH;
-				} else if(aggregateDay.isSelected()) {
+				} else if(PreaggregationOptions.singleton.aggregateDay.isSelected()) {
 					tsToSave.aggregateBy = OutputTimeStep.CLASSICAL_DAY;
 				}
 				break;
@@ -634,22 +782,22 @@ public class TimeSpans extends JPanel implements  ListSelectionListener,
 			case M1: // ONROAD
 				if(runspec.domain == ModelDomain.PROJECT || runspec.scale == ModelScale.MESOSCALE_LOOKUP) {
 					tsToLoad.aggregateBy = OutputTimeStep.HOUR;
-					aggregateYear.setEnabled(false);
-					aggregateMonth.setEnabled(false);
-					aggregateDay.setEnabled(false);
-					aggregateHour.setEnabled(false);
+					PreaggregationOptions.singleton.aggregateYear.setEnabled(false);
+					PreaggregationOptions.singleton.aggregateMonth.setEnabled(false);
+					PreaggregationOptions.singleton.aggregateDay.setEnabled(false);
+					PreaggregationOptions.singleton.aggregateHour.setEnabled(false);
 				} else {
-					aggregateYear.setEnabled(true);
-					aggregateMonth.setEnabled(true);
-					aggregateDay.setEnabled(true);
-					aggregateHour.setEnabled(true);
+					PreaggregationOptions.singleton.aggregateYear.setEnabled(true);
+					PreaggregationOptions.singleton.aggregateMonth.setEnabled(true);
+					PreaggregationOptions.singleton.aggregateDay.setEnabled(true);
+					PreaggregationOptions.singleton.aggregateHour.setEnabled(true);
 				}
 				break;
 			case M2:
-				aggregateYear.setEnabled(false);
-				aggregateMonth.setEnabled(false);
-				aggregateDay.setEnabled(false);
-				aggregateHour.setEnabled(false);
+				PreaggregationOptions.singleton.aggregateYear.setEnabled(false);
+				PreaggregationOptions.singleton.aggregateMonth.setEnabled(false);
+				PreaggregationOptions.singleton.aggregateDay.setEnabled(false);
+				PreaggregationOptions.singleton.aggregateHour.setEnabled(false);
 
 				tsToLoad.aggregateBy = OutputTimeStep.CLASSICAL_DAY;
 				break;
@@ -657,13 +805,13 @@ public class TimeSpans extends JPanel implements  ListSelectionListener,
 				break;
 		}
 		if(tsToLoad.aggregateBy == OutputTimeStep.YEAR) {
-			aggregateYear.setSelected(true);
+			PreaggregationOptions.singleton.aggregateYear.setSelected(true);
 		} else if (tsToLoad.aggregateBy == OutputTimeStep.MONTH) {
-			aggregateMonth.setSelected(true);
+			PreaggregationOptions.singleton.aggregateMonth.setSelected(true);
 		} else if (tsToLoad.aggregateBy == OutputTimeStep.CLASSICAL_DAY) {
-			aggregateDay.setSelected(true);
+			PreaggregationOptions.singleton.aggregateDay.setSelected(true);
 		} else {
-			aggregateHour.setSelected(true);
+			PreaggregationOptions.singleton.aggregateHour.setSelected(true);
 		}
 
 		yearListModel.clear();
@@ -705,8 +853,7 @@ public class TimeSpans extends JPanel implements  ListSelectionListener,
 		} else {
 			endHourCombo.setSelectedIndex(0);
 		}
-
-		enableMe(aggregatePanel, runspec.models.getModelList().contains( Model.ONROAD) && runspec.domain != ModelDomain.PROJECT && runspec.scale != ModelScale.MESOSCALE_LOOKUP);
+		enableMe(PreaggregationOptions.singleton.timeAggregatePanel, runspec.models.getModelList().contains( Model.ONROAD) && runspec.domain != ModelDomain.PROJECT && runspec.scale != ModelScale.MESOSCALE_LOOKUP);
 		enableMe(hourPanel,runspec.models.getModelList().contains( Model.ONROAD)); //true);
 		// enableMe(dayPanel,runspec.models.getModelList().contains( Model.ONROAD)); // both NONROAD and ONROAD can chose the weekday or weekend
 
@@ -725,7 +872,7 @@ public class TimeSpans extends JPanel implements  ListSelectionListener,
 				if(runspec.timeSpan.aggregateBy==OutputTimeStep.HOUR
 						//&& runspec.timeSpan.hasAllHours()
 						) {
-					enableMe(aggregatePanel,false);
+					enableMe(PreaggregationOptions.singleton.timeAggregatePanel,false);
 					//enableMe(hourPanel,false);
 					break;
 				}
@@ -962,15 +1109,7 @@ public class TimeSpans extends JPanel implements  ListSelectionListener,
 	 * @param	e the ActionEvent to be handled.
 	**/
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == aggregateYear) {
-			processAggregateYearButton();
-		} else if (e.getSource() == aggregateMonth) {
-			processAggregateMonthButton();
-		} else if (e.getSource() == aggregateDay) {
-			processAggregateDayButton();
-		} else if (e.getSource() == aggregateHour) {
-			processAggregateHourButton();
-		} else if (e.getSource() == addYearButton) {
+		if (e.getSource() == addYearButton) {
 			processAddYearButton();
 		} else if (e.getSource() == yearRemove) {
 			processYearRemoveButton();
@@ -1097,7 +1236,7 @@ public class TimeSpans extends JPanel implements  ListSelectionListener,
 	/** Handles the Add button. **/
 	public void processAddYearButton() {
 		String errorMessage = new String();
-		Integer year = new Integer(0);
+		Integer year = Integer.valueOf(0);
 		try {
 			year = parseYear();
 		} catch(Exception e) {
@@ -1113,6 +1252,11 @@ public class TimeSpans extends JPanel implements  ListSelectionListener,
 		}
 		yearListModel.addElement(new IntegerWrapper(year));
 		checkYears();
+		if (CreateInputDatabase.singleton.databaseCombo.getSelectedItem() != null) {
+			CreateInputDatabase.singleton.processDatabaseComboChange();
+			MOVESNavigation.singleton.updateOption(MOVESNavigation.singleton.createInputDatabaseOption);
+		}
+
 	}
 
 	/** Handles the Year Remove button. **/
@@ -1243,7 +1387,7 @@ public class TimeSpans extends JPanel implements  ListSelectionListener,
 
 			ResultSet results = SQLRunner.executeQuery(statement,sql);
 			while(results.next()) {
-				yearCombo.addItem((new Integer(results.getInt(1))).toString());
+				yearCombo.addItem((Integer.valueOf(results.getInt(1))).toString());
 			}
 			statement.close();
 		} catch(SQLException e) {

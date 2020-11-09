@@ -70,15 +70,15 @@ public class CellFileToMySQLImporter {
 			}
 			t = t.trim();
 			if(t.length() <= 0) {
-				sqlColumnIndexByFileIndexInt.add(new Integer(-1));
+				sqlColumnIndexByFileIndexInt.add(Integer.valueOf(-1));
 				columnNamesInFile.add("");
 				consecutiveBlankColumnCount++;
 				if(consecutiveBlankColumnCount >= 10) {
 					break;
 				}
 			} else {
-				sqlColumnIndexByFileIndexInt.add(new Integer(columnNames.size()));
-				fileColumnIndexBySQLIndexInt.add(new Integer(columnNamesInFile.size()));
+				sqlColumnIndexByFileIndexInt.add(Integer.valueOf(columnNames.size()));
+				fileColumnIndexBySQLIndexInt.add(Integer.valueOf(columnNamesInFile.size()));
 
 				t = getCompliantName(t);
 				columnNamesInFile.add(t);

@@ -30,6 +30,15 @@ CREATE TABLE minorHAPRatio (
   atRatio double DEFAULT NULL,
   KEY (processID,fuelTypeID,modelYearID,monthID)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+
+CREATE TABLE minorHAPRatioGo (
+  processID smallint(6) NOT NULL,
+  outputPollutantID smallint(6) NOT NULL,
+  fuelSubTypeID smallint(6) NOT NULL DEFAULT '0',
+  modelYearID smallint(6) NOT NULL,
+  atRatio double DEFAULT NULL,
+  KEY (processID,fuelSubTypeID,modelYearID)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
 -- End Section UseMinorHAPRatio
 
 -- Section UsePAHGasRatio
@@ -287,6 +296,18 @@ inner join monthOfAnyYear m on (
 )
 where polProcessID in (##outputMinorHAPRatio##)
 group by ppa.polProcessID, fuelTypeID, modelYearID, monthID;
+
+cache select ppa.processID, ppa.pollutantID as outputPollutantID, fuelSubTypeID, modelYearID, atRatio
+into outfile '##minorHAPRatioGo##'
+from minorHAPRatio r
+inner join pollutantProcessAssoc ppa using (polProcessID)
+inner join modelYear my on (
+	MYMAP(modelYearID) >= round(modelYearGroupID/10000,0)
+	and MYMAP(modelYearID) <= mod(modelYearGroupID,10000)
+	and modelYearID <= ##context.year##
+	and modelYearID >= ##context.year## - 30
+)
+where polProcessID in (##outputMinorHAPRatio##);
 -- End Section UseMinorHAPRatio
 
 -- Section UsePAHGasRatio
@@ -339,8 +360,6 @@ AND fuelRegionID = ##context.fuelRegionID##
 AND yearID = ##context.year##
 AND minModelYearID <= MYMAP(##context.year## - ATRatio.ageID)
 AND maxModelYearID >= MYMAP(##context.year## - ATRatio.ageID);
-
--- AND minModelYearID <= ##context.year##
 
 cache SELECT *
 INTO OUTFILE '##ATRatioGas1ChainedTo##'
@@ -506,7 +525,7 @@ inner join pahGasRatio r on (
 
 -- Section UsePAHParticleRatio
 
--- @algorithm PAH particle emissions[outputPollutantID] = VOC (87) * ATRatio
+-- @algorithm PAH particle emissions[outputPollutantID] = Organic Carbon (111) * ATRatio
 insert into AirToxicsMOVESWorkerOutputTemp (
 	monthID, modelYearID, yearID, fuelTypeID, dayID, hourID, stateID, countyID, 
 	zoneID, linkID, pollutantID, processID, sourceTypeID, regClassID, roadTypeID, SCC, 

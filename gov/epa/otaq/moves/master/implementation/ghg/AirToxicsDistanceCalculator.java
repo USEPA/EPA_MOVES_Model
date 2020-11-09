@@ -67,7 +67,7 @@ public class AirToxicsDistanceCalculator extends EmissionCalculator {
 		};
 		TreeSet<Integer> values = new TreeSet<Integer>();
 		for(int i=0;i<possibleValues.length;i++) {
-			Integer v = new Integer(possibleValues[i]);
+			Integer v = Integer.valueOf(possibleValues[i]);
 			values.add(v);
 		}
 

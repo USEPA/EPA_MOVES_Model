@@ -92,7 +92,7 @@ begin
 
 	if(isOk=1) then
 		set howMany=0;
-		select count(*) into howMany from importTempMessages where message like 'ERROR: Link %';
+		select count(*) into howMany from importTempMessages where message like 'ERROR: %';
 		set howMany=ifnull(howMany,0);
 		if(howMany > 0) then
 			set isOk=0;

@@ -8,6 +8,7 @@ import gov.epa.otaq.moves.master.framework.importers.*;
 
 import java.io.*;
 import java.sql.*;
+import java.util.*;
 import javax.xml.parsers.*;
 import org.xml.sax.*;
 import org.xml.sax.helpers.*;
@@ -20,7 +21,7 @@ import gov.epa.otaq.moves.common.MOVESDatabaseType;
  * MOVES RoadTypeDistribution Data Importer.
  * 
  * @author		Wesley Faler
- * @version		2014-01-20
+ * @version		2015-09-16
 **/
 public class RoadTypeDistributionImporter extends ImporterBase {
 	/** Data handler for this importer **/
@@ -149,12 +150,32 @@ public class RoadTypeDistributionImporter extends ImporterBase {
 			return new RunSpecSectionStatus(RunSpecSectionStatus.OK);
 		}
 		boolean hasSourceTypes = manager.tableHasSourceTypes(db,
-				"select distinct sourceTypeID from " + primaryTableName);
+				"select distinct sourceTypeID from " + primaryTableName,
+				this,primaryTableName + " is missing sourceTypeID(s)");
 		boolean hasRoadTypes = manager.tableHasNonOffnetworkRoadTypes(db, // tableHasRoadTypes
-				"select distinct roadTypeID from " + primaryTableName);
+				"select distinct roadTypeID from " + primaryTableName,
+				this,primaryTableName + " is missing roadTypeID(s)");
 		if(hasSourceTypes && hasRoadTypes) {
-			return new RunSpecSectionStatus(RunSpecSectionStatus.OK);
+			return getImporterDataStatus(db);
 		}
 		return new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);
+	}
+
+	/**
+	 * Check a RunSpec against the database or for display of the importer.
+	 * @param db database to be examined.
+	 * @return the status, or null if the status should not be shown to the user.
+	 * @throws Exception if anything goes wrong
+	**/
+	public RunSpecSectionStatus getImporterDataStatus(Connection db) throws Exception {
+		ArrayList<String> messages = new ArrayList<String>();
+		BasicDataHandler.runScript(db,this,messages,1,"database/RoadTypeDistributionImporter.sql");
+		for(Iterator<String> i=messages.iterator();i.hasNext();) {
+			String t = i.next();
+			if(t.toUpperCase().startsWith("ERROR")) {
+				return new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);
+			}
+		}
+		return new RunSpecSectionStatus(RunSpecSectionStatus.OK);
 	}
 }

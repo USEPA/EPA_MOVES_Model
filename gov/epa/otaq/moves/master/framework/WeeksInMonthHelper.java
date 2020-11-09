@@ -41,7 +41,7 @@ public class WeeksInMonthHelper {
 		if(!loadMonthsFromDatabase() || dayCounts.size() <= 0 || realDaysPerDay.size() <= 0) {
 			return 1;
 		}
-		Integer realDays = realDaysPerDay.get(new Integer(dayID));
+		Integer realDays = realDaysPerDay.get(Integer.valueOf(dayID));
 		if(realDays == null || realDays.intValue() <= 0) {
 			return 1;
 		}
@@ -59,7 +59,7 @@ public class WeeksInMonthHelper {
 		if(!loadMonthsFromDatabase() || dayCounts.size() <= 0 || realDaysPerDay.size() <= 0) {
 			return 1;
 		}
-		Integer daysPerMonth = monthsAndDays.get(new Integer(monthID));
+		Integer daysPerMonth = monthsAndDays.get(Integer.valueOf(monthID));
 		if(daysPerMonth == null || daysPerMonth.intValue() <= 0) {
 			return 1;
 		}
@@ -163,8 +163,8 @@ public class WeeksInMonthHelper {
 			sql = "SELECT MonthID, noOfDays FROM MonthOfAnyYear";
 			rs = SQLRunner.executeQuery(executionDatabase, sql);
 			while(rs.next()) {
-				Integer monthID = new Integer(rs.getInt(1));
-				Integer noOfDays = new Integer(rs.getInt(2));
+				Integer monthID = Integer.valueOf(rs.getInt(1));
+				Integer noOfDays = Integer.valueOf(rs.getInt(2));
 				monthsAndDays.put(monthID,noOfDays);
 
 				String monthIDs = (String)dayCounts.get(noOfDays);
@@ -186,8 +186,8 @@ public class WeeksInMonthHelper {
 			sql = "select dayID, noOfRealDays from dayOfAnyWeek";
 			rs = SQLRunner.executeQuery(executionDatabase, sql);
 			while(rs.next()) {
-				Integer dayID = new Integer(rs.getInt(1));
-				Integer noOfRealDays = new Integer(rs.getInt(2));
+				Integer dayID = Integer.valueOf(rs.getInt(1));
+				Integer noOfRealDays = Integer.valueOf(rs.getInt(2));
 				realDaysPerDay.put(dayID,noOfRealDays);
 				noOfRealDaysClause += " when " + dayID + " then " + noOfRealDays;
 				portionOfWeekPerDayClause += " when " + dayID + " then " + (1.0/noOfRealDays.doubleValue());

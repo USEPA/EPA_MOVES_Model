@@ -20,6 +20,7 @@ import gov.epa.otaq.moves.master.framework.*;
  *
  * @author		Wesley Faler
  * @author		Tim Hull
+ * @author  	Bill Shaw (508 compliance mods)
  * @version		2013-08-20
 **/
 public class MOVESRunErrorLog extends JDialog implements ActionListener {
@@ -107,6 +108,8 @@ public class MOVESRunErrorLog extends JDialog implements ActionListener {
 		okButton = new JButton("OK");
 		okButton.addActionListener(this);
 		okButton.setName("okButton");
+		okButton.setMnemonic('O');
+		okButton.setDisplayedMnemonicIndex(0);
 		ToolTipHelper.add(okButton,"Close the dialog");
 
 		selectRunCombo = new ExtendedComboBox<ComboItem>();
@@ -118,6 +121,8 @@ public class MOVESRunErrorLog extends JDialog implements ActionListener {
 		ToolTipHelper.add(selectRunCombo,"Select a run to see the messages logged during the run");
 		selectRunPanel = new JPanel();
 		selectRunPanel.setName("selectRunPanel");
+		selectRunLabel.setDisplayedMnemonic('S');
+		selectRunLabel.setLabelFor(selectRunPanel);
 
 		messageLogModel = new DefaultListModel<String>();
 		messageLogList = new JListWithToolTips<String>(messageLogModel);

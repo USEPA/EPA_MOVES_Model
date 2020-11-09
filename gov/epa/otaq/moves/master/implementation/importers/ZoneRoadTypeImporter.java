@@ -20,9 +20,9 @@ import gov.epa.otaq.moves.common.MOVESDatabaseType;
 /**
  * MOVES ZoneRoadType Data Importer.
  *
- * @author		Don Smith
  * @author		Wesley Faler
- * @version		2013-04-17
+ * @author		Don Smith
+ * @version		2015-09-16
 **/
 public class ZoneRoadTypeImporter extends ImporterBase {
 	/** Data handler for this importer **/
@@ -161,9 +161,11 @@ public class ZoneRoadTypeImporter extends ImporterBase {
 			return new RunSpecSectionStatus(RunSpecSectionStatus.OK);
 		}
 		boolean hasZones = manager.tableHasZones(db,
-				"select distinct zoneID from zoneRoadType");
+				"select distinct zoneID from zoneRoadType",
+				this,"zoneRoadType is missing zoneID(s)");
 		boolean hasRoadTypes = manager.tableHasNonOffnetworkRoadTypes(db,
-				"select distinct roadTypeID from zoneRoadType");
+				"select distinct roadTypeID from zoneRoadType",
+				this,"zoneRoadType is missing roadTypeID(s)");
 		if(hasZones && hasRoadTypes) {
 			return new RunSpecSectionStatus(RunSpecSectionStatus.OK);
 		}

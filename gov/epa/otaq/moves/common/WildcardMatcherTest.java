@@ -44,7 +44,7 @@ public class WildcardMatcherTest extends TestCase {
 	public void testFilter() {
 		TreeSet<Object> numbers = new TreeSet<Object>();
 		for(int i=10;i<=99;i++) {
-			numbers.add(new Integer(i));
+			numbers.add(Integer.valueOf(i));
 		}
 		int sizeBeforeFilter = numbers.size();
 
@@ -57,7 +57,7 @@ public class WildcardMatcherTest extends TestCase {
 		values = WildcardMatcher.filter(numbers,"3*");
 		assertEquals("\"3*\" filtered set wrong size",10,values.size());
 		for(int i=30;i<=39;i++) {
-			Integer t = new Integer(i);
+			Integer t = Integer.valueOf(i);
 			assertTrue("" + i + " not in \"3*\" filtered set",values.contains(t));
 		}
 	}

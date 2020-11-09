@@ -18,7 +18,7 @@ import java.sql.*;
  * Starts, and Population.
  *
  * @author		Wesley Faler
- * @version		2014-08-21
+ * @version		2017-09-29
 **/
 public class ActivityCalculator extends EmissionCalculator {
 	/**
@@ -77,10 +77,11 @@ public class ActivityCalculator extends EmissionCalculator {
 		new ActivityInfo("SourceHours",new int[] { 11, 12, 13 },false,"Link",false),
 		new ActivityInfo("ExtendedIdleHours",new int[] { 90 },true,"Zone",false),
 		new ActivityInfo("hotellingHours",new int[] { 91 },true,"Zone",false),
-		new ActivityInfo("SHO",new int[] { 1, 9, 10, 11, 12, 13 },false,"Link",false),
+		new ActivityInfo("SHO",new int[] { 1, 9, 10, 11, 12, 13 },false,"Link",true),
 		new ActivityInfo("SHP",new int[] { 11, 12, 13 },true,"Zone",false),
 		new ActivityInfo("Population",new int[] { 1, 2, 9, 10, 11, 12, 13, 90, 91 },false,"Zone",false),
-		new ActivityInfo("Starts",new int[] { 2 },true,"Zone",false)
+		new ActivityInfo("Starts",new int[] { 2 },true,"Zone",false),
+		new ActivityInfo("ONI",new int[] { 1 },true,"Link",false)
 	};
 
 	/**
@@ -107,6 +108,7 @@ public class ActivityCalculator extends EmissionCalculator {
 		enableActivity("SHP",runSpec.outputSHP);
 		enableActivity("Population",runSpec.outputPopulation);
 		enableActivity("Starts",runSpec.outputStarts);
+		enableActivity("ONI",runSpec.outputSHO);
 
 		// Subscribe to all processes for all needed activities
 		TreeSet<Integer> subscribedProcesses = new TreeSet<Integer>();
@@ -122,7 +124,7 @@ public class ActivityCalculator extends EmissionCalculator {
 				}
 				a.processObjects.add(p);
 
-				Integer pid = new Integer(a.processIDs[j]);
+				Integer pid = Integer.valueOf(a.processIDs[j]);
 				if(!subscribedProcesses.contains(pid)) {
 					subscribedProcesses.add(pid);
 					subscribe(targetLoop,pid.intValue());
@@ -362,6 +364,21 @@ public class ActivityCalculator extends EmissionCalculator {
 			enabledSectionNames.add("ProjectDomain");
 		} else {
 			enabledSectionNames.add("NonProjectDomain");
+		}
+
+		if(91 == context.iterProcess.databaseKey) {
+			Connection executionDB = null;
+			try {
+				executionDB = DatabaseConnectionManager.checkOutConnection(MOVESDatabaseType.EXECUTION);
+				int hotellingActivityZoneID = TotalActivityGenerator.findHotellingActivityDistributionZoneIDToUse(executionDB,context.iterLocation.stateRecordID,context.iterLocation.zoneRecordID);
+				replacements.put("##hotellingActivityZoneID##",""+hotellingActivityZoneID);
+			} catch(Exception e) {
+				// Nothing to do here
+			}
+			if(executionDB != null) {
+				DatabaseConnectionManager.checkInConnection(MOVESDatabaseType.EXECUTION,executionDB);
+				executionDB = null;
+			}
 		}
 
 		boolean isOK = readAndHandleScriptedCalculations(context,replacements,

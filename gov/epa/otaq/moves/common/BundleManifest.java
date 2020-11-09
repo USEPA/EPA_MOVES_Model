@@ -192,8 +192,8 @@ public class BundleManifest {
 			writer.println("\t<master_distanceunits>" + masterFragment.distanceUnits + "</master_distanceunits>");
 			writer.println("\t<master_massunits>" + masterFragment.massUnits + "</master_massunits>");
 			writer.println("\t<master_energyunits>" + masterFragment.energyUnits + "</master_energyunits>");
-			writer.println("\t<master_runspecfilename>" + masterFragment.runSpecFileName + "</master_runspecfilename>");
-			writer.println("\t<master_runspecdescription><![CDATA[" + masterFragment.runSpecDescription + "]]></master_runspecdescription>");
+			writer.println("\t<master_runspecfilename>" + StringUtilities.safeGetEscapedString(masterFragment.runSpecFileName) + "</master_runspecfilename>");
+			writer.println("\t<master_runspecdescription><![CDATA[" + StringUtilities.safeGetString(masterFragment.runSpecDescription) + "]]></master_runspecdescription>");
 			writer.println("\t<master_runspecfiledatetime>" + masterFragment.runSpecFileDateTime + "</master_runspecfiledatetime>");
 			writer.println("\t<master_rundatetime>" + masterFragment.runDateTime + "</master_rundatetime>");
 			writer.println("\t<master_model>" + masterFragment.model + "</master_model>");

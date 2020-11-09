@@ -106,7 +106,7 @@ public class RunSpecTest extends TestCase {
 		// small amount of precision will be lost when converted to text and back and the equality
 		// assertion will fail.
 		TimeSpan testTimeSpan = new TimeSpan();
-		testTimeSpan.years.add(new Integer(2001));
+		testTimeSpan.years.add(Integer.valueOf(2001));
 		testTimeSpan.months.add(TimeSpan.getMonthByIndex(6));
 
 		for(Iterator i=TimeSpan.allDays.iterator();i.hasNext();) {

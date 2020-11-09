@@ -221,7 +221,7 @@ public class SccTech_HpminmaxYear {
 		 * @return
 		 */
 		TechFraction get(int year) {
-			return yearTech==null ? null : yearTech.get(new Integer(year));
+			return yearTech==null ? null : yearTech.get(Integer.valueOf(year));
 		}
 		/**
 		 * 

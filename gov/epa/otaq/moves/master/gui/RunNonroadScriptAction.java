@@ -33,7 +33,7 @@ public class RunNonroadScriptAction extends JLFAbstractAction {
 		putValue(Action.NAME, NAME_RUN_SCRIPT);
 		putValue(Action.SHORT_DESCRIPTION, SHORT_DESCRIPTION_RUN_SCRIPT);
 		putValue(Action.LONG_DESCRIPTION, LONG_DESCRIPTION_RUN_SCRIPT);
-//		putValue(Action.MNEMONIC_KEY, new Integer(MNEMONIC_KEY_RUN_SCRIPT);
+//		putValue(Action.MNEMONIC_KEY, Integer.valueOf(MNEMONIC_KEY_RUN_SCRIPT);
 		putValue(Action.ACTION_COMMAND_KEY, ACTION_COMMAND_KEY_RUN_SCRIPT);
 	}
 }

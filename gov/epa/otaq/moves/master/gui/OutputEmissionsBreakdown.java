@@ -9,9 +9,16 @@ package gov.epa.otaq.moves.master.gui;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
+
 import gov.epa.otaq.moves.master.runspec.*;
+import gov.epa.otaq.moves.master.framework.MOVESAPI;
 import gov.epa.otaq.moves.common.*;
 import java.util.*;
+import java.sql.*;
 
 /**
  * Class for MOVES OutputEmissionsBreakdown panel. This Class contains several panels.
@@ -26,46 +33,32 @@ import java.util.*;
  * @author		Wesley Faler
  * @author		Sarah Luo, ERG
  * @author		Mitch C (minor mods)
- * @version		2015-03-16
+ * @author  	Bill Shaw (508 compliance mods)
+ * @author		Mike Kender (Task 2003)
+ * @version     2020-07-13
 **/
 public class OutputEmissionsBreakdown extends JPanel implements ActionListener, RunSpecEditor {
+	/** Singleton for the navigation panel **/
+	public static OutputEmissionsBreakdown singleton = null;
 	/** Panel contains "always" controls. **/
 	JPanel alwaysPanel;
 	/** Panel contains "all" controls. **/
 	JPanel allPanel;
-	/** Panel contains on and off road panels and controls. **/
-	JPanel onOffRoadPanel;
 	/** Panel contains on road controls. **/
 	JPanel onRoadPanel;
 	/** Panel contains off road controls. **/
 	JPanel offRoadPanel;
 
 	/** Panel with time options. **/
-	JPanel timePanel;
-	/** Time option checkbox. **/
-	JCheckBox time;
-	/** Time label. **/
 	JLabel timeLabel;
 	/** Output Timestep combo control. **/
 	JComboBox<OutputTimeStep> outputTimestepCombo;
 	/** Output Time Step when user entered the screen. **/
 	OutputTimeStep lastOutputTimeStep;
-	/** Panel with location options. **/
-	JPanel locationPanel;
-	/** Location option checkbox. **/
-	JCheckBox location;
-	/** Location label. **/
-	JLabel locationLabel;
+	/** Label for geographic options **/
+	JLabel geographicLabel;
 	/** Geographic output detail combo control. **/
 	JComboBox<GeographicOutputDetailLevel> geographicOutputDetailCombo;
-	/** Panel with pollutant options. **/
-	JPanel pollutantPanel;
-	/** Location option checkbox. **/
-	JCheckBox pollutant;
-	/** Pollutant label. **/
-	JLabel pollutantLabel;
-	/** Pollutant fill label. **/
-	JLabel pollutantFillLabel;
 
 	/** Model Year option checkbox. **/
 	JCheckBox modelYear;
@@ -76,21 +69,6 @@ public class OutputEmissionsBreakdown extends JPanel implements ActionListener, 
 	/** Emissions Process option checkbox. **/
 	JCheckBox emissionProcess;
 
-	/** Estimate Uncertainty option checkbox. **/
-	JCheckBox estimateUncertainty;
-	/** Panel with uncertainty options. **/
-	JPanel uncertaintyPanel;
-	/** Number of iterations label. **/
-	JLabel numberOfIterationsLabel;
-	/** Number of Iterations Field. **/
-	JTextField numberOfIterations;
-	/** Keep pseudo-randomly sampled data for each iteration. **/
-	JCheckBox keepSampledData;
-	/** Keep output data for each iteration. **/
-	JCheckBox keepIterations;
-
-	/** On Road/Off Road option checkbox. **/
-	JCheckBox onOffRoad;
 	/** True when Nonroad options are in effect **/
 	boolean useNonroadRules = false;
 
@@ -109,6 +87,8 @@ public class OutputEmissionsBreakdown extends JPanel implements ActionListener, 
 	JCheckBox engTech;
 	/** HP Class option checkbox. **/
 	JCheckBox hpClass;
+	/** Holds helper text **/
+	JLabel helper;
 
 	/** true if the most recently loaded runspec uses mesoscale loop **/
 	boolean isMesoscaleLookup = false;
@@ -118,6 +98,7 @@ public class OutputEmissionsBreakdown extends JPanel implements ActionListener, 
 	 *	of the controls.
 	**/
 	public OutputEmissionsBreakdown() {
+		singleton = this;
 		createControls();
 		arrangeControls();
 	}
@@ -182,17 +163,10 @@ public class OutputEmissionsBreakdown extends JPanel implements ActionListener, 
 
 	/** Creates and initializes all controls on this panel. **/
 	public void createControls() {
-		Dimension alwaysPanelSize = new Dimension(240, 110);
 		alwaysPanel = new JPanel();
 		alwaysPanel.setName("alwaysPanel");
-		alwaysPanel.setBorder(BorderFactory.createTitledBorder(
-				"Always"));
-		alwaysPanel.setPreferredSize(alwaysPanelSize);
-		timePanel = new JPanel();
-		ToolTipHelper.add(timePanel,"Always generate time periods for the output data");
-		time = new JCheckBox("");
-		time.setName("time");
-		timeLabel = new JLabel("Time");
+		alwaysPanel.setBorder(BorderFactory.createTitledBorder("Output Aggregation"));
+		alwaysPanel.setPreferredSize(new Dimension(280, 240));
 		outputTimestepCombo = new JComboBox<OutputTimeStep>();
 		outputTimestepCombo.setName("outputTimestepCombo");
 		outputTimestepCombo.addActionListener(this);
@@ -200,23 +174,24 @@ public class OutputEmissionsBreakdown extends JPanel implements ActionListener, 
 		outputTimestepCombo.setSelectedIndex(-1);
 		ToolTipHelper.add(outputTimestepCombo,"Select the time step to be used for the output "
 				+ "data");
-		locationPanel = new JPanel();
-		ToolTipHelper.add(locationPanel,"Always generate locations for output data");
-		location = new JCheckBox("");
-		location.setName("location");
-		locationLabel = new JLabel("Location");
+		timeLabel = new JLabel("Time:");
+		timeLabel.setDisplayedMnemonic('m');
+		timeLabel.setLabelFor(outputTimestepCombo);
+		
 		geographicOutputDetailCombo = new JComboBox<GeographicOutputDetailLevel>();
 		geographicOutputDetailCombo.setName("locationUnitsCombo");
 		geographicOutputDetailCombo.addActionListener(this);
 		geographicOutputDetailCombo.setEditable(false);
 		ToolTipHelper.add(geographicOutputDetailCombo,"Select the geographic detail to be used for the "
 				+ "output data");
-		pollutantPanel = new JPanel();
-		ToolTipHelper.add(pollutantPanel,"Always generate output pollutants");
-		pollutant = new JCheckBox("");
-		pollutant.setName("pollutant");
-		pollutantLabel = new JLabel("Pollutant");
-		pollutantFillLabel = new JLabel("                                                 ");
+		geographicLabel = new JLabel("Geographic:");
+		geographicLabel.setLabelFor(geographicOutputDetailCombo);
+		
+		helper = new JLabel("");
+		//helper.setEditable(true);
+		helper.setMinimumSize(new Dimension(280, 150));
+		helper.setMaximumSize(new Dimension(280, 300));
+		//helper.setBackground(alwaysPanel.getBackground());
 
 		Dimension allPanelSize = new Dimension(240, 135);
 		allPanel = new JPanel();
@@ -226,6 +201,8 @@ public class OutputEmissionsBreakdown extends JPanel implements ActionListener, 
 		allPanel.setPreferredSize(allPanelSize);
 		modelYear = new JCheckBox("Model Year");
 		modelYear.setName("modelYear");
+		modelYear.setMnemonic('d');
+		modelYear.setDisplayedMnemonicIndex(2);
 		ToolTipHelper.add(modelYear,"Include model year in output data");
 		fuelType = new JCheckBox("Fuel Type");
 		fuelType.setName("fuelType");
@@ -239,41 +216,16 @@ public class OutputEmissionsBreakdown extends JPanel implements ActionListener, 
 		emissionProcess.setName("emissionProcess");
 		ToolTipHelper.add(emissionProcess,"Include emission process in output data");
 
-		Dimension uncertaintyPanelSize = new Dimension(408, 110);
-		uncertaintyPanel = new JPanel();
-		uncertaintyPanel.setBorder(BorderFactory.createTitledBorder(""));
-		uncertaintyPanel.setPreferredSize(uncertaintyPanelSize);
-		estimateUncertainty = new JCheckBox("Estimate Uncertainty");
-		estimateUncertainty.setName("estimateUncertainty");
-		estimateUncertainty.addActionListener(this);
-		ToolTipHelper.add(estimateUncertainty,"Estimate uncertainty in output data");
-		numberOfIterationsLabel = new JLabel("Number of iterations:");
-		ToolTipHelper.add(numberOfIterationsLabel,"Number of iterations to include in estimate");
-		numberOfIterations = new JTextField(5);
-		ToolTipHelper.add(numberOfIterations,"Number of iterations to include in estimate");
-		keepSampledData = new JCheckBox("Keep pseudo-randomly sampled input");
-		ToolTipHelper.add(keepSampledData,"Keep pseudo-randomly generated data use in estimate");
-		keepIterations = new JCheckBox("Keep output from each iteration");
-		ToolTipHelper.add(keepIterations,"Keep the output of each iteration");
-
-		Dimension onOffRoadPanelSize = new Dimension(165, 285 + (CompilationFlags.DO_RATES_FIRST? 20:0));
-		onOffRoadPanel = new JPanel();
-		onOffRoadPanel.setName("onOffRoadPanel");
-		onOffRoadPanel.setBorder(BorderFactory.createTitledBorder(
-				"On Road/Off Road"));
-		onOffRoadPanel.setPreferredSize(onOffRoadPanelSize);
-		onOffRoad = new JCheckBox("On Road/Off Road");
-		onOffRoad.setName("onOffRoad");
-		ToolTipHelper.add(onOffRoad,"Include on and off road results");
-
 		Dimension onRoadPanelSize = new Dimension(160, 100 + (CompilationFlags.DO_RATES_FIRST? 20:0));
 		onRoadPanel = new JPanel();
 		onRoadPanel.setName("onRoadPanel");
 		onRoadPanel.setBorder(BorderFactory.createTitledBorder(
-				"On and Off Road"));
+				"Onroad"));
 		onRoadPanel.setPreferredSize(onRoadPanelSize);
 		roadType = new JCheckBox("Road Type");
 		roadType.setName("roadType");
+		roadType.setMnemonic('o');
+		roadType.setDisplayedMnemonicIndex(1);
 		ToolTipHelper.add(roadType,"Include road types in output data");
 		sourceUseType = new JCheckBox("Source Use Type");
 		sourceUseType.setName("sourceUseType");
@@ -290,33 +242,29 @@ public class OutputEmissionsBreakdown extends JPanel implements ActionListener, 
 		offRoadPanel = new JPanel();
 		offRoadPanel.setName("offRoadPanel");
 		offRoadPanel.setBorder(BorderFactory.createTitledBorder(
-				"Off Road"));
+				"Nonroad"));
 		offRoadPanel.setPreferredSize(offRoadPanelSize);
 		sector = new JCheckBox("Sector                ");
 		sector.setName("sector");
+		sector.setMnemonic('r');
+		sector.setDisplayedMnemonicIndex(5);
 		ToolTipHelper.add(sector,"Include sectors in output data");
 		engTech = new JCheckBox("Engine Tech.");
 		engTech.setName("engTech");
-		ToolTipHelper.add(engTech,"Include off road engine tech in output data");
+		ToolTipHelper.add(engTech,"Include nonroad engine tech in output data");
 		hpClass = new JCheckBox("HP Class");
 		hpClass.setName("hpClass");
 		ToolTipHelper.add(hpClass,"Include HP class in output data");
 
 		// Set fixed values and disabled fields
-		onOffRoad.setSelected(true);
-		onOffRoad.setEnabled(false);
-		time.setSelected(true);
-		time.setEnabled(false);
-		location.setSelected(true);
-		location.setEnabled(false);
-		pollutant.setSelected(true);
-		pollutant.setEnabled(false);
 		sector.setSelected(true);
 		sector.setEnabled(false);
 		engTech.setSelected(true);
 		engTech.setEnabled(false);
 		hpClass.setSelected(true);
 		hpClass.setEnabled(false);
+		
+		determineHelperText();
 	}
 
 	/** Sets the layout of the controls. **/
@@ -327,29 +275,20 @@ public class OutputEmissionsBreakdown extends JPanel implements ActionListener, 
  		alwaysPanel.setLayout(new GridBagLayout());
 		gbc.insets = new Insets(2,2,2,2);
 		gbc.gridwidth = 2;
-		gbc.gridheight = 3;
+		gbc.gridheight = 4;
 		gbc.weightx = 1;
 		gbc.weighty = 0;
 
-		timePanel.setLayout(new BoxLayout(timePanel, BoxLayout.X_AXIS));
-		timePanel.add(time);
-		timePanel.add(timeLabel);
-		LayoutUtility.setPositionOnGrid(gbc,0,0, "WEST", 1, 1);
-		alwaysPanel.add(timePanel, gbc);
-		LayoutUtility.setPositionOnGrid(gbc,1,0, "WEST", 1, 1);
-		alwaysPanel.add(outputTimestepCombo, gbc);
-		locationPanel.setLayout(new BoxLayout(locationPanel, BoxLayout.X_AXIS));
-		locationPanel.add(location);
-		locationPanel.add(locationLabel);
-		LayoutUtility.setPositionOnGrid(gbc,0,1, "WEST", 1, 1);
-		alwaysPanel.add(locationPanel, gbc);
-		LayoutUtility.setPositionOnGrid(gbc,1,1, "WEST", 1, 1);
+        LayoutUtility.setPositionOnGrid(gbc,0,0, "WEST", 1, 1);
+        alwaysPanel.add(timeLabel, gbc);
+		LayoutUtility.setPositionOnGrid(gbc, 1, 0, "WEST", 1, 1);
+		alwaysPanel.add(outputTimestepCombo, gbc);		
+        LayoutUtility.setPositionOnGrid(gbc,0,1, "WEST", 1, 1);
+        alwaysPanel.add(geographicLabel, gbc);
+        LayoutUtility.setPositionOnGrid(gbc,1,1, "WEST", 1, 1);
 		alwaysPanel.add(geographicOutputDetailCombo, gbc);
-		pollutantPanel.setLayout(new BoxLayout(pollutantPanel, BoxLayout.X_AXIS));
-		pollutantPanel.add(pollutant);
-		pollutantPanel.add(pollutantLabel);
-		LayoutUtility.setPositionOnGrid(gbc,0,2, "WEST", 1, 1);
-		alwaysPanel.add(pollutantPanel, gbc);
+		LayoutUtility.setPositionOnGrid(gbc, 0, 2, "NORTH", 2, 6);
+		alwaysPanel.add(helper, gbc);
 
 		allPanel.setLayout(new GridBagLayout());
 		gbc.insets = new Insets(2,2,2,2);
@@ -367,6 +306,8 @@ public class OutputEmissionsBreakdown extends JPanel implements ActionListener, 
 		}
 		LayoutUtility.setPositionOnGrid(gbc,0,2, "WEST", 2, 1);
 		allPanel.add(emissionProcess, gbc);
+		LayoutUtility.setPositionOnGrid(gbc,0,3, "WEST", 2, 1);
+		allPanel.add(onRoadSCC, gbc);
 
 		onRoadPanel.setLayout(new GridBagLayout());
 		gbc.insets = new Insets(2,2,2,2);
@@ -378,8 +319,6 @@ public class OutputEmissionsBreakdown extends JPanel implements ActionListener, 
 		onRoadPanel.add(roadType, gbc);
 		LayoutUtility.setPositionOnGrid(gbc,0,1, "WEST", 1, 1);
 		onRoadPanel.add(sourceUseType, gbc);
-		LayoutUtility.setPositionOnGrid(gbc,0,2, "WEST", 1, 1);
-		onRoadPanel.add(onRoadSCC, gbc);
 
 		if(CompilationFlags.DO_RATES_FIRST) {
 			LayoutUtility.setPositionOnGrid(gbc,0,3, "WEST", 1, 1);
@@ -399,50 +338,20 @@ public class OutputEmissionsBreakdown extends JPanel implements ActionListener, 
 		LayoutUtility.setPositionOnGrid(gbc,0,2, "WEST", 1, 1);
 		offRoadPanel.add(hpClass, gbc);
 
-		onOffRoadPanel.setLayout(new GridBagLayout());
-		gbc.insets = new Insets(2,2,2,2);
-		gbc.gridwidth = 1;
-		gbc.gridheight = 3;
-		gbc.weightx = 1;
-		gbc.weighty = 0;
-		LayoutUtility.setPositionOnGrid(gbc,0,0, "CENTER", 1, 1);
-		onOffRoadPanel.add(onOffRoad, gbc);
-		LayoutUtility.setPositionOnGrid(gbc,0,1, "CENTER", 1, 1);
-		onOffRoadPanel.add(onRoadPanel, gbc);
-		LayoutUtility.setPositionOnGrid(gbc,0,2, "CENTER", 1, 1);
-		onOffRoadPanel.add(offRoadPanel, gbc);
-
-		uncertaintyPanel.setLayout(new GridBagLayout());
-		gbc.insets = new Insets(2,2,2,2);
-		gbc.gridwidth = 4;
-		gbc.gridheight = 3;
-		gbc.weightx = 1;
-		gbc.weighty = 0;
-		LayoutUtility.setPositionOnGrid(gbc,0,0, "WEST", 1, 1);
-		uncertaintyPanel.add(numberOfIterationsLabel, gbc);
-		LayoutUtility.setPositionOnGrid(gbc,1,0, "WEST", 3, 1);
-		uncertaintyPanel.add(numberOfIterations, gbc);
-		LayoutUtility.setPositionOnGrid(gbc,0,1, "WEST", 4, 1);
-		uncertaintyPanel.add(keepSampledData, gbc);
-		LayoutUtility.setPositionOnGrid(gbc,0,2, "WEST", 4, 1);
-		uncertaintyPanel.add(keepIterations, gbc);
-
 		setLayout(new GridBagLayout());
 		gbc.insets = new Insets(2,2,2,2);
 		gbc.gridwidth = 2;
 		gbc.gridheight = 4;
 		gbc.weightx = 0;
 		gbc.weighty = 0;
-		LayoutUtility.setPositionOnGrid(gbc,0,0, "WEST", 1, 1);
+		LayoutUtility.setPositionOnGrid(gbc,0,0, "NORTH", 2, 2);
 		add(alwaysPanel, gbc);
-		LayoutUtility.setPositionOnGrid(gbc,0,1, "WEST", 1, 1);
+		LayoutUtility.setPositionOnGrid(gbc,2,0, "NORTH", 1, 2);
 		add(allPanel, gbc);
-		LayoutUtility.setPositionOnGrid(gbc,0,2, "WEST", 3, 1);
-		add(estimateUncertainty, gbc);
-		LayoutUtility.setPositionOnGrid(gbc,1,0, "WEST", 1, 3);
-		add(onOffRoadPanel, gbc);
-		LayoutUtility.setPositionOnGrid(gbc,0,3, "WEST", 3, 1);
-		add(uncertaintyPanel, gbc);
+		LayoutUtility.setPositionOnGrid(gbc,3,0, "NORTH", 1, 1);
+		add(onRoadPanel, gbc);
+		LayoutUtility.setPositionOnGrid(gbc,3,1, "NORTH", 1, 1);
+		add(offRoadPanel, gbc);
 	}
 
 	/**
@@ -450,13 +359,81 @@ public class OutputEmissionsBreakdown extends JPanel implements ActionListener, 
 	 * @param	e the ActionEvent to be handled.
 	**/
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == onRoadSCC) {
+		if (e.getSource() == outputTimestepCombo) {
+			determineHelperText();
+		} else if (e.getSource() == geographicOutputDetailCombo) {
+			determineHelperText();
+		} else if(e.getSource() == onRoadSCC) {
 			processOnRoadSCCButton(false);
-		} else if(e.getSource() == estimateUncertainty) {
-			processEstimateUncertaintyCheckBox();
 		} else {
 			enforceNonroadRules();
 		}
+	}
+
+	/**
+	 * Displays helper text depending on what has been selected in the
+	 * outputTimestepCombo and geographicOutputDetailCombo
+	**/
+	public void determineHelperText() {
+		if (helper == null) {
+			return;
+		}
+		
+		RunSpec runspec = MOVESAPI.getTheAPI().getRunSpec();
+		String helperText = "";
+		boolean isNonroad = runspec.models.contains(Model.NONROAD);
+		
+		// helper text for time aggregation (try block required because hasAllDays() can throw a SQL error)
+		try {
+			String selectedTimeStepDescription = "";
+			OutputTimeStep selectedTimeStep = (OutputTimeStep)outputTimestepCombo.getSelectedItem();
+			if(selectedTimeStep != null) {
+				selectedTimeStepDescription = selectedTimeStep.toString();
+			}
+			
+			if (selectedTimeStepDescription == OutputTimeStep.CLASSICAL_DAY.toString()) {
+				helperText += "<p>\"24-hour day\" aggregates hourly output to estimate total emissions for a typical day for each month selected.</p>";
+				if (!isNonroad && !runspec.timeSpan.hasAllHours()) {
+					helperText += "<p style=\"color: red;\">Note: All hours need to be selected in the Time Spans panel for this time aggregation option.</p>";
+				}
+			} else if (selectedTimeStepDescription == OutputTimeStep.PORTION_OF_WEEK.toString()) {
+				helperText += "<p>\"Portion of the week\" aggregates hourly output to estimate total emissions over a 2-day weekend and/or a 5-day work week for each month selected.</p>";
+				if (!isNonroad && !runspec.timeSpan.hasAllHours()) {
+					helperText += "<p style=\"color: red;\">Note: All hours need to be selected in the Time Spans panel for this time aggregation option.</p>";
+				}
+			} else if (selectedTimeStepDescription == OutputTimeStep.MONTH.toString()) {
+				if (!isNonroad && (!runspec.timeSpan.hasAllHours() || !runspec.timeSpan.hasAllDays(null))) {
+					helperText += "<p style=\"color: red;\">Note: All hours and days need to be selected in the Time Spans panel for this time aggregation option.</p>";
+				}
+			} else if (selectedTimeStepDescription == OutputTimeStep.YEAR.toString()) {
+				if (!isNonroad && (!runspec.timeSpan.hasAllHours() || !runspec.timeSpan.hasAllDays(null) || !runspec.timeSpan.hasAllMonths())) {
+					helperText += "<p style=\"color: red;\">Note: All hours, days, and months need to be selected in the Time Spans panel for this time aggregation option.</p>";
+				}
+			}
+		} catch (SQLException e) {
+			// nothing to do here
+		}
+		
+		// helper text for geographic aggregation
+		String selectedGeographicDescription = "";
+		if(geographicOutputDetailCombo.getSelectedIndex() != -1) {
+			selectedGeographicDescription = ((GeographicOutputDetailLevel)
+					geographicOutputDetailCombo.getSelectedItem()).toString();
+		}
+		
+		if (selectedGeographicDescription == GeographicOutputDetailLevel.NATION.toString()) {
+			if (PreaggregationOptions.singleton.state.isSelected()) {
+				helperText += "<p>Emissions will be calculated at the state level, but geographic detail will be aggregated away in the output with this option.</p>";
+			} else if (PreaggregationOptions.singleton.county.isSelected()) {
+				helperText += "<p>Emissions will be calculated at the county level, but geographic detail will be aggregated away in the output with this option.</p>";
+			}
+		} else if (selectedGeographicDescription == GeographicOutputDetailLevel.STATE.toString()) {
+			if (PreaggregationOptions.singleton.county.isSelected()) {
+				helperText += "<p>Emissions will be calculated at the county level, but geographic detail will be aggregated to the state level with this option. <span style=\"color: red;\">Note: If all counties in each state included in the run are not selected, the output will be for partial states.</span></p>";
+			}
+		}
+		
+		helper.setText("<html>" + helperText + "</html>");
 	}
 
 	/**
@@ -563,15 +540,6 @@ public class OutputEmissionsBreakdown extends JPanel implements ActionListener, 
 		alreadyEnforcingNonroadRules = false;
 	}
 
-	/** Handles the Estimate Uncertainty checkbox click logic. **/
-	public void processEstimateUncertaintyCheckBox() {
-		uncertaintyPanel.setEnabled(estimateUncertainty.isSelected());
-		numberOfIterationsLabel.setEnabled(estimateUncertainty.isSelected());
-		numberOfIterations.setEnabled(estimateUncertainty.isSelected());
-		keepSampledData.setEnabled(estimateUncertainty.isSelected());
-		keepIterations.setEnabled(estimateUncertainty.isSelected());
-	}
-
 	/**
 	 * Saves the description text to a RunSpec.
 	 * @param	runspec the RunSpec to get the description text.
@@ -592,26 +560,10 @@ public class OutputEmissionsBreakdown extends JPanel implements ActionListener, 
 			runspec.outputEmissionsBreakdownSelection.estimateUncertainty = false;
 		} else {
 			runspec.outputEmissionsBreakdownSelection.emissionProcess = emissionProcess.isSelected();
-			runspec.outputEmissionsBreakdownSelection.estimateUncertainty =
-					estimateUncertainty.isSelected();
 		}
 		// Uncertainty is disabled in this version
 		runspec.outputEmissionsBreakdownSelection.estimateUncertainty = false;
 
-		int intNumberOfIterations;
-		try {
-			intNumberOfIterations = Integer.parseInt(numberOfIterations.getText());
-			if(intNumberOfIterations<2) {
-				intNumberOfIterations = 2;
-			}
-		} catch (NumberFormatException e) {
-			intNumberOfIterations = 2;
-		}
-		numberOfIterations.setText(Integer.toString(intNumberOfIterations));
-		runspec.outputEmissionsBreakdownSelection.numberOfIterations = intNumberOfIterations;
-		runspec.outputEmissionsBreakdownSelection.keepSampledData = keepSampledData.isSelected();
-		runspec.outputEmissionsBreakdownSelection.keepIterations = keepIterations.isSelected();
-		runspec.outputEmissionsBreakdownSelection.onRoadOffRoad = onOffRoad.isSelected();
 		runspec.outputEmissionsBreakdownSelection.roadType = roadType.isSelected();
 		runspec.outputEmissionsBreakdownSelection.regClassID = regClass.isSelected();
 		runspec.outputEmissionsBreakdownSelection.sourceUseType = sourceUseType.isSelected();
@@ -658,50 +610,13 @@ public class OutputEmissionsBreakdown extends JPanel implements ActionListener, 
 		if(runspec.scale == ModelScale.MESOSCALE_LOOKUP) {
 			emissionProcess.setSelected(true);
 			emissionProcess.setEnabled(false);
-
-			estimateUncertainty.setSelected(false);
-			estimateUncertainty.setEnabled(false);
 		} else {
 			emissionProcess.setSelected(runspec.outputEmissionsBreakdownSelection.emissionProcess);
 			emissionProcess.setEnabled(true);
 
-			// Uncertainty is disabled in this version
-			estimateUncertainty.setSelected(false);
-			estimateUncertainty.setEnabled(false);
-			/*
-			estimateUncertainty.setSelected(
-					runspec.outputEmissionsBreakdownSelection.estimateUncertainty);
-			// enable/disable uncertainty estimation if output is being aggregated.
-			if(runspec.timeSpan.aggregateBy.compareTo(OutputTimeStep.HOUR) != 0) {
-				estimateUncertainty.setSelected(false);
-				estimateUncertainty.setEnabled(false);
-			} else {
-				estimateUncertainty.setEnabled(true);
-				GeographicSelectionType geoType = null;
-				Iterator i = runspec.geographicSelections.iterator();
-				if(i.hasNext()) {
-					geoType = ((GeographicSelection) i.next()).type;
-				}
-				if(geoType != null) {
-					if(geoType == GeographicSelectionType.NATION
-							|| geoType == GeographicSelectionType.STATE) {
-						estimateUncertainty.setSelected(false);
-						estimateUncertainty.setEnabled(false);
-					}
-				}
-			}
-			*/
 		}
-		Integer integerNumberOfIterations = new Integer(
+		Integer integerNumberOfIterations = Integer.valueOf(
 				runspec.outputEmissionsBreakdownSelection.numberOfIterations);
-		numberOfIterations.setText(integerNumberOfIterations.toString());
-		keepSampledData.setSelected(runspec.outputEmissionsBreakdownSelection.keepSampledData);
-		keepIterations.setSelected(runspec.outputEmissionsBreakdownSelection.keepIterations);
-		uncertaintyPanel.setEnabled(estimateUncertainty.isSelected());
-		numberOfIterationsLabel.setEnabled(estimateUncertainty.isSelected());
-		numberOfIterations.setEnabled(estimateUncertainty.isSelected());
-		keepSampledData.setEnabled(estimateUncertainty.isSelected());
-		keepIterations.setEnabled(estimateUncertainty.isSelected());
 
 		boolean hasNonroad = runspec.models.contains(Model.NONROAD);
 		useNonroadRules = hasNonroad;
@@ -775,7 +690,6 @@ public class OutputEmissionsBreakdown extends JPanel implements ActionListener, 
 		}
 
 		// onOffRoad is always selected in ghg1
-		onOffRoad.setSelected(true);
 		roadType.setSelected(runspec.outputEmissionsBreakdownSelection.roadType);
 		sourceUseType.setSelected(runspec.outputEmissionsBreakdownSelection.sourceUseType);
 		sector.setSelected(runspec.outputEmissionsBreakdownSelection.sector);
@@ -801,6 +715,8 @@ public class OutputEmissionsBreakdown extends JPanel implements ActionListener, 
 	**/
 	public RunSpecSectionStatus calculateRunSpecSectionStatus(RunSpec runspec,
 			TreeMap<String,RunSpecSectionStatus> sections) {
+		determineHelperText();
+		
 		// This panel is acceptable even if there are no selections made, so there is nothing
 		// to be checked here.
 		boolean isOk = false;
@@ -857,11 +773,15 @@ public class OutputEmissionsBreakdown extends JPanel implements ActionListener, 
 		runspec.outputEmissionsBreakdownSelection.engTechID = false;
 		runspec.outputEmissionsBreakdownSelection.hpClass = false;
 		runspec.outputTimeStep = null;
+		
+		boolean isNonroad = runspec.models.contains(Model.NONROAD);
 
 		if(ModelScale.MACROSCALE == runspec.scale) {
 			geographicOutputDetailCombo.removeAllItems();
 			geographicOutputDetailCombo.addItem(GeographicOutputDetailLevel.NATION);
-			geographicOutputDetailCombo.addItem(GeographicOutputDetailLevel.STATE);
+			if(!isNonroad) { // disable STATE aggregation for NR
+				geographicOutputDetailCombo.addItem(GeographicOutputDetailLevel.STATE);
+			}
 			geographicOutputDetailCombo.addItem(GeographicOutputDetailLevel.COUNTY);
 			geographicOutputDetailCombo.addItem(GeographicOutputDetailLevel.ZONE);
 			geographicOutputDetailCombo.addItem(GeographicOutputDetailLevel.LINK);
@@ -879,6 +799,9 @@ public class OutputEmissionsBreakdown extends JPanel implements ActionListener, 
 
 		RunSpecSectionStatus status = new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);
 		sections.put(getName(),status);
+		
+		determineHelperText();
+		
 		return status;
 	}
 
@@ -914,10 +837,22 @@ public class OutputEmissionsBreakdown extends JPanel implements ActionListener, 
 			onRoadSCC.setEnabled(true);
 			roadType.setEnabled(true);
 			outputTimestepCombo.setEnabled(false);
+		} else if(runspec.domain == ModelDomain.SINGLE_COUNTY) {
+			isMesoscaleLookup = false;
+			// at county scale, only let County or Zone be selected
+			geographicOutputDetailCombo.removeAllItems();
+			geographicOutputDetailCombo.addItem(GeographicOutputDetailLevel.COUNTY);
+			geographicOutputDetailCombo.addItem(GeographicOutputDetailLevel.ZONE);
+			if (runspec.geographicOutputDetail == GeographicOutputDetailLevel.COUNTY) {
+				geographicOutputDetailCombo.setSelectedItem(GeographicOutputDetailLevel.COUNTY);
+			} else if (runspec.geographicOutputDetail == GeographicOutputDetailLevel.ZONE) {
+				geographicOutputDetailCombo.setSelectedItem(GeographicOutputDetailLevel.ZONE);
+			}
 		} else {
 			isMesoscaleLookup = false;
 
 			// Load Geographic Output Detail Combo Box
+			boolean isNonroad = runspec.models.contains(Model.NONROAD);
 			GeographicSelectionType geoType = null;
 			Iterator i = runspec.geographicSelections.iterator();
 			if(i.hasNext()) {
@@ -932,7 +867,9 @@ public class OutputEmissionsBreakdown extends JPanel implements ActionListener, 
 					geographicOutputDetailCombo.addItem(GeographicOutputDetailLevel.STATE);
 				} else if (geoType == GeographicSelectionType.COUNTY) {
 					geographicOutputDetailCombo.addItem(GeographicOutputDetailLevel.NATION);
-					geographicOutputDetailCombo.addItem(GeographicOutputDetailLevel.STATE);
+					if(!isNonroad) { // disable STATE aggregation for NR
+						geographicOutputDetailCombo.addItem(GeographicOutputDetailLevel.STATE);
+					}
 					geographicOutputDetailCombo.addItem(GeographicOutputDetailLevel.COUNTY);
 					geographicOutputDetailCombo.addItem(GeographicOutputDetailLevel.ZONE);
 					if(ModelScale.MACROSCALE != runspec.scale) {

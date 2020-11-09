@@ -15,9 +15,11 @@ import java.sql.*;
 /**
  * Perform Air Toxics calculations
  * @author		Wesley Faler
- * @version		2015-04-07
+ * @version		2016-12-08
 **/
-public class AirToxicsCalculator extends EmissionCalculator {
+public class AirToxicsCalculator extends EmissionCalculator
+//			implements EmissionCalculatorExternal
+				{
 	/**
 	 * @algorithm
 	 * @owner Air toxics Calculator
@@ -99,7 +101,7 @@ public class AirToxicsCalculator extends EmissionCalculator {
 		};
 		TreeSet<Integer> values = new TreeSet<Integer>();
 		for(int i=0;i<possibleValues.length;i++) {
-			Integer v = new Integer(possibleValues[i]);
+			Integer v = Integer.valueOf(possibleValues[i]);
 			values.add(v);
 		}
 
@@ -395,6 +397,11 @@ public class AirToxicsCalculator extends EmissionCalculator {
 		System.out.println("##inputPAHGasRatio##"+inputPAHGasRatio);
 		System.out.println("##inputPAHParticleRatio##"+inputPAHParticleRatio);
 		*/
+
+		// Pass section names as flags to the external calculator
+		for(String s : enabledSectionNames) {
+			sqlForWorker.externalModules.add("ATC_" + s);
+		}
 
 		boolean isOK = readAndHandleScriptedCalculations(context,replacements,
 				"database/AirToxicsCalculator.sql",enabledSectionNames,

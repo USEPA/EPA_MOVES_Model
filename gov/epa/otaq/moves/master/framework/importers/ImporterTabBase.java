@@ -22,7 +22,9 @@ import gov.epa.otaq.moves.common.MOVESDatabaseType;
  *
  * @author		Wes Faler
  * @author      William Aikman
- * @version		2015-09-15
+ * @author		Bill Shaw
+ * @author		Jarrod Brown
+ * @version		2018-06-22
 **/
 public class ImporterTabBase implements IImporterPanel, FocusListener, ActionListener,
 		TableFileLinkagePart.IMessageHandler {
@@ -62,6 +64,8 @@ public class ImporterTabBase implements IImporterPanel, FocusListener, ActionLis
 	String previousDescription = "";
 	/** Optional custom button **/
 	JButton customButton = null;
+	/** keep track of if data has been imported already **/
+	boolean alreadyImported = false;
 
 	/**
 	 * Constructor
@@ -185,6 +189,8 @@ public class ImporterTabBase implements IImporterPanel, FocusListener, ActionLis
 					GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 					new Insets(0, 0, 5, 0), 0, 0));
 			}
+			label1.setDisplayedMnemonic('s');
+			label1.setLabelFor(descriptionTextArea);
 
 			//======== dataSourcesScrollPane ========
 			{
@@ -202,6 +208,8 @@ public class ImporterTabBase implements IImporterPanel, FocusListener, ActionLis
 
 			//---- importButton ----
 			importButton.setText("Import");
+			importButton.setMnemonic('I');
+			importButton.setDisplayedMnemonicIndex(0);
 			panel.add(importButton, new GridBagConstraints(5, 3, 1, 1, 0.0, 0.0,
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				new Insets(0, 0, 5, 5), 0, 0));
@@ -229,6 +237,8 @@ public class ImporterTabBase implements IImporterPanel, FocusListener, ActionLis
 						&& (!importer.getImporterManager().isCustomDomain() || importerDataSource.allowCustomDomainDefaultDataExport())) {
 					//---- exportDefaultDataButton ----
 					exportDefaultDataButton.setText("Export Default Data");
+					exportDefaultDataButton.setMnemonic('D');
+					exportDefaultDataButton.setDisplayedMnemonicIndex(7);
 					panel.add(exportDefaultDataButton, new GridBagConstraints(0, 6, 1, 1, 0.0, 0.0,
 						GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 						new Insets(0, 0, 5, 5), 0, 0));
@@ -253,6 +263,8 @@ public class ImporterTabBase implements IImporterPanel, FocusListener, ActionLis
 				if(importerDataSource.allowExecutionDataExport()) {
 					//---- exportExecutionDataButton ----
 					exportExecutionDataButton.setText("Export Most Recent Execution Data");
+					exportExecutionDataButton.setMnemonic('E');
+					exportExecutionDataButton.setDisplayedMnemonicIndex(0);
 					panel.add(exportExecutionDataButton, new GridBagConstraints(1, 6, 1, 1, 0.0, 0.0,
 						GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 						new Insets(0, 0, 5, 5), 0, 0));
@@ -261,6 +273,8 @@ public class ImporterTabBase implements IImporterPanel, FocusListener, ActionLis
 
 			//---- exportImportedDataButton ----
 			exportImportedDataButton.setText("Export Imported Data");
+			exportImportedDataButton.setMnemonic('x');
+			exportImportedDataButton.setDisplayedMnemonicIndex(1);
 			panel.add(exportImportedDataButton, new GridBagConstraints(2, 6, 1, 1, 0.0, 0.0,
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				new Insets(0, 0, 5, 5), 0, 0));
@@ -383,19 +397,46 @@ public class ImporterTabBase implements IImporterPanel, FocusListener, ActionLis
 					"Database Needed", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
-		Connection db = importer.getImporterManager().openDatabase();
-		if(db == null) {
-			return;
+
+		boolean clear = false;
+		//check to see if data has been imported before
+		if(alreadyImported) {
+			int option = JOptionPane.showConfirmDialog(null, "Clear previously imported data?");
+			if(option == JOptionPane.CANCEL_OPTION) {
+				return;
+			} else if (option == JOptionPane.YES_OPTION) {
+				//clear the data
+				clear = true;
+			}
 		}
-		importer.getImporterManager().activeDb = db;
-		importer.getDataHandler().doImport(db,true,importerDataSource.getMessages());
-		// Tell the supporting GUI to refresh its log display
-		importer.getImporterManager().createGUI(null).loadLog(db);
-		importer.getImporterManager().createGUI(null).refreshDomainStatusIcons();
-		importer.getImporterManager().activeDb = null;
-		DatabaseUtilities.closeConnection(db);
-		db = null;
-		populateControls();
+		
+		try {
+			setWaitCursor();
+			Connection db = importer.getImporterManager().openDatabase();
+			if(db == null) {
+				return;
+			}
+			importer.getImporterManager().activeDb = db;
+
+			//Check to make sure all imported tables contain data before importing any tables.
+			//If tables are missing data, do not import any tables.
+			if (importer.getDataHandler().doImport(db,false,importerDataSource.getMessages())) {
+				if(clear) {
+					importer.getDataHandler().doClear(db);
+				}
+				importer.getDataHandler().doImport(db,true,importerDataSource.getMessages());
+			}
+			// Tell the supporting GUI to refresh its log display
+			importer.getImporterManager().createGUI(null).loadLog(db);
+			importer.getImporterManager().createGUI(null).refreshDomainStatusIcons();
+			importer.getImporterManager().activeDb = null;
+			DatabaseUtilities.closeConnection(db);
+			db = null;
+			populateControls();
+			alreadyImported = true;
+		} finally {
+			setDefaultCursor();
+		}
 	}
 
 	/**
@@ -428,11 +469,18 @@ public class ImporterTabBase implements IImporterPanel, FocusListener, ActionLis
 				return;
 			}
 		}
+	
+		int exportResult = 0;
+		try {
+			setWaitCursor();
+			importer.getImporterManager().activeDb = db;
+			exportResult = importer.getDataHandler().doExport(type,db,file);
+			importer.getImporterManager().activeDb = null;
+		} finally {
+			setDefaultCursor();
+		}
 
-		importer.getImporterManager().activeDb = db;
-		int exportResult = importer.getDataHandler().doExport(type,db,file);
-		importer.getImporterManager().activeDb = null;
-		// Note: No log of the export is neeed.
+		// Note: No log of the export is needed.
 
 		if(exportResult == 0) { // If there were no errors but no data was exported...
 			JOptionPane.showMessageDialog(null,
@@ -450,36 +498,53 @@ public class ImporterTabBase implements IImporterPanel, FocusListener, ActionLis
 					"Database Needed", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
-		Connection db = importer.getImporterManager().openDatabase();
-		if(db == null) {
-			return;
+		
+		try {
+			setWaitCursor();
+			Connection db = importer.getImporterManager().openDatabase();
+			if(db == null) {
+				return;
+			}
+			handleExport(null,db);
+			DatabaseUtilities.closeConnection(db); // close the connection
+			db = null;
+		} finally {
+			setDefaultCursor();
 		}
-		handleExport(null,db);
-		DatabaseUtilities.closeConnection(db); // close the connection
-		db = null;
+
 	}
 
 	/** Handle the Export Default Data button action **/
 	void handleExportDefaultDataButton() {
-		Connection db = DatabaseConnectionManager.getGUIConnection(MOVESDatabaseType.DEFAULT);
-		if(db == null) {
-			return;
+		try {
+			setWaitCursor();
+			Connection db = DatabaseConnectionManager.getGUIConnection(MOVESDatabaseType.DEFAULT);
+			if(db == null) {
+				return;
+			}
+			handleExport(MOVESDatabaseType.DEFAULT,db);
+			db = null; // don't close the connection since it is shared by the whole GUI
+		} finally {
+			setDefaultCursor();
 		}
-		handleExport(MOVESDatabaseType.DEFAULT,db);
-		db = null; // don't close the connection since it is shared by the whole GUI
 	}
 
 	/** Handle the Export Execution Data button action **/
 	void handleExportExecutionDataButton() {
-		Connection db = DatabaseConnectionManager.getGUIConnection(MOVESDatabaseType.EXECUTION);
-		if(db == null) {
-			JOptionPane.showMessageDialog(null,
-					"There is no MOVESExecution database. Please run MOVES first.",
-					"Database Needed", JOptionPane.ERROR_MESSAGE);
-			return;
+		try {
+			setWaitCursor();
+			Connection db = DatabaseConnectionManager.getGUIConnection(MOVESDatabaseType.EXECUTION);
+			if(db == null) {
+				JOptionPane.showMessageDialog(null,
+						"There is no MOVESExecution database. Please run MOVES first.",
+						"Database Needed", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			handleExport(MOVESDatabaseType.EXECUTION,db);
+			db = null; // don't close the connection since it is shared by the whole GUI
+		} finally {
+			setDefaultCursor();
 		}
-		handleExport(MOVESDatabaseType.EXECUTION,db);
-		db = null; // don't close the connection since it is shared by the whole GUI
 	}
 
 	/** Handle the Clear Data button action **/
@@ -540,16 +605,35 @@ public class ImporterTabBase implements IImporterPanel, FocusListener, ActionLis
 
 	/** Refresh status icons shown for all tabs **/	
 	public void refreshIcons() {
-		Connection db = importer.getImporterManager().openDatabase();
-		if(db == null) {
-			return;
+		try {
+			setWaitCursor();
+			Connection db = importer.getImporterManager().openDatabase(false);
+			if(db == null) {
+				return;
+			}
+			importer.getImporterManager().activeDb = db;
+			// Tell the supporting GUI to refresh its log display
+			importer.getImporterManager().createGUI(null).loadLog(db);
+			importer.getImporterManager().createGUI(null).refreshDomainStatusIcons();
+			importer.getImporterManager().activeDb = null;
+			DatabaseUtilities.closeConnection(db);
+			db = null;
+		} finally {
+			setDefaultCursor();
 		}
-		importer.getImporterManager().activeDb = db;
-		// Tell the supporting GUI to refresh its log display
-		importer.getImporterManager().createGUI(null).loadLog(db);
-		importer.getImporterManager().createGUI(null).refreshDomainStatusIcons();
-		importer.getImporterManager().activeDb = null;
-		DatabaseUtilities.closeConnection(db);
-		db = null;
+	}
+	
+	/** Sets the wait cursor (don't have access to MOVESWindow, so it needs to be redefined here) **/
+	public void setWaitCursor() {
+		RootPaneContainer root = (RootPaneContainer) this.getPanel().getRootPane().getTopLevelAncestor();
+		root.getGlassPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+		root.getGlassPane().setVisible(true);
+	}
+	
+	/** Sets the default cursor (don't have access to MOVESWindow, so it needs to be redefined here) **/
+	public void setDefaultCursor() {
+		RootPaneContainer root = (RootPaneContainer) this.getPanel().getRootPane().getTopLevelAncestor();
+		root.getGlassPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+		root.getGlassPane().setVisible(true);
 	}
 }

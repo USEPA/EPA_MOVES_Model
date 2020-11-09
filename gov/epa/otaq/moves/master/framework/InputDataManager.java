@@ -26,7 +26,8 @@ import java.lang.*;
  * @author		Mitch C.
  * @author		Ed Glover William Aikman Mods for NO NO2 SO2
  * @author		Tim Hull
- * @version		2015-05-22
+ * @author 		John Covey - Task 1806 changes
+ * @version 	2018-03-20
 **/
 public class InputDataManager {
 	/** When copying tables, indicates whether missing tables not in the source
@@ -440,7 +441,7 @@ public class InputDataManager {
 				ExecutionRunSpec.theExecutionRunSpec.executionLocations.iterator();
 				iter.hasNext(); ) {
 			ExecutionLocation location = (ExecutionLocation)iter.next();
-			linkIDs.add(new Integer(location.linkRecordID));
+			linkIDs.add(Integer.valueOf(location.linkRecordID));
 		}
 		String sql = "";
 		boolean isFirst = true;
@@ -481,7 +482,7 @@ public class InputDataManager {
 				ExecutionRunSpec.theExecutionRunSpec.executionLocations.iterator();
 				iter.hasNext(); ) {
 			ExecutionLocation location = (ExecutionLocation)iter.next();
-			zoneIDs.add(new Integer(location.zoneRecordID));
+			zoneIDs.add(Integer.valueOf(location.zoneRecordID));
 		}
 		boolean isFirst = true;
 		for(Iterator<Integer> iter=zoneIDs.iterator();iter.hasNext();) {
@@ -607,7 +608,7 @@ public class InputDataManager {
 				ExecutionRunSpec.theExecutionRunSpec.executionLocations.iterator();
 				iter.hasNext(); ) {
 			ExecutionLocation location = (ExecutionLocation)iter.next();
-			countyIDs.add(new Integer(location.countyRecordID));
+			countyIDs.add(Integer.valueOf(location.countyRecordID));
 		}
 		boolean isFirst = true;;
 		String sql = "";
@@ -682,7 +683,7 @@ public class InputDataManager {
 				ExecutionRunSpec.theExecutionRunSpec.executionLocations.iterator();
 				iter.hasNext(); ) {
 			ExecutionLocation location = (ExecutionLocation)iter.next();
-			stateIDs.add(new Integer(location.stateRecordID));
+			stateIDs.add(Integer.valueOf(location.stateRecordID));
 		}
 		String sql = "";
 		boolean isFirst = true;
@@ -746,7 +747,7 @@ public class InputDataManager {
 				results = SQLRunner.executeQuery(defaultDB,sql);
 				hourDayIDs.clear();
 				while(results.next()) {
-					hourDayIDs.add(new Integer(results.getInt(1)));
+					hourDayIDs.add(Integer.valueOf(results.getInt(1)));
 				}
 				sql = "";
 				for(Iterator<Integer> iter = hourDayIDs.iterator();iter.hasNext();) {
@@ -802,7 +803,7 @@ public class InputDataManager {
 				ExecutionRunSpec.theExecutionRunSpec.getRoadTypes().iterator();
 				iter.hasNext(); ) {
 			RoadType roadTypeSelection = (RoadType)iter.next();
-			Integer roadTypeInteger = new Integer(roadTypeSelection.roadTypeID);
+			Integer roadTypeInteger = Integer.valueOf(roadTypeSelection.roadTypeID);
 			if(isFirst) {
 				sql += columnName + " IN (";
 			} else {
@@ -894,7 +895,7 @@ public class InputDataManager {
 				ExecutionRunSpec.theExecutionRunSpec.getOnRoadVehicleSelections().iterator();
 				iter.hasNext(); ) {
 			OnRoadVehicleSelection selection = (OnRoadVehicleSelection)iter.next();
-			Integer sourceTypeInteger = new Integer(selection.sourceTypeID);
+			Integer sourceTypeInteger = Integer.valueOf(selection.sourceTypeID);
 			if(!sourceTypes.contains(sourceTypeInteger)) {
 				if(sourceTypes.size() == 0) {
 					sql += columnName + " IN (";
@@ -989,7 +990,7 @@ public class InputDataManager {
 				ExecutionRunSpec.theExecutionRunSpec.getOnRoadVehicleSelections().iterator();
 				iter.hasNext(); ) {
 			OnRoadVehicleSelection selection = (OnRoadVehicleSelection)iter.next();
-			Integer fuelTypeInteger = new Integer(selection.fuelTypeID);
+			Integer fuelTypeInteger = Integer.valueOf(selection.fuelTypeID);
 			if(!fuelTypes.contains(fuelTypeInteger)) {
 				if(fuelTypes.size() == 0) {
 					sql += columnName + " IN (";
@@ -1004,7 +1005,7 @@ public class InputDataManager {
 				ExecutionRunSpec.theExecutionRunSpec.getOffRoadVehicleSelections().iterator();
 				iter.hasNext(); ) {
 			OffRoadVehicleSelection selection = iter.next();
-			Integer fuelTypeInteger = new Integer(selection.fuelTypeID);
+			Integer fuelTypeInteger = Integer.valueOf(selection.fuelTypeID);
 			if(!fuelTypes.contains(fuelTypeInteger)) {
 				if(fuelTypes.size() == 0) {
 					sql += columnName + " IN (";
@@ -1037,7 +1038,7 @@ public class InputDataManager {
 				ExecutionRunSpec.theExecutionRunSpec.getOffRoadVehicleSelections().iterator();
 				iter.hasNext(); ) {
 			OffRoadVehicleSelection selection = iter.next();
-			Integer fuelTypeInteger = new Integer(selection.fuelTypeID);
+			Integer fuelTypeInteger = Integer.valueOf(selection.fuelTypeID);
 			if(!fuelTypes.contains(fuelTypeInteger)) {
 				if(fuelTypes.size() == 0) {
 					sql += columnName + " IN (";
@@ -1087,7 +1088,7 @@ public class InputDataManager {
 							+ " monthID =" + month.intValue();
 					results = SQLRunner.executeQuery(defaultDB, sql);
 					while (results.next()) {
-						monthGroupIDs.add(new Integer(results.getInt("monthGroupID")));
+						monthGroupIDs.add(Integer.valueOf(results.getInt("monthGroupID")));
 					}
 				}
 			} catch(Exception e) {
@@ -1270,7 +1271,7 @@ public class InputDataManager {
 				ExecutionRunSpec.theExecutionRunSpec.getOffRoadVehicleSelections().iterator();
 				iter.hasNext(); ) {
 			OffRoadVehicleSelection selection = iter.next();
-			Integer sectorInteger = new Integer(selection.sectorID);
+			Integer sectorInteger = Integer.valueOf(selection.sectorID);
 			if(!sectors.contains(sectorInteger)) {
 				if(sectors.size() == 0) {
 					sql += columnName + " IN (";
@@ -1322,13 +1323,13 @@ public class InputDataManager {
 					resultSQL += ",";
 				}
 				int equipmentTypeID = query.rs.getInt("NREquipTypeID");
-				equipmentTypes.add(new Integer(equipmentTypeID));
+				equipmentTypes.add(Integer.valueOf(equipmentTypeID));
 				resultSQL +=  equipmentTypeID;
 				isFirst = false;
 
 				int surrogateID = query.rs.getInt("surrogateID");
 				if(surrogateID > 0) {
-					Integer ts = new Integer(surrogateID);
+					Integer ts = Integer.valueOf(surrogateID);
 					if(!equipmentTypes.contains(ts) && !surrogateTypes.contains(ts)) {
 						surrogateTypes.add(ts);
 						if(surrogateSQL.length() > 0) {
@@ -1347,7 +1348,7 @@ public class InputDataManager {
 				query.open(nrDefaultDatabase,sql);
 				while(query.rs.next()) {
 					int equipmentTypeID = query.rs.getInt("NREquipTypeID");
-					Integer t = new Integer(equipmentTypeID);
+					Integer t = Integer.valueOf(equipmentTypeID);
 					if(!equipmentTypes.contains(t)) {
 						equipmentTypes.add(t);
 						resultSQL += "," + equipmentTypeID;
@@ -1724,14 +1725,7 @@ public class InputDataManager {
 					+ " vaporLowTLimit, vaporHighTLimit, tankTDiffLimit,"
 					+ " minimumRefuelingVaporLoss, refuelingSpillRate, refuelingSpillRateCV,"
 					+ " displacedVaporRateCV"
-					+ " from RefuelingFactors",
-
-			// RoadOpmodeDistribution
-			"drop table if exists RoadOpmodeDistributionSample",
-			"create table RoadOpmodeDistributionSample"
-					+ " select sourceTypeID, opModeID, roadTypeID, isRamp, avgSpeedBinID, "
-					+ " opModeFraction, opModeFractionCV"
-					+ " from RoadOpmodeDistribution"
+					+ " from RefuelingFactors"
 		};
 		String sql = "";
 		try {
@@ -1893,13 +1887,6 @@ public class InputDataManager {
 					+ " minimumRefuelingVaporLoss, refuelingSpillRate, refuelingSpillRateCV,"
 					+ " displacedVaporRateCV)",
 					1);
-		// RoadOpmodeDistribution
-		randomizeTableData("sourceTypeID, opModeID, roadTypeID, isRamp, avgSpeedBinID, "
-					+ " opModeFraction, opModeFractionCV",
-					"RoadOpmodeDistribution", 5,
-					"TRUNCATE RoadOpmodeDistribution",
-					"RoadOpmodeDistribution (sourceTypeID, opModeID, roadTypeID, isRamp, avgSpeedBinID, "
-					+ " opModeFraction, opModeFractionCV)",1);
 		/*
 		// ATRatioGas1
 		randomizeTableData("polProcessID,fuelMYGroupID,fuelTypeID,sourceTypeID,FuelFormulationID,"
@@ -2304,37 +2291,6 @@ public class InputDataManager {
 						+ " vaporLowTLimit, vaporHighTLimit, tankTDiffLimit,"
 						+ " minimumRefuelingVaporLoss, refuelingSpillRate, refuelingSpillRateCV,"
 						+ " displacedVaporRateCV"
-						+ ")";
-				SQLRunner.executeSQL(outputConnection, sql);
-
-				// Do RoadOpmodeDistribution table
-				if(exportTableFilePath.exists()) {
-					exportTableFilePath.delete();
-				}
-
-				sql = "SELECT " + activeRunID + ", " + nextIterationID
-						+ ", sourceTypeID, opModeID, roadTypeID, isRamp, avgSpeedBinID, "
-						+ " opModeFraction, opModeFractionCV"
-						+ " INTO OUTFILE '" + fileName + "' FROM RoadOpmodeDistribution";
-				SQLRunner.executeSQL(executionConnection,sql);
-
-				sql = "CREATE TABLE IF NOT EXISTS RoadOpmodeDistributionSample ("
-						+ " MOVESRunID SMALLINT UNSIGNED NOT NULL,"
-						+ " iterationID SMALLINT UNSIGNED DEFAULT 1,"
-						+ " sourceTypeID SMALLINT(6) NOT NULL,"
-						+ " opModeID SMALLINT(6) NOT NULL,"
-						+ " roadTypeID SMALLINT(6) NOT NULL,"
-						+ " isRamp CHAR(1) NOT NULL DEFAULT 'Y',"
-						+ " avgSpeedBinID SMALLINT(6) NOT NULL,"
-						+ " opModeFraction FLOAT NOT NULL DEFAULT 0.0,"
-						+ " opModeFractionCV FLOAT NULL"
-						+ ")";
-				SQLRunner.executeSQL(outputConnection,sql);
-
-				sql = "LOAD DATA INFILE '" + fileName + "' INTO TABLE RoadOpmodeDistributionSample("
-						+ " MOVESRunID, iterationID"
-						+ ", sourceTypeID, opModeID, roadTypeID, isRamp, avgSpeedBinID, "
-						+ " opModeFraction, opModeFractionCV"
 						+ ")";
 				SQLRunner.executeSQL(outputConnection, sql);
 
@@ -3082,6 +3038,12 @@ public class InputDataManager {
 						: 
 					new TableToCopy("County",null,null,null,null,"countyID","stateID",null,null,
 					null,null,null,null,null,null,null,null,null,null)),
+			new TableToCopy("countyType",null,null,null,null,null,null,null,null,
+					null,null,null,null,null,null,null,null,null,null),
+
+			new TableToCopy("countyType",null,null,null,null,null,null,null,null,
+					null,null,null,null,null,null,null,null,null,null),
+
 
 			((mc == Models.ModelCombination.M2 || mc == Models.ModelCombination.M12) ? 
 					new TableToCopy("CountyYear", null, null, null, null, null, null, null,	null, 
@@ -3213,9 +3175,12 @@ public class InputDataManager {
 					null,null,null,null,"polProcessID",null,null,"fuelSubtypeID",null,null),
 
 			(CompilationFlags.ENABLE_AUXILIARY_POWER_EXHAUST && includeHotellingActivityDistribution)?
-					new TableToCopy("hotellingActivityDistribution",null,null,null,null,null,null,null,null,
+					// hotellingActivityDistribution uses wildcards for zoneID, so it cannot be filtered by zone.
+					new TableToCopy("hotellingActivityDistribution",null,null,null,null/*"zoneID"*/,null,null,null,null,
 					null,null,null,null,null,null,null,null,null,null)
 					: null,
+			new TableToCopy("hotellingAgeFraction",null,null,null,"zoneID",null,null,null,null,
+					null,null,null,null,null,null,null,null,null,null),
 			CompilationFlags.ENABLE_AUXILIARY_POWER_EXHAUST?
 					new TableToCopy("hotellingHours","yearID","monthID",null,"zoneID",null,null,null,
 					null,null,null,"hourDayID",null,null,"sourceTypeID",null,null,null,
@@ -3224,6 +3189,13 @@ public class InputDataManager {
 
 			new TableToCopy("hotellingCalendarYear","yearID",null,null,null,null,null,null,null,
 					null,null,null,null,null,null,null,null,null,null),
+
+			new TableToCopy("hotellingHourFraction",null,null,null,"zoneID",null,null,null,null,
+					"dayID","hourID",null,null,null,null,null,null,null,null),
+			new TableToCopy("hotellingMonthAdjust",null,"monthID",null,"zoneID",null,null,null,
+					null,null,null,null,null,null,null,null,null,null,null),
+			new TableToCopy("hotellingHoursPerDay","yearID",null,null,"zoneID",null,null,null,null,
+					"dayID",null,null,null,null,null,null,null,null,null),
 
 			// HourDay cannot be filtered by hourID because TotalActivityGenerator requires all hours
 			new TableToCopy("HourDay",null,null,null,null,null,null,null,null,
@@ -3253,6 +3225,14 @@ public class InputDataManager {
 					null,null,null,null,"polProcessID","sourceTypeID","fuelTypeID",null,null,null)
 					: null,
 
+			new TableToCopy("idleDayAdjust",null,null,null,null,null,null,null,null,
+					"dayID",null,null,null,null,"sourceTypeID",null,null,null,null),
+			new TableToCopy("idleModelYearGrouping",null,null,null,null,null,null,null,null,
+					null,null,null,null,null,"sourceTypeID",null,null,null,null),
+			new TableToCopy("idleMonthAdjust",null,"monthID",null,null,null,null,null,null,
+					null,null,null,null,null,"sourceTypeID",null,null,null,null),
+			new TableToCopy("idleRegion",null,null,null,null,null,null,null,null,
+					null,null,null,null,null,null,null,null,null,null),
 			new TableToCopy("IMFactor",null,null,null,null,null,null,null,null,
 					null,null,null,null,"polProcessID","sourceTypeID","fuelTypeID",null,null,null),
 			new TableToCopy("IMInspectFreq",null,null,null,null,null,null,null,null,
@@ -3261,9 +3241,8 @@ public class InputDataManager {
 					null,null,null,null,null,null,null,null,null,null),
 			new TableToCopy("IMTestStandards",null,null,null,null,null,null,null,null,
 					null,null,null,null,null,null,null,null,null,null),
-			new TableToCopy("ImportStartsOpModeDistribution",null,null,null /*"linkID"*/,null,null,null,null,null,
-					null,null,"hourDayID",null,"polProcessID","sourceTypeID",null,null,null,
-					"isUserInput"),
+			new TableToCopy("StartsOpModeDistribution",null,null,null /*"linkID"*/,null,null,null,null,null,
+					"dayID","hourID",null,null,null,"sourceTypeID",null,null,null,"isUserInput"),
 			new TableToCopy("integratedSpeciesSet",null,null,null,null,null,null,null,null,
 					null,null,null,null,null,null,null,null,null,null),
 			new TableToCopy("integratedSpeciesSetName",null,null,null,null,null,null,null,null,
@@ -3292,7 +3271,7 @@ public class InputDataManager {
 					null, null, null, null, "polProcessID", "sourceTypeID", "fuelTypeID",
 					null, null, null),
 			new TableToCopy("methaneTHCRatio",null,null,null,null,null,null,null,"processID",
-					null,null,null,null,null,"sourceTypeID",null/*"fuelTypeID"*/,null,null,null),
+					null,null,null,null,null,null,null,null/*"fuelSubtypeID"*/,null,null),
 			new TableToCopy("minorhapratio", null, null, null, null, null, null, null, null,
 					null, null, null, null, "polProcessID", null, "fuelTypeID",
 					null, null, null),
@@ -3369,12 +3348,10 @@ public class InputDataManager {
 					null,null,null,null,null,null,null,null,null,null,null,"regionID",null),
 			new TableToCopy("regionCode",null,null,null,null,null,null,null,null,
 					null,null,null,null,null,null,null,null,null,null),
-			new TableToCopy("regionCounty",null,null,null,null,"countyID",null,null,null,
-					null,null,null,null,null,null,null,null,null,null),
+			new TableToCopy("regionCounty","fuelYearID",null,null,null,"countyID",null,null,null, //modifying filter to include fuel year in regionCounty filtering
+					null,null,null,null,null,null,null,null,null,null,null,null,null),
 			new TableToCopy("RetrofitInputAssociations",null,null,null,null,null,null,null,null,
 					null,null,null,null,null,null,null,null,null,null),
-			new TableToCopy("RoadOpmodeDistribution",null,null,null,null,null,null,null,null,
-					null,null,null,"roadTypeID",null,"sourceTypeID",null,null,null,null),
 			// RoadType cannot filter by roadTypeID or TotalActivityGenerator will
 			// not be able to calculate SourceHours properly.
 			new TableToCopy("RoadType",null,null,null,null,null,null,null,null,
@@ -3437,8 +3414,12 @@ public class InputDataManager {
 
 			new TableToCopy("SourceTypeDayVMT","yearID","monthID",null,null,null,null,null,null,
 					"dayID",null,null,null,null,"sourceTypeID",null,null,null,null),
+					
+			// SourceTypeHour cannot be filtered by hour because hotelling shaping requires
+			// all hours of a day. The TAG filters it by day.
 			new TableToCopy("SourceTypeHour",null,null,null,null,null,null,null,null,
-					null,null,"hourDayID",null,null,"sourceTypeID",null,null,null,null),
+					null,null,null/*"hourDayID"*/,null,null,"sourceTypeID",null,null,null,null),
+
 			// Used in AVFTControlStrategy calculations, so do not use filter by sourceTypeID
 			new TableToCopy("SourceTypeModelYear",null,null,null,null,null,null,null,null,
 					null,null,null,null,null,null/*"sourceTypeID"*/,null,null,null,null,null,null,"modelYearID"),
@@ -3466,14 +3447,16 @@ public class InputDataManager {
 					null,null,null,null,null,"sourceTypeID",null,null,null,null),
 			new TableToCopy("Starts","yearID","monthID",null,"zoneID",null,null,null,null,
 					null,null,"hourDayID",null,null,null,null,null,null,"isUserInput"),
-			new TableToCopy("startsPerDay","yearID",null,null,"zoneID",null,null,null,null,
-					"dayID",null,null,null,null,null,null,null,null,null),
-			new TableToCopy("startsHourFraction",null,null,null,"zoneID",null,null,null,null,
-					"dayID","hourID",null,null,null,null,null,null,null,null),
-			new TableToCopy("startsSourceTypeFraction",null,null,null,null,null,null,null,null,
+			new TableToCopy("startsAgeAdjustment",null,null,null,null,null,null,null,null,
 					null,null,null,null,null,"sourceTypeID",null,null,null,null),
+			new TableToCopy("startsPerDay",null,null,null,null,null,null,null,null,
+					"dayID",null,null,null,null,"sourceTypeID",null,null,null,null),
+			new TableToCopy("startsPerDayPerVehicle",null,null,null,null,null,null,null,null,
+					"dayID",null,null,null,null,"sourceTypeID",null,null,null,null),
+			new TableToCopy("startsHourFraction",null,null,null,null,null,null,null,null,
+					"dayID","hourID",null,null,null,"sourceTypeID",null,null,null,null),
 			new TableToCopy("startsMonthAdjust",null,"monthID",null,null,null,null,null,null,
-					null,null,null,null,null,null,null,null,null,null),
+					null,null,null,null,null,"sourceTypeID",null,null,null,null),
 			new TableToCopy("StartsPerVehicle",null,null,null,null,null,null,null,null,
 					null,null,"hourDayID",null,null,"sourceTypeID",null,null,null,null),
 
@@ -3514,6 +3497,8 @@ public class InputDataManager {
 					null,null,null,null,null,null,null,null,null,null),
 			new TableToCopy("TOGSpeciationProfileName",null,null,null,null,null,null,null,null,
 					null,null,null,null,null,null,null,null,null,null),
+			new TableToCopy("totalIdleFraction",null,"monthID",null,null,null,null,null,null,
+					"dayID",null,null,null,null,"sourceTypeID",null,null,null,null),
 			new TableToCopy("StartTempAdjustment",null,null,null,null,null,null,null,null,
 					null,null,null,null,"polProcessID",null,"fuelTypeID",null,null,null),
 			new TableToCopy("WeightClass",null,null,null,null,null,null,null,null,
@@ -3796,6 +3781,7 @@ if(shouldLog) System.out.println("IDM No clause sets for " + t.tableName);
 					+ " select 0 as avgSpeedBinID, 1 as roadTypeID, "
 					+ " sourceTypeID, hourDayID, polProcessID, opModeID, opModeFraction, opModeFractionCV"
 					+ " from importStartsOpModeDistribution";
+
 			SQLRunner.executeSQL(destination,sql);
 		} else {
 			String sql = "insert ignore into opModeDistribution (sourceTypeID, hourDayID, linkID, polProcessID, opModeID, opModeFraction, opModeFractionCV)"

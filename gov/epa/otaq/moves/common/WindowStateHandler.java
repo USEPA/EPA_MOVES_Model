@@ -8,6 +8,7 @@ package gov.epa.otaq.moves.common;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.Toolkit.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import java.io.*;
@@ -27,6 +28,7 @@ public class WindowStateHandler implements ComponentListener, WindowListener {
 		public int y;
 		public int width;
 		public int height;
+		private static int visibleMarginLimit = 400;
 
 		public WindowInformation() {
 		}
@@ -45,7 +47,14 @@ public class WindowStateHandler implements ComponentListener, WindowListener {
 			} catch(Exception e) {
 				return false;
 			}
-			if(twidth < 0 || theight < 0) {
+			
+			// something went wrong if height or width are negative, or if the window is positioned off-screen
+			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+			if(twidth < visibleMarginLimit || theight < visibleMarginLimit
+			   || tx + twidth < visibleMarginLimit /* too far left */
+			   || ty + theight < visibleMarginLimit /* too far up */
+			   || tx > screenSize.getWidth() - visibleMarginLimit /* too far right */
+			   || ty > screenSize.getHeight() - visibleMarginLimit /* too far down */ ) {
 				return false;
 			}
 			x = tx;
@@ -64,7 +73,7 @@ public class WindowStateHandler implements ComponentListener, WindowListener {
 	public static String infoFileName = "MOVESWindows.txt";
 
 	/** Mutex to synchronize access from all windows to the information file **/
-	private static Integer fileMutex = new Integer(90210);
+	private static Integer fileMutex = Integer.valueOf(90210);
 
 	/** Window being controlled **/
 	Window window = null;

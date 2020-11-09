@@ -8,6 +8,7 @@ import gov.epa.otaq.moves.master.framework.importers.*;
 
 import java.io.*;
 import java.sql.*;
+import java.util.*;
 import javax.xml.parsers.*;
 import org.xml.sax.*;
 import org.xml.sax.helpers.*;
@@ -19,9 +20,9 @@ import gov.epa.otaq.moves.common.MOVESDatabaseType;
 /**
  * MOVES AvgSpeedDistribution Importer.
  * 
- * @author		Don Smith
  * @author		Wesley Faler
- * @version		2012-11-08
+ * @author		Don Smith
+ * @version		2016-08-30
 **/
 public class AverageSpeedDistributionImporter extends ImporterBase {
 	/** Data handler for this importer **/
@@ -42,7 +43,7 @@ public class AverageSpeedDistributionImporter extends ImporterBase {
 	static String[] dataTableDescriptor = {
 		BasicDataHandler.BEGIN_TABLE, "AvgSpeedDistribution",
 		"sourceTypeID", "SourceUseType", ImporterManager.FILTER_SOURCE,
-		"roadTypeID", "RoadType", ImporterManager.FILTER_ROAD_TYPE,
+		"roadTypeID", "RoadType", ImporterManager.FILTER_ROAD_TYPE_NOT_OFFNETWORK,
 		"hourDayID", "HourDay", ImporterManager.FILTER_HOURDAY,
 		"avgSpeedBinID", "AvgSpeedBin", ImporterManager.FILTER_AVGSPEED_BIN,
 		"avgSpeedFraction", "", ImporterManager.FILTER_NON_NEGATIVE
@@ -153,14 +154,35 @@ public class AverageSpeedDistributionImporter extends ImporterBase {
 			return new RunSpecSectionStatus(RunSpecSectionStatus.OK);
 		}
 		boolean hasRoadTypes = manager.tableHasNonOffnetworkRoadTypes(db,
-				"select distinct roadTypeID from " + primaryTableName);
+				"select distinct roadTypeID from " + primaryTableName + " where roadTypeID <> 1",
+				this,primaryTableName + " is missing roadTypeID(s)");
 		boolean hasHourDays = manager.tableHasHourDays(db,
-				"select distinct hourDayID from " + primaryTableName);
+				"select distinct hourDayID from " + primaryTableName,
+				this,primaryTableName + " is missing hourDayID(s)");
 		boolean hasSourceTypes = manager.tableHasSourceTypes(db,
-				"select distinct sourceTypeID from " + primaryTableName);
+				"select distinct sourceTypeID from " + primaryTableName,
+				this,primaryTableName + " is missing sourceTypeID(s)");
 		if(hasRoadTypes && hasHourDays && hasSourceTypes) {
-			return new RunSpecSectionStatus(RunSpecSectionStatus.OK);
+			return getImporterDataStatusCore(db);
 		}
 		return new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);
+	}
+	
+	/**
+	 * Check a RunSpec against the database or for display of the importer.
+	 * @param db database to be examined.
+	 * @return the status, or null if the status should not be shown to the user.
+	 * @throws Exception if anything goes wrong
+	**/
+	public RunSpecSectionStatus getImporterDataStatusCore(Connection db) throws Exception {
+		ArrayList<String> messages = new ArrayList<String>();
+		BasicDataHandler.runScript(db,this,messages,1,"database/AverageSpeedDistributionImporter.sql");
+		for(Iterator<String> i=messages.iterator();i.hasNext();) {
+			String t = i.next();
+			if(t.toUpperCase().startsWith("ERROR")) {
+				return new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);
+			}
+		}
+		return new RunSpecSectionStatus(RunSpecSectionStatus.OK);
 	}
 }

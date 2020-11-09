@@ -17,7 +17,7 @@ import gov.epa.otaq.moves.master.framework.*;
 import gov.epa.otaq.moves.common.*;
 
 /**
- * Class for MOVES ManageInputDataSets panel.
+ * Class for the "Input Data Sets" group on the Advanced Features Panel.
  * Constructs a ManageInputDataSets panel, and creates and sets the layouts of the controls.
  * The Databases combobox is loaded based on the server setting. The Window includes a Server
  * text, a Selections listbox, a Database combobox, a Database Description text, a Create
@@ -26,10 +26,16 @@ import gov.epa.otaq.moves.common.*;
  * @author		Wesley Faler
  * @author		Mitch C (Task 18 item 105)
  * @author		Tim Hull
- * @version		2013-08-04
+ * @author  	Bill Shaw (508 compliance mods)
+ * @author  	John Covey (Task 1903)
+ * @author		Mike Kender (Task 2003)
+ * @author  	John Covey (Task 2003)
+ * @version     2020-08-10
 **/
 public class ManageInputDataSets extends JPanel implements ListSelectionListener,
 		ActionListener, FocusListener,RunSpecEditor {
+	/** Section Description label. **/
+	JLabel sectionDescriptionLabel;
 	/** Server label. **/
 	JLabel serverLabel;
 	/** Server text control. **/
@@ -44,7 +50,7 @@ public class ManageInputDataSets extends JPanel implements ListSelectionListener
 	/**  Database Description text control. **/
 	JTextField databaseDescription;
 	/** Create Database button. **/
-	JButton createDatabase;
+	JButton createDatabase; /* no longer used */
 
 	/** Add selection button **/
 	JButton add;
@@ -100,12 +106,21 @@ public class ManageInputDataSets extends JPanel implements ListSelectionListener
 
 	/** Creates and initializes all controls on this panel. **/
 	public void createControls() {
+		sectionDescriptionLabel = new JLabel("<html><p style=\"font-style: italic; font-weight: normal;\">" +
+											 "Use this feature to select an input database created by a MOVES <br>" +
+		                                     "tool (i.e., LEV or NLEV tool). Do not select County, Project, or <br>" +
+											 "Default Scale input databases here, as those kinds of databases <br>" +
+											 "should be selected on the Create Input Database Panel.</p></html>");
+		sectionDescriptionLabel.setName("sectionDescriptionLabel"); 
+		
 		serverLabel = new JLabel("Server:");
 		serverLabel.setName("serverLabel");
 		server = new JTextField(12);
 		server.setName("server");
 		server.addFocusListener(this);
-		ToolTipHelper.add(server,"Enter server where a user input database is located");
+		serverLabel.setLabelFor(server);
+		serverLabel.setDisplayedMnemonic('v');
+		ToolTipHelper.add(server,"Enter server where the user input database is located. Defaults to localhost");
 
 		databaseCombo = new ExtendedComboBox<String>();
 		databaseCombo.setName("databaseCombo");
@@ -114,30 +129,37 @@ public class ManageInputDataSets extends JPanel implements ListSelectionListener
 		databaseLabel.setName("databaseLabel");
 		databaseCombo.setEditable(true);
 		databaseCombo.setSelectedIndex(-1);
-		ToolTipHelper.add(databaseCombo,"Enter or select the name of a user input database");
+		databaseLabel.setLabelFor(databaseCombo);
+		ToolTipHelper.add(databaseCombo,"This menu displays only eligible MOVES input databases available on the server specified.");
 
 		databaseDescriptionLabel = new JLabel("Description:");
 		databaseDescriptionLabel.setName("databaseDescriptionLabel");
 		databaseDescription = new JTextField(12);
 		databaseDescription.setName("databaseDescription");
 		databaseDescription.addFocusListener(this);
-		ToolTipHelper.add(databaseDescription,"Edit the description of the use input database");
+		databaseDescriptionLabel.setLabelFor(databaseDescription);
+		ToolTipHelper.add(databaseDescription,"Edit the description of the use input database (optional)");
 
-		createDatabase = new JButton("Create Database...");
-		createDatabase.setName("createDatabase");
-		createDatabase.addActionListener(this);
-		ToolTipHelper.add(createDatabase,"Create the user input database");
-
-		add = new JButton("Add");
+		add = new JButton("Add (Alt+0)");
 		add.setName("add");
 		add.addActionListener(this);
+		add.setMnemonic('0');
 		ToolTipHelper.add(add,"Add a user input database to the selection list");
 
 		refresh = new JButton("Refresh");
 		refresh.setName("refresh");
 		refresh.addActionListener(this);
+		refresh.setMnemonic('R');
 		ToolTipHelper.add(refresh,"Refresh the list of available databases");
 
+		/* no longer used
+		createDatabase = new JButton("Create Database");
+		createDatabase.setName("createDatabase");
+		createDatabase.addActionListener(this);
+		createDatabase.setMnemonic('b');
+		ToolTipHelper.add(createDatabase,"Create the user input database");
+		*/
+		
 		selectionLabel = new JLabel("Selections:");
 		selectionLabel.setName("selectionLabel");
 
@@ -153,35 +175,37 @@ public class ManageInputDataSets extends JPanel implements ListSelectionListener
 		selectionList.addListSelectionListener(this);
 		selectionList.setVisibleRowCount(9);
 		selectionList.setPrototypeCellValue(prototypeValue);
+		selectionList.setToolTipText(Constants.MANAGE_INPUT_DATA_SETS_SELECTIONS_DB_TOOLTIP);
 		selectionScrollPane = new JScrollPane(selectionList,
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		selectionScrollPane.setName("selectionScrollPane");
+		selectionLabel.setLabelFor(selectionList);
 
-		moveUp = new JButton("Move Up");
+		moveUp = new JButton("Move Up (Alt+9)");
 		moveUp.setName("moveUp");
+		moveUp.setMnemonic('9');
 		moveUp.setEnabled(false); // not enabled until item selected from list
 		moveUp.addActionListener(this);
-		ToolTipHelper.add(moveUp,"Move the database up in the order it will be input");
+		moveUp.setPreferredSize(new Dimension(125,25));
+		 
+		ToolTipHelper.add(moveUp,"Move the database up in the order it will be inputted");
 
 		moveDown = new JButton("Move Down");
 		moveDown.setName("moveDown");
+		moveDown.setMnemonic('w');
 		moveDown.setEnabled(false); // not enabled until item selected from list
 		moveDown.addActionListener(this);
-		ToolTipHelper.add(moveDown,"Move the database down in the order it will be input");
+		moveDown.setPreferredSize(new Dimension(105,25));
+		ToolTipHelper.add(moveDown,"Move the database down in the order it will be inputted");
 
 		selectionDelete = new JButton("Delete");
 		selectionDelete.setName("selectionDelete");
+		selectionDelete.setMnemonic('l');
 		selectionDelete.setEnabled(false); // not enabled until item selected from list
 		selectionDelete.addActionListener(this);
-		ToolTipHelper.add(selectionDelete,"Delete this database from the list of databases to "
-				+ "be input");
-
-		Dimension buttonSize = new Dimension(99,25);
-		add.setPreferredSize(buttonSize);
-		moveUp.setPreferredSize(buttonSize);
-		moveDown.setPreferredSize(buttonSize);
-		selectionDelete.setPreferredSize(buttonSize);
+		//selectionDelete.setPreferredSize(new Dimension(99,25));
+		ToolTipHelper.add(selectionDelete,"Delete this from the list of databases");
 	}
 
 	/** Sets the layout of the controls. **/
@@ -189,25 +213,28 @@ public class ManageInputDataSets extends JPanel implements ListSelectionListener
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.NONE;
 		gbc.insets = new Insets(2,2,2,2);
-		gbc.gridwidth = 5;
-		gbc.gridheight = 6;
+		gbc.gridwidth = 2;
+		gbc.gridheight = 10;
 		gbc.weightx = 0;
 		gbc.weighty = 0;
 		setLayout(new GridBagLayout());
 
-		LayoutUtility.setPositionOnGrid(gbc,0,0, "WEST", 1, 1);
-		add(serverLabel, gbc);
-		LayoutUtility.setPositionOnGrid(gbc,1,0, "WEST", 1, 1);
-		add(server, gbc);
+		LayoutUtility.setPositionOnGrid(gbc,0,0, "WEST", 2, 1);
+		add(sectionDescriptionLabel, gbc);
 
 		LayoutUtility.setPositionOnGrid(gbc,0,1, "WEST", 1, 1);
-		add(databaseLabel, gbc);
+		add(serverLabel, gbc);
 		LayoutUtility.setPositionOnGrid(gbc,1,1, "WEST", 1, 1);
-		add(databaseCombo, gbc);
+		add(server, gbc);
 
 		LayoutUtility.setPositionOnGrid(gbc,0,2, "WEST", 1, 1);
-		add(databaseDescriptionLabel, gbc);
+		add(databaseLabel, gbc);
 		LayoutUtility.setPositionOnGrid(gbc,1,2, "WEST", 1, 1);
+		add(databaseCombo, gbc);
+
+		LayoutUtility.setPositionOnGrid(gbc,0,3, "WEST", 1, 1);
+		add(databaseDescriptionLabel, gbc);
+		LayoutUtility.setPositionOnGrid(gbc,1,3, "WEST", 1, 1);
 		add(databaseDescription, gbc);
 
 		JPanel p = new JPanel();
@@ -215,28 +242,28 @@ public class ManageInputDataSets extends JPanel implements ListSelectionListener
 		p.add(Box.createHorizontalGlue());
 		p.add(add);
 		p.add(refresh);
-		LayoutUtility.setPositionOnGrid(gbc,1,3, "EAST", 1, 1);
+		LayoutUtility.setPositionOnGrid(gbc,1,4, "WEST", 1, 1);
 		add(p, gbc);
-		/*
-		LayoutUtility.setPositionOnGrid(gbc,2,3, "CENTER", 1, 1);
-		add(add, gbc);
-		LayoutUtility.setPositionOnGrid(gbc,2,3, "CENTER", 1, 1);
-		add(refresh, gbc);
-		*/
-
-		LayoutUtility.setPositionOnGrid(gbc,1,4, "EAST", 2, 1);
+		
+		/* no longer used
+		LayoutUtility.setPositionOnGrid(gbc,1,5, "WEST", 1, 1);
 		add(createDatabase, gbc);
-
-		LayoutUtility.setPositionOnGrid(gbc,3,0, "WEST", 1, 1);
+		*/
+		
+		LayoutUtility.setPositionOnGrid(gbc,0,5, "WEST", 2, 1);
 		add(selectionLabel, gbc);
-		LayoutUtility.setPositionOnGrid(gbc,3,1, "WEST", 3, 4);
+		LayoutUtility.setPositionOnGrid(gbc,0,6, "WEST", 2, 1);
 		add(selectionScrollPane, gbc);
-		LayoutUtility.setPositionOnGrid(gbc,3,5, "WEST", 1, 1);
-		add(moveUp, gbc);
-		LayoutUtility.setPositionOnGrid(gbc,4,5, "CENTER", 1, 1);
-		add(moveDown, gbc);
-		LayoutUtility.setPositionOnGrid(gbc,5,5, "EAST", 1, 1);
-		add(selectionDelete, gbc);
+		
+		p = new JPanel();
+		p.setLayout(new BoxLayout(p,BoxLayout.X_AXIS));
+		p.add(Box.createHorizontalGlue());
+		p.add(moveUp);
+		p.add(moveDown);
+		p.add(new JLabel("                "));
+		p.add(selectionDelete);
+		LayoutUtility.setPositionOnGrid(gbc,0,7, "WEST", 2, 1);  
+		add(p, gbc);
 	}
 
 	/**
@@ -259,7 +286,7 @@ public class ManageInputDataSets extends JPanel implements ListSelectionListener
 			Logger.log(LogMessageCategory.ERROR,"Could not connect to the server");
 			return;
 		}
-		String sql = "SHOW DATABASES";
+		String sql = "select table_schema as input_dbs from information_schema.tables where table_name = 'auditlog' union all SELECT table_schema as input_dbs FROM information_schema.tables WHERE table_schema IN (SELECT table_schema AS input_dbs FROM information_schema.tables WHERE table_name = 'emissionratebyage') GROUP BY table_schema HAVING COUNT(table_name) = 1 order by input_dbs";
 		PreparedStatement statement;
 		ResultSet results;
 		try {
@@ -361,14 +388,16 @@ public class ManageInputDataSets extends JPanel implements ListSelectionListener
 			}
 		}
 
-		sections.remove(getName());
+		// don't put this status in the TreeMap because this is a subpanel of Advanced Features
+		// (it is covered by Advanced Features' status)
+		//sections.remove(getName());
 		RunSpecSectionStatus status;
 		if(isOk) {
 			status = new RunSpecSectionStatus(RunSpecSectionStatus.OK);
 		} else {
 			status = new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);
 		}
-		sections.put(getName(),status);
+		//sections.put(getName(),status);
 		return status;
 	}
 
@@ -385,9 +414,12 @@ public class ManageInputDataSets extends JPanel implements ListSelectionListener
 		databaseDescription.setText("");
 
 		runspec.databaseSelectionInputSets = new LinkedList<DatabaseSelection>();
-		sections.remove(getName());
+		
+		// don't put this status in the TreeMap because this is a subpanel of Advanced Features
+		// (it is covered by Advanced Features' status)
+		//sections.remove(getName());
 		RunSpecSectionStatus status = new RunSpecSectionStatus(RunSpecSectionStatus.DEFAULTS);
-		sections.put(getName(),status);
+		//sections.put(getName(),status);
 		return status;
 	}
 
@@ -412,7 +444,9 @@ public class ManageInputDataSets extends JPanel implements ListSelectionListener
 	**/
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == createDatabase) {
+			/* no longer used
 			processCreateDatabaseButton();
+			*/
 		} else if(e.getSource() == databaseCombo) {
 			processDatabaseComboChange();
 		} else if(e.getSource() == refresh) {
@@ -432,17 +466,29 @@ public class ManageInputDataSets extends JPanel implements ListSelectionListener
 	}
 
 	/** Handles the create database button. **/
+	/* no longer used because it created an empty default database. 
+	   // Default Scale runs can still use an input database; it should be specified on the
+	   // Create Input Database Panel.
 	public void processCreateDatabaseButton() {
 		String newDatabaseName = databaseCombo.getSelectedItem().toString();
 		if(newDatabaseName.length() == 0) {
 			Logger.log(LogMessageCategory.WARNING, "Specify a database name.");
 			return;
 		}
+		else if (!DatabaseUtilities.isDatabaseNameValid(newDatabaseName)) {
+			JOptionPane.showMessageDialog(this,Constants.DATABASE_NAME_VALIDATION_MESSAGE);
+			return;
+		}
 
 		DatabaseSelection dbSelection = new DatabaseSelection();
 		if(server.getText().length() > 0) {
 			dbSelection.serverName = server.getText();
-		} else {
+			if (!DatabaseUtilities.isServerNameValid(server.getText())) {
+				JOptionPane.showMessageDialog(this,Constants.SERVER_NAME_VALIDATION_MESSAGE);
+				return;		
+			}
+		} 
+		else {
 			dbSelection.serverName = SystemConfiguration.getTheSystemConfiguration().
 					databaseSelections[MOVESDatabaseType.DEFAULT.getIndex()].serverName;
 		}
@@ -466,6 +512,7 @@ public class ManageInputDataSets extends JPanel implements ListSelectionListener
 			}
 		}
 	}
+	*/
 
 	/**
 	 * Add a database name to databaseCombo but only if it isn't already in the

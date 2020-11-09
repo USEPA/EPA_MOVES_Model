@@ -2,7 +2,9 @@
 -- Author Harvey Michaels
 -- Author ahuang
 -- Author Ed Glover
--- Version 2015-04-30
+-- Author John Covey
+-- Version 2018-03-06
+
 
 
 CREATE TABLE AgeCategory (
@@ -216,6 +218,8 @@ CREATE TABLE County (
        GPAFract             FLOAT NULL,
        barometricPressure   FLOAT NULL,
        barometricPressureCV FLOAT NULL,
+       countyTypeID int not null default '0',
+       msa 					CHAR(255),
        key (countyID, stateID),
        key (stateID, countyID)
 );
@@ -223,6 +227,11 @@ CREATE TABLE County (
 CREATE UNIQUE INDEX XPKCounty ON County
 (
        countyID                       ASC
+);
+
+create table countyType (
+	countyTypeID int not null primary key,
+	countyTypeDescription varchar(255) not null default ''
 );
 
 CREATE TABLE CountyYear (
@@ -376,14 +385,12 @@ CREATE UNIQUE INDEX XPKDriveSchedule ON DriveSchedule
 CREATE TABLE DriveScheduleAssoc (
        sourceTypeID         SMALLINT NOT NULL,
        roadTypeID           SMALLINT NOT NULL,
-       isRamp               CHAR(1) NOT NULL,
        driveScheduleID      SMALLINT NOT NULL
 );
 
 ALTER TABLE DriveScheduleAssoc ADD (
         KEY (sourceTypeID),
         KEY (roadTypeID),
-        KEY (isRamp),
         KEY (driveScheduleID)
 );
 
@@ -391,7 +398,6 @@ CREATE UNIQUE INDEX XPKDriveScheduleAssoc ON DriveScheduleAssoc
 (
        sourceTypeID                   ASC,
        roadTypeID                     ASC,
-       isRamp                         ASC,
        driveScheduleID                ASC
 );
 
@@ -520,6 +526,60 @@ ALTER TABLE EmissionRateByAge ADD (
 );
         
 CREATE UNIQUE INDEX XPKEmissionRateByAge ON EmissionRateByAge
+(
+       sourceBinID                    ASC,
+       polProcessID                   ASC,
+       opModeID                       ASC,
+       ageGroupID                     ASC
+);
+
+CREATE TABLE EmissionRateByAgeLEV (
+       sourceBinID          BIGINT NOT NULL,
+       polProcessID         int NOT NULL,
+       opModeID             SMALLINT NOT NULL,
+       ageGroupID           SMALLINT NOT NULL,
+       meanBaseRate         FLOAT NULL,
+       meanBaseRateCV       FLOAT NULL,
+       meanBaseRateIM       FLOAT NULL,
+       meanBaseRateIMCV     FLOAT NULL,
+       dataSourceId         SMALLINT NULL
+);
+
+ALTER TABLE EmissionRateByAgeLEV ADD (
+        KEY (sourceBinID),
+        KEY (polProcessID),
+        KEY (opModeID),
+        KEY (ageGroupID)
+);
+        
+CREATE UNIQUE INDEX XPKEmissionRateByAgeLEV ON EmissionRateByAgeLEV
+(
+       sourceBinID                    ASC,
+       polProcessID                   ASC,
+       opModeID                       ASC,
+       ageGroupID                     ASC
+);
+
+CREATE TABLE EmissionRateByAgeNLEV (
+       sourceBinID          BIGINT NOT NULL,
+       polProcessID         int NOT NULL,
+       opModeID             SMALLINT NOT NULL,
+       ageGroupID           SMALLINT NOT NULL,
+       meanBaseRate         FLOAT NULL,
+       meanBaseRateCV       FLOAT NULL,
+       meanBaseRateIM       FLOAT NULL,
+       meanBaseRateIMCV     FLOAT NULL,
+       dataSourceId         SMALLINT NULL
+);
+
+ALTER TABLE EmissionRateByAgeNLEV ADD (
+        KEY (sourceBinID),
+        KEY (polProcessID),
+        KEY (opModeID),
+        KEY (ageGroupID)
+);
+        
+CREATE UNIQUE INDEX XPKEmissionRateByAgeNLEV ON EmissionRateByAgeNLEV
 (
        sourceBinID                    ASC,
        polProcessID                   ASC,
@@ -799,7 +859,7 @@ create table generalFuelRatio (
 	pollutantID int not null,
 	processID int not null,
 	minModelYearID int not null default '1960',
-	maxModelYearID int not null default '2050',
+	maxModelYearID int not null default '2060',
 	minAgeID int not null default '0',
 	maxAgeID int not null default '30',
 	sourceTypeID int not null,
@@ -811,7 +871,7 @@ create table generalFuelRatioExpression (
 	fuelTypeID int not null,
 	polProcessID int not null,
 	minModelYearID int not null default '1960',
-	maxModelYearID int not null default '2050',
+	maxModelYearID int not null default '2060',
 	minAgeID int not null default '0',
 	maxAgeID int not null default '30',
 	sourceTypeID int not null default '0',
@@ -903,23 +963,34 @@ CREATE TABLE HCPermeationCoeff
 	primary key (polProcessID, etohThreshID, fuelMYGroupID)
 );
 
-CREATE TABLE HCSpeciation  (
-	polProcessID			int,
-	fuelMYGroupID			int(11),
-	fuelSubtypeID			smallint(6),
-	etohThreshID			smallint(6),
-	oxyThreshID				smallint(6),
-	speciationConstant		float,
-	oxySpeciation			float,
-	PRIMARY KEY 			(polProcessID, fuelMYGroupID, fuelSubtypeID, etohThreshID, oxyThreshID)
-); 
+CREATE TABLE HCSpeciation (
+  polProcessID int NOT NULL DEFAULT '0',
+  fuelSubtypeID smallint(6) NOT NULL DEFAULT '0',
+  regClassID smallint(6) NOT NULL DEFAULT '0',
+  beginModelYearID smallint(6) NOT NULL DEFAULT '0',
+  endModelYearID smallint(6) NOT NULL DEFAULT '0',
+  speciationConstant double NOT NULL DEFAULT '0',
+  oxySpeciation double NOT NULL DEFAULT '0',
+  dataSourceID smallint(6) NOT NULL DEFAULT '0',
+  PRIMARY KEY (polProcessID,fuelSubtypeID,regClassID,beginModelYearID,endModelYearID)
+);
 
 create table hotellingActivityDistribution (
-	beginModelYearID 	smallint(6) not null,
-	endModelYearID 		smallint(6) not null,
-	opModeID 			smallint(6) not null,
-	opModeFraction 		float not null,
-	primary key 		(beginModelYearID, endModelYearID, opModeID)
+	zoneID				int not null,
+	beginModelYearID 	smallint not null,
+	endModelYearID 		smallint not null,
+	opModeID 			int not null,
+	opModeFraction 		double not null,
+	primary key 		(zoneID, beginModelYearID, endModelYearID, opModeID),
+	key					(zoneID, opModeID, beginModelYearID, endModelYearID)
+);
+
+create table hotellingAgeFraction (
+	zoneID int not null,
+	ageID smallint not null,
+	ageFraction double not null,
+	primary key (zoneID, ageID),
+	key (ageID, zoneID)
 );
 
 create table hotellingCalendarYear (
@@ -936,6 +1007,7 @@ CREATE TABLE hotellingHours (
 	ageID                SMALLINT NOT NULL,
 	zoneID               INTEGER NOT NULL,
 	hotellingHours       DOUBLE NULL,
+	isUserInput 		 CHAR(1) DEFAULT 'N' NOT NULL,
 	primary key 		(sourceTypeID, hourDayID, monthID, yearID, ageID, zoneID),
 	key (sourceTypeID),
 	KEY (hourDayID),
@@ -943,6 +1015,33 @@ CREATE TABLE hotellingHours (
 	KEY (yearID),
 	KEY (ageID),
 	KEY (zoneID)
+);
+
+create table hotellingHourFraction (
+	zoneID int not null,
+	dayID smallint not null,
+	hourID smallint not null,
+	hourFraction double not null,
+	primary key (zoneID, dayID, hourID),
+	key (hourID, dayID, zoneID)
+);
+
+create table hotellingHoursPerDay (
+	yearID smallint not null,
+	zoneID int not null,
+	dayID smallint not null,
+	hotellingHoursPerDay double not null,
+	primary key (yearID, zoneID, dayID),
+	key (zoneID, yearID, dayID),
+	key (dayID, yearID, zoneID)
+);
+
+create table hotellingMonthAdjust (
+	zoneID int not null,
+	monthID smallint not null,
+	monthAdjustment double not null,
+	primary key (zoneID, monthID),
+	key (monthID, zoneID)
 );
 
 CREATE TABLE HourDay (
@@ -1040,6 +1139,33 @@ CREATE UNIQUE INDEX XPKHPMSVtypeYear ON HPMSVtypeYear
        yearID                         ASC
 );
 
+create table idleDayAdjust (
+	sourceTypeID smallint not null,
+	dayID smallint not null,
+	idleDayAdjust double not null,
+	primary key (sourceTypeID, dayID)
+);
+
+create table idleModelYearGrouping (
+	sourceTypeID smallint not null,
+	minModelYearID smallint not null,
+	maxModelYearID smallint not null,
+	totalIdleFraction double not null,
+	primary key (sourceTypeID, minModelYearID, maxModelYearID)
+);
+
+create table idleMonthAdjust (
+	sourceTypeID smallint not null,
+	monthID smallint not null,
+	idleMonthAdjust double not null,
+	primary key (sourceTypeID, monthID)
+);
+
+create table idleRegion (
+	idleRegionID int not null primary key,
+	idleRegionDescription varchar(255) not null default ''
+);
+
 CREATE TABLE IMCoverage (
        polProcessID int NOT NULL,
        stateID INT,
@@ -1118,20 +1244,18 @@ CREATE UNIQUE INDEX XPKIMTestStandards ON IMTestStandards
 );
 
 
-CREATE TABLE importStartsOpModeDistribution (
-		sourceTypeID         SMALLINT NOT NULL,
-		hourDayID            SMALLINT NOT NULL,
-		linkID               INTEGER NOT NULL,
-		polProcessID         int NOT NULL,
-		opModeID             SMALLINT NOT NULL,
-		opModeFraction       FLOAT NULL,
-		opModeFractionCV     FLOAT NULL,
-		primary key (sourceTypeID, hourDayID, linkID, polProcessID, opModeID),
-		KEY (sourceTypeID),
-		KEY (hourDayID),
-		KEY (linkID),
-		KEY (polProcessID),
-		KEY (opModeID)
+CREATE TABLE startsOpModeDistribution (
+  dayID smallint(6) NOT NULL DEFAULT 0,
+  hourID smallint(6) NOT NULL DEFAULT 0,
+  sourceTypeID smallint(6) NOT NULL DEFAULT 0,
+  ageID smallint(6) NOT NULL DEFAULT 0,
+  opModeID smallint(6) NOT NULL DEFAULT 0,
+  opModeFraction double DEFAULT NULL,
+  PRIMARY KEY (dayid,hourid,sourceTypeID,ageID,opmodeid),
+  KEY dayID (dayID),
+  KEY hourid (hourID),
+  KEY sourceTypeID (sourceTypeID),
+  KEY ageID (ageID)
 );
 
 create table integratedSpeciesSet  (
@@ -1271,13 +1395,13 @@ CREATE TABLE metalemissionrate (
 
 CREATE TABLE methaneTHCRatio (
   processID smallint(6) NOT NULL DEFAULT '0',
-  fuelTypeID smallint(6) NOT NULL DEFAULT '0',
-  sourceTypeID smallint(6) NOT NULL DEFAULT '0',
-  modelYearGroupID int(11) NOT NULL DEFAULT '0',
-  ageGroupID smallint(6) NOT NULL DEFAULT '0',
+  fuelSubtypeID smallint(6) NOT NULL DEFAULT '0',
+  regClassID smallint(6) NOT NULL DEFAULT '0',
+  beginModelYearID smallint(6) NOT NULL DEFAULT '0',
+  endModelYearID smallint(6) NOT NULL DEFAULT '0',
   CH4THCRatio double DEFAULT NULL,
-  CH4THCRatioCV double DEFAULT NULL,
-  PRIMARY KEY (processID,fuelTypeID,sourceTypeID,modelYearGroupID,ageGroupID)
+  dataSourceID smallint(6) NOT NULL DEFAULT '0',
+  PRIMARY KEY (processID,fuelSubtypeID,regClassID,beginModelYearID,endModelYearID)
 );
 
 CREATE TABLE minorhapratio (
@@ -2133,30 +2257,18 @@ CREATE UNIQUE INDEX XPKRetrofitInputAssociations on RetrofitInputAssociations
 	commonName ASC
 );
 
-CREATE TABLE RoadOpmodeDistribution (
-	sourceTypeID SMALLINT(6) NOT NULL,
-	opModeID SMALLINT(6) NOT NULL,
-	roadTypeID SMALLINT(6) NOT NULL,
-	isRamp CHAR(1) NOT NULL DEFAULT 'Y',
-	avgSpeedBinID SMALLINT(6) NOT NULL,
-	primary key (sourceTypeID, opModeID, roadTypeID, isRamp, avgSpeedBinID),
-	opModeFraction FLOAT NOT NULL DEFAULT 0.0,
-	opModeFractionCV FLOAT NOT NULL DEFAULT 0.0
-);
-
-CREATE UNIQUE INDEX XPKRoadOpModeDistribution on RoadOpmodeDistribution 
-(
-	sourceTypeID	ASC,
-	opModeID		ASC,
-	roadTypeID		ASC,
-	isRamp			ASC,
-	avgSpeedBinID	ASC
+CREATE TABLE roadidlefraction (
+    dayID int,
+    sourceTypeID int,
+    roadTypeID int,
+    avgSpeedBinID int,
+    roadidlefraction double,
+    primary key (dayID,sourceTypeID,roadTypeID,avgSpeedBinID)
 );
 
 CREATE TABLE RoadType (
        roadTypeID           SMALLINT NOT NULL,
        roadDesc             CHAR(50) NULL,
-       rampFraction         FLOAT NULL,
        isAffectedByOnroad TINYINT(1) DEFAULT 1,
        isAffectedByNonroad TINYINT(1) DEFAULT 0,
        shouldDisplay TINYINT(1) DEFAULT 1,
@@ -2625,6 +2737,7 @@ CREATE UNIQUE INDEX XPKSourceUseType ON SourceUseType
 
 create table sourceUseTypePhysics (
 	sourceTypeID smallint not null,
+	regClassID smallint not null,
 	beginModelYearID smallint not null,
 	endModelYearID smallint not null,
 
@@ -2634,8 +2747,8 @@ create table sourceUseTypePhysics (
 	sourceMass float DEFAULT NULL,
 	fixedMassFactor float DEFAULT NULL,
 
-	primary key (sourceTypeID, beginModelYearID, endModelYearID),
-	key (beginModelYearID, endModelYearID, sourceTypeID)
+	primary key (sourceTypeID, regClassID, beginModelYearID, endModelYearID),
+	key (beginModelYearID, endModelYearID, sourceTypeID, regClassID)
 );
 
 CREATE TABLE Starts (
@@ -2668,27 +2781,46 @@ CREATE UNIQUE INDEX XPKStarts ON Starts
        sourceTypeID                   ASC
 );
 
+create table startsAgeAdjustment (
+  sourceTypeID smallint(6) NOT NULL DEFAULT 0,
+  ageID smallint(6) NOT NULL DEFAULT 0,
+  ageAdjustment double DEFAULT NULL,
+  PRIMARY KEY (sourceTypeID,ageID),
+  KEY sourceTypeID (sourceTypeID),
+  KEY ageID (ageID)
+);
+
 create table startsHourFraction (
-	zoneID int not null,
-	dayID smallint not null,
-	hourID smallint not null,
-	allocationFraction double not null,
-	primary key (zoneID, dayID, hourID)
+  dayID smallint(6) NOT NULL,
+  hourID smallint(6) NOT NULL,
+  sourceTypeID smallint(6) NOT NULL DEFAULT '0',
+  allocationFraction double NOT NULL,
+  PRIMARY KEY (dayID,hourID,sourceTypeID)
 );
 
 create table startsMonthAdjust (
-	monthID smallint not null,
-	monthAdjustment double not null,
-	primary key (monthID)
+    monthID smallint(6) NOT NULL,
+    sourceTypeID smallint(6) NOT NULL DEFAULT '0',
+    monthAdjustment double NOT NULL,
+    PRIMARY KEY (monthID,sourceTypeID)
 );
 
 create table startsPerDay (
-	zoneID int not null,
-	dayID smallint not null,
-	yearID smallint not null,
-	startsPerDay double not null,
-	primary key (zoneID, dayID, yearID),
-	key (yearID, zoneID, dayID)
+  dayID smallint(6) NOT NULL DEFAULT 0,
+  sourceTypeID smallint(6) NOT NULL DEFAULT 0,
+  startsPerDay double DEFAULT NULL,
+  PRIMARY KEY (sourceTypeID,dayID),
+  KEY hourDayID (dayID),
+  KEY sourceTypeID (sourceTypeID)
+);
+
+CREATE TABLE startsPerDayPerVehicle (
+  dayID smallint(6) NOT NULL DEFAULT 0,
+  sourceTypeID smallint(6) NOT NULL DEFAULT 0,
+  startsPerDayPerVehicle double DEFAULT NULL,
+  PRIMARY KEY (sourceTypeID,dayID),
+  KEY hourDayID (dayID),
+  KEY sourceTypeID (sourceTypeID)
 );
 
 CREATE TABLE StartsPerVehicle (
@@ -2708,12 +2840,6 @@ CREATE UNIQUE INDEX XPKStartsPerVehicle ON StartsPerVehicle
 ALTER TABLE StartsPerVehicle ADD (
 		KEY (sourceTypeID),
 		KEY (hourDayID)
-);
-
-create table startsSourceTypeFraction (
-	sourceTypeID smallint not null,
-	allocationFraction double not null,
-	primary key (sourceTypeID)
 );
 
 CREATE TABLE StartTempAdjustment (
@@ -2748,7 +2874,8 @@ ALTER TABLE StartTempAdjustment ADD (
 CREATE TABLE State (
        stateID              SMALLINT NOT NULL,
        stateName            CHAR(25) NULL,
-       stateAbbr            CHAR(2) NULL
+       stateAbbr            CHAR(2) NULL,
+       idleRegionID 		INTEGER DEFAULT '0' NOT NULL
 );
 
 CREATE UNIQUE INDEX XPKState ON State
@@ -2856,7 +2983,7 @@ CREATE TABLE TemperatureAdjustment (
        polProcessID         int NOT NULL,
        fuelTypeID           SMALLINT NOT NULL,
        minModelYearID		SMALLINT NOT NULL DEFAULT '1960',
-       maxModelYearID		SMALLINT NOT NULL DEFAULT '2050',
+       maxModelYearID		SMALLINT NOT NULL DEFAULT '2060',
        tempAdjustTermA      FLOAT NULL,
        tempAdjustTermACV    FLOAT NULL,
        tempAdjustTermB      FLOAT NULL,
@@ -2913,7 +3040,7 @@ create table TOGSpeciationProfile (
 	TOGSpeciationProfileID			varchar(10)		not null default '0',
 	integratedSpeciesSetID			smallint(6)		not null,
 	pollutantID						smallint(6)		not null,
-	lumpedSpeciesName				varchar(20)		null,
+	lumpedSpeciesName				varchar(20)		not null,
 	TOGSpeciationDivisor			double			null,
 	TOGSpeciationMassFraction		double			null,
 	primary key (mechanismID, TOGspeciationProfileID, integratedSpeciesSetID, pollutantID, lumpedSpeciesName)
@@ -2925,6 +3052,18 @@ create table TOGSpeciationProfileName (
 	dataSourceId					int				null,
 	primary key (TOGspeciationProfileID),
 	key (TOGSpeciationProfileName)
+);
+
+create table totalIdleFraction (
+	idleRegionID int not null,
+	countyTypeID int not null,
+	sourceTypeID smallint not null,
+	monthID smallint not null,
+	dayID smallint not null,
+	minModelYearID smallint not null,
+	maxModelYearID smallint not null,
+	totalIdleFraction double not null,
+	primary key (idleRegionID, countyTypeID, sourceTypeID, monthID, dayID, minModelYearID, maxModelYearID)
 );
 
 CREATE TABLE WeightClass (
@@ -2958,8 +3097,8 @@ CREATE UNIQUE INDEX XPKYear ON Year
 CREATE TABLE Zone (
        zoneID               INTEGER NOT NULL,
        countyID             INTEGER NOT NULL,
-       idleAllocFactor      DOUBLE NULL,
        startAllocFactor     DOUBLE NULL,
+       idleAllocFactor      DOUBLE NULL,
        SHPAllocFactor        DOUBLE NULL,
        key (zoneID, countyID),
        key (countyID, zoneID)

@@ -11,8 +11,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.sql.*;
 import java.util.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.regex.Pattern;
 
 /**
  * This static class provides support for working with SQL Scripts and performing general-purpose
@@ -20,7 +26,9 @@ import java.util.*;
  *
  * @author		Wes Faler
  * @author		Mitch C. (Minor mod for task 18 item 169)
- * @version		2014-09-17
+ * @author      John Covey (Task 2003)
+ * @version     2020-08-10
+ 
 **/
 public class DatabaseUtilities {
 	/**
@@ -805,7 +813,7 @@ public class DatabaseUtilities {
 			query.open(db,sql);
 			TreeSet<Integer> results = new TreeSet<Integer>();
 			while(query.rs.next()) {
-				results.add(new Integer(query.rs.getInt(1)));
+				results.add(Integer.valueOf(query.rs.getInt(1)));
 			}
 			return results;
 		} finally {
@@ -941,7 +949,11 @@ public class DatabaseUtilities {
 			}
 			closeConnection(tempDB);
 			tempDB = null;
+			
+			// read the file that contains the create statement for the auditlog table
+			String createAuditLogTable = new String(Files.readAllBytes(Paths.get("database/CreateAuditLogTables.sql")), StandardCharsets.UTF_8);
 
+			// create table so script can display messages to user
 			String sql = "create table if not exists convertTempMessages "
 					+ "( message varchar(1000) not null )";
 			SQLRunner.executeSQL(outputDB,sql);
@@ -951,6 +963,7 @@ public class DatabaseUtilities {
 			TreeMapIgnoreCase replacements = new TreeMapIgnoreCase();
 			replacements.put("##inputdb##",inputDatabase.databaseName);
 			replacements.put("##defaultdb##",defaultDatabase.databaseName);
+			replacements.put("##create_auditlog_table##",createAuditLogTable);
 			executeScript(outputDB,scriptFile,replacements,true);
 
 			if(messages != null) {
@@ -969,6 +982,11 @@ public class DatabaseUtilities {
 				}
 				query.close();
 			}
+			
+			// drop messages table
+			sql = "drop table if exists convertTempMessages";
+			SQLRunner.executeSQL(outputDB,sql);
+			
 		} catch(FileNotFoundException e) {
 			throw e;
 		} catch(IOException e) {
@@ -987,4 +1005,249 @@ public class DatabaseUtilities {
 			}
 		}
 	}
+	
+	/**
+	 * Execute a script that is designed to build a LEV database.  This involves two databases:
+	 * the output database being created, and a
+	 * default database that supplies missing data.  The script is run in the context of the output
+	 * database.  The default database should be given the name ##defaultdb## in the script.
+	 * @param scriptFile script to be executed
+	 * @param outputDatabase output database to be created, may already exist
+	 * @param defaultDatabase database providing missing data
+	 * @throws FileNotFoundException when the script file cannot be found
+	 * @throws IOException when the script file cannot be read
+	 * @throws SQLException when a database cannot be accessed or created
+	**/
+	public static void executeBuildScript(File scriptFile, DatabaseSelection outputDatabase,
+			DatabaseSelection defaultDatabase)
+			throws FileNotFoundException, IOException, SQLException {
+		Connection outputDB = null;
+		Connection tempDB = null;
+		SQLRunner.Query query = new SQLRunner.Query();
+		try {
+			if(outputDatabase.safeCreateDatabase(null) == DatabaseSelection.NOT_CREATED) {
+				throw new SQLException("Unable to create or find the output database " + outputDatabase.databaseName);
+			}
+			outputDB = outputDatabase.openConnectionOrNull();
+			if(outputDB == null) {
+				throw new SQLException("Unable to connect to output database " + outputDatabase.databaseName);
+			}
+
+			tempDB = defaultDatabase.openConnectionOrNull();
+			if(tempDB == null) {
+				throw new SQLException("Unable to connect to default database " + defaultDatabase.databaseName);
+			}
+			closeConnection(tempDB);
+			tempDB = null;
+
+			TreeMapIgnoreCase replacements = new TreeMapIgnoreCase();
+			replacements.put("##defaultdb##",defaultDatabase.databaseName);
+			replacements.put("##outputdb##",outputDatabase.databaseName);
+			executeScript(outputDB,scriptFile,replacements,true);
+
+		} catch(FileNotFoundException e) {
+			throw e;
+		} catch(IOException e) {
+			throw e;
+		} catch(SQLException e) {
+			throw e;
+		} finally {
+			query.onFinally();
+			if(outputDB != null) {
+				closeConnection(outputDB);
+				outputDB = null;
+			}
+			if(tempDB != null) {
+				closeConnection(tempDB);
+				tempDB = null;
+			}
+		}
+	}
+	
+	/**
+	 * Execute a script that is designed to build a LEV database.  This involves two databases:
+	 * the output database being created, and a
+	 * default database that supplies missing data.  The script is run in the context of the output
+	 * database.  The default database should be given the name ##defaultdb## in the script.
+	 * @param saveFile file object to receive the output data
+	 * @param inputDatabase input database to be used
+	 * @param defaultDatabase database providing missing data
+	 * @throws FileNotFoundException when the script file cannot be found
+	 * @throws IOException when the script file cannot be read
+	 * @throws SQLException when a database cannot be accessed or created
+	 * @throws Exception if there are errors accessing or creating the output file
+	**/
+	public static boolean executeONITool(File saveFile, DatabaseSelection inputDatabase,
+			DatabaseSelection defaultDatabase, ArrayList<String> messages)
+			throws FileNotFoundException, IOException, SQLException, Exception {
+		File oniToolScript = new File("./database/ONITool/ONITool.sql");
+		Connection inputDB = null;
+		Connection defaultDB = null;
+		Connection tempDB = null;
+		CellFileWriter writer = null;
+		SQLRunner.Query query = new SQLRunner.Query();
+		boolean success = false;
+		String sql;
+		String tempDatabaseName = "oniTool_" + inputDatabase.databaseName;
+		
+		try {
+			// make connection to input db (this is the db the script will be run against)
+			inputDB = inputDatabase.openConnectionOrNull();
+			if(inputDB == null) {
+				throw new SQLException("Unable to connect to input database " + inputDatabase.databaseName);
+			}
+			
+			// make sure default database is accessible, but we don't need to keep the connection open
+			defaultDB = defaultDatabase.openConnectionOrNull();
+			if(defaultDB == null) {
+				throw new SQLException("Unable to connect to default database " + defaultDatabase.databaseName);
+			}
+			closeConnection(defaultDB);
+			defaultDB = null;
+			
+			// create temporary database for the tool's numerous intermediate calculations, as well as messages to user and results
+			SQLRunner.executeSQL(inputDB,"DROP DATABASE IF EXISTS `" + tempDatabaseName + "`");
+			SQLRunner.executeSQL(inputDB,"CREATE DATABASE `" + tempDatabaseName + "`");
+			
+			// create messages table so script can display messages to user
+			sql = "CREATE TABLE IF NOT EXISTS `" + tempDatabaseName + "`.`oniTempMessages` ( "
+					+ "message varchar(1000) not null "
+					+ ") ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+			SQLRunner.executeSQL(inputDB,sql);
+			sql = "truncate table `" + tempDatabaseName + "`.`oniTempMessages`";
+			SQLRunner.executeSQL(inputDB,sql);
+			
+			// create output table
+			sql = "CREATE TABLE IF NOT EXISTS `" + tempDatabaseName + "`.`ONIToolOutput` ( "
+					+ "`yearID` smallint(6) NOT NULL, "
+			        + "`monthID` smallint(6) NOT NULL, "
+			        + "`dayID` smallint(6) NOT NULL, "
+			        + "`hourID` smallint(6) NOT NULL DEFAULT 0, "
+			        + "`sourceTypeID` smallint(6) NOT NULL, "
+			        + "`minModelYearID` int(11) NOT NULL, "
+			        + "`maxModelYearID` int(11) NOT NULL, "
+					+ "`onroadSHO (hr)` double DEFAULT NULL, "
+					+ "`VMT (mi)` double DEFAULT NULL, "
+					+ "`ONI (hr)` double DEFAULT NULL, "
+			        + "`ONI per VMT (hr idle/mi)` double DEFAULT NULL, "
+			        + "`ONI per SHO (hr idle/hr operating)` double DEFAULT NULL "
+			        + ") ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+			SQLRunner.executeSQL(inputDB,sql);
+			sql = "truncate table `" + tempDatabaseName + "`.`ONIToolOutput`";
+			SQLRunner.executeSQL(inputDB,sql);
+			
+			// list all strings that need to be replaced in the script here
+			TreeMapIgnoreCase replacements = new TreeMapIgnoreCase();
+			replacements.put("##defaultdb##",defaultDatabase.databaseName);
+			replacements.put("##inputdb##",inputDatabase.databaseName);
+			replacements.put("##tempdb##",tempDatabaseName);
+			
+			// run it!
+			executeScript(inputDB,oniToolScript,replacements,false);
+			
+			// check for messages in oniTempMessages
+			if(messages != null) {
+				sql = "select message from `" + tempDatabaseName + "`.`oniTempMessages`";
+				query.open(inputDB,sql);
+				TreeSetIgnoreCase messagesAlreadySeen = new TreeSetIgnoreCase();
+				while(query.rs.next()) {
+					String m = query.rs.getString(1);
+					if(m.toLowerCase().contains("success")) {
+						success = true;
+					}
+					if(m != null && m.length() > 0) {
+						if(!messagesAlreadySeen.contains(m)) {
+							messagesAlreadySeen.add(m);
+							messages.add(m);
+						}
+					}
+				}
+				query.close();
+			}
+
+			// save output and drop temp database if there was success
+			if(success) {
+				writer = new CellFileWriter(saveFile,"ONI Tool Output");
+				sql = "SELECT * FROM `" + tempDatabaseName + "`.`ONIToolOutput`";
+				writer.writeSQLResults(inputDB, sql, null);
+				
+				SQLRunner.executeSQL(inputDB, "DROP DATABASE IF EXISTS `" + tempDatabaseName + "`");
+			}
+		} catch(FileNotFoundException e) {
+			messages.add(e.toString());
+			success = false;
+			throw e;
+		} catch(IOException e) {
+			messages.add(e.toString());
+			success = false;
+			throw e;
+		} catch(SQLException e) {
+			messages.add(e.toString());
+			success = false;
+			throw e;
+		} catch(Exception e) {
+			messages.add(e.toString());
+			success = false;
+			throw e;
+		} finally {
+			query.onFinally();
+			if(inputDB != null) {
+				closeConnection(inputDB);
+				inputDB = null;
+			}
+			if(defaultDB != null) {
+				closeConnection(defaultDB);
+				defaultDB = null;
+			}
+			try {
+				if(writer != null) {
+					writer.close();
+				}
+			} catch (Exception e) {
+				messages.add(e.toString());
+				Logger.logError(e, "Close save file failed.");
+				success = false;
+			}
+		}
+		
+		return success;
+	}
+
+	/**
+	 * Validates if server name is valid
+	 * @param server name to be checked
+	 * @return false if server name is invalid; else true.
+	**/
+	public static boolean isServerNameValid(String serverName) {
+		try {
+			InetAddress inet = InetAddress.getByName(serverName);
+		} catch (UnknownHostException e) {
+			// sererName is invalid or unreachable.
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Validates if database name is valid
+	 * @param database name to be checked
+	 * @return false if database name is invalid; else true.
+	**/
+	public static boolean isDatabaseNameValid(String databaseName) {
+		if (databaseName.length() == 0)
+			return false;
+		// MYSQL only allows alpha, alpha and numeric, and optionally with dollar sign or underscore.
+		String strReGex = "[a-zA-Z0-9$_]*";
+        boolean testResult = Pattern.matches(strReGex, databaseName);
+        if (testResult) {
+        	try {
+                double d = Double.parseDouble(databaseName);
+                return false; // value cannot be a number without alphabetic characters
+            } catch (NumberFormatException nfe) {
+                // no impact as value is not a number
+            }
+        }
+		return testResult;
+	}
+	
 }

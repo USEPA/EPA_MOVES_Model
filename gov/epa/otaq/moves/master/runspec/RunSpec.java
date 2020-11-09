@@ -18,9 +18,11 @@ import gov.epa.otaq.moves.master.implementation.ghg.internalcontrolstrategies.ra
  * well as control strategies (incentives for certain vehicles, restrictions on others).
  *
  * @author		Wesley Faler
- * @version		2014-04-30
+ * @version		2017-03-22
 **/
 public class RunSpec {
+	/** Version of this RunSpec **/
+	public String version = "";
 	/** Textual description of this RunSpec **/
 	public String description = "";
 	/** The model is to be run. **/
@@ -124,8 +126,17 @@ public class RunSpec {
 	public boolean shouldTruncateBaseRateOutput = true;
 	/**
 	 * Used by emission rate mode to provide separate rates for ramps.
+	 * Note: This feature has been removed, so if an old runspec is loaded with
+	 * this option, notify the user that they need to re-save the runspec.
 	**/
-	public boolean shouldSeparateRamps = false;
+	//public boolean shouldSeparateRamps = false;
+	public boolean hasDeprecatedShouldSeparateRampsTrue = false;
+	/**
+	 * Intercity Buses were changed to Other Buses in MOVES3. RunSpecXML converts
+	 * the old name to the new name during load and sets this flag to warn the user
+	 * when this happens.
+	**/
+	public boolean hadIntercityBuses = false;
 
 	/** Constructor **/
 	public RunSpec() {
@@ -310,5 +321,31 @@ public class RunSpec {
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * internal function to parse MOVES version strings
+	**/
+	private String getMajorVersion(String v) {
+		try {
+			// Assume version numbers are MOVESX.Y.Z-DATE
+			String[] v1 = v.split("-");
+			String[] v2 = v1[0].split("\\.");
+			return v2[0];
+		} catch (Exception e){
+			// default to full version string
+			return v;
+		}
+	}
+	
+	public String getMajorVersion() {
+		return getMajorVersion(version);
+	}
+	
+	/**
+	 * returns true if the other string has the same "Major" component as this RunSpec
+	**/
+	public boolean compareMajorVersion(String other) {
+		return getMajorVersion(version).equalsIgnoreCase(getMajorVersion(other));
 	}
 }

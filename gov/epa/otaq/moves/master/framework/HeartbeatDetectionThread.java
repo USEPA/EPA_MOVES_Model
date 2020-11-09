@@ -50,6 +50,18 @@ public class HeartbeatDetectionThread extends MOVESThread {
 		Date lastSeenToExist;
 	};
 
+	// The WORKER_HEARTBEAT_TIMEOUT_MS set below determines when a MOVES Master will determine that a
+	// worker is dead. Basically, if the worker hasn't updated its heartbeat file within the time limit,
+	// the master will remove the heartbeat file and reclaim any in progress work. Because the heartbeat
+	// file timestamp could be set by a different system with a different system clock (and/or timezone),
+	// we can't rely on the actual timestamp. Instead, we compare to the last observed change in the
+	// timestamp. Essentially, this means that if a worker is dead from the beginning, the master still
+	// won't know until the full heartbeat timeout time duration has elapsed.
+	//
+	// MOVESMaster.bat cleans out all heartbeat files when it starts, so in most use cases, there should be
+	// no dead workers at the start. However, if MOVES is started from custom batch files or directly on 
+	// the command line, old heartbeat files might still be in the SharedWork folder.
+
 	/**
 	 * Const value for the length of time that the master will wait before considering a worker
 	 * to be "dead" and reclaiming its work file.

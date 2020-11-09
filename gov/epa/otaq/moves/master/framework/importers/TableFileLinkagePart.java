@@ -23,7 +23,7 @@ import gov.epa.otaq.moves.master.framework.WorksheetChooserDialog;
  * Object for editing the selection of a single file to populate a single table.
  *
  * @author		Wesley Faler
- * @version		2015-05-04
+ * @version		2017-09-20
 **/
 public class TableFileLinkagePart extends JPanel implements IImporterPart, ActionListener {
 	/** Interface for data providers and event handlers **/
@@ -432,18 +432,83 @@ public class TableFileLinkagePart extends JPanel implements IImporterPart, Actio
 						worksheetName = (String)worksheets.get(0);
 						keepOriginal = false;
 					} else {
-						// Prompt the user to select a worksheet then fill
-						// strategy.dataSourceWorksheetName.  If the user cancels the worksheet
-						// selection, stop the import operation
-						WorksheetChooserDialog dlg =
-								new WorksheetChooserDialog((JFrame)parent,worksheets);
-						// simple offset from main window origin
-						dlg.setLocation(getLocationOnScreen().x + 50, getLocationOnScreen().y + 50);
-						dlg.showModal();
-						if(dlg.selectedWorksheetName != null
-								&& dlg.selectedWorksheetName.length() > 0) {
-							worksheetName = dlg.selectedWorksheetName;
-							keepOriginal = false;
+						boolean shouldPromptForWorksheetAssignment = true;
+
+						// Get list of table names used by all parts
+						ArrayList<String> allPartTableNames = new ArrayList<String>();
+						IImporterPanel importerPanel = importer.getPanel();
+						if(importerPanel instanceof ImporterTabBase) {
+							ArrayList<IImporterPart> allParts = ((ImporterTabBase)importerPanel).importerDataSource.getParts();
+							if(allParts.size() > 1) { // Only bother if this part isn't the only one.
+								ArrayList<TableFileLinkagePart> linkageParts = new ArrayList<TableFileLinkagePart>();
+								for(IImporterPart ap : allParts) {
+									if(ap instanceof TableFileLinkagePart) {
+										if(((TableFileLinkagePart)ap).isSingleTable) {
+											linkageParts.add((TableFileLinkagePart)ap);
+										}
+									}
+								}
+								if(linkageParts.size() > 1) { // Only bother if this part isn't the only one.
+									ArrayList<String> worksheetNamesToUse = new ArrayList<String>();
+									int howManyMatchingSheetNames = 0;
+									// Find candidate matches.
+									for(TableFileLinkagePart lp : linkageParts) {
+										String nameToUse = "";
+										for(int i=0;i<worksheets.size();i++) {
+											String wsName = (String)worksheets.get(i);
+											if(wsName.equalsIgnoreCase(lp.tableName)) {
+												nameToUse = wsName;
+												howManyMatchingSheetNames++;
+												break;
+											}
+										}
+										worksheetNamesToUse.add(nameToUse);
+									}
+									if(linkageParts.size() == worksheetNamesToUse.size() && howManyMatchingSheetNames > 0) {
+										// Prompt the user, but not on the Starts or Idle tab
+										if(importerPanel.getImporter().getName() != "Starts" &&
+										   importerPanel.getImporter().getName() != "Idle" &&
+										   JOptionPane.showConfirmDialog((JFrame)parent, 
+												"Do you want to automatically assign " + howManyMatchingSheetNames
+												+ " worksheets to tables?", 
+												"Assign worksheets?",
+												JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+											shouldPromptForWorksheetAssignment = false;
+											for(int i=0;i<linkageParts.size();i++) {
+												TableFileLinkagePart lp = linkageParts.get(i);
+												String wsName = worksheetNamesToUse.get(i);
+												if(wsName.length() > 0) {
+													if(lp == this) {
+														worksheetName = wsName;
+														keepOriginal = false;
+													} else {
+														lp.fileName = fileName;
+														lp.fileType = fileType;
+														lp.worksheetName = wsName;
+														lp.determineFileType();
+														lp.populateControls();
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+
+						if(shouldPromptForWorksheetAssignment) {
+							// Prompt the user to select a worksheet then fill
+							// strategy.dataSourceWorksheetName.  If the user cancels the worksheet
+							// selection, stop the import operation
+							WorksheetChooserDialog dlg = new WorksheetChooserDialog((JFrame)parent,worksheets);
+							// simple offset from main window origin
+							dlg.setLocation(getLocationOnScreen().x + 50, getLocationOnScreen().y + 50);
+							dlg.showModal();
+							if(dlg.selectedWorksheetName != null
+									&& dlg.selectedWorksheetName.length() > 0) {
+								worksheetName = dlg.selectedWorksheetName;
+								keepOriginal = false;
+							}
 						}
 					}
 				} catch(Exception e) {
@@ -483,10 +548,62 @@ public class TableFileLinkagePart extends JPanel implements IImporterPart, Actio
 		String filePath = fd.getDirectory() + fd.getFile();
 		File file = new File(filePath);
 
-		if(!provider.createTemplate(file)) {
-			JOptionPane.showMessageDialog(null,
-					"Unable to create the template.",
-					"Importer", JOptionPane.ERROR_MESSAGE);
+		boolean shouldDoSingleTemplate = true;
+		int typeCode = CellFile.getFileType(filePath);
+		if(typeCode == CellFile.XLS || typeCode == CellFile.XLSX) {
+			// Get list of table names used by all parts
+			ArrayList<String> allPartTableNames = new ArrayList<String>();
+			IImporterPanel importerPanel = importer.getPanel();
+			if(importerPanel instanceof ImporterTabBase) {
+				ArrayList<IImporterPart> allParts = ((ImporterTabBase)importerPanel).importerDataSource.getParts();
+				if(allParts.size() > 1) { // Only bother if this part isn't the only one.
+					ArrayList<TableFileLinkagePart> linkageParts = new ArrayList<TableFileLinkagePart>();
+					for(IImporterPart ap : allParts) {
+						if(ap instanceof TableFileLinkagePart) {
+							if(((TableFileLinkagePart)ap).isSingleTable) {
+								linkageParts.add((TableFileLinkagePart)ap);
+							}
+						}
+					}
+					if(linkageParts.size() > 1) { // Only bother if this part isn't the only one.
+						// Prompt the user
+						if(JOptionPane.showConfirmDialog((JFrame)parent, 
+								"Do you want to create templates for all tables?", 
+								"Create all templates?",
+								JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+							try {
+								setWaitCursor();
+								CellFileWriter.startMultipleWrite(file);
+								shouldDoSingleTemplate = false;
+								boolean success = true;
+								for(int i=0;i<linkageParts.size();i++) {
+									TableFileLinkagePart lp = linkageParts.get(i);
+									if(!lp.provider.createTemplate(file)) {
+										success = false;
+									}
+								}
+								CellFileWriter.stopMultipleWrite();
+								if(!success) {
+									JOptionPane.showMessageDialog(null,
+											"Unable to create the templates.",
+											"Importer", JOptionPane.ERROR_MESSAGE);
+								}
+							} finally {
+								setDefaultCursor();
+							}
+						}
+					}
+				}
+			}
+		}
+
+		if(shouldDoSingleTemplate) {
+			CellFileWriter.stopMultipleWrite();
+			if(!provider.createTemplate(file)) {
+				JOptionPane.showMessageDialog(null,
+						"Unable to create the template.",
+						"Importer", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 	}
 
@@ -630,42 +747,48 @@ public class TableFileLinkagePart extends JPanel implements IImporterPart, Actio
 		importer.getImporterManager().activeDb = db;
 		boolean success = false;
 		boolean tableDoesExist = false;
-		String sql = "";
+		
 		try {
-			sql = "truncate table " + tableName;
-			SQLRunner.executeSQL(db,sql);
-			success = true;
-			tableDoesExist = true;
-			// Clear the log associated with the importer and table
-			importer.getImporterManager().deleteLog(importer,tableName);
-		} catch(Exception e) {
-			if(e.getMessage().indexOf("exist") > 0) {
-				// tableName may not exist, it may never have been created/filled, so tolerate its absense.
-				success = true;
-				tableDoesExist = false;
-			} else {
-				Logger.logError(e,"Unable to clear importer data for table " + tableName);
-			}
-		}
-
-		for(Iterator<String> i=otherManagedTables.iterator();i.hasNext();) {
-			sql = "truncate table " + i.next();
+			setWaitCursor();
+			String sql = "";
 			try {
+				sql = "truncate table " + tableName;
 				SQLRunner.executeSQL(db,sql);
+				success = true;
+				tableDoesExist = true;
+				// Clear the log associated with the importer and table
+				importer.getImporterManager().deleteLog(importer,tableName);
 			} catch(Exception e) {
-				// Nothing to do here as the supporting tables may not exist.
+				if(e.getMessage().indexOf("exist") > 0) {
+					// tableName may not exist, it may never have been created/filled, so tolerate its absense.
+					success = true;
+					tableDoesExist = false;
+				} else {
+					Logger.logError(e,"Unable to clear importer data for table " + tableName);
+				}
 			}
-		}
 
-		// Tell the supporting GUI to refresh its log display
-		if(success && tableDoesExist) {
-			importer.getImporterManager().createGUI(null).loadLog(db);
-			importer.getImporterManager().createGUI(null).refreshDomainStatusIcons();
-		}
-		importer.getImporterManager().activeDb = null;
-		DatabaseUtilities.closeConnection(db);
-		db = null;
+			for(Iterator<String> i=otherManagedTables.iterator();i.hasNext();) {
+				sql = "truncate table " + i.next();
+				try {
+					SQLRunner.executeSQL(db,sql);
+				} catch(Exception e) {
+					// Nothing to do here as the supporting tables may not exist.
+				}
+			}
 
+			// Tell the supporting GUI to refresh its log display
+			if(success && tableDoesExist) {
+				importer.getImporterManager().createGUI(null).loadLog(db);
+				importer.getImporterManager().createGUI(null).refreshDomainStatusIcons();
+			}
+		} finally {
+			setDefaultCursor();
+			importer.getImporterManager().activeDb = null;
+			DatabaseUtilities.closeConnection(db);
+			db = null;
+		}
+		
 		if(messageHandler != null) {
 			if(success) {
 				if(tableDoesExist) {
@@ -701,7 +824,7 @@ public class TableFileLinkagePart extends JPanel implements IImporterPart, Actio
 			return false;
 		}
 
-		Connection db = importer.getImporterManager().openDatabase();
+		Connection db = importer.getImporterManager().openDatabase(false);
 		if(db == null) {
 			return false;
 		}
@@ -713,6 +836,7 @@ public class TableFileLinkagePart extends JPanel implements IImporterPart, Actio
 		SQLRunner.Query query = new SQLRunner.Query();
 
 		try {
+			setWaitCursor();
 			if(actionCode < 0) {
 				// Delete from the audit log
 				sql = "delete from auditLog"
@@ -751,6 +875,7 @@ public class TableFileLinkagePart extends JPanel implements IImporterPart, Actio
 			query.onFinally();
 			DatabaseUtilities.closeConnection(db);
 			db = null;
+			setDefaultCursor();
 		}
 	}
 
@@ -763,5 +888,19 @@ public class TableFileLinkagePart extends JPanel implements IImporterPart, Actio
 			return;
 		}
 		noDataNeededCheckBox.setSelected(alterNoDataNeededAuditEntry(0));
+	}
+	
+	/** Sets the wait cursor (don't have access to MOVESWindow, so it needs to be redefined here) **/
+	public void setWaitCursor() {
+		RootPaneContainer root = (RootPaneContainer) this.getRootPane().getTopLevelAncestor();
+		root.getGlassPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+		root.getGlassPane().setVisible(true);
+	}
+	
+	/** Sets the default cursor (don't have access to MOVESWindow, so it needs to be redefined here) **/
+	public void setDefaultCursor() {
+		RootPaneContainer root = (RootPaneContainer) this.getRootPane().getTopLevelAncestor();
+		root.getGlassPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+		root.getGlassPane().setVisible(true);
 	}
 }

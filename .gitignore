@@ -1,4 +1,5 @@
 *.class
+*.zip
 *.psp
 *.doc
 *.docx
@@ -7,12 +8,17 @@
 *.bak
 *.o
 
-**/go/**/*.exe
+calc/*.exe
+generators/*.exe
+calc/externalcalculatorgo
+generators/externalgenerator
 
 **/cvs
 
 artwork/*
 bin/*
+jre/*
+jre32/*
 installer/*
 izpack/*
 javadocs/*
@@ -22,16 +28,23 @@ uninstaller/*
 MOVESTemporary/*
 SharedWork/*
 WorkerFolder/*
-
-go32/*
+manyworkers/*
 
 install.xml
+go*output.txt
 PriorMasterID.txt
 PriorWorkerID.txt
+MOVESAlgorithms.html
 MOVESComputerID.txt
 moveslog.txt
 moveslog_old.txt
 MOVESWindows.txt
-go*output.txt
-calc/go/externalcalculatorgo
+mrulist.tmp
 
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

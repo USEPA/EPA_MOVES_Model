@@ -38,7 +38,7 @@ public class LoopingToolAction extends JLFAbstractAction {
 		putValue(Action.NAME, NAME);
 		putValue(Action.SHORT_DESCRIPTION, SHORT_DESCRIPTION);
 		putValue(Action.LONG_DESCRIPTION, LONG_DESCRIPTION);
-		putValue(Action.MNEMONIC_KEY, new Integer(MNEMONIC_KEY));
+		putValue(Action.MNEMONIC_KEY, Integer.valueOf(MNEMONIC_KEY));
 		putValue(Action.ACTION_COMMAND_KEY, ACTION_COMMAND_KEY);
 	}
 }

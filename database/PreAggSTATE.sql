@@ -8,7 +8,8 @@
 -- Author Mitch Cumberworth
 -- Author Gwo Shyu
 -- Author Wesley Faler
--- Version 2015-04-22
+-- Author Jarrod Brown, Michael Aldridge, Daniel Bizer-Cox, Evan Murray
+-- Version 2019-04-22
 -- *********************************************************************************************************************** */
 
 -- FLUSH TABLES;
@@ -33,6 +34,7 @@ DROP TABLE IF EXISTS OldAverageTankTemperature;
 DROP TABLE IF EXISTS OldSoakActivityFraction;
 DROP TABLE IF EXISTS OldFuelUsageFraction;
 DROP TABLE IF EXISTS AggFuelUsageFraction;
+DROP TABLE IF EXISTS OldTotalIdleFraction;
 
 -- 
 -- Create a table to be used for activity-weighting by county or zone 
@@ -126,10 +128,11 @@ CREATE TABLE OldCounty SELECT County.*, stateName
 	FROM County INNER JOIN State USING (stateID);
 TRUNCATE County;
 INSERT INTO County (countyID, stateID, countyName, altitude, GPAFract, 
-		barometricPressure, barometricPressureCV)
+		barometricPressure, barometricPressureCV, countyTypeID)
   SELECT stateID*1000 AS countyID, stateID, 
     stateName AS countyName, "L" AS altitude, sum(GPAFract*actFract) AS GPAFract,
-    sum(barometricPressure*actFract) AS barometricPressure, NULL AS barometricPressureCV
+    sum(barometricPressure*actFract) AS barometricPressure, NULL AS barometricPressureCV,
+    1 as countyTypeID
   FROM OldCounty INNER JOIN SurrogateActivity USING (countyID)
   GROUP BY stateID;
 FLUSH TABLE County;
@@ -539,6 +542,21 @@ INSERT INTO AverageTankGasoline (zoneID, fuelTypeID, fuelYearID, monthGroupID, E
   GROUP BY stateID, fuelTypeID, fuelYearID, monthGroupID;
 FLUSH TABLE AverageTankGasoline;
 
+--
+-- TotalIdleFraction
+--
+-- SELECT "Making TotalIdleFraction" AS MARKER_POINT;
+CREATE Table OldTotalIdleFraction
+  SELECT sourceTypeID, minModelYearID, maxModelYearID, monthID, dayID, idleRegionID, countyTypeID, totalIdleFraction
+    FROM TotalIdleFraction;
+TRUNCATE TotalIdleFraction;
+INSERT INTO totalIdleFraction (sourceTypeID, minModelYearID, maxModelYearID, monthID, dayID, idleRegionID, countyTypeID, totalIdleFraction)
+  SELECT sourceTypeID,  minModelYearID, maxModelYearID, monthID, dayID, idleRegionID, 1 as countyTypeID, totalIdleFraction
+  FROM OldTotalIdleFraction
+  WHERE countyTypeID = 1;
+FLUSH TABLE TotalIdleFraction;
+
+
 
 --
 -- Drop any New Tables Created 
@@ -565,5 +583,6 @@ DROP TABLE IF EXISTS OldAverageTankTemperature;
 DROP TABLE IF EXISTS OldSoakActivityFraction;
 DROP TABLE IF EXISTS OldFuelUsageFraction;
 DROP TABLE IF EXISTS AggFuelUsageFraction;
+DROP TABLE IF EXISTS OldTotalIdleFraction;
 
 -- FLUSH TABLES;

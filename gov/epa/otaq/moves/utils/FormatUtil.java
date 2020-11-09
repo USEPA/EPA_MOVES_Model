@@ -17,7 +17,7 @@ public class FormatUtil {
 		if (numberOfOutputDigits <= 0) {
 			return "";
 		}
-		Integer i = new Integer(numberToFormat);
+		Integer i = Integer.valueOf(numberToFormat);
 		String s = i.toString();
 		String result = "";
 		for (int j = 0, count = numberOfOutputDigits - s.length(); j < count; j++) {

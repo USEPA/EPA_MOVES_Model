@@ -6,13 +6,14 @@
  *************************************************************************************************/
 package gov.epa.otaq.moves.common;
 
-import javax.xml.bind.DatatypeConverter;
+import org.apache.commons.codec.binary.Hex;
 import java.security.MessageDigest;
 import java.nio.charset.Charset;
 
 /**
  * Encode and decode user-supplied passwords.
  *
+ * @author		Daniel Bizer-Cox (removed dependency on javax.xml.bind)
  * @author		Wesley Faler
  * @version		2013-11-17
 **/
@@ -139,13 +140,14 @@ public class PasswordChecker {
 		t += encodedPassword;
 		// Make hex string from a MD5 hash of the UTF-8 text
 		byte[] tBytes = t.getBytes(Charset.forName("UTF-8"));
+		Hex hexConverter = new Hex("UTF-8");
 		try {
 	        MessageDigest digest = MessageDigest.getInstance("MD5");
 	        digest.update(tBytes,0,tBytes.length);
 	        byte[] hashBytes = digest.digest();
-	        return DatatypeConverter.printHexBinary(hashBytes);
+	        return hexConverter.encodeHexString(hashBytes);
 		} catch(Exception e) {
-			return DatatypeConverter.printHexBinary(tBytes);
+			return hexConverter.encodeHexString(tBytes);
 		}
 	}
 
@@ -156,7 +158,8 @@ public class PasswordChecker {
 	**/
 	private static String getHex(String text) {
 		byte[] tBytes = text.getBytes(Charset.forName("UTF-8"));
-		return DatatypeConverter.printHexBinary(tBytes);
+		Hex hexConverter = new Hex("UTF-8");
+		return hexConverter.encodeHexString(tBytes);
 	}
 
 	/**
@@ -166,7 +169,9 @@ public class PasswordChecker {
 	**/	
 	private static String fromHex(String hex) {
 		try {
-			byte[] tBytes = DatatypeConverter.parseHexBinary(hex);
+			Hex hexConverter = new Hex("UTF-8");
+			char[] hexChar = hex.toCharArray();
+			byte[] tBytes = hexConverter.decodeHex(hexChar);
 			if(tBytes == null) {
 				return "";
 			}

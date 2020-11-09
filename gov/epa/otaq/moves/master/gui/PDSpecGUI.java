@@ -24,7 +24,10 @@ import gov.epa.otaq.moves.master.runspec.*;
  * GUI for creating and PDSpec XML files.
  *
  * @author		wfaler
- * @version		2011-09-10
+ * @author  	John Covey (Task 1903)
+ * @author		Mike Kender (Task 2003)
+ * @author  	John Covey (Task 2003)
+ * @version		2020-08-10
 **/
 public class PDSpecGUI extends JDialog implements ActionListener, FocusListener {
 	/** The parent JFrame which invokes this GUI. **/
@@ -226,11 +229,20 @@ public class PDSpecGUI extends JDialog implements ActionListener, FocusListener 
 			Logger.log(LogMessageCategory.WARNING, "Specify a database name.");
 			return;
 		}
+		else if (!DatabaseUtilities.isDatabaseNameValid(newDatabaseName)) {
+			JOptionPane.showMessageDialog(this,Constants.DATABASE_NAME_VALIDATION_MESSAGE);
+			return;
+		}
 
 		DatabaseSelection dbSelection = new DatabaseSelection();
 		if(controls.server.getText().length() > 0) {
 			dbSelection.serverName = controls.server.getText();
-		} else {
+			if (!DatabaseUtilities.isServerNameValid(controls.server.getText())) {
+				JOptionPane.showMessageDialog(this,Constants.SERVER_NAME_VALIDATION_MESSAGE);
+				return;		
+			}
+		} 
+		else {
 			dbSelection.serverName = SystemConfiguration.getTheSystemConfiguration().
 					databaseSelections[MOVESDatabaseType.OUTPUT.getIndex()].serverName;
 		}
@@ -445,11 +457,20 @@ public class PDSpecGUI extends JDialog implements ActionListener, FocusListener 
 			Logger.log(LogMessageCategory.WARNING, "Specify a database name.");
 			return;
 		}
+		else if (!DatabaseUtilities.isDatabaseNameValid(newDatabaseName)) {
+			JOptionPane.showMessageDialog(this,Constants.DATABASE_NAME_VALIDATION_MESSAGE);
+			return;
+		}
 
 		DatabaseSelection dbSelection = new DatabaseSelection();
 		if(controls.server.getText().length() > 0) {
 			dbSelection.serverName = controls.server.getText();
-		} else {
+			if (!DatabaseUtilities.isServerNameValid(controls.server.getText())) {
+				JOptionPane.showMessageDialog(this,Constants.SERVER_NAME_VALIDATION_MESSAGE);
+				return;		
+			}
+		} 
+		else {
 			dbSelection.serverName = SystemConfiguration.getTheSystemConfiguration().
 					databaseSelections[MOVESDatabaseType.OUTPUT.getIndex()].serverName;
 		}
@@ -550,7 +571,7 @@ public class PDSpecGUI extends JDialog implements ActionListener, FocusListener 
 			Logger.log(LogMessageCategory.ERROR,"Could not connect to the output database");
 			return;
 		}
-		String sql = "SHOW DATABASES";
+		String sql = "select table_schema as output_dbs from information_schema.tables where table_name = 'movesoutput' order by output_dbs";
 		PreparedStatement statement;
 		ResultSet results;
 		try {
@@ -884,12 +905,14 @@ public class PDSpecGUI extends JDialog implements ActionListener, FocusListener 
 				panel2.add(browseButton, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
 					GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 					new Insets(0, 0, 5, 0), 0, 0));
+				ToolTipHelper.add(browseButton, "Open File Explorer to load DONE files");
 
 				//---- useButton ----
 				useButton.setText("Use");
 				panel2.add(useButton, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
 					GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 					new Insets(0, 0, 5, 0), 0, 0));
+				ToolTipHelper.add(useButton, "Select the given Master ID");
 			}
 			add(panel2, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
@@ -932,18 +955,21 @@ public class PDSpecGUI extends JDialog implements ActionListener, FocusListener 
 				panel3.add(removeButton, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
 					GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 					new Insets(0, 0, 5, 0), 0, 0));
+				ToolTipHelper.add(removeButton, "Remove the highlighted selection from the list");
 
 				//---- saveButton ----
 				saveButton.setText("Save...");
 				panel3.add(saveButton, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
 					GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 					new Insets(0, 0, 5, 0), 0, 0));
+				ToolTipHelper.add(saveButton, "Save the PDSpec to disk");
 
 				//---- loadButton ----
 				loadButton.setText("Load...");
 				panel3.add(loadButton, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
 					GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 					new Insets(0, 0, 5, 0), 0, 0));
+				ToolTipHelper.add(loadButton, "Load a PDSpec from disk");
 			}
 			add(panel3, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
@@ -965,6 +991,7 @@ public class PDSpecGUI extends JDialog implements ActionListener, FocusListener 
 				panel5.add(processButton, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
 					GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 					new Insets(0, 0, 0, 0), 0, 0));
+				ToolTipHelper.add(processButton, "Start processing the PDSpec");
 
 				panel5.add(hSpacer2, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
 					GridBagConstraints.CENTER, GridBagConstraints.BOTH,
@@ -993,6 +1020,7 @@ public class PDSpecGUI extends JDialog implements ActionListener, FocusListener 
 				panel4.add(doneButton, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
 					GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 					new Insets(0, 0, 0, 5), 0, 0));
+				ToolTipHelper.add(doneButton, "Close the dialog");
 /*
 				panel4.add(hSpacer2, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
 					GridBagConstraints.CENTER, GridBagConstraints.BOTH,
@@ -1075,6 +1103,7 @@ public class PDSpecGUI extends JDialog implements ActionListener, FocusListener 
 			add(okButton, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				new Insets(0, 0, 5, 0), 0, 0));
+			ToolTipHelper.add(okButton, "Close the dialog");
 
 			//---- label2 ----
 			label2.setText("Details:");
@@ -1087,6 +1116,7 @@ public class PDSpecGUI extends JDialog implements ActionListener, FocusListener 
 			add(cancelButton, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0,
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				new Insets(0, 0, 5, 0), 0, 0));
+			ToolTipHelper.add(cancelButton, "Close the dialog");
 
 			//======== scrollPane1 ========
 			{

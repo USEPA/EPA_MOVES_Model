@@ -24,10 +24,13 @@ DROP TABLE IF EXISTS OldSHO;
 DROP TABLE IF EXISTS OldSourceHours;
 DROP TABLE IF EXISTS OldStarts;
 DROP TABLE IF EXISTS OldExtendedIdleHours;
+DROP TABLE IF EXISTS OldHotellingHourFraction;
 DROP TABLE IF EXISTS AggZoneMonthHour;
 DROP TABLE IF EXISTS AggMonthGroupHour;
 DROP TABLE IF EXISTS OldSampleVehicleTrip;
 DROP TABLE IF EXISTS OldStartsPerVehicle;
+DROP TABLE IF EXISTS OldStartsOpModeDistribution;
+DROP TABLE IF EXISTS OldStartsHourFraction;
 DROP TABLE IF EXISTS OldSoakActivityFraction;
 DROP TABLE IF EXISTS OldAverageTankTemperature;
 
@@ -249,6 +252,18 @@ INSERT INTO ExtendedIdleHours (sourceTypeID, hourDayID, monthID, yearID, ageID, 
   FROM OldExtendedIdleHours
   GROUP BY sourceTypeID, dayID, monthID, yearID, ageID, zoneID;
 FLUSH TABLE ExtendedIdleHours;
+
+-- HotellingHourFraction
+-- 
+-- SELECT "Making StartsHourFraction" AS MARKER_POINT;
+CREATE TABLE OldHotellingHourFraction
+  SELECT * FROM HotellingHourFraction;
+TRUNCATE HotellingHourFraction;
+INSERT INTO HotellingHourFraction (zoneID, dayID, hourID, hourFraction)
+  SELECT zoneID, dayID, 0 as hourID, sum(hourFraction) as hourFraction
+  FROM OldHotellingHourFraction
+  GROUP BY zoneID, dayID;
+FLUSH TABLE HotellingHourFraction;
   
 -- 
 -- ZoneMonthHour
@@ -342,6 +357,33 @@ INSERT INTO StartsPerVehicle (sourceTypeID, hourDayID,
     NULL AS startsPerVehicleCV
   FROM OldStartsPerVehicle GROUP BY sourceTypeID, hourDayID;
 FLUSH TABLE StartsPerVehicle;
+
+-- This MUST happen before changes are made to StartsHourFraction (Jarrod/Evan/Michael Integration Sprint 27 March 2019)
+-- StartsOpModeDistribution
+-- 
+-- SELECT "Making StartsOpModeDistribution" AS MARKER_POINT;
+CREATE TABLE OldStartsOpModeDistribution
+  SELECT * FROM StartsOpModeDistribution;
+TRUNCATE StartsOpModeDistribution;
+INSERT INTO StartsOpModeDistribution (dayID, hourID, sourceTypeID, ageID,
+  opModeID, opModeFraction, isUserInput)
+  SELECT dayID, 0 as hourID, sourceTypeID, ageID, opModeID,
+    sum(opModeFraction * allocationFraction) as opModeFraction, 'Y' as isUserInput
+  FROM OldStartsOpModeDistribution INNER JOIN startshourfraction USING (dayID, hourID, sourceTypeID)
+  GROUP BY dayID, sourceTypeID, ageID, opModeID;
+FLUSH TABLE StartsOpModeDistribution;
+
+-- StartsHourFraction
+-- 
+-- SELECT "Making StartsHourFraction" AS MARKER_POINT;
+CREATE TABLE OldStartsHourFraction
+  SELECT * FROM StartsHourFraction;
+TRUNCATE StartsHourFraction;
+INSERT INTO StartsHourFraction (dayID, hourID, sourceTypeID, allocationFraction)
+  SELECT dayID, 0 as hourID, sourceTypeID, sum(allocationFraction) as allocationFraction
+  FROM OldStartsHourFraction
+  GROUP BY dayID, sourceTypeID;
+FLUSH TABLE StartsHourFraction;
      
 --
 -- AverageTankTemperature
@@ -396,10 +438,13 @@ DROP TABLE IF EXISTS OldSHO;
 DROP TABLE IF EXISTS OldSourceHours;
 DROP TABLE IF EXISTS OldStarts;
 DROP TABLE IF EXISTS OldExtendedIdleHours;
+DROP TABLE IF EXISTS OldHotellingHourFraction;
 DROP TABLE IF EXISTS AggZoneMonthHour;
 DROP TABLE IF EXISTS AggMonthGroupHour;
 DROP TABLE IF EXISTS OldSampleVehicleTrip;
 DROP TABLE IF EXISTS OldStartsPerVehicle;
+DROP TABLE IF EXISTS OldStartsOpModeDistribution;
+DROP TABLE IF EXISTS OldStartsHourFraction;
 DROP TABLE IF EXISTS OldSoakActivityFraction;
 DROP TABLE IF EXISTS OldAverageTankTemperature;
 

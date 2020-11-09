@@ -6,6 +6,7 @@ package gov.epa.otaq.moves.master.framework.importers;
 
 import gov.epa.otaq.moves.master.runspec.*;
 import gov.epa.otaq.moves.master.framework.*;
+import gov.epa.otaq.moves.master.gui.CreateInputDatabase;
 import gov.epa.otaq.moves.common.*;
 import gov.epa.otaq.moves.master.implementation.importers.GenericImporter;
 import java.util.*;
@@ -22,9 +23,12 @@ import org.w3c.dom.*;
  *
  * @author		Don Smith
  * @author		Wesley Faler
- * @version		2015-05-21
+ * @author		Mike Kender	task 1903
+ * @version		2019-10-18
 **/
 public class ImporterManager {
+	public static ImporterManager singleton = null;
+
 	/** Mode to show all available GUI tabs **/
 	public static final int STANDARD_MODE = 0;
 	/** Mode to show only the I/M and related tabs **/
@@ -57,6 +61,7 @@ public class ImporterManager {
 	public static final String FILTER_MARKET_SHARE = "marketShare";
 	public static final String FILTER_HPMS_VTYPE = "hpmsVtypeID";
 	public static final String FILTER_NON_NEGATIVE = "NonNegativeFloat";
+	public static final String FILTER_NON_NEGATIVE_DEFAULT_1 = "NonNegativeFloatDefault1";
 	public static final String FILTER_0_TO_1_FRACTION = "zeroToOneFraction";
 	public static final String FILTER_0_TO_100_PERCENTAGE = "zeroTo100Percentage";
 	public static final String FILTER_AGE = "ageID";
@@ -72,11 +77,14 @@ public class ImporterManager {
 	public static final String FILTER_IMPROGRAMID = "IMProgramID"; //int >=1
 	public static final String FILTER_INSPECTFREQ = "inspectFreq";
 	public static final String FILTER_TESTSTANDARDSID = "testStandardsID";
-	public static final String FILTER_MODELYEARID = "modelYearID"; // int  between  >=1960 to <=2050
+	public static final String FILTER_MODELYEARID = "modelYearID"; // int  between  >=1960 to <=2060
 	public static final String FILTER_YN = "yn";
 	public static final String FILTER_SOURCEFUELTYPE = "sourceFuelTypeID"; // sourceTypeID*100 + fuelTypeID
 	public static final String FILTER_IS_LEAP_YEAR = "isLeapYear";
-	public static final String FILTER_MODEL_YEAR_RANGE = "modelYearRange"; // 2 model years, low to high, both >= 1960 to <= 2050
+	public static final String FILTER_MODEL_YEAR_RANGE = "modelYearRange"; // 2 model years, low to high, both >= 1960 to <= 2060
+	public static final String FILTER_COUNTYTYPE = "countyTypeID";
+	public static final String FILTER_IDLEREGION = "idleRegionID";
+	public static final String LOG_TABLES_SCRIPT = "database/CreateAuditLogTables.sql";
 
 	/**
 	 * Values for each filter type.  Keyed by the filter type name from the
@@ -142,7 +150,7 @@ public class ImporterManager {
 	}
 
 	/** IImporter objects being managed **/
-	ArrayList<IImporter> importers = new ArrayList<IImporter>();
+	public ArrayList<IImporter> importers = new ArrayList<IImporter>();
 	/** The RunSpec being edited **/
 	public RunSpec runSpec;
 	/** Current GUI, if any **/
@@ -164,6 +172,8 @@ public class ImporterManager {
 
 	/** Constructor, uses the default API's RunSpec object. **/
 	public ImporterManager() {
+		singleton = this;
+
 		runSpec = MOVESAPI.getTheAPI().getRunSpec();
 		if(runSpec == null) {
 			runSpec = new RunSpec();
@@ -175,6 +185,7 @@ public class ImporterManager {
 	 * @param runSpecToUse runSpec to be used.  If null a new RunSpec will be created.
 	**/
 	public ImporterManager(RunSpec runSpecToUse) {
+		singleton = this;
 		runSpec = runSpecToUse;
 		if(runSpec == null) {
 			runSpec = new RunSpec();
@@ -371,7 +382,6 @@ public class ImporterManager {
 	 * @return the selected database or null.
 	**/
 	public Connection openDatabase(boolean createIfNeeded) {
-		String logTablesScript = "database/CreateAuditLogTables.sql";
 		Connection db = null;
 		try {
 			db = database.openConnectionOrNull();
@@ -381,15 +391,21 @@ public class ImporterManager {
 				}
 				Logger.log(LogMessageCategory.INFO,"Creating importer database "
 						+ database.toString());
-				if(database.safeCreateDatabase(logTablesScript) == DatabaseSelection.NOT_CREATED) {
+				if(database.safeCreateDatabase(LOG_TABLES_SCRIPT) == DatabaseSelection.NOT_CREATED) {
 					Logger.log(LogMessageCategory.ERROR,"Unable to create database "
 							+ database.toString());
 					return null;
 				}
 			} else {
-				DatabaseUtilities.executeScript(db,new File(logTablesScript));
-				DatabaseUtilities.closeConnection(db);
-				db = null;
+				try {
+					DatabaseUtilities.executeScript(db,new File(LOG_TABLES_SCRIPT));
+				} catch (SQLException e) {
+					// this will error if the database hasn't been created.
+					return null;
+				} finally {
+					DatabaseUtilities.closeConnection(db);
+					db = null;
+				}
 			}
 			if(createDatabase(database) == DatabaseSelection.NOT_CREATED) {
 				return null;
@@ -488,7 +504,7 @@ public class ImporterManager {
 		Connection db = null;
 		try {
 			db = DatabaseConnectionManager.checkOutConnection(MOVESDatabaseType.DEFAULT);
-			int createStatus = dbSelection.safeCreateDatabase(null);
+			int createStatus = dbSelection.safeCreateDatabase(LOG_TABLES_SCRIPT);
 			if(createStatus == DatabaseSelection.NOT_CREATED) {
 				Logger.log(LogMessageCategory.ERROR,
 						"Could not create the Input database.");
@@ -522,6 +538,8 @@ public class ImporterManager {
 					statement.close();
 					statement = null;
 				}
+
+				DatabaseUtilities.executeScript(db,new File(LOG_TABLES_SCRIPT));
 
 				if(createStatus == DatabaseSelection.CREATED) {
 					if(isCountyDomain || isProjectDomain) {
@@ -649,18 +667,18 @@ public class ImporterManager {
 
 				String[] genericCountyStatements = {
 					// State table
-					"insert ignore into State (stateID, stateName, stateAbbr)"
-							+ " values (" + c.stateID + ",'Generic','99')",
+					"insert ignore into State (stateID, stateName, stateAbbr, idleRegionID)"
+							+ " values (" + c.stateID + ",'Generic','99',1)",
 
 					// County table
 					"insert ignore into County (countyID, stateID, countyName, altitude,"
-							+ " gpaFract, barometricPressure, barometricPressureCV)"
+							+ " gpaFract, barometricPressure, barometricPressureCV,countyTypeID)"
 							+ " values (" + c.getCountyID() + "," + c.stateID
 							+ "," + DatabaseUtilities.escapeSQL(c.description,true)
 							+ ",'" + (c.isHighAltitude()?"H":"L") + "'"
 							+ "," + c.gpaFraction
 							+ "," + c.barometricPressure
-							+ ",null)",
+							+ ",null,1)",
 
 					"update County set stateID=" + c.stateID
 							+ ", countyName=" + DatabaseUtilities.escapeSQL(c.description,true)
@@ -668,6 +686,7 @@ public class ImporterManager {
 							+ ", gpaFract=" + c.gpaFraction
 							+ ", barometricPressure=" + c.barometricPressure
 							+ ", barometricPressureCV=null"
+							+ ", countyTypeID=1"
 							+ " where countyID=" + c.getCountyID(),
 
 					/*
@@ -1052,7 +1071,7 @@ public class ImporterManager {
 		try {
 			sql = "delete from auditLog where importerName="
 					+ DatabaseUtilities.escapeSQL(importer.getName(),true)
-					+ " and briefDescription like '%" + DatabaseUtilities.escapeSQL(tableName,false) + "%'";
+					+ " and briefDescription like '% " + DatabaseUtilities.escapeSQL(tableName,false) + " %'";
 			SQLRunner.executeSQL(db,sql);
 		} catch(Exception e) {
 			Logger.logError(e,"Unable to clear audit log entries for " + importer.getName() + ", table " + tableName);
@@ -1150,7 +1169,7 @@ public class ImporterManager {
 			}
 			int i = (int)f;
 			return (i>0) && Math.abs(((double)i-f))<0.1;
-		} else if(dataType.equalsIgnoreCase("NonNegativeFloat")) {
+		} else if(dataType.equalsIgnoreCase("NonNegativeFloat") || dataType.equalsIgnoreCase("NonNegativeFloatDefault1")) {
 			return true; // accept all floating point values coming into system
 		} else if(dataType.equalsIgnoreCase("zeroToOneFraction")) {
 			double f=0;
@@ -1210,7 +1229,7 @@ public class ImporterManager {
 					return false;
 				}
 			}
-			return modelYear>=1960 && modelYear<=2050;
+			return modelYear>=1960 && modelYear<=2060;
 		} else if(dataType.equalsIgnoreCase("ModelYearRange")) {
 			int modelYearRange = 0; // format: <low><high>, such as "19802010" for 1980 through 2010, inclusive.  0 is also accepted as a wildcard.
 			if(value instanceof Integer) {
@@ -1227,8 +1246,8 @@ public class ImporterManager {
 			int lowModelYear = modelYearRange / 10000;
 			int highModelYear = modelYearRange % 10000;
 			return modelYearRange == 0 ||
-				(lowModelYear>=1960 && lowModelYear<=2050
-				&& highModelYear>=1960 && highModelYear<=2050
+				(lowModelYear>=1960 && lowModelYear<=2060
+				&& highModelYear>=1960 && highModelYear<=2060
 				&& lowModelYear <= highModelYear);
 		}
 		return true;
@@ -1258,7 +1277,7 @@ public class ImporterManager {
 			return doesIncludeGreaterThanZeroFloat(rs,columnIndex1,filterType);
 		} else if(dataType.equalsIgnoreCase("GreaterThanZeroInt")) {
 			return doesIncludeGreaterThanZeroInt(rs,columnIndex1,filterType);
-		} else if(dataType.equalsIgnoreCase("NonNegativeFloat")) {
+		} else if(dataType.equalsIgnoreCase("NonNegativeFloat") || dataType.equalsIgnoreCase("NonNegativeFloatDefault1")) {
 			return doesIncludeNonNegativeFloat(rs,columnIndex1,filterType);
 		} else if(dataType.equalsIgnoreCase("zeroToOneFraction")) {
 			return doesIncludeZeroToOneFraction(rs,columnIndex1,filterType);
@@ -1286,7 +1305,7 @@ public class ImporterManager {
 	**/
 	private boolean doesIncludeInteger(ResultSet rs, int columnIndex1, String filterType)
 			throws SQLException {
-		Integer value = new Integer(rs.getInt(columnIndex1));
+		Integer value = Integer.valueOf(rs.getInt(columnIndex1));
 		TreeSet set = (TreeSet)filterValueSets.get(filterType);
 		// Accept the value if there are no restrictions or if the value is listed
 		return set == null || set.size() <= 0 || set.contains(value);
@@ -1365,7 +1384,7 @@ public class ImporterManager {
 
 	/**
 	 * Test Model Year column in a ResultSet.  The value is accepted if
-	 * it is between >=1960 to <=2050
+	 * it is between >=1960 to <=2060
 	 * @param rs data record to be examined
 	 * @param columnIndex1 1-based column index within the row
 	 * @param filterType one of the ImporterManager.FILTER_XXXX constants
@@ -1376,12 +1395,12 @@ public class ImporterManager {
 	private boolean doesIncludeModelYear(ResultSet rs, int columnIndex1,
 			String filterType) throws SQLException {
 		int value = rs.getInt(columnIndex1);
-		return value>=1960 && value<=2050;
+		return value>=1960 && value<=2060;
 	}
 
 	/**
 	 * Test Model Year range column in a ResultSet.  The value is accepted if
-	 * it is 0 or if both model years are between >=1960 to <=2050 and the low model year is less
+	 * it is 0 or if both model years are between >=1960 to <=2060 and the low model year is less
 	 * than or equal to the high model year.
 	 * @param rs data record to be examined
 	 * @param columnIndex1 1-based column index within the row
@@ -1396,8 +1415,8 @@ public class ImporterManager {
 		int lowModelYear = modelYearRange / 10000;
 		int highModelYear = modelYearRange % 10000;
 		return modelYearRange == 0 ||
-			(lowModelYear>=1960 && lowModelYear<=2050
-			&& highModelYear>=1960 && highModelYear<=2050
+			(lowModelYear>=1960 && lowModelYear<=2060
+			&& highModelYear>=1960 && highModelYear<=2060
 			&& lowModelYear <= highModelYear);
 	}
 
@@ -1507,6 +1526,12 @@ public class ImporterManager {
 			filterDataTypes.put(FILTER_0_TO_1_FRACTION,"zeroToOneFraction");
 			filterDataTypes.put(FILTER_0_TO_100_PERCENTAGE,"zeroTo100Percentage");
 			filterDataTypes.put(FILTER_IMPROGRAMID,"GreaterThanZeroInt");
+
+			// FILTER_NON_NEGATIVE_DEFAULT_1
+			TreeSet<Object> one = new TreeSet<Object>();
+			filterValueSets.put(FILTER_NON_NEGATIVE_DEFAULT_1,one);
+			one.add(Double.valueOf(1));
+			filterDataTypes.put(FILTER_NON_NEGATIVE_DEFAULT_1,"NonNegativeFloat");
 		} catch(Exception e) {
 			Logger.logError(e,"Unable to load filter values");
 		}
@@ -1612,7 +1637,7 @@ public class ImporterManager {
 					+ " where (isAffectedByExhaustIM='Y' or isAffectedByEvapIM='Y')";
 			query.open(db,sql);
 			while(query.rs.next()) {
-				affectedIDs.add(new Integer(query.rs.getInt(1)));
+				affectedIDs.add(Integer.valueOf(query.rs.getInt(1)));
 			}
 		} finally {
 			query.onFinally();
@@ -1625,7 +1650,7 @@ public class ImporterManager {
 		for(Iterator<PollutantProcessAssociation> i=runSpec.pollutantProcessAssociations.iterator();
 				i.hasNext();) {
 			PollutantProcessAssociation ppa = (PollutantProcessAssociation)i.next();
-			Integer key = new Integer(ppa.getDatabaseKey());
+			Integer key = Integer.valueOf(ppa.getDatabaseKey());
 			polProcessIDs.add(key);
 			if(2 == ppa.emissionProcess.databaseKey) {
 				startsPolProcessIDs.add(key);
@@ -1633,8 +1658,8 @@ public class ImporterManager {
 			if(affectedIDs.contains(key)) {
 				polProcessIDsIM.add(key);
 			}
-			processIDs.add(new Integer(ppa.emissionProcess.databaseKey));
-			pollutantIDs.add(new Integer(ppa.pollutant.databaseKey));
+			processIDs.add(Integer.valueOf(ppa.emissionProcess.databaseKey));
+			pollutantIDs.add(Integer.valueOf(ppa.pollutant.databaseKey));
 		}
 	}
 
@@ -1713,9 +1738,9 @@ public class ImporterManager {
 			for(Iterator<OnRoadVehicleSelection> i=runSpec.onRoadVehicleSelections.iterator();
 					i.hasNext();) {
 				OnRoadVehicleSelection s = (OnRoadVehicleSelection)i.next();
-				fuels.add(new Integer(s.fuelTypeID));
-				sourceTypes.add(new Integer(s.sourceTypeID));
-				sourceFuelTypes.add(new Integer(s.sourceTypeID*100 + s.fuelTypeID));
+				fuels.add(Integer.valueOf(s.fuelTypeID));
+				sourceTypes.add(Integer.valueOf(s.sourceTypeID));
+				sourceFuelTypes.add(Integer.valueOf(s.sourceTypeID*100 + s.fuelTypeID));
 			}
 			for(Iterator<Object> i=fuels.iterator();i.hasNext();) {
 				Integer fuelType = (Integer)i.next();
@@ -1795,7 +1820,7 @@ public class ImporterManager {
 			for(Iterator<OffRoadVehicleSelection> i=runSpec.offRoadVehicleSelections.iterator();
 					i.hasNext();) {
 				OffRoadVehicleSelection s = (OffRoadVehicleSelection)i.next();
-				fuels.add(new Integer(s.fuelTypeID));
+				fuels.add(Integer.valueOf(s.fuelTypeID));
 			}
 			for(Iterator<Object> i=fuels.iterator();i.hasNext();) {
 				Integer fuelType = (Integer)i.next();
@@ -1841,7 +1866,7 @@ public class ImporterManager {
 
 			for(Iterator<RoadType> i=runSpec.roadTypes.iterator();i.hasNext();) {
 				RoadType r = (RoadType)i.next();
-				Integer ri = new Integer(r.roadTypeID);
+				Integer ri = Integer.valueOf(r.roadTypeID);
 				roadTypes.add(ri);
 				if(r.roadTypeID == 2 || r.roadTypeID == 4) {
 					highwayRoadTypes.add(ri);
@@ -1910,11 +1935,11 @@ public class ImporterManager {
 				// Add model years and calendar years within the 30 year age range of the simulated calendar year
 				for(int ai=0;ai<=30;ai++) {
 					int agedYear = year.intValue() - ai;
-					if(agedYear >= 1960 && agedYear <= 2050) {
-						agedModelYears.add(new Integer(agedYear));
+					if(agedYear >= 1960 && agedYear <= 2060) {
+						agedModelYears.add(Integer.valueOf(agedYear));
 					}
-					if(agedYear >= 1960 && agedYear <= 2050) {
-						agedYears.add(new Integer(agedYear));
+					if(agedYear >= 1960 && agedYear <= 2060) {
+						agedYears.add(Integer.valueOf(agedYear));
 					}
 				}
 			}
@@ -1955,7 +1980,8 @@ public class ImporterManager {
 	}
 
 	/**
-	 * Populate FILTER_ZONE, FILTER_COUNTY, FILTER_STATE, and FILTER_FUEL_REGION values.
+	 * Populate FILTER_ZONE, FILTER_COUNTY, FILTER_STATE, FILTER_FUEL_REGION,
+	 * FILTER_COUNTYTYPE, and FILTER_IDLEREGION values.
 	 * @throws Exception if anything goes wrong
 	**/
 	private void loadGeographicFilterValues() throws Exception {
@@ -1975,13 +2001,20 @@ public class ImporterManager {
 		filterValueSets.put(FILTER_OFFNETWORK_LINK,offNetworkLinks);
 		filterDataTypes.put(FILTER_OFFNETWORK_LINK,"Integer");
 
+		TreeSet<Object> countyTypes = new TreeSet<Object>();
+		filterValueSets.put(FILTER_COUNTYTYPE,countyTypes);
+		filterDataTypes.put(FILTER_COUNTYTYPE,"Integer");
+		TreeSet<Object> idleRegions = new TreeSet<Object>();
+		filterValueSets.put(FILTER_IDLEREGION,idleRegions);
+		filterDataTypes.put(FILTER_IDLEREGION,"Integer");
+
 		String fuelYearsText = StringUtilities.getCSVGeneric(fuelYears);
 
 		if(runSpec.isCustomDomain()) {
-			//zones.add(new Integer(runSpec.genericCounty.getCountyID()*10));
-			counties.add(new Integer(runSpec.genericCounty.getCountyID()));
-			states.add(new Integer(runSpec.genericCounty.stateID));
-			regions.add(new Integer(100000000));
+			//zones.add(Integer.valueOf(runSpec.genericCounty.getCountyID()*10));
+			counties.add(Integer.valueOf(runSpec.genericCounty.getCountyID()));
+			states.add(Integer.valueOf(runSpec.genericCounty.stateID));
+			regions.add(Integer.valueOf(100000000));
 			return;
 		}
 
@@ -1994,8 +2027,8 @@ public class ImporterManager {
 				regionCounties.clear();
 				GeographicSelection g = (GeographicSelection)i.next();
 				if(g.type == GeographicSelectionType.COUNTY) {
-					counties.add(new Integer(g.databaseKey));
-					regionCounties.add(new Integer(g.databaseKey));
+					counties.add(Integer.valueOf(g.databaseKey));
+					regionCounties.add(Integer.valueOf(g.databaseKey));
 					// Get the state for the county
 					sql = "select stateID from County where countyID=" + g.databaseKey;
 					addIntegers(db,sql,states,null);
@@ -2005,8 +2038,17 @@ public class ImporterManager {
 					// Get the offnetwork links in the county
 					sql = "select linkID from link where roadTypeID=1 and countyID=" + g.databaseKey;
 					addIntegers(db,sql,offNetworkLinks,null);
+					// Get the countyTypeID for the county
+					sql = "select countyTypeID from county where countyID=" + g.databaseKey;
+					addIntegers(db,sql,countyTypes,null);
+					// Get the idleRegionID for the county
+					sql = "select idleRegionID"
+							+ " from State"
+							+ " inner join County using (stateID)"
+							+ " where countyID=" + g.databaseKey;
+					addIntegers(db,sql,idleRegions,null);
 				} else if(g.type == GeographicSelectionType.STATE) {
-					states.add(new Integer(g.databaseKey));
+					states.add(Integer.valueOf(g.databaseKey));
 					// Get the counties for the state
 					sql = "select countyID from County where stateID=" + g.databaseKey;
 					addIntegers(db,sql,counties,null);
@@ -2023,6 +2065,12 @@ public class ImporterManager {
 							+ " inner join county using (countyID)"
 							+ " where roadTypeID=1 and stateID=" + g.databaseKey;
 					addIntegers(db,sql,offNetworkLinks,null);
+					// Get the countyTypeIDs
+					sql = "select countyTypeID from countyType";
+					addIntegers(db,sql,countyTypes,null);
+					// Get the idleRegionID for the state
+					sql = "select idleRegionID from State where stateID=" + g.databaseKey;
+					addIntegers(db,sql,idleRegions,null);
 				} else if(g.type == GeographicSelectionType.NATION) {
 					// Get the states and counties in the nation
 					sql = "select stateID, countyID from County";
@@ -2030,18 +2078,26 @@ public class ImporterManager {
 					// Get the zones in the nation
 					sql = "select zoneID from Zone";
 					addIntegers(db,sql,zones,null);
-					// Get the offnetwork links in the state
+					// Get the offnetwork links in the nation
 					sql = "select linkID from link where roadTypeID=1";
 					addIntegers(db,sql,offNetworkLinks,null);
-					// Get the regions in the nation
-					sql = "select regionID"
-							+ " from regionCounty"
-							+ " where regionCodeID=1"
-							+ " and fuelYearID in (" + fuelYearsText + ")";
-					addIntegers(db,sql,regions,null);
+					// Get all countyTypeIDs 
+					sql = "select countyTypeID from countyType";
+					addIntegers(db,sql,countyTypes,null);
+					// Get all idleRegionIDs
+					sql = "select idleRegionID from idleRegion";
+					addIntegers(db,sql,idleRegions,null);
+					// Get the regions in the nation (only works if year is selected in runspec)
+					if(fuelYearsText != "") {
+						sql = "select regionID"
+								+ " from regionCounty"
+								+ " where regionCodeID=1"
+								+ " and fuelYearID in (" + fuelYearsText + ")";
+						addIntegers(db,sql,regions,null);
+					}
 					regionCounties.clear();
 				}
-				if(regionCounties.size() > 0) {
+				if(fuelYearsText != "" && regionCounties.size() > 0) {
 					sql = "select regionID"
 							+ " from regionCounty"
 							+ " where regionCodeID=1"
@@ -2075,10 +2131,10 @@ public class ImporterManager {
 			statement = db.createStatement();
 			rs = SQLRunner.executeQuery(statement,sql);
 			while(rs.next()) {
-				Integer i = new Integer(rs.getInt(1));
+				Integer i = Integer.valueOf(rs.getInt(1));
 				set1.add(i);
 				if(set2 != null) {
-					i = new Integer(rs.getInt(2));
+					i = Integer.valueOf(rs.getInt(2));
 					set2.add(i);
 				}
 			}
@@ -2253,7 +2309,7 @@ public class ImporterManager {
 			statement = db.createStatement();
 			rs = SQLRunner.executeQuery(statement,sql);
 			while(rs.next()) {
-				Integer i = new Integer(rs.getInt(1));
+				Integer i = Integer.valueOf(rs.getInt(1));
 				results.add(i);
 			}
 			return results;
@@ -2283,13 +2339,16 @@ public class ImporterManager {
 	 * @param sql statement to get values.  Only the first column is used and it
 	 * must be an integer-compatible type.
 	 * @param neededValues set of Integer objects defining all required values
+	 * @param importer optional object to receive quality messages
+	 * @param qualityMessagePrefix optional prefix to use for quality messages, never null if importer is provided
 	 * @return true if all neededValues are present, even if other values are present
 	 * in the database.
 	 * @throws Exception if anything goes wrong
 	**/
-	public boolean tableHasIntegers(Connection db, String sql, TreeSet<Object> neededValues)
+	public boolean tableHasIntegers(Connection db, String sql, TreeSet<Object> neededValues,
+			IImporter importer, String qualityMessagePrefix)
 			throws Exception {
-		return tableHasIntegers(db,sql,neededValues,null);
+		return tableHasIntegers(db,sql,neededValues,null,importer,qualityMessagePrefix);
 	}
 
 	/**
@@ -2301,11 +2360,14 @@ public class ImporterManager {
 	 * @param alternateNeededValueSource optional SQL to obtain an alternate set of
 	 * needed values.  If this is provided and yields an empty set, the result is false,
 	 * unlike the handling of normal needed values.
+	 * @param importer optional object to receive quality messages
+	 * @param qualityMessagePrefix optional prefix to use for quality messages, never null if importer is provided
 	 * @return true if all neededValues are present, even if other values are present
 	 * in the database.
 	 * @throws Exception if anything goes wrong
 	**/
-	public boolean tableHasIntegers(Connection db, String sql, TreeSet<Object> neededValues, String alternateNeededValueSource)
+	public boolean tableHasIntegers(Connection db, String sql, TreeSet<Object> neededValues, String alternateNeededValueSource,
+			IImporter importer, String qualityMessagePrefix)
 			throws Exception {
 		SQLRunner.Query query = new SQLRunner.Query();
 		TreeSet<Object> neededValuesToUse = neededValues;
@@ -2314,7 +2376,7 @@ public class ImporterManager {
 				query.open(db,alternateNeededValueSource);
 				neededValuesToUse = new TreeSet<Object>();
 				while(query.rs.next()) {
-					Integer i = new Integer(query.rs.getInt(1));
+					Integer i = Integer.valueOf(query.rs.getInt(1));
 					neededValuesToUse.add(i);
 				}
 				// If we got this far, the alternate source exists and we will reject anything that
@@ -2334,12 +2396,12 @@ public class ImporterManager {
 				return true;
 			}
 		}
-//System.out.println("Searching for " + neededValuesToUse.size() + " items: " + sql);
+		//System.out.println("Searching for " + neededValuesToUse.size() + " items: " + sql);
 		TreeSet<Object> foundNeededValues = new TreeSet<Object>();
 		try {
 			query.open(db,sql);
 			while(query.rs.next()) {
-				Integer i = new Integer(query.rs.getInt(1));
+				Integer i = Integer.valueOf(query.rs.getInt(1));
 				if(neededValuesToUse.contains(i)) {
 					//System.out.println("Matched " + i);
 					foundNeededValues.add(i);
@@ -2347,7 +2409,25 @@ public class ImporterManager {
 					//System.out.println("Not matched " + i);
 				}
 			}
-			return neededValuesToUse.size() == foundNeededValues.size();
+			if(neededValuesToUse.size() == foundNeededValues.size()) {
+				return true;
+			}
+			if(importer != null && qualityMessagePrefix != null) {
+				String neededText = "";
+				for(Object n : neededValuesToUse) {
+					if(!foundNeededValues.contains(n)) {
+						if(neededText.length() > 0) {
+							neededText += ",";
+						}
+						neededText += n.toString();
+					}
+				}
+				if(neededText.length() > 0) {
+					neededText = " " + neededText;
+				}
+				importer.addQualityMessage(qualityMessagePrefix + neededText);
+			}
+			return false;
 		} finally {
 			query.onFinally();
 		}
@@ -2359,22 +2439,25 @@ public class ImporterManager {
 	 * @param sql statement to get values.  Only the first column is used and it
 	 * must be an integer-compatible type.
 	 * @param neededValues set of Integer objects defining all required values
+	 * @param importer optional object to receive quality messages
+	 * @param qualityMessagePrefix optional prefix to use for quality messages, never null if importer is provided
 	 * @return true if all neededValues are present, even if other values are present
 	 * in the database.
 	 * @throws Exception if anything goes wrong
 	**/
-	public boolean tableHasIntegerObjects(Connection db, String sql, TreeSet<Integer> neededValues)
+	public boolean tableHasIntegerObjects(Connection db, String sql, TreeSet<Integer> neededValues,
+			IImporter importer, String qualityMessagePrefix)
 			throws Exception {
 		if(neededValues == null || neededValues.size() <= 0) {
 			return true;
 		}
-//System.out.println("Searching for " + neededValues.size() + " items: " + sql);
+		//System.out.println("Searching for " + neededValues.size() + " items: " + sql);
 		TreeSet<Object> foundNeededValues = new TreeSet<Object>();
 		SQLRunner.Query query = new SQLRunner.Query();
 		try {
 			query.open(db,sql);
 			while(query.rs.next()) {
-				Integer i = new Integer(query.rs.getInt(1));
+				Integer i = Integer.valueOf(query.rs.getInt(1));
 				if(neededValues.contains(i)) {
 					//System.out.println("Matched " + i);
 					foundNeededValues.add(i);
@@ -2382,7 +2465,25 @@ public class ImporterManager {
 					//System.out.println("Not matched " + i);
 				}
 			}
-			return neededValues.size() == foundNeededValues.size();
+			if(neededValues.size() == foundNeededValues.size()) {
+				return true;
+			}
+			if(importer != null && qualityMessagePrefix != null) {
+				String neededText = "";
+				for(Object n : neededValues) {
+					if(!foundNeededValues.contains(n)) {
+						if(neededText.length() > 0) {
+							neededText += ",";
+						}
+						neededText += n.toString();
+					}
+				}
+				if(neededText.length() > 0) {
+					neededText = " " + neededText;
+				}
+				importer.addQualityMessage(qualityMessagePrefix + neededText);
+			}
+			return false;
 		} finally {
 			query.onFinally();
 		}
@@ -2400,7 +2501,7 @@ public class ImporterManager {
 		nonOffNetworkRoadTypes = new TreeSet<Object>();
 		for(Iterator<RoadType> i=runSpec.roadTypes.iterator();i.hasNext();) {
 			RoadType r = (RoadType)i.next();
-			Integer ri = new Integer(r.roadTypeID);
+			Integer ri = Integer.valueOf(r.roadTypeID);
 			roadTypes.add(ri);
 			if(r.roadTypeID != 1) {
 				nonOffNetworkRoadTypes.add(ri);
@@ -2412,8 +2513,8 @@ public class ImporterManager {
 		for(Iterator<OnRoadVehicleSelection> i=runSpec.onRoadVehicleSelections.iterator();
 				i.hasNext();) {
 			OnRoadVehicleSelection s = (OnRoadVehicleSelection)i.next();
-			sourceTypes.add(new Integer(s.sourceTypeID));
-			fuelTypes.add(new Integer(s.fuelTypeID));
+			sourceTypes.add(Integer.valueOf(s.sourceTypeID));
+			fuelTypes.add(Integer.valueOf(s.fuelTypeID));
 		}
 
 		counties = new TreeSet<Object>();
@@ -2421,14 +2522,14 @@ public class ImporterManager {
 		for(Iterator<GeographicSelection> i=runSpec.geographicSelections.iterator();i.hasNext();) {
 			GeographicSelection g = (GeographicSelection)i.next();
 			if(g.type == GeographicSelectionType.COUNTY) {
-				counties.add(new Integer(g.databaseKey));
+				counties.add(Integer.valueOf(g.databaseKey));
 				countyIDsText += "," + g.databaseKey;
 			}
 		}
 
 		ages = new TreeSet<Object>();
 		for(int i=0;i<=30;i++) {
-			ages.add(new Integer(i));
+			ages.add(Integer.valueOf(i));
 		}
 
 		boolean isCustomDomain = runSpec.isCustomDomain();
@@ -2448,7 +2549,7 @@ public class ImporterManager {
 
 			if(isCustomDomain) {
 				zones = new TreeSet<Object>();
-				zones.add(new Integer(runSpec.genericCounty.getCountyID()*10));
+				zones.add(Integer.valueOf(runSpec.genericCounty.getCountyID()*10));
 			} else {
 				zones = getIntegers(defaultDb,"select zoneID"
 						+ " from zone"
@@ -2468,122 +2569,138 @@ public class ImporterManager {
 	 * Check a table for presence of all needed values.
 	 * @param db database holding the table to be scanned
 	 * @param sql query returning all values in the database
+	 * @param importer optional object to receive quality messages
+	 * @param qualityMessagePrefix optional prefix to use for quality messages, never null if importer is provided
 	 * @return true if all neededValues are present, even if other values are present
 	 * in the database.
 	 * @throws Exception if anything goes wrong
 	**/
-	public boolean tableHasYears(Connection db, String sql) throws Exception {
-		return tableHasIntegerObjects(db,sql,runSpec.timeSpan.years);
+	public boolean tableHasYears(Connection db, String sql, IImporter importer, String qualityMessagePrefix) throws Exception {
+		return tableHasIntegerObjects(db,sql,runSpec.timeSpan.years,importer,qualityMessagePrefix);
 	}
 
 	/**
 	 * Check a table for presence of all needed values.
 	 * @param db database holding the table to be scanned
 	 * @param sql query returning all values in the database
+	 * @param importer optional object to receive quality messages
+	 * @param qualityMessagePrefix optional prefix to use for quality messages, never null if importer is provided
 	 * @return true if all neededValues are present, even if other values are present
 	 * in the database.
 	 * @throws Exception if anything goes wrong
 	**/
-	public boolean tableHasRoadTypes(Connection db, String sql) throws Exception {
+	public boolean tableHasRoadTypes(Connection db, String sql, IImporter importer, String qualityMessagePrefix) throws Exception {
 		if(roadTypes == null) {
 			loadCaches();
 		}
-		return tableHasIntegers(db,sql,roadTypes);
+		return tableHasIntegers(db,sql,roadTypes,importer,qualityMessagePrefix);
 	}
 
 	/**
 	 * Check a table for presence of all needed values.
 	 * @param db database holding the table to be scanned
 	 * @param sql query returning all values in the database
+	 * @param importer optional object to receive quality messages
+	 * @param qualityMessagePrefix optional prefix to use for quality messages, never null if importer is provided
 	 * @return true if all neededValues are present, even if other values are present
 	 * in the database.
 	 * @throws Exception if anything goes wrong
 	**/
-	public boolean tableHasNonOffnetworkRoadTypes(Connection db, String sql) throws Exception {
+	public boolean tableHasNonOffnetworkRoadTypes(Connection db, String sql, IImporter importer, String qualityMessagePrefix) throws Exception {
 		if(nonOffNetworkRoadTypes == null) {
 			loadCaches();
 		}
-		return tableHasIntegers(db,sql,nonOffNetworkRoadTypes);
+		return tableHasIntegers(db,sql,nonOffNetworkRoadTypes,importer,qualityMessagePrefix);
 	}
 
 	/**
 	 * Check a table for presence of all needed values.
 	 * @param db database holding the table to be scanned
 	 * @param sql query returning all values in the database
+	 * @param importer optional object to receive quality messages
+	 * @param qualityMessagePrefix optional prefix to use for quality messages, never null if importer is provided
 	 * @return true if all neededValues are present, even if other values are present
 	 * in the database.
 	 * @throws Exception if anything goes wrong
 	**/
-	public boolean tableHasSourceTypes(Connection db, String sql)
+	public boolean tableHasSourceTypes(Connection db, String sql, IImporter importer, String qualityMessagePrefix)
 			throws Exception {
 		if(!hasCaches) {
 			loadCaches();
 		}
-		return tableHasIntegers(db,sql,sourceTypes);
+		return tableHasIntegers(db,sql,sourceTypes,importer,qualityMessagePrefix);
 	}
 
 	/**
 	 * Check a table for presence of all needed values.
 	 * @param db database holding the table to be scanned
 	 * @param sql query returning all values in the database
+	 * @param importer optional object to receive quality messages
+	 * @param qualityMessagePrefix optional prefix to use for quality messages, never null if importer is provided
 	 * @return true if all neededValues are present, even if other values are present
 	 * in the database.
 	 * @throws Exception if anything goes wrong
 	**/
-	public boolean tableHasFuelTypes(Connection db, String sql)
+	public boolean tableHasFuelTypes(Connection db, String sql, IImporter importer, String qualityMessagePrefix)
 			throws Exception {
 		if(!hasCaches) {
 			loadCaches();
 		}
-		return tableHasIntegers(db,sql,fuelTypes);
+		return tableHasIntegers(db,sql,fuelTypes,importer,qualityMessagePrefix);
 	}
 
 	/**
 	 * Check a table for presence of all needed values.
 	 * @param db database holding the table to be scanned
 	 * @param sql query returning all values in the database
+	 * @param importer optional object to receive quality messages
+	 * @param qualityMessagePrefix optional prefix to use for quality messages, never null if importer is provided
 	 * @return true if all neededValues are present, even if other values are present
 	 * in the database.
 	 * @throws Exception if anything goes wrong
 	**/
-	public boolean tableHasCounties(Connection db, String sql)
+	public boolean tableHasCounties(Connection db, String sql, IImporter importer, String qualityMessagePrefix)
 			throws Exception {
 		if(counties != null) {
 			loadCaches();
 		}
-		return tableHasIntegers(db,sql,counties);
+		return tableHasIntegers(db,sql,counties,importer,qualityMessagePrefix);
 	}
 
 	/**
 	 * Check a table for presence of all needed values.
 	 * @param db database holding the table to be scanned
 	 * @param sql query returning all values in the database
+	 * @param importer optional object to receive quality messages
+	 * @param qualityMessagePrefix optional prefix to use for quality messages, never null if importer is provided
 	 * @return true if all neededValues are present, even if other values are present
 	 * in the database.
 	 * @throws Exception if anything goes wrong
 	**/
-	public boolean tableHasZones(Connection db, String sql)
+	public boolean tableHasZones(Connection db, String sql, IImporter importer, String qualityMessagePrefix)
 			throws Exception {
 		if(zones == null) {
 			loadCaches();
 		}
-		return tableHasIntegers(db,sql,zones,"select zoneID from Zone");
+		return tableHasIntegers(db,sql,zones,"select zoneID from Zone",importer,qualityMessagePrefix);
 	}
 
 	/**
 	 * Check a table for presence of all needed values.
 	 * @param db database holding the table to be scanned
 	 * @param sql query returning all values in the database
+	 * @param importer optional object to receive quality messages
+	 * @param qualityMessagePrefix optional prefix to use for quality messages, never null if importer is provided
 	 * @return true if all neededValues are present, even if other values are present
 	 * in the database.
 	 * @throws Exception if anything goes wrong
 	**/
-	public boolean tableHasAges(Connection db, String sql)
+	public boolean tableHasAges(Connection db, String sql, IImporter importer, String qualityMessagePrefix)
 			throws Exception {
 		if(counties != null) {
 			loadCaches();
 		}
-		return tableHasIntegers(db,sql,ages);
+		return tableHasIntegers(db,sql,ages,importer,qualityMessagePrefix);
 	}
 
 	/**
@@ -2607,7 +2724,7 @@ public class ImporterManager {
 			days = new TreeSet<Object>();
 			for(Iterator<TimeSpan.Day> ti=runSpec.timeSpan.days.iterator();ti.hasNext();) {
 				TimeSpan.Day d = (TimeSpan.Day)ti.next();
-				days.add(new Integer(d.dayID));
+				days.add(Integer.valueOf(d.dayID));
 				daysText += "," + d.dayID;
 			}
 
@@ -2617,7 +2734,7 @@ public class ImporterManager {
 				TimeSpan.Hour h = (TimeSpan.Hour)ti.next();
 				if(runSpec.timeSpan.beginHourID <= h.hourID
 						&& runSpec.timeSpan.endHourID >= h.hourID) {
-					hours.add(new Integer(h.hourID));
+					hours.add(Integer.valueOf(h.hourID));
 					hoursText += "," + h.hourID;
 				}
 			}
@@ -2627,7 +2744,7 @@ public class ImporterManager {
 					+ " where hourID in (" + hoursText + ")"
 					+ " and dayID in (" + daysText + ")");
 
-			if(days.contains(new Integer(2))) {
+			if(days.contains(Integer.valueOf(2))) {
 				day2HourDayIDs = getIntegers(defaultDb,"select hourDayID"
 						+ " from hourDay"
 						+ " where hourID in (" + hoursText + ")"
@@ -2635,7 +2752,7 @@ public class ImporterManager {
 			} else {
 				day2HourDayIDs = new TreeSet<Object>();
 			}
-			if(days.contains(new Integer(5))) {
+			if(days.contains(Integer.valueOf(5))) {
 				day5HourDayIDs = getIntegers(defaultDb,"select hourDayID"
 						+ " from hourDay"
 						+ " where hourID in (" + hoursText + ")"
@@ -2647,7 +2764,7 @@ public class ImporterManager {
 			months = new TreeSet<Object>();
 			for(Iterator<TimeSpan.Month> ti=runSpec.timeSpan.months.iterator();ti.hasNext();) {
 				TimeSpan.Month m = (TimeSpan.Month)ti.next();
-				months.add(new Integer(m.monthID));
+				months.add(Integer.valueOf(m.monthID));
 			}
 		} finally {
 			if(defaultDb != null) {
@@ -2661,80 +2778,90 @@ public class ImporterManager {
 	 * Check a table for presence of all needed values.
 	 * @param db database holding the table to be scanned
 	 * @param sql query returning all values in the database
+	 * @param importer optional object to receive quality messages
+	 * @param qualityMessagePrefix optional prefix to use for quality messages, never null if importer is provided
 	 * @return true if all neededValues are present, even if other values are present
 	 * in the database.
 	 * @throws Exception if anything goes wrong
 	**/
-	public boolean tableHasHours(Connection db, String sql)
+	public boolean tableHasHours(Connection db, String sql, IImporter importer, String qualityMessagePrefix)
 			throws Exception {
 		if(!hasCaches) {
 			loadCaches();
 		}
-		return tableHasIntegers(db,sql,hours);
+		return tableHasIntegers(db,sql,hours,importer,qualityMessagePrefix);
 	}
 
 	/**
 	 * Check a table for presence of all needed values.
 	 * @param db database holding the table to be scanned
 	 * @param sql query returning all values in the database
+	 * @param importer optional object to receive quality messages
+	 * @param qualityMessagePrefix optional prefix to use for quality messages, never null if importer is provided
 	 * @return true if all neededValues are present, even if other values are present
 	 * in the database.
 	 * @throws Exception if anything goes wrong
 	**/
-	public boolean tableHasDays(Connection db, String sql)
+	public boolean tableHasDays(Connection db, String sql, IImporter importer, String qualityMessagePrefix)
 			throws Exception {
 		if(!hasCaches) {
 			loadCaches();
 		}
-		return tableHasIntegers(db,sql,days);
+		return tableHasIntegers(db,sql,days,importer,qualityMessagePrefix);
 	}
 
 	/**
 	 * Check a table for presence of all needed values.
 	 * @param db database holding the table to be scanned
 	 * @param sql query returning all values in the database
+	 * @param importer optional object to receive quality messages
+	 * @param qualityMessagePrefix optional prefix to use for quality messages, never null if importer is provided
 	 * @return true if all neededValues are present, even if other values are present
 	 * in the database.
 	 * @throws Exception if anything goes wrong
 	**/
-	public boolean tableHasHourDays(Connection db, String sql)
+	public boolean tableHasHourDays(Connection db, String sql, IImporter importer, String qualityMessagePrefix)
 			throws Exception {
 		if(!hasCaches) {
 			loadCaches();
 		}
-		return tableHasIntegers(db,sql,hourDays);
+		return tableHasIntegers(db,sql,hourDays,importer,qualityMessagePrefix);
 	}
 
 	/**
 	 * Check a table for presence of all needed values.
 	 * @param db database holding the table to be scanned
 	 * @param sql query returning all values in the database
+	 * @param importer optional object to receive quality messages
+	 * @param qualityMessagePrefix optional prefix to use for quality messages, never null if importer is provided
 	 * @return true if all neededValues are present, even if other values are present
 	 * in the database.
 	 * @throws Exception if anything goes wrong
 	**/
-	public boolean tableHasMonths(Connection db, String sql)
+	public boolean tableHasMonths(Connection db, String sql, IImporter importer, String qualityMessagePrefix)
 			throws Exception {
 		if(!hasCaches) {
 			loadCaches();
 		}
-		return tableHasIntegers(db,sql,months);
+		return tableHasIntegers(db,sql,months,importer,qualityMessagePrefix);
 	}
 
 	/**
 	 * Check a table for presence of all needed values.
 	 * @param db database holding the table to be scanned
 	 * @param sql query returning all values in the database
+	 * @param importer optional object to receive quality messages
+	 * @param qualityMessagePrefix optional prefix to use for quality messages, never null if importer is provided
 	 * @return true if all neededValues are present, even if other values are present
 	 * in the database.
 	 * @throws Exception if anything goes wrong
 	**/
-	public boolean tableHasHPMSVTypes(Connection db, String sql)
+	public boolean tableHasHPMSVTypes(Connection db, String sql, IImporter importer, String qualityMessagePrefix)
 			throws Exception {
 		if(hpmsVTypes == null) {
 			loadCaches();
 		}
-		return tableHasIntegers(db,sql,hpmsVTypes);
+		return tableHasIntegers(db,sql,hpmsVTypes,importer,qualityMessagePrefix);
 	}
 
 	/** True if all cached IDs from the RunSpec have been created **/
@@ -2862,10 +2989,26 @@ public class ImporterManager {
 				int supportingCount = (int)SQLRunner.executeScalar(db,sql);
 				if(supportingCount < 1) { // 1 or more is required
 					if(messages != null) {
-						messages.add("Error: Core geography tables are lacking data.");
+						messages.add("Error: Core geography tables are lacking data, meaning this database is incompatible with this RunSpec. Check to make sure this is the database you intend; if so, you may need to recreate it from scratch.");
 					}
 					return -1;
 				}
+
+				//check RoadTypeDistribution (cannot be empty at County Scale or Custom Domain -- not used at Project Scale)
+				if(runSpec.domain == ModelDomain.SINGLE_COUNTY || runSpec.isCustomDomain()) {
+					sql = "select count(*)"
+						+ " from roadtypedistribution";
+					int rtdCount = (int)SQLRunner.executeScalar(db,sql);
+					if(rtdCount < 1) { // 1 or more is required
+						if(isForRun) { // (only make pop-up if no more user interaction is expected)
+							if(messages != null) {
+								messages.add("Error: The RoadTypeDistribution is empty. In County Domain/Scale, users must provide the RoadTypeDistribution for the county.");
+							}
+							return -1;
+						}
+					}
+				}
+
 			}
 			// The Year table must be empty or have only the desired Year.
 			sql = "select count(*) from Year";

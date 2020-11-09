@@ -145,7 +145,7 @@ public class TimeSpan {
 	 * @return true if yearID exists in the database
 	**/
 	public static boolean isValidYear(int yearID) {
-		return allYears.contains(new Integer(yearID));
+		return allYears.contains(Integer.valueOf(yearID));
 	}
 
 	/**
@@ -290,7 +290,7 @@ public class TimeSpan {
 			sql = "select yearID from year";
 			query.open(db,sql);
 			while(query.rs.next()) {
-				Integer y = new Integer(query.rs.getInt(1));
+				Integer y = Integer.valueOf(query.rs.getInt(1));
 				allYears.add(y);
 			}
 			query.close();

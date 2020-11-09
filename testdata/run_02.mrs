@@ -1,0 +1,125 @@
+<runspec version="MOVES2014a-20151201">
+	<description><![CDATA[Run 2 Counties:
+Indinana - Lake County
+Ohio - Montgomery County]]></description>
+	<models>
+		<model value="ONROAD"/>
+	</models>
+	<modelscale value="Inv"/>
+	<modeldomain value="NATIONAL"/>
+	<geographicselections>
+		<geographicselection type="COUNTY" key="18089" description="INDIANA - Lake County"/>
+		<geographicselection type="COUNTY" key="39113" description="OHIO - Montgomery County"/>
+	</geographicselections>
+	<timespan>
+		<year key="2015"/>
+		<month id="7"/>
+		<day id="5"/>
+		<beginhour id="1"/>
+		<endhour id="24"/>
+		<aggregateBy key="Hour"/>
+	</timespan>
+	<onroadvehicleselections>
+		<onroadvehicleselection fueltypeid="3" fueltypedesc="Compressed Natural Gas (CNG)" sourcetypeid="42" sourcetypename="Transit Bus"/>
+		<onroadvehicleselection fueltypeid="2" fueltypedesc="Diesel Fuel" sourcetypeid="21" sourcetypename="Passenger Car"/>
+		<onroadvehicleselection fueltypeid="2" fueltypedesc="Diesel Fuel" sourcetypeid="31" sourcetypename="Passenger Truck"/>
+		<onroadvehicleselection fueltypeid="2" fueltypedesc="Diesel Fuel" sourcetypeid="42" sourcetypename="Transit Bus"/>
+		<onroadvehicleselection fueltypeid="5" fueltypedesc="Ethanol (E-85)" sourcetypeid="21" sourcetypename="Passenger Car"/>
+		<onroadvehicleselection fueltypeid="5" fueltypedesc="Ethanol (E-85)" sourcetypeid="31" sourcetypename="Passenger Truck"/>
+		<onroadvehicleselection fueltypeid="1" fueltypedesc="Gasoline" sourcetypeid="21" sourcetypename="Passenger Car"/>
+		<onroadvehicleselection fueltypeid="1" fueltypedesc="Gasoline" sourcetypeid="31" sourcetypename="Passenger Truck"/>
+	</onroadvehicleselections>
+	<offroadvehicleselections>
+	</offroadvehicleselections>
+	<offroadvehiclesccs>
+	</offroadvehiclesccs>
+	<roadtypes separateramps="false">
+		<roadtype roadtypeid="1" roadtypename="Off-Network" modelCombination="M1"/>
+		<roadtype roadtypeid="2" roadtypename="Rural Restricted Access" modelCombination="M1"/>
+		<roadtype roadtypeid="3" roadtypename="Rural Unrestricted Access" modelCombination="M1"/>
+		<roadtype roadtypeid="4" roadtypename="Urban Restricted Access" modelCombination="M1"/>
+		<roadtype roadtypeid="5" roadtypename="Urban Unrestricted Access" modelCombination="M1"/>
+	</roadtypes>
+	<pollutantprocessassociations>
+		<pollutantprocessassociation pollutantkey="2" pollutantname="Carbon Monoxide (CO)" processkey="1" processname="Running Exhaust"/>
+		<pollutantprocessassociation pollutantkey="2" pollutantname="Carbon Monoxide (CO)" processkey="2" processname="Start Exhaust"/>
+		<pollutantprocessassociation pollutantkey="2" pollutantname="Carbon Monoxide (CO)" processkey="15" processname="Crankcase Running Exhaust"/>
+		<pollutantprocessassociation pollutantkey="2" pollutantname="Carbon Monoxide (CO)" processkey="16" processname="Crankcase Start Exhaust"/>
+		<pollutantprocessassociation pollutantkey="2" pollutantname="Carbon Monoxide (CO)" processkey="17" processname="Crankcase Extended Idle Exhaust"/>
+		<pollutantprocessassociation pollutantkey="2" pollutantname="Carbon Monoxide (CO)" processkey="90" processname="Extended Idle Exhaust"/>
+		<pollutantprocessassociation pollutantkey="2" pollutantname="Carbon Monoxide (CO)" processkey="91" processname="Auxiliary Power Exhaust"/>
+		<pollutantprocessassociation pollutantkey="5" pollutantname="Methane (CH4)" processkey="1" processname="Running Exhaust"/>
+		<pollutantprocessassociation pollutantkey="5" pollutantname="Methane (CH4)" processkey="2" processname="Start Exhaust"/>
+		<pollutantprocessassociation pollutantkey="5" pollutantname="Methane (CH4)" processkey="15" processname="Crankcase Running Exhaust"/>
+		<pollutantprocessassociation pollutantkey="5" pollutantname="Methane (CH4)" processkey="16" processname="Crankcase Start Exhaust"/>
+		<pollutantprocessassociation pollutantkey="5" pollutantname="Methane (CH4)" processkey="17" processname="Crankcase Extended Idle Exhaust"/>
+		<pollutantprocessassociation pollutantkey="5" pollutantname="Methane (CH4)" processkey="90" processname="Extended Idle Exhaust"/>
+		<pollutantprocessassociation pollutantkey="5" pollutantname="Methane (CH4)" processkey="91" processname="Auxiliary Power Exhaust"/>
+		<pollutantprocessassociation pollutantkey="1" pollutantname="Total Gaseous Hydrocarbons" processkey="1" processname="Running Exhaust"/>
+		<pollutantprocessassociation pollutantkey="1" pollutantname="Total Gaseous Hydrocarbons" processkey="2" processname="Start Exhaust"/>
+		<pollutantprocessassociation pollutantkey="1" pollutantname="Total Gaseous Hydrocarbons" processkey="11" processname="Evap Permeation"/>
+		<pollutantprocessassociation pollutantkey="1" pollutantname="Total Gaseous Hydrocarbons" processkey="12" processname="Evap Fuel Vapor Venting"/>
+		<pollutantprocessassociation pollutantkey="1" pollutantname="Total Gaseous Hydrocarbons" processkey="13" processname="Evap Fuel Leaks"/>
+		<pollutantprocessassociation pollutantkey="1" pollutantname="Total Gaseous Hydrocarbons" processkey="15" processname="Crankcase Running Exhaust"/>
+		<pollutantprocessassociation pollutantkey="1" pollutantname="Total Gaseous Hydrocarbons" processkey="16" processname="Crankcase Start Exhaust"/>
+		<pollutantprocessassociation pollutantkey="1" pollutantname="Total Gaseous Hydrocarbons" processkey="17" processname="Crankcase Extended Idle Exhaust"/>
+		<pollutantprocessassociation pollutantkey="1" pollutantname="Total Gaseous Hydrocarbons" processkey="18" processname="Refueling Displacement Vapor Loss"/>
+		<pollutantprocessassociation pollutantkey="1" pollutantname="Total Gaseous Hydrocarbons" processkey="19" processname="Refueling Spillage Loss"/>
+		<pollutantprocessassociation pollutantkey="1" pollutantname="Total Gaseous Hydrocarbons" processkey="90" processname="Extended Idle Exhaust"/>
+		<pollutantprocessassociation pollutantkey="1" pollutantname="Total Gaseous Hydrocarbons" processkey="91" processname="Auxiliary Power Exhaust"/>
+	</pollutantprocessassociations>
+	<databaseselections>
+	</databaseselections>
+	<internalcontrolstrategies>
+<internalcontrolstrategy classname="gov.epa.otaq.moves.master.implementation.ghg.internalcontrolstrategies.rateofprogress.RateOfProgressStrategy"><![CDATA[
+useParameters	No
+
+]]></internalcontrolstrategy>
+	</internalcontrolstrategies>
+	<inputdatabase servername="" databasename="" description=""/>
+	<uncertaintyparameters uncertaintymodeenabled="false" numberofrunspersimulation="0" numberofsimulations="0"/>
+	<geographicoutputdetail description="COUNTY"/>
+	<outputemissionsbreakdownselection>
+		<modelyear selected="false"/>
+		<fueltype selected="true"/>
+		<fuelsubtype selected="false"/>
+		<emissionprocess selected="false"/>
+		<onroadoffroad selected="true"/>
+		<roadtype selected="true"/>
+		<sourceusetype selected="true"/>
+		<movesvehicletype selected="false"/>
+		<onroadscc selected="false"/>
+		<estimateuncertainty selected="false" numberOfIterations="2" keepSampledData="false" keepIterations="false"/>
+		<sector selected="false"/>
+		<engtechid selected="false"/>
+		<hpclass selected="false"/>
+		<regclassid selected="true"/>
+	</outputemissionsbreakdownselection>
+	<outputdatabase servername="" databasename="moves_out_01" description=""/>
+	<outputtimestep value="24-Hour Day"/>
+	<outputvmtdata value="true"/>
+	<outputsho value="true"/>
+	<outputsh value="true"/>
+	<outputshp value="true"/>
+	<outputshidling value="true"/>
+	<outputstarts value="true"/>
+	<outputpopulation value="true"/>
+	<scaleinputdatabase servername="" databasename="" description=""/>
+	<pmsize value="0"/>
+	<outputfactors>
+		<timefactors selected="true" units="Days"/>
+		<distancefactors selected="true" units="Miles"/>
+		<massfactors selected="true" units="Pounds" energyunits="Joules"/>
+	</outputfactors>
+	<savedata>
+
+	</savedata>
+
+	<donotexecute>
+
+	</donotexecute>
+
+	<generatordatabase shouldsave="false" servername="" databasename="" description=""/>
+		<donotperformfinalaggregation selected="false"/>
+	<lookuptableflags scenarioid="" truncateoutput="true" truncateactivity="true" truncatebaserates="true"/>
+</runspec>

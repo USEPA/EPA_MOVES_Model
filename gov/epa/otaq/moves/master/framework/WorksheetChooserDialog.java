@@ -22,7 +22,8 @@ import gov.epa.otaq.moves.master.gui.*;
  * Select a worksheet within an XLS file
  *
  * @author		Wesley Faler
- * @version		2011-09-10
+ * @author		Mike Kender (Task 2003)
+ * @version 	2020-08-13
 **/
 public class WorksheetChooserDialog extends JDialog implements ActionListener, ListSelectionListener {
 	/** The parent JFrame which invokes this dialog. **/
@@ -102,8 +103,11 @@ public class WorksheetChooserDialog extends JDialog implements ActionListener, L
 
 		okButton = new JButton("OK");
 		okButton.addActionListener(this);
+		ToolTipHelper.add(okButton, "Submit the dialog");
+
 		cancelButton = new JButton("Cancel");
 		cancelButton.addActionListener(this);
+		ToolTipHelper.add(cancelButton, "Close the dialog");
 	}
 
 	/**

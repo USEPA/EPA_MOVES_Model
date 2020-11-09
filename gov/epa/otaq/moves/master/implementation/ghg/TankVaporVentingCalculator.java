@@ -136,7 +136,7 @@ public class TankVaporVentingCalculator extends GenericCalculatorBase {
 
 			// Cache year-specific data.  Note: This must be done after equations have been converted to identifiers
 			// that are under 100 characters.
-			Integer year = new Integer(context.year);
+			Integer year = Integer.valueOf(context.year);
 			if(!yearsSeen.contains(year)) {
 				yearsSeen.add(year);
 				enabledSectionNames.add("NewTVVYear");

@@ -22,6 +22,7 @@ import java.util.TreeMap;
  *
  * @author	Wesley Faler
  * @author	EPA-elg  	(modified panel size and word wrap)
+ * @author  Bill Shaw (508 compliance mods)
  * @version	2012-11-09
 **/
 public class Description extends JPanel implements RunSpecEditor {
@@ -66,6 +67,8 @@ public class Description extends JPanel implements RunSpecEditor {
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, 
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		descriptionScrollPane.setName("descriptionScrollPane");
+		descriptionLabel.setDisplayedMnemonic('D');
+		descriptionLabel.setLabelFor(descriptionText);
 	}
 	
 	/** Sets the layout of the controls. **/

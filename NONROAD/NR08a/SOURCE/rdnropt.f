@@ -237,11 +237,11 @@ c
         call spinit()
         if( ABS(ethvpct * 0.35 * 0.01 * ethmkt - oxypct) .GT. 0.1 ) then
            write(IOWSTD,'(/,1X,2A,3F7.2,/)',ERR=9999) 
-     &    'WARNING:  Oxygen content mismatch ',
+     &    'INFO:  Oxygen content mismatch ',
      &     'with Ethanol Blend Mkt Share & Vol %: ',
      &    oxypct, ethmkt, ethvpct
           write(IOWMSG,'(/,1X,2A,3F7.2,/)',ERR=9999) 
-     &    'WARNING:  Oxygen content mismatch ',
+     &    'INFO:  Oxygen content mismatch ',
      &     'with Ethanol Blend Mkt Share & Vol %: ',
      &    oxypct, ethmkt, ethvpct
         endif

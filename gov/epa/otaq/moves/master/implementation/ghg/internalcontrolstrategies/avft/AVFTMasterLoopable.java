@@ -244,7 +244,7 @@ public class AVFTMasterLoopable implements MasterLoopable {
 			for(Iterator<AVFTTableLine> i=lines.iterator();i.hasNext();) {
 				AVFTTableLine a = i.next();
 				if(applyNewFraction( a.sourceTypeModelYearID , a.fuelTypeID , a.engTechID , (float)a.fuelEngFraction )) {
-					changedSourceTypeModelYears.add(new Integer(a.sourceTypeModelYearID));
+					changedSourceTypeModelYears.add(Integer.valueOf(a.sourceTypeModelYearID));
 				}
 			}
 			return true;
@@ -361,7 +361,7 @@ public class AVFTMasterLoopable implements MasterLoopable {
 				s = tableFraction.getInt( row , indexId ) + "|"
 						+ tableFraction.getInt( row , indexFuel ) + "|"
 						+ tableFraction.getInt( row , indexEng );
-				tableFractionIndex.put(s, new Integer(row));
+				tableFractionIndex.put(s, Integer.valueOf(row));
 			}
 		}
 

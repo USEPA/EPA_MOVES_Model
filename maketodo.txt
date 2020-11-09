@@ -1,13 +1,15 @@
 defaultServerName = localhost
-defaultDatabaseName = movesdb20181022
+defaultDatabaseName = movesdb20201105
 executionServerName = localhost
 executionDatabaseName = *
 outputServerName = localhost
 outputDatabaseName = MOVESOutput
 nonroadExePath = NONROAD\NR08a\NONROAD.exe
+generatorExePath = generators\externalgenerator64.exe
 sharedDistributedFolderPath = SharedWork
 computerIDPath = MOVESComputerID.txt
 masterFolderPath = .
-saveTODOPath = 
+saveTODOPath = SaveTODO
 mysqlUserName = moves
-mysqlPassword = 744EF51E4F93167816578A645279E592D2B4D8A76AD450DF6463
+mysqlPassword = 744ff5134053c418265b626f5d7035e3dff3d50c609c548f6f63
+

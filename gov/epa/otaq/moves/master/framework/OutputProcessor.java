@@ -14,12 +14,14 @@ import java.util.*;
 import java.sql.*;
 import java.io.*;
 
+import org.apache.commons.lang.math.NumberUtils;
+
 /**
  * This Singleton updates and appends output database with results from the distributed
  * workers. Called by the unbundler.
  *
  * @author		Wesley Faler
- * @version		2015-05-21
+ * @version		2016-08-30
 **/
 public class OutputProcessor {
 	// true to retain bundles from workers
@@ -33,6 +35,12 @@ public class OutputProcessor {
 
 	/** File containing text error message reported by a worker **/
 	static final String ERROR_FILE_NAME = "Errors.txt";
+	
+	/** File containing text error message reported by a worker **/
+	static final String NR_ERROR_FILE_NAME = "nrerrors.txt";
+	
+	/** File containing text error message reported by a worker **/
+	static final String NR_WARNING_FILE_NAME = "nrwarnings.txt";
 
 	/** File containing worker version information **/
 	public static final String VERSION_FILE_NAME = "WorkerVersion.txt";
@@ -183,7 +191,48 @@ public class OutputProcessor {
 					workerID = workerID.substring(0,255).trim();
 				}
 			}
-
+			
+			// Process NR Errors and Warnings
+			File nrErrorFile = new File(folder, NR_ERROR_FILE_NAME);
+			if(nrErrorFile.isFile()) {
+				String allNrErrors = FileUtilities.readEntireFile(nrErrorFile);
+				for(String nrError : allNrErrors.split("\n")) {
+					MOVESEngine.theInstance.logRunError(
+							getValue(manifest.context, "run"), 
+							0, 
+							getValue(manifest.context, "proc"), 
+							getValue(manifest.context, "st"), 
+							getValue(manifest.context, "cty"), 
+							getValue(manifest.context, "zone"), 
+							getValue(manifest.context, "link"), 
+							getValue(manifest.context, "y"), 
+							getValue(manifest.context, "m"), 
+							getValue(manifest.context, "d"), 
+							getValue(manifest.context, "h"), 
+							nrError);
+				}
+			}
+			File nrWarningFile = new File(folder, NR_WARNING_FILE_NAME);
+			if(nrWarningFile.isFile()) {
+				String allNrWarnings = FileUtilities.readEntireFile(nrWarningFile);
+				for(String nrWarning : allNrWarnings.split("\n")) {
+					MOVESEngine.theInstance.logRunError(
+							getValue(manifest.context, "run"), 
+							0, 
+							getValue(manifest.context, "proc"), 
+							getValue(manifest.context, "st"), 
+							getValue(manifest.context, "cty"), 
+							getValue(manifest.context, "zone"), 
+							getValue(manifest.context, "link"), 
+							getValue(manifest.context, "y"), 
+							getValue(manifest.context, "m"), 
+							getValue(manifest.context, "d"), 
+							getValue(manifest.context, "h"), 
+							nrWarning);
+				}
+			}
+			
+			// Process other errors
 			File errorFile = new File(folder, ERROR_FILE_NAME);
 			if(errorFile.isFile()) {
 				String errorMessage;
@@ -307,6 +356,50 @@ public class OutputProcessor {
 					+"sourceTypeID,"
 					+"regClassID,"
 					+"fuelTypeID,"
+					+"fuelSubTypeID,"
+					+"modelYearID,"
+					+"roadTypeID,"
+					+"SCC,"
+					+"engTechID,"
+					+"sectorID,"
+					+"hpID,"
+					+"activityTypeID,"
+					+"activity";
+
+			String outputActivityTableFieldsWithFuelSubType = "MOVESRunID,"
+					+"yearID,"
+					+"monthID,"
+					+"dayID,"
+					+"hourID,"
+					+"stateID,"
+					+"countyID,"
+					+"zoneID,"
+					+"linkID,"
+					+"sourceTypeID,"
+					+"regClassID,"
+					+"fuelTypeID,"
+					+"fuelSubTypeID,"
+					+"modelYearID,"
+					+"roadTypeID,"
+					+"SCC,"
+					+"engTechID,"
+					+"sectorID,"
+					+"hpID,"
+					+"activityTypeID,"
+					+"activity";
+
+			String outputActivityTableFieldsNoFuelSubType = "MOVESRunID,"
+					+"yearID,"
+					+"monthID,"
+					+"dayID,"
+					+"hourID,"
+					+"stateID,"
+					+"countyID,"
+					+"zoneID,"
+					+"linkID,"
+					+"sourceTypeID,"
+					+"regClassID,"
+					+"fuelTypeID,"
 					+"modelYearID,"
 					+"roadTypeID,"
 					+"SCC,"
@@ -387,6 +480,13 @@ public class OutputProcessor {
 					sql = "CREATE TABLE IF NOT EXISTS TemporaryActivityOutputImport "
 							+ "SELECT * FROM " + ExecutionRunSpec.getActivityOutputTable() + " LIMIT 0";
 					SQLRunner.executeSQL(outputDatabase, sql);
+					if(!CompilationFlags.ALLOW_FUELSUBTYPE_OUTPUT) {
+						try {
+							SQLRunner.executeSQL(outputDatabase, "alter table TemporaryActivityOutputImport add fuelSubTypeID SMALLINT UNSIGNED NULL DEFAULT NULL");
+						} catch(Exception e) {
+							// Nothing to do here. This may happen if the fuelSubTypeID column already exists.
+						}
+					}
 					// Clear temporary output table.
 					sql = "TRUNCATE TemporaryActivityOutputImport";
 					SQLRunner.executeSQL(outputDatabase, sql);
@@ -482,9 +582,10 @@ public class OutputProcessor {
 					SQLRunner.executeSQL(outputDatabase, sql);
 
 					// Move data into the final output activity table
+					String activityTableFieldsToUse = CompilationFlags.ALLOW_FUELSUBTYPE_OUTPUT? outputActivityTableFieldsWithFuelSubType : outputActivityTableFieldsNoFuelSubType;
 					sql = "INSERT INTO " + ExecutionRunSpec.getActivityOutputTable()
-							+ "(iterationID," + outputActivityTableFields + ") "
-							+ "SELECT iterationID," + outputActivityTableFields
+							+ "(iterationID," + activityTableFieldsToUse + ") "
+							+ "SELECT iterationID," + activityTableFieldsToUse
 							+ " FROM TemporaryActivityOutputImport";
 					SQLRunner.executeSQL(outputDatabase, sql);
 
@@ -884,7 +985,7 @@ public class OutputProcessor {
 					updateDistanceUnitSQL = "update BaseRateOutput set"
 						+ " emissionRate = emissionRate * " + distanceConversionToMetersFactor + " / 1609.344"
 						+ " where MOVESRunID=" + MOVESEngine.theInstance.getActiveRunID()
-						+ " and processID=1";
+						+ " and processID in (1,9,10,15)";
 					if(estimateUncertainty) {
 						updateDistanceUnitSQL += " AND iterationID ="
 								+ MOVESEngine.theInstance.getActiveIterationID();
@@ -1516,5 +1617,19 @@ public class OutputProcessor {
 			whereClause = "polProcessID in (" + polProcessIDs + ")";
 		}
 		return whereClause;
+	}
+	
+	// Parses Manifest context strings
+	private int getValue(String str, String id) {
+		int index = str.indexOf("|" + id + ":");
+		int pipeIndex = str.indexOf("|", index + 1);
+		
+		String s = str.substring(index + id.length() + 2, pipeIndex);
+
+		if(NumberUtils.isNumber(s)) {
+			return Integer.valueOf(s);
+		}
+
+		return 0;
 	}
 }

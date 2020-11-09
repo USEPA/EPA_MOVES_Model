@@ -43,7 +43,7 @@ public class SaveAsAction extends JLFAbstractAction {
 		putValue(LARGE_ICON, getIcon(LARGE_ICON_SAVE_AS));
 		putValue(Action.SHORT_DESCRIPTION, SHORT_DESCRIPTION_SAVE_AS);
 		putValue(Action.LONG_DESCRIPTION, LONG_DESCRIPTION_SAVE_AS);
-		putValue(Action.MNEMONIC_KEY, new Integer(MNEMONIC_KEY_SAVE_AS));
+		putValue(Action.MNEMONIC_KEY, Integer.valueOf(MNEMONIC_KEY_SAVE_AS));
 		putValue(Action.ACTION_COMMAND_KEY, ACTION_COMMAND_KEY_SAVE_AS);
 	}
 }

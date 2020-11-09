@@ -1,5 +1,5 @@
 -- Author Wesley Faler
--- Version 2014-01-11
+-- Version 2017-09-19
 
 drop procedure if exists spCheckHotellingImporter;
 
@@ -29,6 +29,32 @@ begin
 		if(howMany <= 0) then
 			insert into importTempMessages (message) values ('ERROR: hotellingActivityDistribution must be provided.');
 		end if;
+	end if;
+
+	-- Check hotellingHourFraction if any entries are provided
+	set howMany=0;
+	select count(*) into howMany from hotellingHourFraction;
+	set howMany=ifnull(howMany,0);
+	if(howMany > 0) then
+		-- Complain about zone/days with distributions that don't sum to exactly 1.0000
+		insert into importTempMessages (message)
+		select concat('ERROR: total HotellingHourFraction.hourFraction for zone ',zoneID,', day ',dayID,' should be 1 but instead is ',round(sum(hourFraction),4)) as errorMessage
+		from hotellingHourFraction
+		group by zoneID, dayID
+		having round(sum(hourFraction),4) <> 1.0000;
+	end if;
+
+	-- Check hotellingAgeFraction if any entries are provided
+	set howMany=0;
+	select count(*) into howMany from hotellingAgeFraction;
+	set howMany=ifnull(howMany,0);
+	if(howMany > 0) then
+		-- Complain about zones with distributions that don't sum to exactly 1.0000
+		insert into importTempMessages (message)
+		select concat('ERROR: total HotellingAgeFraction.ageFraction for zone ',zoneID,' should be 1 but instead is ',round(sum(ageFraction),4)) as errorMessage
+		from hotellingAgeFraction
+		group by zoneID
+		having round(sum(ageFraction),4) <> 1.0000;
 	end if;
 
 	-- Complain about invalid operating modes
@@ -70,36 +96,38 @@ begin
 		,(2018),(2019),(2020),(2021),(2022),(2023),(2024),(2025),(2026),(2027)
 		,(2028),(2029),(2030),(2031),(2032),(2033),(2034),(2035),(2036),(2037)
 		,(2038),(2039),(2040),(2041),(2042),(2043),(2044),(2045),(2046),(2047)
-		,(2048),(2049),(2050)
+		,(2048),(2049),(2050),(2051),(2052),(2053),(2054),(2055),(2056),(2057)
+		,(2058),(2059),(2060)
 	;
 
 	drop table if exists tempHotellingActivityDistribution;
 	create table if not exists tempHotellingActivityDistribution (
+		zoneID int not null,
 		modelYearID smallint(6) not null,
 		opModeID smallint(6) not null,
 		opModeFraction float not null,
-		key (modelYearID, opModeID),
-		key (opModeID, modelYearID)
+		key (zoneID, modelYearID, opModeID),
+		key (zoneID, opModeID, modelYearID)
 	);
 
-	insert into tempHotellingActivityDistribution (modelYearID, opModeID, opModeFraction)
-	select year, opModeID, opModeFraction
+	insert into tempHotellingActivityDistribution (zoneID, modelYearID, opModeID, opModeFraction)
+	select zoneID, year, opModeID, opModeFraction
 	from hotellingActivityDistribution, tempYear
 	where beginModelYearID <= year
 	and endModelYearID >= year;
 
 	-- Complain about model years that appear more than once
 	insert into importTempMessages (message)
-	select distinct concat('ERROR: Model year ',modelYearID,' appears more than once (',count(*),')') as errorMessage
+	select distinct concat('ERROR: Model year ',modelYearID,' appears more than once (',count(*),') for zone ',zoneID) as errorMessage
 	from tempHotellingActivityDistribution
-	group by modelYearID, opModeID
+	group by zoneID, modelYearID, opModeID
 	having count(*) > 1;
 
 	-- Complain about model years with distributions that don't sum to exactly 1.0000
 	insert into importTempMessages (message)
-	select concat('ERROR: total opModeFraction for model year ',modelYearID,' should be 1 but instead ',round(sum(opModeFraction),4)) as errorMessage
+	select concat('ERROR: total opModeFraction for zone ',zoneID,', model year ',modelYearID,' should be 1 but instead ',round(sum(opModeFraction),4)) as errorMessage
 	from tempHotellingActivityDistribution
-	group by modelYearID
+	group by zoneID, modelYearID
 	having round(sum(opModeFraction),4) <> 1.0000;
 
 	-- Cleanup

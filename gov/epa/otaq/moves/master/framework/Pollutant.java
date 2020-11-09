@@ -103,7 +103,7 @@ public class Pollutant implements Comparable {
 			allDisplayablePollutants.clear();
 			cacheSpecialCaseToShow = specialCaseToShow;
 			for(Pollutant p : allPollutants) {
-				Integer pollutantID = new Integer(p.databaseKey);
+				Integer pollutantID = Integer.valueOf(p.databaseKey);
 				PollutantDisplayGroup group = PollutantDisplayGroup.pollutantDisplayGroups.get(pollutantID);
 				if(group == null || group.displayGroupID >= 0 || group.displayGroupID == specialCaseToShow) {
 					allDisplayablePollutants.add(p);

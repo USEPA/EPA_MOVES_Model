@@ -6,14 +6,7 @@
  *************************************************************************************************/
 package gov.epa.otaq.moves.master.gui;
 
-import gov.epa.otaq.moves.common.CompilationFlags;
-import gov.epa.otaq.moves.common.ModelDomain;
-import gov.epa.otaq.moves.common.ModelScale;
-import gov.epa.otaq.moves.common.Models;
-
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.Iterator;
@@ -24,11 +17,17 @@ import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.ButtonModel;
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JCheckBox;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.ToolTipManager;
+
+import gov.epa.otaq.moves.common.CompilationFlags;
+import gov.epa.otaq.moves.common.ModelDomain;
+import gov.epa.otaq.moves.common.ModelScale;
+import gov.epa.otaq.moves.common.Models;
+import gov.epa.otaq.moves.master.framework.importers.ImporterManager;
+import gov.epa.otaq.moves.master.framework.importers.ImporterGUI;
 
 /**
  * Class for MOVES MOVESNavigation panel. <br>
@@ -39,15 +38,17 @@ import javax.swing.ToolTipManager;
  * This class Constructs the MOVESNavigation panel. Creates, initializes, and
  * sets the layouts of the following controls, Description, Scale, Macroscale
  * Geographic Bounds, TimeSpans , Vehicles Equipment, OnRoadVehicleEquipment,
- * RoadType, PollutantsAndProcesses, ManageInputDataSets. Output,
+ * RoadType, PollutantsAndProcesses. Output,
  * OutputEmissionsBreakdown, GeneralOutput, AdvancedPerformanceFeatures
  * 
  * @author Wesley Faler
  * @author Tim Hull
- * @version 2014-01-15
- **/
-public class MOVESNavigation extends JPanel implements ActionListener,
-		ItemListener {
+ * @author Mike Kender (Task 1903)
+ * @author John Covey (Task 1903)
+ * @author John Covey (Task 2003)
+ * @version    2020-07-16 **/
+
+public class MOVESNavigation extends JPanel implements ItemListener {
 	/** MOVESWindow that this navigation panel is within **/
 	public MOVESWindow parent;
 	/** Singleton for the navigation panel **/
@@ -65,10 +66,6 @@ public class MOVESNavigation extends JPanel implements ActionListener,
 	JRadioButton macroscaleGeographicBoundsOption;
 	/** TimeSpans option checkbox. **/
 	JRadioButton timeSpansOption;
-	/** Vehicles Equipment option checkbox. **/
-	JCheckBox vehiclesEquipmentOption;
-	/** Vehicles Equipment image icon. **/
-	ImageIcon vehiclesEquipmentImage;
 	/** OnRoadVehicleEquipment option checkbox. **/
 	JRadioButton onRoadVehicleEquipmentOption;
 	/** OffRoadVehicleEquipment option checkbox. **/
@@ -77,30 +74,14 @@ public class MOVESNavigation extends JPanel implements ActionListener,
 	JRadioButton roadTypeOption;
 	/** PollutantsAndProcesses option checkbox. **/
 	JRadioButton pollutantsAndProcessesOption;
-	/** ManageInputDataSets option checkbox. **/
-	JRadioButton manageInputDataSetsOption;
 	/** OutputEmissionsBreakdown option checkbox. **/
 	JRadioButton outputEmissionsBreakdownOption;
 	/** GeneralOutput option checkbox. **/
 	JRadioButton generalOutputOption;
+	/** Create Input Database option**/
+	JRadioButton createInputDatabaseOption;
 	/** AdvancedPerformanceFeatures option **/
-	JRadioButton advancedPerformanceFeaturesOption;
-	/** Output option checkbox. **/
-	JCheckBox outputOption;
-	/** Output image icon. **/
-	ImageIcon outputImage;
-	/**
-	 * Radio button group for the options, so only one option is selected at a
-	 * time.
-	 **/
-	JCheckBox strategyOption;
-	/** Output image icon. **/
-	ImageIcon strategyImage;
-	/**
-	 * List of JRadioButton objects, each associated with one type of
-	 * InternalControlStrategy
-	 **/
-	public LinkedList<JRadioButton> strategyOptions = new LinkedList<JRadioButton>();
+	JRadioButton advancedFeaturesOption;
 	/** ButtonGroup definition **/
 	ButtonGroup group;
 	/**
@@ -219,8 +200,9 @@ public class MOVESNavigation extends JPanel implements ActionListener,
 		// Set up navigation option buttons (radio buttons since only one is
 		// selected at a time)
 		descriptionOption = createOption("descriptionOption", group,
-				"Description", parent.descriptionPanel,
+				"Description (Alt+1)", parent.descriptionPanel,
 				RunSpecSectionStatus.NORMAL);
+		descriptionOption.setMnemonic('1');
 		scaleOption = createOption("scaleOption", group, "Scale",
 				parent.scalePanel, RunSpecSectionStatus.NORMAL);
 		timeSpansOption = createOption("timeSpansOption", group, "Time Spans",
@@ -230,27 +212,16 @@ public class MOVESNavigation extends JPanel implements ActionListener,
 				parent.macroscaleGeographicBoundsPanel,
 				RunSpecSectionStatus.NORMAL);
 
-		vehiclesEquipmentImage = new ImageIcon(
-				"gov/epa/otaq/moves/master/gui/images/treeClosed.gif");
-		vehiclesEquipmentOption = new JCheckBox("Vehicles/Equipment",
-				vehiclesEquipmentImage);
-		vehiclesEquipmentOption.setName("vehiclesEquipmentOption");
-		vehiclesEquipmentOption.setBackground(panelColor);
-		vehiclesEquipmentOption.setForeground(textColor);
-		vehiclesEquipmentOption.addActionListener(this);
-		ToolTipManager.sharedInstance().registerComponent(
-				vehiclesEquipmentOption);
-
 		onRoadVehicleEquipmentOption = createOption(
 				"onRoadVehicleEquipmentOption", group,
-				"On Road Vehicle Equipment",
-				parent.onRoadVehicleEquipmentPanel, RunSpecSectionStatus.WIDE);
+				"Onroad Vehicles",
+				parent.onRoadVehicleEquipmentPanel, RunSpecSectionStatus.NORMAL);
 		if (CompilationFlags.USE_NONROAD) {
 			offRoadVehicleEquipmentOption = createOption(
 					"offRoadVehicleEquipmentOption", group,
-					"NonRoad Vehicle Equipment",
+					"Nonroad Equipment",
 					parent.offRoadVehicleEquipmentPanel,
-					RunSpecSectionStatus.WIDE);
+					RunSpecSectionStatus.NORMAL);
 		}
 		updateVehiclesEquipmentOptionIcon();
 
@@ -258,56 +229,26 @@ public class MOVESNavigation extends JPanel implements ActionListener,
 				parent.roadTypePanel, RunSpecSectionStatus.NORMAL);
 		pollutantsAndProcessesOption = createOption(
 				"pollutantsAndProcessesOption", group,
-				"Pollutants And Processes", parent.pollutantsAndProcessesPanel,
+				"Pollutants and Processes", parent.pollutantsAndProcessesPanel,
 				RunSpecSectionStatus.NORMAL);
-
-		strategyImage = new ImageIcon(
-				"gov/epa/otaq/moves/master/gui/images/treeClosed.gif");
-		strategyOption = new JCheckBox("Strategies", outputImage);
-		strategyOption.setName("strategyOption");
-		strategyOption.setBackground(panelColor);
-		strategyOption.setForeground(textColor);
-		strategyOption.addActionListener(this);
-		ToolTipManager.sharedInstance().registerComponent(strategyOption);
-		for (int i = 0; i < internalControlStrategyDescriptors.length; i++) {
-			InternalControlStrategies panel = new InternalControlStrategies();
-			panel.setName(internalControlStrategyDescriptors[i].className);
-			panel.finishSetup();
-			JRadioButton option = createOption(
-					internalControlStrategyDescriptors[i].className, group,
-					internalControlStrategyDescriptors[i].humanDescription,
-					panel, RunSpecSectionStatus.WIDE);
-			strategyOptions.add(option);
-		}
-
-		updateStrategyOptionIcon();
-
-		manageInputDataSetsOption = createOption("manageInputDataSetsOption",
-				group, "Manage Input Data Sets",
-				parent.manageInputDataSetsPanel, RunSpecSectionStatus.NORMAL);
-
-		outputImage = new ImageIcon(
-				"gov/epa/otaq/moves/master/gui/images/treeClosed.gif");
-		outputOption = new JCheckBox("Output", outputImage);
-		outputOption.setName("outputOption");
-		outputOption.setBackground(panelColor);
-		outputOption.setForeground(textColor);
-		outputOption.addActionListener(this);
-		ToolTipManager.sharedInstance().registerComponent(outputOption);
 
 		generalOutputOption = createOption("generalOutputOption", group,
 				"General Output", parent.generalOutputPanel,
-				RunSpecSectionStatus.WIDE);
+				RunSpecSectionStatus.NORMAL);
 		outputEmissionsBreakdownOption = createOption(
 				"outputEmissionsBreakdownOption", group,
 				"Output Emissions Detail",
-				parent.outputEmissionsBreakdownPanel, RunSpecSectionStatus.WIDE);
+				parent.outputEmissionsBreakdownPanel, RunSpecSectionStatus.NORMAL);
 
-		updateOutputOptionIcon();
+		createInputDatabaseOption = createOption(
+				"createInputDatabaseOption", group,
+				"Create Input Database",
+				parent.createInputDatabasePanel, RunSpecSectionStatus.NORMAL);
+		createInputDatabaseOption.setEnabled(false);
 
-		advancedPerformanceFeaturesOption = createOption(
+		advancedFeaturesOption = createOption(
 				"advancedPerformanceFeaturesOption", group,
-				"Advanced Performance Features",
+				"Advanced Features",
 				parent.advancedPerformancePanel, RunSpecSectionStatus.NORMAL);
 	}
 
@@ -359,7 +300,7 @@ public class MOVESNavigation extends JPanel implements ActionListener,
 		g.add(option);
 		textForOptions.put(name, text);
 		panelForOptions.put(name, panel);
-		optionIconTypes.put(name, new Integer(iconSubType));
+		optionIconTypes.put(name, Integer.valueOf(iconSubType));
 
 		return option;
 	}
@@ -370,12 +311,6 @@ public class MOVESNavigation extends JPanel implements ActionListener,
 		onRoadVehicleEquipmentOption.setVisible(false);
 		if (CompilationFlags.USE_NONROAD) {
 			offRoadVehicleEquipmentOption.setVisible(false);
-		}
-		outputEmissionsBreakdownOption.setVisible(false);
-		generalOutputOption.setVisible(false);
-		for (Iterator i = strategyOptions.iterator(); i.hasNext();) {
-			JRadioButton option = (JRadioButton) i.next();
-			option.setVisible(false);
 		}
 	}
 
@@ -388,40 +323,16 @@ public class MOVESNavigation extends JPanel implements ActionListener,
 		add(scaleOption);
 		add(timeSpansOption);
 		add(macroscaleGeographicBoundsOption);
-		add(vehiclesEquipmentOption);
 		add(onRoadVehicleEquipmentOption);
 		if (CompilationFlags.USE_NONROAD) {
 			add(offRoadVehicleEquipmentOption);
 		}
 		add(roadTypeOption);
 		add(pollutantsAndProcessesOption);
-		add(manageInputDataSetsOption);
-		add(strategyOption);
-		for (Iterator<JRadioButton> i = strategyOptions.iterator(); i.hasNext();) {
-			JRadioButton option = i.next();
-			add(option);
-		}
-		add(outputOption);
 		add(generalOutputOption);
 		add(outputEmissionsBreakdownOption);
-		add(advancedPerformanceFeaturesOption);
-	}
-
-	/**
-	 * Listener method, calls the appropriate button handler.
-	 * 
-	 * @param e
-	 *            the ActionEvent to be handled.
-	 **/
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == outputOption) {
-			processOutputButton();
-		} else if (e.getSource() == vehiclesEquipmentOption) {
-			processVehiclesEquipmentButton();
-		} else if (e.getSource() == strategyOption) {
-			processStrategyButton();
-		}
+		add(createInputDatabaseOption);
+		add(advancedFeaturesOption);
 	}
 
 	/**
@@ -429,48 +340,47 @@ public class MOVESNavigation extends JPanel implements ActionListener,
 	 * RunSpec and loads these into the corresponding RunSpecEditor panels.
 	 **/
 	public void onFileNew() {
-		Models.ModelCombination mc = Models.ModelCombination.M1;
-		if (parent != null && parent.runSpec != null) {
-			mc = parent.runSpec.getModelCombination();
-		}
-		for (Iterator<JRadioButton> i = options.iterator(); i.hasNext();) {
-			JRadioButton option = (i.next());
-			if (onRoadVehicleEquipmentOption != null && option == onRoadVehicleEquipmentOption) {
-				switch (mc) {
-				case M1:
-				case M12:
-				default:
-					updateOptionDefault(option);
-					break;
-				case M2:
-					break;
-				}
-			} else if (offRoadVehicleEquipmentOption != null && option == offRoadVehicleEquipmentOption) {
-				switch (mc) {
-				case M2:
-				case M12:
-					updateOptionDefault(option);
-					break;
-				default:
-					break;
-				}
-			} else {
-				updateOptionDefault(option);
+		try {
+			parent.setWaitCursor();
+			Models.ModelCombination mc = Models.ModelCombination.M1;
+			if (parent != null && parent.runSpec != null) {
+				mc = parent.runSpec.getModelCombination();
 			}
-		}
+			parent.domainImporterNetStatus = null;
+			for (Iterator<JRadioButton> i = options.iterator(); i.hasNext();) {
+				JRadioButton option = (i.next());
+				if (onRoadVehicleEquipmentOption != null && option == onRoadVehicleEquipmentOption) {
+					switch (mc) {
+					case M1:
+					case M12:
+					default:
+						updateOptionDefault(option);
+						break;
+					case M2:
+						break;
+					}
+				} else if (offRoadVehicleEquipmentOption != null && option == offRoadVehicleEquipmentOption) {
+					switch (mc) {
+					case M2:
+					case M12:
+						updateOptionDefault(option);
+						break;
+					default:
+						break;
+					}
+				} else {
+					updateOptionDefault(option);
+				}
+			}
 
-		updateOutputOptionIcon();
-		updateVehiclesEquipmentOptionIcon();
-		updateStrategyOptionIcon();
+			updateVehiclesEquipmentOptionIcon();
 
-		if (hasDoneFileNew) {
-			checkStrategyAfterFileChange();
-		} else {
 			hasDoneFileNew = true;
+			
+			parent.checkExecuteAction();
+		} finally {
+			parent.setDefaultCursor();
 		}
-		
-		parent.checkImporterActions();
-		parent.checkExecuteAction();
 	}
 
 	private void updateOptionDefault(JRadioButton option) {
@@ -493,47 +403,74 @@ public class MOVESNavigation extends JPanel implements ActionListener,
 	 * RunSpecEditor panels.
 	 **/
 	public void onFileOpen() {
-		Models.ModelCombination mc = Models.ModelCombination.M1;
-		if (parent != null && parent.runSpec != null) {
-			mc = parent.runSpec.getModelCombination();
-		}
-		for (Iterator<JRadioButton> i = options.iterator(); i.hasNext();) {
-			JRadioButton option = (i.next());
-			if (onRoadVehicleEquipmentOption != null && option == onRoadVehicleEquipmentOption) {
-				switch (mc) {
-				case M1:
-				case M12:
-				default:
-					updateOption(option);
-					break;
-				case M2:
-					break;
-				}
-			} else if (offRoadVehicleEquipmentOption != null && option == offRoadVehicleEquipmentOption) {
-				switch (mc) {
-				case M2:
-				case M12:
-					updateOption(option);
-					break;
-				default:
-					break;
-				}
-			} else {
-				updateOption(option);
+		try {
+			parent.setWaitCursor();
+			Models.ModelCombination mc = Models.ModelCombination.M1;
+			if (parent != null && parent.runSpec != null) {
+				mc = parent.runSpec.getModelCombination();
 			}
+			parent.domainImporterNetStatus = null;
+			for (Iterator<JRadioButton> i = options.iterator(); i.hasNext();) {
+				JRadioButton option = (i.next());
+				if (onRoadVehicleEquipmentOption != null && option == onRoadVehicleEquipmentOption) {
+					switch (mc) {
+					case M1:
+					case M12:
+					default:
+						updateOption(option);
+						break;
+					case M2:
+						break;
+					}
+				} else if (offRoadVehicleEquipmentOption != null && option == offRoadVehicleEquipmentOption) {
+					switch (mc) {
+					case M2:
+					case M12:
+						updateOption(option);
+						break;
+					default:
+						break;
+					}
+				} else {
+					updateOption(option);
+				}
 
+			}
+			updateVehiclesEquipmentOptionIcon();
+			updateCreateInputDatabaseIcon();
+			createInputDatabaseOption.setEnabled(parent.shouldCreateInputDatabaseBeEnabled());
+			
+			// Set the execute action enabled state in the parent window
+			parent.checkExecuteAction();
+		} finally {
+			parent.setDefaultCursor();
 		}
-		updateOutputOptionIcon();
-		updateVehiclesEquipmentOptionIcon();
-		updateStrategyOptionIcon();
-		// Set the execute action enabled state in the parent window
-		parent.checkExecuteAction();
-		parent.checkImporterActions();
-
-		checkStrategyAfterFileChange();
+		
+		// Check version compatibility
+		if (parent != null && parent.runSpec != null) {
+			if (parent.runSpec.isCustomDomain()) {
+				JOptionPane.showMessageDialog(parent, "Error: The loaded RunSpec uses the Custom Domain feature,\r\n" +
+													  "which is not enabled in this version of MOVES. This RunSpec\r\n" +
+													  "will not produce usable results, and will need to be recreated\r\n" +
+													  "from scratch using County Scale with a single county. If you\r\n" +
+												      "need a reference for the selections made in this RunSpec, you\r\n" + 
+												      "can use the File > Print... feature.",
+						"Custom Domain Error Message",
+						JOptionPane.ERROR_MESSAGE);
+			} else if (!parent.runSpec.compareMajorVersion(parent.MOVES_VERSION)) {
+			JOptionPane.showMessageDialog(parent, "Warning: The loaded RunSpec was created with " + parent.runSpec.getMajorVersion() + ",\r\n" +
+			                                      "which may not be compatible with this version of MOVES. To\r\n" +
+												  "avoid compatibility issues, you may need to recreate this\r\n" +
+												  "RunSpec using this version of MOVES. If you need a reference\r\n" +
+												  "for the selections made in this RunSpec, you can use the\r\n" + 
+												  "File > Print... feature.",
+					"RunSpec Version Message",
+					JOptionPane.WARNING_MESSAGE);
+			}
+		}
 	}
 
-	private void updateOption(JRadioButton option) {
+	public void updateOption(JRadioButton option) {
 		JPanel p = panelForOptions.get(option.getName());
 		if (p instanceof RunSpecEditor) {
 			RunSpecEditor editor = (RunSpecEditor) p;
@@ -545,24 +482,7 @@ public class MOVESNavigation extends JPanel implements ActionListener,
 			option.setToolTipText(RunSpecSectionStatus.explainIcon(option
 					.getIcon()));
 		}
-	}
-
-	/**
-	 * Update the displayed strategy options after File|Open or File|New, taking
-	 * care not to show a deprecated panel.
-	 **/
-	void checkStrategyAfterFileChange() {
-		processStrategyButton();
-
-		boolean shouldJump = true;
-		if (lastRadioButtonOption != null && lastRadioButtonOption.isVisible()) {
-			shouldJump = false;
-		}
-		if (shouldJump) {
-			// Set the focus to the Description option
-			group.setSelected(descriptionOption.getModel(), true);
-			ignoreNextSetNavigationSelection = true;
-		}
+		parent.checkExecuteAction();
 	}
 
 	/**
@@ -575,25 +495,30 @@ public class MOVESNavigation extends JPanel implements ActionListener,
 	 **/
 	@Override
 	public void itemStateChanged(ItemEvent e) {
-		JRadioButton option = (JRadioButton) e.getItem();
-		lastRadioButtonOption = option;
-		setRadioButtonHighlighting(option,
-				e.getStateChange() == ItemEvent.SELECTED);
+		try {
+			parent.setWaitCursor();
+			JRadioButton option = (JRadioButton) e.getItem();
+			lastRadioButtonOption = option;
+			setRadioButtonHighlighting(option,
+					e.getStateChange() == ItemEvent.SELECTED);
 
-		JPanel p = panelForOptions.get(option.getName());
-		if (p instanceof RunSpecEditor) {
-			RunSpecEditor editor = (RunSpecEditor) p;
-			lastRunSpecEditor = editor;
-			if (e.getStateChange() == ItemEvent.SELECTED) {
-				if (editor != activeEditor) {
-					activeEditor = editor;
-					editor.loadFromRunSpec(parent.runSpec);
+			JPanel p = panelForOptions.get(option.getName());
+			if (p instanceof RunSpecEditor) {
+				RunSpecEditor editor = (RunSpecEditor) p;
+				lastRunSpecEditor = editor;
+				if (e.getStateChange() == ItemEvent.SELECTED) {
+					if (editor != activeEditor) {
+						activeEditor = editor;
+						editor.loadFromRunSpec(parent.runSpec);
+					}
 				}
+				updateRunSpecSectionStatus(option, editor, false);
 			}
-			updateRunSpecSectionStatus(option, editor, false);
-		}
-		if (e.getStateChange() == ItemEvent.SELECTED) {
-			parent.rightScrollPane.setViewportView(p);
+			if (e.getStateChange() == ItemEvent.SELECTED) {
+                parent.setView(p);
+            }
+		} finally {
+			parent.setDefaultCursor();
 		}
 	}
 
@@ -618,55 +543,49 @@ public class MOVESNavigation extends JPanel implements ActionListener,
 	 **/
 	public void updateRunSpecSectionStatus(JRadioButton option,
 			RunSpecEditor editor, boolean scaleDidChange) {
-		if (editor == null && option != null) {
-			JPanel p = panelForOptions.get(option.getName());
-			if (p instanceof RunSpecEditor) {
-				editor = (RunSpecEditor) p;
-			}
-		}
-		if (option == null || editor == null) {
-			return;
-		}
-		RunSpecSectionStatus status = null;
-		if (scaleDidChange) {
-			// equipment radio buttons need to be updated
-			this.processVehiclesEquipmentButton();
-
-			status = editor.onScaleChange(parent.runSpec, optionStatuses);
-			if (status.status == RunSpecSectionStatus.OK) {
-				status.status = RunSpecSectionStatus.DEFAULTS;
+		try {
+			parent.setWaitCursor();
+			if (editor == null && option != null) {
 				JPanel p = panelForOptions.get(option.getName());
-				optionStatuses.put(p.getName(), status);
+				if (p instanceof RunSpecEditor) {
+					editor = (RunSpecEditor) p;
+				}
 			}
-		} else {
-			editor.saveToRunSpec(parent.runSpec);
-			status = editor.calculateRunSpecSectionStatus(parent.runSpec,
-					optionStatuses);
-		}
-		int iconSubType = optionIconTypes.get(option.getName()).intValue();
-		option.setIcon(status.getIcon(iconSubType));
-		option.setToolTipText(RunSpecSectionStatus.explainIcon(option.getIcon()));
-		// Handle special cases for updating the vehicles/equipment tree nodes
-		if (option == onRoadVehicleEquipmentOption
-				|| (CompilationFlags.USE_NONROAD && option == offRoadVehicleEquipmentOption)) {
-			updateVehiclesEquipmentOptionIcon();
-		}
-		// Handle special cases for updating the control strategies tree nodes
-		for (Iterator i = strategyOptions.iterator(); i.hasNext();) {
-			JRadioButton listedOption = (JRadioButton) i.next();
-			if (option == listedOption) {
-				updateStrategyOptionIcon();
-				break;
+			if (option == null || editor == null) {
+				return;
 			}
+			RunSpecSectionStatus status = null;
+			if (scaleDidChange) {
+				// equipment radio buttons need to be updated
+				this.processVehiclesEquipmentButton();
+
+				status = editor.onScaleChange(parent.runSpec, optionStatuses);
+				if (status.status == RunSpecSectionStatus.OK) {
+					status.status = RunSpecSectionStatus.DEFAULTS;
+					JPanel p = panelForOptions.get(option.getName());
+					optionStatuses.put(p.getName(), status);
+				}
+			} else {
+				editor.saveToRunSpec(parent.runSpec);
+				status = editor.calculateRunSpecSectionStatus(parent.runSpec,
+						optionStatuses);
+			}
+			int iconSubType = optionIconTypes.get(option.getName()).intValue();
+			option.setIcon(status.getIcon(iconSubType));
+			option.setToolTipText(RunSpecSectionStatus.explainIcon(option.getIcon()));
+			// Handle special cases for updating the vehicles/equipment tree nodes
+			if (option == onRoadVehicleEquipmentOption
+					|| (CompilationFlags.USE_NONROAD && option == offRoadVehicleEquipmentOption)) {
+				updateVehiclesEquipmentOptionIcon();
+			}
+			// Special case for Create Input Database panel, which might be disabled
+			createInputDatabaseOption.setEnabled(parent.shouldCreateInputDatabaseBeEnabled());
+			
+			// Also check if all RunSpecEditors are ready
+			parent.checkExecuteAction();
+		} finally {
+			parent.setDefaultCursor();
 		}
-		// Handle special cases for updating the output tree nodes
-		if (option == outputEmissionsBreakdownOption
-				|| option == generalOutputOption) {
-			updateOutputOptionIcon();
-		}
-		// Also check if all RunSpecEditors are ready
-		parent.checkExecuteAction();
-		parent.checkImporterActions();
 	}
 
 	/** Commits any changes in the active panel to the current RunSpec **/
@@ -726,30 +645,29 @@ public class MOVESNavigation extends JPanel implements ActionListener,
 	/** Update the summary icon shown for the Vehicles/Equipment option **/
 	public void updateVehiclesEquipmentOptionIcon() {
 		// show/hide tree objects
-
-		boolean shouldBeVisible = vehiclesEquipmentOption.isSelected();
-
 		if (parent != null && parent.runSpec != null) {
 			onRoadVehicleEquipmentOption.setVisible(false);
-			if (CompilationFlags.USE_NONROAD) {
-				offRoadVehicleEquipmentOption.setVisible(false);
-			}
+			offRoadVehicleEquipmentOption.setVisible(false);
+
 			Models.ModelCombination mc = Models.evaluateModels(parent.runSpec.models);
 			switch (mc) {
 			default:
 			case M1:
-				onRoadVehicleEquipmentOption.setVisible(shouldBeVisible);
+				onRoadVehicleEquipmentOption.setVisible(true);
 				break;
 			case M2:
 				if (CompilationFlags.USE_NONROAD) {
-					offRoadVehicleEquipmentOption.setVisible(shouldBeVisible);
+					offRoadVehicleEquipmentOption.setVisible(true);
 				}
 				break;
 			}
 		} else {
-			onRoadVehicleEquipmentOption.setVisible(shouldBeVisible);
 			if (CompilationFlags.USE_NONROAD) {
-				offRoadVehicleEquipmentOption.setVisible(shouldBeVisible);
+				offRoadVehicleEquipmentOption.setVisible(true);
+				onRoadVehicleEquipmentOption.setVisible(false);
+			} else {
+				onRoadVehicleEquipmentOption.setVisible(true);
+				offRoadVehicleEquipmentOption.setVisible(false);
 			}
 		}
 
@@ -786,92 +704,35 @@ public class MOVESNavigation extends JPanel implements ActionListener,
 						.get(parent.offRoadVehicleEquipmentPanel.getName()));
 			}
 		}
-
-		int iconSubType = RunSpecSectionStatus.TREE_CLOSED;
-		if (vehiclesEquipmentOption.isSelected()) {
-			iconSubType = RunSpecSectionStatus.TREE_OPEN;
-		}
-		vehiclesEquipmentOption.setIcon(status.getIcon(iconSubType));
-		vehiclesEquipmentOption.setToolTipText(RunSpecSectionStatus
-				.explainIcon(vehiclesEquipmentOption.getIcon()));
 	}
-
-	/** Update the summary icon shown for the Output option **/
-	public void updateOutputOptionIcon() {
-		RunSpecSectionStatus status = new RunSpecSectionStatus();
-		status.makeBest();
-		status.makeWorstOfTwo(optionStatuses
-				.get(parent.outputEmissionsBreakdownPanel.getName()));
-		status.makeWorstOfTwo(optionStatuses.get(parent.generalOutputPanel
-				.getName()));
-		int iconSubType = RunSpecSectionStatus.TREE_CLOSED;
-		if (outputOption.isSelected()) {
-			iconSubType = RunSpecSectionStatus.TREE_OPEN;
-		}
-		outputOption.setIcon(status.getIcon(iconSubType));
-		outputOption.setToolTipText(RunSpecSectionStatus
-				.explainIcon(outputOption.getIcon()));
-	}
-
-	/** Update the summary icon shown for the Strategy option **/
-	public void updateStrategyOptionIcon() {
-		RunSpecSectionStatus status = new RunSpecSectionStatus();
-		status.makeBest();
-		for (Iterator<JRadioButton> i = strategyOptions.iterator(); i.hasNext();) {
-			JRadioButton option = i.next();
-			RunSpecSectionStatus optionStatus = optionStatuses.get(option
-					.getName());
-			if (optionStatus != null) {
-				status.makeWorstOfTwo(optionStatus);
+	
+	/** 
+	 * If domain importer status is unknown, create importer GUI to run the importer checks.
+     * Update the panel icon based on the result of those checks.
+	**/
+	public void updateCreateInputDatabaseIcon() {
+		if(parent.domainImporterNetStatus == null) {
+			ImporterManager manager = new ImporterManager();
+			
+			if(Models.evaluateModels(parent.runSpec.models) == Models.ModelCombination.M2) {
+				manager.setAsNonroad();
+			} else if(parent.runSpec.domain == ModelDomain.SINGLE_COUNTY) {
+				manager.setAsCountyDomain();
+			} else if(parent.runSpec.domain == ModelDomain.PROJECT) {
+				manager.setAsProjectDomain();
 			}
+			
+			manager.instantiate(null);
+			ImporterGUI gui = manager.createGUI(parent);
+			gui.populateControls(); // this calls refreshDomainStatusIcons which updates parent.domainImporterNetStatus
 		}
-		int iconSubType = RunSpecSectionStatus.TREE_CLOSED;
-		if (strategyOption.isSelected()) {
-			iconSubType = RunSpecSectionStatus.TREE_OPEN;
-		}
-		strategyOption.setIcon(status.getIcon(iconSubType));
-		strategyOption.setToolTipText(RunSpecSectionStatus
-				.explainIcon(strategyOption.getIcon()));
+		updateOption(createInputDatabaseOption);
 	}
 
 	/** Handles the Vehicles/Equipment button. **/
 	public void processVehiclesEquipmentButton() {
 
 		updateVehiclesEquipmentOptionIcon();
-	}
-
-	/** Handles the Output button. **/
-	public void processOutputButton() {
-		// show/hide tree objects
-		boolean shouldBeVisible = outputOption.isSelected();
-
-		outputEmissionsBreakdownOption.setVisible(shouldBeVisible);
-		generalOutputOption.setVisible(shouldBeVisible);
-
-		updateOutputOptionIcon();
-	}
-
-	/** Handles the Strategy button. **/
-	public void processStrategyButton() {
-		// show/hide tree objects
-		boolean shouldBeVisible = strategyOption.isSelected();
-
-		for (Iterator<JRadioButton> i = strategyOptions.iterator(); i.hasNext();) {
-			JRadioButton option = i.next();
-			boolean shouldOptionBeVisible = shouldBeVisible;
-			if (shouldOptionBeVisible) {
-				JPanel p = panelForOptions.get(option.getName());
-				if (p != null && p instanceof InternalControlStrategies) {
-					InternalControlStrategies ics = (InternalControlStrategies) p;
-					if (ics.useImporterOnly && !ics.hasAnInstance()) {
-						shouldOptionBeVisible = false;
-					}
-				}
-			}
-			option.setVisible(shouldBeVisible && shouldOptionBeVisible);
-		}
-
-		updateStrategyOptionIcon();
 	}
 
 	/**
@@ -883,7 +744,6 @@ public class MOVESNavigation extends JPanel implements ActionListener,
 	 **/
 	public void onDeletedLastInstance(JPanel icsPanel) {
 		commitActiveEditor();
-		processStrategyButton();
 		clearSelection();
 		// Set the focus to the Description option
 		group.setSelected(descriptionOption.getModel(), true);
@@ -934,6 +794,8 @@ public class MOVESNavigation extends JPanel implements ActionListener,
 		updateRunSpecSectionStatus(pollutantsAndProcessesOption, null, true);
 		updateRunSpecSectionStatus(outputEmissionsBreakdownOption, null, true);
 		updateRunSpecSectionStatus(generalOutputOption, null, true);
+		updateRunSpecSectionStatus(advancedFeaturesOption, null, true);
+
 	}
 
 	/**
@@ -958,6 +820,9 @@ public class MOVESNavigation extends JPanel implements ActionListener,
 		// updateRunSpecSectionStatus(roadTypeOption,null,true);
 		// updateRunSpecSectionStatus(pollutantsAndProcessesOption,null,true);
 		// updateRunSpecSectionStatus(outputEmissionsBreakdownOption,null,true);
+		updateRunSpecSectionStatus(createInputDatabaseOption, null, true);
+		updateRunSpecSectionStatus(advancedFeaturesOption, null, true);
+
 	}
 
 	/**

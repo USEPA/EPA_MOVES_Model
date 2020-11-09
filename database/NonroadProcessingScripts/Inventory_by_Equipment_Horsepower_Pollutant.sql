@@ -1,4 +1,4 @@
--- Nonroad Post Processing Script (updated 7/26/2018):
+-- Nonroad Post Processing Script (updated 3/14/2019):
 -- Emissions inventory by equipment type, horsepower, and pollutant
 --  
 -- MOVES-Nonroad Output Guidance:
@@ -36,11 +36,11 @@ select
 	dayID,
 	stateID,
 	countyID,
-	sectorID,
+	e.sectorID,
 	e.description as equipDescription,
 	hpID,
 	h.binName as hpBin,
-	fuelTypeID,
+	n.fuelTypeID,
 	fuelSubTypeID,
     pollutantID,
     processID,
@@ -52,4 +52,4 @@ left join movesrun using (movesrunid)
 left join ##defaultdb##.nrscc n using (scc)
 left join ##defaultdb##.nrequipmenttype e using (nrequiptypeid)
 left join ##defaultdb##.nrhprangebin h on (m.hpID = h.NRHPRangeBinID)
-group by MOVESRunID,yearID,monthID,dayID,stateID,countyID,sectorID,e.description,hpID,fuelTypeID,fuelSubTypeID,pollutantID,processID;
+group by MOVESRunID,yearID,monthID,dayID,stateID,countyID,e.sectorID,e.description,hpID,n.fuelTypeID,fuelSubTypeID,pollutantID,processID;

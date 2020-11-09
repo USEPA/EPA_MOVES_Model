@@ -21,7 +21,7 @@ import gov.epa.otaq.moves.master.nonroad.NonroadEmissionCalculator;
  * @author		Wesley Faler
  * @author		Ed Glover (minor mods - task 219)
  * @author		Ed Glover & William Aikman
- * @version		2015-02-05
+ * @version		2016-11-28
 **/
 public class PollutantProcessLoader {
 	/** Flags that the pollutant processes have been loaded from the database. **/
@@ -33,6 +33,40 @@ public class PollutantProcessLoader {
 	**/
 	public static boolean isLoaded() {
 		return isLoaded;
+	}
+
+	/**
+	 *  Returns the 'order by' clause for querying the emissionprocess
+	 *  table.  Task 1902
+	**/
+	private static String addEmissionProcessOrderBy() {
+		StringBuilder sb = new StringBuilder(" order by case processId ");
+		int x = 1;
+		sb.append("when 1 then " + x++);
+		sb.append(" when 15 then " + x++);
+		sb.append(" when 9 then " + x++);
+		sb.append(" when 10 then " + x++);
+		sb.append(" when 2 then " + x++);
+		sb.append(" when 16 then " + x++);
+		sb.append(" when 90 then " + x++);
+		sb.append(" when 17 then " + x++);
+		sb.append(" when 91 then " + x++);
+		sb.append(" when 11 then " + x++);
+		sb.append(" when 12 then " + x++);
+		sb.append(" when 13 then " + x++);
+		sb.append(" when 18 then " + x++);
+		sb.append(" when 19 then " + x++);
+		sb.append(" when 20 then " + x++);
+		sb.append(" when 21 then " + x++);
+		sb.append(" when 22 then " + x++);
+		sb.append(" when 23 then " + x++);
+		sb.append(" when 24 then " + x++);
+		sb.append(" when 30 then " + x++);
+		sb.append(" when 31 then " + x++);
+		sb.append(" when 32 then " + x++);
+		sb.append(" when 40 then " + x);
+		sb.append(" end");
+		return sb.toString();
 	}
 
 	/** Performs the load from database to Java objects. **/
@@ -57,21 +91,22 @@ public class PollutantProcessLoader {
 		TreeSet<Integer> nonroadPolProcessIDs = new TreeSet<Integer>();
 		if(hasNonroad) {
 			for(int i=0;i<NonroadEmissionCalculator.nonroadPolProcessIDs.length;i++) {
-				nonroadPolProcessIDs.add(new Integer(NonroadEmissionCalculator.nonroadPolProcessIDs[i]));
+				nonroadPolProcessIDs.add(Integer.valueOf(NonroadEmissionCalculator.nonroadPolProcessIDs[i]));
 			}
 		}
 
-		String sql = "SELECT processID,processName,occursOnRealRoads,isAffectedByOnroad,isAffectedByNonroad FROM emissionprocess";
+		String sql = "SELECT processID,processName,occursOnRealRoads,isAffectedByOnroad,isAffectedByNonroad FROM emissionprocess where processId not in (99) " + addEmissionProcessOrderBy();
 		try {
 			db = DatabaseConnectionManager.checkOutConnection(MOVESDatabaseType.DEFAULT);
 
 			PreparedStatement statement = db.prepareStatement(sql);
 			ResultSet results = SQLRunner.executeQuery(statement,sql);
 			if(results != null) {
+				int x = 1;
 				while(results.next()) {
 					// NOTE: Simply new'ing EmissionProcess objects adds them to a global set
 					new EmissionProcess(results.getInt(1),results.getString(2),
-							results.getString(3),results.getBoolean(4), results.getBoolean(5));
+							results.getString(3),results.getBoolean(4), results.getBoolean(5), x++);
 				}
 				results.close();
 			}
@@ -103,16 +138,6 @@ public class PollutantProcessLoader {
 			if (pollutant != null && requiredPollutant != null) {
 				pollutant.requiredPollutants.add(requiredPollutant);
 			}
-			pollutant = Pollutant.findByID(93); // Fossil Fuel Energy Consumption
-			requiredPollutant = Pollutant.findByID(91); // Total Energy Consumption
-			if (pollutant != null && requiredPollutant != null) {
-				pollutant.requiredPollutants.add(requiredPollutant);
-			}
-			pollutant = Pollutant.findByID(92);	// Petroleum Energy Consumption
-			requiredPollutant = Pollutant.findByID(91); // Total Energy Consumption
-			if (pollutant != null && requiredPollutant != null) {
-				pollutant.requiredPollutants.add(requiredPollutant);
-			}
 			pollutant = Pollutant.findByID(98);	// CO2 Equivalent
 			requiredPollutant = Pollutant.findByID(90); // Atmospheric CO2
 			if (pollutant != null && requiredPollutant != null) {
@@ -141,7 +166,7 @@ public class PollutantProcessLoader {
 					}
 					associations.add(PollutantProcessAssociation.createByID(pollutantID,processID));
 					int polProcessID = results.getInt(3);
-					if(!hasNonroad || !nonroadPolProcessIDs.contains(new Integer(polProcessID))) {
+					if(!hasNonroad || !nonroadPolProcessIDs.contains(Integer.valueOf(polProcessID))) {
 						int chainedTo1 = results.getInt(4);
 						if(chainedTo1 > 0) {
 							PollutantProcessAssociation.addChainedTo(polProcessID, chainedTo1);

@@ -1,41 +1,13 @@
 -- Author Wesley Faler
--- Version 2014-09-17
+-- Version 2017-09-28
 
-drop table if exists hotellingFuelUsingActivity;
-
-create table hotellingFuelUsingActivity (
-	beginModelYearID smallint(6) not null,
-	endModelYearID smallint(6) not null,
-	fractionSpentConsumingFuel double not null,
-	primary key (beginModelYearID, endModelYearID)
-);
-
-drop table if exists hotellingNonExtendedIdleActivity;
-
-create table hotellingNonExtendedIdleActivity (
-	beginModelYearID smallint(6) not null,
-	endModelYearID smallint(6) not null,
-	fractionSpentNotExtendedIdling double not null,
-	primary key (beginModelYearID, endModelYearID)
-);
-
-drop table if exists hotellingHoursUsingFuel;
-
-CREATE TABLE hotellingHoursUsingFuel (
-	sourceTypeID         SMALLINT NOT NULL,
-	hourDayID            SMALLINT NOT NULL,
-	monthID              SMALLINT NOT NULL,
-	yearID               SMALLINT NOT NULL,
-	ageID                SMALLINT NOT NULL,
-	zoneID               INTEGER NOT NULL,
-	hotellingHoursUsingFuel DOUBLE NULL,
-	primary key 		(sourceTypeID, hourDayID, monthID, yearID, ageID, zoneID),
-	key (sourceTypeID),
-	KEY (hourDayID),
-	KEY (monthID),
-	KEY (yearID),
-	KEY (ageID),
-	KEY (zoneID)
+create table if not exists drivingIdleFraction (
+	hourDayID smallint not null,
+	yearID smallint not null,
+	roadTypeID smallint not null,
+	sourceTypeID smallint not null,
+	drivingIdleFraction double not null,
+	primary key (hourDayID, roadTypeID, sourceTypeID, yearID)
 );
 
 -- *************************************************************************************

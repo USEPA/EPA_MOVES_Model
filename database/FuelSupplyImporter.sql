@@ -1,7 +1,7 @@
 -- FuelSupplyImporter.sql - script to check import errors for the
 -- tables: AVFT, fuelFormulation, fuelSupply, and fuelUsageFraction.
 -- Author Wesley Faler
--- Version 2015-09-15
+-- Version 2016-10-04
 
 drop procedure if exists spCheckFuelSupplyImporter;
 
@@ -91,15 +91,15 @@ begin
 	-- Complain about any years outside of MOVES's range
 	if(scale = 3) then
 		insert into importTempMessages (message)
-		select distinct concat('ERROR: Fuel Year ',fuelYearID,' is outside the range of 1990-2050 and cannot be used') as errorMessage
+		select distinct concat('ERROR: Fuel Year ',fuelYearID,' is outside the range of 1990-2060 and cannot be used') as errorMessage
 		from nrFuelSupply
-		where fuelYearID < 1990 or fuelYearID > 2050
+		where fuelYearID < 1990 or fuelYearID > 2060
 		and marketShare > 0;
 	else
 		insert into importTempMessages (message)
-		select distinct concat('ERROR: Fuel Year ',fuelYearID,' is outside the range of 1990-2050 and cannot be used') as errorMessage
+		select distinct concat('ERROR: Fuel Year ',fuelYearID,' is outside the range of 1990-2060 and cannot be used') as errorMessage
 		from fuelSupply
-		where fuelYearID < 1990 or fuelYearID > 2050
+		where fuelYearID < 1990 or fuelYearID > 2060
 		and marketShare > 0;
 	end if;
 	
@@ -150,6 +150,32 @@ begin
 			and marketShare > 0;
 		end if;
 	end if;
+
+	if (scale = 3) then
+		insert into importTempMessages (message)
+		select concat('Warning: Fuel formulation ',fuelFormulationID,' is gasoline with ethanol volume greater than 10%') as message
+		from fuelformulation 
+		join nrfuelsupply using (fuelFormulationID)
+		where ETOHVolume > 10 and fuelSubtypeID in (10,11,12,13,14,15,18) and marketShare > 0;
+	else
+		insert into importTempMessages (message)
+		select concat('ERROR: Fuel formulation ',fuelFormulationID,' is gasoline with ethanol volume greater than 15%') as message
+		from fuelformulation 
+		join fuelsupply using (fuelFormulationID)
+		where ETOHVolume > 15 and fuelSubtypeID in (10,11,12,13,14,15,18) and marketShare > 0;
+	end if;
+
+	insert into importTempMessages (message)
+	select concat('ERROR: Fuel formulation ',fuelFormulationID,' has non-zero value for MTBE volume') as message
+	from fuelformulation where MTBEVolume <> 0;
+
+	insert into importTempMessages (message)
+	select concat('ERROR: Fuel formulation ',fuelFormulationID,' has non-zero value for ETBE volume') as message
+	from fuelformulation where ETBEVolume <> 0;
+
+	insert into importTempMessages (message)
+	select concat('ERROR: Fuel formulation ',fuelFormulationID,' has non-zero value for TAME volume') as message
+	from fuelformulation where TAMEVolume <> 0;
 
 	-- Correct fuelFormulation.fuelSubtypeID for gasoline and ethanol fuels
 	-- Note: RFG (sub type 11) and conventional gasoline (sub type 10) cannot be distinguished by ETOHVolume, so anything with
@@ -330,9 +356,9 @@ begin
 	
 		-- Complain about any years outside of MOVES's range
 		insert into importTempMessages (message)
-		select distinct concat('ERROR: Fuel Year ',fuelYearID,' is outside the range of 1990-2050 and cannot be used') as errorMessage
+		select distinct concat('ERROR: Fuel Year ',fuelYearID,' is outside the range of 1990-2060 and cannot be used') as errorMessage
 		from fuelUsageFraction
-		where fuelYearID < 1990 or fuelYearID > 2050
+		where fuelYearID < 1990 or fuelYearID > 2060
 		and usageFraction > 0;
 		
 		-- if(mode = 0) then

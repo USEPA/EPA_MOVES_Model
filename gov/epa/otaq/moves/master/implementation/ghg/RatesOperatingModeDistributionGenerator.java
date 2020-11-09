@@ -17,9 +17,13 @@ import java.sql.*;
  * ELDB is the Execution Location Database explained in TotalActivityGenerator
  *
  * @author		Wesley Faler
- * @version		2014-05-28
+ * @version		2017-07-04
 **/
 public class RatesOperatingModeDistributionGenerator extends Generator {
+	// true when the external generator should be invoked for some of the algorithms
+	public static final boolean USE_EXTERNAL_GENERATOR = true;
+	public static final boolean USE_EXTERNAL_GENERATOR_FOR_DRIVE_CYCLES = true;
+
 	/**
 	 * @algorithm
 	 * @owner Rates Operating Mode Distribution Generator
@@ -44,6 +48,16 @@ public class RatesOperatingModeDistributionGenerator extends Generator {
 	SourceTypePhysics modelYearPhysics = new SourceTypePhysics();
 	/** true when a Project simulation is being used **/
 	boolean isProjectDomain = false;
+	/**
+	 * True when the BaseRateGenerator's MasterLoop subscription has been checked.
+	 * Significant speedups are possible by combining the RatesOpModeDistributionGenerator
+	 * and the BaseRateGenerator in the external generator code.
+	**/
+	boolean didCheckForBaseRateGenerator = false;
+	/** True when external generator steps should be combined with the BaseRateGenerator's steps. **/
+	boolean shouldDeferForBaseRateGenerator = false;
+	/** MasterLoop object that owns and executes this generator **/
+	MasterLoop ownerLoop;
 
 	/** Default constructor **/
 	public RatesOperatingModeDistributionGenerator() {
@@ -56,6 +70,7 @@ public class RatesOperatingModeDistributionGenerator extends Generator {
 	 * @param targetLoop The loop to subscribe to.
 	**/
 	public void subscribeToMe(MasterLoop targetLoop) {
+		ownerLoop = targetLoop;
 		isProjectDomain = ExecutionRunSpec.theExecutionRunSpec.getModelDomain() == ModelDomain.PROJECT;
 		String[] processNames = {
 			(isProjectDomain? null : "Running Exhaust"), // Don't do Running Exhaust in project domain.
@@ -80,10 +95,28 @@ public class RatesOperatingModeDistributionGenerator extends Generator {
 	 * @param inContext The current context of the loop.
 	**/
 	public void executeLoop(MasterLoopContext inContext) {
+		// Look ahead to see if the BaseRateGenerator will be used as well.
+		// If it will, and if it too will use the external generator, then
+		// performance is improved by combining steps in this generator with
+		// steps in BaseRateGenerator.
+		if(!didCheckForBaseRateGenerator) {
+			didCheckForBaseRateGenerator = true;
+			shouldDeferForBaseRateGenerator = false;
+			if(USE_EXTERNAL_GENERATOR && BaseRateGenerator.USE_EXTERNAL_GENERATOR) {
+				ArrayList<MasterLoopable> loopables = ownerLoop.getSubscribers();
+				for(MasterLoopable ml : loopables) {
+					if(ml instanceof BaseRateGenerator) {
+						shouldDeferForBaseRateGenerator = true;
+						break;
+					}
+				}
+			}
+		}
+
 		try {
 			db = DatabaseConnectionManager.checkOutConnection(MOVESDatabaseType.EXECUTION);
 
-			long start;
+			long start, detailStart, detailEnd;
 
 			// The following only has to be done once for each run.
 			if(!hasBeenSetup) {
@@ -93,20 +126,45 @@ public class RatesOperatingModeDistributionGenerator extends Generator {
 				 * @algorithm Setup for Model Year Physics effects.
 				**/
 				modelYearPhysics.setup(db);
-				if(isProjectDomain) {
+				if(isProjectDomain || USE_EXTERNAL_GENERATOR_FOR_DRIVE_CYCLES) {
 					hasBeenSetup = true;
 				} else {
+					detailStart = System.currentTimeMillis();
 					bracketAverageSpeedBins(); // steps 100-109
+					detailEnd = System.currentTimeMillis();
+					Logger.log(LogMessageCategory.DEBUG,"RatesOpModeDistributionGenerator.bracketAverageSpeedBins ms="+(detailEnd-detailStart));
+					
+					detailStart = System.currentTimeMillis();
 					determineDriveScheduleProportions(); // steps 110-119
-					if(!validateDriveScheduleDistribution()) { // steps 120-129
-						isValid = false;
-					}
+					detailEnd = System.currentTimeMillis();
+					Logger.log(LogMessageCategory.DEBUG,"RatesOpModeDistributionGenerator.determineDriveScheduleProportions ms="+(detailEnd-detailStart));
+
 					if(isValid) {
+						detailStart = System.currentTimeMillis();
 						determineDriveScheduleDistributionNonRamp(); // steps 130-139
+						detailEnd = System.currentTimeMillis();
+						Logger.log(LogMessageCategory.DEBUG,"RatesOpModeDistributionGenerator.determineDriveScheduleDistributionNonRamp ms="+(detailEnd-detailStart));
+
+						detailStart = System.currentTimeMillis();
 						calculateEnginePowerBySecond(); // steps 140-149
+						detailEnd = System.currentTimeMillis();
+						Logger.log(LogMessageCategory.DEBUG,"RatesOpModeDistributionGenerator.calculateEnginePowerBySecond ms="+(detailEnd-detailStart));
+
+						detailStart = System.currentTimeMillis();
 						determineOpModeIDPerSecond(); // steps 150-159
+						detailEnd = System.currentTimeMillis();
+						Logger.log(LogMessageCategory.DEBUG,"RatesOpModeDistributionGenerator.determineOpModeIDPerSecond ms="+(detailEnd-detailStart));
+
+						detailStart = System.currentTimeMillis();
 						calculateOpModeFractionsPerDriveSchedule(); // steps 160-169
+						detailEnd = System.currentTimeMillis();
+						Logger.log(LogMessageCategory.DEBUG,"RatesOpModeDistributionGenerator.calculateOpModeFractionsPerDriveSchedule ms="+(detailEnd-detailStart));
+
+						detailStart = System.currentTimeMillis();
 						preliminaryCalculateOpModeFractions(); // steps 170-179
+						detailEnd = System.currentTimeMillis();
+						Logger.log(LogMessageCategory.DEBUG,"RatesOpModeDistributionGenerator.preliminaryCalculateOpModeFractions ms="+(detailEnd-detailStart));
+
 						hasBeenSetup = true;
 					}
 				}
@@ -118,13 +176,17 @@ public class RatesOperatingModeDistributionGenerator extends Generator {
 				String alreadyKey = "calc|" + inContext.iterProcess.databaseKey;
 				if(!alreadyDoneFlags.contains(alreadyKey)) {
 					alreadyDoneFlags.add(alreadyKey);
-					calculateOpModeFractions(inContext.iterProcess.databaseKey); // steps 200-299
+
+					detailStart = System.currentTimeMillis();
+					calculateOpModeFractions(inContext); // steps 200-299
+					detailEnd = System.currentTimeMillis();
+					Logger.log(LogMessageCategory.DEBUG,"RatesOpModeDistributionGenerator.calculateOpModeFractions ms="+(detailEnd-detailStart));
 				}
 				
 				alreadyKey = "rates|" + inContext.iterProcess.databaseKey;
 				if(!alreadyDoneFlags.contains(alreadyKey)) {
 					alreadyDoneFlags.add(alreadyKey);
-					if(!isProjectDomain) {
+					if(!isProjectDomain && !USE_EXTERNAL_GENERATOR_FOR_DRIVE_CYCLES) {
 						/**
 						 * @step 900
 						 * @algorithm Update emission rate tables for Model Year Physics effects.
@@ -132,7 +194,10 @@ public class RatesOperatingModeDistributionGenerator extends Generator {
 						 * Since neither is affected by aerodynamics, only do this for Non-Project domain.
 						 * @condition Non-Project domain
 						**/
+						detailStart = System.currentTimeMillis();
 						modelYearPhysics.updateEmissionRateTables(db,inContext.iterProcess.databaseKey);
+						detailEnd = System.currentTimeMillis();
+						Logger.log(LogMessageCategory.DEBUG,"RatesOpModeDistributionGenerator.modelYearPhysics.updateEmissionRateTables ms="+(detailEnd-detailStart));
 					}
 				}
 			} else {
@@ -172,31 +237,6 @@ public class RatesOperatingModeDistributionGenerator extends Generator {
 
 		ResultSet rs = null;
 		try {
-			/**
-			 * @step 100
-			 * @algorithm Remove DriveScheduleAssoc records with isRamp='Y' but associated with RoadTypes with
-			 * rampFraction <= 0 since these are nonsensical conditions.
-			 * @output driveScheduleAssoc
-			 * @input roadType
-			 * @condition Non-Project domain
-			**/
-			sql = "SELECT dsa.sourceTypeID,dsa.roadTypeID,dsa.isRamp,dsa.driveScheduleID "+
-					"FROM DriveScheduleAssoc dsa, RoadType rt "+
-					"WHERE dsa.isRamp IN ('Y','y') AND "+
-					"dsa.roadTypeID = rt.roadTypeID AND "+
-					"rt.rampFraction <= 0";
-			rs = SQLRunner.executeQuery(db,sql);
-			while(rs.next()) {
-				sql = "DELETE FROM DriveScheduleAssoc "+
-						"WHERE isRamp IN ('Y','y') AND "+
-						"sourceTypeID = " + rs.getInt("sourceTypeID") + " AND " +
-						"roadTypeID = " + rs.getInt("roadTypeID") + " AND " +
-						"driveScheduleID = " + rs.getInt("driveScheduleID");
-				SQLRunner.executeSQL(db,sql);
-			}
-			rs.close();
-			rs = null;
-
 			//
 			// The documentation doesn't mention this but, going from the spreadsheet, speed bins
 			// with values below and above the lowest and highest drive schedule values are bound
@@ -297,8 +337,7 @@ public class RatesOperatingModeDistributionGenerator extends Generator {
 						"rsrt.roadTypeID = dsa.roadTypeID AND "+
 						"rsst.sourceTypeID = dsa.sourceTypeID AND "+
 						"ds.driveScheduleID = dsa.driveScheduleID AND "+
-						"ds.averageSpeed <= asb.avgBinSpeed AND "+
-						"(dsa.isRamp <> 'Y' AND dsa.isRamp <> 'y') "+
+						"ds.averageSpeed <= asb.avgBinSpeed "+
 					"GROUP BY "+
 						"dsa.sourceTypeID,"+
 						"dsa.roadTypeID,"+
@@ -344,8 +383,7 @@ public class RatesOperatingModeDistributionGenerator extends Generator {
 						"ds.driveScheduleID = dsa.driveScheduleID AND "+
 						"dsb.sourceTypeID = dsa.sourceTypeID AND "+
 						"dsb.roadTypeID = dsa.roadTypeID AND "+
-						"asb.avgBinSpeed < dsb.scheduleBoundLo AND "+
-						"(dsa.isRamp <> 'Y' AND dsa.isRamp <> 'y') ";
+						"asb.avgBinSpeed < dsb.scheduleBoundLo";
 			SQLRunner.executeSQL(db, sql);
 
 			sql = "CREATE TABLE IF NOT EXISTS BracketScheduleLo ("+
@@ -389,8 +427,7 @@ public class RatesOperatingModeDistributionGenerator extends Generator {
 						"dsa.driveScheduleID = ds.driveScheduleID AND "+
 						"dsa.sourceTypeID = bsl.sourceTypeID AND "+
 						"dsa.roadTypeID = bsl.roadTypeID AND "+
-						"ds.averageSpeed = bsl.loScheduleSpeed AND "+
-						"(dsa.isRamp <> 'Y' AND dsa.isRamp <> 'y') ";
+						"ds.averageSpeed = bsl.loScheduleSpeed";
 			SQLRunner.executeSQL(db, sql);
 
 			SQLRunner.executeSQL(db,"ANALYZE TABLE BracketScheduleLo");
@@ -442,8 +479,7 @@ public class RatesOperatingModeDistributionGenerator extends Generator {
 						"rsrt.roadTypeID = dsa.roadTypeID AND "+
 						"rsst.sourceTypeID = dsa.sourceTypeID AND "+
 						"ds.driveScheduleID = dsa.driveScheduleID AND "+
-						"ds.averageSpeed > asb.avgBinSpeed AND "+
-						"(dsa.isRamp <> 'Y' AND dsa.isRamp <> 'y') "+
+						"ds.averageSpeed > asb.avgBinSpeed "+
 					"GROUP BY "+
 						"dsa.sourceTypeID,"+
 						"dsa.roadTypeID,"+
@@ -489,8 +525,7 @@ public class RatesOperatingModeDistributionGenerator extends Generator {
 						"ds.driveScheduleID = dsa.driveScheduleID AND "+
 						"dsb.sourceTypeID = dsa.sourceTypeID AND "+
 						"dsb.roadTypeID = dsa.roadTypeID AND "+
-						"asb.avgBinSpeed > dsb.scheduleBoundHi AND "+
-						"(dsa.isRamp <> 'Y' AND dsa.isRamp <> 'y') ";
+						"asb.avgBinSpeed > dsb.scheduleBoundHi";
 			SQLRunner.executeSQL(db, sql);
 
 			SQLRunner.executeSQL(db,"ANALYZE TABLE BracketScheduleHi2");
@@ -536,8 +571,7 @@ public class RatesOperatingModeDistributionGenerator extends Generator {
 						"dsa.driveScheduleID = ds.driveScheduleID AND "+
 						"dsa.sourceTypeID = bsl.sourceTypeID AND "+
 						"dsa.roadTypeID = bsl.roadTypeID AND "+
-						"ds.averageSpeed = bsl.hiScheduleSpeed AND "+
-						"(dsa.isRamp <> 'Y' AND dsa.isRamp <> 'y') ";
+						"ds.averageSpeed = bsl.hiScheduleSpeed";
 			SQLRunner.executeSQL(db, sql);
 
 			SQLRunner.executeSQL(db,"ANALYZE TABLE BracketScheduleHi");
@@ -737,75 +771,6 @@ public class RatesOperatingModeDistributionGenerator extends Generator {
 	}
 
 	/**
-	 * Validate drive schedule proportions before determining drive schedule distribution.
-	 * @return true on success
-	**/
-	boolean validateDriveScheduleDistribution() {
-		String sql = "";
-		PreparedStatement statement = null;
-		ResultSet result = null;
-		int lastSourceType = -1;
-		int lastRoadType = -1;
-		int lastDriveScheduleID = -1;
-		try {
-			/**
-			 * @step 120
-			 * @algorithm Verify each road and source type combination has at least one associated non-ramp drive schedule.
-			 * Issue an error message for any combination that does not have one.
-			 * @input DriveScheduleAssoc
-			 * @input RunSpecRoadType
-			**/
-			sql = "SELECT DISTINCT dsa.SourceTypeID, dsa.RoadTypeID, dsa.IsRamp "
-					+ " FROM DriveScheduleAssoc dsa, RunSpecRoadType rsrt, "
-					+ " RunSpecSourceType rsst "
-					+ " WHERE dsa.roadTypeID = rsrt.roadTypeID"
-					+ " AND dsa.sourceTypeID = rsst.sourceTypeID"
-					+ " ORDER BY dsa.SourceTypeID, dsa.RoadTypeID, dsa.IsRamp";
-			statement = db.prepareStatement(sql);
-			result = SQLRunner.executeQuery(statement, sql);
-			lastSourceType = -1;
-			lastRoadType = -1;
-			boolean hasNonRamp = false;
-			while(result.next()) {
-				int sourceType = result.getInt(1);
-				int roadType = result.getInt(2);
-				boolean isNonRamp = result.getString(3).equalsIgnoreCase("N");
-				if(lastSourceType != sourceType || lastRoadType != roadType) {
-					if(lastSourceType >= 0 && !hasNonRamp) {
-						Logger.log(LogMessageCategory.ERROR,
-								"No non-ramp schedule for road type " + lastRoadType + " and "
-								+ "source type " + lastSourceType);
-						return false;
-					}
-					lastSourceType = sourceType;
-					lastRoadType = roadType;
-					hasNonRamp = isNonRamp;
-				} else {
-					hasNonRamp = hasNonRamp || isNonRamp;
-				}
-			}
-			if(lastSourceType >= 0 && !hasNonRamp) {
-				Logger.log(LogMessageCategory.ERROR,
-						"No non-ramp schedule for road type " + lastRoadType + " and "
-						+ "source type " + lastSourceType);
-				return false;
-			}
-		} catch(Exception e) {
-			Logger.logError(e, "Error while validating drive schedule distribution");
-			return false;
-		} finally {
-			if(statement!=null) {
-				try {
-					statement.close();
-				} catch (SQLException e) {
-					// Failure to close on a preparedStatment should not be an issue.
-				}
-			}
-		}
-		return true;
-	}
-
-	/**
 	 * Determine Distribution of Non Ramp Drive Schedules.
 	 * <p>This step determines the distribution of drive schedules which represents the sum of
 	 * all of the average speed bins. This is done for each source type, roadway type, day of
@@ -813,17 +778,6 @@ public class RatesOperatingModeDistributionGenerator extends Generator {
 	**/
 	void determineDriveScheduleDistributionNonRamp() {
 		String sql = "";
-
-		/**
-		 * @step 130
-		 * @algorithm rampFractionTerm = 1 - rampFraction, when conditions are met, 1 otherwise.
-		 * @condition Combining ramps with real road types
-		 * @input RoadType
-		**/
-		String oneMinusRampFraction = " * (1 - rt.rampFraction) ";
-		if(ExecutionRunSpec.theExecutionRunSpec.shouldSeparateRamps()) {
-			oneMinusRampFraction = " ";
-		}
 
 		try {
 			sql = "CREATE TABLE IF NOT EXISTS DriveScheduleFractionLo ("+
@@ -927,7 +881,6 @@ public class RatesOperatingModeDistributionGenerator extends Generator {
 					"roadTypeID            SMALLINT,"+
 					"avgSpeedBinID         SMALLINT,"+
 					"driveScheduleID       SMALLINT,"+
-					"isRamp                CHAR(1),"+
 					"driveScheduleFraction FLOAT,"+
 					"UNIQUE INDEX XPKDriveScheduleFraction ("+
 							"sourceTypeID, roadTypeID, avgSpeedBinID, driveScheduleID))";
@@ -935,7 +888,7 @@ public class RatesOperatingModeDistributionGenerator extends Generator {
 
 			/**
 			 * @step 130
-			 * @algorithm driveScheduleFraction = rampFractionTerm * (DriveScheduleFractionLo.driveScheduleFraction + DriveScheduleFractionHi.driveScheduleFraction).
+			 * @algorithm driveScheduleFraction = DriveScheduleFractionLo.driveScheduleFraction + DriveScheduleFractionHi.driveScheduleFraction.
 			 * @output DriveScheduleFraction
 			 * @input BracketScheduleHi
 			 * @input DriveScheduleFractionLo
@@ -948,16 +901,13 @@ public class RatesOperatingModeDistributionGenerator extends Generator {
 						"roadTypeID, "+
 						"avgSpeedBinID, "+
 						"driveScheduleID, "+
-						"isRamp, "+
 						"driveScheduleFraction) "+
 					"SELECT  "+
 						"bsh.sourceTypeID, "+
 						"bsh.roadTypeID, "+
 						"dsfh.avgSpeedBinID, "+
 						"bsh.driveScheduleID, "+
-						"dsa.isRamp, "+
 						"(dsfl.driveScheduleFraction + dsfh.driveScheduleFraction) "+
-							oneMinusRampFraction +
 					"FROM  "+
 						"BracketScheduleHi bsh, "+
 						"DriveScheduleFractionLo dsfl, "+
@@ -965,7 +915,6 @@ public class RatesOperatingModeDistributionGenerator extends Generator {
 						"RoadType rt, "+
 						"DriveScheduleAssoc dsa "+
 					"WHERE  "+
-						"(dsa.isRamp='N' OR dsa.isRamp='n') AND  "+
 						"bsh.sourceTypeID = dsfl.sourceTypeID AND "+
 						"bsh.roadTypeID = dsfl.roadTypeID AND  "+
 						"rt.roadTypeID = dsa.roadTypeID AND  "+
@@ -987,23 +936,19 @@ public class RatesOperatingModeDistributionGenerator extends Generator {
 						"roadTypeID, "+
 						"avgSpeedBinID, "+
 						"driveScheduleID, "+
-						"isRamp, "+
 						"driveScheduleFraction) "+
 					"SELECT  "+
 						"bsl.sourceTypeID, "+
 						"bsl.roadTypeID, "+
 						"dsfl.avgSpeedBinID, "+
 						"bsl.driveScheduleID, "+
-						"dsa.isRamp, "+
 						"dsfl.driveScheduleFraction "+
-						oneMinusRampFraction +
 					"FROM  "+
 						"BracketScheduleLo bsl, "+
 						"DriveScheduleFractionLo dsfl, "+
 						"RoadType rt, "+
 						"DriveScheduleAssoc dsa "+
 					"WHERE  "+
-						"(dsa.isRamp='N' OR dsa.isRamp='n') AND "+
 						"bsl.sourceTypeID = dsfl.sourceTypeID AND "+
 						"bsl.roadTypeID = dsfl.roadTypeID AND  "+
 						"bsl.roadTypeID = rt.roadTypeID AND "+
@@ -1021,23 +966,19 @@ public class RatesOperatingModeDistributionGenerator extends Generator {
 						"roadTypeID, "+
 						"avgSpeedBinID, "+
 						"driveScheduleID, "+
-						"isRamp, "+
 						"driveScheduleFraction) "+
 					"SELECT  "+
 						"bsh.sourceTypeID, "+
 						"bsh.roadTypeID, "+
 						"dsfh.avgSpeedBinID, "+
 						"bsh.driveScheduleID, "+
-						"dsa.isRamp, "+
 						"dsfh.driveScheduleFraction "+
-						oneMinusRampFraction +
 					"FROM  "+
 						"BracketScheduleHi bsh, "+
 						"DriveScheduleFractionHi dsfh, "+
 						"RoadType rt, "+
 						"DriveScheduleAssoc dsa "+
 					"WHERE  "+
-						"(dsa.isRamp='N' OR dsa.isRamp='n') AND  "+
 						"bsh.sourceTypeID = dsfh.sourceTypeID AND "+
 						"bsh.roadTypeID = dsfh.roadTypeID AND "+
 						"bsh.roadTypeID = rt.roadTypeID AND "+
@@ -1048,8 +989,8 @@ public class RatesOperatingModeDistributionGenerator extends Generator {
 						"bsh.driveScheduleID = dsa.driveScheduleID ";
 			SQLRunner.executeSQL(db, sql);
 
-			sql = "insert ignore into DriveScheduleFraction (sourceTypeID, roadTypeID, avgSpeedBinID, driveScheduleID, isRamp, driveScheduleFraction)"
-					+ " select tempSourceTypeID, roadTypeID, avgSpeedBinID, driveScheduleID, isRamp, driveScheduleFraction"
+			sql = "insert ignore into DriveScheduleFraction (sourceTypeID, roadTypeID, avgSpeedBinID, driveScheduleID, driveScheduleFraction)"
+					+ " select tempSourceTypeID, roadTypeID, avgSpeedBinID, driveScheduleID, driveScheduleFraction"
 					+ " from DriveScheduleFraction"
 					+ " inner join sourceUseTypePhysicsMapping on (realSourceTypeID=sourceTypeID)"
 					+ " where tempSourceTypeID <> realSourceTypeID";
@@ -1162,6 +1103,7 @@ public class RatesOperatingModeDistributionGenerator extends Generator {
 			 * @step 140
 			 * @algorithm Calculate speed and acceleration during the first second.
 			 * The acceleration of the 1st second = the acceleration of the 2nd second.
+			 * The acceleration calculation assumes that the grade = 0.
 			 * speed[t] = speed[t] * 0.44704.
 			 * acceleration[t] = (speed[t+1]-speed[t]) * 0.44704.
 			 * @output DriveScheduleSecond2
@@ -1275,7 +1217,7 @@ public class RatesOperatingModeDistributionGenerator extends Generator {
 
 	/**
 	 * Determine the operating mode bin for each second.
-	 * <p>The ESP value for each second is compared to the upper and lower bounds for the
+	 * <p>The VSP value for each second is compared to the upper and lower bounds for the
 	 * operating mode bins and a bin ID is assigned to each second. This is done for each
 	 * source type, drive schedule and second.</p>
 	**/
@@ -1322,7 +1264,7 @@ public class RatesOperatingModeDistributionGenerator extends Generator {
 						"DriveScheduleSecond dss2 "+
 					"WHERE "+
 						"dss.driveScheduleID = dss2.driveScheduleID AND "+
-						"dss2.second = dss.second - 1"; // dss2 is 1 second n the past
+						"dss2.second = dss.second - 1"; // dss2 is 1 second in the past
 			SQLRunner.executeSQL(db, sql);
 
 			// Add the 1st second using the acceleration of the 2nd second.
@@ -1372,6 +1314,7 @@ public class RatesOperatingModeDistributionGenerator extends Generator {
 							"sourceTypeID, driveScheduleID, second, polProcessID),"+
 					"UNIQUE INDEX XPKOpModeIDBySecond2 ("+
 							"sourceTypeID, driveScheduleID, polProcessID, second)"+
+					//",key speed1 (opModeID,polProcessID,VSP,speed)"+ // Slower!
 					")";
 			SQLRunner.executeSQL(db, sql);
 
@@ -1391,7 +1334,7 @@ public class RatesOperatingModeDistributionGenerator extends Generator {
 			**/
 			sql = "INSERT INTO OMDGPollutantProcess (polProcessID)"
 					+ " SELECT DISTINCT polProcessID"
-					+ " FROM OpModePolProcAssoc"; // RunSpecPollutantProcess
+					+ " FROM OpModePolProcAssoc";
 			SQLRunner.executeSQL(db, sql);
 
 			// Note: We cannot remove anything that already has an operating mode distribution
@@ -1633,6 +1576,7 @@ public class RatesOperatingModeDistributionGenerator extends Generator {
 			 * @output OpModeIDBySecond
 			**/
 			sql = "UPDATE OpModeIDBySecond SET OpModeID=IF(speed=0 and polProcessID=11609,501,if(speed<1.0,1,opModeID))";
+//					+ " where (speed=0 and polProcessID=11609) or (speed<1.0 and not (speed=0 and polProcessID=11609))";
 			SQLRunner.executeSQL(db, sql);
 		} catch (SQLException e) {
 			Logger.logSqlError(e, "Could not determine Operating Mode ID distribution.", sql);
@@ -1764,12 +1708,6 @@ public class RatesOperatingModeDistributionGenerator extends Generator {
 		String sql = "";
 		try {
 			String[] statements = {
-				"insert ignore into roadOpModeDistribution (sourceTypeID,opModeID,roadTypeID,isRamp,avgSpeedBinID,opModeFraction,opModeFractionCV)"
-					+ " select tempSourceTypeID,opModeID,roadTypeID,isRamp,avgSpeedBinID,opModeFraction,opModeFractionCV"
-					+ " from roadOpModeDistribution"
-					+ " inner join sourceUseTypePhysicsMapping on (realSourceTypeID=sourceTypeID)"
-					+ " where tempSourceTypeID <> realSourceTypeID",
-
 				"drop table if exists OpModeFraction2",
 				"drop table if exists OpModeFraction2a",
 
@@ -1799,104 +1737,6 @@ public class RatesOperatingModeDistributionGenerator extends Generator {
 				"TRUNCATE OpModeFraction2",
 				"TRUNCATE OpModeFraction2a",
 
-				// Add ramp-based information (which has already been scaled by rampFraction)
-				/*
-				"INSERT INTO OpModeFraction2a ("+
-						"sourceTypeID,"+
-						"roadTypeID,"+
-						"avgSpeedBinID,"+
-						"opModeID,"+
-						"polProcessID,"+
-						"opModeFraction) "+
-					"SELECT "+
-						"ropm.sourceTypeID,"+
-						"ropm.roadTypeID,"+
-						"ropm.avgSpeedBinID,"+
-						"ropm.opModeID,"+
-						"omppa.polProcessID,"+
-						"ropm.opModeFraction "+
-					"FROM "+
-						"OMDGRampOpMode ropm,"+
-						"OpModePolProcAssocTrimmed omppa " +
-					"WHERE "+
-						"omppa.opModeID = ropm.opModeID AND "+
-						"omppa.polProcessID not in (11710) ",
-				*/
-
-				/**
-				 * @step 170
-				 * @algorithm Add ramp data.
-				 * opModeFraction = opModeFraction * rampFraction.
-				 * @output OpModeFraction2a
-				 * @input roadType
-				 * @input roadOpModeDistribution
-				 * @input OpModePolProcAssocTrimmed
-				 * @condition Not separating ramps
-				 * @condition Not polProcessID 11710
-				 * @condition 0 < rampFraction < 1
-				**/
-				ExecutionRunSpec.theExecutionRunSpec.shouldSeparateRamps()?
-					"" // don't add highway fractions when separating ramps
-					:
-					"INSERT INTO OpModeFraction2a ("
-						+ " sourceTypeID,"
-						+ " roadTypeID,"
-						+ " avgSpeedBinID,"
-						+ " opModeID,"
-						+ " polProcessID,"
-						+ " opModeFraction)"
-					+ " SELECT"
-						+ " romd.sourceTypeID,"
-						+ " romd.roadTypeID,"
-						+ " romd.avgSpeedBinID,"
-						+ " romd.opModeID,"
-						+ " omppa.polProcessID,"
-						+ " romd.opModeFraction * rt.rampFraction"
-					+ " FROM"
-						+ " roadType rt"
-						+ " inner join roadOpModeDistribution romd on (romd.roadTypeID=rt.roadTypeID)"
-						+ " inner join OpModePolProcAssocTrimmed omppa on (omppa.opModeID=romd.opModeID)"
-					+ " WHERE"
-						+ " rt.rampFraction < 1 and rt.rampFraction > 0"
-						+ " and omppa.polProcessID not in (11710)",
-
-				/**
-				 * @step 170
-				 * @algorithm Add data from roads that are 100% ramps.
-				 * opModeFraction = opModeFraction * rampFraction.
-				 * @output OpModeFraction2a
-				 * @input roadType
-				 * @input roadOpModeDistribution
-				 * @input OpModePolProcAssocTrimmed
-				 * @condition Separating ramps
-				 * @condition Not polProcessID 11710
-				 * @condition rampFraction = 1
-				**/
-				ExecutionRunSpec.theExecutionRunSpec.shouldSeparateRamps()?
-					"INSERT INTO OpModeFraction2a ("
-						+ " sourceTypeID,"
-						+ " roadTypeID,"
-						+ " avgSpeedBinID,"
-						+ " opModeID,"
-						+ " polProcessID,"
-						+ " opModeFraction)"
-					+ " SELECT"
-						+ " romd.sourceTypeID,"
-						+ " romd.roadTypeID,"
-						+ " romd.avgSpeedBinID,"
-						+ " romd.opModeID,"
-						+ " omppa.polProcessID,"
-						+ " romd.opModeFraction"
-					+ " FROM"
-						+ " roadType rt"
-						+ " inner join roadOpModeDistribution romd on (romd.roadTypeID=rt.roadTypeID)"
-						+ " inner join OpModePolProcAssocTrimmed omppa on (omppa.opModeID=romd.opModeID)"
-					+ " WHERE"
-						+ " rt.rampFraction >= 1"
-						+ " and omppa.polProcessID not in (11710)"
-					:
-					"",
-
 				/**
 				 * @step 170
 				 * @algorithm Add non-ramp-based information.
@@ -1905,7 +1745,6 @@ public class RatesOperatingModeDistributionGenerator extends Generator {
 				 * @input DriveScheduleFraction
 				 * @input OpModeFractionBySchedule
 				 * @input OpModePolProcAssocTrimmed
-				 * @condition Separating ramps
 				 * @condition Not polProcessID 11710
 				**/
 				"INSERT INTO OpModeFraction2a ("+
@@ -1939,6 +1778,8 @@ public class RatesOperatingModeDistributionGenerator extends Generator {
 						"omppa.polProcessID,"+
 						"omfs.opModeID",
 
+				"updateOpModeFraction2a",
+
 				"ANALYZE TABLE OpModeFraction2a",
 
 				/**
@@ -1969,12 +1810,13 @@ public class RatesOperatingModeDistributionGenerator extends Generator {
 
 				/**
 				 * @step 170
-				 * @algorithm Add all running operating mode 300.
+				 * @algorithm Add running operating mode 300 to all source types.
 				 * opModeFraction[opModeID=300]=1.
 				 * @output OpModeFraction2
 				 * @input OpModeFraction2a
+				 * @input sourceUseTypePhysicsMapping
 				**/
-				"INSERT INTO OpModeFraction2 ("+
+				"INSERT IGNORE INTO OpModeFraction2 ("+
 						"sourceTypeID,"+
 						"roadTypeID,"+
 						"avgSpeedBinID,"+
@@ -1989,9 +1831,10 @@ public class RatesOperatingModeDistributionGenerator extends Generator {
 						"polProcessID,"+
 						"1 as opModeFraction "+
 					"FROM "+
-						"OpModeFraction2a "+
-					"GROUP BY "+
-						"roadTypeID, sourceTypeID, avgSpeedBinID, polProcessID",
+						"(select distinct roadTypeID, avgSpeedBinID, polProcessID from OpModeFraction2a) T, "+
+						"(select distinct realSourceTypeID as sourceTypeID from sourceUseTypePhysicsMapping union select distinct tempSourceTypeID as sourceTypeID from sourceUseTypePhysicsMapping) T2",
+//					"GROUP BY "+
+//						"roadTypeID, sourceTypeID, avgSpeedBinID, polProcessID",
 
 				"update OpModeFraction2, avgSpeedBin set OpModeFraction2.avgBinSpeed=avgSpeedBin.avgBinSpeed where OpModeFraction2.avgSpeedBinID=avgSpeedBin.avgSpeedBinID",
 
@@ -2001,7 +1844,11 @@ public class RatesOperatingModeDistributionGenerator extends Generator {
 			for(int i=0;i<statements.length;i++) {
 				sql = statements[i];
 				if(sql != null && sql.length() > 0) {
-					SQLRunner.executeSQL(db,sql);
+					if(sql.equalsIgnoreCase("updateOpModeFraction2a")) {
+						modelYearPhysics.updateOpModes(db,"OpModeFraction2a");
+					} else {
+						SQLRunner.executeSQL(db,sql);
+					}
 				}
 			}
 		} catch (SQLException e) {
@@ -2011,9 +1858,10 @@ public class RatesOperatingModeDistributionGenerator extends Generator {
 
 	/**
 	 * Calculate overall operating mode fractions.
-	 * @param processID The process being generated.
+	 * @param inContext current iteration context
 	**/
-	void calculateOpModeFractions(int processID) {
+	void calculateOpModeFractions(MasterLoopContext inContext) {
+		int processID = inContext.iterProcess.databaseKey;
 		if(processID == 90) {
 			calculateExtendedIdleOpModeFractions(); // steps 200-209
 			return;
@@ -2027,125 +1875,39 @@ public class RatesOperatingModeDistributionGenerator extends Generator {
 		String sql = "";
 		SQLRunner.Query query = new SQLRunner.Query();
 		try {
-			/**
-			 * @step 220
-			 * @algorithm Find [sourceTypeID, roadTypeID, avgSpeedBinID, polProcessID] combinations
-			 * that already exist within RatesOpModeDistribution.
-			 * @condition Non-Project domain Running Exhaust
-			 * @output OMDGOMDKeys
-			 * @input RatesOpModeDistribution
-			 * @input PollutantProcessAssoc
-			**/
-			sql = "create table if not exists OMDGOMDKeys ( "+
-					"	sourceTypeID smallint(6) NOT NULL DEFAULT '0', "+
-					"   avgSpeedBinID smallint(6) NOT NULL DEFAULT '0', "+
-					"	roadTypeID smallint(6) NOT NULL DEFAULT '0', "+
-					"	polProcessID int NOT NULL DEFAULT '0', "+
-					"	primary key (avgSpeedBinID, roadTypeID, polProcessID, sourceTypeID) "+
-					")";
-			SQLRunner.executeSQL(db, sql);
-
-			sql = "truncate table OMDGOMDKeys";
-			SQLRunner.executeSQL(db, sql);
-
-			sql = "insert into OMDGOMDKeys (sourceTypeID, avgSpeedBinID, roadTypeID, polProcessID) "+
-					"select distinct romd.sourceTypeID, romd.avgSpeedBinID, romd.roadTypeID, romd.polProcessID "+
-					"from RatesOpModeDistribution romd "+
-					"inner join PollutantProcessAssoc ppa on (ppa.polProcessID=romd.polProcessID) "+
-					"where ppa.processID = " + processID;
-			SQLRunner.executeSQL(db, sql);
-
-			/**
-			 * @step 220
-			 * @algorithm Add to RatesOpModeDistribution those entries that don't already have records.
-			 * Add records that do not appear within OMDGOMDKeys.
-			 * @condition Non-Project domain Running Exhaust
-			 * @output RatesOpModeDistribution
-			 * @input OpModeFraction2
-			 * @input OMDGOMDKeys
-			 * @input runSpecHourDay
-			**/
-			sql = "INSERT IGNORE INTO RatesOpModeDistribution ("+
-						"sourceTypeID,"+
-						"roadTypeID,"+
-						"avgSpeedBinID,"+
-						"avgBinSpeed,"+
-						"polProcessID,"+
-						"hourDayID,"+
-						"opModeID,"+
-						"opModeFraction) "+
-					"SELECT "+
-						"omf2.sourceTypeID,"+
-						"omf2.roadTypeID,"+
-						"omf2.avgSpeedBinID,"+
-						"omf2.avgBinSpeed,"+
-						"omf2.polProcessID,"+
-						"rshd.hourDayID,"+
-						"omf2.opModeID,"+
-						"omf2.opModeFraction "+
-					"FROM "+
-						"OpModeFraction2 omf2 "+
-						"left outer join OMDGOMDKeys k on ( "+
-							"k.roadTypeID=omf2.roadTypeID "+
-							"and k.avgSpeedBinID=omf2.avgSpeedBinID "+
-							"and k.polProcessID=omf2.polProcessID "+
-							"and k.sourceTypeID=omf2.sourceTypeID "+
-						") "+
-						", runSpecHourDay rshd "+
-					"WHERE "+
-						"k.roadTypeID is null "+
-						"and k.polProcessID is null "+
-						"and k.sourceTypeID is null "+
-						"and k.avgSpeedBinID is null";
-			SQLRunner.executeSQL(db, sql);
-
-			// Copy representing entries to those being represented, but only if those
-			// being represented are not already present.
-
-			/**
-			 * @step 220
-			 * @algorithm Clear all entries from OMDGOMDKeys.
-			 * @condition Non-Project domain Running Exhaust
-			 * @output OMDGOMDKeys
-			**/
-			sql = "truncate table OMDGOMDKeys";
-			SQLRunner.executeSQL(db, sql);
-
-			/**
-			 * @step 220
-			 * @algorithm Find [sourceTypeID, roadTypeID, avgSpeedBinID, polProcessID] combinations
-			 * that already exist within RatesOpModeDistribution.
-			 * @condition Non-Project domain Running Exhaust
-			 * @output OMDGOMDKeys
-			 * @input RatesOpModeDistribution
-			 * @input PollutantProcessAssoc
-			**/
-			sql = "insert into OMDGOMDKeys (sourceTypeID, avgSpeedBinID, roadTypeID, polProcessID) "+
-					"select distinct romd.sourceTypeID, romd.avgSpeedBinID, romd.roadTypeID, romd.polProcessID "+
-					"from RatesOpModeDistribution romd "+
-					"inner join PollutantProcessAssoc ppa on (ppa.polProcessID=romd.polProcessID) "+
-					"where ppa.processID = " + processID;
-			SQLRunner.executeSQL(db, sql);
-
-			ArrayList<String> ppaList = new ArrayList<String>();
-			ArrayList<String> repPPAList = new ArrayList<String>();
-			sql = "select polProcessID, representingPolProcessID"
-					+ " from OMDGPolProcessRepresented";
-			query.open(db,sql);
-			while(query.rs.next()) {
-				ppaList.add(query.rs.getString(1));
-				repPPAList.add(query.rs.getString(2));
-			}
-			query.close();
-			for(int i=0;i<ppaList.size();i++) {
-				String ppa = ppaList.get(i);
-				String repPPA = repPPAList.get(i);
-
+			if(!USE_EXTERNAL_GENERATOR_FOR_DRIVE_CYCLES) {
 				/**
 				 * @step 220
-				 * @algorithm Copy representing entries to those being represented, but only if those
-				 * being represented are not already present. Add to RatesOpModeDistribution those 
-				 * entries that don't already have records. Add records that do not appear within OMDGOMDKeys.
+				 * @algorithm Find [sourceTypeID, roadTypeID, avgSpeedBinID, polProcessID] combinations
+				 * that already exist within RatesOpModeDistribution.
+				 * @condition Non-Project domain Running Exhaust
+				 * @output OMDGOMDKeys
+				 * @input RatesOpModeDistribution
+				 * @input PollutantProcessAssoc
+				**/
+				sql = "create table if not exists OMDGOMDKeys ( "+
+						"	sourceTypeID smallint(6) NOT NULL DEFAULT '0', "+
+						"   avgSpeedBinID smallint(6) NOT NULL DEFAULT '0', "+
+						"	roadTypeID smallint(6) NOT NULL DEFAULT '0', "+
+						"	polProcessID int NOT NULL DEFAULT '0', "+
+						"	primary key (avgSpeedBinID, roadTypeID, polProcessID, sourceTypeID) "+
+						")";
+				SQLRunner.executeSQL(db, sql);
+	
+				sql = "truncate table OMDGOMDKeys";
+				SQLRunner.executeSQL(db, sql);
+	
+				sql = "insert into OMDGOMDKeys (sourceTypeID, avgSpeedBinID, roadTypeID, polProcessID) "+
+						"select distinct romd.sourceTypeID, romd.avgSpeedBinID, romd.roadTypeID, romd.polProcessID "+
+						"from RatesOpModeDistribution romd "+
+						"inner join PollutantProcessAssoc ppa on (ppa.polProcessID=romd.polProcessID) "+
+						"where ppa.processID = " + processID;
+				SQLRunner.executeSQL(db, sql);
+	
+				/**
+				 * @step 220
+				 * @algorithm Add to RatesOpModeDistribution those entries that don't already have records.
+				 * Add records that do not appear within OMDGOMDKeys.
 				 * @condition Non-Project domain Running Exhaust
 				 * @output RatesOpModeDistribution
 				 * @input OpModeFraction2
@@ -2166,43 +1928,157 @@ public class RatesOperatingModeDistributionGenerator extends Generator {
 							"omf2.roadTypeID,"+
 							"omf2.avgSpeedBinID,"+
 							"omf2.avgBinSpeed,"+
-							ppa + " as polProcessID,"+
+							"omf2.polProcessID,"+
 							"rshd.hourDayID,"+
 							"omf2.opModeID,"+
 							"omf2.opModeFraction "+
 						"FROM "+
 							"OpModeFraction2 omf2 "+
 							"left outer join OMDGOMDKeys k on ( "+
-								"k.avgSpeedBinID=omf2.avgSpeedBinID "+
-								"and k.polProcessID=" + ppa + " "+
+								"k.roadTypeID=omf2.roadTypeID "+
+								"and k.avgSpeedBinID=omf2.avgSpeedBinID "+
+								"and k.polProcessID=omf2.polProcessID "+
 								"and k.sourceTypeID=omf2.sourceTypeID "+
-								"and k.roadTypeID=omf2.roadTypeID "+
 							") "+
 							", runSpecHourDay rshd "+
 						"WHERE "+
-							"k.avgSpeedBinID is null "+
+							"k.roadTypeID is null "+
 							"and k.polProcessID is null "+
 							"and k.sourceTypeID is null "+
-							"and k.roadTypeID is null "+
-							"and omf2.polProcessID =" + repPPA;
+							"and k.avgSpeedBinID is null";
 				SQLRunner.executeSQL(db, sql);
-			}
-
-			modelYearPhysics.updateOperatingModeDistribution(db,"RatesOpModeDistribution");
-			SQLRunner.executeSQL(db,"ANALYZE TABLE RatesOpModeDistribution");
-
-			// Get distinct polProcessID in OpModeDistributionTemp as these are the ones to
-			// be cleaned out of OpModeDistribution
-			sql = "SELECT DISTINCT polProcessID FROM OpModeFraction2";
-			polProcessIDs = "";
-			query.open(db,sql);
-			while(query.rs.next()) {
-				if(polProcessIDs.length() > 0) {
-					polProcessIDs += ",";
+	
+				// Copy representing entries to those being represented, but only if those
+				// being represented are not already present.
+	
+				/**
+				 * @step 220
+				 * @algorithm Clear all entries from OMDGOMDKeys.
+				 * @condition Non-Project domain Running Exhaust
+				 * @output OMDGOMDKeys
+				**/
+				sql = "truncate table OMDGOMDKeys";
+				SQLRunner.executeSQL(db, sql);
+	
+				/**
+				 * @step 220
+				 * @algorithm Find [sourceTypeID, roadTypeID, avgSpeedBinID, polProcessID] combinations
+				 * that already exist within RatesOpModeDistribution.
+				 * @condition Non-Project domain Running Exhaust
+				 * @output OMDGOMDKeys
+				 * @input RatesOpModeDistribution
+				 * @input PollutantProcessAssoc
+				**/
+				sql = "insert into OMDGOMDKeys (sourceTypeID, avgSpeedBinID, roadTypeID, polProcessID) "+
+						"select distinct romd.sourceTypeID, romd.avgSpeedBinID, romd.roadTypeID, romd.polProcessID "+
+						"from RatesOpModeDistribution romd "+
+						"inner join PollutantProcessAssoc ppa on (ppa.polProcessID=romd.polProcessID) "+
+						"where ppa.processID = " + processID;
+				SQLRunner.executeSQL(db, sql);
+	
+				ArrayList<String> ppaList = new ArrayList<String>();
+				ArrayList<String> repPPAList = new ArrayList<String>();
+				sql = "select polProcessID, representingPolProcessID"
+						+ " from OMDGPolProcessRepresented";
+				query.open(db,sql);
+				while(query.rs.next()) {
+					ppaList.add(query.rs.getString(1));
+					repPPAList.add(query.rs.getString(2));
 				}
-				polProcessIDs += query.rs.getString(1);
+				query.close();
+				for(int i=0;i<ppaList.size();i++) {
+					String ppa = ppaList.get(i);
+					String repPPA = repPPAList.get(i);
+	
+					/**
+					 * @step 220
+					 * @algorithm Copy representing entries to those being represented, but only if those
+					 * being represented are not already present. Add to RatesOpModeDistribution those 
+					 * entries that don't already have records. Add records that do not appear within OMDGOMDKeys.
+					 * @condition Non-Project domain Running Exhaust
+					 * @output RatesOpModeDistribution
+					 * @input OpModeFraction2
+					 * @input OMDGOMDKeys
+					 * @input runSpecHourDay
+					**/
+					sql = "INSERT IGNORE INTO RatesOpModeDistribution ("+
+								"sourceTypeID,"+
+								"roadTypeID,"+
+								"avgSpeedBinID,"+
+								"avgBinSpeed,"+
+								"polProcessID,"+
+								"hourDayID,"+
+								"opModeID,"+
+								"opModeFraction) "+
+							"SELECT "+
+								"omf2.sourceTypeID,"+
+								"omf2.roadTypeID,"+
+								"omf2.avgSpeedBinID,"+
+								"omf2.avgBinSpeed,"+
+								ppa + " as polProcessID,"+
+								"rshd.hourDayID,"+
+								"omf2.opModeID,"+
+								"omf2.opModeFraction "+
+							"FROM "+
+								"OpModeFraction2 omf2 "+
+								"left outer join OMDGOMDKeys k on ( "+
+									"k.avgSpeedBinID=omf2.avgSpeedBinID "+
+									"and k.polProcessID=" + ppa + " "+
+									"and k.sourceTypeID=omf2.sourceTypeID "+
+									"and k.roadTypeID=omf2.roadTypeID "+
+								") "+
+								", runSpecHourDay rshd "+
+							"WHERE "+
+								"k.avgSpeedBinID is null "+
+								"and k.polProcessID is null "+
+								"and k.sourceTypeID is null "+
+								"and k.roadTypeID is null "+
+								"and omf2.polProcessID =" + repPPA;
+					SQLRunner.executeSQL(db, sql);
+				}
 			}
-			query.close();
+
+			if(processID == 1) {
+				if(USE_EXTERNAL_GENERATOR) {
+					if(!shouldDeferForBaseRateGenerator) {
+						if(runLocalExternalGenerator(inContext,"SourceTypePhysics.updateOperatingModeDistribution.RatesOpModeDistribution",null,null,null)) {
+							Logger.log(LogMessageCategory.DEBUG,"Success running the external generator in RatesOpModeDistribution");
+						} else {
+							Logger.log(LogMessageCategory.ERROR,"Unable to run external generator in RatesOpModeDistribution");
+						}
+					}
+				} else {
+					/*
+					Logger.log(LogMessageCategory.DEBUG,"Making backup copy of RatesOpModeDistribution into RatesOpModeDistributionSQL...");
+					SQLRunner.executeSQL(db, "drop table if exists RatesOpModeDistributionSQLBackup");
+					SQLRunner.executeSQL(db, "create table RatesOpModeDistributionSQLBackup like RatesOpModeDistribution");
+					SQLRunner.executeSQL(db, "insert into RatesOpModeDistributionSQLBackup select * from RatesOpModeDistribution");
+					*/
+					Logger.log(LogMessageCategory.DEBUG,"Using SQL-based SourceTypePhysics.updateOperatingModeDistribution for RatesOpModeDistribution...");
+					modelYearPhysics.updateOperatingModeDistribution(db,"RatesOpModeDistribution");
+					Logger.log(LogMessageCategory.DEBUG,"Done using SQL-based SourceTypePhysics.updateOperatingModeDistribution for RatesOpModeDistribution.");
+				}
+			}
+			polProcessIDs = "";
+
+			if(!USE_EXTERNAL_GENERATOR_FOR_DRIVE_CYCLES) {
+				Logger.log(LogMessageCategory.DEBUG,"Analyzing RatesOpModeDistribution...");
+				SQLRunner.executeSQL(db,"ANALYZE TABLE RatesOpModeDistribution");
+				Logger.log(LogMessageCategory.DEBUG,"Done analyzing RatesOpModeDistribution.");
+
+				// Get distinct polProcessID in OpModeDistributionTemp as these are the ones to
+				// be cleaned out of OpModeDistribution
+				sql = "SELECT DISTINCT polProcessID FROM OpModeFraction2";
+				polProcessIDs = "";
+				query.open(db,sql);
+				while(query.rs.next()) {
+					if(polProcessIDs.length() > 0) {
+						polProcessIDs += ",";
+					}
+					polProcessIDs += query.rs.getString(1);
+				}
+				query.close();
+			}
 		} catch (SQLException e) {
 			Logger.logSqlError(e,"Could not determine final Rates Operating Mode Distribution.",sql);
 		} finally {
@@ -2294,7 +2170,7 @@ public class RatesOperatingModeDistributionGenerator extends Generator {
 						"processID = 90 and sourceTypeID=62";
 			SQLRunner.executeSQL(db, sql);
 
-			modelYearPhysics.updateOperatingModeDistribution(db,"RatesOpModeDistribution");
+			//modelYearPhysics.updateOperatingModeDistribution(db,"RatesOpModeDistribution");
 			SQLRunner.executeSQL(db,"ANALYZE TABLE RatesOpModeDistribution");
 		} catch (SQLException e) {
 			Logger.logSqlError(e,"Could not determine final Rates Operating Mode Distribution.",sql);

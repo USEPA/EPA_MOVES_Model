@@ -25,7 +25,7 @@ import java.io.*;
  * Implements a Control Strategy for AVFT (Alternative Vehicle Fuels & Technologies)
  *
  * @author		Wesley Faler
- * @version		2014-01-23
+ * @version		2016-10-04
 **/
 public class AVFTControlStrategy extends InternalControlStrategy
 		implements InternalControlStrategySingleInstanceOnly, InternalControlStrategyUseImporterOnly,
@@ -254,7 +254,7 @@ public class AVFTControlStrategy extends InternalControlStrategy
 			sql = "select sourceTypeID, fuelTypeID, engtechID from fuelEngTechAssoc";
 			query.open(db,sql);
 			while(query.rs.next()) {
-				Integer sourceTypeID = new Integer(query.rs.getInt(1));
+				Integer sourceTypeID = Integer.valueOf(query.rs.getInt(1));
 				int fuelTypeID = query.rs.getInt(2);
 				int engTechID = query.rs.getInt(3);
 				TreeSet<String> s = fuelEngColumnNames.get(sourceTypeID);
@@ -315,7 +315,7 @@ public class AVFTControlStrategy extends InternalControlStrategy
 					return false;
 				}
 				int modelYearID = ti.intValue();
-				if(modelYearID < 1960 || modelYearID > 2050) {
+				if(modelYearID < 1960 || modelYearID > 2060) {
 					result = false;
 					ts = "Warning: Invalid modelYearID " + modelYearID;
 					if(!messageDuplicates.contains(ts)) {
@@ -329,7 +329,7 @@ public class AVFTControlStrategy extends InternalControlStrategy
 					sourceModelYearsSeen.add(sourceModelYearKey);
 					// Zero all fraction information for this sourcetype/modelyear combination.
 					// This prevents default data from conflicting with imported information.
-					TreeSet<String> s = fuelEngColumnNames.get(new Integer(sourceTypeID));
+					TreeSet<String> s = fuelEngColumnNames.get(Integer.valueOf(sourceTypeID));
 					if(s != null) {
 						if(guiData != null) {
 							for(Iterator<String> i=s.iterator();i.hasNext();) {
@@ -375,7 +375,7 @@ public class AVFTControlStrategy extends InternalControlStrategy
 				}
 
 				// Check sourceTypeID/fuelTypeID/engTechID combination
-				TreeSet<String> fe = fuelEngColumnNames.get(new Integer(sourceTypeID));
+				TreeSet<String> fe = fuelEngColumnNames.get(Integer.valueOf(sourceTypeID));
 				if(fe != null) {
 					String feKey = "Cat1Fuel" + fuelTypeID + "Engine" + engTechID;
 					if(!fe.contains(feKey)) {
@@ -489,7 +489,7 @@ public class AVFTControlStrategy extends InternalControlStrategy
 					}
 
 					if(sourceTypeIDInt == null || sourceTypeIDInt.intValue() != sourceTypeID) {
-						sourceTypeIDInt = new Integer(sourceTypeID);
+						sourceTypeIDInt = Integer.valueOf(sourceTypeID);
 					}
 					// Filter to use only source types in the current RunSpec
 					if(!manager.doesInclude(ImporterManager.FILTER_SOURCE,sourceTypeIDInt)) {
@@ -497,7 +497,7 @@ public class AVFTControlStrategy extends InternalControlStrategy
 					}
 
 					if(modelYearIDInt == null || modelYearIDInt.intValue() != modelYearID) {
-						modelYearIDInt = new Integer(modelYearID);
+						modelYearIDInt = Integer.valueOf(modelYearID);
 					}
 					// Filter to use only model years needed by the current RunSpec
 					if(!manager.doesInclude(ImporterManager.FILTER_MODELYEARID,modelYearIDInt)) {
@@ -507,7 +507,7 @@ public class AVFTControlStrategy extends InternalControlStrategy
 					// Do not filter by fuel type during export.
 					/*
 					if(fuelTypeIDInt == null || fuelTypeIDInt.intValue() != fuelTypeID) {
-						fuelTypeIDInt = new Integer(fuelTypeID);
+						fuelTypeIDInt = Integer.valueOf(fuelTypeID);
 					}
 					// Filter to use only fuel types in the current RunSpec
 					if(!manager.doesInclude(ImporterManager.FILTER_FUEL,fuelTypeIDInt)) {
@@ -527,7 +527,7 @@ public class AVFTControlStrategy extends InternalControlStrategy
 					int sourceTypeID = tableSourceUseType.getInt(rowSUT,"SourceTypeId"); // was .getString
 
 					// Filter to use only source types in the current RunSpec
-					if(!manager.doesInclude(ImporterManager.FILTER_SOURCE,new Integer(sourceTypeID))) {
+					if(!manager.doesInclude(ImporterManager.FILTER_SOURCE,Integer.valueOf(sourceTypeID))) {
 						continue;
 					}
 
@@ -545,7 +545,7 @@ public class AVFTControlStrategy extends InternalControlStrategy
 						int modelYearID = tbData.getInt(rowDATA,"YearId"); // was .getString
 
 						// Filter to use only model years needed by the current RunSpec
-						if(!manager.doesInclude(ImporterManager.FILTER_MODELYEARID,new Integer(modelYearID))) {
+						if(!manager.doesInclude(ImporterManager.FILTER_MODELYEARID,Integer.valueOf(modelYearID))) {
 							continue;
 						}
 
@@ -572,7 +572,7 @@ public class AVFTControlStrategy extends InternalControlStrategy
 								// Do not filter by fuel type during export.
 								/*
 								// Filter to use only fuel types in the current RunSpec
-								if(!manager.doesInclude(ImporterManager.FILTER_FUEL,new Integer(fuelTypeID))) {
+								if(!manager.doesInclude(ImporterManager.FILTER_FUEL,Integer.valueOf(fuelTypeID))) {
 									continue;
 								}
 								*/

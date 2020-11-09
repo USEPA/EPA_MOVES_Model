@@ -40,7 +40,7 @@ public class NewAction extends JLFAbstractAction {
 		putValue(LARGE_ICON, getIcon(LARGE_ICON_NEW));
 		putValue(Action.SHORT_DESCRIPTION, SHORT_DESCRIPTION_NEW);
 		putValue(Action.LONG_DESCRIPTION, LONG_DESCRIPTION_NEW);
-		putValue(Action.MNEMONIC_KEY, new Integer(MNEMONIC_KEY_NEW));
+		putValue(Action.MNEMONIC_KEY, Integer.valueOf(MNEMONIC_KEY_NEW));
 		putValue(Action.ACTION_COMMAND_KEY, ACTION_COMMAND_KEY_NEW);
 	}
 }

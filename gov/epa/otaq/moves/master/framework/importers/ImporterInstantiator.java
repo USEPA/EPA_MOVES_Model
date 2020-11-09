@@ -12,7 +12,7 @@ import java.util.*;
  *
  * @author		Wesley Faler
  * @author		Don Smith
- * @version		2015-05-21
+ * @version		2017-09-30
 **/
 public class ImporterInstantiator {
 	/**
@@ -47,8 +47,6 @@ public class ImporterInstantiator {
 			"gov.epa.otaq.moves.master.implementation.importers.FuelFormulationImporter",
 		"Meteorology Data", "zonemonthhour", "|general|county|project|nonroad|",
 			"gov.epa.otaq.moves.master.implementation.importers.MeteorologyImporter",
-		"Ramp Fraction", "rampfraction", "|general|county|",
-			"gov.epa.otaq.moves.master.implementation.importers.RampFractionImporter",
 		"Road Type Distribution", "roadtypedistribution", "|general|county|",
 			"gov.epa.otaq.moves.master.implementation.importers.RoadTypeDistributionImporter",
 		"Source Type Population", "sourcetypepopulation", "|general|county|",
@@ -61,6 +59,8 @@ public class ImporterInstantiator {
 			"gov.epa.otaq.moves.master.implementation.importers.ZoneImporter",
 		"Hotelling", "hotelling", "|general|county|project|",
 			"gov.epa.otaq.moves.master.implementation.importers.HotellingImporter",
+		"Idle", "idle", "|county|",
+			"gov.epa.otaq.moves.master.implementation.importers.IdleImporter",
 		"I/M", "imcoverage", "|general|county|project|",
 			"gov.epa.otaq.moves.master.implementation.importers.IMImporter",
 		"Retrofit Data", "onroadretrofit", "|general|county|project|",
@@ -208,9 +208,9 @@ public class ImporterInstantiator {
 	private static synchronized IImporter createByClassName(String className, ImporterManager manager) {
 		activeManager = manager;
 		try {
-			Class c = Class.forName(className);
+			Class<?> c = Class.forName(className);
 			try {
-				Object object = c.newInstance();
+				Object object = c.getConstructor().newInstance();
 				IImporter importer = (IImporter)object;
 				return importer;
 			} catch(Exception e) {

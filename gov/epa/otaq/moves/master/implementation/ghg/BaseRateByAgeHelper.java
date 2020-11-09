@@ -18,7 +18,7 @@ import java.io.*;
  * This builds the BaseRateByAge table directly without using SQL joins.
  *
  * @author		Wesley Faler
- * @version		2014-07-22
+ * @version		2016-05-11
 **/
 public class BaseRateByAgeHelper {
 	public static boolean isTest = false;
@@ -206,6 +206,14 @@ public class BaseRateByAgeHelper {
 		public boolean useAvgSpeedFraction;
 		public boolean useSumSBD;
 		public boolean useSumSBDRaw;
+		
+		public String getCSVForExternalGenerator() {
+			return (keepOpModeID?"yOp":"nOp")
+					+ "," + (useAvgSpeedBin?"yASB":"nASB")
+					+ "," + (useAvgSpeedFraction?"yASF":"nASF")
+					+ "," + (useSumSBD?"ySBD":"nSBD")
+					+ "," + (useSumSBDRaw?"yRaw":"nRaw");
+		}
 	}
 	
 	public static class Context {
@@ -275,7 +283,7 @@ public class BaseRateByAgeHelper {
 						+ "|" + query.rs.getInt("polProcessID")
 						+ "|" + query.rs.getInt("roadTypeID")
 						+ "|" + query.rs.getInt("hourDayID");
-				Integer opModeID = new Integer(query.rs.getInt("opModeID"));
+				Integer opModeID = Integer.valueOf(query.rs.getInt("opModeID"));
 				if(flags.keepOpModeID) {
 					keyROMD += "|" + opModeID;
 				}
@@ -438,7 +446,7 @@ public class BaseRateByAgeHelper {
 			while(query.rs.next()) {
 				SBWeightedEmissionRateByAge er = new SBWeightedEmissionRateByAge();
 				er.fill(query.rs);
-				opModeID = new Integer(query.rs.getInt("opModeID"));
+				opModeID = Integer.valueOf(query.rs.getInt("opModeID"));
 				t = erByOpModeID.get(opModeID);
 				if(t == null) {
 					t = new ArrayList<SBWeightedEmissionRateByAge>();

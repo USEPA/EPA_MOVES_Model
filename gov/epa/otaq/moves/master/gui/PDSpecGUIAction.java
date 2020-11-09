@@ -39,7 +39,7 @@ public class PDSpecGUIAction extends JLFAbstractAction {
 		putValue(Action.NAME, NAME_IM_GUI);
 		putValue(Action.SHORT_DESCRIPTION, SHORT_DESCRIPTION_IM_GUI);
 		putValue(Action.LONG_DESCRIPTION, LONG_DESCRIPTION_IM_GUI);
-		putValue(Action.MNEMONIC_KEY, new Integer(MNEMONIC_KEY_IM_GUI));
+		putValue(Action.MNEMONIC_KEY, Integer.valueOf(MNEMONIC_KEY_IM_GUI));
 		putValue(Action.ACTION_COMMAND_KEY, ACTION_COMMAND_KEY_IM_GUI);
 	}
 }

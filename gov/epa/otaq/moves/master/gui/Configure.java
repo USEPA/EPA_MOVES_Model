@@ -28,6 +28,7 @@ import gov.epa.otaq.moves.master.framework.*;
  *
  * @author		Wesley Faler
  * @author		Tim Hull
+ * @author  	Bill Shaw (508 compliance mods)
  * @version		2014-01-11
 **/
 public class Configure extends JDialog implements ActionListener,
@@ -132,10 +133,14 @@ public class Configure extends JDialog implements ActionListener,
 		SystemConfiguration sysConfig = SystemConfiguration.getTheSystemConfiguration();
 		okButton = new JButton("OK");
 		okButton.addActionListener(this);
+		okButton.setMnemonic('O');
+		okButton.setDisplayedMnemonicIndex(0);
 		okButton.setName("okButton");
 		ToolTipHelper.add(okButton,"Save the configuration settings and exit");
 		cancelButton = new JButton("Cancel");
 		cancelButton.addActionListener(this);
+		cancelButton.setMnemonic('C');
+		cancelButton.setDisplayedMnemonicIndex(0);
 		cancelButton.setName("cancelButton");
 		ToolTipHelper.add(cancelButton,"Exit without saving changes");
 		Dimension countyPanelSize = new Dimension(450,135); // 450,90
@@ -167,6 +172,8 @@ public class Configure extends JDialog implements ActionListener,
 		countyServer.setText(sysConfig.databaseSelections[
 				MOVESDatabaseType.DEFAULT.getIndex()].serverName);
 		ToolTipHelper.add(countyServer,"Edit the name of the default database server");
+		countyServerLabel.setDisplayedMnemonic('S');
+		countyServerLabel.setLabelFor(countyServer);
 
 		outputServerLabel = new JLabel("Server:");
 		outputServerLabel.setName("outputServerLabel");
@@ -208,6 +215,8 @@ public class Configure extends JDialog implements ActionListener,
 		sharedFolderPathBrowse = new JButton("Browse...");
 		ToolTipHelper.add(sharedFolderPathBrowse,"Select folder to share files with workers");
 		sharedFolderPathBrowse.addActionListener(this);
+		sharedFolderPathBrowse.setMnemonic('B');
+		sharedFolderPathBrowse.setDisplayedMnemonicIndex(0);
 		sharedFolderPathBrowse.setName("sharedFolderPathBrowse");
 		sharedFolderPathName.setText(sysConfig.sharedDistributedFolderPath.getPath());
 	}
@@ -234,6 +243,8 @@ public class Configure extends JDialog implements ActionListener,
 		gbc.weightx = 1.0;
 		LayoutUtility.setPositionOnGrid(gbc,1, 1, "WEST", 1, 1);
 		countyPanel.add(countyDatabaseCombo, gbc);
+		countyDatabaseLabel.setDisplayedMnemonic('D');
+		countyDatabaseLabel.setLabelFor(countyDatabaseCombo);
 		gbc.weightx = 0;
 
 		/*
@@ -259,6 +270,8 @@ public class Configure extends JDialog implements ActionListener,
 		gbc.weightx = 1.0;
 		LayoutUtility.setPositionOnGrid(gbc,1, 0, "WEST", 1, 1);
 		outputPanel.add(outputServer, gbc);
+		outputServerLabel.setDisplayedMnemonic('e');
+		outputServerLabel.setLabelFor(outputServer);
 
 		sharedFolderPathPanel.setLayout(new GridBagLayout());
 		gbc.fill = GridBagConstraints.NONE;
@@ -273,6 +286,8 @@ public class Configure extends JDialog implements ActionListener,
 		LayoutUtility.setPositionOnGrid(gbc,2, 0, "WEST", 1, 1);
 		sharedFolderPathPanel.add(sharedFolderPathBrowse, gbc);
 		gbc.weightx = 0;
+//		sharedFolderPathName.setDisplayedMnemonic('S');
+//		sharedFolderPathName.setLabelFor(sharedFolderPathBrowse);
 
 		JPanel result = new JPanel();
 		result.setLayout(new GridBagLayout());

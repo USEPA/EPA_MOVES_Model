@@ -16,16 +16,22 @@ import java.sql.*;
  * This builds the BaseRate and BaseRateByAge tables
  *
  * @author		Wesley Faler
- * @version		2014-07-26
+ * @version		2017-09-17
 **/
 public class BaseRateGenerator extends Generator {
+	// true when the external generator should be invoked for some of the algorithms
+	public static final boolean USE_EXTERNAL_GENERATOR = true;
+
 	/**
 	 * @algorithm
 	 * @owner Base Rate Generator
 	 * @generator
 	**/
 
-	/** true to use BaseRateByAgeHelper to perform direct calculations instead of SQL **/
+	/**
+	 * true to use BaseRateByAgeHelper to perform direct calculations instead of SQL.
+	 * This flag is ignored when USE_EXTERNAL_GENERATOR is true.
+	**/
 	static final boolean useBaseRateByAgeHelper = true;
 
 	/** Flag for whether the data tables have been cleared/setup **/
@@ -90,7 +96,7 @@ public class BaseRateGenerator extends Generator {
 		try {
 			db = DatabaseConnectionManager.checkOutConnection(MOVESDatabaseType.EXECUTION);
 
-			long start;
+			long start, detailStart, detailEnd;
 
 			// The following only has to be done once for each run.
 			if(!hasBeenSetup) {
@@ -104,7 +110,7 @@ public class BaseRateGenerator extends Generator {
 
 			start = System.currentTimeMillis();
 
-			Integer processID = new Integer(inContext.iterProcess.databaseKey);
+			Integer processID = Integer.valueOf(inContext.iterProcess.databaseKey);
 			boolean isNewProcess = !processesDone.contains(processID);
 			if(isNewProcess) {
 				processesDone.add(processID);
@@ -112,7 +118,7 @@ public class BaseRateGenerator extends Generator {
 				Logger.log(LogMessageCategory.DEBUG,"Base Rate Generator called for process: " +
 					 inContext.iterProcess.toString());
 			}
-			Integer linkID = new Integer(inContext.iterLocation.linkRecordID);
+			Integer linkID = Integer.valueOf(inContext.iterLocation.linkRecordID);
 			boolean isNewLink = !linksDone.contains(linkID);
 			if(isProjectDomain && isNewLink) {
 				linksDone.add(linkID);
@@ -134,15 +140,21 @@ public class BaseRateGenerator extends Generator {
 					madeNewRates = generateSBWeightedEmissionRates(inContext.iterProcess.databaseKey,inContext.iterLocation.countyRecordID,inContext.year);
 				}
 				if((madeNewRates && roadTypeIsUseful) || (isValid && isNewLink && roadTypeIsUseful)) {
-					generateBaseRates(inContext.iterProcess.databaseKey,inContext.iterLocation.roadTypeRecordID,inContext.year);
+					generateBaseRates(inContext,inContext.iterProcess.databaseKey,inContext.iterLocation.roadTypeRecordID,inContext.year);
 				}
 			} else {
 				boolean madeNewRates = false;
 				if(isValid) {
+					detailStart = System.currentTimeMillis();
 					madeNewRates = generateSBWeightedEmissionRates(inContext.iterProcess.databaseKey,inContext.iterLocation.countyRecordID,inContext.year);
+					detailEnd = System.currentTimeMillis();
+					Logger.log(LogMessageCategory.DEBUG,"BaseRateGenerator.generateSBWeightedEmissionRates ms="+(detailEnd-detailStart));
 				}
 				if(madeNewRates || (isValid && isNewProcess)) {
-					generateBaseRates(inContext.iterProcess.databaseKey,0,inContext.year);
+					detailStart = System.currentTimeMillis();
+					generateBaseRates(inContext,inContext.iterProcess.databaseKey,0,inContext.year);
+					detailEnd = System.currentTimeMillis();
+					Logger.log(LogMessageCategory.DEBUG,"BaseRateGenerator.generateBaseRates ms="+(detailEnd-detailStart));
 				}
 			}
 			totalTime += System.currentTimeMillis() - start;
@@ -169,16 +181,23 @@ public class BaseRateGenerator extends Generator {
 	/** Add indexes to key tables. **/
 	void addIndexes() {
 		String[] statements = {
-			// "alter table ratesOpModeDistribution add key speed1 (polProcessID, sourceTypeID, opModeID, avgSpeedBinID)",
-			"alter table ratesOpModeDistribution add key speed1 (sourceTypeID,polProcessID,roadTypeID,hourDayID,opModeID,avgSpeedBinID)",
-			"analyze table ratesOpModeDistribution",
+// TODO 
+// Put back after T1506 testing			//"alter table ratesOpModeDistribution add key speed1 (sourceTypeID,polProcessID,roadTypeID,hourDayID,opModeID,avgSpeedBinID)",
+// Put back after T1506 testing			//"analyze table ratesOpModeDistribution",
+// TODO 
+
 			"alter table avgSpeedBin add key speed1 (avgSpeedBinID, avgBinSpeed)",
 			"alter table avgSpeedBin add key speed2 (avgBinSpeed, avgSpeedBinID)",
 			"analyze table avgSpeedBin"
 		};
+		long detailStart, detailEnd;
 		for(int i=0;i<statements.length;i++) {
 			try {
+				Logger.log(LogMessageCategory.DEBUG,"BaseRateGenerator.addIndexes: " + statements[i]);
+				detailStart = System.currentTimeMillis();
 				SQLRunner.executeSQL(db,statements[i]);
+				detailEnd = System.currentTimeMillis();
+				Logger.log(LogMessageCategory.DEBUG,"BaseRateGenerator.addIndexes ms="+(detailEnd-detailStart));
 			} catch(Exception e) {
 				// Ignore these exceptions as they are likely due to the index already existing,
 				// which is acceptable.
@@ -227,8 +246,21 @@ public class BaseRateGenerator extends Generator {
 			**/
 			Logger.log(LogMessageCategory.DEBUG,"Not normalizing sourcebin-weighted emission rates");
 		}
+		
+		// at project scale, we need to join on the offsets so we don't duplicate the opMode distribution for each row of sourceusetypephysics
+		String projectStringJoin, projectStringWhere;
+		if (isProjectDomain && (processID == 9 || processID == 1)) {
+			projectStringJoin = "		left join sourceusetypephysicsmapping sutpm on ("
+				+ "		    sutpm.realSourceTypeID = stmy.sourceTypeID"
+				+ "         and sutpm.regClassID = sb.regClassID"
+				+ "         and left(sutpm.opModeIDOffset, 2) = left(er.opModeID, 2))";
+			projectStringWhere = "  	(ppmy.modelYearID BETWEEN sutpm.beginModelYearID AND sutpm.endModelYearID OR er.OpModeID = 501) AND";
+		} else  {
+			projectStringJoin = "";
+			projectStringWhere = "";
+		}
 
-		boolean applyHotelling = processID == 91;
+		//boolean applyHotelling = processID == 91; OLD as of T1702
 		
 		String[] statements = {
 			"#CORE",
@@ -384,6 +416,7 @@ public class BaseRateGenerator extends Generator {
 			+ " 	inner join SourceTypeModelYear stmy"
 			+ " 	inner join RunspecModelYear rsmy"
 			+ " 	inner join PollutantProcessAssoc ppa"
+			+ 		projectStringJoin
 			+ " 	left outer join fullACAdjustment fac on ("
 			+ " 		fac.sourceTypeID = stmy.sourceTypeID"
 			+ " 		and fac.polProcessID = er.polProcessID"
@@ -391,6 +424,7 @@ public class BaseRateGenerator extends Generator {
 			+ " WHERE"
 			+ " 	ppmy.modelYearGroupID = sb.modelYearGroupID AND"
 			+ " 	ppmy.modelYearID = stmy.modelYearID AND"
+			+ 		projectStringWhere
 			+ " 	er.polProcessID = ppmy.polProcessID AND"
 			+ " 	er.polProcessID = sbd.polProcessID AND"
 			+ " 	ppmy.polProcessID = sbd.polProcessID AND"
@@ -502,6 +536,7 @@ public class BaseRateGenerator extends Generator {
 			 * @input hotellingActivityDistribution
 			 * @condition Auxiliary Power Exhaust
 			**/
+			/* OLD as of T1702
 			"#SBWeightedEmissionRateByAge",
 			applyHotelling?
 				"update SBWeightedEmissionRateByAge, hotellingActivityDistribution"
@@ -513,6 +548,7 @@ public class BaseRateGenerator extends Generator {
 				+ " and endModelYearID >= modelYearID"
 				+ " and hotellingActivityDistribution.opModeID = SBWeightedEmissionRateByAge.opModeID"
 				: "",
+			*/
 
 			/**
 			 * @step 025
@@ -522,6 +558,7 @@ public class BaseRateGenerator extends Generator {
 			 * @input hotellingActivityDistribution
 			 * @condition Auxiliary Power Exhaust
 			**/
+			/* OLD as of T1702
 			"#SBWeightedEmissionRate",
 			applyHotelling?
 				"update SBWeightedEmissionRate, hotellingActivityDistribution"
@@ -533,6 +570,7 @@ public class BaseRateGenerator extends Generator {
 				+ " and endModelYearID >= modelYearID"
 				+ " and hotellingActivityDistribution.opModeID = SBWeightedEmissionRate.opModeID"
 				: ""
+			*/
 		};
 		String sql = "";
 		TaggedSQLRunner concurrentSQL = null;
@@ -584,11 +622,12 @@ public class BaseRateGenerator extends Generator {
 
 	/**
 	 * Populate BaseRateByAge and BaseRate tables.
+	 * @param loopContext The MasterLoopContext that applies to this execution.
 	 * @param processID emission process
 	 * @param roadTypeID road type to be processed, 0 for all road types
 	 * @param yearID calendar year, may be 0
 	**/
-	void generateBaseRates(int processID, int roadTypeID, int yearID) {
+	void generateBaseRates(MasterLoopContext loopContext, int processID, int roadTypeID, int yearID) {
 		BaseRateByAgeHelper.Flags brbaFlags = new BaseRateByAgeHelper.Flags();
 		boolean applyAvgSpeedDistribution = 
 				(processID == 1 || processID == 9 || processID == 10)
@@ -846,7 +885,6 @@ public class BaseRateGenerator extends Generator {
 			 * emissionRateACAdj=case when avgBinSpeed>0 then sum(MeanBaseRateACAdj * avgSpeedFractionClause) / avgBinSpeed else null end.
 			 * emissionRateIMACAdj=case when avgBinSpeed>0 then sum(MeanBaseRateIMACAdj * avgSpeedFractionClause) / avgBinSpeed else null end.
 			 * @output BaseRate
-			 * @input RatesOpModeDistribution
 			 * @input SBWeightedDistanceRate
 			 * @condition Not Start Exhaust
 			 * @condition Retaining average speed bin (Non-Project domain; Rates; Running Exhaust, Brakewear, or Tirewear)
@@ -866,7 +904,6 @@ public class BaseRateGenerator extends Generator {
 			 * emissionRateACAdj=sum(MeanBaseRateACAdj * avgSpeedFractionClause).
 			 * emissionRateIMACAdj=sum(MeanBaseRateIMACAdj * avgSpeedFractionClause).
 			 * @output BaseRateByAge
-			 * @input RatesOpModeDistribution
 			 * @input SBWeightedDistanceRate
 			 * @condition Not Start Exhaust
 			 * @condition Aggregate average speed bins (Project domain or Inventory or Rates for Non-(Running, Brakewear, or Tirewear))
@@ -1200,6 +1237,8 @@ public class BaseRateGenerator extends Generator {
 
 		String[] statements = keepOpModeID? withOpModeStatements : noOpModeStatements;
 		String sql = "";
+		boolean useExternalGenerator = USE_EXTERNAL_GENERATOR && RatesOperatingModeDistributionGenerator.USE_EXTERNAL_GENERATOR
+				&& (processID == 1 || processID == 9 || processID == 10);
 		SQLRunner.Query query = new SQLRunner.Query();
 		TaggedSQLRunner concurrentSQL = null;
 		try {
@@ -1241,7 +1280,7 @@ public class BaseRateGenerator extends Generator {
 				concurrentSQL.close();
 				previousRoadTypeID = 0;
 			}
-			if(applyAvgSpeedDistribution) {
+			if(applyAvgSpeedDistribution && !useExternalGenerator) {
 				sql = "update RatesOpModeDistribution, avgSpeedDistribution"
 						+ " 	set RatesOpModeDistribution.avgSpeedFraction = avgSpeedDistribution.avgSpeedFraction"
 						+ " where RatesOpModeDistribution.sourceTypeID = avgSpeedDistribution.sourceTypeID"
@@ -1254,69 +1293,81 @@ public class BaseRateGenerator extends Generator {
 				long endMillis = System.currentTimeMillis();
 				Logger.log(LogMessageCategory.INFO,"BRG update ROMD,ASD: " + (endMillis-startMillis) + " ms");
 			}
-			// Get iteration dimensions, keeping only those that belong to the desired process.
-			ArrayList<String> tuples = new ArrayList<String>();
-			sql = "select distinct sourceTypeID, polProcessID from SBWeightedEmissionRateByAge"
-					+ " union"
-					+ " select distinct sourceTypeID, polProcessID from SBWeightedEmissionRate"
-					+ " union"
-					+ " select distinct sourceTypeID, polProcessID from SBWeightedDistanceRate";
-			query.open(db,sql);
-			while(query.rs.next()) {
-				String sourceTypeID = query.rs.getString(1);
-				int polProcessID = query.rs.getInt(2);
-				if(polProcessID % 100 == processID) {
-					tuples.add(sourceTypeID);
-					tuples.add("" + polProcessID);
+			if(useExternalGenerator) {
+				String externalGeneratorParameters = brbaFlags.getCSVForExternalGenerator()
+						+ "," + processID
+						+ "," + yearID
+						+ "," + roadTypeID;
+				if(runLocalExternalGenerator(loopContext,"BaseRateGenerator.generateBaseRates",externalGeneratorParameters,null,null)) {
+					Logger.log(LogMessageCategory.DEBUG,"Success running the external generator in BaseRateGenerator.generateBaseRates");
+				} else {
+					Logger.log(LogMessageCategory.ERROR,"Unable to run external generator in BaseRateGenerator.generateBaseRates");
 				}
-			}
-			query.close();
-			Logger.log(LogMessageCategory.DEBUG,"BaseRateGenerator processID=" + processID + ", roadTypeID=" + roadTypeID + ", yearID=" + yearID + " has " + (tuples.size()/2) + " iterations");
-
-			concurrentSQL.clear();
-			TreeMapIgnoreCase replacements = new TreeMapIgnoreCase();
-			context = "#CORE";
-			for(int ti=0;ti<tuples.size();ti+=2) {
-				String sourceTypeID = tuples.get(ti+0);
-				String polProcessID = tuples.get(ti+1);
-				//Logger.log(LogMessageCategory.DEBUG,"BaseRateGenerator for sourceTypeID=" + sourceTypeID + ", polProcessID=" + polProcessID);
-				replacements.clear();
-				replacements.put("##sourceTypeID##",sourceTypeID);
-				replacements.put("##polProcessID##",polProcessID);
-				for(int i=0;i<statements.length;i++) {
-					sql = statements[i];
-					if(sql != null && sql.length() > 0) {
-						sql = StringUtilities.doReplacements(sql,replacements);
-						//Logger.log(LogMessageCategory.INFO,sql);
-
-						if(sql.startsWith("#")) {
-							if(context.length() <= 0 || context.equalsIgnoreCase("#CORE")) {
-								if(concurrentSQL != null) {
-									concurrentSQL.execute();
-									concurrentSQL.clear();
-									concurrentSQL.close();
+			} else {
+				// Get iteration dimensions, keeping only those that belong to the desired process.
+				ArrayList<String> tuples = new ArrayList<String>();
+				sql = "select distinct sourceTypeID, polProcessID from SBWeightedEmissionRateByAge"
+						+ " union"
+						+ " select distinct sourceTypeID, polProcessID from SBWeightedEmissionRate"
+						+ " union"
+						+ " select distinct sourceTypeID, polProcessID from SBWeightedDistanceRate";
+				query.open(db,sql);
+				while(query.rs.next()) {
+					String sourceTypeID = query.rs.getString(1);
+					int polProcessID = query.rs.getInt(2);
+					if(polProcessID % 100 == processID) {
+						tuples.add(sourceTypeID);
+						tuples.add("" + polProcessID);
+					}
+				}
+				query.close();
+				Logger.log(LogMessageCategory.DEBUG,"BaseRateGenerator processID=" + processID + ", roadTypeID=" + roadTypeID + ", yearID=" + yearID + " has " + (tuples.size()/2) + " iterations");
+	
+				concurrentSQL.clear();
+				TreeMapIgnoreCase replacements = new TreeMapIgnoreCase();
+				context = "#CORE";
+				for(int ti=0;ti<tuples.size();ti+=2) {
+					String sourceTypeID = tuples.get(ti+0);
+					String polProcessID = tuples.get(ti+1);
+					//Logger.log(LogMessageCategory.DEBUG,"BaseRateGenerator for sourceTypeID=" + sourceTypeID + ", polProcessID=" + polProcessID);
+					replacements.clear();
+					replacements.put("##sourceTypeID##",sourceTypeID);
+					replacements.put("##polProcessID##",polProcessID);
+					for(int i=0;i<statements.length;i++) {
+						sql = statements[i];
+						if(sql != null && sql.length() > 0) {
+							sql = StringUtilities.doReplacements(sql,replacements);
+							//Logger.log(LogMessageCategory.INFO,sql);
+	
+							if(sql.startsWith("#")) {
+								if(context.length() <= 0 || context.equalsIgnoreCase("#CORE")) {
+									if(concurrentSQL != null) {
+										concurrentSQL.execute();
+										concurrentSQL.clear();
+										concurrentSQL.close();
+									}
 								}
+								context = sql;
+								continue;
 							}
-							context = sql;
-							continue;
-						}
-						if(concurrentSQL == null) {
-							SQLRunner.executeSQL(db,sql);
-						} else {
-							BaseRateByAgeHelper.Context brbaContext = new BaseRateByAgeHelper.Context();
-							brbaContext.polProcessID = Integer.parseInt(polProcessID);
-							brbaContext.processID = processID;
-							brbaContext.roadTypeID = isProjectDomain && roadTypeID > 0? roadTypeID : 0;
-							brbaContext.sourceTypeID = Integer.parseInt(sourceTypeID);
-							brbaContext.yearID = yearID;
-							concurrentSQL.add(context,sql,brbaContext,brbaFlags);
+							if(concurrentSQL == null) {
+								SQLRunner.executeSQL(db,sql);
+							} else {
+								BaseRateByAgeHelper.Context brbaContext = new BaseRateByAgeHelper.Context();
+								brbaContext.polProcessID = Integer.parseInt(polProcessID);
+								brbaContext.processID = processID;
+								brbaContext.roadTypeID = isProjectDomain && roadTypeID > 0? roadTypeID : 0;
+								brbaContext.sourceTypeID = Integer.parseInt(sourceTypeID);
+								brbaContext.yearID = yearID;
+								concurrentSQL.add(context,sql,brbaContext,brbaFlags);
+							}
 						}
 					}
 				}
+				Logger.log(LogMessageCategory.DEBUG,"BaseRateGenerator executing concurrent SQL...");
+				concurrentSQL.execute();
+				Logger.log(LogMessageCategory.DEBUG,"BaseRateGenerator concurrent SQL done.");
 			}
-			Logger.log(LogMessageCategory.DEBUG,"BaseRateGenerator executing concurrent SQL...");
-			concurrentSQL.execute();
-			Logger.log(LogMessageCategory.DEBUG,"BaseRateGenerator concurrent SQL done.");
 		} catch(Exception e) {
 			Logger.logSqlError(e,"Could not generate base rates",sql);
 		} finally {

@@ -21,11 +21,11 @@ import gov.epa.otaq.moves.common.*;
  * NMIM or Mobile format) into MOVES.
  * 
  * @author		Wesley Faler
- * @version		2012-02-20
+ * @version		2015-09-16
 **/
 public class OffNetworkLinkImporter extends ImporterBase {
 	/** The road type for offnetwork links **/
-	private static final Integer offnetworkRoadTypeID = new Integer(1);
+	private static final Integer offnetworkRoadTypeID = Integer.valueOf(1);
 
 	/** Data handler for this importer **/
 	BasicDataHandler basicDataHandler;
@@ -160,10 +160,13 @@ public class OffNetworkLinkImporter extends ImporterBase {
 			return new RunSpecSectionStatus(RunSpecSectionStatus.OK);
 		}
 		boolean hasSourceTypes = manager.tableHasSourceTypes(db,
-				"select distinct sourceTypeID from " + primaryTableName);
+				"select distinct sourceTypeID from " + primaryTableName,
+				this,primaryTableName + " is missing sourceTypeID(s)");
 		if(hasSourceTypes) {
 			return new RunSpecSectionStatus(RunSpecSectionStatus.OK);
 		}
 		return new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);
 	}
+	
+	// no SQL error checks for OffNetworkLinkImporter
 }

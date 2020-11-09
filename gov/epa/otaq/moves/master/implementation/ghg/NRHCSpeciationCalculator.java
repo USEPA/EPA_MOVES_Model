@@ -202,12 +202,12 @@ public class NRHCSpeciationCalculator extends EmissionCalculator implements Emis
 					a.output.pollutant,a.output.emissionProcess)) {
 				continue;
 			}
-			Integer outputPolProcessID = new Integer(a.outputPolProcessID);
+			Integer outputPolProcessID = Integer.valueOf(a.outputPolProcessID);
 			if(!allOutputs.contains(outputPolProcessID)) {
 				allOutputs.add(outputPolProcessID);
 				hcPolProcessIDs = append(hcPolProcessIDset,hcPolProcessIDs,outputPolProcessID);
 			}
-			Integer outputPollutantID = new Integer(a.output.pollutant.databaseKey);
+			Integer outputPollutantID = Integer.valueOf(a.output.pollutant.databaseKey);
 			TreeSet<Integer> processes = processesByOutputPollutant.get(outputPollutantID);
 			if(processes == null) {
 				processes = new TreeSet<Integer>();
@@ -215,7 +215,7 @@ public class NRHCSpeciationCalculator extends EmissionCalculator implements Emis
 			}
 			for(Iterator<PollutantProcessAssociation> i=a.inputs.iterator();i.hasNext();) {
 				PollutantProcessAssociation ppa = (PollutantProcessAssociation)i.next();
-				Integer processID = new Integer(ppa.emissionProcess.databaseKey);
+				Integer processID = Integer.valueOf(ppa.emissionProcess.databaseKey);
 				if(!processes.contains(processID)) {
 					processes.add(processID);
 					switch(a.output.pollutant.databaseKey) {

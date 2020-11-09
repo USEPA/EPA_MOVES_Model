@@ -18,8 +18,6 @@ import java.text.SimpleDateFormat;
 import gov.epa.otaq.moves.master.runspec.*;
 import gov.epa.otaq.moves.master.framework.*;
 import gov.epa.otaq.moves.common.*;
-import gov.epa.otaq.gis.api.StateCountyMapGUI;
-import gov.epa.otaq.moves.master.framework.importers.ImporterManager;
 /**
 * Class for MOVES Main Frame. Constructs the MOVESWindow frame. Creates and sets
 * the layouts of the controls. The main menu items are: File (open, close, ...),
@@ -38,9 +36,13 @@ import gov.epa.otaq.moves.master.framework.importers.ImporterManager;
 * @author	EPA-Mitch C.
 * @author	Tim Hull
 * @author	Harvey Michaels
-* @author  W. Aikman
-* @version	    2018/03/22
+* @author	W. Aikman
+* @author	M. Kender (508 compliance changes - task 1810)
+* @author  	Mike Kender (Task 1903)
+* @author   J. Covey (Task 2003)
+* @version  2020-08-14
 **/
+
 public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		MOVESEngineListener, KeyListener, FilenameFilter {
 	// These are the actions defined for the application
@@ -83,16 +85,6 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 //	/** CreateFutureEmissionRates menu action. **/
 //
 	CreateFutureEmissionRatesAction createFutureEmissionRatesAction;
-	/** State/County map action **/
-	DrawStateCountyMapAction mapAction;
-	/** Data Importer action **/
-	DataImporterAction dataImporterAction;
-	/** Nonroad Data Importer action **/
-	NonroadDataImporterAction nonroadDataImporterAction;
-	/** County Data Manager action **/
-	CountyDataManagerAction countyDataManagerAction;
-	/** Project Domain Manager action **/
-	ProjectDomainManagerAction projectDomainManagerAction;
 //	UpdateManufactureDisposalRates menu action.  This feature has been removed.
 //	UpdateManufactureDisposalRatesAction updateManufactureDisposalRatesAction;
 	/** Execute menu action. **/
@@ -107,12 +99,16 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 	RunScriptAction runScriptAction;
 	/** Run MySQL Nonroad Script Action **/
 	RunNonroadScriptAction runNonroadScriptAction;
-	/** Convert Database Action **/
-	ConverterAction converterAction;
-	/** Convert 2014 Database Action **/
-	Converter2014Action converter2014Action;
-	/** Convert 2014A Database Action **/
-	Converter2014aAction converter2014aAction;
+	/** Build LEV Database Action **/
+	BuildLEVAction buildLEVAction;
+	/** Build NLEV Database Action **/
+	BuildNLEVAction buildNLEVAction;
+	/** Convert 2014->3 Database Action **/
+	Convert2014To3Action convert2014To3Action;
+	/** Convert 2014a/b->3 Database Action **/
+	Convert2014aTo3Action convert2014aTo3Action;
+	/** Run ONI Tool Action **/
+	ONIToolAction oniToolAction;
 	/** Run MySQL Script Action **/
 	SummaryReportAction summaryReportAction;
 	/** User Guide menu action. **/
@@ -175,9 +171,9 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 	MacroscaleGeographicBounds macroscaleGeographicBoundsPanel;
 	/** Panel allows setting of the RunSpec time spans. **/
 	TimeSpans timeSpansPanel;
-	/** Panel allows setting of the RunSpec on road vehicle equipment. **/
+	/** Panel allows setting of the RunSpec on road vehicles. **/
 	OnRoadVehicleEquipment onRoadVehicleEquipmentPanel;
-	/** Panel allows setting of the RunSpec NonRoad vehicle equipment. **/
+	/** Panel allows setting of the RunSpec NonRoad equipment. **/
 	OffRoadVehicleEquipment offRoadVehicleEquipmentPanel;
 	/** Panel allows setting of the RunSpec road type. **/
 	RoadTypeScreen roadTypePanel;
@@ -191,6 +187,14 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 	GeneralOutput generalOutputPanel;
 	/** Panel for Advanced Performance Features of data capture and optional execution **/
 	AdvancedPerformanceFeatures advancedPerformancePanel;
+	/** Panel for creating Input Databases.**/
+	public CreateInputDatabase createInputDatabasePanel;
+    /**
+	 * Used by the ImporterGUI and the CreateInputDatabase panel to keep track of
+	 * the net (total) status of the Data Manager (the panel should only get a green
+	 * check if all tabs of the importer also have a green check).
+	**/
+	public RunSpecSectionStatus domainImporterNetStatus = null;
 	/** The runspec being edited **/
 	public RunSpec runSpec;
 	/** The name of the current RunSpec. **/
@@ -213,10 +217,13 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 	/** Name of output file that performance profiles are written to **/
 	static final String PERFORMANCE_PROFILER_FILE_NAME = "guiprofile.txt";
 	/** Date of the Current Release **/
-	public static final String MOVES_VERSION = "MOVES2014b-20181203";
+	public static final String MOVES_VERSION = "MOVES3.0.0";
 	/** directory where output db processing scripts are located **/
 	static final String DB_SCRIPTS_DIR = "database" + File.separator + "OutputProcessingScripts";
 	static final String DB_NONROAD_SCRIPTS_DIR = "database" + File.separator + "NonroadProcessingScripts";
+
+    public JLabel header = new JLabel();
+    
 	/**
 	 * Constructs the MOVESWindow frame, also creates, sets the layouts of the controls
 	 * and initializes the actions and listeners.
@@ -286,6 +293,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		setVisible(true);
 		Logger.log(LogMessageCategory.INFO,"Main window shown. Ready for user interaction.");
 	}
+
 	/**
 	 * Method invoked to receive progress notifications.
 	 * <br>Currently not used in this class.
@@ -293,6 +301,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 	**/
 	public void engineProgressUpdate(MOVESEngine srcEngine) {
 	}
+
 	/**
 	 * Called when the MOVESEngine object is completing
 	 * @param srcEngine The MOVESEngine this notification comes from.
@@ -302,6 +311,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 			engineDidComplete = true;
 		}
 	}
+
 	/** Handles the engineCompleteTimer and checks if engineIsCompleting was called recently **/
 	synchronized void handleEngineCompleteTimer() {
 		if(engineDidComplete) {
@@ -329,6 +339,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 			}
 		}
 	}
+
 	/**
 	 * Set the title of the window, showing the distributed ID if available.
 	 * @param filePath the file name and path currently open.  May be null or empty.
@@ -344,6 +355,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		}
 		setTitle(title);
 	}
+
 	/**
 	 * Loads the MRU file list from persisted storage.
 	**/
@@ -368,6 +380,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 			// It is okay to start up without an "mrulist.tmp" file.
 		}
 	}
+
 	/**
 	 * Saves the MRU file list to persisted storage.
 	**/
@@ -381,6 +394,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 			Logger.logError(e, "Failed to save MRU List");
 		}
 	}
+
 	/**
 	 * Adds an MRU file to the list.  Also maintains the maximum length of the list.
 	 * @param	fileName the file name and path of the new item to add as String.
@@ -397,6 +411,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 			mruList.remove(i);
 		}
 	}
+
 	/**
 	 * Updates the JMenu items based on the current MRU list.
 	**/
@@ -433,6 +448,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 			}
 		}
 	}
+
 	/** Creates and initializes the actions for this frame. **/
 	void initActions() {
 		newAction = new NewAction();
@@ -473,14 +489,6 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 //
 		createFutureEmissionRatesAction = new CreateFutureEmissionRatesAction();
 		createFutureEmissionRatesAction.addActionListener(this);
-		dataImporterAction = new DataImporterAction();
-		dataImporterAction.addActionListener(this);
-		countyDataManagerAction = new CountyDataManagerAction();
-		countyDataManagerAction.addActionListener(this);
-		projectDomainManagerAction = new ProjectDomainManagerAction();
-		projectDomainManagerAction.addActionListener(this);
-		nonroadDataImporterAction = new NonroadDataImporterAction();
-		nonroadDataImporterAction.addActionListener(this);
 //         For now, this has been removed from the model.
 //		updateManufactureDisposalRatesAction = new UpdateManufactureDisposalRatesAction();
 //		updateManufactureDisposalRatesAction.addActionListener(this);
@@ -500,12 +508,16 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		runScriptAction.addActionListener(this);
 		runNonroadScriptAction = new RunNonroadScriptAction();
 		runNonroadScriptAction.addActionListener(this);
-		converterAction = new ConverterAction();
-		converterAction.addActionListener(this);
-		converter2014Action = new Converter2014Action();
-		converter2014Action.addActionListener(this);
-		converter2014aAction = new Converter2014aAction();
-		converter2014aAction.addActionListener(this);
+		buildLEVAction = new BuildLEVAction();
+		buildLEVAction.addActionListener(this);
+		buildNLEVAction = new BuildNLEVAction();
+		buildNLEVAction.addActionListener(this);
+		convert2014To3Action = new Convert2014To3Action();
+		convert2014To3Action.addActionListener(this);
+		convert2014aTo3Action = new Convert2014aTo3Action();
+		convert2014aTo3Action.addActionListener(this);
+		oniToolAction = new ONIToolAction();
+		oniToolAction.addActionListener(this);
 		summaryReportAction = new SummaryReportAction();
 		summaryReportAction.addActionListener(this);
 		userGuideAction = new UserGuideAction();
@@ -516,13 +528,12 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		configureAction.addActionListener(this);
 		MOVESRunErrorLogAction = new MOVESRunErrorLogAction();
 		MOVESRunErrorLogAction.addActionListener(this);
-		mapAction = new DrawStateCountyMapAction();
-		mapAction.addActionListener(this);
 		loopingToolAction = new LoopingToolAction();
 		loopingToolAction.addActionListener(this);
 		pdSpecGUIAction = new PDSpecGUIAction();
 		pdSpecGUIAction.addActionListener(this);
 	}
+
 	/** Creates and initializes the menu for this frame, including actions and listeners. **/
 	JMenuBar createMenu()  {
 		JMenuBar menuBar = new JMenuBar();
@@ -574,32 +585,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		menuItem.addMouseListener(mouseHandler);
 		/** Copy action has been disabled **/
 		clearAction.setEnabled(true);
-		JMenu preProcessingMenu = new JMenu("Pre Processing");
-		preProcessingMenu.setMnemonic('R');
-		
-		//menuItem = preProcessingMenu.add(executeDataImporterAction);
-		//executeDataImporterAction.setEnabled(false);
-		//menuItem.addMouseListener(mouseHandler);
-// 		updateWellToPumpRatesAction was removed from the model
-//		menuItem = preProcessingMenu.add(updateWellToPumpRatesAction);
-//		//updateWellToPumpRatesAction.setEnabled(false)
-//		menuItem.addMouseListener(mouseHandler);
-//
-		/* FERC removed from the draft model
-		menuItem = preProcessingMenu.add(createFutureEmissionRatesAction);
-		menuItem.addMouseListener(mouseHandler);
-		*/
-		menuItem = preProcessingMenu.add(dataImporterAction);
-		menuItem.addMouseListener(mouseHandler);
-		menuItem = preProcessingMenu.add(countyDataManagerAction);
-		menuItem.addMouseListener(mouseHandler);
-		menuItem = preProcessingMenu.add(projectDomainManagerAction);
-		menuItem.addMouseListener(mouseHandler);
-		menuItem = preProcessingMenu.add(nonroadDataImporterAction);
-		menuItem.addMouseListener(mouseHandler);
-//          This has been removed from the model.
-//		menuItem = preProcessingMenu.add(updateManufactureDisposalRatesAction);
-//		menuItem.addMouseListener(mouseHandler);
+
 		JMenu actionMenu = new JMenu("Action");
 		actionMenu.setMnemonic('A');
 		menuItem = actionMenu.add(executeAction);
@@ -619,8 +605,6 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		nonRoadPostProcessingMenuItem = postProcessingMenu.add(runNonroadScriptAction);
 		nonRoadPostProcessingMenuItem.addMouseListener(mouseHandler);
 		menuItem = postProcessingMenu.add(summaryReportAction);
-		menuItem.addMouseListener(mouseHandler);
-		menuItem = postProcessingMenu.add(mapAction);
 		menuItem.addMouseListener(mouseHandler);
 
 		postProcessingMenu.addMenuListener(new MenuListener() {
@@ -674,11 +658,15 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		menuItem.addMouseListener(mouseHandler);
 		menuItem = toolsMenu.add(pdSpecGUIAction);
 		menuItem.addMouseListener(mouseHandler);
-		menuItem = toolsMenu.add(converter2014aAction);
+		menuItem = toolsMenu.add(convert2014aTo3Action);
 		menuItem.addMouseListener(mouseHandler);
-		menuItem = toolsMenu.add(converter2014Action);
+		menuItem = toolsMenu.add(convert2014To3Action);
 		menuItem.addMouseListener(mouseHandler);
-		menuItem = toolsMenu.add(converterAction);
+		menuItem = toolsMenu.add(buildNLEVAction);
+		menuItem.addMouseListener(mouseHandler);
+		menuItem = toolsMenu.add(buildLEVAction);
+		menuItem.addMouseListener(mouseHandler);
+		menuItem = toolsMenu.add(oniToolAction);
 		menuItem.addMouseListener(mouseHandler);
 		JMenu settingsMenu = new JMenu("Settings");
 		settingsMenu.setMnemonic('S');
@@ -695,7 +683,6 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		menuItem.addMouseListener(mouseHandler);
 		menuBar.add(fileMenu);
 		menuBar.add(editMenu);
-		menuBar.add(preProcessingMenu);
 		menuBar.add(actionMenu);
 		menuBar.add(postProcessingMenu);
 		if(toolsMenu != null) {
@@ -705,12 +692,14 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		menuBar.add(helpMenu);
 		return menuBar;
 	}
+
 	/** Creates the status bar. **/
 	JLabel createStatusBar()  {
-		status = new JLabel("Ready...");
+		status = new JLabel("Ready for user input");
 		status.setBorder(BorderFactory.createEtchedBorder());
 		return status;
 	}
+
 	/**
 	 * This method acts as the Action handler delegate for all the actions.
 	 * @param evt The event caused by an action being performed.
@@ -775,12 +764,16 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 			handleRunScriptAction();
 		} else if (command.equals(runNonroadScriptAction.getActionCommand())) {
 			handleRunNonroadScriptAction();
-		} else if (command.equals(converterAction.getActionCommand())) {
-			handleConverterAction(Converter.MODE_2010A_TO_2010B);
-		} else if (command.equals(converter2014Action.getActionCommand())) {
-			handleConverterAction(Converter.MODE_2010B_TO_2014);
-		} else if (command.equals(converter2014aAction.getActionCommand())) {
-			handleConverterAction(Converter.MODE_2014_TO_2014A);
+		} else if (command.equals(buildLEVAction.getActionCommand())) {
+			handleBuilderAction(BuildLEVNLEV.MOVES3_MyLEVs);
+		} else if (command.equals(buildNLEVAction.getActionCommand())) {
+			handleBuilderAction(BuildLEVNLEV.MOVES3_MyNLEVs);
+		} else if (command.equals(convert2014To3Action.getActionCommand())) {
+			handleConverterAction(Converter.MODE_2014_TO_3);
+		} else if (command.equals(convert2014aTo3Action.getActionCommand())) {
+			handleConverterAction(Converter.MODE_2014A_TO_3);
+		} else if (command.equals(oniToolAction.getActionCommand())) {
+			handleONIToolAction();
 		} else if (command.equals(summaryReportAction.getActionCommand())) {
 			handleSummaryReportAction();
 		} else if (command.equals(userGuideAction.getActionCommand())) {
@@ -791,22 +784,13 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 			handleConfigureAction();
 		} else if (command.equals(MOVESRunErrorLogAction.getActionCommand())) {
 			handleMOVESRunErrorLogAction();
-		} else if (command.equals(mapAction.getActionCommand())) {
-			handleMapAction();
-		} else if (command.equals(dataImporterAction.getActionCommand())) {
-			handleDataImporterAction();
-		} else if (command.equals(countyDataManagerAction.getActionCommand())) {
-			handleCountyDataManagerAction();
-		} else if (command.equals(projectDomainManagerAction.getActionCommand())) {
-			handleProjectDomainManagerAction();
-		} else if (command.equals(nonroadDataImporterAction.getActionCommand())) {
-			handleNonroadDataImporterAction();
 		} else if (command.equals(loopingToolAction.getActionCommand())) {
 			handleLoopingToolAction();
 		} else if (command.equals(pdSpecGUIAction.getActionCommand())) {
 			handlePDSpecGUIAction();
 		}
 	}
+
 	/** Handles the New menu action. **/
 	void handleNewAction() {
 		int answer = JOptionPane.showConfirmDialog(this,
@@ -821,6 +805,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		}
 		loadAppDefaults();
 	}
+
 	/**
 	 * Helper function to load some application defaults, including the default database
 	 * connection.
@@ -840,6 +825,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		setupTitle(null);
 		navigationPanel.onFileNew();
 	}
+
 	/** Handles the Open menu action. **/
 	void handleOpenAction() {
 		int answer = JOptionPane.showConfirmDialog(this,
@@ -860,6 +846,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		String filePath = fd.getDirectory() + fd.getFile();
 		openFile(filePath);
 	}
+
 	/**
 	 * Helper function used by the various open file actions.
 	 * @param filePath the file name and path as String to open.
@@ -879,10 +866,12 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		setupTitle(filePath);
 		navigationPanel.setNavigationSelection(preservedModel);
 	}
+
 	/** Handles the Close menu action. **/
 	void handleCloseAction() {
 		handleNewAction(); // works just like New since there is alway a RunSpec open
 	}
+
 	/**
 	 * Handles the Save menu action.
 	 * @return true if the file was saved successfully
@@ -900,6 +889,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		navigationPanel.setNavigationSelection(preservedModel);
 		return MOVESAPI.getTheAPI().saveRunSpec();
 	}
+
 	/**
 	 * Handles the Save As menu action.
 	 * @return true if the file was saved successfully
@@ -920,6 +910,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		setupTitle(filePath);
 		return MOVESAPI.getTheAPI().saveRunSpec();
 	}
+
 	/** Handles the Print menu action. **/
 	void handlePrintAction() {
 		navigationPanel.commitActiveEditor();
@@ -942,6 +933,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		}
 		TextPrinter.printText(this, textBuffer.toString());
 	}
+
 	/** Handles the Previous File 1 menu action. **/
 	void handlePreviousFile1Action() {
 		String fileName = getMRUListItem(0);
@@ -949,6 +941,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 			openFile(fileName);
 		}
 	}
+
 	/** Handles the Previous File 2 menu action. **/
 	void handlePreviousFile2Action() {
 		String fileName = getMRUListItem(1);
@@ -956,6 +949,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 			openFile(fileName);
 		}
 	}
+
 	/** Handles the Previous File 3 menu action. **/
 	void handlePreviousFile3Action() {
 		String fileName = getMRUListItem(2);
@@ -963,6 +957,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 			openFile(fileName);
 		}
 	}
+
 	/** Handles the Previous File 4 menu action. **/
 	void handlePreviousFile4Action() {
 		String fileName = getMRUListItem(3);
@@ -970,6 +965,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 			openFile(fileName);
 		}
 	}
+
 	/**
 	 * Helper function that finds the corresponding MRU filename from the specified index.
 	 * @param 	index indicates which MRU list item to get.
@@ -981,6 +977,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		}
 		return new String("");
 	}
+
 	/** Handles the Exit menu action. **/
 	void handleExitAction() {
 		int answer = JOptionPane.showConfirmDialog(this,
@@ -1006,17 +1003,20 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 				Logger.logError(e, "Failed to stop MOVES engine");
 			}
 		}
+		/*
 		try { //from windowClosing()
 			SystemConfiguration.getTheSystemConfiguration().saveConfigurationData();
 		} catch(Exception e) {
 			//Logger.logException(e);
 			Logger.logError(e, "Failed to save configuration data");
 		}
+		*/
 		MOVESThread.signalAllToTerminate();
 		TemporaryFileManager.doDeletions(true);
 		MOVESAPI.shutdownFlagForMaster(); //from windowClosing()
 		System.exit(0);
 	}
+
 	/**
 	 * Handles the Clear menu action.
 	 * @param e The event caused by the action.
@@ -1039,6 +1039,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 			}
 		}
 	}
+
 	/**
 	 * Handles the ExecuteDataImporter menu action.
 	 * @param e The event caused by the action.
@@ -1048,6 +1049,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 				executeDataImporterAction.getShortDescription(),
 				JOptionPane.INFORMATION_MESSAGE);
 	}
+
 // updateWellToPumpRatesAction was removed from the model
 //	/**
 //	 * Handles the UpdateWellToPumpRates menu action.
@@ -1058,6 +1060,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 //		gi.updateWellToPumpRates();
 //	}
 //
+
 	/**
 	 * Handles the CreateFutureEmissionRates menu action.
 	 * @param e The event caused by the action.
@@ -1069,88 +1072,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		(new WindowStateHandler(f)).setSizePositionAndStartTracking(-1,-1);
 		f.showModal();
 	}
-	/**
-	 * Handle the Data Importer menu action.
-	**/
-	void handleDataImporterAction() {
-		checkImporterActions();
-		if(!dataImporterAction.isEnabled()) {
-			return;
-		}
-		showImporterManager(null,ImporterManager.STANDARD_MODE);
-	}
-	/**
-	 * Handle the Nonroad Data Importer menu action.
-	**/
-	void handleNonroadDataImporterAction() {
-		checkImporterActions();
-		if(!nonroadDataImporterAction.isEnabled()) {
-			return;
-		}
-		showImporterManager(null,ImporterManager.STANDARD_MODE);
-	}
-	/**
-	 * Handle the County Data Manager menu action.
-	**/
-	void handleCountyDataManagerAction() {
-		checkImporterActions();
-		if(!countyDataManagerAction.isEnabled()) {
-			return;
-		}
-		showImporterManager(ModelDomain.SINGLE_COUNTY,ImporterManager.STANDARD_MODE);
-	}
-	/**
-	 * Handle the Project Domain Manager menu action.
-	**/
-	void handleProjectDomainManagerAction() {
-		checkImporterActions();
-		if(!projectDomainManagerAction.isEnabled()) {
-			return;
-		}
-		showImporterManager(ModelDomain.PROJECT,ImporterManager.STANDARD_MODE);
-	}
-	/**
-	 * Show the ImporterManager GUI with the option of doing so for a county domain.
-	 * @param domainType domain type for the manager, or null for general importing.
-	 * @param mode one of the ImporterManager.*_MODE constants
-	**/
-	void showImporterManager(ModelDomain domainType, int mode) {
-		boolean isCountyDomain = domainType == ModelDomain.SINGLE_COUNTY;
-		boolean isProjectDomain = domainType == ModelDomain.PROJECT;
-		RunSpecEditor editor = navigationPanel.activeEditor;
-		if(editor == null) {
-			editor = navigationPanel.lastRunSpecEditor;
-		}
-		navigationPanel.commitActiveEditor();
-		if(isCountyDomain || isProjectDomain) {
-			ArrayList<String> messages = new ArrayList<String>();
-			int result = ImporterManager.isReadyForCountyDomain(null,messages);
-			if(result < 0) {
-				// Display the error messages
-				String t = "";
-				if(isCountyDomain) {
-					t = "Unable to open the County Data Manager.";
-				} else if(isProjectDomain) {
-					t = "Unable to open the Project Domain Manager.";
-				}
-				for(Iterator<String> i=messages.iterator();i.hasNext();) {
-					t += "\r\n";
-					t += i.next();
-				}
-				JOptionPane.showMessageDialog(this, t, "Error",	JOptionPane.ERROR_MESSAGE);
-				return;
-			}
-		}
-		ImporterManager.display(this,null,
-				getLocationOnScreen().x + 50, getLocationOnScreen().y + 50,
-				domainType,mode,Models.evaluateModels(runSpec.models));
-		if(editor != null) {
-			editor.loadFromRunSpec(runSpec);
-		}
-		rightScrollPane.invalidate();
-		rightScrollPane.setVisible(false);
-		rightScrollPane.setVisible(true);
-	}
+
 //	/**
 //	 * Handles the UpdateManufactureDisposalRates menu action.
 //	 * @param e The event caused by the action.
@@ -1159,6 +1081,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 //		GREETInterface gi = new GREETInterface(runSpec);
 //		gi.updateManufactureDisposalRates();
 //	}
+
 	/**
 	 * Handles the Cut menu action.
 	 * @param e The event caused by the action.
@@ -1174,6 +1097,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 			}
 		}
 	}
+
 	/**
 	 * Handles the Copy menu action.
 	 * @param e The event caused by the action.
@@ -1189,6 +1113,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 			}
 		}
 	}
+
 	/**
 	 * Handles the Paste menu action.
 	 * @param e The event caused by the action.
@@ -1204,6 +1129,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 			}
 		}
 	}
+
 	/**
 	 * Obtain wording for a Yes/No/Cancel dialog that requires the description, if present,
 	 * of the active RunSpec.
@@ -1228,6 +1154,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 			return primaryText;
 		}
 	}
+
 	/** Handles the Execute menu action. **/
 	synchronized void handleExecuteAction() {
 		checkExecuteAction();
@@ -1250,6 +1177,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 			return;
 		}
 		navigationPanel.clearSelection();
+		header.setText("");		
 		progressPanel.allowTimeDialog = true;
 		if(!MOVESAPI.getTheAPI().startMOVESEngine()) {
 			return;
@@ -1264,6 +1192,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		progressPanel.setProgressBarVisible(true);
 		setProgressOnlyMode(true);
 	}
+
 	/** Handles the Stop menu action. **/
 	void handleStopAction() {
 		Logger.log(LogMessageCategory.WARNING, "Execution Terminated by User");
@@ -1273,68 +1202,21 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 			Logger.logError(e, "Failed to stop MOVES engine");
 		}
 	}
+
 	/** Handles the Pause menu action. **/
 	synchronized void handlePauseAction() {
 		MOVESAPI.getTheAPI().pauseMOVESEngine();
 		pauseAction.setEnabled(false);
 		resumeAction.setEnabled(true);
 	}
+
 	/** Handles the Resume menu action. **/
 	synchronized void handleResumeAction() {
 		MOVESAPI.getTheAPI().resumeMOVESEngine();
 		pauseAction.setEnabled(true);
 		resumeAction.setEnabled(false);
 	}
-	/**
-	 * Handles the Draw State/County Map menu action.
-	**/
-	void handleMapAction() {
-		RunSpecEditor editor = navigationPanel.activeEditor;
-		if(editor == null) {
-			editor = navigationPanel.lastRunSpecEditor;
-		}
-		navigationPanel.commitActiveEditor();
-		if (runSpec.outputDatabase == null | runSpec.outputDatabase.databaseName.length() < 3) {
-			JOptionPane.showMessageDialog(this,
-				"Can't create map: No output DB specified in current RunSpec",
-				mapAction.getShortDescription(),
-				JOptionPane.ERROR_MESSAGE);
-			return;
-		}
-		Logger.log(LogMessageCategory.INFO,"Output database name: " + runSpec.outputDatabase.databaseName);
-		Connection oConn = runSpec.outputDatabase.openConnectionOrNull();
-		if (oConn == null) {
-			JOptionPane.showMessageDialog(this,
-				"Can't create map: Can't connect to output database",
-				mapAction.getShortDescription(),
-				JOptionPane.ERROR_MESSAGE);
-			return;
-		}
-		try {
-			StateCountyMapGUI mapGUI = new StateCountyMapGUI(this,oConn,
-					runSpec.outputDatabase.databaseName);
-			// simple offset from main window origin
-			mapGUI.setLocation(getLocationOnScreen().x + 50, getLocationOnScreen().y + 50);
-			mapGUI.showModal();
-		} catch(Exception e) {
-			Logger.log(LogMessageCategory.ERROR,
-					"Exception occurred while creating map: " + e);
-			e.printStackTrace();
-		} finally {
-			try {
-				oConn.close();
-			} catch (Exception e) {
-				; // can't do anything if there is a failure to close
-			}
-			oConn = null;
-		}
-		if(editor != null) {
-			editor.loadFromRunSpec(runSpec);
-		}
-		rightScrollPane.invalidate();
-		rightScrollPane.setVisible(false);
-		rightScrollPane.setVisible(true);
-	}
+
 	/** Handles the Run Script menu action. **/
 	void handleRunScriptAction() {
 		navigationPanel.commitActiveEditor();
@@ -1513,6 +1395,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 	public boolean accept(File f, String fn) {
 		return (fn.toUpperCase()).endsWith(".SQL");
 	}
+
 	/** Handles the Summary Report menu action. **/
 	void handleSummaryReportAction() {
 		navigationPanel.commitActiveEditor();
@@ -1553,6 +1436,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 			runScriptAction.getShortDescription(), JOptionPane.INFORMATION_MESSAGE);
 		}*/
 	}
+
 	/**
 	 * Handles the Convert Database menu action.
 	 * @param mode one of the Converter.MODE_* constants.
@@ -1563,6 +1447,28 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		c.setLocation(getLocationOnScreen().x + 100, getLocationOnScreen().y + 100);
 		c.showModal();
 	}
+	
+	/**
+	 * Handles the Build LEV/NLEV Database menu action.
+	 * @param mode one of the BuildLEVNLEV.MOVES3_* constants.
+	**/
+	void handleBuilderAction(int mode) {
+		BuildLEVNLEV b = new BuildLEVNLEV(this,mode);
+		// simple offset from main window origin
+		b.setLocation(getLocationOnScreen().x + 100, getLocationOnScreen().y + 100);
+		b.showModal();
+	}
+	
+	/**
+	 * Handles the Run ONI Tool menu action.
+	**/
+	void handleONIToolAction() {
+		ONITool ot = new ONITool(this);
+		// simple offset from main window origin
+		ot.setLocation(getLocationOnScreen().x + 100, getLocationOnScreen().y + 100);
+		ot.showModal();
+	}
+
 	/** Handles the Configure menu action. **/
 	void handleConfigureAction() {
 		Configure c = new Configure(this);
@@ -1570,10 +1476,12 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		c.setLocation(getLocationOnScreen().x + 100, getLocationOnScreen().y + 100);
 		c.showModal();
 	}
+
 	/** Handles the User Guide menu action. **/
 	void handleUserGuideAction() {
 		showURL("http://www.epa.gov/otaq/models/moves/");
 	}
+
 	/**
 	 * Open a web page in the default browser.
 	 * @param url web page to be shown.
@@ -1585,6 +1493,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 			Logger.logError(e,"Unable to display documentation: " + e.getMessage());
 		}
 	}
+
 	/**
 	 * Display a PDF file.
 	 * @param purpose type of PDF file, used for error message display
@@ -1623,6 +1532,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 					"Error Opening PDF", JOptionPane.ERROR_MESSAGE);
 		}
 	}
+
 	/**
 	 * Handles the About menu action.
 	 * @param shouldTimeout true if the dialog should be removed after a short time
@@ -1642,6 +1552,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		aboutDialog.setAlwaysOnTop(true);
 		aboutDialog.setVisible(true);
 	}
+
 	/**
 	 * Handles the Looping Tool menu action.
 	**/
@@ -1651,6 +1562,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		lt.setLocation(getLocationOnScreen().x + 100, getLocationOnScreen().y + 100);
 		lt.showModal();
 	}
+
 	/** Creates and initializes all controls on this frame. **/
 	public void createControls() {
 		setJMenuBar(createMenu());
@@ -1664,7 +1576,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		descriptionPanel.setName("descriptionPanel");
 		scalePanel = new Scale();
 		scalePanel.setName("scalePanel");
-		macroscaleGeographicBoundsPanel = new MacroscaleGeographicBounds();
+		macroscaleGeographicBoundsPanel = new MacroscaleGeographicBounds(this);
 		macroscaleGeographicBoundsPanel.setName("macroscaleGeographicBoundsPanel");
 		timeSpansPanel = new TimeSpans();
 		timeSpansPanel.setName("timeSpansPanel");
@@ -1685,9 +1597,12 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		generalOutputPanel.setName("generalOutputPanel");
 		advancedPerformancePanel = new AdvancedPerformanceFeatures();
 		advancedPerformancePanel.setName("advancedPerformancePanel");
+		createInputDatabasePanel = new CreateInputDatabase(runSpec);
+		createInputDatabasePanel.setName("createInputDatabase");
 		// Since MOVESNavigation depends upon the other panels, create it after the others.
 		navigationPanel = new MOVESNavigation(this);
 	}
+
 	/** Sets the layout of the controls. **/
 	public void arrangeControls() {
 		splitPane.setDividerLocation(0.25);
@@ -1695,6 +1610,15 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		splitPane.setRightComponent(rightScrollPane);
 		leftScrollPane.setViewportView(navigationPanel);
 		rightScrollPane.setViewportView(progressPanel);
+        
+        JViewport columnHeader = new JViewport();
+        header.setSize(200, 50);
+        header.setText("");
+        header.setHorizontalAlignment(JLabel.CENTER);
+        header.setFont(new Font(Constants.SCREEN_TITLE_FONT_FAMILY, Constants.SCREEN_TITLE_FONT_STYLE, Constants.SCREEN_TITLE_FONT_SIZE));
+        columnHeader.add(header);
+        rightScrollPane.setColumnHeader(columnHeader);
+        		
 		getContentPane().setLayout(new BorderLayout());
 		getContentPane().add(splitPane, "Center");
 		getContentPane().add(status, "South");
@@ -1705,6 +1629,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		//setVisible(true); Don't do this here or the user will be able to interact
 		//					with the GUI before all database connections have been made.
 	}
+
 	/**
 	 * Sets the window in one of two modes:
 	 * <ul>
@@ -1740,6 +1665,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		}
 		repaint();
 	}
+
 	/**
 	 * This adapter is constructed to handle mouse over component events.
 	**/
@@ -1776,21 +1702,34 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 				}
 			}
 		}
+		/**
+		 * Display label when mouse has exited component.
+		 * @param evt The event caused the mouseover action.
+		**/
+		public void mouseExited(MouseEvent evt)  {
+			updateStatusBarWithRunSpecStatus();
+		}
+		/**
+		 * Display label when mouse has pressed component.
+		 * (not using mouseClicked because the actionLister is using that)
+		 * @param evt The event caused the mouseover action.
+		**/
+		public void mousePressed(MouseEvent evt)  {
+			updateStatusBarWithRunSpecStatus();
+		}
+		
+		/*
+		 * Update label text based on RunSpec status
+		 */
+		public void updateStatusBarWithRunSpecStatus() {
+			if (isRunSpecReady()) {
+				label.setText("Ready to run...");
+			} else {
+				label.setText("RunSpec is incomplete");
+			}
+		}
 	}
-	/**
-	 * Enable/disable the domain importer menu options based upon the scale
-	 * selection within the runspec.
-	**/
-	void checkImporterActions() {
-		boolean isNonroad = Models.evaluateModels(runSpec.models) == Models.ModelCombination.M2;
-		boolean isNationalDomain = !isNonroad && runSpec.domain == ModelDomain.NATIONAL_ALLOCATION;
-		boolean isCountyDomain = !isNonroad && runSpec.domain == ModelDomain.SINGLE_COUNTY;
-		boolean isProjectDomain = !isNonroad && runSpec.domain == ModelDomain.PROJECT;
-		dataImporterAction.setEnabled(isNationalDomain);
-		countyDataManagerAction.setEnabled(isCountyDomain);
-		projectDomainManagerAction.setEnabled(isProjectDomain);
-		nonroadDataImporterAction.setEnabled(isNonroad);
-	}
+
 	/**
 	 * Sets the execute action menu item enabled if all RunSpecEditors don't have the NOT_READY
 	 * state with extra logic for vehicle statuses since there only needs to be at least one of
@@ -1801,9 +1740,11 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 			executeAction.setEnabled(false);
 			return;
 		}
-		// Update the Action menu based on the total ready state
+		// Update the Action menu and status bar based on the total ready state
 		executeAction.setEnabled(isRunSpecReady());
+		mouseHandler.updateStatusBarWithRunSpecStatus();
 	}
+
 	/**
 	 * Checks the RunSpec's sections, returning true if all are ready to be used.
 	 * @return true if the RunSpec is ready (or at least nothing is marked as not ready)
@@ -1832,6 +1773,39 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		}
 		return allReady && (onRoadReady || offRoadReady);
 	}
+	
+	/**
+	 * Checks the RunSpec's sections, returning true if Create Input Database panel is ready to be used.
+	   It is enabled if all other panels are ready (similar to isRunSpecReady(), except it doesn't check itself)
+	**/
+	boolean shouldCreateInputDatabaseBeEnabled() {
+		boolean allReadyExceptInputDatabase = true;
+		// Walk the list of option statuses (excluding vehicle statuses)
+		boolean onRoadReady = true;
+		boolean offRoadReady = true;
+		Iterator keyIterator = navigationPanel.optionStatuses.keySet().iterator();
+		while(keyIterator.hasNext()) {
+			String nextEditorName = keyIterator.next().toString();
+			if(nextEditorName.equalsIgnoreCase("createInputDatabase")) {
+				continue;
+			}
+			RunSpecSectionStatus iterStatus =
+					(RunSpecSectionStatus)navigationPanel.optionStatuses.get(
+					nextEditorName);
+			if(iterStatus.status == RunSpecSectionStatus.NOT_READY) {
+				if(nextEditorName.equalsIgnoreCase("onRoadVehicleEquipmentPanel")) {
+					onRoadReady = false;
+				} else if(nextEditorName.equalsIgnoreCase("offRoadVehicleEquipmentPanel")) {
+					offRoadReady = false;
+				} else {
+					allReadyExceptInputDatabase = false;
+					break;
+				}
+			}
+		}
+		return allReadyExceptInputDatabase && (onRoadReady || offRoadReady);
+	}
+
 	/**
 	 * Logs the message to some medium based on the type.
 	 * @param	type int value indicating the type of message.  The values should come from
@@ -1846,6 +1820,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 			addLogMessage("ERROR:  " + message);
 		}
 	}
+
 	/** Handles timer events for logHandlerTimer. **/
 	void handleLogHandlerTimer() {
 		String message = getLogMessage();
@@ -1855,6 +1830,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 //		JOptionPane.showMessageDialog(this, message, "Warning",
 //				JOptionPane.WARNING_MESSAGE);
 	}
+
 	/**
 	 * Gets and removes the first message from the message log queue.
 	 * @return String the first message to retrieve.
@@ -1865,6 +1841,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		}
 		return null;
 	}
+
 	/**
 	 * Adds a message to the end of the message log queue.
 	 * @param	newMessage the String to add.
@@ -1872,6 +1849,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 	synchronized void addLogMessage(String newMessage) {
 		logHandlerQueue.addLast(newMessage);
 	}
+
 	/** Handles the MOVESRunErrorLog menu action. **/
 	void handleMOVESRunErrorLogAction() {
 		if(!DatabaseConnectionManager.initialize(MOVESDatabaseType.OUTPUT)) {
@@ -1886,6 +1864,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		d.setLocation(getLocationOnScreen().x + 100, getLocationOnScreen().y + 100);
 		d.showModal();
 	}
+
 	/** Handles the "Process DONE Files" menu action. **/
 	synchronized void handlePDSpecGUIAction() {
 		if(stopAction.isEnabled()) { // don't start if a simulation is running
@@ -1924,6 +1903,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		progressPanel.setProgressBarVisible(true);
 		setProgressOnlyMode(true);
 	}
+
 	/**
 	 * Invoked when a key has been typed. This event occurs when a key press is
 	 * followed by a key release.
@@ -1932,6 +1912,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 	public void keyTyped(KeyEvent e) {
 		// Nothing to do here
 	}
+
 	/**
 	 * Invoked when a key has been pressed.
 	 * @param e associated KeyEvent
@@ -1939,6 +1920,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 	public void keyPressed(KeyEvent e) {
 		// Nothing to do here
 	}
+
 	/**
 	 * Invoked when a key has been released.
 	 * @param e associated KeyEvent
@@ -1946,4 +1928,70 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 	public void keyReleased(KeyEvent e) {
 		// Nothing to do here
 	}
+
+	/**
+	 * Set the cursor to the wait cursor
+	**/
+	public void setWaitCursor() {
+		RootPaneContainer root = (RootPaneContainer) this.getRootPane().getTopLevelAncestor();
+		root.getGlassPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+		root.getGlassPane().setVisible(true);
+    }
+	
+	/**
+	 * Set the cursor to the default cursor
+	**/
+    public void setDefaultCursor() {
+		RootPaneContainer root = (RootPaneContainer) this.getRootPane().getTopLevelAncestor();
+		root.getGlassPane().setCursor(Cursor.getDefaultCursor());
+		root.getGlassPane().setVisible(true);
+    }
+
+    /**
+     * Handles assigning the viewport and the screen title.
+     * 
+     * @param p - JPanel allows for investigation of panel object to properly
+     *  assign the 'screen title'.
+     */
+    public void setView(JPanel p) {
+        rightScrollPane.setViewportView(p);
+        header.setText("");
+        if (p instanceof Description) {
+            header.setText(Constants.DESCRIPTION_SCREEN_TITLE);    
+        }
+        else if (p instanceof Scale) {
+            header.setText(Constants.SCALE_SCREEN_TITLE);    
+        }
+        else if (p instanceof TimeSpans) {
+            header.setText(Constants.TIME_SPANS_SCREEN_TITLE);
+        }
+        else if (p instanceof MacroscaleGeographicBounds) {
+            header.setText(Constants.GEOGRAPHIC_BOUNDS_SCREEN_TITLE);    
+        }
+        else if (p instanceof OnRoadVehicleEquipment) {
+            header.setText(Constants.ONROAD_VEHICLES_SCREEN_TITLE);
+        }
+        else if (p instanceof OffRoadVehicleEquipment) {
+            header.setText(Constants.NONROAD_EQUIPMENT_SCREEN_TITLE);
+        }
+        else if (p instanceof RoadTypeScreen) {
+            header.setText(Constants.ROAD_TYPE_SCREEN_TITLE);
+        }
+        else if (p instanceof PollutantsAndProcesses) {
+            header.setText(Constants.POLLUTANTS_AND_PROCESSES_SCREEN_TITLE);
+        }
+        else if (p instanceof GeneralOutput) {
+            header.setText(Constants.GENERAL_OUTPUT_SCREEN_TITLE);
+        }
+        else if (p instanceof OutputEmissionsBreakdown) {
+            header.setText(Constants.OUTPUT_EMISSIONS_DETAIL_SCREEN_TITLE);
+        }
+        else if (p instanceof CreateInputDatabase) {
+            header.setText(Constants.CREATE_INPUT_DATABASE_SCREEN_TITLE);
+        }
+        else if (p instanceof AdvancedPerformanceFeatures) {
+            header.setText(Constants.ADVANCED_FEATURES_SCREEN_TITLE);
+        }
+    }        
+    
 }

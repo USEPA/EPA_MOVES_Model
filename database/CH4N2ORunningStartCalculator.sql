@@ -261,7 +261,7 @@ CREATE TABLE EmissionRate2
 	SELECT er.*, ppa.pollutantID, ppa.processID 
 	FROM EmissionRate AS er INNER JOIN PollutantProcessAssoc AS ppa 
 	USING (polProcessID)  
-	WHERE ppa.pollutantID = 6 AND er.opModeID = 300;
+	WHERE ppa.pollutantID = 6 AND er.opModeID >= 0 AND er.OpModeID < 100;
 CREATE TABLE SourceBinDistribution2
 	SELECT sbd.*, sb.fuelTypeID
 	FROM SourceBinDistribution AS sbd INNER JOIN SourceBin AS sb USING (sourceBinID);

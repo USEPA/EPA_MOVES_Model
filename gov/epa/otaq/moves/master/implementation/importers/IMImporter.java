@@ -320,6 +320,7 @@ public class IMImporter extends ImporterBase {
 
 	/**
 	 * Check a RunSpec against the database or for display of the importer.
+	 * Look for an OK or a NOT_READY message from the IMCoverageImporter.sql script
 	 * @param db database to be examined.
 	 * @return the status, or null if the status should not be shown to the user.
 	 * @throws Exception if anything goes wrong

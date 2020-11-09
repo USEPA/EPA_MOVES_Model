@@ -13,8 +13,8 @@ import org.apache.poi.ss.usermodel.*;
 /**
  * Read XLSX, XLS, CSV, or tabbed text files.
  *
- * @author		Wesley Faler
- * @version		2015-06-09
+ * @author		Wesley Faler, Daniel Bizer-Cox
+ * @version		2020-03-30
 **/
 public class CellFileReader {
 	/** Time zone for converting date/time cells, set on first use **/
@@ -358,7 +358,7 @@ public class CellFileReader {
 			if(contents == null || contents.length() <= 0) {
 				return null;
 			}
-			return new Integer((int)Double.parseDouble(contents));
+			return Integer.valueOf((int)Double.parseDouble(contents));
 		} finally {
 			maxColumnIndex = Math.max(columnIndex,maxColumnIndex);
 		}
@@ -398,7 +398,7 @@ public class CellFileReader {
 			if(contents == null || contents.length() <= 0) {
 				return null;
 			}
-			return new Double(Double.parseDouble(contents));
+			return Double.valueOf(Double.parseDouble(contents));
 		} finally {
 			maxColumnIndex = Math.max(columnIndex,maxColumnIndex);
 		}
@@ -441,8 +441,8 @@ public class CellFileReader {
 		currentLine = null;
 		if(fileType == CellFile.XLS || fileType == CellFile.XLSX) {
 			row = null;
-			if(rowIndex > 65000) {
-				throw new IOException("XLS/XLSX row limit reached, not all data was read.");
+			if(fileType == CellFile.XLS && rowIndex > 65000) {
+				throw new IOException("XLS row limit reached, not all data was read.");
 			}
 			if(rowIndex > lastRow) {
 				currentLine = null;

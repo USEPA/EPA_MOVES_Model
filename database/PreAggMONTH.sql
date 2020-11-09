@@ -8,7 +8,8 @@
 -- Author Wesley Faler
 -- Author Gwo Shyu
 -- Author Mitch Cumberworth
--- Version 2015-06-03
+-- Author Jarrod Brown, Michael Aldridge, Daniel Bizer-Cox, Evan Murray
+-- Version 2019-05-27
 -- Written By Mitch Cumberworth, April, 2004
 -- Change history:
 --   Updated by Mitch Cumberworth, July, 2005 for Task 208
@@ -36,12 +37,20 @@ DROP TABLE IF EXISTS OldSHO;
 DROP TABLE IF EXISTS OldSourceHours;
 DROP TABLE IF EXISTS OldStarts;
 DROP TABLE IF EXISTS OldExtendedIdleHours;
+DROP TABLE IF EXISTS OldHotellingHourFraction;
+DROP TABLE IF EXISTS OldHotellingHoursPerDay;
 DROP TABLE IF EXISTS OldSampleVehicleSoakingDay;
 DROP TABLE IF EXISTS OldSampleVehicleTrip;
 DROP TABLE IF EXISTS OldSampleVehicleDay;
 DROP TABLE IF EXISTS OldStartsPerVehicle;
+DROP TABLE IF EXISTS OldStartsOpModeDistribution;
+DROP TABLE IF EXISTS OldStartsHourFraction;
+DROP TABLE IF EXISTS OldStartsPerDayPerVehicle;
+DROP TABLE IF EXISTS OldStartsPerDay;
 DROP TABLE IF EXISTS OldAverageTankTemperature;
 DROP TABLE IF EXISTS OldSoakActivityFraction;
+DROP TABLE IF EXISTS OldTotalIdleFraction;
+DROP TABLE IF EXISTS OldIdleDayAdjust;
 
 --
 -- Create DayWeighting1 to be used to weight daily activity 
@@ -154,14 +163,6 @@ INSERT INTO DayWeighting3Normalized
   SELECT dayID, actFract FROM DayWeighting2Normalized WHERE sourceTypeID=21;
 CREATE UNIQUE INDEX index1 ON DayWeighting3Normalized (dayID);
 
---
--- DayOfAnyWeek Table
---
--- SELECT "Making DayOfAnyWeek" AS MARKER_POINT;
-TRUNCATE DayOfAnyWeek;
-INSERT INTO DayOfAnyWeek (dayID, dayName, noOfRealDays)
-  VALUES (0, "Whole Week", 7);
-FLUSH TABLE DayOfAnyWeek;
   
 --
 -- HourDay Table  (save old version as it is needed later)
@@ -357,6 +358,35 @@ REPLACE INTO ExtendedIdleHours (sourceTypeID, hourDayID, monthID, yearID, ageID,
   GROUP BY sourceTypeID, monthID, yearID, ageID, zoneID;
 FLUSH TABLE ExtendedIdleHours;
 
+-- HotellingHourFraction
+--
+-- SELECT "Making HotellingHourFraction" AS MARKER_POINT;
+CREATE TABLE OldHotellingHourFraction
+  SELECT * FROM HotellingHourFraction;
+TRUNCATE HotellingHourFraction;
+INSERT INTO HotellingHourFraction (zoneID, dayID, hourID, hourFraction)
+  SELECT zoneID, 0 as dayID, 0 as hourID, sum(hourFraction) / aggregation.hourFractionTotal as hourFraction
+  FROM OldHotellingHourFraction INNER JOIN
+       (SELECT zoneID, sum(hourFraction) as hourFractionTotal
+        FROM OldHotellingHourFraction
+        GROUP BY zoneID) AS aggregation
+  USING (zoneID)
+  GROUP BY zoneID;
+FLUSH TABLE HotellingHourFraction;
+
+-- HotellingHoursPerDay
+-- 
+-- SELECT "Making HotellingHoursPerDay" AS MARKER_POINT;
+CREATE TABLE OldHotellingHoursPerDay
+	SELECT * FROM HotellingHoursPerDay;
+TRUNCATE HotellingHoursPerDay;
+INSERT INTO HotellingHoursPerDay (yearID, zoneID, dayID, hotellinghoursperday)
+	SELECT yearID, zoneID, 0 as dayID, sum(hotellinghoursperday * noOfRealDays / 7) as hotellinghoursperday
+	FROM OldHotellingHoursPerDay
+	INNER JOIN dayOfAnyWeek using (dayID)
+	GROUP BY yearID, zoneID;
+FLUSH TABLE HotellingHoursPerDay;
+
 --
 -- SampleVehicleSoakingDay
 -- 
@@ -405,6 +435,66 @@ REPLACE INTO StartsPerVehicle (sourceTypeID, hourDayID,
     NULL AS startsPerVehicleCV
   FROM OldStartsPerVehicle GROUP BY sourceTypeID;
 FLUSH TABLE StartsPerVehicle;
+
+-- StartsOpModeDistribution
+-- 
+-- SELECT "Making StartsOpModeDistribution" AS MARKER_POINT;
+CREATE TABLE OldStartsOpModeDistribution
+  SELECT * FROM StartsOpModeDistribution;
+TRUNCATE StartsOpModeDistribution;
+INSERT INTO StartsOpModeDistribution (dayID, hourID, sourceTypeID, ageID,
+  opModeID, opModeFraction, isUserInput)
+  SELECT 0 as dayID, 0 as hourID, sourceTypeID, ageID, opModeID,
+    sum(opModeFraction * dayID * startsPerDayPerVehicle) / aggregation.opModeFractionTotal as opModeFraction, 'Y' as isUserInput
+  FROM OldStartsOpModeDistribution INNER JOIN
+       (SELECT sourceTypeID, ageID, sum(opModeFraction * dayID * startsPerDayPerVehicle) as opModeFractionTotal
+        FROM OldStartsOpModeDistribution INNER JOIN startsperdaypervehicle
+        USING (dayID, sourceTypeID)
+        GROUP BY sourceTypeID, ageID) AS aggregation
+  USING (sourceTypeID, ageID) INNER JOIN startsperdaypervehicle
+  USING (dayID, sourceTypeID)
+  GROUP BY sourceTypeID, ageID, opModeID;
+FLUSH TABLE StartsOpModeDistribution;
+
+-- StartsHourFraction
+--
+-- SELECT "Making StartsHourFraction" AS MARKER_POINT;
+CREATE TABLE OldStartsHourFraction
+  SELECT * FROM StartsHourFraction;
+TRUNCATE StartsHourFraction;
+INSERT INTO StartsHourFraction (dayID, hourID, sourceTypeID, allocationFraction)
+  SELECT 0 as dayID, 0 as hourID, sourceTypeID, sum(allocationFraction) / aggregation.allocationFractionTotal as allocationFraction
+  FROM OldStartsHourFraction INNER JOIN
+       (SELECT sourceTypeID, sum(allocationFraction) as allocationFractionTotal
+        FROM OldStartsHourFraction
+        GROUP BY sourceTypeID) AS aggregation
+  USING (sourceTypeID)
+  GROUP BY sourceTypeID;
+FLUSH TABLE StartsHourFraction;
+
+-- StartsPerDayPerVehicle
+-- 
+-- SELECT "Making StartsPerDayPerVehicle" AS MARKER_POINT;
+CREATE TABLE OldStartsPerDayPerVehicle
+  SELECT * FROM StartsPerDayPerVehicle;
+TRUNCATE StartsPerDayPerVehicle;
+INSERT INTO StartsPerDayPerVehicle (dayID, sourceTypeID, startsPerDayPerVehicle)
+  SELECT 0 as dayID, sourceTypeID, sum((startsPerDayPerVehicle * dayID) / 7) as startsPerDayPerVehicle
+  FROM OldStartsPerDayPerVehicle
+  GROUP BY sourceTypeID;
+FLUSH TABLE StartsPerDayPerVehicle;
+
+-- StartsPerDay
+-- 
+-- SELECT "Making StartsPerDay" AS MARKER_POINT;
+CREATE TABLE OldStartsPerDay
+  SELECT * FROM StartsPerDay;
+TRUNCATE StartsPerDay;
+INSERT INTO StartsPerDay (dayID, sourceTypeID, startsPerDay)
+  SELECT 0 as dayID, sourceTypeID, sum((startsPerDay * dayID) / 7) as startsPerDay
+  FROM OldStartsPerDay
+  GROUP BY sourceTypeID;
+FLUSH TABLE StartsPerDay;
   
 --
 -- AverageTankTemperature
@@ -441,6 +531,45 @@ REPLACE INTO SoakActivityFraction (sourceTypeID, zoneID, monthID,
 FLUSH TABLE SoakActivityFraction;
 
 --
+-- TotalIdleFraction
+--
+-- SELECT "Making TotalIdleFraction" AS MARKER_POINT;
+CREATE TABLE OldTotalIdleFraction
+  SELECT sourceTypeID, minModelYearID, maxModelYearID, monthID, dayID, idleRegionID, countyTypeID, totalIdleFraction
+    FROM TotalIdleFraction;
+TRUNCATE TotalIdleFraction;
+INSERT INTO TotalIdleFraction (sourceTypeID, minModelYearID, maxModelYearID, monthID, dayID, idleRegionID, countyTypeID, totalIdleFraction)
+  SELECT sourceTypeID,  minModelYearID, maxModelYearID, monthID, 0 as dayID, idleRegionID, countyTypeID, sum(totalIdleFraction*DayWeighting2Normalized.actFract)
+  FROM OldTotalIdleFraction
+  LEFT JOIN DayWeighting2Normalized
+  USING (sourceTypeID, dayID)
+  GROUP BY sourceTypeID,  minModelYearID, maxModelYearID, monthID, idleRegionID, countyTypeID;
+FLUSH TABLE TotalIdleFraction;
+
+-- IdleDayAdjust
+-- 
+-- SELECT "Making IdleDayAdjust" AS MARKER_POINT;
+CREATE TABLE OldIdleDayAdjust
+	SELECT * FROM IdleDayAdjust;
+TRUNCATE IdleDayAdjust;
+INSERT INTO IdleDayAdjust (sourceTypeID, dayID, idleDayAdjust)
+	SELECT sourceTypeID, 0 as dayID, sum(idleDayAdjust * noOfRealDays / 7) as idleDayAdjust
+	FROM OldIdleDayAdjust
+	JOIN dayOfAnyWeek using(dayID)
+	GROUP BY sourceTypeID;
+FLUSH TABLE IdleDayAdjust;
+	
+	
+--
+-- DayOfAnyWeek Table
+--
+-- SELECT "Making DayOfAnyWeek" AS MARKER_POINT;
+TRUNCATE DayOfAnyWeek;
+INSERT INTO DayOfAnyWeek (dayID, dayName, noOfRealDays)
+  VALUES (0, "Whole Week", 7);
+FLUSH TABLE DayOfAnyWeek;
+
+--
 -- Drop any New Tables Created 
 --
 
@@ -465,12 +594,20 @@ DROP TABLE IF EXISTS OldSHO;
 DROP TABLE IF EXISTS OldSourceHours;
 DROP TABLE IF EXISTS OldStarts;
 DROP TABLE IF EXISTS OldExtendedIdleHours;
+DROP TABLE IF EXISTS OldHotellingHourFraction;
+DROP TABLE IF EXISTS OldHotellingHoursPerDay;
 DROP TABLE IF EXISTS OldSampleVehicleSoakingDay;
 DROP TABLE IF EXISTS OldSampleVehicleTrip;
 DROP TABLE IF EXISTS OldSampleVehicleDay;
 DROP TABLE IF EXISTS OldStartsPerVehicle;
+DROP TABLE IF EXISTS OldStartsOpModeDistribution;
+DROP TABLE IF EXISTS OldStartsHourFraction;
+DROP TABLE IF EXISTS OldStartsPerDayPerVehicle;
+DROP TABLE IF EXISTS OldStartsPerDay;
 DROP TABLE IF EXISTS OldAverageTankTemperature;
 DROP TABLE IF EXISTS OldSoakActivityFraction;
+DROP TABLE IF EXISTS OldTotalIdleFraction;
+DROP TABLE IF EXISTS OldIdleDayAdjust;
 
 -- FLUSH TABLES;
   

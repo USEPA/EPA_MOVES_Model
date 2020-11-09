@@ -9,6 +9,7 @@ package gov.epa.otaq.moves.master.gui;
 import java.sql.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.text.*;
@@ -25,7 +26,8 @@ import gov.epa.otaq.moves.master.gui.*;
  *
  * @author		Daniel Cox
  * @author		Wesley Faler
- * @version		2014-06-27
+ * @author		Mike Kender (Task 2003)
+ * @version 	2020-08-13
 **/
 public class LoginDialog extends JDialog implements ActionListener {
 	/**
@@ -49,7 +51,7 @@ public class LoginDialog extends JDialog implements ActionListener {
 				return true;
 			}
 			shouldUpdateConfiguration = true;
-			Logger.log(LogMessageCategory.INFO,"Prompting for database login...");
+			Logger.log(LogMessageCategory.INFO,"Could not connect to MariaDB. Is the server running, and is MOVES looking for it on the correct port? Prompting for database login in case the MOVES user credential changed.");
 			LoginDialog d = new LoginDialog(null);
 			d.showModal();
 			if(!d.clickedOK) {
@@ -81,6 +83,8 @@ public class LoginDialog extends JDialog implements ActionListener {
 	JTextField userName;
 	/** Password **/
 	JPasswordField password;
+	
+	JLabel labelInfo;
 
 	/**
 	 * Constructs the main panel, also creates and sets the layouts of the controls.
@@ -104,7 +108,7 @@ public class LoginDialog extends JDialog implements ActionListener {
 		}
 		pack();
 		setModal(true);
-		(new WindowStateHandler(this)).setSizePositionAndStartTracking(550,260);
+		(new WindowStateHandler(this)).setSizePositionAndStartTracking(550,406);
 		setVisible(true); //show();
 	}
 
@@ -133,8 +137,15 @@ public class LoginDialog extends JDialog implements ActionListener {
 	void createControls() {
 		okButton = new JButton("Login");
 		okButton.addActionListener(this);
+		okButton.setMnemonic('L');
+		okButton.setDisplayedMnemonicIndex(0);
+		ToolTipHelper.add(okButton, "Submit login info");
+
 		cancelButton = new JButton("Quit MOVES");
 		cancelButton.addActionListener(this);
+		cancelButton.setMnemonic('Q');
+		cancelButton.setDisplayedMnemonicIndex(0);
+		ToolTipHelper.add(cancelButton, "Close the MOVES application");
 
 		labelUser = new JLabel("User:");
 		labelUser.setName("labelUser");
@@ -142,17 +153,36 @@ public class LoginDialog extends JDialog implements ActionListener {
 		userName = new JTextField();
 		userName.setName("userName");
 		userName.setColumns(20);
+		labelUser.setDisplayedMnemonic('U');
+		labelUser.setLabelFor(userName);
 
 		labelPassword = new JLabel("Password:");
 		labelPassword.setName("labelPassword");
+		labelPassword.setDisplayedMnemonic('P');
+		labelPassword.setLabelFor(password);
 
 		password = new JPasswordField();
 		password.setName("password");
 		password.setColumns(20);
-
-		image = new ImageIcon("gov/epa/otaq/moves/master/gui/images/moves_logo_480.png");
+		labelPassword.setDisplayedMnemonic('P');
+		labelPassword.setLabelFor(password);
+		
+		
+		ImageIcon movesLogo100 = new ImageIcon("gov/epa/otaq/moves/master/gui/images/MOVES3-logo-480.png");
+		ImageIcon movesLogo125 = new ImageIcon("gov/epa/otaq/moves/master/gui/images/MOVES3-logo-600.png");
+		ImageIcon movesLogo150 = new ImageIcon("gov/epa/otaq/moves/master/gui/images/MOVES3-logo-720.png");
+		ImageIcon movesLogo175 = new ImageIcon("gov/epa/otaq/moves/master/gui/images/MOVES3-logo-840.png");
+		BaseMultiResolutionImage bmri = new BaseMultiResolutionImage(movesLogo100.getImage(), movesLogo125.getImage(), movesLogo150.getImage(), movesLogo175.getImage());
+		image = new ImageIcon(bmri);
 		imageLabel = new JLabel(image);
 		imageLabel.setName("imageLabel");
+		
+		labelInfo = new JLabel("<html><body><p style=\"padding: 15px;\">MOVES could not connect to MariaDB. Is the server running, " +
+							   "and is MOVES looking for it on the correct port? After addressing the issue, click \"Quit MOVES\" " + 
+							   "and run MOVES again.</p><p style=\"padding: 0px 15px 15px;\">For more information, see the help files in " +
+							   "the Installation subdirectory where MOVES is installed.</p><p style=\"padding: 0px 15px 15px;\">If the " + 
+							   "MOVES database user credentials have changed, use this form below:</p></body></html>");
+		labelInfo.setName("Info");
 	}
 
 	/**
@@ -224,6 +254,12 @@ public class LoginDialog extends JDialog implements ActionListener {
 		coreHorizontal.add(Box.createHorizontalGlue());
 		coreHorizontal.add(core);
 		coreHorizontal.add(Box.createHorizontalGlue());
+		
+		JPanel infoHorizontal = new JPanel();
+		infoHorizontal.setLayout(new BoxLayout(infoHorizontal, BoxLayout.X_AXIS));
+		infoHorizontal.add(Box.createHorizontalGlue());
+		infoHorizontal.add(labelInfo);
+		infoHorizontal.add(Box.createHorizontalGlue());
 
 		JPanel imageHorizontal = new JPanel();
 		imageHorizontal.setLayout(new BoxLayout(imageHorizontal, BoxLayout.X_AXIS));
@@ -234,8 +270,10 @@ public class LoginDialog extends JDialog implements ActionListener {
 		JPanel result = new JPanel();
 		result.setLayout(new BoxLayout(result, BoxLayout.Y_AXIS));
 		result.add(imageHorizontal);
-		result.add(coreHorizontal);
 		result.add(Box.createVerticalGlue());
+		result.add(infoHorizontal);
+		result.add(Box.createVerticalGlue());
+		result.add(coreHorizontal);
 		
 		return result;
 	}

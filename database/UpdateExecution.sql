@@ -1,6 +1,9 @@
 -- Update utility tables in the MOVESExecution database.
 -- Author Wesley Faler
--- Version 2013-09-30
+-- Version 2016-03-15
+--
+-- Author Daniel Bizer-Cox
+-- Version 2019-12-05
 
 -- --------------------------------------------------------------------
 -- Create RegClassSourceTypeFraction
@@ -13,46 +16,6 @@ create table if not exists runspecSourceTypeModelYearID (
 insert into runspecSourceTypeModelYearID (sourceTypeModelYearID)
 select sourceTypeID*10000 + modelYearID
 from runspecSourceType, runspecModelYear;
-
-drop table if exists tempRegClassSourceTypeTotal;
-create table if not exists tempRegClassSourceTypeTotal (
-	fuelTypeID smallint not null,
-	modelYearID smallint not null,
-	sourceTypeID smallint not null,
-	total double not null default 0,
-	primary key (fuelTypeID, modelYearID, sourceTypeID)
-);
-
-insert into tempRegClassSourceTypeTotal (sourceTypeID, modelYearID, fuelTypeID, total)
-select floor(svp.sourceTypeModelYearID/10000) as sourceTypeID, 
-	mod(svp.sourceTypeModelYearID,10000) as modelYearID, 
-	svp.fuelTypeID, 
-	sum(svp.stmyFraction) as stmyfueltotal
-from sampleVehiclePopulation svp
-inner join runspecSourceTypeModelYearID using (sourceTypeModelYearID)
-group by svp.sourceTypeModelYearID, svp.fuelTypeID
-having sum(svp.stmyFraction) > 0;
-
-drop table if exists tempRegClassSourceTypeFraction;
-create table if not exists tempRegClassSourceTypeFraction (
-	fuelTypeID smallint not null,
-	modelYearID smallint not null,
-	sourceTypeID smallint not null,
-	regClassID smallint not null,
-	regTotal double not null default 0,
-	primary key (fuelTypeID, modelYearID, sourceTypeID, regClassID)
-);
-
-insert into tempRegClassSourceTypeFraction(sourceTypeID, modelYearID, fuelTypeID, regClassID, regTotal)
-select floor(svp.sourceTypeModelYearID/10000) as sourceTypeID, 
-	mod(svp.sourceTypeModelYearID,10000) as modelYearID, 
-	svp.fuelTypeID, 
-	svp.regClassID,
-	sum(svp.stmyFraction) as regTotal
-from sampleVehiclePopulation svp
-inner join runspecSourceTypeModelYearID using (sourceTypeModelYearID)
-group by svp.sourceTypeModelYearID, svp.fuelTypeID, svp.regClassID
-having sum(svp.stmyFraction) > 0;
 
 drop table if exists RegClassSourceTypeFraction;
 create table if not exists RegClassSourceTypeFraction (
@@ -69,17 +32,31 @@ create table if not exists RegClassSourceTypeFraction (
 	key (sourceTypeID, modelYearID, fuelTypeID)
 );
 
--- regClassFraction is fraction of a [source,fuel,modelyear] that a regclass covers.
+-- regClassFraction is fraction of a [source type,fuel used,modelyear] that a regclass covers, (accounting for fuel type usage)
+-- Fix for MTEST-92: this table was originally not accounting for fuel usage fraction
 insert into RegClassSourceTypeFraction (fuelTypeID, modelYearID, sourceTypeID, regClassID, regClassFraction)
-select tst.fuelTypeID, tst.modelYearID, tst.sourceTypeID, tst.regClassID, regTotal/t.total
-from tempRegClassSourceTypeFraction tst
-inner join tempRegClassSourceTypeTotal t on (t.fuelTypeID=tst.fuelTypeID
-	and t.modelYearID=tst.modelYearID
-	and t.sourceTypeID=tst.sourceTypeID)
-inner join runSpecSourceFuelType rs on (rs.sourceTypeID=tst.sourceTypeID and rs.fuelTypeID=tst.fuelTypeID);
-
-drop table if exists tempRegClassSourceTypeFraction;
-drop table if exists tempRegClassSourceTypeTotal;
+select fuf.fuelSupplyFuelTypeID, svp.modelYearID, svp.sourceTypeID, svp.regClassID, 
+       sum(usageFraction * stmyfraction) / mystftFraction as regClassFraction
+from fuelusagefraction fuf
+join samplevehiclepopulation svp on (fuf.sourceBinFuelTypeID = svp.fuelTypeID)
+join (
+    select sourceTypeModelYearID, fuelSupplyFuelTypeID, modelYearID, sum(usageFraction * stmyfraction) as mystftFraction
+    from fuelusagefraction fuf
+    join samplevehiclepopulation svp on (fuf.sourceBinFuelTypeID = svp.fuelTypeID)
+    inner join runspecSourceTypeModelYearID using (sourceTypeModelYearID)
+    group by fuelSupplyFuelTypeID, sourceTypeModelYearID
+    having mystftFraction <> 0
+) as t1 on fuf.fuelSupplyFuelTypeID = t1.fuelSupplyFuelTypeID AND svp.sourceTypeModelYearID = t1.sourceTypeModelYearID
+inner join runspecSourceTypeModelYearID rsstmy on svp.sourceTypeModelYearID = rsstmy.sourceTypeModelYearID
+group by sourceTypeID, fuelSupplyFuelTypeID, modelYearID, regClassID
+having regClassFraction <> 0 and regClassFraction is not null;
 -- --------------------------------------------------------------------
 -- Done Creating RegClassSourceTypeFraction
 -- --------------------------------------------------------------------
+
+-- --------------------------------------------------------------------
+-- Add indexes that improve SourceUseTypePhysics
+-- --------------------------------------------------------------------
+alter table emissionRateByAge add key sutphys (polProcessID, opModeID);
+alter table emissionRate add key sutphys (polProcessID, opModeID);
+

@@ -14,8 +14,8 @@ import java.util.*;
 /**
  * Utility functions for building bundles to be processed by workers.
  *
- * @author		Wesley Faler
- * @version		2014-10-07
+ * @author		Wesley Faler, Jarrod Brown
+ * @version		2020 March 05
 **/
 public class BundleUtilities {
 	/** true when tables should NOT be dropped in the MOVESWorker database **/
@@ -103,7 +103,7 @@ public class BundleUtilities {
 			while(query.rs.next()) {
 				int year = query.rs.getInt(1);
 				int fuelYear = query.rs.getInt(2);
-				fuelYearFromYearCache.put(new Integer(year),new Integer(fuelYear));
+				fuelYearFromYearCache.put(Integer.valueOf(year),Integer.valueOf(fuelYear));
 			}
 			query.close();
 		} catch(Exception e) {
@@ -117,27 +117,25 @@ public class BundleUtilities {
 		}
 	}
 
-	/** Populate the cache of regionID given countyID **/
-	private static void buildRegionFromCountyCache() {
-		if(fuelRegionFromCountyCache != null) {
-			return;
-		}
-		fuelRegionFromCountyCache = new TreeMap<Integer,Integer>();
+	/* 
+		Retrieve the fuelRegionID given the countyID and yearID. The fuelRegionID may change between years,
+		requiring this function to be run with every context change.
+	*/
+	private static int getRegionFromCountyAndYear(int countyID, int yearID) {
 		Connection db = null;
 		SQLRunner.Query query = new SQLRunner.Query();
 		String sql = "";
+		int regionID = 0;
 		try {
 			db = DatabaseConnectionManager.checkOutConnection(MOVESDatabaseType.EXECUTION);
-			sql = "select countyID, regionID from regionCounty where regionCodeID=1";
+			sql = "select regionID from regionCounty where regionCodeID=1 and countyID="+countyID+" and fuelYearID="+yearID;
 			query.open(db,sql);
 			while(query.rs.next()) {
-				int county = query.rs.getInt(1);
-				int region = query.rs.getInt(2);
-				fuelRegionFromCountyCache.put(new Integer(county),new Integer(region));
+				regionID = query.rs.getInt(1);
 			}
 			query.close();
 		} catch(Exception e) {
-			Logger.logSqlError(e,"Unable to build county and region relationship",sql);
+			Logger.logSqlError(e,"Unable to build county/region/year relationship",sql);
 		} finally {
 			query.onFinally();
 			if(db != null) {
@@ -145,6 +143,8 @@ public class BundleUtilities {
 				db = null;
 			}
 		}
+
+		return regionID;
 	}
 
 	/**
@@ -208,26 +208,25 @@ public class BundleUtilities {
 		// Build the temperature adjustment CASE statement
 		buildTemperatureExpressionCase();
 		buildFuelYearFromYearCache();
-		buildRegionFromCountyCache();
 
 		// create a DefaultDataMaker object to include default values in the worker SQLs
 		DefaultDataMaker defaultDataMaker = new DefaultDataMaker();
 		// Add standard replacement values
-		replacements.put("##context.year##",new Integer(context.year).toString());
-		replacements.put("##context.monthID##",new Integer(context.monthID).toString());
-		replacements.put("##context.dayID##",new Integer(context.dayID).toString());
-		replacements.put("##context.hourID##",new Integer(context.hourID).toString());
+		replacements.put("##context.year##",Integer.valueOf(context.year).toString());
+		replacements.put("##context.monthID##",Integer.valueOf(context.monthID).toString());
+		replacements.put("##context.dayID##",Integer.valueOf(context.dayID).toString());
+		replacements.put("##context.hourID##",Integer.valueOf(context.hourID).toString());
 		replacements.put("##context.iterLocation.stateRecordID##",
-				new Integer(context.iterLocation.stateRecordID).toString());
+				Integer.valueOf(context.iterLocation.stateRecordID).toString());
 		replacements.put("##context.iterLocation.countyRecordID##",
-				new Integer(context.iterLocation.countyRecordID).toString());
+				Integer.valueOf(context.iterLocation.countyRecordID).toString());
 		replacements.put("##context.iterLocation.zoneRecordID##",
-				new Integer(context.iterLocation.zoneRecordID).toString());
+				Integer.valueOf(context.iterLocation.zoneRecordID).toString());
 		replacements.put("##context.iterLocation.linkRecordID##",
-				new Integer(context.iterLocation.linkRecordID).toString());
+				Integer.valueOf(context.iterLocation.linkRecordID).toString());
 		replacements.put("##context.iterLocation.roadTypeRecordID##",
-				new Integer(context.iterLocation.roadTypeRecordID).toString());
-		String processID = new Integer(context.iterProcess.databaseKey).toString();
+				Integer.valueOf(context.iterLocation.roadTypeRecordID).toString());
+		String processID = Integer.valueOf(context.iterProcess.databaseKey).toString();
 		replacements.put("##context.iterProcess.databaseKey##",processID);
 		replacements.put("##context.allCurrentProcesses##",context.getAllProcessesCSV());
 		replacements.put("##context.temperatureFactorExpression##",StringUtilities.safeGetString(temperatureFactorExpressionCache));
@@ -237,14 +236,14 @@ public class BundleUtilities {
 		enabledSectionNames.add("WithRegClassID");
 
 		String tText = "0"; // a default that won't break SQL
-		Integer t = fuelRegionFromCountyCache.get(new Integer(context.iterLocation.countyRecordID));
+		Integer t = getRegionFromCountyAndYear(Integer.valueOf(context.iterLocation.countyRecordID),Integer.valueOf(context.year));
 		if(t != null) {
 			tText = t.toString();
 		}
 		replacements.put("##context.fuelRegionID##",tText);
 
 		tText = "" + context.year; // a default that won't break SQL
-		t = fuelYearFromYearCache.get(new Integer(context.year));
+		t = fuelYearFromYearCache.get(Integer.valueOf(context.year));
 		if(t != null) {
 			tText = t.toString();
 		}
@@ -321,7 +320,7 @@ public class BundleUtilities {
 		}
 		// Preprocess the SQL doing the prescribed replacements on enabled sections of statements
 		Stack<Boolean> sectionStatus = new Stack<Boolean>();
-		sectionStatus.push(new Boolean(true));
+		sectionStatus.push(Boolean.TRUE);
 		boolean isInEnabledSection = true;
 
 		LinkedList<String> replacedSQL = new LinkedList<String>();
@@ -338,7 +337,7 @@ public class BundleUtilities {
 							isInEnabledSection = false;
 						}
 					}
-					sectionStatus.push(new Boolean(isInEnabledSection));
+					sectionStatus.push(Boolean.valueOf(isInEnabledSection));
 					if(isInEnabledSection) {
 						replacedSQL.add(sql);
 					}

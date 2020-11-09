@@ -68,7 +68,8 @@ import gov.epa.otaq.moves.master.framework.*;
  * @author		Wes Faler
  * @author		Don Smith
  * @author 		Tim Hull
- * @version		2015-06-16
+ * @author		Mike Kender	task 1903
+ * @version		2019-10-18
 **/
 public class RunSpecXML {
 	/**
@@ -109,6 +110,8 @@ public class RunSpecXML {
 				Logger.log(LogMessageCategory.ERROR, "Invalid RunSpec XML file.");
 				return false;
 			}
+			// process Version from main node
+			processVersion(runSpecNode);
 			// Handle each "sub-node" under the main <runspec> tag, these are immediate child nodes
 			for(Node subNode = runSpecNode.getFirstChild(); subNode != null;
 					subNode = subNode.getNextSibling()) {
@@ -117,9 +120,9 @@ public class RunSpecXML {
 			if(runSpec.scale == ModelScale.MESOSCALE_LOOKUP) {
 				runSpec.geographicOutputDetail = GeographicOutputDetailLevel.LINK;
 			}
-			if(runSpec.domain == ModelDomain.NATIONAL_ALLOCATION) {
-				runSpec.scaleInputDatabase = new DatabaseSelection();
-			}
+//			if(runSpec.domain == ModelDomain.NATIONAL_ALLOCATION) {
+//				runSpec.scaleInputDatabase = new DatabaseSelection();
+//			}
 			// Enforce data consistency rules. Most rules are enforced by the GUI
 			// and allowed to be flexible when directly loaded though.
 			enforceConsistency();
@@ -225,6 +228,16 @@ public class RunSpecXML {
 			runSpec.doNotPerformFinalAggregation = getBooleanAttribute(node, "selected");
 		} else if(nodeName.equalsIgnoreCase("lookuptableflags")) {
 			processLookupTableFlags(node);
+		}
+	}
+	
+	private void processVersion(Node node) {
+		NamedNodeMap attributes = node.getAttributes();
+		for(int i = 0; i < attributes.getLength(); i++) {
+			Node attributeNode = attributes.item(i);
+			if(attributeNode.getNodeName().equalsIgnoreCase("version")) {
+				runSpec.version = StringUtilities.safeGetString(attributeNode.getNodeValue());
+			}
 		}
 	}
 
@@ -346,7 +359,7 @@ public class RunSpecXML {
 				for(int i = 0; i < attributes.getLength(); i++) {
 					Node attributeNode = attributes.item(i);
 					if(attributeNode.getNodeName().equalsIgnoreCase("value")) {
-						g.shortCountyID = (new Integer(attributeNode.getNodeValue())).intValue();
+						g.shortCountyID = (Integer.valueOf(attributeNode.getNodeValue())).intValue();
 					}
 				}
 			} else if(nodeName.equalsIgnoreCase("stateid")) {
@@ -354,7 +367,7 @@ public class RunSpecXML {
 				for(int i = 0; i < attributes.getLength(); i++) {
 					Node attributeNode = attributes.item(i);
 					if(attributeNode.getNodeName().equalsIgnoreCase("value")) {
-						g.stateID = (new Integer(attributeNode.getNodeValue())).intValue();
+						g.stateID = (Integer.valueOf(attributeNode.getNodeValue())).intValue();
 					}
 				}
 			} else if(nodeName.equalsIgnoreCase("description")) {
@@ -379,7 +392,7 @@ public class RunSpecXML {
 				for(int i = 0; i < attributes.getLength(); i++) {
 					Node attributeNode = attributes.item(i);
 					if(attributeNode.getNodeName().equalsIgnoreCase("value")) {
-						g.gpaFraction = (new Float(attributeNode.getNodeValue())).floatValue();
+						g.gpaFraction = (Float.valueOf(attributeNode.getNodeValue())).floatValue();
 					}
 				}
 			} else if(nodeName.equalsIgnoreCase("barometricpressure")) {
@@ -387,7 +400,7 @@ public class RunSpecXML {
 				for(int i = 0; i < attributes.getLength(); i++) {
 					Node attributeNode = attributes.item(i);
 					if(attributeNode.getNodeName().equalsIgnoreCase("value")) {
-						g.barometricPressure = (new Float(attributeNode.getNodeValue())).floatValue();
+						g.barometricPressure = (Float.valueOf(attributeNode.getNodeValue())).floatValue();
 					}
 				}
 			} else if(nodeName.equalsIgnoreCase("refuelvaporadjust")) {
@@ -395,7 +408,7 @@ public class RunSpecXML {
 				for(int i = 0; i < attributes.getLength(); i++) {
 					Node attributeNode = attributes.item(i);
 					if(attributeNode.getNodeName().equalsIgnoreCase("value")) {
-						g.refuelingVaporProgramAdjust = (new Float(attributeNode.getNodeValue())).floatValue();
+						g.refuelingVaporProgramAdjust = (Float.valueOf(attributeNode.getNodeValue())).floatValue();
 					}
 				}
 			} else if(nodeName.equalsIgnoreCase("refuelspilladjust")) {
@@ -403,7 +416,7 @@ public class RunSpecXML {
 				for(int i = 0; i < attributes.getLength(); i++) {
 					Node attributeNode = attributes.item(i);
 					if(attributeNode.getNodeName().equalsIgnoreCase("value")) {
-						g.refuelingSpillProgramAdjust = (new Float(attributeNode.getNodeValue())).floatValue();
+						g.refuelingSpillProgramAdjust = (Float.valueOf(attributeNode.getNodeValue())).floatValue();
 					}
 				}
 			}
@@ -478,7 +491,7 @@ public class RunSpecXML {
 				for(int i = 0; i < attributes.getLength(); i++) {
 					Node attributeNode = attributes.item(i);
 					if(attributeNode.getNodeName().equalsIgnoreCase("key")) {
-						timeSpan.years.add(new Integer(attributeNode.getNodeValue()));
+						timeSpan.years.add(Integer.valueOf(attributeNode.getNodeValue()));
 					}
 				}
 			} else if(nodeName.equalsIgnoreCase("month")) {
@@ -486,12 +499,12 @@ public class RunSpecXML {
 				for(int i = 0; i < attributes.getLength(); i++) {
 					Node attributeNode = attributes.item(i);
 					if(attributeNode.getNodeName().equalsIgnoreCase("key")) {
-						TimeSpan.Month m = TimeSpan.getMonthByIndex(new Integer(attributeNode.getNodeValue()).intValue());
+						TimeSpan.Month m = TimeSpan.getMonthByIndex(Integer.valueOf(attributeNode.getNodeValue()).intValue());
 						if(m != null) {
 							timeSpan.months.add(m);
 						}
 					} else if(attributeNode.getNodeName().equalsIgnoreCase("id")) {
-						TimeSpan.Month m = TimeSpan.getMonthByID(new Integer(attributeNode.getNodeValue()).intValue());
+						TimeSpan.Month m = TimeSpan.getMonthByID(Integer.valueOf(attributeNode.getNodeValue()).intValue());
 						if(m != null) {
 							timeSpan.months.add(m);
 						}
@@ -502,12 +515,12 @@ public class RunSpecXML {
 				for(int i = 0; i < attributes.getLength(); i++) {
 					Node attributeNode = attributes.item(i);
 					if(attributeNode.getNodeName().equalsIgnoreCase("key")) {
-						TimeSpan.Day d = TimeSpan.getDayByIndex(new Integer(attributeNode.getNodeValue()).intValue());
+						TimeSpan.Day d = TimeSpan.getDayByIndex(Integer.valueOf(attributeNode.getNodeValue()).intValue());
 						if(d != null) {
 							timeSpan.days.add(d);
 						}
 					} else if(attributeNode.getNodeName().equalsIgnoreCase("id")) {
-						TimeSpan.Day d = TimeSpan.getDayByID(new Integer(attributeNode.getNodeValue()).intValue());
+						TimeSpan.Day d = TimeSpan.getDayByID(Integer.valueOf(attributeNode.getNodeValue()).intValue());
 						if(d != null) {
 							timeSpan.days.add(d);
 						}
@@ -518,12 +531,12 @@ public class RunSpecXML {
 				for(int i = 0; i < attributes.getLength(); i++) {
 					Node attributeNode = attributes.item(i);
 					if(attributeNode.getNodeName().equalsIgnoreCase("key")) {
-						TimeSpan.Hour h = TimeSpan.getHourByIndex(new Integer(attributeNode.getNodeValue()).intValue());
+						TimeSpan.Hour h = TimeSpan.getHourByIndex(Integer.valueOf(attributeNode.getNodeValue()).intValue());
 						if(h != null) {
 							timeSpan.beginHourID = h.hourID;
 						}
 					} else if(attributeNode.getNodeName().equalsIgnoreCase("id")) {
-						TimeSpan.Hour h = TimeSpan.getHourByID(new Integer(attributeNode.getNodeValue()).intValue());
+						TimeSpan.Hour h = TimeSpan.getHourByID(Integer.valueOf(attributeNode.getNodeValue()).intValue());
 						if(h != null) {
 							timeSpan.beginHourID = h.hourID;
 						}
@@ -534,12 +547,12 @@ public class RunSpecXML {
 				for(int i = 0; i < attributes.getLength(); i++) {
 					Node attributeNode = attributes.item(i);
 					if(attributeNode.getNodeName().equalsIgnoreCase("key")) {
-						TimeSpan.Hour h = TimeSpan.getHourByIndex(new Integer(attributeNode.getNodeValue()).intValue());
+						TimeSpan.Hour h = TimeSpan.getHourByIndex(Integer.valueOf(attributeNode.getNodeValue()).intValue());
 						if(h != null) {
 							timeSpan.endHourID = h.hourID;
 						}
 					} else if(attributeNode.getNodeName().equalsIgnoreCase("id")) {
-						TimeSpan.Hour h = TimeSpan.getHourByID(new Integer(attributeNode.getNodeValue()).intValue());
+						TimeSpan.Hour h = TimeSpan.getHourByID(Integer.valueOf(attributeNode.getNodeValue()).intValue());
 						if(h != null) {
 							timeSpan.endHourID = h.hourID;
 						}
@@ -593,6 +606,12 @@ public class RunSpecXML {
 					} else if(attributeNode.getNodeName().equalsIgnoreCase("sourcetypename")) {
 						parsedOnRoadVehicleSelection.sourceTypeName = attributeNode.getNodeValue();
 					}
+				}
+				
+				// transparently support old runspecs by converting "Intercity Bus" to "Other Buses" on load
+				if (parsedOnRoadVehicleSelection.sourceTypeName.equalsIgnoreCase("Intercity Bus")) {
+					parsedOnRoadVehicleSelection.sourceTypeName = "Other Buses";
+					runSpec.hadIntercityBuses = true;
 				}
 				if(parsedOnRoadVehicleSelection.isValid()) {
 					runSpec.onRoadVehicleSelections.add(parsedOnRoadVehicleSelection);
@@ -693,7 +712,7 @@ public class RunSpecXML {
 		if ( !node.hasChildNodes()) { // 0 child nodes
 			return;
 		}
-		runSpec.shouldSeparateRamps = getBooleanAttribute(node,"separateramps");
+		runSpec.hasDeprecatedShouldSeparateRampsTrue = getBooleanAttribute(node,"separateramps");
 		for(Node subNode = node.getFirstChild(); subNode != null;
 				subNode = subNode.getNextSibling()) {
 			if(subNode.getNodeName().equalsIgnoreCase("#text")) {
@@ -910,8 +929,8 @@ public class RunSpecXML {
 		}
 		if(className != null) {
 			try {
-				InternalControlStrategy strategy =
-						(InternalControlStrategy)Class.forName(className).newInstance();
+				Class<?> c = Class.forName(className);
+				InternalControlStrategy strategy = (InternalControlStrategy) c.getConstructor().newInstance();
 				// Try loading from XML first
 				if(strategy.acceptXML(className,node)) {
 					//Logger.log(LogMessageCategory.INFO,"loaded via XML");
@@ -1601,7 +1620,7 @@ public class RunSpecXML {
 		for(int i = 0; i < attributes.getLength(); i++) {
 			Node attributeNode = attributes.item(i);
 			if(attributeNode.getNodeName().equalsIgnoreCase("value")) {
-				parsedPMSize = new Integer(safeParseInt(attributeNode.getNodeValue()));
+				parsedPMSize = Integer.valueOf(safeParseInt(attributeNode.getNodeValue()));
 			}
 		}
 		if(parsedPMSize != null) {
@@ -1682,7 +1701,7 @@ public class RunSpecXML {
 				serverName = StringUtilities.safeGetString(runSpec.inputDatabase.serverName);
 				databaseName = StringUtilities.safeGetString(runSpec.inputDatabase.databaseName);
 				databaseDescription =
-						StringUtilities.safeGetString(runSpec.inputDatabase.description);
+						StringUtilities.safeGetEscapedString(runSpec.inputDatabase.description);
 			}
 			printWriter.println("\t<inputdatabase"
 					+ " servername=\"" + serverName + "\""
@@ -1706,7 +1725,7 @@ public class RunSpecXML {
 			if(runSpec.outputDatabase != null) {
 				serverName = StringUtilities.safeGetString(runSpec.outputDatabase.serverName);
 				databaseName = StringUtilities.safeGetString(runSpec.outputDatabase.databaseName);
-				databaseDescription = StringUtilities.safeGetString(runSpec.outputDatabase.description);
+				databaseDescription = StringUtilities.safeGetEscapedString(runSpec.outputDatabase.description);
 			}
 			printWriter.println("\t<outputdatabase"
 					+ " servername=\"" + serverName + "\""
@@ -1726,10 +1745,10 @@ public class RunSpecXML {
 			serverName = "";
 			databaseName = "";
 			databaseDescription = "";
-			if(runSpec.scaleInputDatabase != null && runSpec.domain != ModelDomain.NATIONAL_ALLOCATION) {
+			if(runSpec.scaleInputDatabase != null /*&& runSpec.domain != ModelDomain.NATIONAL_ALLOCATION*/) {
 				serverName = StringUtilities.safeGetString(runSpec.scaleInputDatabase.serverName);
 				databaseName = StringUtilities.safeGetString(runSpec.scaleInputDatabase.databaseName);
-				databaseDescription = StringUtilities.safeGetString(runSpec.scaleInputDatabase.description);
+				databaseDescription = StringUtilities.safeGetEscapedString(runSpec.scaleInputDatabase.description);
 			}
 			printWriter.println("\t<scaleinputdatabase"
 					+ " servername=\"" + serverName + "\""
@@ -1753,7 +1772,7 @@ public class RunSpecXML {
 				serverName = StringUtilities.safeGetString(runSpec.generatorDatabase.serverName);
 				databaseName = StringUtilities.safeGetString(runSpec.generatorDatabase.databaseName);
 				databaseDescription =
-						StringUtilities.safeGetString(runSpec.generatorDatabase.description);
+						StringUtilities.safeGetEscapedString(runSpec.generatorDatabase.description);
 			}
 			printWriter.println("\t<generatordatabase"
 					+ " shouldsave=\"" + runSpec.shouldCopySavedGeneratorData + "\""
@@ -1848,7 +1867,7 @@ public class RunSpecXML {
 	**/
 	boolean safeParseBoolean(String inString) {
 		try {
-			Boolean testBoolean = new Boolean(inString);
+			Boolean testBoolean = Boolean.valueOf(inString);
 			return testBoolean.booleanValue();
 		} catch(Exception e) {
 		}
@@ -1884,7 +1903,7 @@ public class RunSpecXML {
 		printWriter.println("\t\t<stateid value=\""
 				+runSpec.genericCounty.stateID+"\"/>");
 		printWriter.println("\t\t<description value=\""
-				+runSpec.genericCounty.description+"\"/>");
+				+StringUtilities.safeGetEscapedString(runSpec.genericCounty.description)+"\"/>");
 		printWriter.println("\t\t<gpafraction value=\""
 				+runSpec.genericCounty.gpaFraction+"\"/>");
 		printWriter.println("\t\t<barometricpressure value=\""
@@ -1911,7 +1930,7 @@ public class RunSpecXML {
 					+ StringUtilities.safeGetString(iterGeography.type.toString()) + "\""
 					+ " key=\"" + iterGeography.databaseKey + "\""
 					+ " description=\""
-					+ StringUtilities.safeGetString(iterGeography.textDescription) + "\""
+					+ StringUtilities.safeGetEscapedString(iterGeography.textDescription) + "\""
 					+ "/>");
 		}
 		printWriter.println("\t</geographicselections>");
@@ -2014,7 +2033,7 @@ public class RunSpecXML {
 	 * @param printWriter A PrintWriter object opened to the destination xml file.
 	**/
 	void printRoadTypes(PrintWriter printWriter) {
-		printWriter.println("\t<roadtypes separateramps=\"" + runSpec.shouldSeparateRamps + "\">");
+		printWriter.println("\t<roadtypes>");
 		for (Iterator roadTypeIterator = runSpec.roadTypes.iterator();
 				roadTypeIterator.hasNext();) {
 			RoadType iterRoadType = (RoadType)roadTypeIterator.next();
@@ -2084,7 +2103,7 @@ public class RunSpecXML {
 					+ " databasename=\""
 					+ StringUtilities.safeGetString(iterAssociation.databaseName) + "\""
 					+ " description=\""
-					+ StringUtilities.safeGetString(iterAssociation.description) + "\"/>");
+					+ StringUtilities.safeGetEscapedString(iterAssociation.description) + "\"/>");
 		}
 		printWriter.println("\t</databaseselections>");
 	}
@@ -2381,8 +2400,6 @@ public class RunSpecXML {
 				runSpec.outputEmissionsBreakdownSelection.emissionProcess = true;
 			}
 			if(CompilationFlags.DO_RATES_FIRST && runSpec.scale == ModelScale.MESOSCALE_LOOKUP) { // If making Rates outputs...
-				runSpec.shouldSeparateRamps = false;
-
 				runSpec.outputVMTData = runSpec.usesEvapRates();
 				runSpec.outputPopulation = true;
 				runSpec.outputSHO = false;

@@ -8,11 +8,15 @@ package gov.epa.otaq.moves.master.gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.lang.reflect.Field;
+
+//import java.awt.event.KeyEvent.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import java.util.*;
 import java.sql.*;
 import javax.swing.table.*;
+
 import gov.epa.otaq.moves.common.*;
 import gov.epa.otaq.moves.master.runspec.*;
 import gov.epa.otaq.moves.master.framework.*;
@@ -23,16 +27,25 @@ import gov.epa.otaq.moves.master.framework.*;
  *
  * @author		Wes Faler
  * @author		Tim Hull
- * @version     2013-12-23
+ * @author  	Bill Shaw (508 compliance mods)
+ * @author  	M. Kender (508 compliance changes - task 1810)
+ * @author  	John Covey (Task 1903)
+ * @author		Mike Kender (Task 2003)
+ * @author  	John Covey (Task 2003)
+ * @version     2020-08-10
 **/
 public class AdvancedPerformanceFeatures extends JPanel
 		implements RunSpecEditor, ActionListener, CellEditorListener, FocusListener {
+	/** MOVESWindow that this navigation panel is within **/
+	
 	/** Grid of components and options shown on screen **/
 	JTable table;
 	/** Panel contains table. **/
-	JPanel topPanel;
+	JPanel masterLoopablePanel;
 	/** scroll pane so that table can be scrolled **/
 	JScrollPane tableScrollPane;
+	
+	JLabel mlComp;
 
 	/** Copy Saved Generator Data checkbox **/
 	JCheckBox copySavedDataCheckbox;
@@ -101,6 +114,9 @@ public class AdvancedPerformanceFeatures extends JPanel
 	String inputPreviousServer = new String();
 	/** database names that should not be used **/
 	TreeSetIgnoreCase inputInvalidDatabaseNames = new TreeSetIgnoreCase();
+	
+	ManageInputDataSets manageInputDataSets = new ManageInputDataSets();
+	PreaggregationOptions preaggregationOptions = new PreaggregationOptions();
 
 	/** Used to returns a blank, or null, renderer if a cell is empty **/
 	class BlankRenderer extends DefaultTableCellRenderer {
@@ -236,7 +252,19 @@ public class AdvancedPerformanceFeatures extends JPanel
 			if(getModel().getValueAt(row,col) == null) {
 				return blankRenderer;
 			} else {
-				return super.getCellRenderer(row,col);
+				TableCellRenderer v = super.getCellRenderer(row,col);
+				if(v instanceof JComponent) {
+					String rowValue = (String) table.getModel().getValueAt(convertRowIndexToModel(row),0);
+					String chk = " is not checked.";
+					if (col > 0) {
+						if((Boolean)getModel().getValueAt(convertRowIndexToModel(row),col)) {
+							chk = " is checked";
+						}
+						String colValue = table.getModel().getColumnName(col);
+						((JComponent)v).setToolTipText(rowValue + " for " + colValue + chk);
+					}
+				}
+				return v;
 			}
 		}
 	}
@@ -277,7 +305,7 @@ public class AdvancedPerformanceFeatures extends JPanel
 	 * @param destination The StringBuffer to fill.
 	**/
 	public void getPrintableDescription(RunSpec runspec, StringBuffer destination) {
-		destination.append("Advanced Performance Features:\r\n");
+		destination.append("Advanced Features:\r\n");
 
 		// Masterloopable Components
 		destination.append("\tDo Not Execute:\r\n");
@@ -360,24 +388,79 @@ public class AdvancedPerformanceFeatures extends JPanel
 			}
 		}
 	}
+	
+	class AdvancedPerformanceFeaturesTableKeyAdapter extends KeyAdapter {
+		JTable table;
+
+		public AdvancedPerformanceFeaturesTableKeyAdapter(JTable tableToUse) {
+			table = tableToUse;
+		}
+
+		public void keyPressed(KeyEvent e) {
+			int col = table.getSelectedColumn();
+			int row = table.getSelectedRow();
+
+			if (e.getKeyCode() == KeyEvent.VK_F1 && e.isControlDown()) {
+				JComponent component = (JComponent) e.getSource();
+				Rectangle r = table.getCellRect(row, col, true);
+				MouseEvent phantom = new MouseEvent(component, MouseEvent.MOUSE_MOVED, System.currentTimeMillis(), 0,
+						r.x, r.y, 0, false);
+				ToolTipManager ttManager = ToolTipManager.sharedInstance();
+				try {
+					Field f = ttManager.getClass().getDeclaredField("tipShowing");
+					f.setAccessible(true);
+					boolean tipShowing = f.getBoolean(ttManager);
+					if (tipShowing) {
+						ToolTipManager.sharedInstance().mouseMoved(phantom);
+					}
+				} catch (Exception ex) {
+					Logger.logError(ex, "Failed to display tooltip from CTRL+F1");
+				}
+			} else if(e.getKeyCode() == KeyEvent.VK_SPACE) {
+				//toggle the checkbox
+				Boolean obj = (Boolean)table.getModel().getValueAt(row, col);
+				table.getModel().setValueAt(!obj, row, col);
+			}
+		}
+	}
 
 	/**
 	 * Creates and initializes all controls on this panel. And fixes the height
 	 * and width of the JTable to fit in the screen.
 	**/
 	public void createControls() {
-		topPanel = new JPanel();
-		topPanel.setName("topPanel");
-		topPanel.setBorder(BorderFactory.createTitledBorder(
-				"Masterloopable Components"));
+		masterLoopablePanel = new JPanel();
+		masterLoopablePanel.setName("masterLoopablePanel");
+		masterLoopablePanel.setBorder(BorderFactory.createTitledBorder(
+				"Masterloopable"));
 
 		table = new AdvancedPerformanceFeaturesTable(new AdvancedPerformanceFeaturesTableModel());
 		table.setName("advancedPerformanceFeaturesTable");
 		table.setRowSelectionAllowed(false);
 		table.getDefaultEditor(Boolean.class).addCellEditorListener(this);
+		table.addKeyListener(new AdvancedPerformanceFeaturesTableKeyAdapter(table));
 		tableScrollPane = new JScrollPane(table,
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+		mlComp = new JLabel(" Components (Alt+X)");
+		mlComp.setDisplayedMnemonic('x');
+		mlComp.setLabelFor(table);
+		
+		mlComp.addFocusListener(new FocusListener() {
+			
+			@Override
+			public void focusLost(FocusEvent e) {
+				//nothing to do here, yet
+			}
+			
+			@Override
+			public void focusGained(FocusEvent e) {
+				table.requestFocus();
+				table.changeSelection(0, 0, false, false);
+			}
+		});
+
 		tableScrollPane.setName("advancedPerformanceFeaturesTableScrollPane");
 		FontMetrics fm = table.getFontMetrics(table.getFont());
 		javax.swing.table.TableColumnModel colModel = table.getColumnModel();
@@ -417,22 +500,26 @@ public class AdvancedPerformanceFeatures extends JPanel
 		}
 		table.getTableHeader().setResizingAllowed(false);
 		table.getTableHeader().setReorderingAllowed(false);
-		ToolTipHelper.add(table,"Select components and their execution options");
 
 		copySavedDataCheckbox = new JCheckBox("Copy Saved Generator Data");
 		ToolTipHelper.add(copySavedDataCheckbox,
 				"Check this box to save generator data");
 		copySavedDataCheckbox.addActionListener(this);
+		
+		createButton = new JButton("Create Database (Alt+G)");
+		createButton.setMnemonic('G');
+		createButton.setToolTipText(Constants.ADVANCED_FEATURES_DESTINATION_CREATE_DB_TOOLTIP);
 
-		createButton = new JButton("Create Database");
 		createButton.addActionListener(this);
 
-		refreshButton = new JButton("Refresh");
+		refreshButton = new JButton("Refresh (Alt+I)");
+		refreshButton.setMnemonic('I');
 		refreshButton.addActionListener(this);
+		refreshButton.setToolTipText(Constants.ADVANCED_FEATURES_DESTINATION_REFRESH_TOOLTIP);
 
 		server = new JTextField(10);
 		ToolTipHelper.add(server,
-				"Edit the name of the server where the database will be located");
+				"Edit the name of the server where the database will be located. Defaults to localhost");
 		server.setName("server");
 		server.addFocusListener(this);
 		server.setColumns(10);
@@ -448,30 +535,41 @@ public class AdvancedPerformanceFeatures extends JPanel
 		ToolTipHelper.add(databaseCombo,
 				"Edit or select the name of the database in which the data will be stored");
 
-		doNotPerformFinalAggregationCheckbox = new JCheckBox("Do Not Perform Final Aggregation");
+		doNotPerformFinalAggregationCheckbox = new JCheckBox("Do Not Perform Final Aggregation (Alt+4)");
 		ToolTipHelper.add(doNotPerformFinalAggregationCheckbox,
 				"Check this box to prevent data aggregation,"
 				+ " which can be time consuming on large output data sets.");
+		doNotPerformFinalAggregationCheckbox.setMnemonic('4');
 
-		truncateMOVESOutputCheckbox = new JCheckBox("Clear MOVESOutput after rate calculations");
+		truncateMOVESOutputCheckbox = new JCheckBox("Clear MOVESOutput after rate calculations (Alt+5)");
 		ToolTipHelper.add(truncateMOVESOutputCheckbox,
 				"Check this box to remove inventory data from MOVESOutput once rates have been calculated.");
-		truncateMOVESActivityOutputCheckbox = new JCheckBox("Clear MOVESActivityOutput after rate calculations");
+		truncateMOVESOutputCheckbox.setMnemonic('5');
+
+		truncateMOVESActivityOutputCheckbox = new JCheckBox("Clear MOVESActivityOutput after rate calculations (Alt+6)");
 		ToolTipHelper.add(truncateMOVESActivityOutputCheckbox,
 				"Check this box to remove activity and population data from MOVESActivityOutput once rates have been calculated.");
-		truncateBaseRateOutputCheckbox = new JCheckBox("Clear BaseRateOutput after rate calculations");
+		truncateMOVESActivityOutputCheckbox.setMnemonic('6');
+
+		truncateBaseRateOutputCheckbox = new JCheckBox("Clear BaseRateOutput after rate calculations (Alt+7)");
 		ToolTipHelper.add(truncateBaseRateOutputCheckbox,
 				"Check this box to remove data from BaseRateOutput once rates have been calculated.");
+		truncateBaseRateOutputCheckbox.setMnemonic('7');
 
-		inputCreateButton = new JButton("Create Database");
+		inputCreateButton = new JButton("Create Database (Alt+J)");
+		inputCreateButton.setMnemonic('J');
+		inputCreateButton .setToolTipText(Constants.ADVANCED_FEATURES_DEFAULT_DB_CREATE_DB_TOOLTIP);
+
 		inputCreateButton.addActionListener(this);
 
-		inputRefreshButton = new JButton("Refresh");
+		inputRefreshButton = new JButton("Refresh (Alt+K)");
+		inputRefreshButton.setMnemonic('K');
+		inputRefreshButton.setToolTipText(Constants.ADVANCED_FEATURES_DEFAULT_DB_REFRESH_TOOLTIP);
 		inputRefreshButton.addActionListener(this);
 
 		inputServer = new JTextField(10);
 		ToolTipHelper.add(inputServer,
-				"Edit the name of the server where the database will be located");
+				"Edit the name of the server where the database will be located. Defaults to localhost");
 		inputServer.setName("inputServer");
 		inputServer.addFocusListener(this);
 		inputServer.setColumns(10);
@@ -492,23 +590,43 @@ public class AdvancedPerformanceFeatures extends JPanel
 	public void arrangeControls() {
 		removeAll();
 
-		topPanel.setLayout(new BorderLayout());
-		topPanel.add(new JLabel(" "), BorderLayout.NORTH);
-		topPanel.add(new JLabel(" "), BorderLayout.EAST);
-		topPanel.add(new JLabel(" "), BorderLayout.WEST);
-		topPanel.add(tableScrollPane, BorderLayout.CENTER);
-
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.NONE;
 		gbc.insets = new Insets(2,2,2,2);
-		gbc.gridwidth = 2;
-		gbc.gridheight = 2;
 		gbc.weightx = 0;
 		gbc.weighty = 0;
 		setLayout(new GridBagLayout());
-		LayoutUtility.setPositionOnGrid(gbc,0, 0, "WEST", 1, 1);
-		add(topPanel, gbc);
+		LayoutUtility.setPositionOnGrid(gbc, 0, 0, "NORTH", 1, 1);
+		preaggregationOptions.setBorder(BorderFactory.createTitledBorder(
+				"Preaggregation Options"));
+		add(preaggregationOptions,gbc);
 
+		gbc = new GridBagConstraints();
+		gbc.fill = GridBagConstraints.NONE;
+		gbc.insets = new Insets(2,2,2,2);
+		gbc.weightx = 0;
+		gbc.weighty = 0;
+		LayoutUtility.setPositionOnGrid(gbc, 1, 0, "NORTH", 1, 1);
+		manageInputDataSets.setBorder(BorderFactory.createTitledBorder(
+				"Input Data Sets"));
+		add(manageInputDataSets,gbc);
+		
+		
+		masterLoopablePanel.setLayout(new BorderLayout());
+		masterLoopablePanel.add(mlComp, BorderLayout.NORTH);
+		masterLoopablePanel.add(new JLabel(" "), BorderLayout.EAST);
+		masterLoopablePanel.add(new JLabel(" "), BorderLayout.WEST);
+		masterLoopablePanel.add(new JLabel(" "), BorderLayout.SOUTH);
+		masterLoopablePanel.add(tableScrollPane, BorderLayout.CENTER);
+		gbc = new GridBagConstraints();
+		gbc.fill = GridBagConstraints.NONE;
+		gbc.insets = new Insets(2,2,2,2);
+		gbc.weightx = 0;
+		gbc.weighty = 0;
+		LayoutUtility.setPositionOnGrid(gbc,0, 1, "NORTH", 2, 1);
+		add(masterLoopablePanel, gbc);
+		
+		
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setLayout(new BoxLayout(bottomPanel,BoxLayout.Y_AXIS));
 		bottomPanel.setBorder(BorderFactory.createTitledBorder(
@@ -525,34 +643,41 @@ public class AdvancedPerformanceFeatures extends JPanel
 		JPanel outputDatabasePanel = new JPanel();
 		gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.NONE;
-
+		JLabel destinationServerLabel = new JLabel("Server (Alt+3):");
+		JLabel destinationDatabaseLabel = new JLabel("Database:"); 
+		JLabel inputServerLabel = new JLabel("Server (Alt+8):");
+		JLabel inputDatabaseLabel = new JLabel("Database:"); 
+		
 		outputDatabasePanel.setLayout(new GridBagLayout());
 		gbc.insets = new Insets(2,2,2,2);
 		gbc.weightx = 0;
 		gbc.weighty = 0;
 		LayoutUtility.setPositionOnGrid(gbc,0,0, "WEST", 1, 1);
-		outputDatabasePanel.add(new JLabel("Server:"), gbc);
+		destinationServerLabel.setDisplayedMnemonic('3');
+		outputDatabasePanel.add(destinationServerLabel, gbc);
 		LayoutUtility.setPositionOnGrid(gbc,1,0, "WEST", 1, 1);
 		outputDatabasePanel.add(server, gbc);
+		destinationServerLabel.setLabelFor(server);
 		LayoutUtility.setPositionOnGrid(gbc,3,0, "WEST", 1, 1);
 		outputDatabasePanel.add(refreshButton, gbc);
 		LayoutUtility.setPositionOnGrid(gbc,0,1, "WEST", 1, 1);
-		outputDatabasePanel.add(new JLabel("Database:"), gbc);
+		outputDatabasePanel.add(destinationDatabaseLabel, gbc);
 		LayoutUtility.setPositionOnGrid(gbc,1,1, "WEST", 2, 1);
 		outputDatabasePanel.add(databaseCombo, gbc);
+		destinationDatabaseLabel.setLabelFor(databaseCombo);
 		LayoutUtility.setPositionOnGrid(gbc,3,1, "WEST", 1, 1);
 		outputDatabasePanel.add(createButton, gbc);
 
 		bottomPanel.add(outputDatabasePanel);
 
-		LayoutUtility.setPositionOnGrid(gbc,0, 1, "WEST", 1, 1);
+		LayoutUtility.setPositionOnGrid(gbc,0, 2, "WEST", 2, 1);
 		add(bottomPanel, gbc);
 
 		JPanel dataPanel = new JPanel();
 		dataPanel.setLayout(new BoxLayout(dataPanel,BoxLayout.Y_AXIS));
 		dataPanel.setBorder(BorderFactory.createTitledBorder(
 				"Aggregation and Data Handling"));
-
+	
 		p = new JPanel();
 		p.setLayout(new BoxLayout(p,BoxLayout.X_AXIS));
 		p.add(doNotPerformFinalAggregationCheckbox);
@@ -579,14 +704,14 @@ public class AdvancedPerformanceFeatures extends JPanel
 			dataPanel.add(p);
 		}
 
-		LayoutUtility.setPositionOnGrid(gbc,0, 2, "WEST", 1, 1);
+		LayoutUtility.setPositionOnGrid(gbc,0, 3, "WEST", 2, 1);
 		add(dataPanel, gbc);
 
 		// input database and server panel
 		bottomPanel = new JPanel();
 		bottomPanel.setLayout(new BoxLayout(bottomPanel,BoxLayout.Y_AXIS));
 		bottomPanel.setBorder(BorderFactory.createTitledBorder(
-				"Custom Input Database"));
+				"Default Database"));
 
 		outputDatabasePanel = new JPanel();
 		gbc = new GridBagConstraints();
@@ -597,22 +722,27 @@ public class AdvancedPerformanceFeatures extends JPanel
 		gbc.weightx = 0;
 		gbc.weighty = 0;
 		LayoutUtility.setPositionOnGrid(gbc,0,0, "WEST", 1, 1);
-		outputDatabasePanel.add(new JLabel("Server:"), gbc);
+		outputDatabasePanel.add(inputServerLabel, gbc);
 		LayoutUtility.setPositionOnGrid(gbc,1,0, "WEST", 1, 1);
 		outputDatabasePanel.add(inputServer, gbc);
+		inputServerLabel.setDisplayedMnemonic('8');
+		inputServerLabel.setLabelFor(inputServer);
 		LayoutUtility.setPositionOnGrid(gbc,3,0, "WEST", 1, 1);
 		outputDatabasePanel.add(inputRefreshButton, gbc);
 		LayoutUtility.setPositionOnGrid(gbc,0,1, "WEST", 1, 1);
-		outputDatabasePanel.add(new JLabel("Database:"), gbc);
+		outputDatabasePanel.add(inputDatabaseLabel, gbc);
 		LayoutUtility.setPositionOnGrid(gbc,1,1, "WEST", 2, 1);
 		outputDatabasePanel.add(inputDatabaseCombo, gbc);
+		inputDatabaseLabel.setLabelFor(inputDatabaseCombo);
 		LayoutUtility.setPositionOnGrid(gbc,3,1, "WEST", 1, 1);
 		outputDatabasePanel.add(inputCreateButton, gbc);
 
 		bottomPanel.add(outputDatabasePanel);
 
-		LayoutUtility.setPositionOnGrid(gbc,0, 3, "WEST", 1, 1);
+		LayoutUtility.setPositionOnGrid(gbc,0, 4, "WEST", 2, 1);
 		add(bottomPanel, gbc);
+		
+
 
 		generateListOfInvalidDatabaseNames();
 		loadDatabases();
@@ -624,6 +754,7 @@ public class AdvancedPerformanceFeatures extends JPanel
 	 * @param	runspec the RunSpec to receive the settings
 	**/
 	public void saveToRunSpec(RunSpec runspec) {
+
 		// Masterloopable Components
 		runspec.classesNotToExecute.clear();
 		runspec.classesToSaveData.clear();
@@ -659,10 +790,12 @@ public class AdvancedPerformanceFeatures extends JPanel
 			runspec.shouldTruncateMOVESActivityOutput = true;
 			runspec.shouldTruncateBaseRateOutput = true;
 		}
-
-		// Custom input database
+		MacroscaleGeographicBounds.singleton.saveToRunSpec(runspec);
+		// Custom input database ("default database")
 		runspec.inputDatabase.serverName = inputServer.getText();
 		runspec.inputDatabase.databaseName = inputDatabaseCombo.getSelectedItem().toString();
+		// "input data sets" block
+		manageInputDataSets.saveToRunSpec(runspec);
 	}
 
 	/**
@@ -670,6 +803,12 @@ public class AdvancedPerformanceFeatures extends JPanel
 	 * @param	runspec the RunSpec to get the settings from
 	**/
 	public void loadFromRunSpec(RunSpec runspec) {
+		// preaggregation block
+		MacroscaleGeographicBounds.singleton.loadFromRunSpec(runspec);
+		TimeSpans.singleton.loadFromRunSpec(runspec);	
+		// "input data sets" block
+		manageInputDataSets.loadFromRunSpec(runspec);
+		
 		// Setup defaults
 		for(int i=0;i<humanNames.length;i++) {
 			dontExecuteFlags[i] = Boolean.FALSE;
@@ -693,7 +832,7 @@ public class AdvancedPerformanceFeatures extends JPanel
 				}
 			}
 		}
-
+		
 		// Recreate the table so that new data is loaded
 		createControls();
 		arrangeControls();
@@ -740,11 +879,12 @@ public class AdvancedPerformanceFeatures extends JPanel
 			}
 		}
 
-		// Custom input database
+		// Custom input database ("default database")
 		inputServer.setText(runspec.inputDatabase.serverName);
 		addIfNotInInputComboBox(runspec.inputDatabase.databaseName);
 		inputDatabaseCombo.setSelectedItem(runspec.inputDatabase.databaseName);
-
+	
+		
 		assessSituation();
 	}
 
@@ -756,6 +896,7 @@ public class AdvancedPerformanceFeatures extends JPanel
 	**/
 	public RunSpecSectionStatus calculateRunSpecSectionStatus(RunSpec runspec,
 			TreeMap<String,RunSpecSectionStatus> sections) {
+
 		sections.remove(getName());
 
 		boolean isOk = true;
@@ -782,14 +923,26 @@ public class AdvancedPerformanceFeatures extends JPanel
 			isOk = true;
 		}
 
+		// Preaggregation block
+		if ((PreaggregationOptions.singleton.nation.isSelected() && !PreaggregationOptions.singleton.nation.isEnabled())
+			   || (PreaggregationOptions.singleton.zoneLink.isSelected() && !PreaggregationOptions.singleton.zoneLink.isEnabled())
+			   || (PreaggregationOptions.singleton.customDomain.isSelected() && !PreaggregationOptions.singleton.customDomain.isEnabled())) {
+			isOk = false;
+		}
+		
 		RunSpecSectionStatus status;
 		if(isOk) {
 			status = new RunSpecSectionStatus(RunSpecSectionStatus.OK);
 		} else {
 			status = new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);
 		}
+		
+		// "input data sets" block
+		RunSpecSectionStatus inputDataSetsStatus = manageInputDataSets.calculateRunSpecSectionStatus(runspec, sections);
+		status.makeWorstOfTwo(inputDataSetsStatus);
 
 		sections.put(getName(),status);
+
 		return status;
 	}
 
@@ -815,6 +968,12 @@ public class AdvancedPerformanceFeatures extends JPanel
 		runspec.shouldTruncateMOVESOutput = true;
 		runspec.shouldTruncateMOVESActivityOutput = true;
 		runspec.shouldTruncateBaseRateOutput = true;
+		
+		// Preaggregation block
+		MacroscaleGeographicBounds.singleton.saveDefaultsToRunSpec(runspec, sections);
+		TimeSpans.singleton.saveDefaultsToRunSpec(runspec, sections);	
+		// "input data sets" block
+		manageInputDataSets.saveDefaultsToRunSpec(runspec, sections);
 
 		sections.remove(getName());
 		RunSpecSectionStatus status = new RunSpecSectionStatus(RunSpecSectionStatus.OK);
@@ -1364,10 +1523,18 @@ public class AdvancedPerformanceFeatures extends JPanel
 			JOptionPane.showMessageDialog(this,"Specify a database name.");
 			return;
 		}
+		else if (!DatabaseUtilities.isDatabaseNameValid(newDatabaseName)) {
+			JOptionPane.showMessageDialog(this,Constants.DATABASE_NAME_VALIDATION_MESSAGE);
+			return;
+		}
 
 		DatabaseSelection dbSelection = new DatabaseSelection();
 		if(server.getText().length() > 0) {
 			dbSelection.serverName = server.getText();
+			if (!DatabaseUtilities.isServerNameValid(server.getText())) {
+				JOptionPane.showMessageDialog(this,Constants.SERVER_NAME_VALIDATION_MESSAGE);
+				return;		
+			}
 		} else {
 			dbSelection.serverName = SystemConfiguration.getTheSystemConfiguration().
 					databaseSelections[MOVESDatabaseType.DEFAULT.getIndex()].serverName;
@@ -1402,10 +1569,18 @@ public class AdvancedPerformanceFeatures extends JPanel
 			JOptionPane.showMessageDialog(this,"Specify a database name.");
 			return;
 		}
-
+		else if (!DatabaseUtilities.isDatabaseNameValid(newDatabaseName)) {
+			JOptionPane.showMessageDialog(this,Constants.DATABASE_NAME_VALIDATION_MESSAGE);
+			return;
+		}
+		
 		DatabaseSelection dbSelection = new DatabaseSelection();
 		if(inputServer.getText().length() > 0) {
 			dbSelection.serverName = inputServer.getText();
+			if (!DatabaseUtilities.isServerNameValid(inputServer.getText())) {
+				JOptionPane.showMessageDialog(this,Constants.SERVER_NAME_VALIDATION_MESSAGE);
+				return;		
+			}
 		} else {
 			dbSelection.serverName = SystemConfiguration.getTheSystemConfiguration().
 					databaseSelections[MOVESDatabaseType.DEFAULT.getIndex()].serverName;

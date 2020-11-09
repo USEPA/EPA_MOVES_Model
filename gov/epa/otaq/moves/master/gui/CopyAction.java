@@ -40,7 +40,7 @@ public class CopyAction extends JLFAbstractAction {
 		putValue(LARGE_ICON, getIcon(LARGE_ICON_COPY));
 		putValue(Action.SHORT_DESCRIPTION, SHORT_DESCRIPTION_COPY);
 		putValue(Action.LONG_DESCRIPTION, LONG_DESCRIPTION_COPY);
-		putValue(Action.MNEMONIC_KEY, new Integer(MNEMONIC_KEY_COPY));
+		putValue(Action.MNEMONIC_KEY, Integer.valueOf(MNEMONIC_KEY_COPY));
 		putValue(Action.ACTION_COMMAND_KEY, ACTION_COMMAND_KEY_COPY);
 	}
 }

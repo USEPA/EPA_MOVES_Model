@@ -38,7 +38,7 @@ public class TimeSpanTest extends TestCase {
 
 			TimeSpan.loadTimeObjects();
 
-			t.years.add(new Integer(2003));
+			t.years.add(Integer.valueOf(2003));
 			TimeSpan.Month m = TimeSpan.getMonthByIndex(11);
 			assertNotNull(m);
 			t.months.add(m);

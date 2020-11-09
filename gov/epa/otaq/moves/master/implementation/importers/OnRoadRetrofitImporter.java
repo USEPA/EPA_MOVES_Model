@@ -212,6 +212,7 @@ public class OnRoadRetrofitImporter extends ImporterBase {
 
 	/**
 	 * Check a RunSpec against the database or for display of the importer.
+	 * Look for an OK or a NOT_READY message from the OnRoadRetrofitImporter.sql script
 	 * @param db database to be examined.
 	 * @return the status, or null if the status should not be shown to the user.
 	 * @throws Exception if anything goes wrong
@@ -233,7 +234,9 @@ public class OnRoadRetrofitImporter extends ImporterBase {
 		BasicDataHandler.runScript(db,this,messages,2,"database/OnRoadRetrofitImporter.sql");
 		for(Iterator<String> i=messages.iterator();i.hasNext();) {
 			String t = i.next();
-			if(t.toUpperCase().startsWith("ERROR")) {
+			if(t.equalsIgnoreCase("OK")) {
+				return new RunSpecSectionStatus(RunSpecSectionStatus.OK);
+			} else if(t.equalsIgnoreCase("NOT_READY")) {
 				return new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);
 			}
 		}

@@ -34,7 +34,7 @@ public class ExecuteGreetAction extends JLFAbstractAction {
 		putValue(Action.NAME, NAME_EXECUTE_GREET);
 		putValue(Action.SHORT_DESCRIPTION, SHORT_DESCRIPTION_EXECUTE_GREET);
 		putValue(Action.LONG_DESCRIPTION, LONG_DESCRIPTION_EXECUTE_GREET);
-		putValue(Action.MNEMONIC_KEY, new Integer(MNEMONIC_KEY_EXECUTE_GREET));
+		putValue(Action.MNEMONIC_KEY, Integer.valueOf(MNEMONIC_KEY_EXECUTE_GREET));
 		putValue(Action.ACTION_COMMAND_KEY, ACTION_COMMAND_KEY_EXECUTE_GREET);
 	}
 }

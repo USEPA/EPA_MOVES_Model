@@ -41,7 +41,7 @@ public class ExecuteAction extends JLFAbstractAction {
 		putValue(LARGE_ICON, getIcon(LARGE_ICON_EXECUTE));
 		putValue(Action.SHORT_DESCRIPTION, SHORT_DESCRIPTION_EXECUTE);
 		putValue(Action.LONG_DESCRIPTION, LONG_DESCRIPTION_EXECUTE);
-//		putValue(Action.MNEMONIC_KEY, new Integer(MNEMONIC_KEY_EXECUTE));
+//		putValue(Action.MNEMONIC_KEY, Integer.valueOf(MNEMONIC_KEY_EXECUTE));
 		putValue(Action.ACTION_COMMAND_KEY, ACTION_COMMAND_KEY_EXECUTE);
 	}
 }

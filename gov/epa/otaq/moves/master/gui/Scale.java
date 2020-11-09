@@ -22,11 +22,15 @@ import java.util.TreeMap;
  *
  * @author		Wesley Faler
  * @author		Tim Hull
- * @version     2014-07-29
+ * @author  	Bill Shaw (508 compliance mods)
+ * @author  	John Covey (Task 1903)
+ * @author		Mike Kender (Task 2003)
+ * @author  	John Covey (Task 2003)
+ * @version     2020-08-10
 **/
 public class Scale extends JPanel implements ActionListener, RunSpecEditor {
-	/** National domain radio button **/
-	JRadioButton nationalRadioButton;
+	/** Default domain radio button **/
+	JRadioButton defaultRadioButton;
 	/** Single county domain radio button **/
 	JRadioButton countyRadioButton;
 	/** Project domain radio button **/
@@ -35,6 +39,7 @@ public class Scale extends JPanel implements ActionListener, RunSpecEditor {
 	/** Model related **/
 	JRadioButton  onroadRadioButton;
 	JRadioButton nonroadRadioButton;
+	JLabel modelDescriptionLabel;
 
 	/** Inventory calculations radio button **/
 	JRadioButton inventoryRadioButton;
@@ -50,13 +55,14 @@ public class Scale extends JPanel implements ActionListener, RunSpecEditor {
 
 	/** Scenario label. **/
 	JLabel scenarioLabel;
+	JLabel scenarioRequiredLabel;
 	/** Scenario text control. **/
 	JTextField scenarioText;
 
 	/** Warning about use with SIP results **/
 	JPanel sipWarningPanel;
 
-	JLabel nationalLabel;
+	JLabel defaultLabel;
 	JLabel countyLabel;
 	JLabel projectLabel;
 	JPanel countyWarningPanel;
@@ -82,7 +88,7 @@ public class Scale extends JPanel implements ActionListener, RunSpecEditor {
 		} else if(runspec.domain == ModelDomain.SINGLE_COUNTY) {
 			destination.append("County\r\n");
 		} else {
-			destination.append("National\r\n");
+			destination.append("Default\r\n");
 		}
 		destination.append("Calculation Type: ");
 		if(runspec.scale == ModelScale.MESOSCALE_LOOKUP) {
@@ -112,11 +118,12 @@ public class Scale extends JPanel implements ActionListener, RunSpecEditor {
 		
 		modelLabel = new JLabel("Model: ");
 		onroadRadioButton = new JRadioButton("Onroad");
+		onroadRadioButton.setMnemonic('O');
 		nonroadRadioButton = new JRadioButton("Nonroad");
 		
 		panel2 = new JPanel();
-		nationalRadioButton = new JRadioButton();
-		nationalLabel = new JLabel();
+		defaultRadioButton = new JRadioButton();
+		defaultLabel = new JLabel();
 		countyRadioButton = new JRadioButton();
 		countyLabel = new JLabel();
 		projectRadioButton = new JRadioButton();
@@ -131,8 +138,15 @@ public class Scale extends JPanel implements ActionListener, RunSpecEditor {
 		scenarioLabel.setName("scenarioLabel");
 
 		scenarioText = new JTextField(40);
+		scenarioText.addKeyListener(new KeyAdapter() {
+            public void keyReleased(KeyEvent e) {
+            	scenarioRequiredLabel.setVisible(scenarioText.isVisible() && scenarioText.getText().length() == 0);
+            }
+        });
+
+		scenarioLabel.setLabelFor(scenarioText);
 		ToolTipHelper.add(scenarioText,
-				"The 40-character column MOVESScenarioID referenced in the rate output tables");
+				"The 40-character column MOVESScenarioID referenced in the rate output tables is required when Emission Rates is selected");
 		scenarioText.setName("scenarioText");
 		scenarioText.setColumns(40);
 
@@ -152,6 +166,7 @@ public class Scale extends JPanel implements ActionListener, RunSpecEditor {
 			modelButtonGroup.add(nonroadRadioButton);
 			onroadRadioButton.addActionListener(this);
 			nonroadRadioButton.addActionListener(this);
+			modelDescriptionLabel = new JLabel();
 			
 			modelPanel.setBorder(BorderFactory.createTitledBorder("Model"));
 			modelPanel.setLayout(new GridBagLayout());
@@ -165,7 +180,11 @@ public class Scale extends JPanel implements ActionListener, RunSpecEditor {
 					GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 					new Insets(0, 0, 5, 5), 0, 0));
 			JLabel onrdLable = new JLabel();
-			onrdLable.setText("");
+			onrdLable.setText("<html><body>"
+					+ "Estimate emissions from motorcycles, cars, buses, and trucks <br>"
+					+ "that operate on roads."
+					+ "</html></body>");
+
 			modelPanel.add(onrdLable, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
 					GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 					new Insets(0, 0, 5, 0), 0, 0));
@@ -174,7 +193,11 @@ public class Scale extends JPanel implements ActionListener, RunSpecEditor {
 					GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 					new Insets(0, 0, 5, 5), 0, 0));
 			JLabel nonrdLable = new JLabel();
-			nonrdLable.setText("");
+			nonrdLable.setText("<html><body>"
+					+ "Estimate emissions from nonroad equipment used in applications <br>"
+					+ "such as recreation, construction, lawn and garden, agriculture, mining, etc. <br>"
+					+ "Nonroad does not include aircraft, railroads, or commercial marine vessels.<br>"
+					+ "</html></body>");
 			modelPanel.add(nonrdLable, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
 					GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 					new Insets(0, 0, 5, 0), 0, 0));
@@ -191,15 +214,16 @@ public class Scale extends JPanel implements ActionListener, RunSpecEditor {
 			((GridBagLayout)panel2.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
 			((GridBagLayout)panel2.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
 
-			//---- nationalRadioButton ----
-			nationalRadioButton.setText("National");
-			panel2.add(nationalRadioButton, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+			//---- defaultRadioButton ----
+			defaultRadioButton.setText("Default Scale");
+			defaultRadioButton.setMnemonic('D');
+			panel2.add(defaultRadioButton, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				new Insets(0, 0, 5, 5), 0, 0));
 
 			//---- label1 ----
-			nationalLabel.setText("Use the default national database with default state and local allocation factors.");
-			panel2.add(nationalLabel, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+			defaultLabel.setText("Use the default national database with default state and local allocation factors.");
+			panel2.add(defaultLabel, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				new Insets(0, 0, 5, 0), 0, 0));
 
@@ -223,22 +247,15 @@ public class Scale extends JPanel implements ActionListener, RunSpecEditor {
 				new Insets(0, 0, 5, 0), 0, 0));
 
 			//---- countyRadioButton ----
-			countyRadioButton.setText("County");
+			countyRadioButton.setText("County Scale");
 			panel2.add(countyRadioButton, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				new Insets(0, 0, 5, 5), 0, 0));
 
-			//---- label2 ----
-			countyLabel.setText("Select or define a single county that is the entire domain.");
-			panel2.add(countyLabel, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
-				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-				new Insets(0, 0, 5, 0), 0, 0));
-
 			warningLabel = new JLabel(
 					"<html><body>"
-					+ "Note:  Use this scale setting for SIP and regional conformity analysis.<br>"
-					+ "Use of this scale setting requires user-supplied local data for most<br>"
-					+ "activity and fleet inputs."
+					+ "Use this scale for SIP and regional conformity analysis. <br>"
+					+ "This scale requires user-supplied local data for most activity and fleet inputs."
 					+ "</body></html>",
 					JLabel.LEFT);
 			countyWarningPanel = new JPanel();
@@ -246,26 +263,20 @@ public class Scale extends JPanel implements ActionListener, RunSpecEditor {
 			countyWarningPanel.add(warningLabel);
 			countyWarningPanel.add(Box.createHorizontalGlue());
 
-			panel2.add(countyWarningPanel, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0,
+			panel2.add(countyWarningPanel, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				new Insets(0, 0, 5, 0), 0, 0));
 
 			//---- projectRadioButton ----
-			projectRadioButton.setText("Project");
+			projectRadioButton.setText("Project Scale");
 			panel2.add(projectRadioButton, new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0,
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				new Insets(0, 0, 0, 5), 0, 0));
 
-			//---- label3 ----
-			projectLabel.setText("Use project domain inputs.");
-			panel2.add(projectLabel, new GridBagConstraints(1, 4, 1, 1, 0.0, 0.0,
-				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-				new Insets(0, 0, 0, 0), 0, 0));
-
 			warningLabel = new JLabel(
 					"<html><body>"
-					+ "Note:  Use this scale setting for project-level analysis for conformity,<br>"
-					+ "NEPA, or any other regulatory purpose. Use of this scale setting requires<br>"
+					+ "Use this scale for project-level analysis for conformity, NEPA, or other <br>"
+					+ "regulatory purposes where link-level analysis is needed. This scale requires <br>"
 					+ "user-supplied data at the link level for activity and fleet inputs that <br>"
 					+ "describe a particular transportation project."
 					+ "</body></html>",
@@ -275,7 +286,7 @@ public class Scale extends JPanel implements ActionListener, RunSpecEditor {
 			projectWarningPanel.add(warningLabel);
 			projectWarningPanel.add(Box.createHorizontalGlue());
 
-			panel2.add(projectWarningPanel, new GridBagConstraints(1, 5, 1, 1, 0.0, 0.0,
+			panel2.add(projectWarningPanel, new GridBagConstraints(1, 4, 1, 1, 0.0, 0.0,
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				new Insets(0, 0, 5, 0), 0, 0));
 		}
@@ -292,6 +303,7 @@ public class Scale extends JPanel implements ActionListener, RunSpecEditor {
 
 			//---- inventoryRadioButton ----
 			inventoryRadioButton.setText("Inventory");
+			inventoryRadioButton.setMnemonic('I');
 			panel3.add(inventoryRadioButton, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				new Insets(0, 0, 5, 5), 0, 0));
@@ -320,12 +332,16 @@ public class Scale extends JPanel implements ActionListener, RunSpecEditor {
 			panel3.add(scenarioText, new GridBagConstraints(1, 3, 3, 1, 0.0, 0.0,
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				new Insets(0, 0, 0, 0), 0, 0));
+			scenarioRequiredLabel = new JLabel("*Required when Emission Rates is selected*", SwingConstants.CENTER);
+			panel3.add(scenarioRequiredLabel, new GridBagConstraints(2, 2, 2, 1, 0.0, 0.0,
+					GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+					new Insets(0, 0, 0, 5), 0, 0));
 		}
 		result.add(panel3);
 
 		//---- domainButtonGroup ----
 		ButtonGroup domainButtonGroup = new ButtonGroup();
-		domainButtonGroup.add(nationalRadioButton);
+		domainButtonGroup.add(defaultRadioButton);
 		domainButtonGroup.add(countyRadioButton);
 		domainButtonGroup.add(projectRadioButton);
 
@@ -361,8 +377,8 @@ public class Scale extends JPanel implements ActionListener, RunSpecEditor {
 		LayoutUtility.setPositionOnGrid(gbc,0, 0, "WEST", 1, 1);
 		add(result, gbc);
 
-		nationalRadioButton.setName("national");
-		nationalRadioButton.addActionListener(this);
+		defaultRadioButton.setName("default");
+		defaultRadioButton.addActionListener(this);
 
 		countyRadioButton.setName("county");
 		countyRadioButton.addActionListener(this);
@@ -433,7 +449,7 @@ public class Scale extends JPanel implements ActionListener, RunSpecEditor {
 		
 		onroadRadioButton.setSelected(false);
 		nonroadRadioButton.setSelected(false);
-		nationalRadioButton.setSelected(false);
+		defaultRadioButton.setSelected(false);
 		countyRadioButton.setSelected(false);
 		projectRadioButton.setSelected(false);
 		inventoryRadioButton.setSelected(false);
@@ -463,7 +479,7 @@ public class Scale extends JPanel implements ActionListener, RunSpecEditor {
 		} else if(runspec.domain == ModelDomain.SINGLE_COUNTY) {
 			countyRadioButton.setSelected(true);
 		} else {
-			nationalRadioButton.setSelected(true);
+			defaultRadioButton.setSelected(true);
 		}
 
 		scenarioText.setText(StringUtilities.safeGetString(runspec.scenarioID).trim());
@@ -478,7 +494,7 @@ public class Scale extends JPanel implements ActionListener, RunSpecEditor {
 			projectRadioButton.setEnabled(false);
 			if(projectRadioButton.isSelected()) {
 				projectRadioButton.setSelected(false);
-				nationalRadioButton.setSelected(true);
+				defaultRadioButton.setSelected(true);
 			}
 		} else if(projectRadioButton.isSelected()) {
 			emissionRatesRadioButton.setEnabled(false);
@@ -498,14 +514,15 @@ public class Scale extends JPanel implements ActionListener, RunSpecEditor {
 		emissionRatesRadioButton.setEnabled(onroadSelected);
 		if(onroadSelected) {
 			sipWarningPanel.setVisible(true);
-			nationalLabel.setVisible(true);
+			defaultLabel.setText("Use the default national database with default state and local allocation factors.");
 			countyLabel.setVisible(true);
 			projectLabel.setVisible(true);
 			countyWarningPanel.setVisible(true);
 			projectWarningPanel.setVisible(true);
+			//jxc
 		} else {
 			sipWarningPanel.setVisible(false);
-			nationalLabel.setVisible(false);
+			defaultLabel.setText("Use the Nonroad Data Importer or Nonroad Post-Processing scripts to apply local data.");
 			countyLabel.setVisible(false);
 			projectLabel.setVisible(false);
 			countyWarningPanel.setVisible(false);
@@ -515,6 +532,7 @@ public class Scale extends JPanel implements ActionListener, RunSpecEditor {
 		boolean shouldUseScenario = emissionRatesRadioButton.isSelected();
 		scenarioLabel.setEnabled(shouldUseScenario);
 		scenarioText.setEnabled(shouldUseScenario);
+		scenarioRequiredLabel.setVisible(shouldUseScenario && !isScenarioIdValid());
 	}
 
 	/**
@@ -540,7 +558,7 @@ public class Scale extends JPanel implements ActionListener, RunSpecEditor {
 				}
 			}
 
-			if((nationalRadioButton.isSelected() || countyRadioButton.isSelected()
+			if((defaultRadioButton.isSelected() || countyRadioButton.isSelected()
 					|| projectRadioButton.isSelected())
 					&& (inventoryRadioButton.isSelected()
 							|| emissionRatesRadioButton.isSelected())
@@ -551,7 +569,7 @@ public class Scale extends JPanel implements ActionListener, RunSpecEditor {
 			}
 			break;
 		case M2: // NONROAD
-			if ( !nationalRadioButton.isSelected() || !inventoryRadioButton.isSelected())
+			if ( !defaultRadioButton.isSelected() || !inventoryRadioButton.isSelected())
 				isOK =  false;
 			break;
 		default: 
@@ -606,8 +624,8 @@ public class Scale extends JPanel implements ActionListener, RunSpecEditor {
 			processInventoryButton();
 		} else if(e.getSource() == emissionRatesRadioButton) {
 			processEmissionRatesButton();
-		} else if(e.getSource() == nationalRadioButton) {
-			processNationalButton();
+		} else if(e.getSource() == defaultRadioButton) {
+			processDefaultButton();
 		} else if(e.getSource() == countyRadioButton) {
 			processCountyButton();
 		} else if(e.getSource() == projectRadioButton) {
@@ -654,9 +672,9 @@ public class Scale extends JPanel implements ActionListener, RunSpecEditor {
 	}
 
 	/**
-	 * Handles the National button.
+	 * Handles the Default button.
 	**/
-	public void processNationalButton() {
+	public void processDefaultButton() {
 		if(loadedDomain != ModelDomain.NATIONAL_ALLOCATION) {
 			MOVESNavigation.singleton.onDomainChange(this,ModelDomain.NATIONAL_ALLOCATION);
 			loadedDomain = ModelDomain.NATIONAL_ALLOCATION;
@@ -697,5 +715,11 @@ public class Scale extends JPanel implements ActionListener, RunSpecEditor {
 			TreeMap<String, RunSpecSectionStatus> sections) {
 		// Nothing to do here
 		return null;
+	}
+	public boolean isScenarioIdValid() {
+		if(scenarioText.getText().length() <= 0) {
+			return false;
+		}
+		return true;
 	}
 }

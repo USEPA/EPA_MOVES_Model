@@ -236,10 +236,12 @@ public class ZoneImporter extends ImporterBase {
 	**/
 	private boolean getDataStatusFromScript(Connection db) throws Exception {
 		ArrayList<String> messages = new ArrayList<String>();
-		BasicDataHandler.runScript(db,this,messages,1);
+		BasicDataHandler.runScript(db,this,messages,1,"database/ZoneImporter.sql");
 		for(Iterator<String> i=messages.iterator();i.hasNext();) {
 			String t = i.next();
-			if(t.toLowerCase().startsWith("error")) {
+			if(t.equalsIgnoreCase("OK")) {
+				return true;
+			} else if(t.equalsIgnoreCase("NOT_READY")) {
 				return false;
 			}
 		}

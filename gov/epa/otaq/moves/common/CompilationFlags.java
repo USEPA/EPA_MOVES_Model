@@ -14,7 +14,7 @@ package gov.epa.otaq.moves.common;
  * @author  	EPA Ed Glover
  * @author		wgfaler
  * @author		EPA Mitch C.
- * @version		2015-03-17
+ * @version		2017-09-16
 **/
 public class CompilationFlags {
 	/** flag to control logging of timing events **/
@@ -77,14 +77,6 @@ public class CompilationFlags {
 	**/
 	public static final boolean GENERATE_CALCULATOR_INFO_DOCUMENTATION = false;
 
-	/**
-	 * true to use 2010B's algorithm for extended idle and APU hotelling.
-	 * false to use MOVES2014's improved algorithm.
-	 * This algorithm was improved in MOVES2014 to better handle
-	 * hotelling hours in county-domain runs.
-	**/
-	public static final boolean USE_2010B_HOTELLING_ALGORITHM = false;
-	
 	/**
 	 * true to use the emission rate adjustment factor for heavy-duty vehicles.
 	 * false to use MOVES2014's default algorithm.

@@ -13,8 +13,8 @@ import org.w3c.dom.*;
 /**
  * Interface for all importer modules.
  * 
- * @author		wgfaler
- * @version		2012-01-23
+ * @author		Wesley Faler
+ * @version		2015-09-16
 **/
 public interface IImporter {
 	/**
@@ -85,4 +85,15 @@ public interface IImporter {
 	 * @param db Database to use
 	**/
 	void refreshFromAuditLog(Connection db);
+
+	/**
+	 * Add a message about the quality of data.
+	 * @param t message to be shown.
+	**/
+	void addQualityMessage(String t);
+
+	/**
+	 * Remove all messages about data quality, without disturbing other messages.
+	**/
+	void removeQualityMessages();
 }

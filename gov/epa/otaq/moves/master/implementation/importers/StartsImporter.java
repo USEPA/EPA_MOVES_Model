@@ -15,6 +15,7 @@ import org.xml.sax.*;
 import org.xml.sax.helpers.*;
 import org.w3c.dom.*;
 import gov.epa.otaq.moves.master.runspec.*;
+import gov.epa.otaq.moves.worker.framework.WorkerConfiguration;
 import gov.epa.otaq.moves.master.gui.RunSpecSectionStatus;
 import gov.epa.otaq.moves.common.*;
 import gov.epa.otaq.moves.master.framework.SystemConfiguration;
@@ -23,58 +24,70 @@ import gov.epa.otaq.moves.master.framework.SystemConfiguration;
  * MOVES Starts Importer.
  *
  * @author		Wesley Faler
- * @version		2014-01-08
+ * @author 		John Covey - Task 1806 changes
+ * @version 	2018-11-16
+
 **/
 public class StartsImporter extends ImporterBase {
 	/** Data handler for this importer **/
 	BasicDataHandler basicDataHandler;
 
-	/** Part object for the FuelSupply table **/
-	TableFileLinkagePart startsPart;
-	/** Part object for the startsPerDay table **/
-	TableFileLinkagePart startsPerDay;
 	/** Part object for the startsHourFraction table **/
 	TableFileLinkagePart startsHourFraction;
-	/** Part object for the startsSourceTypeFraction table **/
-	TableFileLinkagePart startsSourceTypeFraction;
 	/** Part object for the startsMonthAdjust table **/
 	TableFileLinkagePart startsMonthAdjust;
-	/** Part object for the importStartsOpModeDistribution table **/
-	TableFileLinkagePart importStartsOpModeDistribution;
+	/** Part object for the startsOpModeDistribution table **/
+	TableFileLinkagePart startsOpModeDistribution;
+	/** Part object for the startsPerDayPerVehicle table **/
+	TableFileLinkagePart startsPerDayPerVehicle;
+	/** Part object for the starts table **/
+	TableFileLinkagePart starts;
+	/** Part object for the startsPerDay table **/
+	TableFileLinkagePart startsPerDay;
+	/** Part object for the startsAgeAdjustment table **/
+	TableFileLinkagePart startsAgeAdjustment;
 
 	/**
 	 * Descriptor of the table(s) imported, exported, and cleared by this importer.
 	 * The format is compatible with BasicDataHandler.
 	**/
 	static String[] dataTableDescriptor = {
-		BasicDataHandler.BEGIN_TABLE, "startsPerDay",
-		"zoneID", "Zone", ImporterManager.FILTER_ZONE,
+		
+		BasicDataHandler.BEGIN_TABLE, "startsPerDayPerVehicle",
 		"dayID","Day", ImporterManager.FILTER_DAY,
-		"yearID", "", ImporterManager.FILTER_YEAR,
-		"startsPerDay", "", ImporterManager.FILTER_NON_NEGATIVE,
+		"sourceTypeID", "SourceUseType", ImporterManager.FILTER_SOURCE,
+		// yeet for new starts shaping "ageID", "", ImporterManager.FILTER_AGE,
+		"startsPerDayPerVehicle", "", ImporterManager.FILTER_NON_NEGATIVE,
 
+		BasicDataHandler.BEGIN_TABLE, "StartsPerDay",
+		"dayID","Day", ImporterManager.FILTER_DAY,
+		"sourceTypeID", "SourceUseType", ImporterManager.FILTER_SOURCE,
+		"startsPerDay", "", ImporterManager.FILTER_NON_NEGATIVE,
+		
 		BasicDataHandler.BEGIN_TABLE, "startsHourFraction",
-		"zoneID", "Zone", ImporterManager.FILTER_ZONE,
 		"dayID","Day", ImporterManager.FILTER_DAY,
 		"hourID","Hour", ImporterManager.FILTER_HOUR,
-		"allocationFraction", "", ImporterManager.FILTER_NON_NEGATIVE,
-
-		BasicDataHandler.BEGIN_TABLE, "startsSourceTypeFraction",
 		"sourceTypeID", "SourceUseType", ImporterManager.FILTER_SOURCE,
 		"allocationFraction", "", ImporterManager.FILTER_NON_NEGATIVE,
 
 		BasicDataHandler.BEGIN_TABLE, "startsMonthAdjust",
 		"monthID", "MonthOfAnyYear", ImporterManager.FILTER_MONTH,
+		"sourceTypeID", "SourceUseType", ImporterManager.FILTER_SOURCE,
 		"monthAdjustment", "", ImporterManager.FILTER_NON_NEGATIVE,
 
-		BasicDataHandler.BEGIN_TABLE, "importStartsOpModeDistribution",
+		BasicDataHandler.BEGIN_TABLE, "StartsAgeAdjustment",
 		"sourceTypeID", "SourceUseType", ImporterManager.FILTER_SOURCE,
-		"hourDayID", "HourDay", ImporterManager.FILTER_HOURDAY,
-		"linkID", "", ImporterManager.FILTER_OFFNETWORK_LINK,
-		"polProcessID", "PollutantProcessAssoc", ImporterManager.FILTER_STARTS_POLPROCESSID,
+		"ageID", "", ImporterManager.FILTER_AGE,
+		"ageAdjustment", "", ImporterManager.FILTER_NON_NEGATIVE,
+
+		BasicDataHandler.BEGIN_TABLE, "startsOpModeDistribution",
+		"dayID","Day", ImporterManager.FILTER_DAY,
+		"hourID","Hour", ImporterManager.FILTER_HOUR,
+		"sourceTypeID", "SourceUseType", ImporterManager.FILTER_SOURCE,
+		"ageID", "", ImporterManager.FILTER_AGE,
 		"opModeID", "StartsOperatingMode", ImporterManager.FILTER_STARTS_OPMODEID,
 		"opModeFraction", "", ImporterManager.FILTER_NON_NEGATIVE,
-
+		
 		BasicDataHandler.BEGIN_TABLE, "Starts",
 		"hourDayID", "HourDay", ImporterManager.FILTER_HOURDAY,
 		"monthID", "MonthOfAnyYear", ImporterManager.FILTER_MONTH,
@@ -83,7 +96,9 @@ public class StartsImporter extends ImporterBase {
 		"zoneID", "Zone", ImporterManager.FILTER_ZONE,
 		"sourceTypeID", "SourceUseType", ImporterManager.FILTER_SOURCE,
 		"starts", "", ImporterManager.FILTER_NON_NEGATIVE,
-		"startsCV", "", ImporterManager.FILTER_NON_NEGATIVE
+		"startsCV", "", ImporterManager.FILTER_NON_NEGATIVE,
+		"isUserInput", "", ImporterManager.FILTER_YN
+
 	};
 
 	/** Class for editing the data source **/
@@ -93,7 +108,7 @@ public class StartsImporter extends ImporterBase {
 		 * @return the name of the table being managed
 		**/
 		public String getTableName() {
-			return "Starts";
+			return "starts";
 		}
 
 		/**
@@ -108,28 +123,7 @@ public class StartsImporter extends ImporterBase {
 	}
 
 	/** Class for editing the data source **/
-	class StartsPerDay implements TableFileLinkagePart.IProvider {
-		/**
-		 * Get the name of the table being managed
-		 * @return the name of the table being managed
-		**/
-		public String getTableName() {
-			return "startsPerDay";
-		}
-
-		/**
-		 * Create a template file (or files).
-		 * @param destinationFile file selected by the user to be created.  The file may already
-		 * exist.
-		 * @return true if the template was created successfully, false otherwise.
-		**/
-		public boolean createTemplate(File destinationFile) {
-			return dataHandler.createTemplate(getTableName(),destinationFile);
-		}
-	}
-
-	/** Class for editing the data source **/
-	class StartsHourFraction implements TableFileLinkagePart.IProvider {
+	class StartsHourFractionProvider implements TableFileLinkagePart.IProvider {
 		/**
 		 * Get the name of the table being managed
 		 * @return the name of the table being managed
@@ -150,28 +144,7 @@ public class StartsImporter extends ImporterBase {
 	}
 
 	/** Class for editing the data source **/
-	class StartsSourceTypeFraction implements TableFileLinkagePart.IProvider {
-		/**
-		 * Get the name of the table being managed
-		 * @return the name of the table being managed
-		**/
-		public String getTableName() {
-			return "startsSourceTypeFraction";
-		}
-
-		/**
-		 * Create a template file (or files).
-		 * @param destinationFile file selected by the user to be created.  The file may already
-		 * exist.
-		 * @return true if the template was created successfully, false otherwise.
-		**/
-		public boolean createTemplate(File destinationFile) {
-			return dataHandler.createTemplate(getTableName(),destinationFile);
-		}
-	}
-
-	/** Class for editing the data source **/
-	class StartsMonthAdjust implements TableFileLinkagePart.IProvider {
+	class StartsMonthAdjustProvider implements TableFileLinkagePart.IProvider {
 		/**
 		 * Get the name of the table being managed
 		 * @return the name of the table being managed
@@ -192,13 +165,13 @@ public class StartsImporter extends ImporterBase {
 	}
 
 	/** Class for editing the data source **/
-	class ImportStartsOpModeDistribution implements TableFileLinkagePart.IProvider {
+	class StartsOpModeDistributionProvider implements TableFileLinkagePart.IProvider {
 		/**
 		 * Get the name of the table being managed
 		 * @return the name of the table being managed
 		**/
 		public String getTableName() {
-			return "importStartsOpModeDistribution";
+			return "startsOpModeDistribution";
 		}
 
 		/**
@@ -212,6 +185,70 @@ public class StartsImporter extends ImporterBase {
 		}
 	}
 
+	/** Class for editing the data source **/
+	class StartsPerDayPerVehicleProvider implements TableFileLinkagePart.IProvider {
+		/**
+		 * Get the name of the table being managed
+		 * @return the name of the table being managed
+		**/
+		public String getTableName() {
+			return "startsPerDayPerVehicle";
+		}
+
+		/**
+		 * Create a template file (or files).
+		 * @param destinationFile file selected by the user to be created.  The file may already
+		 * exist.
+		 * @return true if the template was created successfully, false otherwise.
+		**/
+		public boolean createTemplate(File destinationFile) {
+			return dataHandler.createTemplate(getTableName(),destinationFile);
+		}
+	}
+
+	/** Class for editing the data source **/
+	class StartsPerDayProvider implements TableFileLinkagePart.IProvider {
+		/**
+		 * Get the name of the table being managed
+		 * @return the name of the table being managed
+		**/
+		public String getTableName() {
+			return "startsPerDay";
+		}
+
+		/**
+		 * Create a template file (or files).
+		 * @param destinationFile file selected by the user to be created.  The file may already
+		 * exist.
+		 * @return true if the template was created successfully, false otherwise.
+		**/
+		public boolean createTemplate(File destinationFile) {
+			return dataHandler.createTemplate(getTableName(),destinationFile);
+		}
+	}
+
+	/** Class for editing the data source **/
+	class StartsAgeAdjustmentProvider implements TableFileLinkagePart.IProvider {
+		/**
+		 * Get the name of the table being managed
+		 * @return the name of the table being managed
+		**/
+		public String getTableName() {
+			return "startsAgeAdjustment";
+		}
+
+		/**
+		 * Create a template file (or files).
+		 * @param destinationFile file selected by the user to be created.  The file may already
+		 * exist.
+		 * @return true if the template was created successfully, false otherwise.
+		**/
+		public boolean createTemplate(File destinationFile) {
+			return dataHandler.createTemplate(getTableName(),destinationFile);
+		}
+	}
+
+
 	/** Class for interfacing to BasicDataHandler's needs during an import **/
 	class BasicDataHandlerProvider implements BasicDataHandler.IProvider {
 		/**
@@ -221,19 +258,23 @@ public class StartsImporter extends ImporterBase {
 		 * no file has been specified.
 		**/
 		public String getTableFileSource(String tableName) {
-			if(tableName.equalsIgnoreCase("Starts")) {
-				return startsPart.fileName;
-			} else if(tableName.equalsIgnoreCase("startsPerDay")) {
-				return startsPerDay.fileName;
-			} else if(tableName.equalsIgnoreCase("startsHourFraction")) {
+			if(tableName.equalsIgnoreCase("startsHourFraction")) {
 				return startsHourFraction.fileName;
-			} else if(tableName.equalsIgnoreCase("startsSourceTypeFraction")) {
-				return startsSourceTypeFraction.fileName;
 			} else if(tableName.equalsIgnoreCase("startsMonthAdjust")) {
 				return startsMonthAdjust.fileName;
-			} else if(tableName.equalsIgnoreCase("importStartsOpModeDistribution")) {
-				return importStartsOpModeDistribution.fileName;
+			} else if(tableName.equalsIgnoreCase("startsOpModeDistribution")) {
+				return startsOpModeDistribution.fileName;
+			} else if(tableName.equalsIgnoreCase("startsPerDayPerVehicle")) {
+				return startsPerDayPerVehicle.fileName;
+			// new starts shaping stuff
+			} else if(tableName.equalsIgnoreCase("starts")) {
+				return starts.fileName;
+			} else if(tableName.equalsIgnoreCase("startsPerDay")) {
+				return startsPerDay.fileName;
+			} else if(tableName.equalsIgnoreCase("startsAgeAdjustment")) {
+				return startsAgeAdjustment.fileName;
 			}
+			// end new starts shaping stuff
 			return null;
 		}
 
@@ -244,19 +285,23 @@ public class StartsImporter extends ImporterBase {
 		 * worksheet has been specified or if the file is not an XLS file.
 		**/
 		public String getTableWorksheetSource(String tableName) {
-			if(tableName.equalsIgnoreCase("Starts")) {
-				return startsPart.worksheetName;
-			} else if(tableName.equalsIgnoreCase("startsPerDay")) {
-				return startsPerDay.worksheetName;
-			} else if(tableName.equalsIgnoreCase("startsHourFraction")) {
+			if(tableName.equalsIgnoreCase("startsHourFraction")) {
 				return startsHourFraction.worksheetName;
-			} else if(tableName.equalsIgnoreCase("startsSourceTypeFraction")) {
-				return startsSourceTypeFraction.worksheetName;
 			} else if(tableName.equalsIgnoreCase("startsMonthAdjust")) {
 				return startsMonthAdjust.worksheetName;
-			} else if(tableName.equalsIgnoreCase("importStartsOpModeDistribution")) {
-				return importStartsOpModeDistribution.worksheetName;
+			} else if(tableName.equalsIgnoreCase("startsOpModeDistribution")) {
+				return startsOpModeDistribution.worksheetName;
+			} else if(tableName.equalsIgnoreCase("startsPerDayPerVehicle")) {
+				return startsPerDayPerVehicle.worksheetName;
+			// new starts shaping stuff
+			} else if(tableName.equalsIgnoreCase("starts")) {
+				return starts.worksheetName;
+			} else if(tableName.equalsIgnoreCase("startsPerDay")) {
+				return startsPerDay.worksheetName;
+			} else if(tableName.equalsIgnoreCase("startsAgeAdjustment")) {
+				return startsAgeAdjustment.worksheetName;
 			}
+			// end new starts shaping stuff
 			return null;
 		}
 
@@ -292,34 +337,42 @@ public class StartsImporter extends ImporterBase {
 	public StartsImporter() {
 		super("Starts", // common name
 				"starts", // XML node name
-				new String[] { "Starts", // required tables
-					"startsPerDay", "startsHourFraction",
-					"startsSourceTypeFraction", "startsMonthAdjust",
-					"importStartsOpModeDistribution"
+				new String[] { // required tables // are there optional tables???
+					"startsHourFraction",
+					"startsMonthAdjust",
+					"startsOpModeDistribution",
+					"startsPerDayPerVehicle",
+					//new importer parts
+					"starts",
+					"startsPerDay",
+					"startsAgeAdjustment"
 				});
 
-		shouldDoExecutionDataExport = true;
-		shouldDoDefaultDataExport = false;
+		shouldDoExecutionDataExport = false;
+		shouldDoDefaultDataExport = true;
 		shouldDoCustomDefaultDataExport = false;
 		subjectToExportRestrictions = false;
+		
+		startsPerDayPerVehicle = new TableFileLinkagePart(this,new StartsPerDayPerVehicleProvider());
+		parts.add(startsPerDayPerVehicle);
 
-		startsPerDay = new TableFileLinkagePart(this,new StartsPerDay());
+		startsPerDay = new TableFileLinkagePart(this,new StartsPerDayProvider());
 		parts.add(startsPerDay);
 
-		startsHourFraction = new TableFileLinkagePart(this,new StartsHourFraction());
+		startsHourFraction = new TableFileLinkagePart(this,new StartsHourFractionProvider());
 		parts.add(startsHourFraction);
 
-		startsSourceTypeFraction= new TableFileLinkagePart(this,new StartsSourceTypeFraction());
-		parts.add(startsSourceTypeFraction);
-
-		startsMonthAdjust = new TableFileLinkagePart(this,new StartsMonthAdjust());
+		startsMonthAdjust = new TableFileLinkagePart(this,new StartsMonthAdjustProvider());
 		parts.add(startsMonthAdjust);
 
-		importStartsOpModeDistribution = new TableFileLinkagePart(this,new ImportStartsOpModeDistribution());
-		parts.add(importStartsOpModeDistribution);
+		startsAgeAdjustment = new TableFileLinkagePart(this,new StartsAgeAdjustmentProvider());
+		parts.add(startsAgeAdjustment);
+		
+		startsOpModeDistribution = new TableFileLinkagePart(this,new StartsOpModeDistributionProvider());
+		parts.add(startsOpModeDistribution);
 
-		startsPart = new TableFileLinkagePart(this,new StartsProvider());
-		parts.add(startsPart);
+		starts = new TableFileLinkagePart(this,new StartsProvider());
+		parts.add(starts);
 
 		basicDataHandler = new BasicDataHandler(this,dataTableDescriptor,new BasicDataHandlerProvider());
 		dataHandler = basicDataHandler;
@@ -370,7 +423,7 @@ public class StartsImporter extends ImporterBase {
 			return new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);
 		}
 		*/
-		return getImporterDataStatusCore(db,true);
+		return getImporterDataStatusCore(db);
 	}
 
 	/**
@@ -392,19 +445,18 @@ public class StartsImporter extends ImporterBase {
 	 * @throws Exception if anything goes wrong
 	**/
 	public RunSpecSectionStatus getImporterDataStatus(Connection db) throws Exception {
-		return getImporterDataStatusCore(db,false);
+		return getImporterDataStatusCore(db);
 	}
 
 	/**
 	 * Check a RunSpec against the database or for display of the importer.
 	 * @param db database to be examined.
-	 * @param requireAllData true if the user must provide all fuel formulations for their location
 	 * @return the status, or null if the status should not be shown to the user.
 	 * @throws Exception if anything goes wrong
 	**/
-	public RunSpecSectionStatus getImporterDataStatusCore(Connection db, boolean requireAllData) throws Exception {
+	public RunSpecSectionStatus getImporterDataStatusCore(Connection db) throws Exception {
 		ArrayList<String> messages = new ArrayList<String>();
-		BasicDataHandler.runScript(db,this,messages,requireAllData?2:1,"database/StartsImporter.sql");
+		BasicDataHandler.runScript(db,this,messages,1,"database/StartsImporter.sql");
 		for(Iterator<String> i=messages.iterator();i.hasNext();) {
 			String t = i.next();
 			if(t.toUpperCase().startsWith("ERROR")) {

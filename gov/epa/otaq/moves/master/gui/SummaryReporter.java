@@ -19,7 +19,9 @@ import java.sql.*;
  * @author		Wesley Faler
  * @author		Ed Glover Wm Aikman NO NO2 SO2
  * @author		Tim Hull
- * @version		2011-09-10
+ * @author  	Bill Shaw (508 compliance mods)
+ * @author  	John Covey (Task 2003)
+ * @version		2020-07-28
 **/
 public class SummaryReporter {
 	/** the JFrame to display GUI components in **/
@@ -168,128 +170,189 @@ public class SummaryReporter {
 			runNumList = new JList<String>(runDisplayStrings.toArray(new String[0]));
 			runNumList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			runNumList.setSelectedIndex(runDisplayStrings.size()-1);
+			runNumList.setToolTipText(Constants.SUMMARY_REPORT_RUN_NUMBERS_OPTIONS_LIST_TOOLTIP);
 			runNumAddPanel = new JPanel();
-			runNumAdd = new JButton("Add");
+			
+			runNumAdd = new JButton("Add (ALT+0)");
+			runNumAdd.setMnemonic('0');
 			runNumAdd.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					add(runNumList,runNumSelectionList);
 				}
 			});
-			runNumAddAll = new JButton("Add All");
+			runNumAdd.setToolTipText(Constants.SUMMARY_REPORT_RUN_NUMBERS_ADD_TOOLTIP);
+
+			runNumAddAll = new JButton("Add All (ALT+1)");
+			runNumAddAll.setMnemonic('1');
 			runNumAddAll.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					addAll(runNumList,runNumSelectionList);
 				}
 			});
+			runNumAddAll.setToolTipText(Constants.SUMMARY_REPORT_RUN_NUMBERS_ADD_ALL_TOOLTIP);
+
 			categoryScrollPane = new JScrollPane();
 			categoryList = new JList<String>(categories.toArray(new String[0]));
 			categoryList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+			categoryList.setToolTipText(Constants.SUMMARY_REPORT_RUN_NUMBERS_OPTIONS_LIST_TOOLTIP);
 			categoryAddPanel = new JPanel();
-			categoryAdd = new JButton("Add");
+			
+			categoryAdd = new JButton("Add (ALT+2)");
+			categoryAdd.setMnemonic('2');
 			categoryAdd.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					add(categoryList,categorySelectionList);
 				}
 			});
-			categoryAddAll = new JButton("Add All");
+			categoryAdd.setToolTipText(Constants.SUMMARY_REPORT_CATEGORIES_ADD_TOOLTIP);
+
+			categoryAddAll = new JButton("Add All (ALT+3)");
+			categoryAddAll.setMnemonic('3');
 			categoryAddAll.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					addAll(categoryList,categorySelectionList);
 				}
 			});
+			categoryAddAll.setToolTipText(Constants.SUMMARY_REPORT_CATEGORIES_ADD_ALL_TOOLTIP);
+
 			dataItemsScrollPane = new JScrollPane();
 			dataItemsList = new JList<String>(pollutants.toArray(new String[0]));
 			dataItemsList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+			dataItemsList.setToolTipText(Constants.SUMMARY_REPORT_DATA_ITEMS_OPTIONS_LIST_TOOLTIP);
 			dataItemsAddPanel = new JPanel();
-			dataItemsAdd = new JButton("Add");
+			dataItemsAdd = new JButton("Add (ALT+4)");
+			dataItemsAdd.setMnemonic('4');
 			dataItemsAdd.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					add(dataItemsList,dataItemsSelectionList);
 				}
 			});
-			dataItemsAddAll = new JButton("Add All");
+			dataItemsAdd.setToolTipText(Constants.SUMMARY_REPORT_DATA_ITEMS_ADD_TOOLTIP);
+
+			dataItemsAddAll = new JButton("Add All (ALT+5)");
+			dataItemsAddAll.setMnemonic('5');
 			dataItemsAddAll.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					addAll(dataItemsList,dataItemsSelectionList);
 				}
 			});
+			dataItemsAddAll.setToolTipText(Constants.SUMMARY_REPORT_DATA_ITEMS_ADD_ALL_TOOLTIP);
+
 			runNumSelectionLabel = new JLabel("Selection");
 			categorySelectionLabel = new JLabel("Selection");
 			dataItemsSelectionLabel = new JLabel("Selection");
 			runNumSelectionScrollPane = new JScrollPane();
 			runNumSelectionModel = new DefaultListModel<String>();
 			runNumSelectionList = new JList<String>(runNumSelectionModel);
+			runNumSelectionList.setToolTipText(Constants.SUMMARY_REPORT_DATA_ITEMS_ASSIGNED_LIST_TOOLTIP);			
 			runNumRemovePanel = new JPanel();
-			runNumRemove = new JButton("Remove");
+			runNumRemove = new JButton("Remove (ALT+6)");
+			runNumRemove.setMnemonic('6');
 			runNumRemove.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					remove(runNumSelectionList);
 				}
 			});
-			runNumRemoveAll = new JButton("Remove All");
+			runNumRemove.setToolTipText(Constants.SUMMARY_REPORT_RUN_NUMBERS_REMOVE_TOOLTIP);
+
+			runNumRemoveAll = new JButton("Remove All (ALT+7)");
+			runNumRemoveAll.setMnemonic('7');
 			runNumRemoveAll.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					removeAll(runNumSelectionList);
 				}
 			});
+			runNumRemoveAll.setToolTipText(Constants.SUMMARY_REPORT_RUN_NUMBERS_REMOVE_ALL_TOOLTIP);
+
 			categorySelectionScrollPane = new JScrollPane();
 			categorySelectionModel = new DefaultListModel<String>();
 			categorySelectionList = new JList<String>(categorySelectionModel);
+			categorySelectionList.setToolTipText(Constants.SUMMARY_REPORT_CATEGORIES_ASSIGNED_LIST_TOOLTIP);			
+
 			categoryRemovePanel = new JPanel();
-			categoryRemove = new JButton("Remove");
+			categoryRemove = new JButton("Remove (ALT+8)");
+			categoryRemove.setMnemonic('8');
 			categoryRemove.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					remove(categorySelectionList);
 				}
 			});
-			categoryRemoveAll = new JButton("Remove All");
+			categoryRemove.setToolTipText(Constants.SUMMARY_REPORT_CATEGORIES_REMOVE_TOOLTIP);
+
+			categoryRemoveAll = new JButton("Remove All (ALT+9)");
+			categoryRemoveAll.setMnemonic('9');
 			categoryRemoveAll.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					removeAll(categorySelectionList);
 				}
 			});
+			categoryRemoveAll.setToolTipText(Constants.SUMMARY_REPORT_CATEGORIES_REMOVE_ALL_TOOLTIP);
+
 			dataItemsSelectionScrollPane = new JScrollPane();
 			dataItemsSelectionModel = new DefaultListModel<String>();
 			dataItemsSelectionList = new JList<String>(dataItemsSelectionModel);
+			dataItemsSelectionList.setToolTipText(Constants.SUMMARY_REPORT_DATA_ITEMS_ASSIGNED_LIST_TOOLTIP);			
+
 			dataItemsRemovePanel = new JPanel();
 			dataItemsRemove = new JButton("Remove");
+			dataItemsRemove.setMnemonic('R');
+			dataItemsRemove.setDisplayedMnemonicIndex(0);
 			dataItemsRemove.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					remove(dataItemsSelectionList);
 				}
 			});
+			dataItemsRemove.setToolTipText(Constants.SUMMARY_REPORT_DATA_ITEMS_REMOVE_TOOLTIP);
+
 			dataItemsRemoveAll = new JButton("Remove All");
+			dataItemsRemoveAll.setMnemonic('e');
+			dataItemsRemoveAll.setDisplayedMnemonicIndex(1);
 			dataItemsRemoveAll.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					removeAll(dataItemsSelectionList);
 				}
 			});
+			dataItemsRemoveAll.setToolTipText(Constants.SUMMARY_REPORT_DATA_ITEMS_REMOVE_ALL_TOOLTIP);
+
 			categoryUpDownPanel = new JPanel();
-			categoryUp = new JButton("\u2191");
+			categoryUp = new JButton("\u2191 Up");
+			categoryUp.setMnemonic('U');
 			categoryUp.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					up(categorySelectionList);
 				}
 			});
-			categoryDown = new JButton("\u2193");
+			categoryUp.setToolTipText(Constants.SUMMARY_REPORT_CATEGORIES_MOVE_UP_TOOLTIP);
+			
+			categoryDown = new JButton("\u2193 Dn");
+			categoryDown.setMnemonic('D');
 			categoryDown.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					down(categorySelectionList);
 				}
 			});
+			categoryDown.setToolTipText(Constants.SUMMARY_REPORT_CATEGORIES_MOVE_DOWN_TOOLTIP);
+
 			dataItemsUpDownPanel = new JPanel();
-			dataItemsUp = new JButton("\u2191");
+			dataItemsUp = new JButton("\u2191 Up" );
+			dataItemsUp.setMnemonic('p');
 			dataItemsUp.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					up(dataItemsSelectionList);
 				}
 			});
-			dataItemsDown = new JButton("\u2193");
+			dataItemsUp.setToolTipText(Constants.SUMMARY_REPORT_DATA_ITEMS_MOVE_UP_TOOLTIP);
+
+			dataItemsDown = new JButton("\u2193 Dn");
+			dataItemsDown.setMnemonic('n');
+
 			dataItemsDown.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					down(dataItemsSelectionList);
 				}
 			});
+			dataItemsDown.setToolTipText(Constants.SUMMARY_REPORT_DATA_ITEMS_MOVE_DOWN_TOOLTIP);
+			
 			OKCancelPanel = new JPanel();
 			okButton = new JButton("OK");
 			okButton.addActionListener(new ActionListener() {
@@ -298,6 +361,9 @@ public class SummaryReporter {
 				}
 			});
 			okButton.setName("okButton");
+			okButton.setMnemonic('O');
+			okButton.setDisplayedMnemonicIndex(0);
+			okButton.setToolTipText(Constants.SUMMARY_REPORT_OK_TOOLTIP);
 			cancelButton = new JButton("Cancel");
 			cancelButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -305,6 +371,9 @@ public class SummaryReporter {
 				}
 			});
 			cancelButton.setName("cancelButton");
+			cancelButton.setMnemonic('C');
+			cancelButton.setDisplayedMnemonicIndex(0);
+			cancelButton.setToolTipText(Constants.SUMMARY_REPORT_CANCEL_TOOLTIP);
 
 			if (savedReportDescription != null) {
 				reportDescriptionField.setText(savedReportDescription) ;
@@ -831,6 +900,8 @@ public class SummaryReporter {
 				}
 			});
 			saveButton.setName("saveButton");
+			ToolTipHelper.add(saveButton, "Save the summary");
+
 			printButton = new JButton("Print");
 			printButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -838,6 +909,8 @@ public class SummaryReporter {
 				}
 			});
 			printButton.setName("printButton");
+			ToolTipHelper.add(printButton, "Print the summary");
+
 			closeButton = new JButton("Close");
 			closeButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -845,6 +918,7 @@ public class SummaryReporter {
 				}
 			});
 			closeButton.setName("closeButton");
+			ToolTipHelper.add(closeButton, "Close the dialog");
 		}
 
 		private void arrangeControls() {
@@ -921,7 +995,7 @@ public class SummaryReporter {
 				rs = pstmt.executeQuery();
 				while (rs.next()) {
 					int runNo = rs.getInt(1);
-					String stringRunNo = (new Integer(runNo)).toString();
+					String stringRunNo = (Integer.valueOf(runNo)).toString();
 					String headerItem = rs.getString(2);
 					String headerItemValue = rs.getString(3);
 					headerVector.add(stringRunNo + "\t" + headerItem + "\t" + headerItemValue);
@@ -1195,44 +1269,42 @@ public class SummaryReporter {
 				("MOVESRunID", "Run", "SMALLINT(4)",6, null, null));
 
 		polColumnNames = new TreeMap<Integer,String>();
-		polColumnNames.put(new Integer(1),  "TotalHC");
-		polColumnNames.put(new Integer(2),  "CO");
-		polColumnNames.put(new Integer(3),  "NOx");
-		polColumnNames.put(new Integer(5),  "CH4");
-		polColumnNames.put(new Integer(6),  "N2O");
-		polColumnNames.put(new Integer(20), "Benzene");
-		polColumnNames.put(new Integer(21), "Ethanol");
-		polColumnNames.put(new Integer(22), "MTBE");
-		polColumnNames.put(new Integer(23), "Naphthalene");
-		polColumnNames.put(new Integer(24), "Butadiene");
-		polColumnNames.put(new Integer(25), "Formaldehyde");
-		polColumnNames.put(new Integer(26), "Acetaldehyde");
-		polColumnNames.put(new Integer(27), "Acrolein");
-		polColumnNames.put(new Integer(31), "SO2");
-		polColumnNames.put(new Integer(32), "NO");
-		polColumnNames.put(new Integer(33), "NO2");
-		polColumnNames.put(new Integer(30), "NH3");
-		polColumnNames.put(new Integer(79), "NMHC");
-		polColumnNames.put(new Integer(80), "NMOG");
-		polColumnNames.put(new Integer(86), "TOG");
-		polColumnNames.put(new Integer(87), "VOC");
-		polColumnNames.put(new Integer(90), "CO2");
-		polColumnNames.put(new Integer(91), "TotalEnergy");
-		polColumnNames.put(new Integer(92), "PetrolEnergy");
-		polColumnNames.put(new Integer(93), "FossilEnergy");
-		polColumnNames.put(new Integer(98), "CO2_Equiv");
-		polColumnNames.put(new Integer(100),"Total_PM10");
-		polColumnNames.put(new Integer(101),"OrganicC_PM10");
-		polColumnNames.put(new Integer(102),"ElementC_PM10");
-		polColumnNames.put(new Integer(105),"Sulfate_PM10");
-		polColumnNames.put(new Integer(106),"Brake_PM10");
-		polColumnNames.put(new Integer(107),"Tire_PM10");
-		polColumnNames.put(new Integer(110),"Total_PM25");
-		polColumnNames.put(new Integer(111),"OrganicC_PM25");
-		polColumnNames.put(new Integer(112),"ElementC_PM25");
-		polColumnNames.put(new Integer(115),"Sulfate_PM25");
-		polColumnNames.put(new Integer(116),"Brake_PM25");
-		polColumnNames.put(new Integer(117),"Tire_PM25");
+		polColumnNames.put(Integer.valueOf(1),  "TotalHC");
+		polColumnNames.put(Integer.valueOf(2),  "CO");
+		polColumnNames.put(Integer.valueOf(3),  "NOx");
+		polColumnNames.put(Integer.valueOf(5),  "CH4");
+		polColumnNames.put(Integer.valueOf(6),  "N2O");
+		polColumnNames.put(Integer.valueOf(20), "Benzene");
+		polColumnNames.put(Integer.valueOf(21), "Ethanol");
+		polColumnNames.put(Integer.valueOf(22), "MTBE");
+		polColumnNames.put(Integer.valueOf(23), "Naphthalene");
+		polColumnNames.put(Integer.valueOf(24), "Butadiene");
+		polColumnNames.put(Integer.valueOf(25), "Formaldehyde");
+		polColumnNames.put(Integer.valueOf(26), "Acetaldehyde");
+		polColumnNames.put(Integer.valueOf(27), "Acrolein");
+		polColumnNames.put(Integer.valueOf(31), "SO2");
+		polColumnNames.put(Integer.valueOf(32), "NO");
+		polColumnNames.put(Integer.valueOf(33), "NO2");
+		polColumnNames.put(Integer.valueOf(30), "NH3");
+		polColumnNames.put(Integer.valueOf(79), "NMHC");
+		polColumnNames.put(Integer.valueOf(80), "NMOG");
+		polColumnNames.put(Integer.valueOf(86), "TOG");
+		polColumnNames.put(Integer.valueOf(87), "VOC");
+		polColumnNames.put(Integer.valueOf(90), "CO2");
+		polColumnNames.put(Integer.valueOf(91), "TotalEnergy");
+		polColumnNames.put(Integer.valueOf(98), "CO2_Equiv");
+		polColumnNames.put(Integer.valueOf(100),"Total_PM10");
+		polColumnNames.put(Integer.valueOf(101),"OrganicC_PM10");
+		polColumnNames.put(Integer.valueOf(102),"ElementC_PM10");
+		polColumnNames.put(Integer.valueOf(105),"Sulfate_PM10");
+		polColumnNames.put(Integer.valueOf(106),"Brake_PM10");
+		polColumnNames.put(Integer.valueOf(107),"Tire_PM10");
+		polColumnNames.put(Integer.valueOf(110),"Total_PM25");
+		polColumnNames.put(Integer.valueOf(111),"OrganicC_PM25");
+		polColumnNames.put(Integer.valueOf(112),"ElementC_PM25");
+		polColumnNames.put(Integer.valueOf(115),"Sulfate_PM25");
+		polColumnNames.put(Integer.valueOf(116),"Brake_PM25");
+		polColumnNames.put(Integer.valueOf(117),"Tire_PM25");
 		// System.out.println("contructor finished");
 	}
 
@@ -1295,7 +1367,7 @@ public class SummaryReporter {
 		if (eProcSelection.equals("All Processes")) {
 			emissionProcess = null;
 		} else {
-			emissionProcess = new Integer((EmissionProcess.findByName(eProcSelection)).databaseKey);
+			emissionProcess = Integer.valueOf((EmissionProcess.findByName(eProcSelection)).databaseKey);
 		}
 		// System.out.println(eProcSelection);
 		// System.out.println("translates to " + emissionProcess);
@@ -1314,7 +1386,7 @@ public class SummaryReporter {
 			Statement stmt = oConn.createStatement();
 			ResultSet rs = stmt.executeQuery(SQL);
 			while (rs.next()) {
-				Integer runNum = new Integer(rs.getInt("MOVESRunID"));
+				Integer runNum = Integer.valueOf(rs.getInt("MOVESRunID"));
 				String runDisplay = "Run: " + runNum.toString() + " Time: " +
 						rs.getString("runDateTime") + " " +
 						rs.getString("runSpecFileName") + " ";
@@ -1684,7 +1756,7 @@ public class SummaryReporter {
 			for (int i=0; i<pollutantSelections.size(); i++) {
 				String polName = (String) pollutantSelections.get(i);
 				int polID = Pollutant.findByName(polName).databaseKey;
-				String colName = (String) polColumnNames.get(new Integer(polID));
+				String colName = (String) polColumnNames.get(Integer.valueOf(polID));
 				//System.out.println("polID=" + polID + ", polName=" + polName + ", colName = " + colName);
 				SQL = "ALTER TABLE TempMOVESOutput ADD COLUMN " + colName + " FLOAT DEFAULT 0.0";
 				pstmt = oConn.prepareStatement(SQL);
@@ -1884,7 +1956,7 @@ public class SummaryReporter {
 				if (runNo==0) {
 					paddedRunNo = spaces.substring(0,5);
 				} else {
-					String stringRunNo = (new Integer(runNo)).toString();
+					String stringRunNo = (Integer.valueOf(runNo)).toString();
 					paddedRunNo = spaces.substring(0,4-stringRunNo.length()) + stringRunNo + " ";
 				}
 				String headerItem = rs.getString(2);

@@ -22,7 +22,8 @@ import gov.epa.otaq.moves.master.gui.RunSpecSectionStatus;
  *
  * @author		Wesley Faler
  * @author		Don Smith
- * @version		2015-05-17
+ * @author		Mike Kender	task 1903
+ * @version		2019-10-18
 **/
 public class ImporterBase implements IImporter, ICountyDataImporter, IProjectDataImporter,
 		IDataStatus {
@@ -39,6 +40,8 @@ public class ImporterBase implements IImporter, ICountyDataImporter, IProjectDat
 	public String description = "";
 	/** List of String objects holding messages about the imported data **/
 	public ArrayList<String> messages = new ArrayList<String>();
+	/** List of String objects holding messages about the quality of the imported data **/
+	public TreeSet<String> qualityMessages = new TreeSet<String>();
 	/**
 	 * List of IImporterPart objects for editing specific portions of the importer.
 	 * Only parts that are allowed by the current user settings are listed.
@@ -100,11 +103,14 @@ public class ImporterBase implements IImporter, ICountyDataImporter, IProjectDat
 		/** Clear the list of messages about the imported data. **/
 		public void clearMessages() {
 			messages.clear();
+			qualityMessages.clear();
 		}
 
 		/** Display current messages **/
 		public void showMessages() {
-			importerPanel.showMessages();
+			if(importerPanel != null) {
+				importerPanel.showMessages();
+			}
 		}
 
 		/**
@@ -388,5 +394,32 @@ public class ImporterBase implements IImporter, ICountyDataImporter, IProjectDat
 	**/	
 	public void handleCustomButton(String name, JPanel guiOwner) {
 		// Nothing to do in the base class
+	}
+
+	/**
+	 * Add a message about the quality of data.
+	 * @param t message to be shown.
+	**/
+	public void addQualityMessage(String t) {
+		if(t == null || t.length() <= 0 || t.equalsIgnoreCase("OK") || t.equalsIgnoreCase("NOT_READY")) {
+			return;
+		}
+		if(!t.toLowerCase().startsWith("error")) {
+			t = "Missing: " + t;
+		}
+		if(!qualityMessages.contains(t)) {
+			qualityMessages.add(t);
+			messages.add(t);
+		}
+	}
+
+	/**
+	 * Remove all messages about data quality, without disturbing other messages.
+	**/
+	public void removeQualityMessages() {
+		for(String t : qualityMessages) {
+			messages.remove(t);
+		}
+		qualityMessages.clear();
 	}
 }

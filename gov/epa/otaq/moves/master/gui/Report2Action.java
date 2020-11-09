@@ -40,7 +40,7 @@ public class Report2Action extends JLFAbstractAction {
 //		putValue(LARGE_ICON, getIcon(LARGE_ICON_REPORT2));
 		putValue(Action.SHORT_DESCRIPTION, SHORT_DESCRIPTION_REPORT2);
 		putValue(Action.LONG_DESCRIPTION, LONG_DESCRIPTION_REPORT2);
-//		putValue(Action.MNEMONIC_KEY, new Integer(MNEMONIC_KEY_REPORT2));
+//		putValue(Action.MNEMONIC_KEY, Integer.valueOf(MNEMONIC_KEY_REPORT2));
 		putValue(Action.ACTION_COMMAND_KEY, ACTION_COMMAND_KEY_REPORT2);
 	}
 }

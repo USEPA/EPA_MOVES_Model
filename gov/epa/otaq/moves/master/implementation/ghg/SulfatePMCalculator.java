@@ -208,7 +208,7 @@ public class SulfatePMCalculator extends EmissionCalculator {
 			query.open(db,sql);
 			while(query.rs.next()) {
 				int pollutantID = query.rs.getInt(1);
-				pollutantIDs.add(new Integer(pollutantID));
+				pollutantIDs.add(Integer.valueOf(pollutantID));
 			}
 			if(pollutantIDs.size() <= 0) {
 				return null;

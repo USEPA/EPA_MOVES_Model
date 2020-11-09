@@ -25,7 +25,7 @@ import javax.swing.*;
  *
  * @author		Wesley Faler
  * @author 		Tim Hull
- * @version		2014-03-19
+ * @version		2016-10-04
 **/
 public class OnRoadRetrofitStrategy extends InternalControlStrategy
 		implements InternalControlStrategySingleInstanceOnly, IImportExportHandler, InternalControlStrategyUseImporterOnly {
@@ -167,17 +167,17 @@ public class OnRoadRetrofitStrategy extends InternalControlStrategy
 					"Percent Effective", lineNumber, messages);
 
 			boolean calendarYearsOK = true;
-			if(initialCalendarYear < 1990 || initialCalendarYear > 2050) {
+			if(initialCalendarYear < 1990 || initialCalendarYear > 2060) {
 				valid = false;
 				calendarYearsOK = false;
 				messages.add("Error: Initial Calendar Year on line " + lineNumber +
-						" should be in the range of 1990-2050");
+						" should be in the range of 1990-2060");
 			}
-			if(finalCalendarYear < 1990 || finalCalendarYear > 2050) {
+			if(finalCalendarYear < 1990 || finalCalendarYear > 2060) {
 				valid = false;
 				calendarYearsOK = false;
 				messages.add("Error: Final Calendar Year on line " + lineNumber +
-						" should be in the range of 1990-2050");
+						" should be in the range of 1990-2060");
 			}
 			if(calendarYearsOK && initialCalendarYear > finalCalendarYear) {
 				valid = false;
@@ -186,17 +186,17 @@ public class OnRoadRetrofitStrategy extends InternalControlStrategy
 			}
 
 			boolean modelYearsOK = true;
-			if(initialModelYear < 1990-30 || initialCalendarYear > 2050) {
+			if(initialModelYear < 1990-30 || initialCalendarYear > 2060) {
 				valid = false;
 				modelYearsOK = false;
 				messages.add("Error: Initial Model Year on line " + lineNumber +
-						" should be in the range of 1990-2050");
+						" should be in the range of 1990-2060");
 			}
-			if(finalModelYear < 1990-30 || finalCalendarYear > 2050) {
+			if(finalModelYear < 1990-30 || finalCalendarYear > 2060) {
 				valid = false;
 				calendarYearsOK = false;
 				messages.add("Error: Final Model Year on line " + lineNumber +
-						" should be in the range of 1990-2050");
+						" should be in the range of 1990-2060");
 			}
 			if(modelYearsOK && initialModelYear > finalModelYear) {
 				valid = false;
@@ -348,24 +348,24 @@ public class OnRoadRetrofitStrategy extends InternalControlStrategy
 			retrofitEffectiveFraction = rs.getDouble("retrofitEffectiveFraction");
 
 			boolean calendarYearsOK = true;
-			if(retrofitYearID < 1990 || retrofitYearID > 2050) {
+			if(retrofitYearID < 1990 || retrofitYearID > 2060) {
 				valid = false;
 				calendarYearsOK = false;
-				messages.add("Retrofit Error: Calendar Year (" + retrofitYearID + ") should be in the range of 1990-2050");
+				messages.add("Retrofit Error: Calendar Year (" + retrofitYearID + ") should be in the range of 1990-2060");
 			}
 
 			boolean modelYearsOK = true;
-			if(beginModelYearID < 1990-30 || beginModelYearID > 2050) {
+			if(beginModelYearID < 1990-30 || beginModelYearID > 2060) {
 				valid = false;
 				modelYearsOK = false;
 				messages.add("Retrofit Error: beginModelYearID (" + beginModelYearID +
-						") should be in the range of 1990-2050");
+						") should be in the range of 1990-2060");
 			}
-			if(endModelYearID < 1990-30 || endModelYearID > 2050) {
+			if(endModelYearID < 1990-30 || endModelYearID > 2060) {
 				valid = false;
 				calendarYearsOK = false;
 				messages.add("Retrofit Error: endModelYearID (" + endModelYearID +
-						") should be in the range of 1990-2050");
+						") should be in the range of 1990-2060");
 			}
 			if(modelYearsOK && beginModelYearID > endModelYearID) {
 				valid = false;

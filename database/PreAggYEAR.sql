@@ -3,7 +3,7 @@
 --    from the MONTH level database to the YEAR level
 -- An attempt is made to weight some aggregations by activity.
 --
--- Version 2015-05-20
+-- Version 2017-09-29
 --
 -- Written By Mitch Cumberworth, April, 2004
 -- Change history:
@@ -28,7 +28,9 @@ DROP TABLE IF EXISTS AggHPMSVTypeDay;
 DROP TABLE IF EXISTS OldSHO;
 DROP TABLE IF EXISTS OldSourceHours;
 DROP TABLE IF EXISTS OldStarts;
+DROP TABLE IF EXISTS OldStartsMonthAdjust;
 DROP TABLE IF EXISTS OldExtendedIdleHours;
+DROP TABLE IF EXISTS OldHotellingMonthAdjust;
 DROP TABLE IF EXISTS AggZoneMonthHour;
 DROP TABLE IF EXISTS AggMonthGroupHour;
 DROP TABLE IF EXISTS AggFuelSupply;
@@ -36,6 +38,10 @@ DROP TABLE IF EXISTS OldAverageTankTemperature;
 DROP TABLE IF EXISTS OldSoakActivityFraction;
 drop table if exists AggATBaseEmissions;
 drop table if exists AggATRatio;
+drop table if exists OldTotalIdleFraction;
+
+--TODO: MonthWeighting only uses sourceType 21; there should probably be a MonthWeightingBySourceType for 
+--      pre-agg tables that need it by source type (like SourceTypeVMT and TotalIdleFraction)
 
 --
 -- Create MonthWeightings to be used to weight monthly activity 
@@ -190,24 +196,41 @@ REPLACE INTO Starts (hourDayID, monthID, yearID, ageID, zoneID,
   FROM OldStarts
   GROUP BY yearID, ageID, zoneID, sourceTypeID;
 FLUSH TABLE Starts;
-  
---
---  ExtendedIdleHours
---
--- SELECT "Making ExtendedIdleHours" AS MARKER_POINT;
-CREATE TABLE OldExtendedIdleHours
-  SELECT sourceTypeID, monthID, yearID, ageID, zoneID, extendedIdleHours
-  FROM ExtendedIdleHours ;
-CREATE INDEX index1 ON OldExtendedIdleHours (sourceTypeID, yearID, ageID, zoneID);
-TRUNCATE ExtendedIdleHours;
-REPLACE INTO ExtendedIdleHours (sourceTypeID, hourDayID, monthID, yearID, ageID, zoneID, 
-    extendedIdleHours, extendedIdleHoursCV, isUserInput)
-  SELECT sourceTypeID, 0 AS hourDayID, 0 AS monthID, yearID, ageID, zoneID,  
-    sum(extendedIdleHours) AS extendedIdleHours, NULL AS extendedIdleHoursCV, "Y" AS isUserInput
-  FROM OldExtendedIdleHours
-  GROUP BY sourceTypeID, yearID, ageID, zoneID;
 
-FLUSH TABLE ExtendedIdleHours;
+-- StartsMonthAdjust
+-- 
+-- SELECT "Making StartsMonthAdjust" AS MARKER_POINT;
+CREATE TABLE OldStartsMonthAdjust
+  SELECT * FROM StartsMonthAdjust;
+TRUNCATE StartsMonthAdjust;
+INSERT INTO StartsMonthAdjust (monthID, sourceTypeID, monthAdjustment)
+  SELECT 0 as monthID, sourceTypeID, 1 as monthAdjustment
+  FROM OldStartsMonthAdjust
+  GROUP BY sourceTypeID;
+FLUSH TABLE StartsMonthAdjust;
+
+
+/* PLEASE READ COMMENT:
+
+Year pre-agg doesn't work like normal pre-agg for hotelling, becuase none of the hotelling 
+input tables (hotellinghourfraction, hotellingagefraction, hotellinghoursperday) vary
+by month. So there's nothing to do. However, MOVES automatically multiplies activity by 
+12 for year input/output which MUST be the case when this year pre-agg script runs. The 
+only mechanism we have to re-scale hotelling activty to look like a typical month is
+to use the hotellingmonthadjust table, even though the value should, in theory, always be 1.
+*/
+
+-- HotellingMonthAdjust
+-- 
+-- SELECT "Making HotellingMonthAdjust" AS MARKER_POINT;
+CREATE TABLE OldHotellingMonthAdjust
+  SELECT * FROM HotellingMonthAdjust;
+TRUNCATE HotellingMonthAdjust;
+INSERT INTO HotellingMonthAdjust (zoneID, monthID, monthAdjustment)
+  SELECT zoneID, 0 as monthID, 1/12 as monthAdjustment
+  FROM OldHotellingMonthAdjust
+  GROUP BY zoneID;
+FLUSH TABLE HotellingMonthAdjust;
   
 -- 
 -- ZoneMonthHour
@@ -365,7 +388,37 @@ REPLACE INTO SoakActivityFraction (sourceTypeID, zoneID, monthID,
   GROUP BY sourceTypeID, zoneID, opModeID ;
 
 FLUSH TABLE SoakActivityFraction;
+
+--
+-- TotalIdleFraction
+--
+-- SELECT "Making TotalIdleFraction" AS MARKER_POINT;
+CREATE TABLE OldTotalIdleFraction
+  SELECT * FROM TotalIdleFraction;
+TRUNCATE TotalIdleFraction;
+REPLACE INTO TotalIdleFraction(idleRegionID, countyTypeID, sourceTypeID, monthID, dayID, minModelYearID, maxModelYearID, totalIdleFraction)
+SELECT idleRegionID, countyTypeID, sourceTypeID, 0 as monthID, 
+	0 as dayID, 
+	minModelYearID, maxModelYearID,
+	sum(totalIdleFraction*actFract) as totalIdleFraction
+FROM OldTotalIdleFraction
+INNER JOIN monthWeighting USING (monthID)
+GROUP BY idleRegionID, countyTypeID, sourceTypeID, minModelYearID, maxModelYearID;
+FLUSH TABLE TotalIdleFraction;
   
+-- IdleMonthAdjust
+-- 
+-- SELECT "Making IdleMonthAdjust" AS MARKER_POINT;
+CREATE TABLE OldIdleMonthAdjust
+  SELECT * FROM IdleMonthAdjust;
+TRUNCATE IdleMonthAdjust;
+INSERT INTO IdleMonthAdjust (sourceTypeID, monthID, idleMonthAdjust)
+  SELECT sourceTypeID, 0 as monthID, avg(idleMonthAdjust) as idleMonthAdjust
+  FROM OldIdleMonthAdjust
+  GROUP BY sourceTypeID;
+FLUSH TABLE IdleMonthAdjust;
+
+
 --
 -- Drop any New Tables Created 
 --
@@ -380,12 +433,15 @@ DROP TABLE IF EXISTS AggHPMSVTypeDay;
 DROP TABLE IF EXISTS OldSHO;
 DROP TABLE IF EXISTS OldSourceHours;
 DROP TABLE IF EXISTS OldStarts;
+DROP TABLE IF EXISTS OldStartsMonthAdjust;
 DROP TABLE IF EXISTS OldExtendedIdleHours;
+DROP TABLE IF EXISTS OldHotellingMonthAdjust;
 DROP TABLE IF EXISTS AggZoneMonthHour;
 DROP TABLE IF EXISTS AggMonthGroupHour;
 DROP TABLE IF EXISTS AggFuelSupply;
 DROP TABLE IF EXISTS OldAverageTankTemperature;
 DROP TABLE IF EXISTS OldSoakActivityFraction;
+drop table if exists OldTotalIdleFraction;
 
 -- FLUSH TABLES;
   

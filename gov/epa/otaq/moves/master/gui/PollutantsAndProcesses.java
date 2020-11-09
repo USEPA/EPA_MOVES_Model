@@ -6,26 +6,82 @@
  *************************************************************************************************/
 package gov.epa.otaq.moves.master.gui;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import gov.epa.otaq.moves.master.runspec.*;
-import java.util.*;
-import java.sql.*;
-import javax.swing.table.*;
-import javax.swing.event.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FontMetrics;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.lang.reflect.Field;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.TreeMap;
+import java.util.TreeSet;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.JTable;
+import javax.swing.JTextPane;
+import javax.swing.JViewport;
+import javax.swing.LookAndFeel;
+import javax.swing.RowFilter;
+import javax.swing.SwingConstants;
+import javax.swing.ToolTipManager;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
+import javax.swing.event.CellEditorListener;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
+import javax.swing.text.StyledDocument;
+import javax.swing.UIManager;
+
+import gov.epa.otaq.moves.common.CompilationFlags;
+import gov.epa.otaq.moves.common.Constants;
+import gov.epa.otaq.moves.common.JListWithToolTips;
+import gov.epa.otaq.moves.common.Logger;
+import gov.epa.otaq.moves.common.MOVESDatabaseType;
+import gov.epa.otaq.moves.common.ModelScale;
+import gov.epa.otaq.moves.common.Models;
+import gov.epa.otaq.moves.common.ToolTipHelper;
 import gov.epa.otaq.moves.master.framework.DatabaseConnectionManager;
+import gov.epa.otaq.moves.master.framework.EmissionProcess;
 import gov.epa.otaq.moves.master.framework.Pollutant;
 import gov.epa.otaq.moves.master.framework.PollutantDisplayGroup;
-import gov.epa.otaq.moves.master.framework.EmissionProcess;
 import gov.epa.otaq.moves.master.framework.PollutantProcessAssociation;
 import gov.epa.otaq.moves.master.framework.PollutantProcessLoader;
-import gov.epa.otaq.moves.master.runspec.RunSpec;
 import gov.epa.otaq.moves.master.framework.RoadType;
-import gov.epa.otaq.moves.common.*;
-import gov.epa.otaq.moves.master.nonroad.NonroadEmissionCalculator;
-import gov.epa.otaq.moves.master.implementation.ghg.TOGSpeciationCalculator;
 import gov.epa.otaq.moves.master.implementation.ghg.NRAirToxicsCalculator;
+import gov.epa.otaq.moves.master.implementation.ghg.TOGSpeciationCalculator;
+import gov.epa.otaq.moves.master.nonroad.NonroadEmissionCalculator;
+import gov.epa.otaq.moves.master.runspec.OutputTimeStep;
+import gov.epa.otaq.moves.master.runspec.RunSpec;
 
 /**
  * Class for MOVES PollutantsAndProcesses panel. The panel contains a table of
@@ -39,19 +95,23 @@ import gov.epa.otaq.moves.master.implementation.ghg.NRAirToxicsCalculator;
  * @author		EPA Mitch C.
  * @author      Gwo Shyu, EPA
  * @author		Tim Hull
- * @version     2015-03-18
+ * @author  	Bill Shaw (508 compliance mods)
+ * @author  	Mike Kender (508 compliance changes - task 1810)
+ * @author		John Covey (Task 2003)
+ * @author		Mike Kender (Task 2003)
+ * @version     2020-07-28
 **/
 public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, CellEditorListener, ChangeListener, ActionListener {
-	/** Grid of pollutants shown on screen **/
+	/** pollutantsTable displays the tristate checkbox and the pollutant name columns  **/
 	PollutantsTable pollutantsTable;
-	/** Grid of processes shown on screen **/
+	/** processesTable displays all other columns **/
 	ProcessesTable processesTable;
 
 	/** Data model for pollutants and processes table **/
 	PollutantsAndProcessesTableModel model;
-	/** Sorts and filters pollutants by child visibility **/
+	/** Sorter and filterer for processesTable (prevents checkboxes from getting sorted and allows rows to be hidden/shown) **/
 	TableRowSorter<PollutantsAndProcessesTableModel> sorter;
-	/** Sorts and filters pollutants by child visibility **/
+	/** Sorter and filterer for pollutantsTable (prevents checkboxes from getting sorted and allows rows to be hidden/shown) **/
 	TableRowSorter<PollutantsAndProcessesTableModel> sorter2;
 	/** Persist the user's expansion of groups **/
 	TreeSet<Integer> expandedGroups = new TreeSet<Integer>();
@@ -154,56 +214,390 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 	/** All rows in the pollutant/process grid **/
 	Object[] rowEntries;
 
-	/** Handle double clicks on pollutant groups, hiding/showing their children as needed **/
-	class GroupExpandContractMouseAdapter extends MouseAdapter {
+	/** Handle clicks on pollutant/process checkboxes **/
+	class ProcessesTableMouseAdapter extends MouseAdapter {
 		JTable table;
 
-		public GroupExpandContractMouseAdapter(JTable tableToUse) {
+		public ProcessesTableMouseAdapter(JTable tableToUse) {
 			table = tableToUse;
 		}
 
 		public void mouseClicked(MouseEvent e) {
-			if(e.getComponent().isEnabled() && e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() >= 1) {
-				Point p = e.getPoint();
-				int viewColumn = table.columnAtPoint(p);
-				int modelColumn = table.convertColumnIndexToModel(viewColumn);
-				if(modelColumn == 1) {
-					int viewRow = table.rowAtPoint(p);
-					int modelRow = table.convertRowIndexToModel(viewRow);
-					if(modelRow >= 0 && modelRow < rowEntries.length) {
-						RowEntry re = (RowEntry)rowEntries[modelRow];
-						if(re.hasChildren) {
-							re.childrenAreVisible = !re.childrenAreVisible;
-							Integer groupKey = new Integer(re.group.displayGroupID);
-							if(re.childrenAreVisible) {
-								expandedGroups.add(groupKey);
-							} else {
-								expandedGroups.remove(groupKey);
-							}
-							TableModel model = table.getModel();
-							if(model instanceof PollutantsAndProcessesTableModel) {
-								((PollutantsAndProcessesTableModel)model).fireTableCellUpdated(modelRow,1);
-							}
-							for(modelRow++;modelRow<rowEntries.length;modelRow++) {
-								RowEntry childRow = (RowEntry)rowEntries[modelRow];
-								if(childRow.group != re.group) {
-									break;
-								}
-								childRow.isVisible = re.childrenAreVisible;
-							}
-							updateFilters();
-						}
+			Point p = e.getPoint();
+			table.requestFocus();
+			table.changeSelection(table.rowAtPoint(p), table.columnAtPoint(p), false, false);
+		}
+	}
+
+	/** Handle pollutant table key actions **/
+	class ProcessesTableKeyAdapter extends KeyAdapter {
+		JTable table;
+
+		public ProcessesTableKeyAdapter(JTable tableToUse) {
+			table = tableToUse;
+		}
+
+		public void keyPressed(KeyEvent e) {
+			int col = table.getSelectedColumn();
+			int lvc = ((ProcessesTable)table).getLastVisibleColumn();
+			int actualRow = table.getSelectedRow();
+
+			if (e.getKeyCode() == KeyEvent.VK_F1 && e.isControlDown()) {
+				JComponent component = (JComponent) e.getSource();
+				Rectangle r = ((ProcessesTable) table).getCellRect(actualRow, col, true);
+				MouseEvent phantom = new MouseEvent(component, MouseEvent.MOUSE_MOVED, System.currentTimeMillis(), 0,
+						r.x, r.y, 0, false);
+
+				ToolTipManager ttManager = ToolTipManager.sharedInstance();
+				try {
+					Field f = ttManager.getClass().getDeclaredField("tipShowing");
+					f.setAccessible(true);
+
+					boolean tipShowing = f.getBoolean(ttManager);
+					if (tipShowing) {
+						ToolTipManager.sharedInstance().mouseMoved(phantom);
 					}
+
+				} catch (Exception ex) {
+					Logger.logError(ex, "Failed to display tooltip from CTRL+F1");
+				}
+			}
+
+			else if(e.getKeyCode() == KeyEvent.VK_SPACE) {
+				//toggle the checkbox
+				int modelRow = table.convertRowIndexToModel(table.getSelectedRow());
+				Boolean obj = (Boolean)processesTable.getModel().getValueAt(modelRow, table.getSelectedColumn() + 2);
+				model.setValueAt(!obj, modelRow, table.getSelectedColumn() + 2);
+				model.fireTableCellUpdated(modelRow, table.getSelectedColumn() + 2);
+				MOVESNavigation.singleton.updateRunSpecSectionStatus();
+				processesTable.requestFocus();
+				processesTable.changeSelection(actualRow, col, false, false);
+			} else if(e.getKeyCode() == KeyEvent.VK_HOME) {
+				//if home key (for all columns), move the focus to the beg of the pollutantsTable table
+				pollutantsTable.requestFocus();
+				pollutantsTable.changeSelection(table.getSelectedRow(), 0, false, false);
+			} else if( (e.getKeyCode() == KeyEvent.VK_LEFT 
+						|| e.getKeyCode() == KeyEvent.VK_KP_LEFT 
+						|| (e.getKeyCode() == KeyEvent.VK_TAB && e.isShiftDown()))) {
+				if(col == 0) {
+					//we are in the first column and shift/tab or left arrow is pressed - go to the pollutants table
+					pollutantsTable.requestFocus();
+					pollutantsTable.changeSelection(table.getSelectedRow(), pollutantsTable.getColumnCount() - 1, false, false);
+				} else {
+					//just go to the previous column
+					int viewCol = ((ProcessesTable)table).getNextLeftColumn(col);
+					processesTable.requestFocus();
+					processesTable.changeSelection(actualRow, viewCol, false, false);
+				}
+			} else if ( (e.getKeyCode() == KeyEvent.VK_TAB && !e.isShiftDown())
+							|| (e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_KP_RIGHT) ) {
+				//trying to go right
+				if(col == /*table.getColumnCount() - 1*/ lvc) {
+					//we are in the last column and tab - go the next row's pollutants table
+					int row = table.getSelectedRow() == table.getRowCount() - 1 ? 0 : table.getSelectedRow() + 1;
+					pollutantsTable.requestFocus();
+					pollutantsTable.changeSelection(row, 0, false, false);
+				} else {
+					//just go to the next column
+					int viewCol = ((ProcessesTable)table).getNextRightColumn(col);
+					processesTable.requestFocus();
+					processesTable.changeSelection(actualRow, viewCol, false, false);
 				}
 			}
 		}
 	}
 
-	/** Used to returns a blank, or null, renderer if a cell is empty **/
+	/** Handle pollutant table key actions **/
+	class PollutantsTableKeyAdapter extends KeyAdapter {
+		JTable table;
+
+		public PollutantsTableKeyAdapter(JTable tableToUse) {
+			table = tableToUse;
+		}
+		
+		public void keyReleased(KeyEvent e) {
+			if (e.getKeyCode() == KeyEvent.VK_CONTROL && pollutantsTable.getSelectedRow() == -1 &&  pollutantsTable.getSelectedColumn() == -1) {
+	            pollutantsTable.requestFocus();
+	            pollutantsTable.changeSelection(0, 0, false, false);
+			}
+		}
+
+		public void keyPressed(KeyEvent e) {
+			int actualRow = table.getSelectedRow();
+			int col = table.getSelectedColumn();
+
+			if (e.getKeyCode() == KeyEvent.VK_F1 && e.isControlDown()) {
+				JComponent component = (JComponent) e.getSource();
+				Rectangle r = ((PollutantsTable) table).getCellRect(actualRow, col, true);
+				MouseEvent phantom = new MouseEvent(component, MouseEvent.MOUSE_MOVED, System.currentTimeMillis(), 0,
+						r.x, r.y, 0, false);
+				ToolTipManager ttManager = ToolTipManager.sharedInstance();
+				try {
+					Field f = ttManager.getClass().getDeclaredField("tipShowing");
+					f.setAccessible(true);
+					boolean tipShowing = f.getBoolean(ttManager);
+					if (tipShowing) {
+						ToolTipManager.sharedInstance().mouseMoved(phantom);
+					}
+				} catch (Exception ex) {
+					Logger.logError(ex, "Failed to display tooltip from CTRL+F1");
+				}
+			} else if(e.getKeyCode() == KeyEvent.VK_END) {
+				//if end key (for both columns), move the focus to the end of the processes table
+				processesTable.requestFocus();
+				processesTable.changeSelection(table.getSelectedRow(), processesTable.getColumnCount() - 1, false, false);
+			} else if(table.getSelectedColumn() == 0) {
+				//only do these actions for the 1st column
+				if(e.getKeyCode() == KeyEvent.VK_SPACE) {
+					//toggle the checkbox
+					int modelRow = table.convertRowIndexToModel(table.getSelectedRow());
+					Boolean obj = (Boolean)pollutantsTable.getModel().getValueAt(modelRow, 0);
+					model.setValueAt(!obj, modelRow, 0);
+					model.fireTableCellUpdated(modelRow, 0);
+					MOVESNavigation.singleton.updateRunSpecSectionStatus();
+					pollutantsTable.requestFocus();
+					pollutantsTable.changeSelection(actualRow, 0, false, false);
+				} else if(e.getKeyCode() == KeyEvent.VK_TAB && e.isShiftDown()
+						|| (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_KP_LEFT) ) {
+					//need to go to the end of the row above
+					int row = table.getSelectedRow() == 0 ? table.getRowCount() - 1 : table.getSelectedRow() - 1;
+					processesTable.requestFocus();
+					processesTable.changeSelection(row, processesTable.getLastVisibleColumn(), false, false);
+				}
+			} else if(table.getSelectedColumn() == 1) {
+				//only do these actions for the 2nd column
+				if(e.getKeyCode() == KeyEvent.VK_SPACE) {
+					//if space, expand/contract
+					expandContract(table, table.getSelectedRow());
+				} else if(e.getKeyCode() == KeyEvent.VK_RIGHT 
+						|| e.getKeyCode() == KeyEvent.VK_KP_RIGHT
+						|| (e.getKeyCode() == KeyEvent.VK_TAB && !e.isShiftDown()) ) {
+						//shift is not pressed, go forwards
+						selectFirstProcessesColumn(table.getSelectedRow());
+				}
+			}
+		}
+		
+		
+	}
+	
+	private void selectFirstProcessesColumn(int row) {
+		processesTable.requestFocus();
+		processesTable.changeSelection(row, 0, false, false);
+	}
+
+	/** A support function for PollutantsTableMouseAdapter, used to hide/show pollutant groups **/
+	private void expandContract(JTable table, int viewRow) {
+		int modelRow = table.convertRowIndexToModel(viewRow);
+		if(modelRow >= 0 && modelRow < rowEntries.length) {
+			RowEntry re = (RowEntry)rowEntries[modelRow];
+			if(re.hasChildren) {
+				re.childrenAreVisible = !re.childrenAreVisible;
+				Integer groupKey = Integer.valueOf(re.group.displayGroupID);
+				if(re.childrenAreVisible) {
+					expandedGroups.add(groupKey);
+				} else {
+					expandedGroups.remove(groupKey);
+				}
+				TableModel model = table.getModel();
+				if(model instanceof PollutantsAndProcessesTableModel) {
+					((PollutantsAndProcessesTableModel)model).fireTableCellUpdated(modelRow,1);
+				}
+				for(modelRow++;modelRow<rowEntries.length;modelRow++) {
+					RowEntry childRow = (RowEntry)rowEntries[modelRow];
+					if(childRow.group != re.group) {
+						break;
+					}
+					childRow.isVisible = re.childrenAreVisible;
+				}
+				updateFilters();
+			}
+		}
+	}
+
+	/** Handle double clicks on pollutant groups, hiding/showing their children as needed **/
+	class PollutantsTableMouseAdapter extends MouseAdapter {
+		JTable table;
+
+		public PollutantsTableMouseAdapter(JTable tableToUse) {
+			table = tableToUse;
+		}
+
+		public void mouseClicked(MouseEvent e) {
+			Point p = e.getPoint();
+			int viewColumn = table.columnAtPoint(p);
+			int modelColumn = table.convertColumnIndexToModel(viewColumn);
+
+			if(e.getComponent().isEnabled() && e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() >= 1 && modelColumn == 1) {
+				expandContract(table, table.rowAtPoint(p));
+			}
+
+			if(modelColumn == 0) {
+				table.requestFocus();
+				table.changeSelection(table.rowAtPoint(p), 0, false, false);
+			}
+		}
+	}
+
+	/** Renderer for a blank or null cell, if a cell is empty **/
 	class BlankRenderer extends DefaultTableCellRenderer {
 		public Component getTableCellRendererComponent(JTable table, Object value,
 				boolean isSelected, boolean hasFocus, int row, int column) {
-			return null;
+			return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+		}
+	}
+	
+	/** Renderer for an expandable pollutant name cell **/
+	class ExpandableRenderer extends DefaultTableCellRenderer {
+	    private final Border SAFE_NO_FOCUS_BORDER = new EmptyBorder(1, 1, 1, 1);
+	    private final Border DEFAULT_NO_FOCUS_BORDER = new EmptyBorder(1, 1, 1, 1);
+
+	    @Override
+		public boolean isFocusable() {
+			return true;
+		}
+
+		public Component getTableCellRendererComponent(JTable table, int row, int column) {
+			return this;
+		}
+
+		public Component getTableCellRendererComponent(JTable table, Object value,
+				boolean isSelected, boolean hasFocus, int row, int column) {
+
+			setText(value.toString());
+
+			if(value.toString().indexOf("[+]") > -1) {
+				setToolTipText("Click to expand row for " + value.toString().substring(4));
+			} else if(value.toString().indexOf("[-]") > -1) {
+				setToolTipText("Click to collapse row for " + value.toString().substring(4));
+			}
+
+			if (hasFocus) {
+	            Border border = null;
+	            if (isSelected) {
+	                border = UIManager.getBorder("Table.focusSelectedCellHighlightBorder");
+	            }
+	            if (border == null) {
+	                border = UIManager.getBorder("Table.focusCellHighlightBorder");
+	            }
+	            setBorder(border);
+
+	            if (!isSelected && table.isCellEditable(row, column)) {
+	                Color col;
+	                col = UIManager.getColor("Table.focusCellForeground");
+	                if (col != null) {
+	                    super.setForeground(col);
+	                }
+	                col = UIManager.getColor("Table.focusCellBackground");
+	                if (col != null) {
+	                    super.setBackground(col);
+	                }
+	            }
+	        } else {
+	            setBorder(getNoFocusedBorder());
+	        }
+
+			return this;
+		}
+
+	    private Border getNoFocusedBorder() {
+	        Border border = UIManager.getBorder("Table.cellNoFocusBorder");
+	        if (System.getSecurityManager() != null) {
+	            if (border != null) {
+	            	return border;
+	            }
+
+	            return SAFE_NO_FOCUS_BORDER;
+	        } else if (border != null) {
+	            if (noFocusBorder == null || noFocusBorder == DEFAULT_NO_FOCUS_BORDER) {
+	                return border;
+	            }
+	        }
+	        return noFocusBorder;
+	    }
+	}
+	
+	/** Renderer for a tristate checkbox cell **/
+	class TriStateRenderer extends DefaultTableCellRenderer {
+		public TriStateRenderer() {
+			super();
+			setHorizontalAlignment(SwingConstants.CENTER);
+		}
+
+		@Override
+		public boolean isFocusable() {
+			return true;
+		}
+
+		public Component getTableCellRendererComponent(JTable table, Object value,
+				boolean isSelected, boolean hasFocus, int row, int column) {
+
+			int modelRow = pollutantsTable.convertRowIndexToModel(row);
+			
+			int total = 0;
+			int totalTrue = 0;
+
+			Object[] bools = selections[modelRow];
+
+			for(Object o : bools) {
+				Boolean b = (Boolean)o;
+				if(b != null) {
+					total++;
+					if(b) {
+						totalTrue++;
+					}
+				}
+			}
+
+			TCheckBox tcb = new TCheckBox();
+			
+			tcb.setFocus(hasFocus);
+
+			if(totalTrue == total) {
+				//if all are true, show fully selected
+				tcb.setFullySelected();
+				tcb.setToolTipText((String) pollutantsTable.getModel().getValueAt(pollutantsTable.convertRowIndexToModel(row), 1) 
+						+ Constants.POLLUTANT_CHECKBOX_FULLY_CHECKED_TOOLTIP);
+			} else if(totalTrue == 0) {
+				//none are selected, show unselected
+				tcb.setUnselected();
+				tcb.setToolTipText((String) pollutantsTable.getModel().getValueAt(pollutantsTable.convertRowIndexToModel(row), 1) 
+						+ Constants.POLLUTANT_CHECKBOX_NOT_CHECKED_TOOLTIP);
+
+			} else {
+				//some, but not all - show partial
+				tcb.setPartialSelected();
+				tcb.setToolTipText((String) pollutantsTable.getModel().getValueAt(pollutantsTable.convertRowIndexToModel(row), 1) 
+						+ Constants.POLLUTANT_CHECKBOX_PARTIALLY_CHECKED_TOOLTIP);
+			}
+			
+			setHorizontalAlignment(SwingConstants.CENTER);
+
+			return tcb;
+		}
+	}
+	
+	/** Renderer for column headers **/
+	class MultiLineTableHeaderRenderer extends JTextPane implements TableCellRenderer {
+		public MultiLineTableHeaderRenderer() {
+			setEditable(false);
+			setOpaque(false);
+			setFocusable(false);
+			LookAndFeel.installBorder(this, "TableHeader.cellBorder");
+
+			StyledDocument doc = getStyledDocument();
+			SimpleAttributeSet center = new SimpleAttributeSet();
+			StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+			doc.setParagraphAttributes(0, doc.getLength(), center, false);
+		}
+
+		@Override
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+				int row, int column) {
+			int width = table.getColumnModel().getColumn(column).getWidth();
+			setText((String) value);
+			setSize(width, (int) (getPreferredSize().height * 1.3));
+			return this;
 		}
 	}
 
@@ -264,7 +658,7 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 		 * Get the value in a table cell.
 		 * @param row The cell row number.
 		 * @param col The cell column number.
-		 * @return The walue stored in the table cell.
+		 * @return The value stored in the table cell.
 		**/
 		public Object getValueAt(int row, int col) {
 			if(col < 1) {
@@ -347,13 +741,13 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 					}
 					b = (Boolean)selections[parentRow][c];
 					if(b.booleanValue() != hasAnyPollutant) {
-						selections[parentRow][c] = new Boolean(hasAnyPollutant);
+						selections[parentRow][c] = Boolean.valueOf(hasAnyPollutant);
 						fireTableCellUpdated(parentRow,c+2);
 					}
 				}
 			}
 			if(rowSelections[parentRow].booleanValue() != hasAnyProcess) {
-				rowSelections[parentRow] = new Boolean(hasAnyProcess);
+				rowSelections[parentRow] = Boolean.valueOf(hasAnyProcess);
 				fireTableCellUpdated(parentRow,0);
 			}
 		}
@@ -398,7 +792,7 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 								break;
 						}
 						if(!rowValue.booleanValue() || processApplies) {
-							selections[row][c] = new Boolean(rowValue.booleanValue());
+							selections[row][c] = Boolean.valueOf(rowValue.booleanValue());
 							fireTableCellUpdated(row,c+2);
 							// If the row clicked upon was a group with children, apply the setting to all child rows now
 							if(re.hasChildren) {
@@ -407,7 +801,7 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 									if(childRow.group == re.group) {
 										b = (Boolean)selections[r][c];
 										if(b != null && b.booleanValue() != rowValue.booleanValue()) {
-											selections[r][c] = new Boolean(rowValue.booleanValue());
+											selections[r][c] = Boolean.valueOf(rowValue.booleanValue());
 											fireTableCellUpdated(r,c+2);
 											if(rowSelections[r].booleanValue() != rowValue.booleanValue()) {
 												rowSelections[r] = rowValue;
@@ -437,7 +831,7 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 							// If something in the row was turned on, then flag the row's
 							// checkbox as on.
 							if(!rowSelections[row].booleanValue()) {
-								rowSelections[row] = new Boolean(true);
+								rowSelections[row] = Boolean.TRUE;
 								fireTableCellUpdated(row,0);
 							}
 						} else {
@@ -456,7 +850,7 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 								}
 							}
 							if(hasAnythingMarked != rowSelections[row].booleanValue()) {
-								rowSelections[row] = new Boolean(hasAnythingMarked);
+								rowSelections[row] = Boolean.valueOf(hasAnythingMarked);
 								fireTableCellUpdated(row,0);
 							}
 						}
@@ -468,7 +862,7 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 								if(childRow.group == re.group) {
 									Boolean b = (Boolean)selections[r][col-2];
 									if(b != null && b.booleanValue() != rowValue.booleanValue()) {
-										selections[r][col-2] = new Boolean(rowValue.booleanValue());
+										selections[r][col-2] = Boolean.valueOf(rowValue.booleanValue());
 										fireTableCellUpdated(r,col);
 										// Calculate the child row's rowSelections entry now.
 										boolean hasAnythingMarked = false;
@@ -484,7 +878,7 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 											}
 										}
 										if(hasAnythingMarked != rowSelections[r].booleanValue()) {
-											rowSelections[r] = new Boolean(hasAnythingMarked);
+											rowSelections[r] = Boolean.valueOf(hasAnythingMarked);
 											fireTableCellUpdated(r,0);
 										}
 									}
@@ -499,28 +893,91 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 					}
 				}
 			}
+			fireTableDataChanged();
 		}
 	}
 
-	/** Table to display the pollutant and process grid. **/
+	/** Table to display the tristate checkboxes and pollutant name columns **/
 	class PollutantsTable extends JTable {
 
 		public boolean isFocusable()  {
-			return false;
+			return true;
 		}
 		public void updateUI() {
     		super.updateUI();
+    		super.getTableHeader().setEnabled(false);
 
-    		LookAndFeel.installColorsAndFont(this, "TableHeader.background",
-    		"TableHeader.foreground", "TableHeader.font");
+    		LookAndFeel.installColorsAndFont(this, "TableHeader.background", "TableHeader.foreground", "TableHeader.font");
+		}
+
+		/*
+		 * Method added to use in Abbot testing.
+		 */
+		public boolean getBooleanValueAt(int row, int col) {
+			return (Boolean)getModel().getValueAt(row, col);
+		}
+
+		/*
+		 * Method added to use in Abbot testing.
+		 */
+		public boolean getChildrenVisibleAt(int row) {
+			RowEntry re = (RowEntry)rowEntries[row];
+			return re.childrenAreVisible;
+		}
+		
+		public TableCellRenderer getCellRenderer(int row,int col) {
+			if(col == 0) {
+				return new TriStateRenderer();
+			} else if(col == 1) {
+				return new ExpandableRenderer();
+			} else {
+				return super.getCellRenderer(row, col);
+			}
 		}
 	}
 
-
-	/** Table to display the pollutant and process grid. **/
+	/** Table to display the pollutant/process checkboxes **/
 	class ProcessesTable extends JTable {
 		/** Renderer returned if a cell is empty **/
 		BlankRenderer blankRenderer;
+		
+		public int getLastVisibleColumn() {
+			boolean onroad = MOVESNavigation.singleton.parent.scalePanel.onroadRadioButton.isSelected();
+
+			if(onroad) {
+				// return Refueling Spillage Loss index;
+				return 13;
+			} else { //NONROAD
+				// return Running Loss Fuel Vapor Venting index;
+				return 21;
+			}
+		}
+		
+		public int getNextRightColumn(int column) {
+			boolean onroad = MOVESNavigation.singleton.parent.scalePanel.onroadRadioButton.isSelected();
+			if(!onroad && column == 1) {
+				return 11;
+			}
+
+			if(!onroad && column == 15) {
+				return 18;
+			}
+
+			return column;
+		}
+		
+		public int getNextLeftColumn(int column) {
+			boolean onroad = MOVESNavigation.singleton.parent.scalePanel.onroadRadioButton.isSelected();
+			if(!onroad && column == 12) {
+				return 2;
+			}
+
+			if(!onroad && column == 19) {
+				return 16;
+			}
+
+			return column;
+		}
 
 		/**
 		 * Constructor to set the Table Model for this table.
@@ -528,7 +985,16 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 		**/
 		public ProcessesTable(AbstractTableModel model) {
 			super(model);
+    		super.getTableHeader().setEnabled(false);
 			blankRenderer = new BlankRenderer();
+			blankRenderer.setToolTipText("Click");
+		}
+
+		/*
+		 * Method added to use in Abbot testing.
+		 */
+		public boolean getBooleanValueAt(int row, int col) {
+			return (Boolean)getModel().getValueAt(row, col+2);
 		}
 
 		/**
@@ -541,12 +1007,24 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 			if(getModel().getValueAt(convertRowIndexToModel(row),col+2) == null) {
 				return blankRenderer;
 			} else {
-				return super.getCellRenderer(row,col);
+				//return super.getCellRenderer(row,col);
+				TableCellRenderer v = super.getCellRenderer(row,col);
+				if(v instanceof JComponent) {
+//					System.out.println(getModel().getValueAt(convertRowIndexToModel(row),col+2).getClass());
+					String chk = " is not checked.";
+					if((Boolean)getModel().getValueAt(convertRowIndexToModel(row),col+2)) {
+						chk = " is checked";
+					}
+					String rowValue = (String) pollutantsTable.getModel().getValueAt(convertRowIndexToModel(row),1);
+					String colValue = pollutantsTable.getModel().getColumnName(col+2);
+					((JComponent)v).setToolTipText(rowValue + " from " + colValue + chk);
+				}
+				return v;
 			}
 		}
 
 		public boolean isFocusable() {
-			return false;
+			return true;
 		}
 	}
 
@@ -560,7 +1038,6 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 			return false;
 		}
 	}
-
 
 
 	/**
@@ -578,7 +1055,7 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 	 * @param destination The StringBuffer to fill.
 	**/
 	public void getPrintableDescription(RunSpec runspec, StringBuffer destination) {
-		destination.append("Pollutants And Processes:\r\n");
+		destination.append("Pollutants and Processes:\r\n");
 		for(Iterator i = runspec.pollutantProcessAssociations.iterator(); i.hasNext();) {
 			PollutantProcessAssociation iterAssociation = (PollutantProcessAssociation) i.next();
 			destination.append("\t");
@@ -586,6 +1063,18 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 			destination.append("\r\n");
 		}
 		destination.append("\r\n");
+	}
+
+	private void setColumnWidths(JTable table, int offset, int... widths) {
+	    TableColumnModel columnModel = table.getColumnModel();
+	    for (int i = 0; i < widths.length; i++) {
+	        if (i < columnModel.getColumnCount()) {
+	        	if(widths[i] != -1) {
+	        		columnModel.getColumn(i + offset).setMaxWidth(widths[i]);
+	        	}
+	        }
+	        else break;
+	    }
 	}
 
 	/**
@@ -609,7 +1098,7 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 		sorter = new TableRowSorter<PollutantsAndProcessesTableModel>(model);
 		sorter2 = new TableRowSorter<PollutantsAndProcessesTableModel>(model);
 
-		// Create processes table
+		// Create processes table (holds all pollutant/process checkboxes)
 		processesTable = new ProcessesTable(model);
 		processesTable.setAutoCreateColumnsFromModel(false);
 		processesTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -619,9 +1108,50 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 		processesTable.getTableHeader().setReorderingAllowed(false);
 		processesTable.getDefaultEditor(Boolean.class).addCellEditorListener(this);
 		processesTable.setRowSorter(sorter);
-		processesTable.addMouseListener(new GroupExpandContractMouseAdapter(processesTable));
+		processesTable.addKeyListener(new ProcessesTableKeyAdapter(processesTable));
+		processesTable.addMouseListener(new ProcessesTableMouseAdapter(processesTable));
 
-		// Create pollutants table
+		int constantColSize = 60;
+		setColumnWidths(processesTable, 
+				2, 
+				new int[] {constantColSize		// Running Exhaust
+						, constantColSize + 7	//Crankcase Running Exhaust
+						, constantColSize + 7	//Brakewear
+						, constantColSize		//Tirewear
+						, constantColSize		//Start Exhaust
+						, constantColSize + 7	//Crankcase Start Exhaust
+						, constantColSize		//Extended Idle Exhaust
+						, constantColSize + 15	//Crankcase Extended Idle Exhaust
+						, constantColSize		//Auxillary Power Exhaust
+						, constantColSize + 15	//Evap Permeation
+						, constantColSize		//Evap Fuel Vapor Venting
+						, constantColSize		//Evap Fuel Leaks
+						, constantColSize + 25	//Refueling Dsiplacement Vapor Loss
+						, constantColSize		//Refueling Spillage Loss
+						, constantColSize + 10	//Evap Tank Permeation
+						, constantColSize + 10	//Evap House Permeation
+						, constantColSize		//not sure
+						, constantColSize		//not sure
+						, constantColSize		//not sure
+						, constantColSize + 7	//Diurnal Fuel Vapor Venting
+						, constantColSize + 7	//HotSoak Fuel Vapor Venting
+						, constantColSize + 15	//RunningLoss Fuel Vapor Venting
+						});
+
+		MultiLineTableHeaderRenderer renderer = new MultiLineTableHeaderRenderer();
+        Enumeration enumK = processesTable.getColumnModel().getColumns();
+        boolean first = true;
+        while (enumK.hasMoreElements()) {
+        	TableColumn tc = (TableColumn) enumK.nextElement();
+        	tc.setHeaderRenderer(renderer);
+            if(!first) {
+            	tc.setMinWidth(tc.getMinWidth()/2);
+            } else {
+            	first = false;
+            }
+        }
+
+		// Create pollutants table (holds tristate checkboxes and pollutant names)
 		pollutantsTable = new PollutantsTable();
 		pollutantsTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		pollutantsTable.setAutoCreateColumnsFromModel(false);
@@ -632,13 +1162,20 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 		pollutantsTable.getTableHeader().setReorderingAllowed(false);
 		pollutantsTable.getDefaultEditor(Boolean.class).addCellEditorListener(this);
 		pollutantsTable.setRowSorter(sorter2);
-		pollutantsTable.addMouseListener(new GroupExpandContractMouseAdapter(pollutantsTable));
+		pollutantsTable.addMouseListener(new PollutantsTableMouseAdapter(pollutantsTable));
+		pollutantsTable.addKeyListener(new PollutantsTableKeyAdapter(pollutantsTable));
 
 		// Move pollutants to pollutants table
 		if(processesTable.getColumnCount() >= 2) {
 			for(int i=0; i < 2; i++){
 				TableColumn column = processesTable.getColumnModel().getColumn(0);
 				processesTable.getColumnModel().removeColumn(column);
+
+				if(i == 0) {
+					column.setHeaderValue("Selected");
+				} else if (i == 1) {
+					column.setHeaderValue("Pollutant");
+				}
 				pollutantsTable.getColumnModel().addColumn(column);
 			}
 		}
@@ -718,8 +1255,9 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 		for (int i = 0; i < numCols; i++) {
 			sorter.setSortable(i, false);
 			TableColumn tableColumn = colModel.getColumn(i);
+
 			if (i != 1) {
-				tableColumn.setPreferredWidth(tableColumn.getMinWidth());
+				tableColumn.setPreferredWidth(constantColSize);
 				tableWidth += tableColumn.getPreferredWidth();
 			} else {
 				int columnNumber = tableColumn.getModelIndex();
@@ -737,10 +1275,9 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 					}
 					tableHeight += pollutantsTable.getRowHeight();
 				}
-				max += 10;
+				max += 20;
 				tableColumn.setPreferredWidth(max);
 				tableWidth += max;
-
 			}
 		}
 		pollutantsTable.setPreferredScrollableViewportSize(pollutantsTable.getPreferredSize());
@@ -812,7 +1349,7 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 
 		messageLogPane = new JScrollPane(messageLogList,
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		messageLogPane.setName("messageLogPane");
 		messageLogPane.setVisible(true);
 		ToolTipHelper.add(messageLogPane,"Displays Pollutant/Process combinations that have not been met");
@@ -820,39 +1357,58 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 		selectPrerequisistes = new JButton("Select Prerequisites");
 		selectPrerequisistes.setName("selectPrerequisistes");
 		selectPrerequisistes.addActionListener(this);
+		selectPrerequisistes.setMnemonic('q');
+		selectPrerequisistes.setDisplayedMnemonicIndex(12);
 		ToolTipHelper.add(selectPrerequisistes,"Select all required pollutant and process combinations");
 		selectPrerequisistes.setEnabled(false);
 
 		clearAll = new JButton("Clear All");
 		clearAll.setName("clearAll");
 		clearAll.addActionListener(this);
+		clearAll.setMnemonic('C');
+		clearAll.setDisplayedMnemonicIndex(0);
 		ToolTipHelper.add(clearAll,"Remove all selected pollutant and process combinations");
 		clearAll.setEnabled(false);
 	}
+
+	private void appendToPane(JTextPane tp, String msg, Color c) {
+        StyleContext sc = StyleContext.getDefaultStyleContext();
+        AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, c);
+
+        aset = sc.addAttribute(aset, StyleConstants.FontFamily, "Lucida Console");
+        aset = sc.addAttribute(aset, StyleConstants.Alignment, StyleConstants.ALIGN_JUSTIFIED);
+
+        int len = tp.getDocument().getLength();
+        tp.setCaretPosition(len);
+        tp.setCharacterAttributes(aset, false);
+        tp.replaceSelection(msg);
+    }
 
 	/** Sets the layout of the controls. **/
 	public void arrangeControls() {
 		removeAll();
 
+		JTextPane helper = new JTextPane();
+		appendToPane(helper, "When pollutants are listed in the box at right, MOVES needs to calculate those emissions first, before calculating the pollutants you selected. In this case, click \"Select Prerequisites\" to proceed.", Color.BLACK);
+		helper.setEditable(false);
+		helper.setMaximumSize(new Dimension(440, 70));
+		helper.setMinimumSize(new Dimension(380, 60));
+		helper.setBackground(clearAll.getBackground());
+
 		JPanel p = new JPanel();
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.fill = GridBagConstraints.NONE;
-		gbc.insets = new Insets(2,2,2,2);
-		gbc.gridwidth = 3;
-		gbc.gridheight = 3;
-		gbc.weightx = 0;
-		gbc.weighty = 0;
-		p.setLayout(new GridBagLayout());
-		LayoutUtility.setPositionOnGrid(gbc,0, 0, "WEST", 3, 1);
-		p.add(selectPrerequisistes, gbc);
-		LayoutUtility.setPositionOnGrid(gbc,0, 1, "WEST", 3, 1);
-		p.add(Box.createHorizontalGlue(), gbc);
-		LayoutUtility.setPositionOnGrid(gbc,1, 2, "WEST", 1, 1);
-		p.add(clearAll, gbc);
+		p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
+		p.add(helper);
+		p.add(selectPrerequisistes);
+		p.add(Box.createHorizontalGlue());
+		p.add(Box.createRigidArea(new Dimension(0,5)));
+		p.add(clearAll);
 
 		JPanel t = new JPanel();
 		t.setLayout(new BoxLayout(t, BoxLayout.X_AXIS));
 		t.add(p);
+		messageLogPane.setMaximumSize(new Dimension(2000, 275));
+		messageLogPane.setPreferredSize(new Dimension(1000, 200));
+		messageLogPane.setMinimumSize(new Dimension(500, 100));
 		t.add(messageLogPane);
 
 		setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
@@ -989,20 +1545,20 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 		processIndexes = new TreeMap<EmissionProcess,Integer>();
 		for(int processIndex=0;processIndex<processes.length;processIndex++) {
 			EmissionProcess process = (EmissionProcess)processes[processIndex];
-			processIndexes.put(process,new Integer(processIndex));
+			processIndexes.put(process,Integer.valueOf(processIndex));
 		}
 
 		// Nonroad Manganese (66) should be shown in the same group as Mercury Elemental Gaseous (60).
 		// Onroad Manganese (66) should be shown in the same group as Nitrate (35).
 		PollutantDisplayGroup manganeseGroup = PollutantDisplayGroup.pollutantDisplayGroups.get(66);
-		manganeseGroup.pollutantIDsInDisplayGroup.remove(new Integer(66));
+		manganeseGroup.pollutantIDsInDisplayGroup.remove(Integer.valueOf(66));
 		if(hasNonroad) {
 			manganeseGroup = PollutantDisplayGroup.pollutantDisplayGroups.get(60);
 		} else {
 			manganeseGroup = PollutantDisplayGroup.pollutantDisplayGroups.get(35);
 		}
-		manganeseGroup.pollutantIDsInDisplayGroup.add(new Integer(66));
-		PollutantDisplayGroup.pollutantDisplayGroups.put(new Integer(66),manganeseGroup);
+		manganeseGroup.pollutantIDsInDisplayGroup.add(Integer.valueOf(66));
+		PollutantDisplayGroup.pollutantDisplayGroups.put(Integer.valueOf(66),manganeseGroup);
 
 		Object[] pollutants = Pollutant.getAllDisplayablePollutants(hasNonroad? -70 : -100);
 
@@ -1012,11 +1568,11 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 		TreeMap<Integer,RowEntry> groupRows = new TreeMap<Integer,RowEntry>();
 		for(int pollutantIndex=0;pollutantIndex<pollutants.length;pollutantIndex++) {
 			Pollutant pollutant = (Pollutant)pollutants[pollutantIndex];
-			Integer pollutantID = new Integer(pollutant.databaseKey);
+			Integer pollutantID = Integer.valueOf(pollutant.databaseKey);
 			PollutantDisplayGroup group = PollutantDisplayGroup.pollutantDisplayGroups.get(pollutantID);
 			RowEntry gr = null;
 			if(group != null && group.pollutantIDsInDisplayGroup.size() > 1) {
-				Integer groupKey = new Integer(group.displayGroupID);
+				Integer groupKey = Integer.valueOf(group.displayGroupID);
 				PollutantDisplayGroup t = groupsToUse.get(groupKey);
 				if(t == null) {
 					groupsToUse.put(groupKey,group);
@@ -1105,7 +1661,7 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 		for(int i=0;i < rowEntries.length; i++) {
 			RowEntry r = (RowEntry)rowEntries[i];
 			if(r.pollutant != null) {
-				pollutantRowEntryIndexes.put(new Integer(r.pollutant.databaseKey),r);
+				pollutantRowEntryIndexes.put(Integer.valueOf(r.pollutant.databaseKey),r);
 			}
 		}
 
@@ -1117,7 +1673,7 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 			rowSelections = new Boolean[rowEntries.length];
 
 			for(int rowIndex=0;rowIndex<rowEntries.length;rowIndex++) {
-				rowSelections[rowIndex] = new Boolean(false);
+				rowSelections[rowIndex] = Boolean.FALSE;
 				RowEntry r = (RowEntry)rowEntries[rowIndex];
 				for(int processIndex=0;processIndex<processes.length;processIndex++) {
 					EmissionProcess process = (EmissionProcess)processes[processIndex];
@@ -1133,7 +1689,7 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 										Boolean isAffectedByOnroad = PollutantProcessLoader.getBooleanColVal("isAffectedByOnroad",pollutantID,process.databaseKey);
 										if (isAffectedByOnroad != null && isAffectedByOnroad) {
 											if (pollutant.associatedProcesses.contains(process)) {
-												selections[rowIndex][processIndex] = new Boolean(false);
+												selections[rowIndex][processIndex] = Boolean.FALSE;
 												canBreak = true;
 											}
 										}
@@ -1142,7 +1698,7 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 										Boolean isAffectedByNonroad = PollutantProcessLoader.getBooleanColVal("isAffectedByNonroad",pollutantID,process.databaseKey);
 										if (isAffectedByNonroad != null && isAffectedByNonroad) {
 											if (pollutant.associatedProcesses.contains(process)) {
-												selections[rowIndex][processIndex] = new Boolean(false);
+												selections[rowIndex][processIndex] = Boolean.FALSE;
 												canBreak = true;
 											}
 										}
@@ -1171,7 +1727,7 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 								Boolean isAffectedByOnroad = PollutantProcessLoader.getBooleanColVal("isAffectedByOnroad",pollutantID, process.databaseKey);
 								if (isAffectedByOnroad != null && isAffectedByOnroad) {
 									if (r.pollutant.associatedProcesses.contains(process)) {
-										selections[rowIndex][processIndex] = new Boolean(false);
+										selections[rowIndex][processIndex] = Boolean.FALSE;
 									}
 								}
 								break;
@@ -1179,7 +1735,7 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 								Boolean isAffectedByNonroad = PollutantProcessLoader.getBooleanColVal("isAffectedByNonroad",pollutantID, process.databaseKey);
 								if (isAffectedByNonroad != null && isAffectedByNonroad) {
 									if (r.pollutant.associatedProcesses.contains(process)) {
-										selections[rowIndex][processIndex] = new Boolean(false);
+										selections[rowIndex][processIndex] = Boolean.FALSE;
 									}
 								}
 								break;
@@ -1210,7 +1766,7 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 			for(int rowIndex=0;rowIndex<rowEntries.length;rowIndex++) {
 				for(int processIndex=0;processIndex<processes.length;processIndex++) {
 					if(selections[rowIndex][processIndex] != null) {
-						selections[rowIndex][processIndex] = new Boolean(false);
+						selections[rowIndex][processIndex] = Boolean.FALSE;
 					}
 				}
 			}
@@ -1218,11 +1774,11 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 			for(Iterator<PollutantProcessAssociation> i = runspec.pollutantProcessAssociations.iterator(); i.hasNext();) {
 				PollutantProcessAssociation iterAssociation = (PollutantProcessAssociation) i.next();
 				Integer processIndex = (Integer)processIndexes.get(iterAssociation.emissionProcess);
-				RowEntry re = pollutantRowEntryIndexes.get(new Integer(iterAssociation.pollutant.databaseKey));
+				RowEntry re = pollutantRowEntryIndexes.get(Integer.valueOf(iterAssociation.pollutant.databaseKey));
 				if(processIndex != null && re != null) {
 					if(selections[re.row][processIndex.intValue()] != null) {
-						selections[re.row][processIndex.intValue()] = new Boolean(true);
-						rowSelections[re.row] = new Boolean(true);
+						selections[re.row][processIndex.intValue()] = Boolean.TRUE;
+						rowSelections[re.row] = Boolean.TRUE;
 						// If there is a parent row entry, then mark it as well
 						if(re.parent != null) {
 							if(selections[re.parent.row][processIndex.intValue()] != null) {
@@ -1230,18 +1786,18 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 									case M0:
 									case M1:
 										if (iterAssociation.isAffectedByOnroad) {
-											selections[re.parent.row][processIndex.intValue()] = new Boolean(true);
+											selections[re.parent.row][processIndex.intValue()] = Boolean.TRUE;
 										}
 										break;
 									case M2:
 										if (iterAssociation.isAffectedByNonroad) {
-											selections[re.parent.row][processIndex.intValue()] = new Boolean(true);
+											selections[re.parent.row][processIndex.intValue()] = Boolean.TRUE;
 										}
 										break;
 									default:
 										break;
 								}
-								rowSelections[re.parent.row] = new Boolean(true);
+								rowSelections[re.parent.row] = Boolean.TRUE;
 							}
 						}
 					}
@@ -1255,6 +1811,9 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 		clearAll.setEnabled(runspec.pollutantProcessAssociations.size() > 0);
 
 		updateFilters();
+
+		//set the focus to the first row/col
+		selectFirstProcessesColumn(0);
 	}
 
 	/**
@@ -1477,15 +2036,15 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 								+ pollutant + " requires ";
 						ArrayList<String> tempList = new ArrayList<String>();
 						if(atmCO2 != null) {
-							tempList.add("Atmospheric CO2");
+							tempList.add(pollutantProcessAssociation.emissionProcess + "/" + "Atmospheric CO2");
 							requires(requiredAssociations,pollutantProcessAssociation.emissionProcess,atmCO2);
 						}
 						if(methane != null) {
-							tempList.add("Methane");
+							tempList.add(pollutantProcessAssociation.emissionProcess + "/" + "Methane");
 							requires(requiredAssociations,pollutantProcessAssociation.emissionProcess,methane);
 						}
 						if(n2o != null) {
-							tempList.add("Nitrous Oxide");
+							tempList.add(pollutantProcessAssociation.emissionProcess + "/" + "Nitrous Oxide");
 							requires(requiredAssociations,pollutantProcessAssociation.emissionProcess,n2o);
 						}
 						for(int i=0;i<tempList.size();i++) {
@@ -1516,21 +2075,21 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 								messageLine += " and ";
 							}
 							hasPreviousPollutant = true;
-							messageLine += "Atmospheric CO2";
+							messageLine += pollutantProcessAssociation.emissionProcess + "/" + "Atmospheric CO2";
 						}
 						if(!hasMethane && methane != null) {
 							if(hasPreviousPollutant) {
 								messageLine += " and ";
 							}
 							hasPreviousPollutant = true;
-							messageLine += "Methane";
+							messageLine += pollutantProcessAssociation.emissionProcess + "/" + "Methane";
 						}
 						if(!hasN2O && n2o != null) {
 							if(hasPreviousPollutant) {
 								messageLine += " and ";
 							}
 							hasPreviousPollutant = true;
-							messageLine += "Nitrous Oxide";
+							messageLine += pollutantProcessAssociation.emissionProcess + "/" + "Nitrous Oxide";
 						}
 						if(hasPreviousPollutant) {
 							messages.add(messageLine);
@@ -1547,7 +2106,7 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 								Pollutant requiredPollutant = (Pollutant)iterRequiredPollutants.next();
 								TreeSet<Pollutant> selectedProcessPollutants = selectedProcesses.get(pollutantProcessAssociation.emissionProcess);
 								if(!selectedProcessPollutants.contains(requiredPollutant)) {
-									String messageLine = pollutantProcessAssociation.emissionProcess + "/" + pollutant + " requires " + requiredPollutant;
+									String messageLine = pollutantProcessAssociation.emissionProcess + "/" + pollutant + " requires " + pollutantProcessAssociation.emissionProcess + "/" + requiredPollutant;
 									requires(requiredAssociations,pollutantProcessAssociation.emissionProcess,requiredPollutant);
 									messages.add(messageLine);
 									isOk = false;
@@ -1570,7 +2129,7 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 											+ "/"
 											+ pollutant
 											+ " requires "
-											+ requiredPollutant;
+											+ pollutantProcessAssociation.emissionProcess + "/" + requiredPollutant;
 									requires(requiredAssociations,pollutantProcessAssociation.emissionProcess,requiredPollutant);
 									messages.add(messageLine);
 									isOk = false;
@@ -1593,7 +2152,7 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 											+ "/"
 											+ pollutant
 											+ " requires "
-											+ requiredPollutant;
+											+ pollutantProcessAssociation.emissionProcess + "/" + requiredPollutant;
 									requires(requiredAssociations,pollutantProcessAssociation.emissionProcess,requiredPollutant);
 									messages.add(messageLine);
 									isOk = false;
@@ -1615,7 +2174,7 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 											+ "/"
 											+ pollutant
 											+ " requires "
-											+ requiredPollutant;
+											+ pollutantProcessAssociation.emissionProcess + "/" + requiredPollutant;
 									requires(requiredAssociations,pollutantProcessAssociation.emissionProcess,requiredPollutant);
 									messages.add(messageLine);
 									isOk = false;
@@ -1628,10 +2187,52 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 						Pollutant requiredPollutant = (Pollutant)iterRequiredPollutants.next();
 						TreeSet<Pollutant> selectedProcessPollutants = selectedProcesses.get(pollutantProcessAssociation.emissionProcess);
 						if(!selectedProcessPollutants.contains(requiredPollutant)) {
-							String messageLine = pollutantProcessAssociation.emissionProcess + "/" + pollutant + " requires " + requiredPollutant;
+							String messageLine = pollutantProcessAssociation.emissionProcess + "/" + pollutant + " requires " + pollutantProcessAssociation.emissionProcess + "/" + requiredPollutant;
 							requires(requiredAssociations,pollutantProcessAssociation.emissionProcess,requiredPollutant);
 							messages.add(messageLine);
 							isOk = false;
+						}
+					}
+					// Add special cases for crankcase VOC et al. These aren't strictly needed by the underlying
+					// model, rather these associations are added to reduce confusion by end users, making the
+					// crankcase HC speciations appear to be like other processes.
+					// 15 == crankcase running exhaust
+					// 16 == crankcase start exhaust
+					// 17 == crankcase extended idle
+					// 79 needs 1  NMHC <- THC
+					// 87 needs 79 VOC <- NMHC
+					// 80 needs 79 NMOG <- NMHC
+					// 86 needs 80, 5 TOG <- NMHC, Methane
+					// 5 needs 1 Methane <- THC
+					int[] crankcaseProcesses = { 15, 16, 17 };
+					int[] crankcaseNeeds = { // Format: Output pollutantID, input pollutant ID, input pollutant ID
+						79,  1, 0,
+						87, 79, 0,
+						80, 79, 0,
+						86, 80, 5,
+						 5,  1, 0
+					};
+					int processID = pollutantProcessAssociation.emissionProcess.databaseKey;
+					for(int i=0;i<crankcaseProcesses.length;i++) {
+						if(processID == crankcaseProcesses[i]) {
+							for(int j=0;j<crankcaseNeeds.length;j+=3) {
+								if(crankcaseNeeds[j+0] == pollutant.databaseKey) {
+									TreeSet<Pollutant> selectedProcessPollutants = selectedProcesses.get(pollutantProcessAssociation.emissionProcess);
+									for(int k=1;k<=2;k++) {
+										if(crankcaseNeeds[j+k]>0) {
+											Pollutant requiredPollutant = Pollutant.findByID(crankcaseNeeds[j+k]);
+											if(requiredPollutant != null && !selectedProcessPollutants.contains(requiredPollutant)) {
+												String messageLine = pollutantProcessAssociation.emissionProcess + "/" + pollutant + " requires " + pollutantProcessAssociation.emissionProcess + "/" + requiredPollutant;
+												requires(requiredAssociations,pollutantProcessAssociation.emissionProcess,requiredPollutant);
+												messages.add(messageLine);
+												isOk = false;
+											}
+										}
+									}
+									break;
+								}
+							}
+							break;
 						}
 					}
 				}
@@ -1642,7 +2243,7 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 			TreeSet<Integer> nonroadPolProcessIDs = new TreeSet<Integer>();
 			if(hasNonroad) {
 				for(int i=0;i<NonroadEmissionCalculator.nonroadPolProcessIDs.length;i++) {
-					nonroadPolProcessIDs.add(new Integer(NonroadEmissionCalculator.nonroadPolProcessIDs[i]));
+					nonroadPolProcessIDs.add(Integer.valueOf(NonroadEmissionCalculator.nonroadPolProcessIDs[i]));
 				}
 			}
 
@@ -1668,7 +2269,7 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 					for(PollutantProcessAssociation r : requirements) {
 						if(!selectedProcessPollutants.contains(r.pollutant)
 								&& r.pollutant.associatedProcesses.contains(pollutantProcessAssociation.emissionProcess)) {
-							String messageLine = pollutantProcessAssociation.emissionProcess + "/" + pollutantProcessAssociation.pollutant + " requires " + r.pollutant;
+							String messageLine = pollutantProcessAssociation.emissionProcess + "/" + pollutantProcessAssociation.pollutant + " requires " + pollutantProcessAssociation.emissionProcess + "/" + r.pollutant;
 							requires(requiredAssociations,pollutantProcessAssociation.emissionProcess,r.pollutant);
 							messages.add(messageLine);
 							isOk = false;
@@ -1701,7 +2302,7 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 								continue;
 							}
 							if(!runspec.pollutantProcessAssociations.contains(rppa)) {
-								String messageLine = pollutantProcessAssociation.emissionProcess + "/" + pollutantProcessAssociation.pollutant + " requires " + rp;
+								String messageLine = pollutantProcessAssociation.emissionProcess + "/" + pollutantProcessAssociation.pollutant + " requires " + pollutantProcessAssociation.emissionProcess + "/" + rp;
 								requires(requiredAssociations,pollutantProcessAssociation.emissionProcess,rp);
 								messages.add(messageLine);
 								isOk = false;
@@ -1717,7 +2318,7 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 					iterPollutantProcessAssociations.hasNext();) {
 				PollutantProcessAssociation output = (PollutantProcessAssociation)iterPollutantProcessAssociations.next();
 				int outputID = output.getDatabaseKey();
-				if(hasNonroad && nonroadPolProcessIDs.contains(new Integer(outputID))) {
+				if(hasNonroad && nonroadPolProcessIDs.contains(Integer.valueOf(outputID))) {
 					// Nonroad's native pollutant/processes do not have chaining.
 					continue;
 				}
@@ -1747,9 +2348,9 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 					}
 					if(!foundInput) {
 						String messageLine = output.emissionProcess + "/" + output.pollutant + " requires ";
-						if(inputProcessID != output.emissionProcess.databaseKey) {
+						//if(inputProcessID != output.emissionProcess.databaseKey) {
 							messageLine += input.emissionProcess + "/";
-						}
+						//}
 						messageLine += input.pollutant;
 
 						requires(requiredAssociations,input.emissionProcess,input.pollutant);
@@ -1818,7 +2419,7 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 
 							if(!foundTotalEnergyConsumption) {
 								if(lastProcess != null) {
-									messageLine += delimiter + " or " + lastProcess + ".";
+									messageLine += delimiter + " or " + lastProcess;
 								}
 								messages.add(messageLine);
 								isOk = false;
@@ -1838,14 +2439,14 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 						case M1:
 							if (runspec.timeSpan.aggregateBy != OutputTimeStep.HOUR) {
 								String messageLine = emissionProcess
-										+ " requires the time aggregation level to be Hour.";
+										+ " requires the time aggregation level to be Hour";
 								messages.add(messageLine);
 								isOk = false;
 							}
 							/*
 							else if (!runspec.timeSpan.hasAllHours()) {
 								String messageLine = emissionProcess
-										+ " requires all hours to be selected.";
+										+ " requires all hours to be selected";
 								messages.add(messageLine);
 								isOk = false;
 							}
@@ -1865,12 +2466,12 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 						case M1:
 							if (runspec.timeSpan.aggregateBy != OutputTimeStep.HOUR) {
 								String messageLine = emissionProcess
-										+ " requires the time aggregation level to be Hour.";
+										+ " requires the time aggregation level to be Hour";
 								messages.add(messageLine);
 								isOk = false;
 							} else if (!runspec.timeSpan.hasAllHours()) {
 								String messageLine = emissionProcess
-										+ " requires all hours to be selected.";
+										+ " requires all hours to be selected";
 								messages.add(messageLine);
 								isOk = false;
 							}
@@ -1889,14 +2490,14 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 						case M1:
 							if (runspec.timeSpan.aggregateBy != OutputTimeStep.HOUR) {
 								String messageLine = emissionProcess
-										+ " requires the time aggregation level to be Hour.";
+										+ " requires the time aggregation level to be Hour";
 								messages.add(messageLine);
 								isOk = false;
 							}
 							/*
 							else if (!runspec.timeSpan.hasAllHours()) {
 								String messageLine = emissionProcess
-										+ " requires all hours to be selected.";
+										+ " requires all hours to be selected";
 								messages.add(messageLine);
 								isOk = false;
 							}

@@ -1,0 +1,108 @@
+<!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd">
+<suite name="EAP Moves Tests" verbose="1" annotations="JDK">
+	<parameter name="shareDir" value="testing" />
+
+	<test name="EPA-Moves Regression Tests" junit="true">
+		<classes>
+			<class name="gov.epa.otaq.gis.api.GeoToolsTest" />
+			<class name="gov.epa.otaq.moves.common.DatabaseSelectionTest" />
+			<class name="gov.epa.otaq.moves.common.DatabaseUtilitiesTest" />
+			<class name="gov.epa.otaq.moves.common.DistributedIDBrokerTest" />
+			<class name="gov.epa.otaq.moves.common.DistributedWorkFileNameTest" />
+			<class name="gov.epa.otaq.moves.common.DistributedWorkFilePurposeTest" />
+			<class name="gov.epa.otaq.moves.common.DistributedWorkFileStateTest" />
+			<class name="gov.epa.otaq.moves.common.EPATableModelTest" />
+			<class name="gov.epa.otaq.moves.common.FileUtilitiesTest" />
+			<class name="gov.epa.otaq.moves.common.FloatConversionTest" />
+			<class name="gov.epa.otaq.moves.common.JARUtilitiesTest" />
+			<class name="gov.epa.otaq.moves.common.ModelScaleTest" />
+			<class name="gov.epa.otaq.moves.common.MOVESThreadTest" />
+			<class name="gov.epa.otaq.moves.common.OffRoadSCCListProducerTest" />
+			<class name="gov.epa.otaq.moves.common.OffRoadVehicleSelectionTest" />
+			<class name="gov.epa.otaq.moves.common.OnRoadVehicleSelectionTest" />
+			<class name="gov.epa.otaq.moves.common.OutputEmissionsBreakdownSelectionTest" />
+			<class name="gov.epa.otaq.moves.common.PasswordCheckerTest" />
+			<class name="gov.epa.otaq.moves.common.PermutationCreatorTest" />
+			<class name="gov.epa.otaq.moves.common.ScriptTestSuite" />
+			<class name="gov.epa.otaq.moves.common.StringComparatorIgnoreCaseTest" />
+			<class name="gov.epa.otaq.moves.common.StringUtilitiesTest" />
+			<class name="gov.epa.otaq.moves.common.TimeSpanTest" />
+			<class name="gov.epa.otaq.moves.common.TreeMapIgnoreCaseTest" />
+			<class name="gov.epa.otaq.moves.common.TreeSetIgnoreCaseTest" />
+			<class name="gov.epa.otaq.moves.common.WildCardFileNameFilterTest" />
+			<class name="gov.epa.otaq.moves.common.WildcardMatcherTest" />
+			<class name="gov.epa.otaq.moves.common.expression.ExpressionParserTest" />
+			<class name="gov.epa.otaq.moves.common.expression.TokenizerTest" />
+			<class name="gov.epa.otaq.moves.common.graph.GraphTest" />
+			<class name="gov.epa.otaq.moves.master.framework.AggregationSQLGeneratorTest" />
+			<class name="gov.epa.otaq.moves.master.framework.DatabaseConnectionManagerTest" />
+			<class name="gov.epa.otaq.moves.master.framework.EmissionCalculatorInboundUnbundlerTest" />
+			<class name="gov.epa.otaq.moves.master.framework.EmissionCalculatorOutboundBundlerTest" />
+			<class name="gov.epa.otaq.moves.master.framework.EmissionCalculatorRegistrationTest" />
+			<class name="gov.epa.otaq.moves.master.framework.EmissionProcessTest" />
+			<class name="gov.epa.otaq.moves.master.framework.EmissionRatePreSelectorTest" />
+			<class name="gov.epa.otaq.moves.master.framework.ExecutionLocationTest" />
+			<class name="gov.epa.otaq.moves.master.framework.ExecutionRunSpecTest" />
+			<class name="gov.epa.otaq.moves.master.framework.GREETInterfaceTest" />
+			<class name="gov.epa.otaq.moves.master.framework.InputDataManagerTest" />
+			<class name="gov.epa.otaq.moves.master.framework.MasterLoopableSubscriptionTest" />
+			<class name="gov.epa.otaq.moves.master.framework.MasterLoopGranularityTest" />
+			<class name="gov.epa.otaq.moves.master.framework.MasterLoopTest" />
+			<class name="gov.epa.otaq.moves.master.framework.ModelYearMapperTest" />
+			<class name="gov.epa.otaq.moves.master.framework.MOVESEngineTest" />
+			<class name="gov.epa.otaq.moves.master.framework.MOVESInstantiatorTest" />
+			<class name="gov.epa.otaq.moves.master.framework.OutputProcessorTest" />
+			<class name="gov.epa.otaq.moves.master.framework.PollutantProcessAssociationTest" />
+			<class name="gov.epa.otaq.moves.master.framework.PollutantProcessLoaderTest" />
+			<class name="gov.epa.otaq.moves.master.framework.PollutantTest" />
+			<class name="gov.epa.otaq.moves.master.framework.RoadTypeTest" />
+			<class name="gov.epa.otaq.moves.master.framework.SCCTest" />
+			<class name="gov.epa.otaq.moves.master.framework.SchemaInspectorTest" />
+			<class name="gov.epa.otaq.moves.master.framework.SQLForWorkerTest" />
+			<class name="gov.epa.otaq.moves.master.framework.SystemConfigurationTest" />
+			<class name="gov.epa.otaq.moves.master.framework.UncertaintyParametersTest" />
+			<class name="gov.epa.otaq.moves.master.framework.WorkFileRetrieverThreadTest" />
+			<class name="gov.epa.otaq.moves.master.gui.MOVESWindowReleaseVersionTest" />
+			<class name="gov.epa.otaq.moves.master.gui.RunSpecSectionStatusTest" />
+			<class name="gov.epa.otaq.moves.master.runspec.DistanceMeasurementSystemTest" />
+			<class name="gov.epa.otaq.moves.master.runspec.GeographicOutputDetailLevelTest" />
+			<class name="gov.epa.otaq.moves.master.runspec.GeographicSelectionTest" />
+			<class name="gov.epa.otaq.moves.master.runspec.GeographicSelectionTypeTest" />
+			<class name="gov.epa.otaq.moves.master.runspec.HydrocarbonUnitSystemTest" />
+			<class name="gov.epa.otaq.moves.master.runspec.MassMeasurementSystemTest" />
+			<class name="gov.epa.otaq.moves.master.runspec.OutputFactorsTest" />
+			<class name="gov.epa.otaq.moves.master.runspec.RunSpecTest" />
+			<class name="gov.epa.otaq.moves.master.runspec.RunSpecXMLTest" />
+			<class name="gov.epa.otaq.moves.master.runspec.TimeMeasurementSystemTest" />
+			<class name="gov.epa.otaq.moves.systemtests.fast.MOVESAPITest" />
+			<class name="gov.epa.otaq.moves.worker.framework.RemoteEmissionsCalculatorTest" />
+			<class name="gov.epa.otaq.moves.common.graph.sql.SQLNodeTest" />
+			<class name="gov.epa.otaq.moves.master.implementation.general.FuelControlStrategyTest" />
+			<class name="gov.epa.otaq.moves.master.implementation.general.MeteorologyGeneratorTest" />
+			<class name="gov.epa.otaq.moves.master.implementation.general.RefineryModelTest" />
+			<class name="gov.epa.otaq.moves.master.implementation.general.SourceMaintenanceControlStrategyTest" />
+			<class name="gov.epa.otaq.moves.master.implementation.general.SourceManufacturingControlStrategyTest" />
+			<class name="gov.epa.otaq.moves.master.implementation.general.SourceUsageControlStrategyTest" />
+			<class name="gov.epa.otaq.moves.master.implementation.ghg.BaseRateGeneratorTest" />
+			<class name="gov.epa.otaq.moves.master.implementation.ghg.CH4N2ORunningStartCalculatorTest" />
+			<class name="gov.epa.otaq.moves.master.implementation.ghg.CH4N2OWTPCalculatorTest" />
+			<class name="gov.epa.otaq.moves.master.implementation.ghg.CO2AERunningStartExtendedIdleCalculatorTest" />
+			<class name="gov.epa.otaq.moves.master.implementation.ghg.CO2AtmosphericWTPCalculatorTest" />
+			<class name="gov.epa.otaq.moves.master.implementation.ghg.CO2EqivalentWTPCalculatorTest" />
+			<class name="gov.epa.otaq.moves.master.implementation.ghg.CriteriaAndPMExtendedIdleEmissionCalculatorTest" />
+			<class name="gov.epa.otaq.moves.master.implementation.ghg.FuelEffectsGeneratorTest" />
+			<class name="gov.epa.otaq.moves.master.implementation.ghg.NH3ExtendedIdleEmissionCalculatorTest" />
+			<class name="gov.epa.otaq.moves.master.implementation.ghg.OperatingModeDistributionGeneratorTest" />
+			<class name="gov.epa.otaq.moves.master.implementation.ghg.SulfurModelTest" />
+			<class name="gov.epa.otaq.moves.master.implementation.ghg.TotalActivityGeneratorTest" />
+			<class name="gov.epa.otaq.moves.master.implementation.ghg.WellToPumpProcessorTest" />
+		</classes>
+	</test>
+
+	<test name="EPA-Moves Task 1806">
+		<classes>
+			<class name="gov.epa.otaq.SimpleTest" />
+		</classes>
+	</test>
+
+</suite>

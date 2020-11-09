@@ -23,7 +23,7 @@ import gov.epa.otaq.moves.master.framework.*;
  * NMIM or Mobile format) into MOVES.
  * 
  * @author		Wesley Faler
- * @version		2013-11-12
+ * @version		2016-09-16
 **/
 public class LinkOpmodeDistributionImporter extends ImporterBase {
 	/** Data handler for this importer **/
@@ -223,16 +223,66 @@ public class LinkOpmodeDistributionImporter extends ImporterBase {
 		if(db == null) {
 			return new RunSpecSectionStatus(RunSpecSectionStatus.OK);
 		}
-
+		
+		// We don't want this importer to have a red X where it's not necessary
+		// 	This is the case when we don't have an off-network link, as the running process
+		// 	will have either an average speed or a link drive schedule, making the op mode distribution
+		// 	optional but not needed
+		
+		// query the input database to see if there's an off-network link
+		SQLRunner.Query query = new SQLRunner.Query();
+		int offNetworkCount = -1;
+		String sql = "select count(*) from link where roadTypeID = 1";
+		try {
+			query.open(db,sql);
+			query.rs.next();
+			offNetworkCount = query.rs.getInt(1);
+			
+			query.close();
+		} catch(SQLException e) {
+			Logger.logSqlError(e,"Unable to count offNetwork links",sql);
+		} finally {
+			query.onFinally();
+		}
+		
+		// if there isn't, then we can say this is ok
+		if (offNetworkCount == 0) {
+			return getImporterDataStatusCore(db, false);
+		}
+		
+		// if the count is greater than 0, or -1 (indicates no data in link table),
+		// 	 then we need to have the op mode distribution
 		boolean hasSourceTypes = manager.tableHasSourceTypes(db,
-				"select distinct sourceTypeID from " + primaryTableName);
+				"select distinct sourceTypeID from " + primaryTableName,
+				this,primaryTableName + " is missing sourceTypeID(s)");
 		boolean hasHourDays = manager.tableHasHourDays(db,
-				"select distinct hourDayID from " + primaryTableName);
+				"select distinct hourDayID from " + primaryTableName,
+				this,primaryTableName + " is missing hourDayID(s)");
 		// We can't check for polProcessID since not all pollutant/processes use
 		// operating modes.  Many are chained.
 		if(hasSourceTypes && hasHourDays) {
-			return new RunSpecSectionStatus(RunSpecSectionStatus.OK);
+			return getImporterDataStatusCore(db, false);
 		}
 		return new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);
 	}
+	
+	/**
+	 * Check a RunSpec against the database or for display of the importer.
+	 * @param db database to be examined.
+	 * @param requireAllData true if the user must provide all fuel formulations for their location
+	 * @return the status, or null if the status should not be shown to the user.
+	 * @throws Exception if anything goes wrong
+	**/
+	public RunSpecSectionStatus getImporterDataStatusCore(Connection db, boolean requireAllData) throws Exception {
+		ArrayList<String> messages = new ArrayList<String>();
+		BasicDataHandler.runScript(db,this,messages,requireAllData?2:1,"database/opModeDistributionImporter.sql");
+		for(Iterator<String> i=messages.iterator();i.hasNext();) {
+			String t = i.next();
+			if(t.toUpperCase().startsWith("ERROR")) {
+				return new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);
+			}
+		}
+		return new RunSpecSectionStatus(RunSpecSectionStatus.OK);
+	}
+
 }

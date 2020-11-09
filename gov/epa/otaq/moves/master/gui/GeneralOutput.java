@@ -9,9 +9,6 @@ package gov.epa.otaq.moves.master.gui;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.plaf.metal.MetalComboBoxUI;
-import javax.swing.plaf.basic.BasicComboBoxRenderer;
-import javax.swing.plaf.basic.*;
 import java.sql.*;
 import gov.epa.otaq.moves.master.runspec.*;
 import gov.epa.otaq.moves.master.framework.*;
@@ -47,7 +44,11 @@ import java.util.*;
  * @author		Mitch C
  * @author      Gwo Shyu, EPA (Fix Alpha Testing Bug 31)
  * @author		Tim Hull
- * @version		2015-05-21
+ * @author  	Bill Shaw (508 compliance mods)
+ * @author  	M. Kender (508 compliance changes - task 1810)
+ * @author		Mike Kender (Task 2003)
+ * @author		John Covey (Task 2003)
+ * @version     2020-08-10
 **/
 public class GeneralOutput extends JPanel implements ActionListener,
 		FocusListener, RunSpecEditor {
@@ -226,6 +227,8 @@ public class GeneralOutput extends JPanel implements ActionListener,
 		server.setName("server");
 		server.addFocusListener(this);
 		server.setColumns(10);
+		serverLabel.setDisplayedMnemonic('v');
+		serverLabel.setLabelFor(server);
 
 		databaseLabel = new JLabel("Database:");
 		databaseLabel.setName("databaseLabel");
@@ -238,6 +241,7 @@ public class GeneralOutput extends JPanel implements ActionListener,
 		databaseCombo.setEditable(true);
 		databaseCombo.setSelectedIndex(-1);
 		ToolTipHelper.add(databaseCombo,"Edit or select the name of the database in which the output will be stored");
+		databaseLabel.setLabelFor(databaseCombo);
 
 		dataExistsImage = new ImageIcon("gov/epa/otaq/moves/master/gui/images/dataExists.gif");
 		dataExistsLabel = new JLabel("Data is already in this database.", dataExistsImage,
@@ -245,18 +249,22 @@ public class GeneralOutput extends JPanel implements ActionListener,
 		dataExistsLabel.setName("dataExistsLabel");
 		dataExistsLabel.setHorizontalTextPosition(JLabel.RIGHT);
 		dataExistsLabel.setVerticalTextPosition(JLabel.CENTER);
+		ToolTipHelper.add(dataExistsLabel, "Data is already in this database.");
 		createDatabase = new JButton("Create Database...");
 		createDatabase.setName("createDatabase");
+		createDatabase.setMnemonic('C');
 		createDatabase.addActionListener(this);
 		ToolTipHelper.add(createDatabase,"Create the output database if it does not already exist");
 
 		refresh = new JButton("Refresh");
 		refresh.setName("refresh");
 		refresh.addActionListener(this);
-		ToolTipHelper.add(refresh,"Refresh the list of available databases");
+		refresh.setMnemonic('R');
+		ToolTipHelper.add(refresh,"Refresh the list of available databases");	
 
 		VMT = new JCheckBox("Distance Traveled");
 		VMT.setName("VMT");
+		VMT.setMnemonic('D');
 		ToolTipHelper.add(VMT,"Include distance traveled in simulation");
         VMT.setSelected(false); // Gwo Shyu
 
@@ -301,6 +309,8 @@ public class GeneralOutput extends JPanel implements ActionListener,
 		}
 		massUnitsCombo.setSelectedIndex(-1);
 		ToolTipHelper.add(massUnitsCombo,"Select the mass units to use for output data");
+		massUnitsLabel.setDisplayedMnemonic('M');
+		massUnitsLabel.setLabelFor(massUnitsCombo);
 
 		energyUnitsLabel = new JLabel("Energy Units:");
 		energyUnitsLabel.setName("energyUnitsLabel");
@@ -313,6 +323,7 @@ public class GeneralOutput extends JPanel implements ActionListener,
 		}
 		energyUnitsCombo.setSelectedIndex(-1);
 		ToolTipHelper.add(energyUnitsCombo,"Select the energy units to use for the output data");
+		energyUnitsLabel.setLabelFor(energyUnitsCombo);
 
 		distanceUnitsLabel = new JLabel("Distance Units:");
 		distanceUnitsLabel.setName("distanceUnitsLabel");
@@ -326,6 +337,7 @@ public class GeneralOutput extends JPanel implements ActionListener,
 		}
 		distanceUnitsCombo.setSelectedIndex(-1);
 		ToolTipHelper.add(distanceUnitsCombo,"Select the distance units to use for the output data");
+		distanceUnitsLabel.setLabelFor(distanceUnitsCombo);
 
 		massUnitsCombo.setEnabled(true);
 		energyUnitsCombo.setEnabled(true);
@@ -471,7 +483,10 @@ public class GeneralOutput extends JPanel implements ActionListener,
 			Logger.log(LogMessageCategory.ERROR,"Could not connect to the output database");
 			return;
 		}
-		String sql = "SHOW DATABASES";
+		String sql = "select table_schema as output_dbs "
+				+ "from information_schema.tables "
+				+ "where table_name = 'movesoutput' "
+				+ "order by output_dbs";
 		PreparedStatement statement;
 		ResultSet results;
 		try {
@@ -594,10 +609,18 @@ public class GeneralOutput extends JPanel implements ActionListener,
 			Logger.log(LogMessageCategory.WARNING, "Specify a database name.");
 			return;
 		}
+		else if (!DatabaseUtilities.isDatabaseNameValid(newDatabaseName)) {
+			JOptionPane.showMessageDialog(this,Constants.DATABASE_NAME_VALIDATION_MESSAGE);
+			return;
+		}
 
 		DatabaseSelection dbSelection = new DatabaseSelection();
 		if(server.getText().length() > 0) {
 			dbSelection.serverName = server.getText();
+			if (!DatabaseUtilities.isServerNameValid(server.getText())) {
+				JOptionPane.showMessageDialog(this,Constants.SERVER_NAME_VALIDATION_MESSAGE);
+				return;		
+			}
 		} else {
 			dbSelection.serverName = SystemConfiguration.getTheSystemConfiguration().
 					databaseSelections[MOVESDatabaseType.OUTPUT.getIndex()].serverName;
@@ -668,11 +691,20 @@ public class GeneralOutput extends JPanel implements ActionListener,
 			Logger.log(LogMessageCategory.WARNING, "Specify a database name.");
 			return;
 		}
+		else if (!DatabaseUtilities.isDatabaseNameValid(newDatabaseName)) {
+			JOptionPane.showMessageDialog(this,Constants.DATABASE_NAME_VALIDATION_MESSAGE);
+			return;
+		}
 
 		DatabaseSelection dbSelection = new DatabaseSelection();
 		if(server.getText().length() > 0) {
 			dbSelection.serverName = server.getText();
-		} else {
+			if (!DatabaseUtilities.isServerNameValid(server.getText())) {
+				JOptionPane.showMessageDialog(this,Constants.SERVER_NAME_VALIDATION_MESSAGE);
+				return;		
+			}
+		} 
+		else {
 			dbSelection.serverName = SystemConfiguration.getTheSystemConfiguration().
 					databaseSelections[MOVESDatabaseType.OUTPUT.getIndex()].serverName;
 		}
@@ -924,6 +956,10 @@ public class GeneralOutput extends JPanel implements ActionListener,
 		runspec.outputSHIdling = false;
 		runspec.outputStarts = false;
 		runspec.outputPopulation = false;
+		
+		runspec.outputFactors.massMeasurementSystem = MassMeasurementSystem.GRAMS;
+		runspec.outputFactors.energyMeasurementSystem = EnergyMeasurementSystem.JOULES;
+		runspec.outputFactors.distanceMeasurementSystem = DistanceMeasurementSystem.MILES;
 
 		sections.remove(getName());
 		RunSpecSectionStatus status = new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);

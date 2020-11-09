@@ -28,6 +28,7 @@ import gov.epa.otaq.moves.master.framework.*;
  *
  * @author		EPA-Ed Glover
  * @author		EPA-Mitch C.
+ * @author  	Bill Shaw (508 compliance mods)
  * @version		2013-04-17
 **/
 public class Ferc extends JDialog implements ActionListener,
@@ -135,11 +136,15 @@ public class Ferc extends JDialog implements ActionListener,
 		executeButton.addActionListener(this);
 		executeButton.setName("executeButton");
 		ToolTipHelper.add(executeButton,"Execute the Future Emission Rate Calculator");
+		executeButton.setMnemonic('E');
+		executeButton.setDisplayedMnemonicIndex(0);
 		cancelButton = new JButton("Cancel");
 		cancelButton.addActionListener(this);
 		cancelButton.setName("cancelButton");
 		ToolTipHelper.add(cancelButton, 
 				"Exit Without Executing the Future Emission Rate Calculator");
+		cancelButton.setMnemonic('C');
+		cancelButton.setDisplayedMnemonicIndex(0);
 		Dimension fERCPanelSize = new Dimension(450,90);
 		Dimension shortTermFilePanelSize = new Dimension(450,60);
 		Dimension longTermFilePanelSize = new Dimension(450,60);
@@ -170,6 +175,8 @@ public class Ferc extends JDialog implements ActionListener,
 		fERCServer.setText(sysConfig.databaseSelections[
 				MOVESDatabaseType.DEFAULT.getIndex()].serverName);
 		ToolTipHelper.add(fERCServer,"Edit the name of the default database server");
+		fERCServerLabel.setDisplayedMnemonic('S');
+		fERCServerLabel.setLabelFor(fERCServer);
 
 
 		fERCDatabaseTextField = new JTextField(20);
@@ -178,6 +185,8 @@ public class Ferc extends JDialog implements ActionListener,
 		fERCDatabaseLabel.setName("fERCDatabaseLabel");
 		fERCDatabaseTextField.setEditable(true);
 		ToolTipHelper.add(fERCDatabaseTextField,"Enter the Future Emission Rate Database");
+		fERCDatabaseLabel.setDisplayedMnemonic('D');
+		fERCDatabaseLabel.setLabelFor(fERCDatabaseTextField);
 
 		shortTermSharedFolderPathName = new JTextField(30);
 		shortTermSharedFolderPathName.setName("shortTermSharedFolderPathName");
@@ -188,6 +197,8 @@ public class Ferc extends JDialog implements ActionListener,
 				"Select the Short Term Future Emission Rate File");
 		shortTermSharedFolderPathBrowse.addActionListener(this);
 		shortTermSharedFolderPathBrowse.setName("shortTermSharedFolderPathBrowse");
+		shortTermSharedFolderPathBrowse.setMnemonic('B');
+		shortTermSharedFolderPathBrowse.setDisplayedMnemonicIndex(0);
 
 
 		longTermSharedFolderPathName = new JTextField(30);
@@ -199,6 +210,8 @@ public class Ferc extends JDialog implements ActionListener,
 				"Select the Long Term Future Emission Rate File");
 		longTermSharedFolderPathBrowse.addActionListener(this);
 		longTermSharedFolderPathBrowse.setName("longTermSharedFolderPathBrowse");
+		longTermSharedFolderPathBrowse.setMnemonic('r');
+		longTermSharedFolderPathBrowse.setDisplayedMnemonicIndex(1);
 	}
 
 	/**

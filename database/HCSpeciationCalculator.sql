@@ -1,4 +1,4 @@
--- Version 2014-12-11
+-- Version 2017-08-26
 -- Wes Faler
 
 -- @algorithm
@@ -286,15 +286,6 @@ AND yearID = ##context.year##
 AND MonthOfAnyYear.monthID = ##context.monthID##
 AND FuelSubtype.fuelTypeID in (##macro.csv.all.fuelTypeID##);
 
--- End Section OldCode
-
--- -----------------------------
-
-
-cache SELECT *
-INTO OUTFILE '##HCAgeCategory##'
-FROM AgeCategory;
-
 cache SELECT *
 INTO OUTFILE '##HCETOHBin##'
 FROM ETOHBin;
@@ -302,6 +293,14 @@ FROM ETOHBin;
 cache SELECT oxyThreshID
 INTO OUTFILE '##HCOxyThreshName##'
 FROM OxyThreshName;
+
+-- End Section OldCode
+
+-- -----------------------------
+
+cache SELECT *
+INTO OUTFILE '##HCAgeCategory##'
+FROM AgeCategory;
 
 cache SELECT ##context.iterLocation.countyRecordID## as countyID, MonthOfAnyYear.monthID, FuelSupply.fuelFormulationID, FuelSupply.marketShare, Year.yearID, FuelSubtype.fuelTypeID, FuelSubtype.fuelSubtypeID
 INTO OUTFILE '##HCFuelSupply##'

@@ -1,13 +1,28 @@
 -- Version 2008-10-28
 
--- Ensure distributions sum to 1.0 for all sourceTypeID combinations.
+-- Ensure roadTypeDistribution table is not empty
+drop table if exists tempNotEmpty;
+
+create table tempNotEmpty
+	select count(*) as numRows from roadTypeDistribution;
+
+insert into importTempMessages (message)
+	select 'ERROR: No data have been imported for the RoadTypeDistribution table'
+	from tempNotEmpty
+	where numRows = 0;
+
+drop table if exists tempNotEmpty;
+
+
+-- Ensure distributions sum to 1.0 for all sourceTypeID combinations. Added a check for nulls,
+-- because otherwise it could try to evaluate NULL <> 1.0000, which would not result in any rows being identified.
 drop table if exists tempNotUnity;
 
 create table tempNotUnity
-select sourceTypeID, sum(roadTypeVMTFraction) as sumRoadTypeVMTFraction
+select sourceTypeID, sum(IFNULL(roadTypeVMTFraction, 0)) as sumRoadTypeVMTFraction
 from roadTypeDistribution
 group by sourceTypeID
-having round(sum(roadTypeVMTFraction),4) <> 1.0000;
+having round(sum(IFNULL(roadTypeVMTFraction, 0)),4) <> 1.0000;
 
 insert into importTempMessages (message)
 select concat('ERROR: Source ',sourceTypeID,' roadTypeVMTFraction sum is not 1.0 but instead ',round(sumRoadTypeVMTFraction,4))

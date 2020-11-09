@@ -20,7 +20,7 @@ import junit.framework.*;
  * Test Case for the FuelEffectsGenerator class
  *
  * @author		Wesley Faler
- * @version		2013-09-20
+ * @version		2016-10-04
 **/
 public class FuelEffectsGeneratorTest extends TestCase {
 	/** True when tests should exercise all aspects, taking 20 or more minutes **/
@@ -58,8 +58,8 @@ public class FuelEffectsGeneratorTest extends TestCase {
 		if(testDB != null) {
 			TreeSet<Integer> calendarYears = new TreeSet<Integer>();
 			int startYear = 2010;
-			calendarYears.add(new Integer(startYear));
-			calendarYears.add(new Integer(startYear+1));
+			calendarYears.add(Integer.valueOf(startYear));
+			calendarYears.add(Integer.valueOf(startYear+1));
 			ExecutionRunSpec.fillYearsAndModelYears(testDB,calendarYears);
 		}
 
@@ -201,10 +201,10 @@ public class FuelEffectsGeneratorTest extends TestCase {
 		**/
 		public TreeSet<Integer> getFuelFormulations(int fuelTypeID) {
 			TreeSet<Integer> results = new TreeSet<Integer>();
-			results.add(new Integer(97)); // base fuel for air toxics
-			results.add(new Integer(96)); // base fuel for others
-			results.add(new Integer(98)); // base fuel for others
-			results.add(new Integer(testFuelID)); // test target fuel
+			results.add(Integer.valueOf(97)); // base fuel for air toxics
+			results.add(Integer.valueOf(96)); // base fuel for others
+			results.add(Integer.valueOf(98)); // base fuel for others
+			results.add(Integer.valueOf(testFuelID)); // test target fuel
 			return results;
 		}
 	}
@@ -471,7 +471,7 @@ public class FuelEffectsGeneratorTest extends TestCase {
 		**/
 		public TreeSet<Integer> getFuelFormulations(int fuelTypeID) {
 			TreeSet<Integer> results = new TreeSet<Integer>();
-			results.add(new Integer(testFuelID)); // test target fuel
+			results.add(Integer.valueOf(testFuelID)); // test target fuel
 			return results;
 		}
 	}
@@ -511,10 +511,10 @@ public class FuelEffectsGeneratorTest extends TestCase {
 	/** Test the getCSV() function **/
 	public void testGetCSV() {
 		TreeSet<Integer> set = new TreeSet<Integer>();
-		set.add(new Integer(5));
-		set.add(new Integer(6));
-		set.add(new Integer(1));
-		set.add(new Integer(2));
+		set.add(Integer.valueOf(5));
+		set.add(Integer.valueOf(6));
+		set.add(Integer.valueOf(1));
+		set.add(Integer.valueOf(2));
 
 		String got =  FuelEffectsGenerator.getCSV(set);
 		assertEquals("getCSV failed","1,2,5,6",got);
@@ -547,7 +547,7 @@ public class FuelEffectsGeneratorTest extends TestCase {
 				double idDouble = query.rs.getDouble(2);
 				int id = (int)idDouble;
 				assertEquals("oxyThreshID not an integer",(double)id,idDouble);
-				Integer idInt = new Integer(id);
+				Integer idInt = Integer.valueOf(id);
 				if(!ids.contains(idInt)) {
 					ids.add(idInt);
 				}
@@ -574,7 +574,7 @@ public class FuelEffectsGeneratorTest extends TestCase {
 					+ " fuelTypeID, polProcessID, minModelYearID, maxModelYearID,"
 					+ " minAgeID, maxAgeID,sourceTypeID,fuelEffectRatioExpression,"
 					+ " fuelEffectRatioGPAExpression)"
-					+ " values (1,-101,1960,2050,0,30,0,"
+					+ " values (1,-101,1960,2060,0,30,0,"
 					+ " 'MTBEVolume+7','MTBEVolume*2')";
 			SQLRunner.executeSQL(testDB,sql);
 

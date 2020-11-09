@@ -5,6 +5,7 @@
 package gov.epa.otaq.moves.master.implementation.importers;
 
 import gov.epa.otaq.moves.master.framework.importers.*;
+import gov.epa.otaq.moves.common.*;
 
 import java.io.*;
 import java.sql.*;
@@ -20,7 +21,7 @@ import gov.epa.otaq.moves.common.MOVESDatabaseType;
  * MOVES ZoneMonthHour Data Importer.
  * 
  * @author		Wesley Faler
- * @version		2009-12-05
+ * @version		2015-09-16
 **/
 public class MeteorologyImporter extends ImporterBase {
 	/** Data handler for this importer **/
@@ -146,16 +147,40 @@ public class MeteorologyImporter extends ImporterBase {
 	**/
 	public RunSpecSectionStatus getCountyDataStatus(Connection db) 
 			throws Exception {
+		String sql;
+		SQLRunner.Query query = new SQLRunner.Query();
+		boolean hasError = false;
+		
 		if(db == null) {
 			return new RunSpecSectionStatus(RunSpecSectionStatus.OK);
 		}
 		boolean hasMonths = manager.tableHasMonths(db,
-				"select distinct monthID from zoneMonthHour");
+				"select distinct monthID from zoneMonthHour",
+				this,"zoneMonthHour is missing monthID(s)");
 		boolean hasHours = manager.tableHasHours(db,
-				"select distinct hourID from zoneMonthHour");
+				"select distinct hourID from zoneMonthHour",
+				this,"zoneMonthHour is missing hourID(s)");
 		boolean hasZones = manager.tableHasZones(db,
-				"select distinct zoneID from zoneMonthHour");
-		if(hasMonths && hasHours && hasZones) {
+				"select distinct zoneID from zoneMonthHour",
+				this,"zoneMonthHour is missing zoneID(s)");
+				
+		// check for any relHumidity over 100
+		sql = "SELECT monthID, hourID " +
+			  "  FROM zonemonthhour " +
+			  "  WHERE relHumidity > 100";
+		try {
+			query.open(db,sql);
+			while(query.rs.next()) {
+				int monthID = query.rs.getInt(1);
+				int hourID = query.rs.getInt(2);
+				addQualityMessage("ERROR: relative humidity is > 100 for monthID " + monthID + " and hourID " + hourID); 
+				hasError = true;
+			}
+		} finally {
+			query.close();
+		}
+				
+		if(hasMonths && hasHours && hasZones && !hasError) {
 			return new RunSpecSectionStatus(RunSpecSectionStatus.OK);
 		}
 		return new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);
@@ -172,4 +197,6 @@ public class MeteorologyImporter extends ImporterBase {
 			throws Exception {
 		return getCountyDataStatus(db);
 	}
+	
+	// no SQL error checks for MeteorologyImporter
 }

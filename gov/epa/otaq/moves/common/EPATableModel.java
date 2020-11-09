@@ -609,19 +609,19 @@ public class EPATableModel extends DefaultTableModel {
 							setValueAt( results.getObject( col ) , row , tableColumn ) ;
 							break ;
 						case Types.DOUBLE: 
-							setValueAt( new Double( results.getDouble( col ) ) , row , tableColumn ) ;
+							setValueAt( Double.valueOf( results.getDouble( col ) ) , row , tableColumn ) ;
 							break ;
 						case Types.FLOAT: 
-							setValueAt( new Float( results.getFloat( col ) ) , row , tableColumn ) ;
+							setValueAt( Float.valueOf( results.getFloat( col ) ) , row , tableColumn ) ;
 							break ;
 						case Types.BIGINT: 
 							setValueAt( BigInteger.valueOf( results.getLong( col ) ) , row , tableColumn ) ;
 							break ;
 						case Types.INTEGER:
-							setValueAt( new Integer( results.getInt( col ) ) , row , tableColumn ) ;
+							setValueAt( Integer.valueOf( results.getInt( col ) ) , row , tableColumn ) ;
 							break ;
 						case Types.SMALLINT: 
-							setValueAt( new Short( results.getShort( col ) ) , row , tableColumn ) ;
+							setValueAt( Short.valueOf( results.getShort( col ) ) , row , tableColumn ) ;
 							break ;
 						case Types.TIME: 
 							break ;
@@ -760,7 +760,7 @@ public class EPATableModel extends DefaultTableModel {
 			}
 
 			String s = ob.toString() ;
-			i = new Integer( s ) ;
+			i = Integer.valueOf( s ) ;
 			return i.intValue() ;
 		} catch( Exception ex ) {
 			return 0 ;
@@ -849,7 +849,7 @@ public class EPATableModel extends DefaultTableModel {
 			}
 
 			String s = ob.toString() ;
-			f = new Float( s ) ;
+			f = Float.valueOf( s ) ;
 			return f.floatValue() ;
 		} catch( Exception ex ) {
 			return ( float ) 0.0 ;
@@ -879,7 +879,7 @@ public class EPATableModel extends DefaultTableModel {
 			}
 
 			String s = ob.toString() ;
-			d = new Double( s ) ;
+			d = Double.valueOf( s ) ;
 			return d.doubleValue() ;
 		} catch( Exception ex ) {
 			return 0.0 ;
@@ -953,7 +953,7 @@ public class EPATableModel extends DefaultTableModel {
 			}
 
 			String s = ob.toString() ;
-			si = new Short( s ) ;
+			si = Short.valueOf( s ) ;
 			return si.shortValue() ;
 		} catch( Exception ex ) {
 			return 0 ;
@@ -994,7 +994,7 @@ public class EPATableModel extends DefaultTableModel {
 				return ;
 			}
 
-			Integer i = new Integer( value ) ;
+			Integer i = Integer.valueOf( value ) ;
 			setValueAt( i , row , columnIndex ) ;
 		} catch( Exception ex ) {
 		}
@@ -1022,7 +1022,7 @@ public class EPATableModel extends DefaultTableModel {
 				return ;
 			}
 
-			Short si = new Short( value ) ;
+			Short si = Short.valueOf( value ) ;
 			setValueAt( si , row , columnIndex ) ;
 		} catch( Exception ex ) {
 		}
@@ -1050,7 +1050,7 @@ public class EPATableModel extends DefaultTableModel {
 				return ;
 			}
 
-			Float f = new Float( value ) ;
+			Float f = Float.valueOf( value ) ;
 			setValueAt( f , row , columnIndex ) ;
 		} catch( Exception ex ) {
 		}

@@ -26,7 +26,7 @@ import java.text.SimpleDateFormat;
  * @author		Don Smith
  * @author		EPA (Mitch C.)
  * @author 		Tim Hull
- * @version		2014-09-17
+ * @version		2017-03-22
 **/
 public class MOVESEngine implements LogHandler {
 	/** portion of total progress represented by startup activities **/
@@ -256,7 +256,7 @@ public class MOVESEngine implements LogHandler {
 		runSpec.shouldTruncateMOVESOutput = false;
 		runSpec.shouldTruncateBaseRateOutput = false;
 
-		launchCore(runSpec,"(unnamed)",new Integer(details.numberOfDONEFiles));
+		launchCore(runSpec,"(unnamed)",Integer.valueOf(details.numberOfDONEFiles));
 	}
 
 	/**
@@ -314,6 +314,16 @@ public class MOVESEngine implements LogHandler {
 		boolean shouldRestoreDatabase = false;
 
 		try {
+			if(runSpec.hasDeprecatedShouldSeparateRampsTrue) {
+				/**
+				 * @issue RunSpec includes the flag to provide separate ramp output. It was created with an older version of MOVES.  This flag must be removed from the RunSpec before MOVES will run successfully.
+				 * @explain Save the runspec as a new file, which will remove the deprecated ramp flag, then open the new file.
+				**/
+				Logger.log(LogMessageCategory.ERROR,
+						"Runspec uses a deprecated Ramp feature. Update by saving to a new file and opening it.");
+				return false;
+			}
+
 			if(runSpec.hasAVFT()) {
 				/**
 				 * @issue RunSpec includes data for Fueltypes and Technologies (AVFT) created with an older version of MOVES.  This data must be converted to the new format or deleted from the RunSpec before MOVES will run successfully.
@@ -348,7 +358,28 @@ public class MOVESEngine implements LogHandler {
 							"Unable to open domain database " + domainInputDatabase.databaseName);
 					return false;
 				}
+				
+				boolean hasBadHotelling = false;
+				boolean hasBadHPMS = false;
+				
+				// only check hotelling and vmt tables if running onroad model
+				Models.ModelCombination mc = runSpec.getModelCombination();
+				switch (mc) {
+					case M2:
+						break;
+					case M1:
+					case M12:
+					default:
+						hasBadHotelling = hasWrongHotellingTables(t, domainInputDatabase);
+						hasBadHPMS = hasOldHPMSVTypes(t, domainInputDatabase);
+						break;
+				}
+				
 				DatabaseUtilities.closeConnection(t);
+				
+				if(hasBadHotelling || hasBadHPMS) {
+					return false;
+				}
 			}
 			if(runSpec.databaseSelectionInputSets.size() != 0) {
 				for(ListIterator<DatabaseSelection> i =
@@ -367,7 +398,11 @@ public class MOVESEngine implements LogHandler {
 								"Unable to open user database " + tempSelection.databaseName);
 						return false;
 					}
+					boolean hasBadHPMS = hasOldHPMSVTypes(t, tempSelection);
 					DatabaseUtilities.closeConnection(t);
+					if(hasBadHPMS) {
+						return false;
+					}
 				}
 			}
 			// Check the custom input database, especially for the correct schema
@@ -444,7 +479,7 @@ public class MOVESEngine implements LogHandler {
 			} else {
 				bundler = null;
 				loop.howManyOutboundBundlesWillBeCreated = numberOfDONEFiles;
-				loop.startupFractionComplete = new Double(1.0);
+				loop.startupFractionComplete = Double.valueOf(1.0);
 			}
 			unbundler = new EmissionCalculatorInboundUnbundler();
 			if(pdEntry != null) {
@@ -483,6 +518,66 @@ public class MOVESEngine implements LogHandler {
 			isLaunching = false;
 		}
 		return true;
+	}
+
+	/**
+	 * Check for unwanted HPMS 20 and 30 VMT records.
+	 * @param db open connection to the database
+	 * @param dbSelection database descriptor, used for error messages
+	 * @return true if the database contains any old hpms vtype VMT records
+	**/
+	private static boolean hasOldHPMSVTypes(Connection db, DatabaseSelection dbSelection) {
+		try {
+			int count = (int)SQLRunner.executeScalar(db,"select count(*) as c from hpmsvtypeday where hpmsvtypeid in (20,30)");
+			if(count > 0) {
+				Logger.log(LogMessageCategory.ERROR,
+						"Old HPMSVTypeID 20 and/or 30 was found in hpmsVTypeDay table of database " + dbSelection.databaseName);
+				return true;
+			}
+		} catch(Exception e) {
+			// Nothing to do here
+		}
+		try {
+			int count = (int)SQLRunner.executeScalar(db,"select count(*) as c from hpmsvtypeyear where hpmsvtypeid in (20,30)");
+			if(count > 0) {
+				Logger.log(LogMessageCategory.ERROR,
+						"Old HPMSVTypeID 20 and/or 30 was found in hpmsVTypeYear table of database " + dbSelection.databaseName);
+				return true;
+			}
+		} catch(Exception e) {
+			// Nothing to do here
+		}
+		return false;
+	}
+
+	/**
+	 * Check for unconverted hotelling tables.
+	 * @param db open connection to the database
+	 * @param dbSelection database descriptor, used for error messages
+	 * @return true if the database contains any unconverted hotelling tables.
+	**/
+	private static boolean hasWrongHotellingTables(Connection db, DatabaseSelection dbSelection) {
+		String[] commands = {
+			"hotellingHoursPerDay", "select count(distinct yearID, zoneID, dayID) from hotellingHoursPerDay",
+			"hotellingHourFraction", "select count(distinct zoneID, dayID, hourID)+ifnull(sum(hourFraction),0) from hotellingHourFraction",
+			"hotellingAgeFraction", "select count(distinct zoneID, ageID) from hotellingAgeFraction",
+			"hotellingActivityDistribution", "select count(distinct zoneID, beginModelYearID, endModelYearID, opModeID) from hotellingActivityDistribution",
+			"hotellingMonthAdjust", "select count(distinct zoneID, monthID) from hotellingMonthAdjust"
+		};
+		String tableName = "";
+		try {
+			for(int i=0;i<commands.length;i+=2) {
+				tableName = commands[i+0];
+				String sql = commands[i+1];
+				SQLRunner.executeScalar(db,sql);
+			}
+			return false;
+		} catch(Exception e) {
+			// tableName could not be queried because it does not exist or has the wrong schema.
+			Logger.log(LogMessageCategory.ERROR,
+					"Old table definition found for " + tableName + " table of database " + dbSelection.databaseName);
+			return true;
+		}
 	}
 
 	/** Validate the Output Database Name
@@ -1463,7 +1558,7 @@ public class MOVESEngine implements LogHandler {
 	 * @param hourID The hour being run
 	 * @param message The run message to be logged
 	**/
-	void logRunError(int runID, int pollutantID, int processID, int stateID, int countyID,
+	public void logRunError(int runID, int pollutantID, int processID, int stateID, int countyID,
 			int zoneID, int linkID, int yearID, int monthID, int dayID, int hourID,
 			String message) {
 		String sql = "";

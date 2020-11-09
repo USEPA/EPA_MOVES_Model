@@ -40,7 +40,7 @@ public class ExitAction extends JLFAbstractAction {
 		putValue(LARGE_ICON, getIcon(LARGE_ICON_EXIT));
 		putValue(Action.SHORT_DESCRIPTION, SHORT_DESCRIPTION_EXIT);
 		putValue(Action.LONG_DESCRIPTION, LONG_DESCRIPTION_EXIT);
-		putValue(Action.MNEMONIC_KEY, new Integer(MNEMONIC_KEY_EXIT));
+		putValue(Action.MNEMONIC_KEY, Integer.valueOf(MNEMONIC_KEY_EXIT));
 		putValue(Action.ACTION_COMMAND_KEY, ACTION_COMMAND_KEY_EXIT);
 	}
 }

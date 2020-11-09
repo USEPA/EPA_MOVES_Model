@@ -60,13 +60,13 @@ public class EPATableModelTest extends TestCase {
 
 		epaTable.setNumRowsActive( 4 ) ;
 //		epaTable.numRowsActive = 204 ;
-		epaTable.setValueAt( new Integer( 11 ) , 0 , 0 ) ;
-		epaTable.setValueAt( new Integer( 12 ) , 0 , 1 ) ;
-		epaTable.setValueAt( new Integer( 13 ) , 0 , 2 ) ;
+		epaTable.setValueAt( Integer.valueOf( 11 ) , 0 , 0 ) ;
+		epaTable.setValueAt( Integer.valueOf( 12 ) , 0 , 1 ) ;
+		epaTable.setValueAt( Integer.valueOf( 13 ) , 0 , 2 ) ;
 		epaTable.setValueAt( "Mark" , 0 , 4 ) ;
-		epaTable.setValueAt( new Integer( 44 ) , 1 , 0 ) ;
-		epaTable.setValueAt( new Integer( 55 ) , 1 , 1 ) ;
-		epaTable.setValueAt( new Integer( 66 ) , 1 , 2 ) ;
+		epaTable.setValueAt( Integer.valueOf( 44 ) , 1 , 0 ) ;
+		epaTable.setValueAt( Integer.valueOf( 55 ) , 1 , 1 ) ;
+		epaTable.setValueAt( Integer.valueOf( 66 ) , 1 , 2 ) ;
 		epaTable.setValueAt( "Andrew" , 2 , 4 ) ;
 
 		System.out.println( "\nData\n" ) ;
@@ -74,9 +74,9 @@ public class EPATableModelTest extends TestCase {
 
 		epaTable.clearData() ;
 		epaTable.setNumRowsActive( 2 ) ;
-		epaTable.setValueAt( new Integer( 144 ) , 1 , 0 ) ;
-		epaTable.setValueAt( new Integer( 155 ) , 1 , 1 ) ;
-		epaTable.setValueAt( new Integer( 166 ) , 1 , 2 ) ;
+		epaTable.setValueAt( Integer.valueOf( 144 ) , 1 , 0 ) ;
+		epaTable.setValueAt( Integer.valueOf( 155 ) , 1 , 1 ) ;
+		epaTable.setValueAt( Integer.valueOf( 166 ) , 1 , 2 ) ;
 		epaTable.setValueAt( "Rolfes" , 1 , 4 ) ;
 		System.out.println( "\nData after Clear\n" ) ;
 		System.out.println( epaTable.getPrintDataRows() ) ;

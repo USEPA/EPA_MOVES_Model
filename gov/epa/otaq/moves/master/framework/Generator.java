@@ -10,18 +10,23 @@ import java.io.*;
 import java.sql.*;
 import java.util.*;
 import gov.epa.otaq.moves.common.*;
+import gov.epa.otaq.moves.utils.ApplicationRunner;
+import gov.epa.otaq.moves.utils.FileUtil;
 
 /**
- * Abstract base class for MOVES Generators. Generators fall between InternalControlStrategys and
+ * Abstract base class for MOVES Generators. Generators fall between InternalControlStrategy's and
  * Calculators in the processing flow of MOVES data. Conceptually, they perform the "simulation"
  * portion of a simulation run. They simulate, or model, the activity of vehicles over given
  * time periods and locations. Generators perform calculations that cannot be easily divided up
  * and passed on to worker threads for seperate processing.
  *
  * @author		Wesley Faler
- * @version		2014-10-14
+ * @version		2017-07-03
 **/
 public abstract class Generator implements MasterLoopable {
+	// True to retain temporary files and directories used when running the external generator
+	static final boolean KEEP_EXTERNAL_GENERATOR_FILES = false;
+	
 	/** The EmissionProcess that this Generator applies to **/
 	EmissionProcess targetProcess;
 
@@ -50,8 +55,7 @@ public abstract class Generator implements MasterLoopable {
 		BundleManifest manifest = null;
 
 		try {
-			temporaryFolderPath = FileUtilities.createTemporaryFolder(
-					null, "GeneratorTemp");
+			temporaryFolderPath = FileUtilities.createTemporaryFolder(null, "GeneratorTemp");
 			if(temporaryFolderPath == null) {
 				return;
 			}
@@ -89,8 +93,7 @@ public abstract class Generator implements MasterLoopable {
 
 			// Get db connection
 			try {
-				executionDB = DatabaseConnectionManager.checkOutConnection(
-						MOVESDatabaseType.EXECUTION);
+				executionDB = DatabaseConnectionManager.checkOutConnection(MOVESDatabaseType.EXECUTION);
 			} catch(Exception e) {
 				/** @explain Unable to obtain a connection to the MOVESExecution database. **/
 				Logger.logError(e,"Failed to checkout the MOVES Execution database connection "+
@@ -100,15 +103,14 @@ public abstract class Generator implements MasterLoopable {
 
 			LinkedList<File> tableDumpFilePaths = new LinkedList<File>();
 
-			// Invoke this calculator. This will recursively invoke chained calculators.
+			// Invoke this generator. This will recursively invoke chained generators.
 			SQLForWorker masterSQLForWorker = new SQLForWorker();
 			generatorExecution(classNameFileWriter
 					, temporaryFolderPath, executionDB
 					, tableDumpFilePaths, context, masterSQLForWorker);
 
 			// Add the processing logic to the "worker.sql" file
-			for(Iterator<String> iter = masterSQLForWorker.processingSQL.iterator();
-					iter.hasNext(); ) {
+			for(Iterator<String> iter = masterSQLForWorker.processingSQL.iterator(); iter.hasNext(); ) {
 				workerSQLFileWriter.println(iter.next().toString());
 			}
 			/*
@@ -150,8 +152,7 @@ public abstract class Generator implements MasterLoopable {
 
 			// Remove local data from the database now that it has been extracted and sent
 			// off to the workers
-			for(Iterator<String> iter = masterSQLForWorker.localDataRemovalSQL.iterator();
-					iter.hasNext(); ) {
+			for(Iterator<String> iter = masterSQLForWorker.localDataRemovalSQL.iterator();iter.hasNext(); ) {
 				String sql = iter.next().toString();
 				try {
 					SQLRunner.executeSQL(executionDB,sql);
@@ -399,5 +400,170 @@ public abstract class Generator implements MasterLoopable {
 		return BundleUtilities.readAndHandleScriptedCalculations(context,replacements,
 				sqlScriptFilePath,enabledSectionNames,
 				sqlForWorker,shouldSaveData,getClass().getName());
+	}
+
+	/**
+	 * Execute the external generator program.
+	 * @param context The MasterLoopContext that applies to this execution.
+	 * @param externalClassName name of the desired module within the external generator, such as that given by getClass().getSimpleName()
+	 * @param parameterCSV comma-delimited, no-spaces, set of parameters to provide to the invoked function. Order and meaning
+	 * depends upon the invoked function. No spaces of any kind are allowed. May be null or blank to omit parameters.
+	 * @param extractDataStatements SQL in the form of SELECT INTO OUTFILE '##filename##' .... Blank or null entries are skipped.
+	 * @param loadDataStatements SQL in the form of LOAD DATA INFILE '##filename##' .... Blank or null entries are skipped.
+	 * @return true if the external generator was executed without error
+	**/
+	public boolean runLocalExternalGenerator(MasterLoopContext context, 
+			String externalClassName,
+			String parameterCSV,
+			String []extractDataStatements,
+			String []loadDataStatements) {
+		File temporaryFolderPath = null;
+		Connection executionDB = null;
+		BundleManifest manifest = null;
+
+		try {
+			if(SystemConfiguration.theSystemConfiguration.generatorExePath == null) {
+				Logger.log(LogMessageCategory.ERROR,"External generator configuration not set");
+				return false;
+			}
+			if(!SystemConfiguration.theSystemConfiguration.generatorExePath.exists()) {
+				try {
+					Logger.log(LogMessageCategory.ERROR,"External generator does not exist: " + SystemConfiguration.theSystemConfiguration.generatorExePath.getCanonicalPath());
+				} catch(Exception e) {
+					Logger.log(LogMessageCategory.ERROR,"External generator does not exist: (exception reporting name)");
+				}
+				return false;
+			}
+			temporaryFolderPath = FileUtilities.createTemporaryFolder(null, "GeneratorTemp");
+			if(temporaryFolderPath == null) {
+				Logger.log(LogMessageCategory.ERROR,"Unable to create temporary folder for the external generator");
+				return false;
+			}
+
+			manifest = new BundleManifest();
+			manifest.copyFrom(MOVESEngine.theInstance.masterFragment);
+			manifest.context = context.toBundleManifestContext();
+			manifest.contextForHumans = context.toBundleManifestContextForHumans();
+
+			// Get db connection
+			try {
+				executionDB = DatabaseConnectionManager.checkOutConnection(MOVESDatabaseType.EXECUTION);
+			} catch(Exception e) {
+				/** @explain Unable to obtain a connection to the MOVESExecution database. **/
+				Logger.logError(e,"Failed to checkout the MOVES Execution database connection "+
+						"needed to perform External Generator Calculations.");
+				return false;
+			}
+
+			// Generate any export files
+			if(extractDataStatements != null && extractDataStatements.length > 0) {
+				String sql = "";
+				for(int i=0;i<extractDataStatements.length;i++) {
+					try {
+						sql = extractDataStatements[i];
+						if(sql == null) {
+							continue;
+						}
+						sql = sql.trim();
+						if(sql.startsWith("--")) {
+							continue;
+						}
+						// Replace filename.ext with a known path, this also sets the
+						// currentExportFilePath member
+						sql = performFilePathReplacements(sql, temporaryFolderPath);
+						// Export the data
+						SQLRunner.executeSQL(executionDB,sql);
+					} catch(Exception e) {
+						Logger.logSqlError(e,"A Generator encountered an SQL exception while exporting data using: ", sql);
+						return false;
+					}
+				}
+			}
+
+			try {
+				manifest.writeToFolder(temporaryFolderPath);
+			} catch(IOException e) {
+				/**
+				 * @explain An error occurred while creating the manifest file placed
+				 * into bundles sent to workers.
+				**/
+				Logger.logError(e, "Create manifest file failed.");
+				return false;
+			}
+
+			// Execute the external generator program in the working directory that contains all table files
+			long start = System.currentTimeMillis();
+			long elapsedTimeMillis;
+			double elapsedTimeSec;
+
+			boolean isProjectDomain = ExecutionRunSpec.theExecutionRunSpec.getModelDomain() == ModelDomain.PROJECT;
+			File targetApplicationPath = SystemConfiguration.theSystemConfiguration.generatorExePath;
+			String[] arguments = {
+					"-class=" + externalClassName,
+					"-db=" + SystemConfiguration.theSystemConfiguration.databaseSelections[MOVESDatabaseType.EXECUTION.getIndex()].databaseName,
+					"-dbuser=" + DatabaseSelection.userProvidedUserName,
+					"-dbpwd=" + DatabaseSelection.userProvidedPassword,
+					"-params=" + StringUtilities.safeGetString(parameterCSV),
+					"-isproject=" + (isProjectDomain?1:0),
+					(ExecutionRunSpec.shouldSaveDataByName("gov.epa.otaq.moves.master.implementation.ghg.RatesOperatingModeDistributionGenerator")? "-saveromd=1" : "-saveromd=0")
+			};
+
+			boolean runInCmd = false;
+			String[] environment = { "GOMAXPROCS", "4" };
+			File targetFolderPath = temporaryFolderPath;
+			File processOutputPath = new File(targetFolderPath, "ExternalGeneratorProcessOutput.txt");
+			String inputText = null;
+			try {
+				ApplicationRunner.runApplication(targetApplicationPath, arguments,
+						targetFolderPath, new FileOutputStream(processOutputPath),
+						inputText, runInCmd, environment);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+	
+			elapsedTimeMillis = System.currentTimeMillis() - start;
+			elapsedTimeSec = elapsedTimeMillis / 1000F;
+			Logger.log(LogMessageCategory.INFO,
+					"Time spent on running the external generator (sec): " + elapsedTimeSec
+					+ " for " + manifest.contextForHumans);
+
+			// Load results
+			if(loadDataStatements != null && loadDataStatements.length > 0) {
+				String sql = "";
+				for(int i=0;i<loadDataStatements.length;i++) {
+					try {
+						sql = loadDataStatements[i];
+						if(sql == null) {
+							continue;
+						}
+						sql = sql.trim();
+						if(sql.startsWith("--")) {
+							continue;
+						}
+						// Replace filename.ext with a known path, this also sets the
+						// currentExportFilePath member
+						sql = performFilePathReplacements(sql, temporaryFolderPath);
+						// Load the data
+						SQLRunner.executeSQL(executionDB,sql);
+					} catch(Exception e) {
+						Logger.logSqlError(e,"A Generator encountered an SQL exception while importing data using: ", sql);
+						return false;
+					}
+				}
+			}
+			
+			return true;
+		} finally {
+			if(!KEEP_EXTERNAL_GENERATOR_FILES && temporaryFolderPath != null && !ExecutionRunSpec.shouldSaveData(this)) {
+				FileUtilities.deleteTemporaryFolder(temporaryFolderPath);
+			}
+			if(executionDB != null) {
+				DatabaseConnectionManager.checkInConnection(MOVESDatabaseType.EXECUTION, executionDB);
+			}
+		}
 	}
 }

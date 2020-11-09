@@ -12,6 +12,10 @@ import java.sql.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.filechooser.FileFilter;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 import java.io.*;
 import java.util.*;
 import gov.epa.otaq.moves.common.*;
@@ -22,25 +26,28 @@ import gov.epa.otaq.moves.master.runspec.*;
  * Select and execute a database conversion script given the current default
  * database, an existing input database, and a new database to be created.
  * @author		Wesley Faler
- * @version		2015-05-20
+ * @author  	Bill Shaw (508 compliance mods)
+ * @author  	John Covey (Task 1903)
+ * @author		Mike Kender (Task 2003)
+ * @version 	2020-08-13
 **/
 public class Converter extends JDialog implements ActionListener {
 	/** Mode for conversion of a 2010A CDM/PDM database into a 2010B database **/
-	public static final int MODE_2010A_TO_2010B = 0;
+	private static final int MODE_2010A_TO_2010B = 0; // deprecated
 	/** Mode for conversion of a 2010B CDM/PDM database into a 2014 database **/
-	public static final int MODE_2010B_TO_2014 = 1;
+	private static final int MODE_2010B_TO_2014 = 1; // deprecated
 	/** Mode for conversion of a 2014 CDM/PDM database into a 2014A database **/
-	public static final int MODE_2014_TO_2014A = 2;
+	public static final int MODE_2014_TO_3 = 2;
+	/** Mode for conversion of a 2014A CDM/PDM database into a 3 database **/
+	public static final int MODE_2014A_TO_3 = 3;
 
 	/** The parent JFrame which invokes this dialog. **/
 	JFrame frame;
 	/** Default conversion mode **/
-	int mode = MODE_2010A_TO_2010B;
+	int mode = MODE_2014A_TO_3;
 
 	/** Instructions display **/
 	JTextPane instructionsTextPane;
-	/** Button to create a control file template **/
-	JButton createTemplateButton;
 	/** Button to refresh the list of databases **/
 	JButton refreshButton;
 	/** Name of the control file **/
@@ -55,14 +62,14 @@ public class Converter extends JDialog implements ActionListener {
 	JLabel outputDirectoryText;
 	/** Full path for the directory shown in outputDirectoryText **/
 	String outputDirectoryFullPath = "";
-	/** Button to browse for the output directory **/
-	JButton browseOutputButton;
 	/** List of messages **/
 	JList<String> messagesList;
 	/** Button to create RunSpecs from the control file **/
 	JButton createRunSpecsButton;
 	/** Button to close the window **/
 	JButton doneButton;
+	/** Button to open help **/
+	JButton openHelpButton;
 
 	/** Type of the control file, Text, XLS, etc **/
 	String controlFileType = "";
@@ -135,19 +142,18 @@ public class Converter extends JDialog implements ActionListener {
 		JPanel result = new JPanel();
 		instructionsTextPane = new JTextPane();
 		JLabel label1 = new JLabel();
-		createTemplateButton = new JButton();
 		controlFileText = new JLabel("",JLabel.RIGHT);
-		browseControlFileButton = new JButton();
+		browseControlFileButton = new JButton(); 
 		JLabel label2 = new JLabel();
 		prefixText = new JTextField();
 		JLabel label3 = new JLabel();
 		outputDirectoryText = new JLabel("",JLabel.RIGHT);
-		browseOutputButton = new JButton();
 		JLabel label4 = new JLabel();
 		JLabel label5 = new JLabel();
 		JScrollPane scrollPane2 = new JScrollPane();
 		createRunSpecsButton = new JButton();
 		doneButton = new JButton();
+		openHelpButton = new JButton();
 
 		messageListModel = new DefaultListModel<String>();
 		messagesList = new JListWithToolTips<String>(messageListModel);
@@ -156,11 +162,10 @@ public class Converter extends JDialog implements ActionListener {
 		messagesList.setPrototypeCellValue("XXXXXXXXXXXXXXXXXXX");
 		ToolTipHelper.add(scrollPane2,"Displays messages, warnings, and errors");
 
-		createTemplateButton.addActionListener(this);
 		browseControlFileButton.addActionListener(this);
-		browseOutputButton.addActionListener(this);
 		createRunSpecsButton.addActionListener(this);
 		doneButton.addActionListener(this);
+		openHelpButton.addActionListener(this);
 
 		inputDatabaseCombo = new ExtendedComboBox<String>();
 		Dimension d = inputDatabaseCombo.getPreferredSize();
@@ -185,13 +190,21 @@ public class Converter extends JDialog implements ActionListener {
 		refreshButton = new JButton("Refresh");
 		ToolTipHelper.add(refreshButton,"Refresh the list of available databases");
 		refreshButton.addActionListener(this);
+		refreshButton.setMnemonic('R');
+		refreshButton.setDisplayedMnemonicIndex(0);
 
 		serverLabel = new JLabel();
 		ToolTipHelper.add(serverLabel,"Server that contains the default, input, and new databases.");
 		serverLabel.setText(StringUtilities.safeGetString(SystemConfiguration.getTheSystemConfiguration().databaseSelections[MOVESDatabaseType.DEFAULT.getIndex()].serverName));
 
+		StyledDocument doc = (StyledDocument) instructionsTextPane.getDocument();
+		SimpleAttributeSet normal = new SimpleAttributeSet();
+        StyleConstants.setFontFamily(normal, "SansSerif");
+		SimpleAttributeSet bold = new SimpleAttributeSet(normal);
+        StyleConstants.setBold(bold, true);
+		
 		//======== result ========
-		{
+		try {
 			result.setLayout(new GridBagLayout());
 			((GridBagLayout)result.getLayout()).columnWidths = new int[] {106, 0, 0, 0, 0, 0};
 			((GridBagLayout)result.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -200,95 +213,67 @@ public class Converter extends JDialog implements ActionListener {
 
 			//---- instructionsTextPane ----
 			switch(mode) {
-				case MODE_2014_TO_2014A:
-					instructionsTextPane.setText(
-								"This tool converts MOVES 2014 County Domain and"
-								+ " Project Domain databases into the MOVES2014A"
-								+ " format."
-								+ "\r\n\r\n"
-								+ "Use the \"Browse\" button to select a database"
-								+ " conversion script file, such as the standard"
-								+ " file Convert2014_CDM_PDM.sql located in the"
-								+ " database/ConversionScripts directory."
-								+ "\r\n\r\n"
-								+ "Select a MOVES 2014 County Domain or Project"
-								+ " Domain database as the \"Input Database\"."
-								+ " This database must be on the same server as the"
-								+ " MOVES 2014A default database in order for the"
-								+ " script to copy required data."
-								+ "\r\n\r\n"
-								+ "Enter the name of a new database to receive"
-								+ " the converted data as the \"New Database\"."
-								+ "\r\n\r\n"
-								+ "Use the \"Convert Database\" button to execute"
-								+ " the script file.  When you've converted all the"
-								+ " databases you care to, click \"Done\"."
-								+ "\r\n\r\n"
-								+ "Note that additional work will be needed before "
-								+ "converted MOVES2014 input databases can be used "
-								+ "in MOVES2014A for SIP and conformity purposes. "
-								+ "All MOVES2014 defaults in the input database "
-								+ "(especially default fuel information) should be "
-								+ "replaced with MOVES2014A defaults."
-							);
+				case MODE_2014A_TO_3:
+					doc.insertString(doc.getLength(),
+						"This tool converts MOVES2014a and MOVES2014b input databases for County, Project,"
+						+ " and Nonroad runs into the MOVES3 format. Note: this tool does not convert"
+						+ " MOVES2014 input databases. To convert those databases, select \""
+						+ Convert2014To3Action.NAME 
+						+ "\" from the Tools menu."
+						+ "\r\n\r\n"
+						+ "Use the default conversion script listed below unless you have a customized"
+						+ " conversion script to use instead. In this advanced use case, use the \"Browse\""
+						+ " button below to select your customized script."
+						+ "\r\n\r\n"
+						+ "To use this tool, select a MOVES2014a or MOVES2014b input database from the"
+						+ " \"Input Database\" drop-down list below. Then enter the name of a new database"
+						+ " to receive the converted data as the \"New Database\". Use the \"Convert Database\""
+						+ " button to execute the script file.  When you've converted all the databases needed," 
+						+ " click \"Done\"."
+						+ "\r\n\r\n"
+						+ "To use a converted database with this RunSpec, select your new database from the"
+						+ " drop-down list on the Create Input Database Panel. If it does not automatically" 
+						+ " appear in the list, you may need to click the \"Refresh\" button on that panel" 
+						+ " first."
+						+ "\r\n\r\n",
+						normal);
+					doc.insertString(doc.getLength(),
+						"Note that additional work is needed before using the converted input databases"
+						+ " with MOVES3. Click the \"Open Help\" button for more information.",
+						bold);
 					break;
-				case MODE_2010B_TO_2014:
-					instructionsTextPane.setText(
-								"This tool converts MOVES 2010B County Domain and"
-								+ " Project Domain databases into the MOVES2014"
-								+ " format."
-								+ "\r\n\r\n"
-								+ "Use the \"Browse\" button to select a database"
-								+ " conversion script file, such as the standard"
-								+ " file Convert2010B_CDM_PDM.sql located in the"
-								+ " database/ConversionScripts directory."
-								+ "\r\n\r\n"
-								+ "Select a MOVES 2010B County Domain or Project"
-								+ " Domain database as the \"Input Database\"."
-								+ " This database must be on the same server as the"
-								+ " MOVES 2014 default database in order for the"
-								+ " script to copy required data."
-								+ "\r\n\r\n"
-								+ "Enter the name of a new database to receive"
-								+ " the converted data as the \"New Database\"."
-								+ "\r\n\r\n"
-								+ "Use the \"Convert Database\" button to execute"
-								+ " the script file.  When you've converted all the"
-								+ " databases you care to, click \"Done\"."
-								+ "\r\n\r\n"
-								+ "Note that additional work will be needed before "
-								+ "converted MOVES2010B input databases can be used "
-								+ "in MOVES2014 for SIP and conformity purposes. "
-								+ "All MOVES2010B defaults in the input database "
-								+ "(especially default fuel information) should be "
-								+ "replaced with MOVES2014 defaults. Additionally, "
-								+ "the monthVMTFraction table may need to be re-imported "
-								+ "if a leap-year is being modeled."
-							);
+				case MODE_2014_TO_3:
+					doc.insertString(doc.getLength(),
+						"This tool converts MOVES2014 input databases for County, Project, and Nonroad"
+						+ " runs into the MOVES3 format. Note: this tool does not convert MOVES2014a or"
+						+ " MOVES2014b input databases. To convert those databases, select \""
+						+ Convert2014aTo3Action.NAME 
+						+ "\" from the Tools menu."
+						+ "\r\n\r\n"
+						+ "Use the default conversion script listed below unless you have a customized"
+						+ " conversion script to use instead. In this advanced use case, use the \"Browse\""
+						+ " button below to select your customized script."
+						+ "\r\n\r\n"
+						+ "To use this tool, select a MOVES2014 input database from the"
+						+ " \"Input Database\" drop-down list below. Then enter the name of a new database"
+						+ " to receive the converted data as the \"New Database\". Use the \"Convert Database\""
+						+ " button to execute the script file.  When you've converted all the databases needed," 
+						+ " click \"Done\"."
+						+ "\r\n\r\n"
+						+ "To use a converted database with this RunSpec, select your new database from the"
+						+ " drop-down list on the Create Input Database Panel. If it does not automatically" 
+						+ " appear in the list, you may need to click the \"Refresh\" button on that panel" 
+						+ " first."
+						+ "\r\n\r\n",
+						normal);
+					doc.insertString(doc.getLength(),
+						"Note that additional work is needed before using the converted input databases"
+						+ " with MOVES3. Click the \"Open Help\" button for more information.",
+						bold);
 					break;
 				default:
 					instructionsTextPane.setText(
-								"This tool converts MOVES 2010A County Domain and"
-								+ " Project Domain databases into the MOVES2010B"
-								+ " format."
-								+ "\r\n\r\n"
-								+ "Use the \"Browse\" button to select a database"
-								+ " conversion script file, such as the standard"
-								+ " file Convert2010A_CDM_PDM.sql located in the"
-								+ " database/ConversionScripts directory."
-								+ "\r\n\r\n"
-								+ "Select a MOVES 2010A County Domain or Project"
-								+ " Domain database as the \"Input Database\"."
-								+ " This database must be on the same server as the"
-								+ " MOVES 2010B default database in order for the"
-								+ " script to copy required data."
-								+ "\r\n\r\n"
-								+ "Enter the name of a new database to receive"
-								+ " the converted data as the \"New Database\"."
-								+ "\r\n\r\n"
-								+ "Use the \"Convert Database\" button to execute"
-								+ " the script file.  When you've converted all the"
-								+ " databases you care to, click \"Done\"."
+								"An error occurred and the instructions could not be loaded."
 							);
 					break;
 			}
@@ -328,6 +313,8 @@ public class Converter extends JDialog implements ActionListener {
 
 			//---- browseControlFileButton ----
 			browseControlFileButton.setText("Browse...");
+			browseControlFileButton.setMnemonic('B');
+			browseControlFileButton.setDisplayedMnemonicIndex(0);
 			ToolTipHelper.add(browseControlFileButton,"Select a script file (.sql)");
 			p.add(browseControlFileButton, new GridBagConstraints(4, 0, 1, 1, 0.0, 0.0,
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
@@ -367,6 +354,8 @@ public class Converter extends JDialog implements ActionListener {
 			p.add(inputDatabaseCombo, new GridBagConstraints(1, 1, 3, 1, 0.0, 0.0,
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				new Insets(0, 0, 5, 5), 0, 0));
+			label3.setDisplayedMnemonic('I');
+			label3.setLabelFor(inputDatabaseCombo);
 
 			label5.setText("New Database:");
 			p.add(label5, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
@@ -380,6 +369,8 @@ public class Converter extends JDialog implements ActionListener {
 			result.add(p, new GridBagConstraints(0, 4, 5, 1, 0.0, 0.0,
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				new Insets(0, 0, 5, 5), 0, 0));
+			label5.setDisplayedMnemonic('N');
+			label5.setLabelFor(newDatabaseCombo);
 
 			//---- label4 ----
 			label4.setText("Messages:");
@@ -395,6 +386,8 @@ public class Converter extends JDialog implements ActionListener {
 			result.add(scrollPane2, new GridBagConstraints(0, 8, 5, 2, 0.0, 0.0,
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				new Insets(0, 0, 5, 0), 0, 0));
+			label4.setDisplayedMnemonic('M');
+			label4.setLabelFor(scrollPane2);
 
 			//---- createRunSpecsButton ----
 			createRunSpecsButton.setText("Convert Database");
@@ -402,6 +395,16 @@ public class Converter extends JDialog implements ActionListener {
 			result.add(createRunSpecsButton, new GridBagConstraints(2, 10, 1, 1, 0.0, 0.0,
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				new Insets(0, 0, 5, 5), 0, 0));
+			createRunSpecsButton.setMnemonic('C');
+			createRunSpecsButton.setDisplayedMnemonicIndex(0);
+			
+			//---- openHelpButton ----
+			openHelpButton.setText("Open Help");
+			ToolTipHelper.add(openHelpButton,"Open the help document (.pdf)");
+			result.add(openHelpButton, new GridBagConstraints(3, 10, 1, 1, 0.0, 0.0,
+				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+				new Insets(0, 0, 5, 5), 0, 0));
+			openHelpButton.setMnemonic('H');
 
 			//---- doneButton ----
 			doneButton.setText("Done");
@@ -409,6 +412,10 @@ public class Converter extends JDialog implements ActionListener {
 			result.add(doneButton, new GridBagConstraints(4, 10, 1, 1, 0.0, 0.0,
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				new Insets(0, 0, 5, 0), 0, 0));
+			doneButton.setMnemonic('D');
+			doneButton.setDisplayedMnemonicIndex(0);
+		} catch (BadLocationException ex) {
+            ex.printStackTrace(System.err);
 		}
 
 		return result;
@@ -427,6 +434,8 @@ public class Converter extends JDialog implements ActionListener {
 			handleConvertButton();
 		} else if(e.getSource() == doneButton) {
 			handleDoneButton();
+		} else if(e.getSource() == openHelpButton) {
+			handleOpenHelpButton();
 		}
 	}
 
@@ -440,17 +449,14 @@ public class Converter extends JDialog implements ActionListener {
 		try {
 			File file = null;
 			switch(mode) {
-				case MODE_2014_TO_2014A:
-					file = new File("database/ConversionScripts/Convert2014_CDM_PDM.sql");
+				case MODE_2014A_TO_3:
+					file = new File("database/ConversionScripts/Convert_MOVES2014ab_input_to_MOVES3.sql");
 					break;
-				case MODE_2010B_TO_2014:
-					file = new File("database/ConversionScripts/Convert2010B_CDM_PDM.sql");
-					break;
-				default:
-					file = new File("database/ConversionScripts/Convert2010A_CDM_PDM.sql");
+				case MODE_2014_TO_3:
+					file = new File("database/ConversionScripts/Convert_MOVES2014_input_to_MOVES3.sql");
 					break;
 			}
-			if(!file.exists()) {
+			if(file == null || !file.exists()) {
 				return;
 			}
 			String filePath = file.getCanonicalPath();
@@ -591,6 +597,23 @@ public class Converter extends JDialog implements ActionListener {
 		}
 	}
 
+	/** Handle the open button for the help file **/
+	void handleOpenHelpButton() {
+		try {
+			File file = new File("database/ConversionScripts/InputDatabaseConverstionHelp.pdf");
+			if(!file.exists()) {
+				Logger.log(LogMessageCategory.ERROR, "Could not find the help file at: " + file.getAbsolutePath());
+				return;
+			}
+			if(!OpenFile.open(file)) {
+				return;
+			}
+		} catch(Exception e) {
+			Logger.log(LogMessageCategory.ERROR, "Could not open the help file: " + e);
+			return;
+		}
+	}
+
 	/** Handle the Done button **/
 	void handleDoneButton() {
 		dispose();
@@ -653,8 +676,9 @@ public class Converter extends JDialog implements ActionListener {
 	}
 
 	/**
-	 * Loads the Databases droplist, based on the server setting.
-	 * Also, sets the default droplist selection, if it can be found.
+	 * Loads the Databases combobox with all databases on the server except for those with a movesoutput table
+	 * (since those are obviously output databases and should not be converted by this function).
+	 * It also filters out databases with an "agecategory" table, as those are assumed to be default databases.
 	**/
 	public void loadDatabases() {
 		inputDatabaseCombo.removeAllItems();
@@ -670,7 +694,7 @@ public class Converter extends JDialog implements ActionListener {
 			Logger.log(LogMessageCategory.ERROR,"Could not connect to the default database");
 			return;
 		}
-		String sql = "SHOW DATABASES";
+		String sql = "SELECT schema_name FROM information_schema.schemata order by schema_name";
 		PreparedStatement statement;
 		ResultSet results;
 		try {
@@ -701,7 +725,7 @@ public class Converter extends JDialog implements ActionListener {
 					continue;
 				}
 				// look at all tables from the next databaseName, compare the table
-				// names to one output table name
+				// names to one output table name (and agecategory, a default database table)
 				sql = "SHOW TABLES FROM " + nextDatabase;
 				try {
 					statement = db.prepareStatement(sql);
@@ -709,7 +733,7 @@ public class Converter extends JDialog implements ActionListener {
 					if(results != null) {
 						while(results.next()) {
 							String nextTable = results.getString(1);
-							if(nextTable.equalsIgnoreCase("MOVESOUTPUT")) {
+							if(nextTable.equalsIgnoreCase("AGECATEGORY") || nextTable.equalsIgnoreCase("MOVESOUTPUT")) {
 								foundOutputTable = true;
 								break;
 							}

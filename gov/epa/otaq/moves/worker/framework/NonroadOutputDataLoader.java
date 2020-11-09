@@ -862,7 +862,7 @@ public class NonroadOutputDataLoader {
 			}
 		}
 
-		cachedResult = new Integer(id);
+		cachedResult = Integer.valueOf(id);
 		sourceTypeIDCache.put(cacheKey,cachedResult);
 		return id;
 	}
@@ -920,7 +920,7 @@ public class NonroadOutputDataLoader {
 			}
 		}
 
-		cachedResult = new Integer(id);
+		cachedResult = Integer.valueOf(id);
 		fuelTypeIDCache.put(scc,cachedResult);
 		return id;
 	}
@@ -978,7 +978,7 @@ public class NonroadOutputDataLoader {
 			}
 		}
 
-		cachedResult = new Integer(id);
+		cachedResult = Integer.valueOf(id);
 		engTechIDCache.put(techType,cachedResult);
 		return id;
 	}
@@ -1037,7 +1037,7 @@ public class NonroadOutputDataLoader {
 			}
 		}
 
-		cachedResult = new Integer(id);
+		cachedResult = Integer.valueOf(id);
 		sectorIDCache.put(scc,cachedResult);
 		return id;
 	}
@@ -1103,7 +1103,7 @@ public class NonroadOutputDataLoader {
 	/** Counter for temporary files, used to ensure unique file names **/
 	static int temporaryFileNumber = 0;
 	/** Guard for static variables **/
-	static Integer globalMutex = new Integer(819);
+	static Integer globalMutex = Integer.valueOf(819);
 
 	/**
 	 * Get the name of a new file that can be used for temporary data.

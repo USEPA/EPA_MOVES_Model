@@ -28,7 +28,7 @@ import gov.epa.otaq.moves.master.framework.*;
  *
  * @author		Wesley Faler
  * @author		Don Smith
- * @version		2015-04-04
+ * @version		2015-12-10
 **/
 public class DocumentBuilder {
 	/**
@@ -1436,11 +1436,14 @@ public class DocumentBuilder {
 		try {
 			writer = new PrintWriter(new BufferedWriter(new FileWriter(htmlFile),128*1024));
 
+			Calendar c = Calendar.getInstance();
+			String dateStamp = "" + c.get(Calendar.YEAR) + "-" + (c.get(Calendar.MONTH)+1) + "-" + c.get(Calendar.DAY_OF_MONTH);
+
 			writer.println("<html>");
 			writer.println("	<head>");
-			writer.println("		<title>MOVES Algorithms</title>");
+			writer.println("		<title>MOVES Algorithms (" + dateStamp + ")</title>");
 			writer.println("	</head>");
-			writer.println("<b>MOVES Algorithms Reference</b><br>");
+			writer.println("<b>MOVES Algorithms Reference (" + dateStamp + ")</b><br>");
 
 			// Make the table of contents
 			writeContents(writer);

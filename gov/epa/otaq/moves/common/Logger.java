@@ -27,6 +27,10 @@ public class Logger {
 	/** Writer for the log file, unbuffered **/
 	private static PrintWriter logWriter = null;
 
+	public static PrintWriter getLogWriter() {
+		return logWriter;
+	}
+
 	/**
 	 * Promote WARNING and ERROR message categories to RUN_ERRORs before passing them to the log
 	 * handler objects. This is done to indicate that a simulation run is being performed and log

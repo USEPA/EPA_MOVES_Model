@@ -1,5 +1,5 @@
 -- Author Wesley Faler
--- Version 2014-09-17
+-- Version 2016-03-14
 
 drop table if exists RatesOpModeDistribution;
 
@@ -15,16 +15,19 @@ CREATE TABLE IF NOT EXISTS RatesOpModeDistribution (
 	avgBinSpeed			 FLOAT NULL,
 	avgSpeedFraction 	 float not null default '0',
 
-	PRIMARY KEY (sourceTypeID, roadTypeID, avgSpeedBinID, hourDayID, polProcessID, opModeID),
-	KEY (sourceTypeID),
-	KEY (roadTypeID),
-	KEY (avgSpeedBinID),
-	KEY (hourDayID),
-	KEY (polProcessID),
-	KEY (opModeID)
+	PRIMARY KEY (sourceTypeID, polProcessID, roadTypeID, hourDayID, opModeID, avgSpeedBinID)
 );
 
---	key speed2 (roadTypeID,hourDayID,sourceTypeID,polProcessID,opModeID,avgSpeedBinID)
+-- Go-based	P RIMARY KEY (sourceTypeID, polProcessID, roadTypeID, hourDayID, opModeID, avgSpeedBinID)
+
+-- Keys before Go-based speedup of SourceUseTypePhysics:
+-- 	P RIMARY KEY (sourceTypeID, roadTypeID, avgSpeedBinID, hourDayID, polProcessID, opModeID)
+-- 	K EY (sourceTypeID)
+-- 	K EY (roadTypeID)
+-- 	K EY (avgSpeedBinID)
+-- 	K EY (hourDayID)
+-- 	K EY (polProcessID)
+-- 	K EY (opModeID)
 
 TRUNCATE TABLE RatesOpModeDistribution;
 

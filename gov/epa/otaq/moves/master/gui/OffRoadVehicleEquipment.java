@@ -17,6 +17,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.*;
 import java.sql.*;
+import gov.epa.otaq.moves.common.*;
 
 /**
  * Class for MOVES OffRoadVehicleEquipment panel. Constructs an OffRoadVehicleEquipment panel,
@@ -26,7 +27,10 @@ import java.sql.*;
  * two to the Selections list. It loads/saves the selections from/to RunSpec.
  *
  * @author		Wes Faler
- * @version		2015-08-18
+ * @author  	Bill Shaw (508 compliance mods)
+ * @author		Mike Kender (Task 2003)
+ * @author		John Covey (Task 2003)
+ * @version     2020-07-30
 **/
 public class OffRoadVehicleEquipment extends JPanel implements ListSelectionListener,
 		ActionListener, RunSpecEditor {
@@ -152,7 +156,7 @@ public class OffRoadVehicleEquipment extends JPanel implements ListSelectionList
 	 * @param destination The StringBuffer to fill.
 	**/
 	public void getPrintableDescription(RunSpec runspec, StringBuffer destination) {
-		destination.append("NonRoad Vehicle Equipment:\r\n");
+		destination.append("NonRoad Equipment:\r\n");
 		for(Iterator i=runspec.offRoadVehicleSelections.iterator();i.hasNext();) {
 			destination.append("\t" + i.next() + "\r\n");
 		}
@@ -167,6 +171,21 @@ public class OffRoadVehicleEquipment extends JPanel implements ListSelectionList
 		sectorLabel.setName("sectorLabel");
 		selectionLabel = new JLabel("Selections:");
 		selectionLabel.setName("selectionLabel");
+
+		selectionLabel.addFocusListener(new FocusListener() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				//nothing special here, yet
+			}
+
+			@Override
+			public void focusGained(FocusEvent e) {
+				if(selectionList.getSelectedIndices().length > 0) {
+					selectionList.setSelectedIndex(selectionList.getSelectedIndices()[0]);
+				}
+			}
+		});
+
 		fuelListModel = new DefaultListModel<FuelEntry>();
 		sectorListModel = new DefaultListModel<SectorEntry>();
 		selectionListModel = new DefaultListModel<OffRoadVehicleSelection>();
@@ -174,6 +193,8 @@ public class OffRoadVehicleEquipment extends JPanel implements ListSelectionList
 		loadSectors();
 		loadValidFuelSectorCombinations();
 		fuelList = new JListWithToolTips<FuelEntry>(fuelListModel);
+		
+		fuelList.setToolTipText(Constants.NONROAD_EQUIPMENT_FUELS_TOOLTIP);
 		fuelList.setName("fuelList");
 		fuelList.setSelectionMode(
 				ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
@@ -181,53 +202,153 @@ public class OffRoadVehicleEquipment extends JPanel implements ListSelectionList
 		fuelList.addListSelectionListener(this);
 		fuelList.setVisibleRowCount(9);
 		fuelList.setPrototypeCellValue(new FuelEntry() { public String toString() { return "CharacterCountToDisplay"; }});
+		fuelList.addKeyListener(new KeyListener() {
+			public void keyReleased(KeyEvent e) {
+				if (fuelList.getModel().getSize() == 0) {
+					JOptionPane.showMessageDialog(null, "no 'Fuels' to select");
+	            } else if (fuelList.isSelectionEmpty()) {
+	            	fuelList.setSelectedIndex(0);
+	            }
+			}
+
+			public void keyTyped(KeyEvent e) {
+				//nothing to do, for now
+			}
+
+			public void keyPressed(KeyEvent e) {
+				//nothing to do, for now
+			}
+		});
+
 		fuelScrollPane = new JScrollPane(fuelList,
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		fuelScrollPane.setName("fuelScrollPane");
+		fuelLabel.setDisplayedMnemonic('u');
+		fuelLabel.setLabelFor(fuelScrollPane);
+		
+		fuelLabel.addFocusListener(new FocusListener() {
+			
+			@Override
+			public void focusLost(FocusEvent e) {
+				//nothing special here, yet
+			}
+			
+			@Override
+			public void focusGained(FocusEvent e) {
+				if(fuelList.getSelectedIndices().length > 0) {
+					fuelList.setSelectedIndex(fuelList.getSelectedIndices()[0]);
+				}
+			}
+		});
 
 		sectorList = new JListWithToolTips<SectorEntry>(sectorListModel);
 
 		sectorList.setName("sectorList");
+		sectorList.setToolTipText(Constants.NONROAD_EQUIPMENT_SECTORS_TOOLTIP);
 		sectorList.setSelectionMode(
 				ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		sectorList.setSelectedIndex(-1);
 		sectorList.addListSelectionListener(this);
 		sectorList.setVisibleRowCount(9);
 		sectorList.setPrototypeCellValue(new SectorEntry() { public String toString() { return "CharacterCountToDisplay"; }});
+		sectorList.addKeyListener(new KeyListener() {
+			public void keyReleased(KeyEvent e) {
+				if (sectorList.getModel().getSize() == 0) {
+					JOptionPane.showMessageDialog(null, "no 'Sectors' to select");
+	            } else if (sectorList.isSelectionEmpty()) {
+	            	sectorList.setSelectedIndex(0);
+	            }
+			}
+
+			public void keyTyped(KeyEvent e) {
+				//nothing to do, for now
+			}
+
+			public void keyPressed(KeyEvent e) {
+				//nothing to do, for now
+			}
+		});
+
 		sectorScrollPane = new JScrollPane(sectorList);
 		sectorScrollPane = new JScrollPane(sectorList,
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		sectorScrollPane.setName("sectorScrollPane");
+		sectorLabel.setDisplayedMnemonic('o');
+		sectorLabel.setLabelFor(sectorScrollPane);
+
+		sectorLabel.addFocusListener(new FocusListener() {
+			
+			@Override
+			public void focusLost(FocusEvent e) {
+				//nothing special here, yet
+			}
+			
+			@Override
+			public void focusGained(FocusEvent e) {
+				if(sectorList.getSelectedIndices().length > 0) {
+					sectorList.setSelectedIndex(sectorList.getSelectedIndices()[0]);
+				}
+			}
+		});
 
 		selectionList = new JListWithToolTips<OffRoadVehicleSelection>(selectionListModel);
 		selectionList.setName("selectionList");
+		selectionList.setToolTipText(Constants.NONROAD_EQUIPMENT_SELECTIONS_TOOLTIP);
 		selectionList.setSelectionMode(
 				ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		selectionList.setSelectedIndex(-1);
 		selectionList.addListSelectionListener(this);
 		selectionList.setVisibleRowCount(9);
 		selectionList.setPrototypeCellValue(new OffRoadVehicleSelection() { public String toString() { return "CharacterCountToDisplayXXXXXXXXXX"; }});
+		selectionList.addKeyListener(new KeyListener() {
+			public void keyReleased(KeyEvent e) {
+				if (selectionList.getModel().getSize() == 0) {
+					JOptionPane.showMessageDialog(null, "no 'Selections' to select");
+	            } else if (selectionList.isSelectionEmpty()) {
+	            	selectionList.setSelectedIndex(0);
+	            }
+			}
+
+			public void keyTyped(KeyEvent e) {
+				//nothing to do, for now
+			}
+
+			public void keyPressed(KeyEvent e) {
+				//nothing to do, for now
+			}
+		});
+
 		selectionScrollPane = new JScrollPane(selectionList);
 		selectionScrollPane = new JScrollPane(selectionList,
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		selectionScrollPane.setName("selectionScrollPane");
+		selectionLabel.setDisplayedMnemonic('n');
+		selectionLabel.setLabelFor(selectionScrollPane);
 
 		fuelSelectAll = new JButton("Select All");
 		fuelSelectAll.setName("fuelSelectAll");
+		fuelSelectAll.setMnemonic('l');
+		fuelSelectAll.setDisplayedMnemonicIndex(2);
 		ToolTipHelper.add(fuelSelectAll,"Select all fuel types");
 		sectorSelectAll = new JButton("Select All");
 		sectorSelectAll.setName("sectorSelectAll");
+		sectorSelectAll.setMnemonic('c');
+		sectorSelectAll.setDisplayedMnemonicIndex(4);
 		ToolTipHelper.add(sectorSelectAll,"Select all sectors");
 		selectionDelete = new JButton("Delete");
 		selectionDelete.setName("selectionDelete");
 		selectionDelete.setEnabled(false); // disabled until selection made
+		selectionDelete.setMnemonic('D');
+		selectionDelete.setDisplayedMnemonicIndex(0);
 		ToolTipHelper.add(selectionDelete,"Delete the selected Fuel and Sector combinations");
 		addFuelSectorCombinations = new JButton("Add Fuel/Sector Combinations");
 		addFuelSectorCombinations.setName("addFuelSectorCombinations");
 		addFuelSectorCombinations.setEnabled(false); // disabled until item in list
+		addFuelSectorCombinations.setMnemonic('m');
+		addFuelSectorCombinations.setDisplayedMnemonicIndex(18);
 		ToolTipHelper.add(addFuelSectorCombinations,"Add selected Fuel and Sector combinations");
 
 		// Register a listener for the buttons.
@@ -306,7 +427,7 @@ public class OffRoadVehicleEquipment extends JPanel implements ListSelectionList
 		add(selectionDelete, gbc);
 
 		messageLogPanel.setLayout(new BoxLayout(messageLogPanel, BoxLayout.Y_AXIS));
-		messageLogPanel.add(new JLabel("NonRoad Vehicle Equipment Requirements"));
+		messageLogPanel.add(new JLabel("Nonroad Equipment Requirements"));
 		messageLogPanel.add(messageLogPane);
 
 		gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -417,8 +538,8 @@ public class OffRoadVehicleEquipment extends JPanel implements ListSelectionList
 		}
 		Object[] fuelItems = fuelList.getSelectedValuesList().toArray();
 		Object[] sectorItems = sectorList.getSelectedValuesList().toArray();
-		for(int i=0;i<fuelItems.length;i++) {
-			for(int j=0;j<sectorItems.length;j++) {
+		for(int j=0;j<sectorItems.length;j++) {
+			for(int i=0;i<fuelItems.length;i++) {
 				FuelEntry fuelEntry = (FuelEntry)fuelItems[i];
 				SectorEntry sectorEntry = (SectorEntry)sectorItems[j];
 				OffRoadVehicleSelection fs = new OffRoadVehicleSelection();
@@ -534,11 +655,25 @@ public class OffRoadVehicleEquipment extends JPanel implements ListSelectionList
 	 * @param	runspec the RunSpec to get the description text from.
 	**/
 	public void loadFromRunSpec(RunSpec runspec) {
+		
+		// clear GUI list
 		selectionListModel.removeAllElements();
-		for(Iterator<OffRoadVehicleSelection> i=runspec.offRoadVehicleSelections.iterator();
-				i.hasNext();) {
-			selectionListModel.addElement(i.next());
+		
+		// load RunSpec selections into a temporary list
+		ArrayList<OffRoadVehicleSelection> sortedList = new ArrayList<OffRoadVehicleSelection>();
+		Iterator<OffRoadVehicleSelection> i = runspec.offRoadVehicleSelections.iterator();
+		while(i.hasNext()) {
+			sortedList.add(i.next());
 		}
+		
+		// Sort so that old runspecs will look the same as new runspecs
+		Collections.sort(sortedList);
+		
+		// add the sorted list to the GUI
+		for(OffRoadVehicleSelection element : sortedList) {
+			selectionListModel.addElement(element);
+		}
+		
 		displaySectionStatus();
 	}
 
@@ -615,7 +750,7 @@ public class OffRoadVehicleEquipment extends JPanel implements ListSelectionList
 				fuelListModel.addElement(new FuelEntry(ftID,fDesc));
 			}
 		} catch(Exception e) {
-			Logger.logError(e,"Unable to load a list of fuels for On Road Vehicle Equipment.");
+			Logger.logError(e,"Unable to load a list of fuels for On Road Vehicles.");
 		} finally {
 			query.onFinally();
 		}

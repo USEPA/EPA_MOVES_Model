@@ -6,27 +6,47 @@
  *************************************************************************************************/
 package gov.epa.otaq.moves.master.implementation.ghg.internalcontrolstrategies.avft;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.text.*;
-import gov.epa.otaq.moves.master.runspec.*;
-import java.util.*;
-import java.lang.*;
-import java.sql.*;
-import java.math.*;
-import javax.swing.table.*;
-import javax.swing.event.*;
-import gov.epa.otaq.moves.common.*;
-import gov.epa.otaq.moves.master.framework.*;
-import gov.epa.otaq.moves.master.gui.*;
-import gov.epa.otaq.moves.master.runspec.*;
-import javax.xml.parsers.*;
-import org.xml.sax.*;
-import org.xml.sax.helpers.*;
-import org.w3c.dom.*;
-import java.io.*;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.FileDialog;
+import java.awt.Frame;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.TreeMap;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
+import org.w3c.dom.Node;
+
+import gov.epa.otaq.moves.common.CellFile;
+import gov.epa.otaq.moves.common.EPATableModel;
+import gov.epa.otaq.moves.common.FileUtilities;
+import gov.epa.otaq.moves.common.JListWithToolTips;
+import gov.epa.otaq.moves.common.Logger;
+import gov.epa.otaq.moves.common.MOVESDatabaseType;
+import gov.epa.otaq.moves.common.ToolTipHelper;
+import gov.epa.otaq.moves.common.XLSReader;
+import gov.epa.otaq.moves.master.framework.DatabaseConnectionManager;
+import gov.epa.otaq.moves.master.framework.InternalControlStrategyPanel;
+import gov.epa.otaq.moves.master.framework.WorksheetChooserDialog;
+import gov.epa.otaq.moves.master.gui.LayoutUtility;
+import gov.epa.otaq.moves.master.gui.RunSpecSectionStatus;
+import gov.epa.otaq.moves.master.runspec.RunSpec;
 
 /**
  * Implements a Panel for AVFT (Alternative Vehicle Fuels & Technologies) Control Strategy
@@ -478,10 +498,6 @@ class AVFTPanel extends InternalControlStrategyPanel implements ActionListener {
 		strategy.messages.clear();
 		data.inaccurateSumsExplanation = null;
 
-		if(data.recentRunSpec == null) {
-			MOVESNavigation.singleton.updateRunSpecSectionStatus
-				(MOVESNavigation.singleton.strategyOptions.get(0),this,false);
-		}
 		strategy.load(data.recentRunSpec,strategy.dataSourceFileName,strategy.dataSourceFileType,strategy.dataSourceWorksheetName);
 		if(data.inaccurateSumsExplanation != null && data.inaccurateSumsExplanation.length() > 0) {
 			strategy.messages.add(data.inaccurateSumsExplanation);
@@ -491,7 +507,6 @@ class AVFTPanel extends InternalControlStrategyPanel implements ActionListener {
 
 		populateControls();
 		revalidate();
-		pushStatusToDisplay();
 	}
 
 	/** Handle the action of the Normalize button **/
@@ -515,7 +530,6 @@ class AVFTPanel extends InternalControlStrategyPanel implements ActionListener {
 		}
 		populateControls();
 		revalidate();
-		pushStatusToDisplay();
 	}
 
 	/**
@@ -539,7 +553,6 @@ class AVFTPanel extends InternalControlStrategyPanel implements ActionListener {
 		}
 		populateControls();
 		revalidate();
-		pushStatusToDisplay();
 		return true;
 	}
 
@@ -565,10 +578,6 @@ class AVFTPanel extends InternalControlStrategyPanel implements ActionListener {
 	 * @param ownerWindow top-level window used as any file dialog owner
 	**/
 	void internalDoImport(Frame ownerWindow) throws Exception {
-		if(data.recentRunSpec == null) {
-			MOVESNavigation.singleton.updateRunSpecSectionStatus
-				(MOVESNavigation.singleton.strategyOptions.get(0),this,false);
-		}
 		FileDialog fd = new FileDialog(ownerWindow, "Import AVFT", FileDialog.LOAD);
 		fd.setVisible(true); //fd.show();
 
@@ -635,11 +644,6 @@ class AVFTPanel extends InternalControlStrategyPanel implements ActionListener {
 	 * user-supplied data should be saved
 	**/
 	void internalDoExport(Frame ownerWindow, boolean saveDefaultData) throws Exception {
-		if(data.recentRunSpec == null) {
-			MOVESNavigation.singleton.updateRunSpecSectionStatus
-				(MOVESNavigation.singleton.strategyOptions.get(0),this,false);
-		}
-
 		FileDialog fd = new FileDialog(ownerWindow, "Export AVFT", FileDialog.SAVE);
 		fd.setVisible(true); //fd.show();
 
@@ -649,13 +653,5 @@ class AVFTPanel extends InternalControlStrategyPanel implements ActionListener {
 		String filePath = fd.getDirectory() + fd.getFile();
 		File file = new File(filePath);
 		strategy.save(data.recentRunSpec,file,saveDefaultData);
-	}
-
-	/**
-	 * Change the status shown on the navigation display.
-	**/
-	void pushStatusToDisplay() {
-		MOVESNavigation.singleton.updateRunSpecSectionStatus
-			(MOVESNavigation.singleton.strategyOptions.get(0),this,false);
 	}
 }

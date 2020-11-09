@@ -7,7 +7,8 @@
 -- Author Wesley Faler
 -- Author Mitch Cumberworth
 -- Author Gwo Shyu
--- Version 2015-04-19
+-- Author Jarrod Brown, Michael Aldridge, Daniel Bizer-Cox, Evan Murray
+-- Version 2019-04-22
 -- *********************************************************************************************************************** */
 
 
@@ -28,6 +29,7 @@ DROP TABLE IF EXISTS AggExtendedIdleHours;
 DROP TABLE IF EXISTS AggAverageTankTemperature;
 DROP TABLE IF EXISTS AggSoakActivityFraction;
 DROP TABLE IF EXISTS AggFuelUsageFraction;
+DROP TABLE IF EXISTS OldTotalIdleFraction;
 
 -- Since "Nation" does not include the Virgin Islands or
 -- Puerto Rico, remove their information from State, County, Zone
@@ -156,8 +158,8 @@ where SurrogateRegionActivity.fuelYearID = SurrogateRegionActivityTotal.fuelYear
 --
 -- SELECT "Making State" AS MARKER_POINT;
 TRUNCATE State;
-INSERT INTO State (stateID, stateName, stateAbbr)
-  VALUES (0, "Nation", "US");
+INSERT INTO State (stateID, stateName, stateAbbr, idleRegionID)
+  VALUES (0, "Nation", "US", 1);
 FLUSH TABLE State;
   
 --
@@ -167,9 +169,10 @@ FLUSH TABLE State;
 CREATE TABLE OldCounty SELECT * FROM County;
 TRUNCATE County;
 INSERT INTO County (countyID, stateID, countyName, altitude, GPAFract, 
-		barometricPressure, barometricPressureCV)
+		barometricPressure, barometricPressureCV, countyTypeID)
   SELECT 0, 0, "Nation", "L", SUM(GPAFract*ActFract) AS GPAFract,
-  		SUM(barometricPressure*ActFract) AS barometricPressure, NULL AS barometricPressureCV 
+  		SUM(barometricPressure*ActFract) AS barometricPressure, NULL AS barometricPressureCV,
+  		1 as countyTypeID
   FROM OldCounty INNER JOIN SurrogateActivity USING (countyID);
 FLUSH TABLE County;
   
@@ -672,6 +675,20 @@ INSERT INTO nrStateSurrogate (surrogateID,stateID,countyID,surrogatequant,surrog
 FLUSH TABLE nrStateSurrogate;
 
 --
+-- TotalIdleFraction
+--
+-- SELECT "Making TotalIdleFraction" AS MARKER_POINT;
+CREATE TABLE OldTotalIdleFraction
+  SELECT sourceTypeID, minModelYearID, maxModelYearID, monthID, dayID, idleRegionID, countyTypeID, totalIdleFraction
+    FROM TotalIdleFraction;
+TRUNCATE TotalIdleFraction;
+INSERT INTO TotalIdleFraction (sourceTypeID, minModelYearID, maxModelYearID, monthID, dayID, idleRegionID, countyTypeID, totalIdleFraction)
+  SELECT sourceTypeID,  minModelYearID, maxModelYearID, monthID, dayID, 1 as idleRegionID, countyTypeID, totalIdleFraction
+  FROM OldTotalIdleFraction
+  WHERE idleRegionID = 103;
+FLUSH TABLE TotalIdleFraction;
+
+--
 -- Drop any New Tables Created 
 --
 -- DROP TABLE IF EXISTS SurrogateActivity;
@@ -698,6 +715,7 @@ DROP TABLE IF EXISTS OldnrBaseYearEquipPopulation;
 DROP TABLE IF EXISTS OldnrGrowthPatternFinder;
 DROP TABLE IF EXISTS OldnrFuelSupply;
 DROP TABLE IF EXISTS OldnrStateSurrogate;
+DROP TABLE IF EXISTS OldTotalIdleFraction;
 
 -- FLUSH TABLES;
 

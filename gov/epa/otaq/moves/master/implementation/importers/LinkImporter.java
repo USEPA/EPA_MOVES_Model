@@ -22,7 +22,7 @@ import gov.epa.otaq.moves.common.*;
  * NMIM or Mobile format) into MOVES.
  * 
  * @author		Wesley Faler
- * @version		2009-09-28
+ * @version		2015-09-16
 **/
 public class LinkImporter extends ImporterBase {
 	/** Data handler for this importer **/
@@ -158,16 +158,19 @@ public class LinkImporter extends ImporterBase {
 			return new RunSpecSectionStatus(RunSpecSectionStatus.OK);
 		}
 		boolean hasZones = manager.tableHasZones(db,
-				"select distinct zoneID from " + primaryTableName);
+				"select distinct zoneID from " + primaryTableName,
+				this,primaryTableName + " is missing zoneID(s)");
 		boolean hasCounties = manager.tableHasCounties(db,
-				"select distinct countyID from " + primaryTableName);
+				"select distinct countyID from " + primaryTableName,
+				this,primaryTableName + " is missing countyID(s)");
 		boolean hasRoadTypes = manager.tableHasRoadTypes(db,
-				"select distinct roadTypeID from " + primaryTableName);
+				"select distinct roadTypeID from " + primaryTableName,
+				this,primaryTableName + " is missing roadTypeID(s)");
 		if(!hasZones || !hasCounties || !hasRoadTypes) {
 			return new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);
 		}
 		ArrayList<String> messages = new ArrayList<String>();
-		BasicDataHandler.runScript(db,this,messages,1);
+		BasicDataHandler.runScript(db,this,messages,1, "database/LinksImporter.sql");
 		for(Iterator<String> i=messages.iterator();i.hasNext();) {
 			String t = i.next();
 			if(t.equalsIgnoreCase("OK")) {

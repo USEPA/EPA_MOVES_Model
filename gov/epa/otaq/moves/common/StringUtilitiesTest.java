@@ -70,7 +70,7 @@ public class StringUtilitiesTest extends TestCase {
 	/** Tests the safeGetString function when passing an Object as the input param. **/
 	public void testSafeGetStringFromObject() {
 		// Test valid object
-		Integer testInteger = new Integer(42);
+		Integer testInteger = Integer.valueOf(42);
 		String result = StringUtilities.safeGetString(testInteger);
 		assertTrue(result.compareTo("42") == 0);
 		// Test null object

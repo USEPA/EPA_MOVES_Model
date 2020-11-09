@@ -25,7 +25,9 @@ import javax.swing.table.TableColumnModel;
  *
  * @author		Wesley Faler
  * @author		Don Smith
- * @version		2015-05-21
+ * @author		John Covey (Task 2003)
+ * @author		Mike Kender (Task 2003)
+ * @version 	2020-08-13
 **/
 public class FuelWizard extends JDialog implements ActionListener, CellEditorListener, FocusListener, KeyListener {
 	/** The parent JFrame which invokes this dialog. **/
@@ -71,6 +73,8 @@ public class FuelWizard extends JDialog implements ActionListener, CellEditorLis
 	/** Database to be used **/
 	Connection db;
 	/** Grid of available fuels **/
+	JTable frozenTable;
+	JTable frozenTableToChange;
 	JTable availableFuelsTable;
 	/** Grid of available fuels **/
 	JTable fuelsToChangeTable;
@@ -124,6 +128,115 @@ public class FuelWizard extends JDialog implements ActionListener, CellEditorLis
 		}
 	}
 
+	/** Table to display the frozen table and process grid. **/
+	class FrozenTable extends JTable {
+
+		public boolean isFocusable()  {
+			return true;
+		}
+		public TableCellRenderer getCellRenderer(int row,int col) {
+				return super.getCellRenderer(row, col);
+		}
+	}
+
+	/** Handle frozen table key actions **/
+	class FrozenTableKeyAdapter extends KeyAdapter {
+		JTable table;
+
+		public FrozenTableKeyAdapter(JTable tableToUse) {
+			table = tableToUse;
+		}
+
+		public void keyPressed(KeyEvent e) {
+			int col = table.getSelectedColumn();
+			int actualRow = table.getSelectedRow();
+			
+			if(e.getKeyCode() == KeyEvent.VK_SPACE && table.getName().equalsIgnoreCase("frozenTable")) {
+				//toggle the checkbox
+				int modelRow = table.convertRowIndexToModel(table.getSelectedRow());
+				Boolean obj = (Boolean)table.getModel().getValueAt(modelRow, table.getSelectedColumn());
+				SelectionTableModel model = (SelectionTableModel)table.getModel();
+					model.setValueAt(!obj, modelRow, 0);
+				((AbstractTableModel) table.getModel()).fireTableCellUpdated(modelRow, 0);
+				table.requestFocus();
+				table.changeSelection(actualRow, col, false, false);
+			} else if(e.getKeyCode() == KeyEvent.VK_HOME) {
+				//if home key (for all columns), move the focus to the beg of the frozen table
+				table.requestFocus();
+				table.changeSelection(table.getSelectedRow(), 0, false, false);
+			} else if(col == 0 
+					&& (e.getKeyCode() == KeyEvent.VK_LEFT 
+						|| e.getKeyCode() == KeyEvent.VK_KP_LEFT 
+						|| (e.getKeyCode() == KeyEvent.VK_TAB && e.isShiftDown()))) {
+				//we are in the first column and shift/tab or left arrow is pressed - go to the availableFuelsTable table
+				int row = table.getSelectedRow() == 0 ? table.getRowCount() - 1 : table.getSelectedRow() - 1;
+				availableFuelsTable.requestFocus();
+				availableFuelsTable.changeSelection(row, availableFuelsTable.getColumnCount() - 1, false, false);
+			} else if (col == 0 
+					&& ( (e.getKeyCode() == KeyEvent.VK_TAB && !e.isShiftDown())
+							|| (e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_KP_RIGHT) )) {
+
+				int row = table.getSelectedRow() == table.getRowCount() - 1 ? 0 : table.getSelectedRow() + 1;
+				availableFuelsTable.requestFocus();
+				availableFuelsTable.changeSelection(table.getSelectedRow(), 0, false, false);
+			}
+		}
+	}
+
+	/** Handle available fuels table key actions **/
+	class AvailableFuelsTableKeyAdapter extends KeyAdapter {
+		JTable table;
+
+		public AvailableFuelsTableKeyAdapter(JTable tableToUse) {
+			table = tableToUse;
+		}
+
+		public void keyPressed(KeyEvent e) {
+			int col = table.getSelectedColumn();
+
+			if(e.getKeyCode() == KeyEvent.VK_END) {
+				//if end key (for both columns), move the focus to the end of the availableFuelsTable table
+				availableFuelsTable.requestFocus();
+				availableFuelsTable.changeSelection(table.getSelectedRow(), availableFuelsTable.getColumnCount() - 1, false, false);
+			} 
+			else if(e.getKeyCode() == KeyEvent.VK_RIGHT && table.getColumnCount() == col + 1) {
+				int row = table.getSelectedRow() == table.getRowCount() - 1 ? 0 : table.getSelectedRow() + 1;
+				frozenTable.requestFocus();
+				frozenTable.changeSelection(row, 0, false, false); 
+			}
+			else if(table.getSelectedColumn() == 0) {
+				//only do these actions for the 1st column
+				 if(e.getKeyCode() == KeyEvent.VK_TAB && e.isShiftDown()
+						|| (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_KP_LEFT) ) {
+					frozenTable.setRequestFocusEnabled(true);
+					frozenTable.requestFocus();
+					frozenTable.changeSelection(table.getSelectedRow(), 0, false, false);
+				}
+			} 
+			else if (e.isControlDown() && (e.getKeyCode() == KeyEvent.VK_ADD ||(e.isShiftDown() && e.getKeyCode() == KeyEvent.VK_EQUALS) )) {
+				adjustColumn(table, col);
+			}
+		}
+	}
+
+	/** Handle fuels to change table key actions **/
+	class FuelsToChangeTableKeyAdapter extends KeyAdapter {
+		JTable table;
+
+		public FuelsToChangeTableKeyAdapter(JTable tableToUse) {
+			table = tableToUse;
+		}
+
+		public void keyPressed(KeyEvent e) {
+			int col = table.getSelectedColumn();
+
+			if (e.isControlDown() && (e.getKeyCode() == KeyEvent.VK_ADD ||(e.isShiftDown() && e.getKeyCode() == KeyEvent.VK_EQUALS) )) {
+				adjustColumn(table, col);
+			}
+
+		}
+	}
+	
 	/** Table model of a selection checkbox **/
 	class SelectionTableModel extends AbstractTableModel {
 		/**
@@ -228,7 +341,7 @@ public class FuelWizard extends JDialog implements ActionListener, CellEditorLis
 		}
 	}
 
-	/** Table model to show avaiable fuels **/
+	/** Table model to show available fuels **/
 	class AvailableFuelsTableModel extends AbstractTableModel {
 		/**
 		 * Get the description for an emission process column.
@@ -330,13 +443,13 @@ public class FuelWizard extends JDialog implements ActionListener, CellEditorLis
 						return isEven? "Old" : "New";
 					}
 				case 1: // Region
-					return new Integer(f.regionID);
+					return Integer.valueOf(f.regionID);
 				case 2: // Fuel year
-					return new Integer(f.fuelYearID);
+					return Integer.valueOf(f.fuelYearID);
 				case 3: // Month group
-					return new Integer(f.monthGroupID);
+					return Integer.valueOf(f.monthGroupID);
 				case 4: // Fuel type
-					return new Integer(f.fuelTypeID);
+					return Integer.valueOf(f.fuelTypeID);
 				case 5: // RVP
 					return String.format("%.1f",f.RVP);
 				case 6: // Sulfur
@@ -471,12 +584,13 @@ public class FuelWizard extends JDialog implements ActionListener, CellEditorLis
 
 	// Show a table with a frozen left column.
 	public class FrozenTablePane extends JScrollPane implements ChangeListener {
-		public FrozenTablePane(JTable table, AbstractTableModel frozenModel) {
+		public FrozenTablePane(JTable table, AbstractTableModel frozenModel, FrozenTable frozenTable) {
 			super(table);
 
-			//create frozen table
-			JTable frozenTable = new JTable(frozenModel);
-
+			frozenTable.setModel(frozenModel);
+			frozenTable.addKeyListener(new FrozenTableKeyAdapter(frozenTable));
+			frozenTable.setFocusable(true);
+			frozenTable.setRowSelectionAllowed(false);
 			table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
 			//format the frozen table
@@ -608,7 +722,9 @@ public class FuelWizard extends JDialog implements ActionListener, CellEditorLis
 
 		changeItemsLabel = new JLabel("Change");
 		changeItemsLabel.setName("changeItemsLabel");
+		changeItemsLabel.setDisplayedMnemonic('C');
 		changeableItems = new ExtendedComboBox<String>();
+		changeItemsLabel.setLabelFor(changeableItems);
 		changeableItems.setName("changeableItems");
 		changeableItems.addActionListener(this);
 		changeableItems.setEditable(false);
@@ -634,6 +750,14 @@ public class FuelWizard extends JDialog implements ActionListener, CellEditorLis
 		changeValue	= new JTextField("");
 		changeValue.setName("changeValue");
 		changeValue.setColumns(10);
+		changeValue.setToolTipText(Constants.FUEL_WIZARD_CHANGE_VALUE_TOOLTIP);
+		changeValue.addKeyListener(new KeyAdapter() {
+            public void keyReleased(KeyEvent e) {
+            	isChangeValueValid();
+                assessSituation();
+            }
+        });
+		
 		changeValue.addFocusListener(this);
 		changeValue.addKeyListener(this);
 
@@ -641,21 +765,25 @@ public class FuelWizard extends JDialog implements ActionListener, CellEditorLis
 		titleLabelMode1.setName("titleLabelMode1");
 
 		calculateButton = new JButton("Calculate >");
+		calculateButton.setMnemonic('a');
 		calculateButton.addActionListener(this);
 		calculateButton.setName("calculateButton");
 		ToolTipHelper.add(calculateButton,"Calculate new fuel properities.");
 
 		doneButton = new JButton("Done");
+		doneButton.setMnemonic('o');
 		doneButton.addActionListener(this);
 		doneButton.setName("doneButton");
 		ToolTipHelper.add(doneButton,"Exit, all changes, if any, have already been saved.");
 
 		acceptButton = new JButton("Accept >");
+		acceptButton.setMnemonic('A'); 
 		acceptButton.addActionListener(this);
 		acceptButton.setName("acceptButton");
 		ToolTipHelper.add(acceptButton,"Save changes to fuel properties.");
 
 		rejectButton = new JButton("< Reject");
+		rejectButton .setMnemonic('R');
 		rejectButton.addActionListener(this);
 		rejectButton.setName("rejectButton");
 		ToolTipHelper.add(rejectButton,"Discard new fuel properties.");
@@ -677,6 +805,7 @@ public class FuelWizard extends JDialog implements ActionListener, CellEditorLis
 		messageLogPane.setName("messageLogPane");
 		messageLogPane.setVisible(true);
 		ToolTipHelper.add(messageLogPane,"Displays errors and warnings");
+		messageLogPane.setMinimumSize(new Dimension(150, 150));
 
 		int maxTableWidth = 900;
 		int maxTableHeight = 600;
@@ -686,6 +815,7 @@ public class FuelWizard extends JDialog implements ActionListener, CellEditorLis
 		availableFuelsTable.setRowSelectionAllowed(false);
 		availableFuelsTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		availableFuelsTable.getDefaultEditor(Boolean.class).addCellEditorListener(this);
+		availableFuelsTable.addKeyListener(new AvailableFuelsTableKeyAdapter(availableFuelsTable));
 
 		FontMetrics fm = availableFuelsTable.getFontMetrics(availableFuelsTable.getFont());
 		javax.swing.table.TableColumnModel colModel = availableFuelsTable.getColumnModel();
@@ -738,7 +868,9 @@ public class FuelWizard extends JDialog implements ActionListener, CellEditorLis
 		availableFuelsTable.setPreferredScrollableViewportSize(availableFuelsTable.getPreferredSize());
 		ToolTipHelper.add(availableFuelsTable,"Available fuels and properties");
 
-		availableFuelsScrollPane = new FrozenTablePane(availableFuelsTable,new SelectionTableModel());
+		frozenTable = new FrozenTable();
+		frozenTable.setName("frozenTable");
+		availableFuelsScrollPane = new FrozenTablePane(availableFuelsTable,new SelectionTableModel(),(FrozenTable) frozenTable);
 		availableFuelsScrollPane.setName("availableFuelsScrollPane");
 
 
@@ -747,6 +879,7 @@ public class FuelWizard extends JDialog implements ActionListener, CellEditorLis
 		fuelsToChangeTable.setRowSelectionAllowed(false);
 		fuelsToChangeTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		fuelsToChangeTable.getDefaultEditor(Boolean.class).addCellEditorListener(this);
+		fuelsToChangeTable.addKeyListener(new FuelsToChangeTableKeyAdapter(fuelsToChangeTable));
 		fm = fuelsToChangeTable.getFontMetrics(fuelsToChangeTable.getFont());
 		colModel = fuelsToChangeTable.getColumnModel();
 		numCols = colModel.getColumnCount();
@@ -766,7 +899,10 @@ public class FuelWizard extends JDialog implements ActionListener, CellEditorLis
 		fuelsToChangeTable.setPreferredScrollableViewportSize(fuelsToChangeTable.getPreferredSize());
 		ToolTipHelper.add(fuelsToChangeTable,"Available fuels and properties");
 
-		fuelsToChangeScrollPane = new FrozenTablePane(fuelsToChangeTable,new SelectionTableModel());
+		frozenTableToChange = new FrozenTable();
+		frozenTableToChange.setName("frozenTableToChange");
+
+		fuelsToChangeScrollPane = new FrozenTablePane(fuelsToChangeTable,new SelectionTableModel(),(FrozenTable) frozenTableToChange);
 		fuelsToChangeScrollPane.setName("fuelsToChangeScrollPane");
 	}
 
@@ -875,6 +1011,13 @@ public class FuelWizard extends JDialog implements ActionListener, CellEditorLis
 	/** Update the units for the chosen property **/
 	void handlePropertyChange() {
 		//System.out.println("handlePropertyChange");
+		if (changeableItems.getSelectedIndex() > 0) {
+			changeValue.setEnabled(true);
+		}
+		else {
+			changeValue.setEnabled(false);
+		}
+		
 		changeableUnits.removeAllItems();
 		String property = StringUtilities.safeGetString(changeableItems.getSelectedItem());
 		if(property.length() <= 0) {
@@ -924,13 +1067,11 @@ public class FuelWizard extends JDialog implements ActionListener, CellEditorLis
 
 		fuelChangeRequest.propertyNameToChange = StringUtilities.safeGetString(changeableItems.getSelectedItem());
 		fuelChangeRequest.units = StringUtilities.safeGetString(changeableUnits.getSelectedItem());
-		String valueText = StringUtilities.safeGetString(changeValue.getText());
-		try {
-			fuelChangeRequest.targetValue = Double.parseDouble(valueText);
-		} catch(Exception e) {
-			Logger.log(LogMessageCategory.ERROR,"Invalid fuel property specified: " + valueText);
+
+		if (!isChangeValueValid()) {
 			return;
 		}
+		
 		// Modify fuels
 		RefineryModel model = new RefineryModel(db,isNonroad);
 		model.changeFuels(fuelChangeRequest);
@@ -941,6 +1082,7 @@ public class FuelWizard extends JDialog implements ActionListener, CellEditorLis
 		}
 		// Change the wizard to show the results
 		changeMode(1);
+		rejectButton.requestFocus();
 	}
 
 	/**
@@ -1051,5 +1193,104 @@ public class FuelWizard extends JDialog implements ActionListener, CellEditorLis
 
 	public void keyTyped(KeyEvent e) {
 		assessSituation();
+	}
+	
+	/*
+	 * Adjust the width of the specified column in the table
+	 */
+	public void adjustColumn(JTable table, final int column) {
+		TableColumn tableColumn = table.getColumnModel().getColumn(column);
+		if (!tableColumn.getResizable())
+			return;
+
+		int columnHeaderWidth = getColumnHeaderWidth(table, column);
+		int columnDataWidth = getColumnDataWidth(table, column);
+		int preferredWidth = Math.max(columnHeaderWidth, columnDataWidth);
+
+		updateTableColumn(table, column, preferredWidth);
+	}
+
+	/*
+	 * Calculated the width based on the column name
+	 */
+	private int getColumnHeaderWidth(JTable table, int column) {
+
+		TableColumn tableColumn = table.getColumnModel().getColumn(column);
+		Object value = tableColumn.getHeaderValue();
+		TableCellRenderer renderer = tableColumn.getHeaderRenderer();
+
+		if (renderer == null) {
+			renderer = table.getTableHeader().getDefaultRenderer();
+		}
+
+		Component c = renderer.getTableCellRendererComponent(table, value, false, false, -1, column);
+		return c.getPreferredSize().width;
+	}
+
+	/*
+	 * Calculate the width based on the widest cell renderer for the given
+	 * column.
+	 */
+	private int getColumnDataWidth(JTable table, int column) {
+
+		int preferredWidth = 0;
+		int maxWidth = table.getColumnModel().getColumn(column).getMaxWidth();
+
+		for (int row = 0; row < table.getRowCount(); row++) {
+			preferredWidth = Math.max(preferredWidth, getCellDataWidth(table, row, column));
+
+			// We've exceeded the maximum width, no need to check other rows
+
+			if (preferredWidth >= maxWidth)
+				break;
+		}
+
+		return preferredWidth;
+	}
+
+	/*
+	 * Get the preferred width for the specified cell
+	 */
+	private int getCellDataWidth(JTable table, int row, int column) {
+		// Inovke the renderer for the cell to calculate the preferred width
+
+		TableCellRenderer cellRenderer = table.getCellRenderer(row, column);
+		Component c = table.prepareRenderer(cellRenderer, row, column);
+		int width = c.getPreferredSize().width + table.getIntercellSpacing().width;
+
+		return width;
+	}
+
+	/*
+	 * Update the TableColumn with the newly calculated width
+	 */
+	private void updateTableColumn(JTable table, int column, int width) {
+		final TableColumn tableColumn = table.getColumnModel().getColumn(column);
+
+		if (!tableColumn.getResizable())
+			return;
+
+		width = Math.max(width, tableColumn.getPreferredWidth()) + table.getIntercellSpacing().width;
+
+		table.getTableHeader().setResizingColumn(tableColumn);
+		tableColumn.setWidth(width);
+	}
+
+	/**
+	 * Checks the text in changeValue to ensure it is a valid number as a Double value.
+	 * 
+	 * @return is false if changeValue text cannot be converted to a Double.
+	 */
+	private boolean isChangeValueValid() {
+		if (changeValue.getText().length() > 0) {
+			try {
+				fuelChangeRequest.targetValue = Double.parseDouble(changeValue.getText());
+			} catch (Exception ex) {
+				JOptionPane.showMessageDialog(this,
+						"Invalid fuel property specified for change value: " + changeValue.getText());
+				return false;
+			}
+		}
+		return true;
 	}
 }

@@ -17,7 +17,7 @@ import gov.epa.otaq.moves.common.*;
  *
  * @author		Wesley Faler
  * @author      EPA - Mitch C
- * @version		2015-06-16
+ * @version		2016-11-03
 **/
 public class DefaultDataMaker {
 	/** a TreeSetIgnoreCase of the tables extracted by the script of a calculator **/
@@ -256,7 +256,7 @@ public class DefaultDataMaker {
 
 			sql = "create table if not exists NRModelYear like modelYear";
 			SQLRunner.executeSQL(executionDatabase,sql);
-			for(int i=1940;i<2050;i++) {
+			for(int i=1940;i<2060;i++) {
 				sql = "insert ignore into NRModelYear (modelYearID) values (" + i + ")";
 				SQLRunner.executeSQL(executionDatabase,sql);
 			}
@@ -367,6 +367,15 @@ public class DefaultDataMaker {
 		}
 
 		String[] externalCalculatorStatements = {
+			"cache select "
+			+ " ##context.iterLocation.stateRecordID## as stateID,"
+			+ " ##context.iterLocation.countyRecordID## as countyID,"
+			+ " ##context.iterLocation.zoneRecordID## as zoneID,"
+			+ " ##context.iterLocation.linkRecordID## as linkID,"
+			+ " ##context.year## as yearID,"
+			+ " ##context.monthID## as monthID"
+			+ " into outfile '##extconstants##';",
+
 			// Give the total set of pollutant/process selections to the external calculator. Just
 			// the file is needed. It doesn't need to be loaded into a real table.
 			"cache SELECT * INTO OUTFILE '##extpollutantprocess##' FROM RunSpecPollutantProcess;",
@@ -554,7 +563,7 @@ public class DefaultDataMaker {
 					+	"minModelYearID, maxModelYearID ) "
 					+"SELECT DISTINCT "
 					+	"polProcessID, fuelTypeID, "
-					+	"0, 0, 0, 0, 0, 0, 1960, 2050 "
+					+	"0, 0, 0, 0, 0, 0, 1960, 2060 "
 					+"FROM "
 					+	"tmpsfppa "
 					+	"left outer join TemperatureAdjustment using (fuelTypeID, polProcessID) "
@@ -569,7 +578,7 @@ public class DefaultDataMaker {
 					+	"minModelYearID, maxModelYearID ) "
 					+"SELECT DISTINCT "
 					+	"polProcessID, fuelTypeID, "
-					+	"0, 0, 0, 0, 0, 0, 1960, 2050 "
+					+	"0, 0, 0, 0, 0, 0, 1960, 2060 "
 					+"FROM "
 					+	"RunSpecSourceFuelType "
 					+	"inner join PollutantProcessAssoc "

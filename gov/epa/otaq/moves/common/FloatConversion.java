@@ -100,7 +100,7 @@ public class FloatConversion {
 		try {
 			scale = getValidScale( scale ) ;
 			de = new BigDecimal( s ) ;
-			de2 = de.setScale( scale , BigDecimal.ROUND_HALF_UP ) ;
+			de2 = de.setScale( scale , RoundingMode.HALF_UP ) ;
 			return de2 ;
 			
 		} catch( Exception ex ) {
@@ -152,7 +152,7 @@ public class FloatConversion {
 				stringFloat = sb.toString() ;
 
 				de = new BigDecimal( sb.toString() ) ;
-				de2 = de.setScale( scale , BigDecimal.ROUND_HALF_UP ) ;
+				de2 = de.setScale( scale , RoundingMode.HALF_UP ) ;
 
 				return de2 ;
 			} 
@@ -161,14 +161,14 @@ public class FloatConversion {
 			// No decimal point in the string
 			if ( pos == -1 ) {
 				de = new BigDecimal( stringFloat ) ;
-				de2 = de.setScale( scale , BigDecimal.ROUND_HALF_UP ) ;
+				de2 = de.setScale( scale , RoundingMode.HALF_UP ) ;
 				return de2 ;
 				}
 			
 			numDecimals = stringFloat.length() - pos - 1 ;
 			if ( numDecimals <= scale ) {
 				de = new BigDecimal( stringFloat ) ;
-				de2 = de.setScale( scale , BigDecimal.ROUND_HALF_UP ) ;
+				de2 = de.setScale( scale , RoundingMode.HALF_UP ) ;
 				return de2 ;
 			}
 			
@@ -179,7 +179,7 @@ public class FloatConversion {
 
 			if ( nextChar <= '4' ) {
 				de = new BigDecimal( sb.toString() ) ;
-				de2 = de.setScale( scale , BigDecimal.ROUND_HALF_UP ) ;
+				de2 = de.setScale( scale , RoundingMode.HALF_UP ) ;
 				return de2 ;
 			}
 			
@@ -212,7 +212,7 @@ public class FloatConversion {
 			}
 
 			de = new BigDecimal( sb.toString() ) ;
-			de2 = de.setScale( scale , BigDecimal.ROUND_HALF_UP ) ;
+			de2 = de.setScale( scale , RoundingMode.HALF_UP ) ;
 
 			return de2 ;
 		} catch( Exception exc ) {
@@ -285,7 +285,7 @@ public class FloatConversion {
 		scale = getValidScale( scale ) ;
 		BigDecimal bd = toBigDecimal( f , scale + 2 ) , bd100 = new BigDecimal( "100" ) ;
 		BigDecimal bd2 = bd.multiply( bd100 ) ;
-		BigDecimal bd3 = bd2.setScale( scale , BigDecimal.ROUND_HALF_UP ) ;
+		BigDecimal bd3 = bd2.setScale( scale , RoundingMode.HALF_UP ) ;
 		
 		return bd3.toString() + "%" ;
 	}

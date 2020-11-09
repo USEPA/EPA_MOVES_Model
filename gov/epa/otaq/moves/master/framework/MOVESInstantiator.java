@@ -22,13 +22,14 @@ import gov.epa.otaq.moves.master.implementation.ghg.internalcontrolstrategies.on
  * @author		Mitch Cumberworth, EPA
  * @author		Ed Glover, EPA
  * @author		William Aikman EPA
- * @version		2015-02-25
+ * @version		2017-07-04
 **/
 public class MOVESInstantiator {
 	/** list of classes that support advanced performance features **/
 	public static String[] advancedPerformanceClasses = {
 		"gov.epa.otaq.moves.master.implementation.ghg.TotalActivityGenerator",
-		"gov.epa.otaq.moves.master.implementation.ghg.OperatingModeDistributionGenerator",
+		//"gov.epa.otaq.moves.master.implementation.ghg.OperatingModeDistributionGenerator",
+		"gov.epa.otaq.moves.master.implementation.ghg.RatesOperatingModeDistributionGenerator",
 		"gov.epa.otaq.moves.master.implementation.ghg.StartOperatingModeDistributionGenerator",
 		"gov.epa.otaq.moves.master.implementation.ghg.EvaporativeEmissionsOperatingModeDistributionGenerator",
 		"gov.epa.otaq.moves.master.implementation.ghg.AverageSpeedOperatingModeDistributionGenerator",
@@ -62,6 +63,8 @@ public class MOVESInstantiator {
 			"Total Activity Generator (TAG)",
 		"gov.epa.otaq.moves.master.implementation.ghg.OperatingModeDistributionGenerator",
 			"Operating Mode Distribution Generator (running OMDG)",
+		"gov.epa.otaq.moves.master.implementation.ghg.RatesOperatingModeDistributionGenerator",
+			"Rates Operating Mode Distribution Generator (running ROMDG)",
 		"gov.epa.otaq.moves.master.implementation.ghg.StartOperatingModeDistributionGenerator",
 			"Start Operating Mode Distribution Generator",
 		"gov.epa.otaq.moves.master.implementation.ghg.EvaporativeEmissionsOperatingModeDistributionGenerator",
@@ -244,10 +247,6 @@ public class MOVESInstantiator {
 				"gov.epa.otaq.moves.master.implementation.ghg.FuelEffectsGenerator",
 			"Total Energy Consumption","Running Exhaust",
 				"gov.epa.otaq.moves.master.implementation.ghg.EnergyConsumptionCalculator",
-			"Fossil Fuel Energy Consumption","Running Exhaust",
-				"gov.epa.otaq.moves.master.implementation.ghg.EnergyConsumptionCalculator",
-			"Petroleum Energy Consumption","Running Exhaust",
-				"gov.epa.otaq.moves.master.implementation.ghg.EnergyConsumptionCalculator",
 			"Methane (CH4)", "Running Exhaust",
 				"gov.epa.otaq.moves.master.implementation.ghg.HCSpeciationCalculator",
 			"Nitrous Oxide (N2O)", "Running Exhaust",
@@ -308,10 +307,6 @@ public class MOVESInstantiator {
 				"gov.epa.otaq.moves.master.implementation.ghg.StartOperatingModeDistributionGenerator",
 			"Total Energy Consumption","Start Exhaust",
 				"gov.epa.otaq.moves.master.implementation.ghg.EnergyConsumptionCalculator",
-			"Fossil Fuel Energy Consumption","Start Exhaust",
-				"gov.epa.otaq.moves.master.implementation.ghg.EnergyConsumptionCalculator",
-			"Petroleum Energy Consumption","Start Exhaust",
-				"gov.epa.otaq.moves.master.implementation.ghg.EnergyConsumptionCalculator",
 			"Methane (CH4)", "Start Exhaust",
 				"gov.epa.otaq.moves.master.implementation.ghg.HCSpeciationCalculator",
 			"Nitrous Oxide (N2O)", "Start Exhaust",
@@ -327,10 +322,6 @@ public class MOVESInstantiator {
 			"Oxides of Nitrogen (NOx)", "Start Exhaust",
 				"gov.epa.otaq.moves.master.implementation.ghg.CriteriaStartCalculator",
 			"Total Energy Consumption","Start Exhaust",
-				"gov.epa.otaq.moves.master.implementation.ghg.StartOperatingModeDistributionGenerator",
-			"Fossil Fuel Energy Consumption","Start Exhaust",
-				"gov.epa.otaq.moves.master.implementation.ghg.StartOperatingModeDistributionGenerator",
-			"Petroleum Energy Consumption","Start Exhaust",
 				"gov.epa.otaq.moves.master.implementation.ghg.StartOperatingModeDistributionGenerator",
 			"Total Gaseous Hydrocarbons", "Start Exhaust",
 				"gov.epa.otaq.moves.master.implementation.ghg.StartOperatingModeDistributionGenerator",
@@ -396,10 +387,6 @@ public class MOVESInstantiator {
 				"gov.epa.otaq.moves.master.implementation.ghg.CriteriaAndPMExtendedIdleEmissionCalculator",
 			"Total Energy Consumption","Extended Idle Exhaust",
 				"gov.epa.otaq.moves.master.implementation.ghg.EnergyConsumptionCalculator",
-			"Fossil Fuel Energy Consumption","Extended Idle Exhaust",
-				"gov.epa.otaq.moves.master.implementation.ghg.EnergyConsumptionCalculator",
-			"Petroleum Energy Consumption","Extended Idle Exhaust",
-				"gov.epa.otaq.moves.master.implementation.ghg.EnergyConsumptionCalculator",
 			"Atmospheric CO2","Extended Idle Exhaust",
 				"gov.epa.otaq.moves.master.implementation.ghg.CO2AERunningStartExtendedIdleCalculator",
 			equivCO2PolName,"Extended Idle Exhaust",
@@ -445,10 +432,6 @@ public class MOVESInstantiator {
 
 			/* !!! Gwo Shyu 12/03/2009 fix an error due to well-to-Pump does exists in MOVES for now: change starts here
 			"Total Energy Consumption","Well-to-Pump",
-				"gov.epa.otaq.moves.master.implementation.ghg.WellToPumpProcessor",
-			"Fossil Fuel Energy Consumption","Well-to-Pump",
-				"gov.epa.otaq.moves.master.implementation.ghg.WellToPumpProcessor",
-			"Petroleum Energy Consumption","Well-to-Pump",
 				"gov.epa.otaq.moves.master.implementation.ghg.WellToPumpProcessor",
 			"Methane (CH4)", "Well-to-Pump",
 				"gov.epa.otaq.moves.master.implementation.ghg.CH4N2OWTPCalculator",
@@ -1179,10 +1162,6 @@ public class MOVESInstantiator {
 				"gov.epa.otaq.moves.master.implementation.ghg.CriteriaAndPMAuxiliaryPowerCalculator",
 			"Total Energy Consumption","Auxiliary Power Exhaust",
 				"gov.epa.otaq.moves.master.implementation.ghg.EnergyConsumptionCalculator",
-			"Fossil Fuel Energy Consumption","Auxiliary Power Exhaust",
-				"gov.epa.otaq.moves.master.implementation.ghg.EnergyConsumptionCalculator",
-			"Petroleum Energy Consumption","Auxiliary Power Exhaust",
-				"gov.epa.otaq.moves.master.implementation.ghg.EnergyConsumptionCalculator",
 			"Atmospheric CO2","Auxiliary Power Exhaust",
 				"gov.epa.otaq.moves.master.implementation.ghg.CO2AERunningStartExtendedIdleCalculator",
 			equivCO2PolName,"Auxiliary Power Exhaust",
@@ -1275,7 +1254,8 @@ public class MOVESInstantiator {
 			// TOG Speciation Mechanisms
 			"CB05 Mechanism",null,"gov.epa.otaq.moves.master.implementation.ghg.TOGSpeciationCalculator",
 			"CB6CMAQ Mechanism",null,"gov.epa.otaq.moves.master.implementation.ghg.TOGSpeciationCalculator",
-			"SAPRC07T Mechanism",null,"gov.epa.otaq.moves.master.implementation.ghg.TOGSpeciationCalculator"
+			"SAPRC07T Mechanism",null,"gov.epa.otaq.moves.master.implementation.ghg.TOGSpeciationCalculator",
+			"CB6AE7 Mechanism",null,"gov.epa.otaq.moves.master.implementation.ghg.TOGSpeciationCalculator"
 		};
 
 		String pollutantsProcessesAndNeedsNonroad[] = {
@@ -1550,10 +1530,10 @@ public class MOVESInstantiator {
 				String name = (String)i.next();
 				if(!createdObjects.containsKey(name)) {
 					try {
-						Class c = Class.forName(name);
+						Class<?> c = Class.forName(name);
 						if(targetRunSpec.shouldExecute(c)) {
 							try {
-								Object object = c.newInstance();
+								Object object = c.getConstructor().newInstance();
 								MasterLoopable loopable = (MasterLoopable)object;
 								createdObjects.put(name,loopable);
 								Logger.log(LogMessageCategory.INFO,"Class " + name + " has been instantiated.");
@@ -1651,7 +1631,7 @@ public class MOVESInstantiator {
 							// Because they are added after all others though, no calculators will be instantiated for what we actually add here.
 							targetRunSpec.targetProcesses.add(process);
 							targetRunSpec.targetPollutants.add(pollutant);
-							targetRunSpec.targetPollutantProcesses.add(new Integer(ppa.getDatabaseKey()));
+							targetRunSpec.targetPollutantProcesses.add(Integer.valueOf(ppa.getDatabaseKey()));
 							targetRunSpec.pollutantProcessAssociations.add(ppa);
 			
 							Connection executionDB = null;
@@ -1678,10 +1658,10 @@ public class MOVESInstantiator {
 								String name = (String)i.next();
 								if(!createdObjects.containsKey(name)) {
 									try {
-										Class c = Class.forName(name);
+										Class<?> c = Class.forName(name);
 										if(targetRunSpec.shouldExecute(c)) {
 											try {
-												Object object = c.newInstance();
+												Object object = c.getConstructor().newInstance();
 												MasterLoopable loopable = (MasterLoopable)object;
 												createdObjects.put(name,loopable);
 												deferredCreatedObjects.put(name,loopable);

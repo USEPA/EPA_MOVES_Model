@@ -3,7 +3,7 @@
 -- use the model year groups that include 1993, thus tieing them to 1993 emissions.
 --
 -- Author Wesley Faler
--- Version 2014-07-24
+-- Version 2016-10-04
 
 drop procedure if exists spDoRateOfProgress;
 
@@ -45,11 +45,11 @@ begin
 		,(1988),(1989),(1990),(1991),(1992),(1993),(1994),(1995),(1996),(1997),(1998),(1999),(2000),(2001),(2002),(2003),(2004),(2005),(2006),(2007)
 		,(2008),(2009),(2010),(2011),(2012),(2013),(2014),(2015),(2016),(2017),(2018),(2019),(2020),(2021),(2022),(2023),(2024),(2025),(2026),(2027)
 		,(2028),(2029),(2030),(2031),(2032),(2033),(2034),(2035),(2036),(2037),(2038),(2039),(2040),(2041),(2042),(2043),(2044),(2045),(2046),(2047)
-		,(2048),(2049),(2050);
+		,(2048),(2049),(2050),(2051),(2052),(2053),(2054),(2055),(2056),(2057),(2058),(2059),(2060);
 
 	-- Decode model year groups
 	-- single years represent single years, unless it is 1972 which represents 1960-1972
-	-- 0 represents 1960-2050
+	-- 0 represents 1960-2060
 	drop table if exists tempModelYearGroupDecode;
 	create table tempModelYearGroupDecode (
 		modelYearGroupID int(11) not null primary key,
@@ -126,7 +126,7 @@ begin
 	select distinct modelYearGroupID, 'atrationongas' from atrationongas;
 
 
-	update tempModelYearGroupDecode set minModelYearID=1960, maxModelYearID=2050
+	update tempModelYearGroupDecode set minModelYearID=1960, maxModelYearID=2060
 	where minModelYearID is null and maxModelYearID is null
 	and modelYearGroupID=0;
 
@@ -229,8 +229,8 @@ begin
 	-- Anything that applies prior to cutPoint should go unchanged.
 	-- Anything that applies to cutPoint should apply to all years afterwards.  This is safe
 	-- to do as any equation that used to begin after cutPoint was deleted above.
-	update generalFuelRatioExpression set maxModelYearID=2050
-	where minModelYearID <= cutPoint and maxModelYearID >= cutPoint and maxModelYearID < 2050;
+	update generalFuelRatioExpression set maxModelYearID=2060
+	where minModelYearID <= cutPoint and maxModelYearID >= cutPoint and maxModelYearID < 2060;
 
 	insert into tempMessages (message) values ('Updated generalFuelRatioExpression table');
 

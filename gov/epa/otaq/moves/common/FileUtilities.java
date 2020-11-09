@@ -17,7 +17,7 @@ import java.util.StringTokenizer;
  *
  * @author		Wesley Faler
  * @author		EPA (Mitch C.)
- * @version		2010-12-18
+ * @version		2015-12-20
 **/
 public class FileUtilities {
 	/**
@@ -93,48 +93,83 @@ public class FileUtilities {
 	**/
 	public static boolean copyFile(File sourceFilePath, File destinationFilePath,
 			boolean overWrite) {
-		BufferedInputStream fileIn = null;
-		BufferedOutputStream fileOut = null;
-		try {
-			if(destinationFilePath.exists() && !overWrite) {
-				return false;
-			}
-
-			int bufferSize = 256*1024;
-			byte[] buffer = new byte[bufferSize];
-
-			fileIn = new BufferedInputStream(new FileInputStream(sourceFilePath),bufferSize);
-			destinationFilePath.delete();
-			// destinationFilePath.createNewFile();
-			fileOut =
-					new BufferedOutputStream(new FileOutputStream(destinationFilePath),bufferSize);
-			int length;
-			while((length = fileIn.read(buffer)) >= 0) {
-				if(length > 0) {
-					fileOut.write(buffer,0,length);
+		int bufferSize = 256*1024;
+		byte[] buffer = null;
+		boolean success = false;
+		for(int i = 0; i < FILE_SYSTEM_STANDARD_RETRY_COUNT; i++) {
+			if(i > 0) {
+				try {
+					Runtime.getRuntime().gc(); // Force garbage collection hoping to free memory and file handles
+					Thread.sleep(FILE_SYSTEM_STANDARD_RETRY_SLEEP_MS);
+				} catch(InterruptedException exception) {
+					return false;
 				}
 			}
-		} catch(Exception e) {
-			//Logger.logError(e,"Unable to copy file " + sourceFilePath.getName());
-			return false;
-		} finally {
-			if(fileIn != null) {
-				try {
-					fileIn.close();
-				} catch(Exception e) {
-					// Nothing to do here
+			BufferedInputStream fileIn = null;
+			BufferedOutputStream fileOut = null;
+			try {
+				if(overWrite) {
+					deleteFileWithRetry(destinationFilePath);
+					try {
+						destinationFilePath.delete();
+					} catch(Exception e) {
+						// Nothing to do here
+					}
 				}
-			}
-			if(fileOut != null) {
+				if(destinationFilePath.exists() && !overWrite) {
+					return false;
+				}
+	
+				if(buffer == null) {
+					buffer = new byte[bufferSize];
+				}
+	
+				fileIn = new BufferedInputStream(new FileInputStream(sourceFilePath),bufferSize);
+				destinationFilePath.delete();
+				// destinationFilePath.createNewFile();
+				fileOut = new BufferedOutputStream(new FileOutputStream(destinationFilePath),bufferSize);
+				int length;
+				while((length = fileIn.read(buffer)) >= 0) {
+					if(length > 0) {
+						fileOut.write(buffer,0,length);
+					}
+				}
+				success = true;
+				break;
+			} catch(Exception e) {
+				String errorText = "Error copying file";
 				try {
-					fileOut.close();
-				} catch(Exception e) {
-					// Nothing to do here
+					errorText = "Error copying file "
+							+ sourceFilePath.getCanonicalPath() + " to "
+							+ destinationFilePath.getCanonicalPath();
+				} catch(IOException e2) {
+					errorText += "(exception while getting full path: " + e2.getMessage() + ")";
+				}
+				errorText += " Got error: " + e.getMessage();
+				if(i < FILE_SYSTEM_STANDARD_RETRY_COUNT-1) {
+					errorText += ". File copy will be tried again.";
+				}
+				Logger.log(LogMessageCategory.INFO,errorText);
+				success = false;
+			} finally {
+				if(fileIn != null) {
+					try {
+						fileIn.close();
+					} catch(Exception e) {
+						// Nothing to do here
+					}
+				}
+				if(fileOut != null) {
+					try {
+						fileOut.close();
+					} catch(Exception e) {
+						// Nothing to do here
+					}
 				}
 			}
 		}
 
-		return true;
+		return success;
 	}
 
 	/**

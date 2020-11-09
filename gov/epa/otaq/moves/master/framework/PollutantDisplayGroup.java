@@ -67,7 +67,7 @@ public class PollutantDisplayGroup implements Comparable {
 			displayGroupName = pollutant.pollutantName;
 			displayMemberID = pollutant.databaseKey;
 		}
-		Integer pollutantIDObject = new Integer(pollutantID);
+		Integer pollutantIDObject = Integer.valueOf(pollutantID);
 		PollutantDisplayGroup pollutantDisplayGroup = null;
 		if(allPollutantDisplayGroups.containsKey(this)) {
 			pollutantDisplayGroup = (PollutantDisplayGroup)allPollutantDisplayGroups.get(this);
@@ -151,7 +151,7 @@ public class PollutantDisplayGroup implements Comparable {
 	 * @return the PollutantDisplayGroup that uses the pollutant, or null if not found
 	**/
 	public static PollutantDisplayGroup findByPollutantID(int pollutantID) {
-		Integer id = new Integer(pollutantID);
+		Integer id = Integer.valueOf(pollutantID);
 		for (Iterator<PollutantDisplayGroup> i = allPollutantDisplayGroups.values().iterator();
 				i.hasNext();) {
 			PollutantDisplayGroup iterPollutantDisplayGroup = (PollutantDisplayGroup)i.next();

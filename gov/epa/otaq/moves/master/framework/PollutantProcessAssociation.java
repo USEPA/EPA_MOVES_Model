@@ -48,8 +48,8 @@ public class PollutantProcessAssociation implements Comparable {
 	 * @param inputPolProcessID the pollutant requried to produce the output pollutant
 	**/
 	public static void addChainedTo(int outputPolProcessID, int inputPolProcessID) {
-		Integer output = new Integer(outputPolProcessID);
-		Integer input = new Integer(inputPolProcessID);
+		Integer output = Integer.valueOf(outputPolProcessID);
+		Integer input = Integer.valueOf(inputPolProcessID);
 		TreeSet<Integer> inputSet = chainedToMap.get(output);
 		if(inputSet == null) {
 			inputSet = new TreeSet<Integer>();
@@ -64,8 +64,8 @@ public class PollutantProcessAssociation implements Comparable {
 	 * @param inputPolProcessID the pollutant requried to produce the output pollutant
 	**/
 	public static void addChainedToNR(int outputPolProcessID, int inputPolProcessID) {
-		Integer output = new Integer(outputPolProcessID);
-		Integer input = new Integer(inputPolProcessID);
+		Integer output = Integer.valueOf(outputPolProcessID);
+		Integer input = Integer.valueOf(inputPolProcessID);
 		TreeSet<Integer> inputSet = chainedToMapNR.get(output);
 		if(inputSet == null) {
 			inputSet = new TreeSet<Integer>();
@@ -81,7 +81,7 @@ public class PollutantProcessAssociation implements Comparable {
 	 * objects for the required inputs.
 	**/
 	public static TreeSet<Integer> chainedTo(int polProcessID) {
-		Integer output = new Integer(polProcessID);
+		Integer output = Integer.valueOf(polProcessID);
 		TreeSet<Integer> inputSet = chainedToMap.get(output);
 		if(inputSet != null && inputSet.size() <= 0) {
 			inputSet = null;
@@ -96,7 +96,7 @@ public class PollutantProcessAssociation implements Comparable {
 	 * objects for the required inputs.
 	**/
 	public static TreeSet<Integer> chainedToNR(int polProcessID) {
-		Integer output = new Integer(polProcessID);
+		Integer output = Integer.valueOf(polProcessID);
 		TreeSet<Integer> inputSet = chainedToMapNR.get(output);
 		if(inputSet != null && inputSet.size() <= 0) {
 			inputSet = null;

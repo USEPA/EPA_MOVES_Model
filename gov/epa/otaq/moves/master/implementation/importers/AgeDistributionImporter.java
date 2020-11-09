@@ -23,7 +23,8 @@ import gov.epa.otaq.moves.master.implementation.ghg.TotalActivityGenerator;
  * NMIM or Mobile format) into MOVES.
  * 
  * @author		Wesley Faler
- * @version		2009-04-20
+ * @author		Mike Kender	task 1903
+ * @version		2019-10-18
 **/
 public class AgeDistributionImporter extends ImporterBase {
 	/** Data handler for this importer **/
@@ -186,8 +187,6 @@ public class AgeDistributionImporter extends ImporterBase {
 				"agedistribution", // XML node name
 				new String[] { "SourceTypeAgeDistribution" } // required tables
 				);
-		shouldDoExecutionDataExport = true;
-		subjectToExportRestrictions = true;
 		part = new TableFileLinkagePart(this,new PartProvider());
 		parts.add(part);
 		basicDataHandler = new BasicDataHandler(this,dataTableDescriptor,
@@ -208,11 +207,13 @@ public class AgeDistributionImporter extends ImporterBase {
 			return new RunSpecSectionStatus(RunSpecSectionStatus.OK);
 		}
 		boolean hasYears = manager.tableHasYears(db,
-				"select distinct yearID from " + primaryTableName);
+				"select distinct yearID from " + primaryTableName,
+				this,primaryTableName + " is missing yearID(s)");
 		boolean hasSourceTypes = manager.tableHasSourceTypes(db,
-				"select distinct sourceTypeID from " + primaryTableName);
+				"select distinct sourceTypeID from " + primaryTableName,
+				this,primaryTableName + " is missing sourceTypeID(s)");
 		if(hasYears && hasSourceTypes) {
-			return new RunSpecSectionStatus(RunSpecSectionStatus.OK);
+			return getImporterDataStatusCore(db);
 		}
 		return new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);
 	}
@@ -227,5 +228,24 @@ public class AgeDistributionImporter extends ImporterBase {
 	public RunSpecSectionStatus getProjectDataStatus(Connection db) 
 			throws Exception {
 		return getCountyDataStatus(db);
+	}
+	
+	
+	/**
+	 * Check a RunSpec against the database or for display of the importer.
+	 * @param db database to be examined.
+	 * @return the status, or null if the status should not be shown to the user.
+	 * @throws Exception if anything goes wrong
+	**/
+	public RunSpecSectionStatus getImporterDataStatusCore(Connection db) throws Exception {
+		ArrayList<String> messages = new ArrayList<String>();
+		BasicDataHandler.runScript(db,this,messages,1,"database/AgeDistributionImporter.sql");
+		for(Iterator<String> i=messages.iterator();i.hasNext();) {
+			String t = i.next();
+			if(t.toUpperCase().startsWith("ERROR")) {
+				return new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);
+			}
+		}
+		return new RunSpecSectionStatus(RunSpecSectionStatus.OK);
 	}
 }

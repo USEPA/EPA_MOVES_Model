@@ -1,5 +1,5 @@
 -- Sulfur Model
--- version 2012-08-01
+-- version 2016-10-04
 -- authors Wesely Faler, Ed Campbell
 
 -- subst ##sulfurInputTable## tempSulfurIR;
@@ -228,7 +228,8 @@ insert into tempYear(year) values(1960),(1961),(1962),(1963),(1964),(1965),(1966
 	,(2018),(2019),(2020),(2021),(2022),(2023),(2024),(2025),(2026),(2027)
 	,(2028),(2029),(2030),(2031),(2032),(2033),(2034),(2035),(2036),(2037)
 	,(2038),(2039),(2040),(2041),(2042),(2043),(2044),(2045),(2046),(2047)
-	,(2048),(2049),(2050)
+	,(2048),(2049),(2050),(2051),(2052),(2053),(2054),(2055),(2056),(2057)
+	,(2058),(2059),(2060)
 ;
 
 drop table if exists tempSulfurBaseLookup;
@@ -315,8 +316,8 @@ inner join RunSpecModelYearAge rsmya on rsmya.modelYearID = tempSulfurBaseLookup
 alter table tempSulfurCalcs1 add key(pollutantID, modelYearID, fuelTypeID);
 
 delete from M6SulfurCoeff where minModelYearID > ##cutoff.RateOfProgress##;
-update M6SulfurCoeff set maxModelYearID=2050
-where minModelYearID <= ##cutoff.RateOfProgress## and maxModelYearID >= ##cutoff.RateOfProgress## and maxModelYearID < 2050;
+update M6SulfurCoeff set maxModelYearID=2060
+where minModelYearID <= ##cutoff.RateOfProgress## and maxModelYearID >= ##cutoff.RateOfProgress## and maxModelYearID < 2060;
 
 insert into tempSulfurCalcs2 (fuelTypeID, baseFuelFormulationID, fuelFormulationID, polProcessID, pollutantID, processID,
 	modelYearID, ageID, m6emitterID, sourceTypeID,

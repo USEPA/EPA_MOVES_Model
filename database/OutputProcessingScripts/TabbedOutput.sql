@@ -4,7 +4,7 @@
 -- 2009-07-14 removed MOVESOutputRowID from the script.
 -- 2009-12-17 fixed file output names so that the script can be run multiple times
 -- 2015-02-06 eliminated use of temporary table
--- 2015-09-10 added fuelsubtype
+-- 2015-09-10 added fuelsubtype, 2017-01-18 added fuelsubtype to movesactivityoutput
 -- Three separate text files are produced.  They are:
 --      MovesOutputyyyymmddhhmmss.txt
 --      MovesActivityOutputyyyymmddhhmmss.txt
@@ -31,20 +31,20 @@ set @datetime = concat(  mid(curdate(),1,4),
 
 SET @sql_text =
    CONCAT (
-"select 'MOVESRunID',    'IterationId',       'YearID',             'MonthID',           'DayID',
-        'HourID',        'StateID',           'CountyID',           'ZoneID',            'LinkID',
-        'PollutantID',   'ProcessID',         'SourceTypeID',       'regClassId',        'FuelTypeID',
-        'fuelSubtypeid',
-        'ModelYearID',   'RoadTypeID',        'SCC',                'engTechId',         'sectorId',
-        'hpId',          'EmissionQuant',     'EmissionQuantMean',  'EmissionQuantSigma'"
-" UNION ",
-" SELECT movesoutput.*",
+"select MOVESRunID,    IterationId,       YearID,             MonthID,           DayID,
+        HourID,        StateID,           CountyID,           ZoneID,            LinkID,
+        PollutantID,   ProcessID,         SourceTypeID,       regClassId,        FuelTypeID,
+        fuelSubtypeid,
+        ModelYearID,   RoadTypeID,        SCC,                engTechId,         sectorId,
+        hpId,          EmissionQuant,     EmissionQuantMean,  EmissionQuantSigma"
+
+" FROM movesoutput",
 " INTO OUTFILE ", "'MovesOutput",
   @datetime,
   ".txt'",
   " FIELDS TERMINATED BY '\t'",
   " LINES TERMINATED BY '\r\n'"
-  " from movesoutput;" );
+  " " );
 
 
 PREPARE s1 FROM @sql_text;
@@ -56,11 +56,11 @@ DROP PREPARE s1;
 
 SET @sql_text =
    CONCAT (
-"select 'MOVESRunID',     'IterationId',  'YearID',        'MonthID',     'DayID',
-        'HourID',         'StateID',      'CountyID',      'ZoneID',      'LinkID',
-        'SourceTypeID',   'regClassId',   'FuelTypeID',    'ModelYearID', 'RoadTypeID',
-        'SCC',            'engTechId',    'sectorId',      'hpId',        'ActivityTypeId',
-        'Activity',       'ActivityMean', 'ActivitySigma'"
+"select 'MOVESRunID',     'IterationId',  'YearID',        'MonthID',       'DayID',
+        'HourID',         'StateID',      'CountyID',      'ZoneID',        'LinkID',
+        'SourceTypeID',   'regClassId',   'FuelTypeID',    'fuelSubTypeId', 'ModelYearID',
+        'RoadTypeID',     'SCC',          'engTechId',     'sectorId',      'hpId',
+        'ActivityTypeId', 'Activity',     'ActivityMean',  'ActivitySigma'"
 " UNION ",
 " SELECT *",
 " INTO OUTFILE ", "'MovesActivityOutput",
@@ -68,7 +68,7 @@ SET @sql_text =
   " .txt'",
   " FIELDS TERMINATED BY '\t'",
   " LINES TERMINATED BY '\r\n'"
-  " from movesactivityoutput;" );
+  " ; " );
 
 
 PREPARE s1 FROM @sql_text;
@@ -80,20 +80,20 @@ DROP PREPARE s1;
 
 SET @sql_text =
    CONCAT (
-"select 'MOVESRunID',          'outputTimePeriod',  'timeUnits',            'distanceUnits',
-        'massUnits',           'energyUnits',       'runSpecFileName',      'runSpecDescription',
-        'runSpecFileDateTime', 'runDateTime',       'scale',                'minutesDuration',
-        'defaultDatabasrUsed', 'masterVersion',     'masterComputerId',     'masterIdNumber',
-        'domain',              'domainCountryId',   'domainCountryName',    'domainDatabaseServer',
-        'domainDataBaseName',  'expectedDONEfiles', 'retrievedDONEfiles',   'models'"
-" UNION ",
-" SELECT movesrun.*",
+"select MOVESRunID,          outputTimePeriod,  timeUnits,            distanceUnits,
+        massUnits,           energyUnits,       runSpecFileName,      runSpecDescription,
+        runSpecFileDateTime, runDateTime,       scale,                minutesDuration,
+        defaultDatabaseUsed, masterVersion,     masterComputerId,     masterIdNumber,
+        domain,              domainCountyId,   domainCountyName,    domainDatabaseServer,
+        domainDataBaseName,  expectedDONEfiles, retrievedDONEfiles,   models"
+
+" from movesrun",
 " INTO OUTFILE ", "'MovesRun",
   @datetime,
   " .txt'",
   " FIELDS TERMINATED BY '\t'",
   " LINES TERMINATED BY '\r\n'"
-  " from movesrun;" );
+  " ;" );
 
 
 PREPARE s1 FROM @sql_text;

@@ -202,15 +202,20 @@ public class MOVESAPI implements MOVESEngineListener, MOVESEngine.CompletedListe
 			try {
 				masterSocket = new ServerSocket(MASTER_FLAG_PORT);
 			} catch(Exception e) {
-				if(e.toString().indexOf("JVM_Bind") < 0) {
-					/**
-					 * @explain The MOVES master program uses a TCP/IP socket to signal the fact that
-					 * it is running, thus working to prevent duplicate executions on a single computer.
-					 * MOVES was unable to create this socket, most likely due to an operating system
-					 * firewall rule that does not trust the MOVES application.
-					**/
-					Logger.logError(e,"Unable to setup flag for master's presence");
+				/**
+				 * @explain The MOVES master program uses a TCP/IP socket to signal the fact that
+				 * it is running, thus working to prevent duplicate executions on a single computer.
+				 * MOVES was unable to create this socket, either because another MOVES Master is already running
+				 * or due to an operating system firewall rule that does not trust the MOVES application.
+				**/
+				if(e.toString().toLowerCase().contains("jvm_bind") || e.toString().toLowerCase().contains("net_bind")) {
+					Logger.log(LogMessageCategory.ERROR,"MOVES was unable to bind to " + MASTER_FLAG_PORT + 
+													    ". Is MOVES already running on this computer or is a firewall rule causing this issue?");
+				} else {
+					// a different error has occurred
+					Logger.logError(e,"MOVES was unable to bind to " + MASTER_FLAG_PORT);
 				}
+
 			}
 		}
 		masterSocketCount++;

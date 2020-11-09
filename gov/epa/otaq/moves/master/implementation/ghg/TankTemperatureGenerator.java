@@ -396,8 +396,8 @@ public class TankTemperatureGenerator extends Generator {
 				Vector<Float> quarterHourTemperatures = new Vector<Float>();
 				if(results!=null) {
 					while(results.next()) {
-						monthIDs.add(new Integer(results.getInt(1)));
-						quarterHourTemperatures.add(new Float(results.getFloat(2)));
+						monthIDs.add(Integer.valueOf(results.getInt(1)));
+						quarterHourTemperatures.add(Float.valueOf(results.getFloat(2)));
 					}
 					results.close();
 					results = null;
@@ -1972,7 +1972,7 @@ public class TankTemperatureGenerator extends Generator {
 	TreeMap<Integer,Integer> buildMapping(int[] values) {
 		TreeMap<Integer,Integer> m = new TreeMap<Integer,Integer>();
 		for(int i=0;i<values.length;i++) {
-			m.put(new Integer(values[i]),new Integer(i));
+			m.put(Integer.valueOf(values[i]),Integer.valueOf(i));
 		}
 		return m;
 	}
@@ -2305,8 +2305,8 @@ public class TankTemperatureGenerator extends Generator {
 			int ttgID = hotSoakRow[4-1];
 			int monthID = hotSoakRow[5-1];
 			// Get array indexes from month and ttg ID values
-			Integer monthInteger = new Integer(monthID);
-			Integer ttgInteger = new Integer(ttgID);
+			Integer monthInteger = Integer.valueOf(monthID);
+			Integer ttgInteger = Integer.valueOf(ttgID);
 			int monthIndex = ((Integer)monthIndexes.get(monthInteger)).intValue();
 			int ttgIndex = ((Integer)ttgIndexes.get(ttgInteger)).intValue();
 			// Record the first minute of hot soaking within the hour and the number of minutes
@@ -2326,10 +2326,10 @@ public class TankTemperatureGenerator extends Generator {
 				monthID = hotSoakRow[5-1];
 				// Get array indexes from month and ttg ID values
 				if(monthInteger == null || monthInteger.intValue() != monthID) {
-					monthInteger = new Integer(monthID);
+					monthInteger = Integer.valueOf(monthID);
 				}
 				if(ttgInteger == null || ttgInteger.intValue() != ttgID) {
-					ttgInteger = new Integer(ttgID);
+					ttgInteger = Integer.valueOf(ttgID);
 				}
 				monthIndex = ((Integer)monthIndexes.get(monthInteger)).intValue();
 				ttgIndex = ((Integer)ttgIndexes.get(ttgInteger)).intValue();
@@ -2411,7 +2411,7 @@ public class TankTemperatureGenerator extends Generator {
 		int minutesColdSoakStartingFromInitialHour;
 		int minutesColdSoakStartingInCurrentHour;
 		for(int vIndex=0;vIndex<vehIDs.length;vIndex++) {
-			sIndex = ((Integer)sourceTypeIndexes.get(new Integer(sourceTypeIDForVehID[vIndex]))).intValue();
+			sIndex = ((Integer)sourceTypeIndexes.get(Integer.valueOf(sourceTypeIDForVehID[vIndex]))).intValue();
 			while(svthHasData && svthVehID < vehIDs[vIndex]) {
 				advanceSvthCursor();
 			}

@@ -123,7 +123,7 @@ import gov.epa.otaq.moves.common.CompilationFlags;
  * This technique is used in the SQL sent to Workers to inflate data to a value consistent with the
  * number of days in each month.
  * @author		Wesley Faler
- * @version		2015-07-16
+ * @version		2017-03-22
 **/
 public class AggregationSQLGenerator {
 	/** true to display aggregation SQL statements. **/
@@ -176,6 +176,7 @@ public class AggregationSQLGenerator {
 			+ " linkID INTEGER UNSIGNED NULL,"
 			+ " roadTypeID SMALLINT UNSIGNED NULL,"
 			+ " fuelTypeID SMALLINT UNSIGNED NULL,"
+			+ " fuelSubTypeID SMALLINT UNSIGNED NULL,"
 			+ " modelYearID SMALLINT UNSIGNED NULL,"
 			+ " sourceTypeID SMALLINT UNSIGNED NULL,"
 			+ " regClassID SMALLINT UNSIGNED NULL,"
@@ -342,6 +343,7 @@ public class AggregationSQLGenerator {
 			+"sourceTypeID,"
 			+"regClassID,"
 			+"fuelTypeID,"
+			+(CompilationFlags.ALLOW_FUELSUBTYPE_OUTPUT? "fuelSubTypeID," : "")
 			+"modelYearID,"
 			+"SCC,"
 			+"engTechID,"
@@ -413,6 +415,8 @@ public class AggregationSQLGenerator {
 
 	/** SQL statements that weight Nonroad activity output before aggregation **/
 	ArrayList<String> nrActivityWeightSQL = new ArrayList<String>();
+	
+	TreeSetIgnoreCase nrActivitySummaryColumns = new TreeSetIgnoreCase();
 
 	/**
 	 * Default constructor
@@ -651,27 +655,6 @@ public class AggregationSQLGenerator {
 
 		workerSQLs.add("starttimer GeneralAggregation;");
 
-		// When restricted road types are used with the flag to provide separate
-		// ramp output, the calculations are done on the restricted road type then
-		// must be converted to the pure/non-ramp roadTypeID values after all other
-		// calculations are done on the worker.
-		// This must be done after any SCCs are assigned since SCCs use the blended
-		// road type IDs.
-		if(ExecutionRunSpec.theExecutionRunSpec.shouldSeparateRamps()) {
-			String[] tables = {
-				"MOVESWorkerOutput", "MOVESWorkerActivityOutput",
-				(CompilationFlags.DO_RATES_FIRST? "BaseRateOutput":"")
-			};
-			for(int i=0;i<tables.length;i++) {
-				String tableName = tables[i];
-				if(tableName.length() <= 0) {
-					continue;
-				}
-				String sql = "update " + tableName + " set roadTypeID=case when roadTypeID=2 then 6 when roadTypeID=4 then 7 else roadTypeID end;";
-				workerSQLs.add(sql);
-			}
-		}
-
 		// Populate the SCC fields for onroad. Do this after setting the road type
 		// as SCC contains the road type.
 		if(ExecutionRunSpec.theExecutionRunSpec.getOutputEmissionsBreakdownSelection().onRoadSCC
@@ -866,7 +849,7 @@ public class AggregationSQLGenerator {
 
 		nrNeedsActivityWeight = false;
 		nrActivityWeightSQL.clear();
-		TreeSetIgnoreCase nrActivitySummaryColumns = new TreeSetIgnoreCase();
+		nrActivitySummaryColumns.clear();
 
 		try {
 			// Time period
@@ -1001,21 +984,43 @@ public class AggregationSQLGenerator {
 
 				nrNeedsActivityWeight = true;
 			} else if(geographicOutputDetail == GeographicOutputDetailLevel.STATE) {
-				masterSelectSQL += ", stateID, null as countyID, null as zoneID, null as linkID";
-				workerSelectSQL += ", stateID, null as countyID, null as zoneID, null as linkID";
-				groupBy += ", stateID";
-				masterInsertSQL += ", stateID, countyID, zoneID, linkID";
-				workerInsertSQL += ", stateID, countyID, zoneID, linkID";
-				selectActivitySQL += ", stateID, null as countyID, null as zoneID, null as linkID";
-				groupByActivity += ", stateID";
-				groupByActivitySpatialOnly += ", stateID";
-				insertActivitySQL += ", stateID, countyID, zoneID, linkID";
+				if(ExecutionRunSpec.theExecutionRunSpec.getModels().contains(Model.NONROAD) && isWorkerSQL) {
+					// In the NR worker case, countyID is not aggregated over because this detail is needed
+					// on the master side to correctly aggregate LF and avgHP over multiple counties
+					masterSelectSQL += ", stateID, countyID, null as zoneID, null as linkID";
+					workerSelectSQL += ", stateID, countyID, null as zoneID, null as linkID";
+					groupBy += ", stateID";
+					masterInsertSQL += ", stateID, countyID, zoneID, linkID";
+					workerInsertSQL += ", stateID, countyID, zoneID, linkID";
+					selectActivitySQL += ", stateID, countyID, null as zoneID, null as linkID";
+					groupByActivity += ", stateID, countyID";
+					groupByActivitySpatialOnly += ", stateID, countyID";
+					insertActivitySQL += ", stateID, countyID, zoneID, linkID";
 
-				selectBaseRateOutputSQL += ", 0 as zoneID, 0 as linkID";
-				insertBaseRateOutputSQL += ", zoneID, linkID";
+					selectBaseRateOutputSQL += ", 0 as zoneID, 0 as linkID";
+					insertBaseRateOutputSQL += ", zoneID, linkID";
 
-				nrActivitySummaryColumns.add("stateID");
-				nrNeedsActivityWeight = true;
+					nrActivitySummaryColumns.add("stateID");
+					nrActivitySummaryColumns.add("countyID");
+					nrNeedsActivityWeight = true;					
+				} else {
+					// In the onroad case or NR master case, countyID is aggregated over as expected
+					masterSelectSQL += ", stateID, null as countyID, null as zoneID, null as linkID";
+					workerSelectSQL += ", stateID, null as countyID, null as zoneID, null as linkID";
+					groupBy += ", stateID";
+					masterInsertSQL += ", stateID, countyID, zoneID, linkID";
+					workerInsertSQL += ", stateID, countyID, zoneID, linkID";
+					selectActivitySQL += ", stateID, null as countyID, null as zoneID, null as linkID";
+					groupByActivity += ", stateID";
+					groupByActivitySpatialOnly += ", stateID";
+					insertActivitySQL += ", stateID, countyID, zoneID, linkID";
+
+					selectBaseRateOutputSQL += ", 0 as zoneID, 0 as linkID";
+					insertBaseRateOutputSQL += ", zoneID, linkID";
+
+					nrActivitySummaryColumns.add("stateID");
+					nrNeedsActivityWeight = true;
+				}
 			} else if(geographicOutputDetail == GeographicOutputDetailLevel.COUNTY) {
 				masterSelectSQL += ", stateID, countyID, null as zoneID, null as linkID";
 				workerSelectSQL += ", stateID, countyID, null as zoneID, null as linkID";
@@ -1292,25 +1297,25 @@ public class AggregationSQLGenerator {
 				// Fuel SubType ID
 				masterInsertSQL += ", fuelSubTypeID";
 				workerInsertSQL += ", fuelSubTypeID";
-				//insertActivitySQL += ", fuelSubTypeID";
+				insertActivitySQL += ", fuelSubTypeID";
 				//insertBaseRateOutputSQL += ", fuelSubTypeID";
 				if(!outputEmissionsBreakdownSelection.fuelSubType) {
 					masterSelectSQL += ", null as fuelSubTypeID";
 					workerSelectSQL += ", null as fuelSubTypeID";
-					//selectActivitySQL += ", null as fuelSubTypeID";
+					selectActivitySQL += ", null as fuelSubTypeID";
 					//selectBaseRateOutputSQL += ", 0 as fuelSubTypeID";
 					// nrNeedsActivityWeight = true; Not needed.
 				} else {
 					masterSelectSQL += ", fuelSubTypeID";
 					workerSelectSQL += ", fuelSubTypeID";
 					groupBy += ", fuelSubTypeID";
-					//selectActivitySQL += ", fuelSubTypeID";
-					//groupByActivity += ", fuelSubTypeID";
-					//groupByActivitySpatialOnly += ", fuelSubTypeID";
+					selectActivitySQL += ", fuelSubTypeID";
+					groupByActivity += ", fuelSubTypeID";
+					groupByActivitySpatialOnly += ", fuelSubTypeID";
 					//selectBaseRateOutputSQL += ", fuelSubTypeID";
 					//groupByBaseRateOutput += ", fuelSubTypeID";
 	
-					//nrActivitySummaryColumns.add("fuelSubTypeID"); Not needed.
+					nrActivitySummaryColumns.add("fuelSubTypeID");
 				}
 			}
 
@@ -1508,15 +1513,16 @@ public class AggregationSQLGenerator {
 						}
 						keyColumnNames += c;
 					}
-					String[] detailMatchColumns = {
-						"SCC","modelYearID","engTechID","sectorID","hpID","fuelTypeID",
-						"yearID","monthID","dayID","stateID","countyID"
-					};
+					ArrayList<String> detailMatchColumns = new ArrayList<String>(Arrays.asList("SCC","modelYearID",
+						"engTechID","sectorID","hpID","fuelTypeID","yearID","monthID","dayID","stateID","countyID"));
+					if(CompilationFlags.ALLOW_FUELSUBTYPE_OUTPUT && outputEmissionsBreakdownSelection.fuelSubType) {
+						detailMatchColumns.add("fuelSubTypeID");
+					}
 					String updateWhere = "";
 					String detailKey = "";
 					String detailSelect = "";
-					for(int i=0;i<detailMatchColumns.length;i++) {
-						String c = detailMatchColumns[i];
+					for(int i=0;i<detailMatchColumns.size();i++) {
+						String c = detailMatchColumns.get(i);
 						if(detailKey.length() > 0) {
 							detailKey += ",";
 							detailSelect += ",";
@@ -1775,6 +1781,72 @@ public class AggregationSQLGenerator {
 			Logger.logError(e, "Failed to generate SQLs for final processing");
 			return false;
 		}
+		
+		try {
+			if(ExecutionRunSpec.theExecutionRunSpec.getModels().contains(Model.NONROAD) 
+				&& ExecutionRunSpec.theExecutionRunSpec.getGeographicOutputDetailLevel() == GeographicOutputDetailLevel.STATE) {
+				// Weight LF and avgHP during final aggregation if output is reported at state level (because all NR workers return county level data).
+				// This is the same weighting code as run on the worker side, with the addition of the MOVESRunID and iterationID columns.
+				// (Note: countyID has not been aggregated over by the worker in this specific case--it is aggregated over in the next try block)
+				String keyColumnNames = "MOVESRunID,iterationID";
+				for(String c : nrActivitySummaryColumns) {
+					keyColumnNames += "," + c;
+				}
+				String[] detailMatchColumns = {
+					"SCC","modelYearID","engTechID","sectorID","hpID","fuelTypeID",
+					"yearID","monthID","dayID","stateID","countyID","MOVESRunID","iterationID"
+				};
+				String updateWhere = "";
+				String detailKey = "";
+				String detailSelect = "";
+				for(int i=0;i<detailMatchColumns.length;i++) {
+					String c = detailMatchColumns[i];
+					if(detailKey.length() > 0) {
+						detailKey += ",";
+						detailSelect += ",";
+						updateWhere += " and ";
+					}
+					detailKey += c;
+					detailSelect += "a." + c;
+					updateWhere += "a." + c + "=nrActivityWeightDetail." + c;
+				}
+
+				finalProcessSQLs.add("drop table if exists nrActivityWeightSummary;");
+				finalProcessSQLs.add("drop table if exists nrActivityWeightDetail;");
+				finalProcessSQLs.add("create table nrActivityWeightSummary like " + ExecutionRunSpec.getActivityOutputTable() + ";");
+				finalProcessSQLs.add("alter table nrActivityWeightSummary add primary key (" + keyColumnNames + ");");
+				finalProcessSQLs.add("insert into nrActivityWeightSummary (" + keyColumnNames + ",activity)"
+						+ " select " + keyColumnNames + ",sum(activity) as activity"
+						+ " from " + ExecutionRunSpec.getActivityOutputTable() + " where activityTypeID=2" // weight by source hours (activity type 2)
+						+ " and MOVESRunID = "+ activeRunID
+						+ " and iterationID = " + activeIterationID
+						+ " group by " + keyColumnNames
+						+ " order by null;");
+				finalProcessSQLs.add("create table nrActivityWeightDetail like " + ExecutionRunSpec.getActivityOutputTable() + ";");
+				finalProcessSQLs.add("alter table nrActivityWeightDetail add primary key (" + detailKey + ");");
+				finalProcessSQLs.add("insert into nrActivityWeightDetail(" + detailKey + ",activity,activityTypeID)"
+						+ " select " + detailSelect + ","
+						+ " case when s.activity>0 then a.activity/s.activity else 0.0 end as activity,2 as activityTypeID"
+						+ " from " + ExecutionRunSpec.getActivityOutputTable() + " a"
+						+ " inner join nrActivityWeightSummary s using (" + keyColumnNames + ")"
+						+ " where a.activityTypeID=2" // weight by source hours (activity type 2)
+						+ " and MOVESRunID = "+ activeRunID
+						+ " and iterationID = " + activeIterationID + ";");
+				finalProcessSQLs.add("update " + ExecutionRunSpec.getActivityOutputTable() + " a, nrActivityWeightDetail set a.activity=nrActivityWeightDetail.activity*a.activity"
+						+ " where " + updateWhere
+						+ " and a.activityTypeID in (9,10,12);"); // avgHP, retroFrac, LF load factor
+				finalProcessSQLs.add("drop table if exists nrActivityWeightSummary;");
+				finalProcessSQLs.add("drop table if exists nrActivityWeightDetail;");
+			}
+		} catch(Exception e) {
+			/**
+			 * @explain A database error occurred while creating SQL statements for
+			 * aggregating data.
+			**/
+			Logger.logError(e, "Failed to generate SQLs for final processing");
+			return false;
+		}
+		
 		try {
 			finalProcessSQLs.add("DROP TABLE IF EXISTS WorkerActivityOutputTemp");
 			finalProcessSQLs.add(createActivitySQL);

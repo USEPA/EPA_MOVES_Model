@@ -18,7 +18,7 @@ import java.util.*;
  * Calculate fuel effects
  *
  * @author		Wesley Faler
- * @version		2014-07-31
+ * @version		2016-10-04
 **/
 public class FuelEffectsGenerator extends Generator {
 	/**
@@ -389,11 +389,11 @@ public class FuelEffectsGenerator extends Generator {
 				Integer a = null, b = null;
 				int t = query.rs.getInt(1);
 				if(!query.rs.wasNull()) {
-					a = new Integer(t);
+					a = Integer.valueOf(t);
 				}
 				t = query.rs.getInt(2);
 				if(!query.rs.wasNull()) {
-					b = new Integer(t);
+					b = Integer.valueOf(t);
 				}
 				IntegerPair pair = new IntegerPair(a,b);
 				results.add(pair);
@@ -607,7 +607,7 @@ public class FuelEffectsGenerator extends Generator {
 		allowedProcesses.clear();
 		for(Iterator<Integer> i=allowedPolProcesses.iterator();i.hasNext();) {
 			int polProcessID = i.next().intValue();
-			Integer processID = new Integer(polProcessID % 100);
+			Integer processID = Integer.valueOf(polProcessID % 100);
 			allowedProcesses.add(processID);
 		}
 
@@ -650,7 +650,7 @@ public class FuelEffectsGenerator extends Generator {
 		if(allowedProcesses.size() <= 0) {
 			return true;
 		}
-		return allowedProcesses.contains(new Integer(processID));
+		return allowedProcesses.contains(Integer.valueOf(processID));
 	}
 
 	/**
@@ -662,7 +662,7 @@ public class FuelEffectsGenerator extends Generator {
 		if(allowedPolProcesses.size() <= 0) {
 			return true;
 		}
-		return allowedPolProcesses.contains(new Integer(polProcessID));
+		return allowedPolProcesses.contains(Integer.valueOf(polProcessID));
 	}
 
 	/**
@@ -703,13 +703,13 @@ public class FuelEffectsGenerator extends Generator {
 		if(minModelYearID < 1960) {
 			minModelYearID = 1960;
 		}
-		if(maxModelYearID < 1960 || maxModelYearID > 2050) {
-			maxModelYearID = 2050;
+		if(maxModelYearID < 1960 || maxModelYearID > 2060) {
+			maxModelYearID = 2060;
 		}
 
 		ModelYearRange range = new ModelYearRange(modelYearGroupID, minModelYearID, maxModelYearID);
 		for(;range.minModelYearID<=range.maxModelYearID;range.minModelYearID++) {
-			if(allowedModelYears.contains(new Integer(range.minModelYearID))) {
+			if(allowedModelYears.contains(Integer.valueOf(range.minModelYearID))) {
 				break;
 			}
 		}
@@ -723,7 +723,7 @@ public class FuelEffectsGenerator extends Generator {
 			return null;
 		}
 		for(;range.maxModelYearID>=range.minModelYearID;range.maxModelYearID--) {
-			if(allowedModelYears.contains(new Integer(range.maxModelYearID))) {
+			if(allowedModelYears.contains(Integer.valueOf(range.maxModelYearID))) {
 				break;
 			}
 		}
@@ -779,7 +779,7 @@ public class FuelEffectsGenerator extends Generator {
 					fuelModelIDsCSV += ",";
 				}
 				fuelModelIDsCSV += id;
-				fuelModelIDs.add(new Integer(id));
+				fuelModelIDs.add(Integer.valueOf(id));
 			}
 		} finally {
 			query.onFinally();
@@ -820,7 +820,7 @@ public class FuelEffectsGenerator extends Generator {
 			while(query.rs.next()) {
 				Parameter p = new Parameter(query.rs.getInt(1),
 						query.rs.getString(2),query.rs.getString(3));
-				parameters.put(new Integer(p.id),p);
+				parameters.put(Integer.valueOf(p.id),p);
 			}
 		} finally {
 			query.onFinally();
@@ -1153,7 +1153,7 @@ public class FuelEffectsGenerator extends Generator {
 				while(query.rs.next()) {
 					found = true;
 					int fuelParameterID = query.rs.getInt(1);
-					Integer id = new Integer(fuelParameterID);
+					Integer id = Integer.valueOf(fuelParameterID);
 					Parameter p = fuelParameters.get(id);
 					if(p == null) {
 						continue;
@@ -1343,7 +1343,7 @@ public class FuelEffectsGenerator extends Generator {
 				break;
 			}
 		}
-		baseFormulationsCache.put(cacheKey,new Integer(result));
+		baseFormulationsCache.put(cacheKey,Integer.valueOf(result));
 		return result;
 	}
 
@@ -1422,7 +1422,7 @@ public class FuelEffectsGenerator extends Generator {
 //Logger.log(LogMessageCategory.INFO,"Found#1 " + results.size() + " modelYearGroupIDs using " + sql);
 			return results;
 		}
-		if(results.size() > 0 && !results.contains(new Integer(0))) {
+		if(results.size() > 0 && !results.contains(Integer.valueOf(0))) {
 //Logger.log(LogMessageCategory.INFO,"Found#2 " + results.size() + " modelYearGroupIDs using " + sql);
 			return results;
 		}
@@ -1463,13 +1463,13 @@ public class FuelEffectsGenerator extends Generator {
 				while(query.rs.next()) {
 					FuelFormulation f = new FuelFormulation();
 					f.fromResultSet(query.rs);
-					fuelFormulations.put(new Integer(f.fuelFormulationID),f);
+					fuelFormulations.put(Integer.valueOf(f.fuelFormulationID),f);
 				}
 			} finally {
 				query.onFinally();
 			}
 		}
-		FuelFormulation f = fuelFormulations.get(new Integer(formulationID));
+		FuelFormulation f = fuelFormulations.get(Integer.valueOf(formulationID));
 		if(f == null) {
 			return;
 		}
@@ -1635,7 +1635,7 @@ Logger.log(LogMessageCategory.INFO,"doAirToxicsCalculations");
 				continue;
 			}
 			polProcessIDs.add(iObject);
-			Integer processID = new Integer(polProcessID % 100);
+			Integer processID = Integer.valueOf(polProcessID % 100);
 			if(!processIDs.contains(processID)) {
 				processIDs.add(processID);
 			}
@@ -2219,7 +2219,7 @@ Logger.log(LogMessageCategory.INFO,"doCOCalculations");
 				continue;
 			}
 			polProcessIDs.add(iObject);
-			Integer processID = new Integer(polProcessID % 100);
+			Integer processID = Integer.valueOf(polProcessID % 100);
 			if(!processIDs.contains(processID)) {
 				processIDs.add(processID);
 			}
@@ -2596,7 +2596,7 @@ Logger.log(LogMessageCategory.INFO,"doPredictiveCalculations: " + engineName + "
 				continue;
 			}
 			polProcessIDs.add(iObject);
-			Integer processID = new Integer(polProcessID % 100);
+			Integer processID = Integer.valueOf(polProcessID % 100);
 			if(!processIDs.contains(processID)) {
 				processIDs.add(processID);
 			}
@@ -2985,7 +2985,7 @@ Logger.log(LogMessageCategory.INFO,"doMTBECalculations");
 		loadFuelModelIDs();
 
 		TreeSet<Integer> fuelTypeIDs = getFuelTypeIDs();
-		fuelTypeIDs.add(new Integer(1)); // Force gasoline at a minimum
+		fuelTypeIDs.add(Integer.valueOf(1)); // Force gasoline at a minimum
 		TreeSet<Integer> candidatePolProcessIDs = getPolProcessIDs(null);
 		TreeSet<Integer> polProcessIDs = new TreeSet<Integer>();
 		for(Iterator<Integer> ppi=candidatePolProcessIDs.iterator();ppi.hasNext();) {
@@ -3025,7 +3025,7 @@ Logger.log(LogMessageCategory.INFO,"doMTBECalculations");
 			if(pollutantID != 22) { // 22 == MTBE
 				continue;
 			}
-			Integer processID = new Integer(polProcessID % 100);
+			Integer processID = Integer.valueOf(polProcessID % 100);
 			if(!processIDs.contains(processID)) {
 				processIDs.add(processID);
 			}
@@ -3169,13 +3169,13 @@ Logger.log(LogMessageCategory.INFO,"doEvapBenzeneCalculations");
 		loadFuelModelIDs();
 
 		TreeSet<Integer> fuelTypeIDs = getFuelTypeIDs();
-		fuelTypeIDs.add(new Integer(1)); // Force gasoline at a minimum
+		fuelTypeIDs.add(Integer.valueOf(1)); // Force gasoline at a minimum
 		TreeSet<Integer> candidatePolProcessIDs = getPolProcessIDs(null);
 		int[] tempIDs = {
 			2011, 2012, 2013 //, 2018, 2019
 		};
 		for(int i=0;i<tempIDs.length;i++) {
-			candidatePolProcessIDs.add(new Integer(tempIDs[i]));
+			candidatePolProcessIDs.add(Integer.valueOf(tempIDs[i]));
 		}
 
 		TreeSet<Integer> polProcessIDs = new TreeSet<Integer>();
@@ -3216,7 +3216,7 @@ Logger.log(LogMessageCategory.INFO,"doEvapBenzeneCalculations");
 			if(pollutantID != 20) { // 20 == Benzene
 				continue;
 			}
-			Integer processID = new Integer(polProcessID % 100);
+			Integer processID = Integer.valueOf(polProcessID % 100);
 			if(!processIDs.contains(processID)) {
 				processIDs.add(processID);
 			}
@@ -3426,7 +3426,7 @@ Logger.log(LogMessageCategory.INFO,"doGeneralFuelRatio");
 		ArrayList<GeneralFuelRatioExpression> newExpressions = new ArrayList<GeneralFuelRatioExpression>();
 		for(Iterator<GeneralFuelRatioExpression> i=expressions.iterator();i.hasNext();) {
 			GeneralFuelRatioExpression exp = i.next();
-			Integer id = new Integer(exp.fuelTypeID);
+			Integer id = Integer.valueOf(exp.fuelTypeID);
 			if(!fuelTypeIDs.contains(id)) {
 				fuelTypeIDs.add(id);
 			}
@@ -3489,7 +3489,7 @@ Logger.log(LogMessageCategory.INFO,"doGeneralFuelRatio");
 					continue;
 				}
 
-				Integer polProcessIDObject = new Integer(exp.polProcessID);
+				Integer polProcessIDObject = Integer.valueOf(exp.polProcessID);
 
 				String formulationIDsCSV = "";
 				for(Iterator<Integer> ffi=fuelFormulationsToUse.iterator();ffi.hasNext();) {
@@ -3594,7 +3594,7 @@ Logger.log(LogMessageCategory.INFO,"doGeneralFuelRatio");
 		String newPolProcessIDsCSV = "";
 		for(int i=0;parts != null && i < parts.length;i++) {
 			try {
-				Integer id = new Integer(Integer.parseInt(parts[i].trim()));
+				Integer id = Integer.valueOf(Integer.parseInt(parts[i].trim()));
 				if(!polProcessIDsAlreadyDone.contains(id)) {
 					polProcessIDsAlreadyDone.add(id);
 					if(newPolProcessIDsCSV.length() > 0) {

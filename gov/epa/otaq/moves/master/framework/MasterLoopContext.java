@@ -207,11 +207,11 @@ public class MasterLoopContext {
 	public String getAllProcessesCSV() {
 		TreeSet<Integer> seen = new TreeSet<Integer>();
 		if(iterProcess != null) {
-			seen.add(new Integer(iterProcess.databaseKey));
+			seen.add(Integer.valueOf(iterProcess.databaseKey));
 		}
 		if(chainedProcesses != null) {
 			for(EmissionProcess p : chainedProcesses) {
-				seen.add(new Integer(p.databaseKey));
+				seen.add(Integer.valueOf(p.databaseKey));
 			}
 		}
 		if(seen.size() <= 0) {

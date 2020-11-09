@@ -22,7 +22,7 @@ import gov.epa.otaq.moves.master.implementation.ghg.TotalActivityGenerator;
  * MOVES SourceTypeYear Data Importer.
  * 
  * @author		Wesley Faler
- * @version		2009-04-20
+ * @version		2015-09-16
 **/
 public class SourceTypePopulationImporter extends ImporterBase {
 	/** Data handler for this importer **/
@@ -247,12 +247,32 @@ public class SourceTypePopulationImporter extends ImporterBase {
 			return new RunSpecSectionStatus(RunSpecSectionStatus.OK);
 		}
 		boolean hasSourceTypes = manager.tableHasSourceTypes(db,
-				"select distinct sourceTypeID from " + primaryTableName);
+				"select distinct sourceTypeID from " + primaryTableName + " where sourceTypePopulation > 0",
+				this,primaryTableName + " is missing sourceTypeID(s)");
 		boolean hasYears = manager.tableHasYears(db,
-				"select distinct yearID from " + primaryTableName);
+				"select distinct yearID from " + primaryTableName,
+				this,primaryTableName + " is missing yearID(s)");
 		if(hasSourceTypes && hasYears) {
-			return new RunSpecSectionStatus(RunSpecSectionStatus.OK);
+			return getImporterDataStatus(db);
 		}
 		return new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);
+	}
+
+	/**
+	 * Check a RunSpec against the database or for display of the importer.
+	 * @param db database to be examined.
+	 * @return the status, or null if the status should not be shown to the user.
+	 * @throws Exception if anything goes wrong
+	**/
+	public RunSpecSectionStatus getImporterDataStatus(Connection db) throws Exception {
+		ArrayList<String> messages = new ArrayList<String>();
+		BasicDataHandler.runScript(db,this,messages,1,"database/SourceTypePopulationImporter.sql");
+		for(Iterator<String> i=messages.iterator();i.hasNext();) {
+			String t = i.next();
+			if(t.toUpperCase().startsWith("ERROR")) {
+				return new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);
+			}
+		}
+		return new RunSpecSectionStatus(RunSpecSectionStatus.OK);
 	}
 }

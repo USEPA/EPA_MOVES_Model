@@ -20,7 +20,7 @@ import java.net.*;
  * @author		Wesley Faler
  * @author		Sarah Luo
  * @author		Tim Hull
- * @version		2013-12-12
+ * @version		2016-03-14
 **/
 public class SystemConfiguration {
 	/** Name of the file holding the prior master's ID file name and path **/
@@ -89,7 +89,10 @@ public class SystemConfiguration {
 	 * are not saved.
 	**/
 	public File saveTODOPath;
-	
+
+	/** Full path and name of the external generator program, if any. **/	
+	public File generatorExePath = null;
+
 
 	/** The name of the MOVES Worker configuration file **/
 	public static String MOVES_WORKER_CONFIGURATION_FILE_NAME = "WorkerConfiguration.txt";
@@ -233,30 +236,34 @@ public class SystemConfiguration {
 		//		databaseSelections[MOVESDatabaseType.OUTPUT.getIndex()].password + eol);
 
 		if(nonroadExePath != null) {
-			configWriter.write("nonroadExePath" + " = " + nonroadExePath.getCanonicalPath() + eol);
+			configWriter.write("nonroadExePath" + " = " + nonroadExePath.getPath() + eol);
 		}
 
 		configWriter.write("sharedDistributedFolderPath" + " = " +
-				sharedDistributedFolderPath.getCanonicalPath() + eol);  
+				sharedDistributedFolderPath.getPath() + eol);
 				
 		/*
 		configWriter.write("GREETWTPApplication" + " = " +
-				GREETWTPApplication.getCanonicalPath() + eol);
+				GREETWTPApplication.getPath() + eol);
 		configWriter.write("GREETManufactureApplication" + " = " +
-				GREETManufactureApplication.getCanonicalPath() + eol);
+				GREETManufactureApplication.getPath() + eol);
 		configWriter.write("GREETDirectory" + " = " +
-				GREETDirectory.getCanonicalPath() + eol);
+				GREETDirectory.getPath() + eol);
 		*/
 		configWriter.write("computerIDPath" + " = " +
 				computerIDPath + eol);
 		configWriter.write("masterFolderPath" + " = " +
-				masterFolderPath.getCanonicalPath() + eol);
+				masterFolderPath.getPath() + eol);
 		configWriter.write("saveTODOPath" + " = " +
-				(saveTODOPath == null? "" : saveTODOPath.getCanonicalPath()) + eol);
+				(saveTODOPath == null? "" : saveTODOPath.getPath()) + eol);
 
 		configWriter.write("mysqlUserName" + " = " + DatabaseSelection.userProvidedUserName + eol);
 		configWriter.write("mysqlPassword" + " = "
 				+ PasswordChecker.encode(DatabaseSelection.userProvidedUserName,DatabaseSelection.userProvidedPassword) + eol);
+
+		if(generatorExePath != null) {
+			configWriter.write("generatorExePath" + " = " + generatorExePath.getPath() + eol);
+		}
 
 		configWriter.close();
 		
@@ -327,7 +334,7 @@ public class SystemConfiguration {
 				
 				//reset the value of sharedDistributedFolderPath and MySQL login credentials
 				if(name.equalsIgnoreCase("sharedDistributedFolderPath")) {
-					value = sharedDistributedFolderPath.getCanonicalPath();
+					value = sharedDistributedFolderPath.getPath();
 				} else if(name.equalsIgnoreCase("mysqlUserName")) {
 					value = DatabaseSelection.userProvidedUserName;
 				} else if(name.equalsIgnoreCase("mysqlPassword")) {
@@ -497,6 +504,10 @@ public class SystemConfiguration {
 					} else if(name.compareToIgnoreCase("mysqlPassword") == 0) {
 						if(value != null && value.length() > 0) {
 							mysqlPassword = value.trim();
+						}
+					} else if (name.compareToIgnoreCase("generatorExePath") == 0) {
+						if (value != null && value.length() > 0) {
+							generatorExePath = new File(value);
 						}
 					} else {
 						/**

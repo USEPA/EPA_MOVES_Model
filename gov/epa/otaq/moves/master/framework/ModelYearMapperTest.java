@@ -13,7 +13,7 @@ import junit.framework.*;
  * Test Case for the ModelYearMapper class
  *
  * @author		Wesley Faler
- * @version		2012-04-08
+ * @version		2016-10-04
 **/
 public class ModelYearMapperTest extends TestCase {
 	/**
@@ -36,7 +36,7 @@ public class ModelYearMapperTest extends TestCase {
 
 		mapper.addToMappings(2000,2005,1997,2002);
 		mapper.addToMappings(2006,2008,2005,2007);
-		mapper.addToMappings(2009,2050,2009,2050);
+		mapper.addToMappings(2009,2060,2009,2060);
 
 		String input = "testing";
 		String output = mapper.findAndConvert(input);

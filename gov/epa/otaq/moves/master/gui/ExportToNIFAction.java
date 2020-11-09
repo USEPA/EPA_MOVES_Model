@@ -43,7 +43,7 @@ public class ExportToNIFAction extends JLFAbstractAction {
 //		putValue(LARGE_ICON, getIcon(LARGE_ICON_EXPORT_TO_NIF));
 		putValue(Action.SHORT_DESCRIPTION, SHORT_DESCRIPTION_EXPORT_TO_NIF);
 		putValue(Action.LONG_DESCRIPTION, LONG_DESCRIPTION_EXPORT_TO_NIF);
-//		putValue(Action.MNEMONIC_KEY, new Integer(MNEMONIC_KEY_EXPORT_TO_NIF));
+//		putValue(Action.MNEMONIC_KEY, Integer.valueOf(MNEMONIC_KEY_EXPORT_TO_NIF));
 		putValue(Action.ACTION_COMMAND_KEY, ACTION_COMMAND_KEY_EXPORT_TO_NIF);
 	}
 }

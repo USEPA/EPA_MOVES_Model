@@ -6,44 +6,80 @@
  *************************************************************************************************/
 package gov.epa.otaq.moves.master.gui;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import gov.epa.otaq.moves.master.runspec.*;
-import java.util.*;
-import java.sql.*;
-import gov.epa.otaq.moves.master.framework.*;
-import gov.epa.otaq.moves.common.*;
-import gov.epa.otaq.moves.master.framework.importers.ImporterManager;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.TreeMap;
+import java.util.TreeSet;
+
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import gov.epa.otaq.moves.common.Constants;
+import gov.epa.otaq.moves.common.DatabaseSelection;
+import gov.epa.otaq.moves.common.JListWithToolTips;
+import gov.epa.otaq.moves.common.Logger;
+import gov.epa.otaq.moves.common.MOVESDatabaseType;
+import gov.epa.otaq.moves.common.Model;
+import gov.epa.otaq.moves.common.ModelDomain;
+import gov.epa.otaq.moves.common.ModelScale;
+import gov.epa.otaq.moves.common.Models;
+import gov.epa.otaq.moves.common.SQLRunner;
+import gov.epa.otaq.moves.common.ToolTipHelper;
+import gov.epa.otaq.moves.common.TreeSetIgnoreCase;
+import gov.epa.otaq.moves.master.framework.DatabaseConnectionManager;
+import gov.epa.otaq.moves.master.runspec.GenericCounty;
+import gov.epa.otaq.moves.master.runspec.GeographicOutputDetailLevel;
+import gov.epa.otaq.moves.master.runspec.GeographicSelection;
+import gov.epa.otaq.moves.master.runspec.GeographicSelectionType;
+import gov.epa.otaq.moves.master.runspec.RunSpec;
 
 /**
  * Class for geography selection at Macroscale and Mescoscale Lookup.
- * The panel consists of option buttons for region (Nation, State, and County), a States list,
- * a Counties list, and a list for selections. There are Add, Delete, and Select All buttons
+ * The panel consists of  States list,  a Counties list, and a list for selections.
+ * There are Add, Delete, and Select All buttons
  * to prepare a list of States or Counties.
  *
  * @author		Wesley Faler
  * @author		Mitch C. (minor mods)
  * @author		Tim Hull
- * @version		2015-05-21
+ * @author  	Bill Shaw (508 compliance mods)
+ * @author      John Covey (Task 1903)
+ * @author		Mike Kender (Task 2003)
+ * @version     2020-07-27
 **/
 public class MacroscaleGeographicBounds extends JPanel implements ListSelectionListener,
-		ActionListener, FocusListener, RunSpecEditor {
-	/** Region label. **/
-	JLabel regionLabel;
-	/** Radio button group. **/
-	ButtonGroup radioButtons;
-	/** Nation radio button. **/
-	JRadioButton nation;
-	/** State radio button. **/
-	JRadioButton state;
-	/** County radio button. **/
-	JRadioButton county;
-	/** Zone & Link radio button **/
-	JRadioButton zoneLink;
-	/** Custom Domain radio button **/
-	JRadioButton customDomain;
+		ActionListener, FocusListener, RunSpecEditor {	/** Singleton for the navigation panel **/
+	public MOVESWindow parent;
+	public static MacroscaleGeographicBounds singleton = null;
+	
 	/** State label. **/
 	JLabel stateLabel;
 	/** County label. **/
@@ -114,23 +150,6 @@ public class MacroscaleGeographicBounds extends JPanel implements ListSelectionL
 	/** Panel holding generic county input controls **/
 	JPanel genericCountyPanel;
 
-	/** Panel holding controls for selecting a database for County or project domains **/
-	JPanel databasePanel;
-	/** Text describing the current scale/domain **/
-	JLabel databasePurposeLabel;
-	/** Database server **/
-	JTextField server;
-	/** List of database names **/
-	ExtendedComboBox<String> databaseCombo;
-	/** Button for creating/editing the database via the County Data Manager **/
-	JButton editDatabaseButton;
-	/** Button to refresh the list of databases **/
-	JButton refreshDatabaseButton;
-	/** Button to scan the current database selection for validity **/
-	JButton checkDatabaseButton;
-	/** Database droplist ToolTip **/
-	JToolTip databaseToolTip;
-
 	/** Panel showing warning about National-scale information **/
 	JPanel nationalWarningPanel = null;
 	/** Panel showing warning about County/Project-scale information **/
@@ -154,12 +173,11 @@ public class MacroscaleGeographicBounds extends JPanel implements ListSelectionL
 	 * Constructs a MacroscaleGeographicBounds panel, also creates and sets the layouts of
 	 * the controls.
 	**/
-	public MacroscaleGeographicBounds() {
+	public MacroscaleGeographicBounds(MOVESWindow p) {
+		parent = p;
+		singleton = this;
 		createControls();
 		arrangeControls();
-
-		generateListOfInvalidDatabaseNames();
-		loadDatabases();
 	}
 
 	/**
@@ -199,38 +217,14 @@ public class MacroscaleGeographicBounds extends JPanel implements ListSelectionL
 	/** Creates and initializes all controls on this panel. **/
 	public void createControls() {
 		createGenericCountyPanel();
-		createDatabasePanel();
 
+		Dimension buttonSize = new Dimension(87,25);
 		stateButtonPanel = new JPanel();
 		countyButtonPanel = new JPanel();
-		Dimension buttonSize = new Dimension(87,25);
-		regionLabel = new JLabel("Region:");
-		regionLabel.setName("regionLabel");
-		radioButtons = new ButtonGroup();
-		nation = new JRadioButton("Nation");
-		nation.setName("nation");
-		nation.addActionListener(this);
-		ToolTipHelper.add(nation,"Simulate at the nation level");
-		state = new JRadioButton("State");
-		state.setName("state");
-		state.addActionListener(this);
-		ToolTipHelper.add(state,"Simulate at the state level");
-		county = new JRadioButton("County");
-		county.setName("county");
-		county.addActionListener(this);
-		ToolTipHelper.add(county,"Simulate at the county level");
-		zoneLink = new JRadioButton("Zone & Link");
-		zoneLink.setName("zoneLink");
-		zoneLink.addActionListener(this);
-		ToolTipHelper.add(zoneLink,"Simulate at the zone & link level");
-		customDomain = new JRadioButton("Custom Domain");
-		customDomain.setName("customDomain");
-		customDomain.addActionListener(this);
-		ToolTipHelper.add(customDomain,"Define a custom county");
 
-		stateLabel = new JLabel("States:");
+		stateLabel = new JLabel("States (Alt+2):");
 		stateLabel.setName("stateLabel");
-		countyLabel = new JLabel("Counties:");
+		countyLabel = new JLabel("Counties (FIPS code):");
 		countyLabel.setName("countyLabel");
 		selectionLabel = new JLabel("Selections:");
 		selectionLabel.setName("selectionLabel");
@@ -244,29 +238,87 @@ public class MacroscaleGeographicBounds extends JPanel implements ListSelectionL
 		loadStates();
 		stateList = new JListWithToolTips<GeographicSelection>(stateListModel);
 		stateList.setName("stateList");
+		stateList.setToolTipText(Constants.GEOGRAPHIC_BOUNDS_STATES_TOOLTIP);
+
 		stateList.setSelectionMode(
 				ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		stateList.setSelectedIndex(-1);
 		stateList.addListSelectionListener(this);
 		stateList.setVisibleRowCount(9);
 		stateList.setPrototypeCellValue(prototypeValue);
+		stateList.addKeyListener(new KeyListener() {
+			public void keyReleased(KeyEvent e) {
+				if (stateList.getModel().getSize() == 0) {
+					JOptionPane.showMessageDialog(null, "no 'States' to select");
+	            } else if (stateList.isSelectionEmpty()) {
+	            	stateList.setSelectedIndex(0);
+	            }
+			}
+
+			public void keyTyped(KeyEvent e) {
+				//nothing to do, for now
+			}
+
+			public void keyPressed(KeyEvent e) {
+				//nothing to do, for now
+			}
+		});
+
 		stateScrollPane = new JScrollPane(stateList,
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		stateScrollPane.setName("stateScrollPane");
+		stateLabel.setDisplayedMnemonic('2');
+		stateLabel.setLabelFor(stateScrollPane);
+		
+		stateLabel.addFocusListener(new FocusListener() {
+			
+			@Override
+			public void focusLost(FocusEvent e) {
+				//nothing special here, yet
+			}
+			
+			@Override
+			public void focusGained(FocusEvent e) {
+				if(stateList.getSelectedIndices().length > 0) {
+					stateList.setSelectedIndex(stateList.getSelectedIndices()[0]);
+				}
+			}
+		});
 
 		countyList = new JListWithToolTips<GeographicSelection>(countyListModel);
 		countyList.setName("countyList");
+		countyList.setToolTipText(Constants.GEOGRAPHIC_BOUNDS_COUNTIES_TOOLTIP);
 		countyList.setSelectionMode(
 			ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		countyList.setSelectedIndex(-1);
 		countyList.addListSelectionListener(this);
 		countyList.setVisibleRowCount(9);
 		countyList.setPrototypeCellValue(prototypeValue);
+		countyList.addKeyListener(new KeyListener() {
+			public void keyReleased(KeyEvent e) {
+				if (countyList.getModel().getSize() == 0) {
+					JOptionPane.showMessageDialog(null, "no 'Counties' to select");
+	            } else if (countyList.isSelectionEmpty()) {
+	            	countyList.setSelectedIndex(0);
+	            }
+			}
+
+			public void keyTyped(KeyEvent e) {
+				//nothing to do, for now
+			}
+
+			public void keyPressed(KeyEvent e) {
+				//nothing to do, for now
+			}
+		});
+
 		countyScrollPane = new JScrollPane(countyList,
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		countyScrollPane.setName("countyScrollPane");
+		countyLabel.setDisplayedMnemonic('o');
+		countyLabel.setLabelFor(countyScrollPane);
 
 		selectionList = new JListWithToolTips<GeographicSelection>(selectionListModel);
 		selectionList.setName("selectionList");
@@ -276,37 +328,67 @@ public class MacroscaleGeographicBounds extends JPanel implements ListSelectionL
 		selectionList.addListSelectionListener(this);
 		selectionList.setVisibleRowCount(9);
 		selectionList.setPrototypeCellValue(prototypeValue);
+		selectionList.setToolTipText(Constants.GEOGRAPHIC_BOUNDS_SELECTIONS_TOOLTIP);
+		selectionList.addKeyListener(new KeyListener() {
+			public void keyReleased(KeyEvent e) {
+				if (selectionList.getModel().getSize() == 0) {
+					JOptionPane.showMessageDialog(null, "no 'Selections' to select");
+	            } else if (selectionList.isSelectionEmpty()) {
+	            	selectionList.setSelectedIndex(0);
+	            }
+			}
+
+			public void keyTyped(KeyEvent e) {
+				//nothing to do, for now
+			}
+
+			public void keyPressed(KeyEvent e) {
+				//nothing to do, for now
+			}
+		});
+
 		selectionScrollPane = new JScrollPane(selectionList,
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+				JScrollPane. HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		selectionScrollPane.setName("selectionScrollPane");
+		selectionLabel.setDisplayedMnemonic('i');
+		selectionLabel.setLabelFor(selectionScrollPane);
 
-		stateSelectAll = new JButton("Select All");
+		stateSelectAll = new JButton("Select All (Alt+3)");
+		stateSelectAll.setMnemonic('3');
 		stateSelectAll.setName("stateSelectAll");
 		stateSelectAll.addActionListener(this);
-		stateSelectAll.setPreferredSize(buttonSize);
+//		stateSelectAll.setPreferredSize(new Dimension(150,25));
 		ToolTipHelper.add(stateSelectAll,"Select all states");
 		stateAdd = new JButton("Add");
 		stateAdd.setName("stateAdd");
 		stateAdd.setEnabled(false); // not enabled until item selected from list
 		stateAdd.addActionListener(this);
+		stateAdd.setMnemonic('d');
+		stateAdd.setDisplayedMnemonicIndex(1);
 		stateAdd.setPreferredSize(buttonSize);
 		ToolTipHelper.add(stateAdd,"Add selected states to selection list");
 		countySelectAll = new JButton("Select All");
 		countySelectAll.setName("countySelectAll");
 		countySelectAll.addActionListener(this);
 		countySelectAll.setPreferredSize(buttonSize);
+		countySelectAll.setMnemonic('c');
+		countySelectAll.setDisplayedMnemonicIndex(4);
 		ToolTipHelper.add(countySelectAll,"Select all counties");
 		countyAdd = new JButton("Add");
 		countyAdd.setName("countyAdd");
 		countyAdd.setEnabled(false); // not enabled until item selected from list
 		countyAdd.addActionListener(this);
+		countyAdd.setMnemonic('d');
+		countyAdd.setDisplayedMnemonicIndex(1);
 		countyAdd.setPreferredSize(buttonSize);
 		ToolTipHelper.add(countyAdd,"Add selected counties to selection list");
 		selectionDelete = new JButton("Delete");
 		selectionDelete.setName("selectionDelete");
 		selectionDelete.setEnabled(false); // not enabled until item selected from list
 		selectionDelete.addActionListener(this);
+		selectionDelete.setMnemonic('l');
+		selectionDelete.setDisplayedMnemonicIndex(2);
 		ToolTipHelper.add(selectionDelete,"Delete selected items from the selection list");
 
 		previousRBSetting = "";
@@ -330,7 +412,7 @@ public class MacroscaleGeographicBounds extends JPanel implements ListSelectionL
 		ImageIcon warningImage = new ImageIcon("gov/epa/otaq/moves/master/gui/images/dataExists.gif");
 		JLabel warningLabel = new JLabel(
 				"<html><body>"
-				+ "Caution: You have selected National scale with detail at the State or County level.<br>"
+				+ "Caution: You have selected Default Scale with detail at the State or County level.<br>"
 				+ "MOVES will use the default national database with default state and local allocation<br>"
 				+ "factors.  These factors have not been verified against actual state or county level<br>"
 				+ "data and do not meet regulatory requirements for SIPs and conformity determinations."
@@ -373,33 +455,6 @@ public class MacroscaleGeographicBounds extends JPanel implements ListSelectionL
 		countyButtonPanel.add(countySelectAll);
 		countyButtonPanel.add(countyAdd);
 
-		// Register a listener for the buttons.
-		radioButtons.add(nation);
-		radioButtons.add(state);
-		radioButtons.add(county);
-		radioButtons.add(zoneLink);
-		radioButtons.add(customDomain);
-
-//		Dimension view = getPreferredSize();
-//		if(view==null) {
-//			System.out.println("view not set");
-//		} else {
-//			System.out.println("Height="+view.height);
-//			System.out.println("Width="+view.width);
-//		}
-
-		LayoutUtility.setPositionOnGrid(gbc,0, 0, "WEST", 1, 1);
-		add(regionLabel, gbc);
-		LayoutUtility.setPositionOnGrid(gbc,0, 1, "WEST", 1, 1);
-		add(nation, gbc);
-		LayoutUtility.setPositionOnGrid(gbc,0, 2, "WEST", 1, 1);
-		add(state, gbc);
-		LayoutUtility.setPositionOnGrid(gbc,0, 3, "WEST", 1, 1);
-		add(county, gbc);
-		LayoutUtility.setPositionOnGrid(gbc,0, 4, "WEST", 1, 1);
-		add(zoneLink, gbc);
-		LayoutUtility.setPositionOnGrid(gbc,0, 5, "WEST", 1, 1);
-		add(customDomain, gbc);
 		// Leave a blank grid cell for row #6 (7th row)
 
 		LayoutUtility.setPositionOnGrid(gbc,1-1, 0, "WEST", 2, 1);
@@ -424,6 +479,11 @@ public class MacroscaleGeographicBounds extends JPanel implements ListSelectionL
 		stateCountiesPanel.add(selectionScrollPane, gbc);
 		LayoutUtility.setPositionOnGrid(gbc,5-1, 6, "EAST", 2, 1);
 		stateCountiesPanel.add(selectionDelete, gbc);
+		
+		Dimension d = genericCountyPanel.getPreferredSize();
+
+		d.width = 800;
+		genericCountyPanel.setPreferredSize(d);
 
 		JPanel centerPanel = new JPanel();
 		centerPanel.setLayout(new BoxLayout(centerPanel,BoxLayout.Y_AXIS));
@@ -435,12 +495,9 @@ public class MacroscaleGeographicBounds extends JPanel implements ListSelectionL
 		add(centerPanel, gbc);
 
 		messageLogPanel.setLayout(new BoxLayout(messageLogPanel, BoxLayout.Y_AXIS));
-		messageLogPanel.add(new JLabel("Geographic Bounds Requirements"));
+		JLabel gbrLabel = new JLabel("Geographic Bounds Requirements");
+		messageLogPanel.add(gbrLabel);
 		messageLogPanel.add(messageLogPane);
-
-		databasePanel.setVisible(false);
-		LayoutUtility.setPositionOnGrid(gbc, 1, 8, "WEST", 8, 1);
-		add(databasePanel, gbc);
 
 		LayoutUtility.setPositionOnGrid(gbc, 0, 9, "WEST", 9, 1);
 		add(messageLogPanel, gbc);
@@ -462,7 +519,7 @@ public class MacroscaleGeographicBounds extends JPanel implements ListSelectionL
 	public void valueChanged(ListSelectionEvent e) {
 		if(e.getValueIsAdjusting() == false) {
 			if(e.getSource() == stateList && stateList.getSelectedIndex() >= 0
-					&& (county.isSelected() || zoneLink.isSelected())) {
+					/*&& (county.isSelected() || zoneLink.isSelected()) */ ) {
 				loadCounties();
 			}
 			updateButtonStates();
@@ -521,22 +578,7 @@ public class MacroscaleGeographicBounds extends JPanel implements ListSelectionL
 	 * @param	e the ActionEvent to be handled.
 	**/
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == nation) {
-			processNationButton();
-			MOVESNavigation.singleton.updateRunSpecSectionStatus();
-		} else if (e.getSource() == state) {
-			processStateButton();
-			MOVESNavigation.singleton.updateRunSpecSectionStatus();
-		} else if (e.getSource() == county) {
-			processCountyButton();
-			MOVESNavigation.singleton.updateRunSpecSectionStatus();
-		} else if(e.getSource() == zoneLink) {
-			processZoneLinkButton();
-			MOVESNavigation.singleton.updateRunSpecSectionStatus();
-		} else if(e.getSource() == customDomain) {
-			processCustomDomainButton();
-			MOVESNavigation.singleton.updateRunSpecSectionStatus();
-		} else if (e.getSource() == stateSelectAll) {
+		if (e.getSource() == stateSelectAll) {
 			processStateSelectAllButton();
 		} else if (e.getSource() == stateAdd) {
 			processStateAddButton();
@@ -549,15 +591,6 @@ public class MacroscaleGeographicBounds extends JPanel implements ListSelectionL
 		} else if (e.getSource() == selectionDelete) {
 			processSelectionDeleteButton();
 			MOVESNavigation.singleton.updateRunSpecSectionStatus();
-		} else if(e.getSource() == editDatabaseButton) {
-			handleEditDatabaseButton();
-		} else if(e.getSource() == refreshDatabaseButton) {
-			handleRefreshDatabaseButton();
-		} else if(e.getSource() == checkDatabaseButton) {
-			handleCheckDatabaseButton();
-		} else if(e.getSource() == databaseCombo) {
-			processDatabaseComboChange();
-			MOVESNavigation.singleton.updateRunSpecSectionStatus();
 		}
 	}
 
@@ -565,10 +598,6 @@ public class MacroscaleGeographicBounds extends JPanel implements ListSelectionL
 	public void processNationButton() {
 		selectionListModel.removeAllElements();
 
-		regionLabel.setVisible(true);
-		nation.setVisible(true);
-		state.setVisible(true);
-		county.setVisible(true);
 		stateLabel.setVisible(false);
 		countyLabel.setVisible(false);
 		selectionLabel.setVisible(false);
@@ -585,33 +614,31 @@ public class MacroscaleGeographicBounds extends JPanel implements ListSelectionL
 
 	/** Handles the State button. **/
 	public void processStateButton() {
+
 		if(0 != previousRBSetting.compareTo("S")) {
-			selectionListModel.removeAllElements();
+			this.selectionListModel.removeAllElements();
 		}
 		// repopulate the states list control
-		loadStates();
+		this.loadStates();
 
-		regionLabel.setVisible(true);
-		nation.setVisible(true);
-		state.setVisible(true);
-		county.setVisible(true);
-		stateLabel.setVisible(true);
-		countyLabel.setVisible(false);
-		selectionLabel.setVisible(true);
-		stateScrollPane.setVisible(true);
-		countyScrollPane.setVisible(false);
-		selectionScrollPane.setVisible(true);
-		stateSelectAll.setVisible(true);
-		stateAdd.setVisible(true);
-		countySelectAll.setVisible(false);
-		countyAdd.setVisible(false);
-		selectionDelete.setVisible(true);
-		previousRBSetting = "S";
-		displaySectionStatus();
+		this.stateLabel.setVisible(true);
+		this.countyLabel.setVisible(false);
+		this.selectionLabel.setVisible(true);
+		this.stateScrollPane.setVisible(true);
+		this.countyScrollPane.setVisible(false);
+		this.selectionScrollPane.setVisible(true);
+		this.stateSelectAll.setVisible(true);
+		this.stateAdd.setVisible(true);
+		this.countySelectAll.setVisible(false);
+		this.countyAdd.setVisible(false);
+		this.selectionDelete.setVisible(true);
+		this.previousRBSetting = "S";
+		this.displaySectionStatus();
 	}
 
 	/** Handles the County button. **/
 	public void processCountyButton() {
+
 		if(0 != previousRBSetting.compareTo("C")) {
 			selectionListModel.removeAllElements();
 		}
@@ -619,10 +646,6 @@ public class MacroscaleGeographicBounds extends JPanel implements ListSelectionL
 		loadStates();
 		countyListModel.removeAllElements();
 
-		regionLabel.setVisible(true);
-		nation.setVisible(true);
-		state.setVisible(true);
-		county.setVisible(true);
 		stateLabel.setVisible(true);
 		countyLabel.setVisible(true);
 		selectionLabel.setVisible(true);
@@ -655,10 +678,6 @@ public class MacroscaleGeographicBounds extends JPanel implements ListSelectionL
 		loadStates();
 		countyListModel.removeAllElements();
 
-		regionLabel.setVisible(true);
-		nation.setVisible(true);
-		state.setVisible(true);
-		county.setVisible(true);
 		stateLabel.setVisible(true);
 		countyLabel.setVisible(true);
 		selectionLabel.setVisible(true);
@@ -684,6 +703,7 @@ public class MacroscaleGeographicBounds extends JPanel implements ListSelectionL
 
 	/** Handles the Custom Domain button. **/
 	public void processCustomDomainButton() {
+
 		if(0 != previousRBSetting.compareTo("D")) {
 			selectionListModel.removeAllElements();
 		}
@@ -699,7 +719,7 @@ public class MacroscaleGeographicBounds extends JPanel implements ListSelectionL
 
 	/** Handle any changes to controls in the generic county **/
 	public void handleGenericCountyChange() {
-		if(customDomain.isSelected()) {
+		if(PreaggregationOptions.singleton.customDomain.isSelected()) {
 			displaySectionStatus();
 		}
 	}
@@ -760,6 +780,12 @@ public class MacroscaleGeographicBounds extends JPanel implements ListSelectionL
 			}
 		}
 		updateButtonStates();
+		MOVESNavigation.singleton.updateRunSpecSectionStatus();
+
+		if (CreateInputDatabase.singleton.databaseCombo.getSelectedItem() != null) {
+			CreateInputDatabase.singleton.processDatabaseComboChange();
+			MOVESNavigation.singleton.updateOption(MOVESNavigation.singleton.createInputDatabaseOption);
+		}
 	}
 
 	/** Handles the Delete button. **/
@@ -773,8 +799,7 @@ public class MacroscaleGeographicBounds extends JPanel implements ListSelectionL
 
 	/** Display the status of this runspec section. **/
 	public void displaySectionStatus() {
-		if(messageLogPanel == null || customDomain == null || databasePanel == null
-				|| databaseCombo == null) {
+		if(messageLogPanel == null) {
 			return;
 		}
 		messageLogPanel.setVisible(true);
@@ -784,9 +809,19 @@ public class MacroscaleGeographicBounds extends JPanel implements ListSelectionL
 			localWarningPanel.setVisible(true);
 		}
 		boolean didClear = false;
-		if(nation.isSelected()) {
-			// Nothing to do here, Nation is always valid
-		} else if (state.isSelected()) {
+		if(PreaggregationOptions.singleton.nation.isSelected()) {
+			if (domain == ModelDomain.NATIONAL_ALLOCATION) {
+				messageLogModel.clear();
+				didClear = true;
+				messageLogPanel.setVisible(true);
+				messageLogModel.addElement(new String("No selections need to be made here because Nation Preaggregation is selected on the Advanced Features Panel."));
+			} else {
+				messageLogModel.clear();
+				didClear = true;
+				messageLogPanel.setVisible(true);
+				messageLogModel.addElement(new String("Nation Preaggregation is selected on the Advanced Features Panel, which is not compatible with the current Scale selection."));
+			}
+		} else if (PreaggregationOptions.singleton.state.isSelected()) {
 			if(selectionList.getModel().getSize() == 0) {
 				messageLogModel.clear();
 				didClear = true;
@@ -795,18 +830,35 @@ public class MacroscaleGeographicBounds extends JPanel implements ListSelectionL
 			}
 			if(onroadSelected && domain == ModelDomain.NATIONAL_ALLOCATION) {
 				nationalWarningPanel.setVisible(true);
+			} else if (onroadSelected && domain != ModelDomain.NATIONAL_ALLOCATION) {
+				messageLogModel.clear();
+				didClear = true;
+				messageLogPanel.setVisible(true);
+				messageLogModel.addElement(new String("State Preaggregation is selected on the Advanced Features Panel, which is not compatible with the current Scale selection."));
 			}
-		} else if (county.isSelected()) {
+		} else if (PreaggregationOptions.singleton.county.isSelected()) {
 			if(selectionList.getModel().getSize() == 0) {
 				messageLogModel.clear();
 				didClear = true;
 				messageLogPanel.setVisible(true);
 				messageLogModel.addElement(new String("Please select a state and county."));
 			}
+			if(onroadSelected && domain == ModelDomain.SINGLE_COUNTY && selectionList.getModel().getSize() > 1) {
+				messageLogModel.clear();
+				didClear = true;
+				messageLogPanel.setVisible(true);
+				messageLogModel.addElement(new String("Only one county may be selected at County Scale."));
+			}
+			if(onroadSelected && domain == ModelDomain.PROJECT && selectionList.getModel().getSize() > 1) {
+				messageLogModel.clear();
+				didClear = true;
+				messageLogPanel.setVisible(true);
+				messageLogModel.addElement(new String("Only one county may be selected at Project Scale."));
+			}			
 			if(onroadSelected && domain == ModelDomain.NATIONAL_ALLOCATION) {
 				nationalWarningPanel.setVisible(true);
 			}
-		} else if(customDomain.isSelected()) {
+		} else if(PreaggregationOptions.singleton.customDomain.isSelected()) {
 			GenericCounty g = new GenericCounty();
 			toGenericCounty(g);
 			if(!g.isValid()) {
@@ -831,27 +883,6 @@ public class MacroscaleGeographicBounds extends JPanel implements ListSelectionL
 			messageLogModel.clear();
 			didClear = true;
 		}
-		if(databasePanel.isVisible()) {
-			if(!didClear) {
-				messageLogModel.clear();
-				didClear = true;
-			}
-			boolean hasDatabase = true;
-			if(databaseCombo.getSelectedItem() == null) {
-				hasDatabase = false;
-			} else if(databaseCombo.getSelectedItem().toString().length() == 0) {
-				hasDatabase = false;
-			} else {
-				String newDatabaseName = databaseCombo.getSelectedItem().toString();
-				if(newDatabaseName == null || newDatabaseName.length() == 0) {
-					hasDatabase = false;
-				}
-			}
-			if(!hasDatabase) {
-				messageLogPanel.setVisible(true);
-				messageLogModel.addElement("Please select a domain database.");
-			}
-		}
 	}
 
 	/**
@@ -860,19 +891,19 @@ public class MacroscaleGeographicBounds extends JPanel implements ListSelectionL
 	**/
 	public void saveToRunSpec(RunSpec runspec) {
 		runspec.geographicSelections.clear();
-
-		if(state.isSelected() || county.isSelected() || zoneLink.isSelected()) {
+		if (PreaggregationOptions.singleton.state.isSelected() || PreaggregationOptions.singleton.county.isSelected() 
+				|| PreaggregationOptions.singleton.zoneLink.isSelected()) {  
 			runspec.genericCounty = null;
 			for(int i=0;i<selectionListModel.getSize();i++) {
 				runspec.geographicSelections.add(
 						(GeographicSelection)selectionListModel.getElementAt(i));
 			}
-		} else if(nation.isSelected()) {
+		} else if(PreaggregationOptions.singleton.nation.isSelected()) {
 			runspec.genericCounty = null;
 			GeographicSelection geographicSelection = new GeographicSelection();
 			geographicSelection.type = GeographicSelectionType.NATION;
 			runspec.geographicSelections.add(geographicSelection);
-		} else if(customDomain.isSelected()) {
+		} else if(PreaggregationOptions.singleton.customDomain.isSelected()) {
 			GeographicSelection geographicSelection = new GeographicSelection();
 			geographicSelection.type = GeographicSelectionType.COUNTY;
 			if(runspec.genericCounty == null) {
@@ -882,27 +913,17 @@ public class MacroscaleGeographicBounds extends JPanel implements ListSelectionL
 			geographicSelection.databaseKey = runspec.genericCounty.getCountyID();
 			runspec.geographicSelections.add(geographicSelection);
 		}
-		if(nation.isSelected()) {
+		if(PreaggregationOptions.singleton.nation.isSelected()) {
 			runspec.outputEmissionsBreakdownSelection.estimateUncertainty=false;
 			runspec.geographicOutputDetail = GeographicOutputDetailLevel.NATION;
 		}
-		if(state.isSelected()) {
+		if(PreaggregationOptions.singleton.state.isSelected()) {
 			runspec.outputEmissionsBreakdownSelection.estimateUncertainty=false;
 			if (runspec.geographicOutputDetail == GeographicOutputDetailLevel.COUNTY ||
 					runspec.geographicOutputDetail == GeographicOutputDetailLevel.ZONE ||
 					runspec.geographicOutputDetail == GeographicOutputDetailLevel.LINK) {
 				runspec.geographicOutputDetail = GeographicOutputDetailLevel.STATE;
 			}
-		}
-		if(databasePanel.isVisible()) {
-			if(runspec.scaleInputDatabase == null) {
-				runspec.scaleInputDatabase = new DatabaseSelection();
-			}
-			runspec.scaleInputDatabase.serverName = server.getText();
-			runspec.scaleInputDatabase.databaseName = databaseCombo.getSelectedItem().toString();
-		} else {
-			runspec.scaleInputDatabase.serverName = "";
-			runspec.scaleInputDatabase.databaseName = "";
 		}
 	}
 
@@ -915,58 +936,23 @@ public class MacroscaleGeographicBounds extends JPanel implements ListSelectionL
 		domain = runspec.domain;
 		fromGenericCounty(runspec.genericCounty);
 
-		// sets "none selected" in the button group
-		radioButtons.remove(nation);
-		radioButtons.remove(state);
-		radioButtons.remove(county);
-		radioButtons.remove(zoneLink);
-		radioButtons.remove(customDomain);
-		nation.setSelected(false);
-		state.setSelected(false);
-		county.setSelected(false);
-		zoneLink.setSelected(false);
-		customDomain.setSelected(false);
-		radioButtons.add(nation);
-		radioButtons.add(state);
-		radioButtons.add(county);
-		radioButtons.add(zoneLink);
-		radioButtons.add(customDomain);
-
 		boolean isCustomDomain = runspec.isCustomDomain();
-		databasePanel.setVisible(runspec.domain != ModelDomain.NATIONAL_ALLOCATION);
-		if(runspec.domain != ModelDomain.NATIONAL_ALLOCATION) {
-			if(runspec.scaleInputDatabase != null) {
-				server.setText(runspec.scaleInputDatabase.serverName);
-				databaseCombo.setSelectedItem(runspec.scaleInputDatabase.databaseName);
-			} else {
-				server.setText("");
-				databaseCombo.setSelectedItem("");
-			}
-		}
-
-		if(runspec.domain == ModelDomain.PROJECT) {
-			databasePurposeLabel.setText(
-					"The Project domain scale requires a database of detailed data.");
-		} else {
-			databasePurposeLabel.setText(
-					"The County domain scale requires a database of detailed data.");
-		}
 
 		Models.ModelCombination mc = runspec.getModelCombination();
 
 		switch (mc) {
 			case M2: // Nonroad
-				nation.setEnabled(true);
-				state.setEnabled(false);
-				county.setEnabled(true);
-				zoneLink.setEnabled(false);
-				customDomain.setEnabled(false);
+				PreaggregationOptions.singleton.nation.setEnabled(true);
+				PreaggregationOptions.singleton.state.setEnabled(false);
+				PreaggregationOptions.singleton.county.setEnabled(true);
+				PreaggregationOptions.singleton.zoneLink.setEnabled(false);
+				PreaggregationOptions.singleton.customDomain.setEnabled(false);
 
 				if(!runspec.geographicSelections.isEmpty()) {
 					Object firstElement = runspec.geographicSelections.iterator().next();
 					GeographicSelection firstGS = (GeographicSelection) firstElement;
 					if(firstGS.type == GeographicSelectionType.COUNTY) {
-						county.setSelected(true);
+						PreaggregationOptions.singleton.county.setSelected(true);
 						previousRBSetting = "C";
 						processCountyButton();
 						selectionListModel.removeAllElements();
@@ -974,12 +960,12 @@ public class MacroscaleGeographicBounds extends JPanel implements ListSelectionL
 							selectionListModel.addElement(i.next());
 						}
 					} else {
-						nation.setSelected(true);
+						PreaggregationOptions.singleton.nation.setSelected(true);
 						previousRBSetting = "N";
 						processNationButton();
 					}
 				} else {
-					county.setSelected(true);
+					PreaggregationOptions.singleton.county.setSelected(true);
 					previousRBSetting = "C";
 					processCountyButton();
 					selectionListModel.removeAllElements();
@@ -988,19 +974,20 @@ public class MacroscaleGeographicBounds extends JPanel implements ListSelectionL
 			case M1: // Onroad
 			default:
 				if(runspec.scale == ModelScale.MESOSCALE_LOOKUP) {
-					nation.setEnabled(false);
-					state.setEnabled(false);
-					county.setEnabled(false);
-					zoneLink.setEnabled(true);
-					customDomain.setEnabled(runspec.domain != ModelDomain.NATIONAL_ALLOCATION);
+					PreaggregationOptions.singleton.nation.setEnabled(false);
+					PreaggregationOptions.singleton.state.setEnabled(false);
+					PreaggregationOptions.singleton.county.setEnabled(false);
+					PreaggregationOptions.singleton.zoneLink.setEnabled(true);
+					PreaggregationOptions.singleton.customDomain.setEnabled(false); // disabled Custom Domain option
+					//PreaggregationOptions.singleton.customDomain.setEnabled(runspec.domain != ModelDomain.NATIONAL_ALLOCATION);
 		
 					if(isCustomDomain) {
-						customDomain.setSelected(true);
+						PreaggregationOptions.singleton.customDomain.setSelected(true);
 						previousRBSetting = "D";
 						processCustomDomainButton();
 						selectionListModel.removeAllElements();
 					} else {
-						zoneLink.setSelected(true);
+						PreaggregationOptions.singleton.zoneLink.setSelected(true);
 						previousRBSetting = "Z";
 						processZoneLinkButton();
 		
@@ -1018,14 +1005,15 @@ public class MacroscaleGeographicBounds extends JPanel implements ListSelectionL
 						}
 					}
 				} else {
-					nation.setEnabled(runspec.domain == ModelDomain.NATIONAL_ALLOCATION);
-					state.setEnabled(runspec.domain == ModelDomain.NATIONAL_ALLOCATION);
-					county.setEnabled(true);
-					zoneLink.setEnabled(false);
-					customDomain.setEnabled(runspec.domain != ModelDomain.NATIONAL_ALLOCATION);
+					PreaggregationOptions.singleton.nation.setEnabled(runspec.domain == ModelDomain.NATIONAL_ALLOCATION);
+					PreaggregationOptions.singleton.state.setEnabled(runspec.domain == ModelDomain.NATIONAL_ALLOCATION);
+					PreaggregationOptions.singleton.county.setEnabled(true);
+					PreaggregationOptions.singleton.zoneLink.setEnabled(false);
+					PreaggregationOptions.singleton.customDomain.setEnabled(false); // disabled Custom Domain option
+					//PreaggregationOptions.singleton.customDomain.setEnabled(runspec.domain != ModelDomain.NATIONAL_ALLOCATION);
 		
 					if(isCustomDomain) {
-						customDomain.setSelected(true);
+						PreaggregationOptions.singleton.customDomain.setSelected(true);
 						previousRBSetting = "D";
 						processCustomDomainButton();
 						selectionListModel.removeAllElements();
@@ -1033,7 +1021,7 @@ public class MacroscaleGeographicBounds extends JPanel implements ListSelectionL
 						Object firstElement = runspec.geographicSelections.iterator().next();
 						GeographicSelection firstGS = (GeographicSelection) firstElement;
 						if(firstGS.type == GeographicSelectionType.STATE) {
-							state.setSelected(true);
+							PreaggregationOptions.singleton.state.setSelected(true);
 							previousRBSetting = "S";
 							processStateButton();
 							selectionListModel.removeAllElements();
@@ -1041,7 +1029,7 @@ public class MacroscaleGeographicBounds extends JPanel implements ListSelectionL
 								selectionListModel.addElement(i.next());
 							}
 						} else if(firstGS.type == GeographicSelectionType.COUNTY) {
-							county.setSelected(true);
+							PreaggregationOptions.singleton.county.setSelected(true);
 							previousRBSetting = "C";
 							processCountyButton();
 							selectionListModel.removeAllElements();
@@ -1049,12 +1037,12 @@ public class MacroscaleGeographicBounds extends JPanel implements ListSelectionL
 								selectionListModel.addElement(i.next());
 							}
 						} else {
-							nation.setSelected(true);
+							PreaggregationOptions.singleton.nation.setSelected(true);
 							previousRBSetting = "N";
 							processNationButton();
 						}
-					} else {
-						county.setSelected(true);
+					} else if (PreaggregationOptions.singleton.county.isSelected()) {
+						PreaggregationOptions.singleton.county.setSelected(true);
 						previousRBSetting = "C";
 						processCountyButton();
 						selectionListModel.removeAllElements();
@@ -1075,16 +1063,6 @@ public class MacroscaleGeographicBounds extends JPanel implements ListSelectionL
 	public RunSpecSectionStatus calculateRunSpecSectionStatus(RunSpec runspec,
 			TreeMap<String,RunSpecSectionStatus> sections) {
 		boolean isOk = true;
-
-		if(isOk && runspec.domain != ModelDomain.NATIONAL_ALLOCATION) {
-			if(!(runspec.scaleInputDatabase != null
-					&& (runspec.scaleInputDatabase.serverName == null
-					|| runspec.scaleInputDatabase.serverName.length() >= 0)
-					&& runspec.scaleInputDatabase.databaseName != null
-					&& runspec.scaleInputDatabase.databaseName.length() > 0)) {
-				isOk = false;
-			}
-		}
 
 		if(isOk && runspec.domain != ModelDomain.NATIONAL_ALLOCATION) {
 			// For County and Project domains, there must be exactly one county
@@ -1117,88 +1095,6 @@ public class MacroscaleGeographicBounds extends JPanel implements ListSelectionL
 		}
 		if(isOk) {
 			isOk = !geographicSelections.isEmpty();
-			if(isOk) {
-				// Verify that the locations are in the database.
-				boolean shouldCloseDatabase = false;
-				Connection db = null;
-				if(runspec.domain != ModelDomain.NATIONAL_ALLOCATION) {
-					// Check the scale input database
-					shouldCloseDatabase = true;
-					db = runspec.scaleInputDatabase.openConnectionOrNull();
-					if(db == null) {
-						isOk = false;
-					}
-				} else {
-					db = DatabaseConnectionManager.getGUIConnection(MOVESDatabaseType.DEFAULT);
-				}
-
-				if(isOk && db != null) {
-					if(runspec.domain != ModelDomain.NATIONAL_ALLOCATION && runspec.timeSpan.years.size() == 1) {
-						// Check the year in the custom database, make sure it still matches the year selected
-						String sql = "select yearID from year where yearID=" + runspec.timeSpan.years.first();
-						try {
-							int yearID = (int)SQLRunner.executeScalar(db,sql);
-							if(yearID <= 0) {
-								isOk = false;
-							}
-						} catch(Exception e) {
-							isOk = false;
-							Logger.logError(e,
-									"Verifying runspec year entry for the Macroscale Geographic Bounds database failed.");
-						}
-					}
-					for(Iterator i=runspec.geographicSelections.iterator();isOk && i.hasNext();) {
-						GeographicSelection selection = (GeographicSelection)i.next();
-						String sql;
-						PreparedStatement statement = null;
-						ResultSet results = null;
-						try {
-							if(selection.type == GeographicSelectionType.STATE) {
-								sql = "SELECT stateID FROM state WHERE stateID = ?";
-								statement = db.prepareStatement(sql);
-								statement.setInt(1,selection.databaseKey);
-							} else if(selection.type == GeographicSelectionType.COUNTY) {
-								sql = "SELECT countyID FROM county " +
-										"WHERE countyID = ?";
-								statement = db.prepareStatement(sql);
-								statement.setInt(1,selection.databaseKey);
-							} else {
-								continue;
-							}
-							results = SQLRunner.executeQuery(statement,sql);
-							if(results == null || !results.next()) {
-								isOk = false;
-								break;
-							}
-						} catch(Exception e) {
-							isOk = false;
-							Logger.logError(e,
-									"Verifying runspec entries for the Macroscale Geographic Bounds failed.");
-						} finally {
-							if(results != null) {
-								try {
-									results.close();
-								} catch(Exception e) {
-									// Nothing to do here
-								}
-								results = null;
-							}
-							if(statement != null) {
-								try {
-									statement.close();
-								} catch(Exception e) {
-									// Nothing to do here
-								}
-								statement = null;
-							}
-						}
-					}
-				}
-				if(db != null && shouldCloseDatabase) {
-					DatabaseUtilities.closeConnection(db);
-					db = null;
-				}
-			}
 		}
 
 		sections.remove(getName());
@@ -1225,6 +1121,15 @@ public class MacroscaleGeographicBounds extends JPanel implements ListSelectionL
 		sections.remove(getName());
 		RunSpecSectionStatus status = new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);
 		sections.put(getName(),status);
+		
+		// Set Preagg options to defaults, too
+		PreaggregationOptions.singleton.nation.setEnabled(true);
+		PreaggregationOptions.singleton.state.setEnabled(true);
+		PreaggregationOptions.singleton.county.setEnabled(true);
+		PreaggregationOptions.singleton.county.setSelected(true);
+		PreaggregationOptions.singleton.zoneLink.setEnabled(false);
+		PreaggregationOptions.singleton.customDomain.setEnabled(false);
+		
 		return status;
 	}
 
@@ -1400,7 +1305,7 @@ public class MacroscaleGeographicBounds extends JPanel implements ListSelectionL
 				}
 				return;
 			}
-			String sql = "SELECT countyID, countyName, stateName FROM county, state " +
+			String sql = "SELECT countyID, countyName, stateAbbr FROM county, state " +
 					"WHERE county.stateID = state.stateID AND state.stateID = ? " +
 					"ORDER BY countyName";
 			try {
@@ -1411,8 +1316,10 @@ public class MacroscaleGeographicBounds extends JPanel implements ListSelectionL
 					while(results.next()) {
 						GeographicSelection gsToAdd = new GeographicSelection();
 						gsToAdd.databaseKey = results.getInt(1);
-						gsToAdd.textDescription = results.getString(3)
-								+ " - " + results.getString(2);
+						gsToAdd.textDescription = results.getString(2)
+								+ ", " + results.getString(3)
+								// requirement to have the FIPS as 5 digits with leading 0s
+								+ " (" + String.format("%05d" , results.getInt(1)) + ")";
 						gsToAdd.type = GeographicSelectionType.COUNTY;
 						countyListModel.addElement(gsToAdd);
 					}
@@ -1439,7 +1346,7 @@ public class MacroscaleGeographicBounds extends JPanel implements ListSelectionL
 		String t = genericCountyID.getText();
 		Integer i = null;
 		try {
-			i = new Integer(t);
+			i = Integer.valueOf(t);
 		} catch(Exception e) {
 			i = null;
 		}
@@ -1453,7 +1360,7 @@ public class MacroscaleGeographicBounds extends JPanel implements ListSelectionL
 		t = genericCountyGPAFraction.getText();
 		Double d = null;
 		try {
-			d = new Double(t);
+			d = Double.valueOf(t);
 		} catch(Exception e) {
 			d = null;
 		}
@@ -1463,7 +1370,7 @@ public class MacroscaleGeographicBounds extends JPanel implements ListSelectionL
 		d = null;
 		try {
 			if(t.length() > 0) {
-				d = new Double(t);
+				d = Double.valueOf(t);
 			}
 		} catch(Exception e) {
 			d = null;
@@ -1473,7 +1380,7 @@ public class MacroscaleGeographicBounds extends JPanel implements ListSelectionL
 		t = genericCountyRefuelingVaporProgramAdjust.getText();
 		d = null;
 		try {
-			d = new Double(t);
+			d = Double.valueOf(t);
 		} catch(Exception e) {
 			d = null;
 		}
@@ -1482,7 +1389,7 @@ public class MacroscaleGeographicBounds extends JPanel implements ListSelectionL
 		t = genericCountyRefuelingSpillProgramAdjust.getText();
 		d = null;
 		try {
-			d = new Double(t);
+			d = Double.valueOf(t);
 		} catch(Exception e) {
 			d = null;
 		}
@@ -1687,14 +1594,6 @@ public class MacroscaleGeographicBounds extends JPanel implements ListSelectionL
 				|| c == genericCountyRefuelingSpillProgramAdjust) {
 			handleGenericCountyChange();
 		}
-		if(c == server) {
-			if(previousServer.equalsIgnoreCase(server.getText())) {
-				return;
-			}
-			previousServer = server.getText();
-			loadDatabases();
-			displaySectionStatus();
-		}
 	}
 
 	/**
@@ -1704,441 +1603,6 @@ public class MacroscaleGeographicBounds extends JPanel implements ListSelectionL
 	public void focusGained(FocusEvent e) {
 	}
 
-	/** Create and arrange the database panel **/
-	void createDatabasePanel() {
-		JLabel label4;
-		JLabel label5;
-
-		databasePanel = new JPanel();
-		databasePanel.setBorder(BorderFactory.createTitledBorder("Domain Input Database"));
-
-		databasePurposeLabel = new JLabel();
-		label4 = new JLabel();
-		label5 = new JLabel();
-		editDatabaseButton = new JButton();
-		editDatabaseButton.addActionListener(this);
-		refreshDatabaseButton = new JButton();
-		refreshDatabaseButton.addActionListener(this);
-		checkDatabaseButton = new JButton();
-		checkDatabaseButton.addActionListener(this);
-
-		databasePanel.setLayout(new GridBagLayout());
-		((GridBagLayout)databasePanel.getLayout()).columnWidths = new int[] {38, 73, 57, 0, 0, 0, 0};
-		((GridBagLayout)databasePanel.getLayout()).rowHeights = new int[] {0, 0, 0, 0};
-		((GridBagLayout)databasePanel.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0E-4};
-		((GridBagLayout)databasePanel.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
-
-		//---- databasePurposeLabel ----
-		databasePurposeLabel.setText("The County domain scale requires a database of detailed data.");
-		databasePanel.add(databasePurposeLabel, new GridBagConstraints(0, 0, 6, 1, 0.0, 0.0,
-			GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-			new Insets(0, 0, 5, 0), 0, 0));
-
-		//---- label4 ----
-		label4.setText("Server:");
-		databasePanel.add(label4, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-			GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-			new Insets(0, 0, 5, 5), 0, 0));
-
-		//---- server ----
-		server = new JTextField(10);
-		server.setText("localhost");
-		ToolTipHelper.add(server,
-				"Edit the name of the server where the database will be located");
-		server.setName("server");
-		server.addFocusListener(this);
-		server.setColumns(10);
-		databasePanel.add(server, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
-			GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-			new Insets(0, 0, 5, 5), 0, 0));
-
-		//---- refreshDatabaseButton ----
-		refreshDatabaseButton.setText("Refresh");
-		databasePanel.add(refreshDatabaseButton, new GridBagConstraints(4, 1, 1, 1, 0.0, 0.0,
-			GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-			new Insets(0, 0, 0, 5), 0, 0));
-
-		//---- label5 ----
-		label5.setText("Database:");
-		databasePanel.add(label5, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
-			GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-			new Insets(0, 0, 0, 5), 0, 0));
-
-		//---- databaseCombo ----
-		databaseCombo = new ExtendedComboBox<String>();
-		Dimension d = databaseCombo.getPreferredSize();
-		databaseCombo.setPreferredSize(new Dimension(450, d.height)); // 250
-		databaseCombo.setPopupWidth(databaseCombo.getPreferredSize().width);
-		databaseCombo.setName("databaseCombo");
-		databaseCombo.addActionListener(this);
-		databaseCombo.setEditable(false); // Force users to pick or use the editDatabaseButton
-		databaseCombo.setSelectedIndex(-1);
-		ToolTipHelper.add(databaseCombo,
-				"Edit or select the name of the database in which the data will be stored");
-		databasePanel.add(databaseCombo, new GridBagConstraints(1, 2, 3, 1, 0.0, 0.0,
-			GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-			new Insets(0, 0, 0, 5), 0, 0));
-
-		//---- editDatabaseButton ----
-		editDatabaseButton.setText("Enter/Edit Data");
-		databasePanel.add(editDatabaseButton, new GridBagConstraints(4, 2, 1, 1, 0.0, 0.0,
-			GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-			new Insets(0, 0, 0, 5), 0, 0));
-
-		/*
-		//---- checkDatabaseButton ----
-		checkDatabaseButton.setText("Check Database");
-		databasePanel.add(checkDatabaseButton, new GridBagConstraints(3, 3, 2, 1, 0.0, 0.0,
-			GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-			new Insets(0, 0, 0, 5), 0, 0));
-		*/
-	}
-
-	/**
-	 * Loads the Databases droplist, based on the server setting.
-	 * Also, sets the default droplist selection, if it can be found.
-	**/
-	public void loadDatabases() {
-		databaseCombo.removeAllItems();
-		// add the default item (no selection)
-		databaseCombo.addItem(new String(""));
-		TreeSet<String> databases = new TreeSet<String>();
-		// get the available databases from the current server selection
-		Connection db = openCurrentDatabase(true);
-		if(null == db) {
-			Logger.log(LogMessageCategory.ERROR,"Could not connect to the database");
-			return;
-		}
-		String sql = "SHOW DATABASES";
-		PreparedStatement statement = null;
-		ResultSet results = null;
-		try {
-			statement = db.prepareStatement(sql);
-			results = SQLRunner.executeQuery(statement,sql);
-			if(results != null) {
-				while(results.next()) {
-					String nextDB = results.getString(1);
-					if(!invalidDatabaseNames.contains(nextDB)) {
-						databases.add(nextDB);
-					}
-				}
-			}
-		} catch(Exception e) {
-			//Logger.logException(e);
-			Logger.logError(e, "Failed to show databases (load databases) in ImporterGUI.");
-			DatabaseUtilities.closeConnection(db);
-			return;
-		} finally {
-			if(results != null) {
-				try {
-					results.close();
-				} catch(Exception e) {
-					// Nothing to do here
-				}
-				results = null;
-			}
-			if(statement != null) {
-				try {
-					statement.close();
-				} catch(Exception e) {
-					// Nothing to do here
-				}
-				statement = null;
-			}
-		}
-		// second pass through the returned list of database names, must now
-		// remove any databases that aren't an output database
-		ArrayList<String> stringsToRemove = new ArrayList<String>();
-		try {
-			boolean foundOutputTables = false;
-			for(Iterator<String> i=databases.iterator();i.hasNext();) {
-				foundOutputTables = false;
-				String nextDatabase = (String)i.next();
-				if(nextDatabase.length() == 0 || invalidDatabaseNames.contains(nextDatabase)) {
-					continue;
-				}
-				// look at all tables from the next databaseName, compare the table
-				// names to one output table name
-				foundOutputTables = true;
-				/*
-				sql = "SHOW TABLES FROM " + nextDatabase;
-				try {
-					statement = db.prepareStatement(sql);
-					results = SQLRunner.executeQuery(statement,sql);
-					if(results != null) {
-						int foundCount = 0;
-						while(results.next()) {
-							String nextTable = results.getString(1);
-							if(manager.requiredTableNames.contains(nextTable)) {
-								foundCount++;
-								if(foundCount >= manager.requiredTableNames.size()) {
-									foundOutputTables = true;
-									break;
-								}
-							}
-						}
-					}
-				} catch (Exception e) {
-					// SQL error here just means this database not an output database
-				} finally {
-					if(results != null) {
-						try {
-							results.close();
-						} catch(Exception e) {
-							// Nothing to do here
-						}
-						results = null;
-					}
-					if(statement != null) {
-						try {
-							statement.close();
-						} catch(Exception e) {
-							// Nothing to do here
-						}
-						statement = null;
-					}
-				}
-				*/
-				// check if this database has any output tables, if not must add
-				// the databaseName to the remove names list
-				if(!foundOutputTables) {
-					stringsToRemove.add(nextDatabase);
-				}
-			}
-			// now run through any database names to remove (i.e. databases that don't
-			// contain an output table)
-			for(int i = 0; i < stringsToRemove.size(); i++) {
-				databases.remove(stringsToRemove.get(i));
-			}
-			for(Iterator<String> i=databases.iterator();i.hasNext();) {
-				String nextDB = (String)i.next();
-				databaseCombo.addItem(nextDB);
-			}
-			Vector<String> toolTipVector = new Vector<String>();
-			for(int i=0; i<databaseCombo.getItemCount(); i++) {
-				toolTipVector.add((String) databaseCombo.getItemAt(i));
-			}
-			String[] toolTipStringArray = new String[toolTipVector.size()];
-			toolTipVector.copyInto(toolTipStringArray);
-			databaseCombo.setRenderer(new TooltipComboBoxRenderer<String>(toolTipStringArray));
-		} catch(Exception e) {
-			//Logger.logException(e);
-			Logger.logError(e, "Failed to show tables from database in ImporterGUI.");
-		}
-		// set the default selection
-		databaseCombo.setSelectedItem("");
-		DatabaseUtilities.closeConnection(db);
-	}
-
-	/**
-	 * Add a database name to databaseCombo but only if it isn't already in the
-	 * the list.
-	 * @param newDatabaseName name of the database to attempt to place into databaseCombo
-	 * @return the object either added to or already in the list.  This will be the object
-	 * the should be selected.
-	**/
-	private String addIfNotInComboBox(String newDatabaseName) {
-		newDatabaseName = newDatabaseName.trim();
-		ComboBoxModel model = databaseCombo.getModel();
-		for(int i = 0; i < model.getSize(); i++) {
-			String t = (String)model.getElementAt(i);
-			if(t.equalsIgnoreCase(newDatabaseName)) {
-				return t;
-			}
-		}
-		databaseCombo.addItem(newDatabaseName);
-		return newDatabaseName;
-	}
-
-	/**
-	 * Handles the database combo change.
-	 * @return false if the selected database is not valid, or not yet selected.
-	**/
-	public boolean processDatabaseComboChange() {
-		if(databaseCombo.getSelectedItem() == null) {
-			displaySectionStatus();
-			return false;
-		}
-		if(databaseCombo.getSelectedItem().toString().length() == 0) {
-			displaySectionStatus();
-			return false;
-		}
-
-		String newDatabaseName = databaseCombo.getSelectedItem().toString();
-		if(newDatabaseName == null || newDatabaseName.length() == 0) {
-			displaySectionStatus();
-			return false;
-		}
-
-		saveToRunSpec(MOVESAPI.getTheAPI().getRunSpec());
-
-		DatabaseSelection dbSelection = new DatabaseSelection();
-		if(server.getText().length() > 0) {
-			dbSelection.serverName = server.getText();
-		} else {
-			dbSelection.serverName = SystemConfiguration.getTheSystemConfiguration().
-					databaseSelections[MOVESDatabaseType.DEFAULT.getIndex()].serverName;
-		}
-		dbSelection.databaseName = StringUtilities.safeGetString(newDatabaseName);
-
-		String status = MOVESEngine.isOutputDatabaseNameValid(dbSelection);
-		if(status == null) {
-			// try to connect to the new selection
-			Connection db = openCurrentDatabase(false);
-			if(null == db) {
-				displaySectionStatus();
-				return false;
-			}
-			try {
-				ArrayList<String> messages = new ArrayList<String>();
-				int result =
-						ImporterManager.isCountyDomainDatabase(MOVESAPI.getTheAPI().getRunSpec(),
-						messages,db,true);
-				if(result < 0) {
-					// Display the error messages
-					String t = "Unable to use this entry as a County Domain database.";
-					for(Iterator<String> i=messages.iterator();i.hasNext();) {
-						t += "\r\n";
-						t += i.next();
-					}
-					t += "\r\n\r\nUse the database anyway?";
-					if(JOptionPane.showConfirmDialog(this, t, "Error",
-							JOptionPane.ERROR_MESSAGE + JOptionPane.YES_NO_OPTION)
-							== JOptionPane.YES_OPTION) {
-						result = 0;
-					}
-					if(result < 0) {
-						databaseCombo.setSelectedItem("");
-						displaySectionStatus();
-						return false;
-					}
-				}
-			} finally {
-				DatabaseUtilities.closeConnection(db);
-				db = null;
-			}
-			newDatabaseName = addIfNotInComboBox(newDatabaseName);
-			databaseCombo.setSelectedItem(newDatabaseName);
-		}
-		displaySectionStatus();
-		if(status != null) {
-			JOptionPane.showMessageDialog(this, status);
-		}
-		return status == null;
-	}
-
-	/**
-	 * Attempt to open a connection to the server and database shown on screen.
-	 * @param settleForJustServer true if it is OK to just connect to the server without a valid
-	 * database named.
-	 * @return a Connection object that should be closed with DatabaseUtilities.closeConnection
-	 * and not by returning it to the DatabaseConnectionManager.
-	**/
-	Connection openCurrentDatabase(boolean settleForJustServer) {
-		DatabaseSelection dbSelection = new DatabaseSelection();
-		if(server.getText().length() > 0) {
-			dbSelection.serverName = server.getText();
-		} else {
-			dbSelection.serverName = SystemConfiguration.getTheSystemConfiguration().
-					databaseSelections[MOVESDatabaseType.DEFAULT.getIndex()].serverName;
-		}
-		dbSelection.databaseName =
-				StringUtilities.safeGetString((String)databaseCombo.getSelectedItem());
-		Connection db = dbSelection.openConnectionOrNull();
-		if(null == db && settleForJustServer) {
-			// try again to get a connection, but specify an empty string for the database
-			// name, in case the current one is invalid, this will at least allow us to get
-			// a connection to the server to get the database list
-			dbSelection.databaseName = "";
-			db = dbSelection.openConnectionOrNull();
-		}
-		return db;
-	}
-
-	/** Handle the Edit Database button **/
-	void handleEditDatabaseButton() {
-		// Fill the RunSpec's scaleInputDatabase selection object then show the CDM GUI.
-		saveToRunSpec(MOVESAPI.getTheAPI().getRunSpec());
-
-		ArrayList<String> messages = new ArrayList<String>();
-		int result = ImporterManager.isReadyForCountyDomain(null,messages);
-		if(result < 0) {
-			// Display the error messages
-			String t = "";
-			if(MOVESAPI.getTheAPI().getRunSpec().domain == ModelDomain.SINGLE_COUNTY) {
-				t = "Unable to open the County Data Manager.";
-			} else if(MOVESAPI.getTheAPI().getRunSpec().domain == ModelDomain.PROJECT) {
-				t = "Unable to open the Project Data Manager.";
-			}
-			for(Iterator<String> i=messages.iterator();i.hasNext();) {
-				t += "\r\n";
-				t += i.next();
-			}
-			JOptionPane.showMessageDialog(this, t, "Error",	JOptionPane.ERROR_MESSAGE);
-			return;
-		}
-		ImporterManager.display(MOVESNavigation.singleton.parent,null,
-				MOVESNavigation.singleton.parent.getLocationOnScreen().x + 50,
-				MOVESNavigation.singleton.parent.getLocationOnScreen().y + 50,
-				MOVESAPI.getTheAPI().getRunSpec().domain,ImporterManager.STANDARD_MODE,
-				Models.evaluateModels(MOVESAPI.getTheAPI().getRunSpec().models));
-
-		loadDatabases();
-		loadFromRunSpec(MOVESAPI.getTheAPI().getRunSpec());
-	}
-
-	/**
-	 * Handle the Check Database button
-	**/
-	void handleCheckDatabaseButton() {
-		if(!processDatabaseComboChange()) {
-			JOptionPane.showMessageDialog(this, "The database cannot be used.", "Error",
-					JOptionPane.ERROR_MESSAGE);
-		} else {
-			JOptionPane.showMessageDialog(this, "The database can be used.", "Success",
-					JOptionPane.INFORMATION_MESSAGE);
-		}
-	}
-
-	/** Fill invalidDatabaseNames **/
-	void generateListOfInvalidDatabaseNames() {
-		DatabaseSelection defaultDB = SystemConfiguration.getTheSystemConfiguration().
-				databaseSelections[MOVESDatabaseType.DEFAULT.getIndex()];
-		//default database cannot be accepted as an input selection
-		invalidDatabaseNames.add(defaultDB.databaseName);
-		//execution database cannot be accepted as an input selection
-		DatabaseSelection executionDB = SystemConfiguration.getTheSystemConfiguration().
-				databaseSelections[MOVESDatabaseType.EXECUTION.getIndex()];
-		invalidDatabaseNames.add(executionDB.databaseName);
-		//Worker database cannot be accepted as an input selection
-		invalidDatabaseNames.add("MOVESWorker");
-		//MySQL database cannot be accepted as an input selection
-		invalidDatabaseNames.add("MySQL");
-	}
-
-	/**
-	 * Check a proposed database selection for appropriateness, prompting the user
-	 * if the database is not acceptable.
-	 * @param dbSelection the database selection.
-	 * @return true if the database name is valid.
-	**/
-	boolean validDatabaseName(DatabaseSelection dbSelection) {
-		if(invalidDatabaseNames.contains(dbSelection.databaseName)) {
-			JOptionPane.showMessageDialog(this,
-					"The " + dbSelection.databaseName + " database cannot be used here.");
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * Reload the list of databases, defaulting back to no selection.
-	**/
-	void handleRefreshDatabaseButton() {
-		loadDatabases();
-		displaySectionStatus();
-	}
 
 	/**
 	 * Update current selections to be consistent with a newly selected Model.
@@ -2175,16 +1639,16 @@ public class MacroscaleGeographicBounds extends JPanel implements ListSelectionL
 		if(onroadSelected && domain != ModelDomain.SINGLE_COUNTY && domain != ModelDomain.PROJECT) {
 			localWarningPanel.setVisible(true);
 		}
-		if(nation.isSelected()) {
+		if(PreaggregationOptions.singleton.nation.isSelected()) {
 			// Nothing to do here, Nation is always valid
-		} else if (state.isSelected()) {
+		} else if (PreaggregationOptions.singleton.state.isSelected()) {
 			if(onroadSelected && domain == ModelDomain.NATIONAL_ALLOCATION) {
 				nationalWarningPanel.setVisible(true);
 			}
-		} else if (county.isSelected()) {
+		} else if (PreaggregationOptions.singleton.county.isSelected()) {
 			if(onroadSelected && domain == ModelDomain.NATIONAL_ALLOCATION) {
 				nationalWarningPanel.setVisible(true);
 			}
 		}
-	}
+	}	
 }

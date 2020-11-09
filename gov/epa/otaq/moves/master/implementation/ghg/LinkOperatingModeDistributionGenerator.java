@@ -17,7 +17,7 @@ import java.util.*;
  *
  * @author		Wesley Faler
  * @author		W. Aikman
- * @version		2014-05-28
+ * @version		2017-05-16
 **/
 public class LinkOperatingModeDistributionGenerator extends Generator {
 	/**
@@ -51,7 +51,7 @@ public class LinkOperatingModeDistributionGenerator extends Generator {
 	SourceTypePhysics modelYearPhysics = new SourceTypePhysics();
 	/** road type of the previous link **/
 	int previousRoadTypeID = 0;
-
+	
 	/** Default constructor **/
 	public LinkOperatingModeDistributionGenerator() {
 	}
@@ -88,7 +88,7 @@ public class LinkOperatingModeDistributionGenerator extends Generator {
 		try {
 			db = DatabaseConnectionManager.checkOutConnection(MOVESDatabaseType.EXECUTION);
 
-			long start;
+			long start, detailStart, detailEnd;
 
 			if(!didSetup) {
 				start = System.currentTimeMillis();
@@ -107,9 +107,15 @@ public class LinkOperatingModeDistributionGenerator extends Generator {
 				String alreadyKey = "calc|" + inContext.iterProcess.databaseKey + "|" + inContext.iterLocation.linkRecordID;
 				if(!alreadyDoneFlags.contains(alreadyKey)) {
 					alreadyDoneFlags.add(alreadyKey);
+					detailStart = System.currentTimeMillis();
 					calculateOpModeFractions(inContext.iterLocation.linkRecordID); // steps 100-199
+					detailEnd = System.currentTimeMillis();
+					Logger.log(LogMessageCategory.DEBUG,"LinkOperatingModeDistributionGenerator.calculateOpModeFractions ms="+(detailEnd-detailStart));
 					if(CompilationFlags.DO_RATES_FIRST) {
+						detailStart = System.currentTimeMillis();
 						populateRatesOpModeDistribution(inContext.iterLocation.linkRecordID, inContext.iterLocation.roadTypeRecordID); // steps 200-299
+						detailEnd = System.currentTimeMillis();
+						Logger.log(LogMessageCategory.DEBUG,"LinkOperatingModeDistributionGenerator.populateRatesOpModeDistribution ms="+(detailEnd-detailStart));
 					}
 				}
 
@@ -120,7 +126,10 @@ public class LinkOperatingModeDistributionGenerator extends Generator {
 					 * @step 900
 					 * @algorithm Update emission rate tables for Model Year Physics effects.
 					**/
-					modelYearPhysics.updateEmissionRateTables(db,inContext.iterProcess.databaseKey);
+					//detailStart = System.currentTimeMillis();
+					//modelYearPhysics.updateEmissionRateTables(db,inContext.iterProcess.databaseKey);
+					//detailEnd = System.currentTimeMillis();
+					//Logger.log(LogMessageCategory.DEBUG,"LinkOperatingModeDistributionGenerator.modelYearPhysics.updateEmissionRateTables processID=" + inContext.iterProcess.databaseKey + " ms="+(detailEnd-detailStart));
 				}
 			}
 			totalTime += System.currentTimeMillis() - start;
@@ -180,30 +189,12 @@ public class LinkOperatingModeDistributionGenerator extends Generator {
 					+ " from opModeDistribution",
 
 			"drop table if exists tempLinkBracket",
-
-			/**
-			 * @step 010
-			 * @algorithm Set rampFraction=0 for all road types as there is no automatic
-			 * ramp contribution in Project mode.
-			 * @condition Project domain
-			**/
-			"update roadtype set rampFraction=0"
 		};
 		try {
 			for(int i=0;i<statements.length;i++) {
 				sql = statements[i];
 				SQLRunner.executeSQL(db,sql);
 			}
-			/*
-			// Remind the user that there are no automatic ramp contributions in Project mode.
-			TreeSet<RoadType> roadTypes = ExecutionRunSpec.theExecutionRunSpec.getRoadTypes();
-			for(RoadType r : roadTypes) {
-				if(r.roadTypeID == 2 || r.roadTypeID == 4) {
-					Logger.log(LogMessageCategory.WARNING,"In Project mode, there are no automatic ramp contributions to road types 2 and 4.");
-					break;
-				}
-			}
-			*/
 		} catch (SQLException e) {
 			Logger.logSqlError(e,"Could not do link operating mode setup", sql);
 		}
@@ -319,15 +310,29 @@ public class LinkOperatingModeDistributionGenerator extends Generator {
 		if(hasGenerated("driveScheduleSecondLink",linkID)) {
 			return;
 		}
+		
+		if(hasGenerated("opModeDistribution",linkID)) {
+			return;
+		}
+		
+		
 		String sql = "";
 		try {
 			boolean hasDriveSchedule = false;
+			boolean hasRunningOpModeDistribution = false;
 			double averageSpeed = 0.0;
 
 			sql = "select count(*) from driveScheduleSecondLink where linkID=" + linkID;
 			if(SQLRunner.executeScalar(db,sql) > 0) {
 				hasDriveSchedule = true;
-			} else {
+			} 
+			
+			sql = "select count(*) from opModeDistribution where linkID=" + linkID + " and (polProcessID % 100) = 1";
+			if(SQLRunner.executeScalar(db,sql) > 0) {
+				hasRunningOpModeDistribution = true;
+			}
+			
+			if (!(hasDriveSchedule || hasRunningOpModeDistribution)) {
 				/**
 				 * @step 100
 				 * @algorithm Lookup linkAvgSpeed for the current link.
@@ -362,8 +367,8 @@ public class LinkOperatingModeDistributionGenerator extends Generator {
 					hasDriveSchedule = true;
 				}
 			}
-
-			if(hasDriveSchedule) {
+			
+			if(hasDriveSchedule && !hasRunningOpModeDistribution) {
 				sql = "";
 				/**
 				 * @step 109
@@ -371,12 +376,20 @@ public class LinkOperatingModeDistributionGenerator extends Generator {
 				 * @condition The current link has a drive schedule not just an average speed.
 				**/
 				calculateOpModeFractionsCore(linkID,null); // steps 110-149
-			} else if(averageSpeed > 0) {
+				
+				// if averageSpeed = 0, then the code above creates an idle cycle and runs it like a drive schedule
+			} else if (!hasRunningOpModeDistribution && averageSpeed > 0) {
 				sql = "";
 				interpolateOpModeFractions(linkID,averageSpeed); // steps 101-105
+			} else if (!hasRunningOpModeDistribution) {
+				Logger.log(LogMessageCategory.ERROR,"Link " + linkID + " has no drive schedule or average speed or operating mode distribution.");
 			} else {
-				Logger.log(LogMessageCategory.ERROR,"Link " + linkID + " has no drive schedule or average speed.");
+				Logger.log(LogMessageCategory.DEBUG,"Link " + linkID + " is using input operating mode distribution.");
 			}
+			
+			modelYearPhysics.updateOperatingModeDistribution(db,"OpModeDistribution","linkID=" + linkID);
+			// offset the opModeIDs to account for user-provided operating mode distribtuion inputs
+			modelYearPhysics.offsetUserInputOpModeIDs(db);
 		} catch(SQLException e) {
 			Logger.logSqlError(e,"Could not calculate operating mode distributions", sql);
 		}
@@ -440,6 +453,8 @@ public class LinkOperatingModeDistributionGenerator extends Generator {
 					+ " 	0 as avgSpeedBinID, "
 					+ " 	" + averageSpeed + " as avgBinSpeed"
 					+ " from opModeDistribution omd"
+					+ " inner join linkSourceTypeHour lsth"
+					+ "		using (sourceTypeID,linkID)"
 					+ " where polProcessID > 0" // don't copy the generic polprocess entries, these are just to speed up OMD population itself
 					+ " and linkID = " + linkID;
 			SQLRunner.executeSQL(db,sql);
@@ -504,8 +519,7 @@ public class LinkOperatingModeDistributionGenerator extends Generator {
 						+ " 	select max(averageSpeed)"
 						+ " 	from driveScheduleAssoc dsal"
 						+ " 	inner join driveSchedule dsl using (driveScheduleID)"
-						+ " 	where isRamp='N'"
-						+ " 	and dsl.averageSpeed <= " + averageSpeed
+						+ " 	where dsl.averageSpeed <= " + averageSpeed
 						+ " 	and dsal.roadTypeID=" + roadTypeID
 						+ " 	and dsal.sourceTypeID=dsal2.sourceTypeID"
 						+ " 	and dsal.roadTypeID=dsal2.roadTypeID"
@@ -536,8 +550,7 @@ public class LinkOperatingModeDistributionGenerator extends Generator {
 						+ " 	select min(averageSpeed)"
 						+ " 	from driveScheduleAssoc dsal"
 						+ " 	inner join driveSchedule dsl using (driveScheduleID)"
-						+ " 	where isRamp='N'"
-						+ " 	and dsl.averageSpeed > " + averageSpeed
+						+ " 	where dsl.averageSpeed > " + averageSpeed
 						+ " 	and dsal.roadTypeID=" + roadTypeID
 						+ " 	and dsal.sourceTypeID=dsal2.sourceTypeID"
 						+ " 	and dsal.roadTypeID=dsal2.roadTypeID"
@@ -576,8 +589,7 @@ public class LinkOperatingModeDistributionGenerator extends Generator {
 						+ " 	select min(averageSpeed)"
 						+ " 	from driveScheduleAssoc dsal"
 						+ " 	inner join driveSchedule dsl using (driveScheduleID)"
-						+ " 	where isRamp='N'"
-						+ " 	and dsl.averageSpeed >= " + averageSpeed
+						+ " 	where dsl.averageSpeed >= " + averageSpeed
 						+ " 	and dsal.roadTypeID=" + roadTypeID
 						+ " 	and dsal.sourceTypeID=dsal2.sourceTypeID"
 						+ " 	and dsal.roadTypeID=dsal2.roadTypeID"
@@ -608,8 +620,7 @@ public class LinkOperatingModeDistributionGenerator extends Generator {
 						+ " 	select max(averageSpeed)"
 						+ " 	from driveScheduleAssoc dsal"
 						+ " 	inner join driveSchedule dsl using (driveScheduleID)"
-						+ " 	where isRamp='N'"
-						+ " 	and dsl.averageSpeed < " + averageSpeed
+						+ " 	where dsl.averageSpeed < " + averageSpeed
 						+ " 	and dsal.roadTypeID=" + roadTypeID
 						+ " 	and dsal.sourceTypeID=dsal2.sourceTypeID"
 						+ " 	and dsal.roadTypeID=dsal2.roadTypeID"
@@ -726,11 +737,11 @@ public class LinkOperatingModeDistributionGenerator extends Generator {
 			query.open(db,sql);
 			while(query.rs.next()) {
 				int sourceTypeID = query.rs.getInt(1);
-				tempValues.add(new Double(sourceTypeID));
-				tempValues.add(new Double(query.rs.getInt(2)));
-				tempValues.add(new Double(query.rs.getFloat(3)));
-				tempValues.add(new Double(query.rs.getInt(4)));
-				tempValues.add(new Double(query.rs.getFloat(5)));
+				tempValues.add(Double.valueOf(sourceTypeID));
+				tempValues.add(Double.valueOf(query.rs.getInt(2)));
+				tempValues.add(Double.valueOf(query.rs.getFloat(3)));
+				tempValues.add(Double.valueOf(query.rs.getInt(4)));
+				tempValues.add(Double.valueOf(query.rs.getFloat(5)));
 
 				boolean isTooLow = query.rs.getInt(6) > 0;
 				boolean isTooHigh = query.rs.getInt(7) > 0;
@@ -777,21 +788,23 @@ public class LinkOperatingModeDistributionGenerator extends Generator {
 				}
 
 				String[] interpolateStatements = {
-					"drop table if exists tempOpModeDistribution",
-					"create table tempOpModeDistribution like opModeDistribution",
-					"drop table if exists tempOpModeDistribution2",
-					"create table tempOpModeDistribution2 like opModeDistribution",
-
-					"insert into tempOpModeDistribution2 (sourceTypeID, hourDayID, linkID, polProcessID, opModeID, opModeFraction, isUserInput)"
-							+ " select sourceTypeID, hourDayID, linkID, polProcessID, opModeID, opModeFraction, isUserInput"
-							+ " from opModeDistribution"
-							+ " where sourceTypeID=" + sourceTypeID
-							+ " and linkID in (" + -lowScheduleID + "," + -highScheduleID + ")",
-
-					"insert ignore into tempOpModeDistribution2 (sourceTypeID, hourDayID, linkID, polProcessID, opModeID, opModeFraction, isUserInput)"
-							+ " select distinct sourceTypeID, hourDayID, linkID, polProcessID, om.opModeID, 0.0 as opModeFraction, 'N' as isUserInput"
-							+ " from physicsOperatingMode om, tempOpModeDistribution2",
-
+					"create table if not exists tempOpModeDistribution like opModeDistribution",
+					"create table if not exists tempOpModeDistribution2 like opModeDistribution",
+					
+					"truncate tempOpModeDistribution",
+					"truncate tempOpModeDistribution2",
+					
+					"insert into tempopmodedistribution2 (sourceTypeID, hourDayID, linkID, polProcessID, opModeID, opModeFraction, isUserInput)"
+						+ " select sourceTypeID, hourDayID, linkID, polProcessID, opModeID, coalesce(opModeFraction, 0) as opModeFraction, 'N' as isUserInput"
+						+ " from physicsoperatingmode pom"
+						+ " join sourceusetypephysicsmapping sutpm"
+						+ " on (realSourceTypeID = " + sourceTypeID + " and pom.opModeID DIV 100 = sutpm.opModeIDOffset DIV 100)"
+						+ " join (select distinct sourceTypeID,hourDayID,linkID,polProcessID from opmodedistribution" 
+							+ " where linkID in (" + -lowScheduleID + "," + -highScheduleID + ") and sourceTypeID = " + sourceTypeID + ") lp"
+						+ " left join opmodedistribution omd"
+						+ " using (opModeID,linkID,polProcessID,sourceTypeID,hourDayID)",
+						
+	
 					"insert into tempOpModeDistribution (sourceTypeID, hourDayID, linkID, polProcessID, opModeID, opModeFraction, isUserInput)"
 							+ " select omdLow.sourceTypeID, omdLow.hourDayID, " + linkID + " as linkID,"
 							+ " 	omdLow.polProcessID, omdLow.opModeID,"
@@ -828,8 +841,6 @@ public class LinkOperatingModeDistributionGenerator extends Generator {
 							+ " and eom.polProcessID is null"
 							+ " and eom.linkID is null"
 
-					,"drop table if exists tempOpModeDistribution"
-					,"drop table if exists tempOpModeDistribution2"
 				};
 				for(int i=0;i<interpolateStatements.length;i++) {
 					sql = interpolateStatements[i];
@@ -959,6 +970,8 @@ public class LinkOperatingModeDistributionGenerator extends Generator {
 			/**
 			 * @step 110
 			 * @algorithm Calculate accelerations in units of miles/(hour*second).
+			 * The acceleration of the 1st second = the acceleration of the 2nd second.
+			 * Acceleration includes the effect of gravity due to grade.
 			 * Speeds are given in miles/hour.
 			 * VSP is kW/tonne.
 			 * There are 0.44704 (meter*hours)/(miles*second).
@@ -985,19 +998,17 @@ public class LinkOperatingModeDistributionGenerator extends Generator {
 					+ "     a.linkID, a.secondID, a.speed,"
 					+ " 	coalesce("
 					+ "			(a.speed-b.speed)+(9.81/0.44704*sin(atan(a.grade/100.0))),"
-					+ "			(z.speed-a.speed)+(9.81/0.44704*sin(atan(a.grade/100.0))),"
 					+ "			0.0) as At0,"
 					+ "		coalesce((b.speed-c.speed)+(9.81/0.44704*sin(atan(b.grade/100.0))),0.0) as At1,"
 					+ "		coalesce((c.speed-d.speed)+(9.81/0.44704*sin(atan(c.grade/100.0))),0.0) as At2,"
 				 	+ " 	(((a.speed*0.44704)*(rollingTermA+(a.speed*0.44704)*(rotatingTermB+dragTermC*(a.speed*0.44704)))"
-				 	+ "		+sourceMass*(a.speed*0.44704)*coalesce(a.speed-b.speed,z.speed-a.speed,0.0)*0.44704"
+				 	+ "		+sourceMass*(a.speed*0.44704)*coalesce(a.speed-b.speed,0.0)*0.44704"
 			 		+ " 	+sourceMass*9.81*sin(atan(a.grade/100.0))*(a.speed*0.44704)))/fixedMassFactor as VSP,"
 					+ " 	-1 as opModeID"
 					+ " from driveScheduleSecondLink a"
 					+ " left join driveScheduleSecondLink b on (b.linkID=a.linkID and b.secondID=a.secondID-1)"
 					+ " left join driveScheduleSecondLink c on (c.linkID=b.linkID and c.secondID=b.secondID-1)"
 					+ " left join driveScheduleSecondLink d on (d.linkID=c.linkID and d.secondID=c.secondID-1)"
-					+ " left join driveScheduleSecondLink z on (z.linkID=a.linkID and z.secondID=a.secondID+1)"
 					+ ","
 					+ " sourceUseTypePhysicsMapping sut"
 					+ " inner join RunSpecSourceType rst on (rst.sourceTypeID = sut.realSourceTypeID)"

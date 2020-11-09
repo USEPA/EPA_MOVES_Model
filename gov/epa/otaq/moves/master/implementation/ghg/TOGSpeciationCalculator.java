@@ -254,7 +254,7 @@ public class TOGSpeciationCalculator extends EmissionCalculator {
 					// Register mechanisms for each required process.
 					EmissionCalculatorRegistration.register(mp,ep,this);
 					// Register NonHAPTOG (88) for each mechanism pollutant/process.
-					Integer processID = new Integer(ep.databaseKey);
+					Integer processID = Integer.valueOf(ep.databaseKey);
 					if(!nonhapProcesses.contains(processID)) {
 						nonhapProcesses.add(processID);
 						EmissionCalculatorRegistration.register(nonhapTOG,ep,this);
@@ -303,7 +303,7 @@ public class TOGSpeciationCalculator extends EmissionCalculator {
 				for(EmissionProcess ep : mechanismProcesses) {
 					PollutantProcessAssociation mechanismPPA = PollutantProcessAssociation.createByID(mp.databaseKey,ep.databaseKey);
 					if(ExecutionRunSpec.theExecutionRunSpec.doesHavePollutantAndProcess(mp,ep)) {
-						Integer processID = new Integer(ep.databaseKey);
+						Integer processID = Integer.valueOf(ep.databaseKey);
 						ArrayList<PollutantProcessAssociation> inputs = getMechanismRequirements(db,mechanismPPA);
 						for(PollutantProcessAssociation input : inputs) {
 							LinkedList<EmissionCalculator> t = EmissionCalculatorRegistration.findPollutant(input.pollutant);

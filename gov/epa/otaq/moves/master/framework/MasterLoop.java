@@ -22,7 +22,7 @@ import java.sql.ResultSet;
  * @author		Wesley Faler
  * @author		Sarah Luo, ERG
  * @author		Mitch C (Task 128)
- * @version		2015-06-16
+ * @version		2016-07-19
 **/
 public class MasterLoop extends MOVESThread {
 	/**
@@ -55,6 +55,9 @@ public class MasterLoop extends MOVESThread {
 	**/
 	private TreeMap<EmissionProcess,TreeSet<MasterLoopableSubscription> > subscriptions =
 			new TreeMap<EmissionProcess,TreeSet<MasterLoopableSubscription> >();
+
+	/** All subscribers **/
+	private ArrayList<MasterLoopable> allSubscribers = new ArrayList<MasterLoopable>();
 
 	/**
 	 * A linked list of MasterLoopable objects ready to execute immediately. This collection
@@ -118,7 +121,7 @@ public class MasterLoop extends MOVESThread {
 	**/
 	void setStartupFractionComplete(double fraction) {
 		synchronized(this) {
-			startupFractionComplete = new Double(fraction);
+			startupFractionComplete = Double.valueOf(fraction);
 		}
 		MOVESEngine.theInstance.notifyListeners();
 	}
@@ -291,9 +294,9 @@ public class MasterLoop extends MOVESThread {
 			DatabaseConnectionManager.learnCreateTableStatementsForDefaultAndExecutionDatabases();
 			if(retValueFinal) {
 				MOVESInstantiator.performInstantiation(ExecutionRunSpec.theExecutionRunSpec, this);
-				howManyOutboundBundlesWillBeCreated = new Integer(calcHowManyOutboundBundlesWillBeCreated());
+				howManyOutboundBundlesWillBeCreated = Integer.valueOf(calcHowManyOutboundBundlesWillBeCreated());
 			} else {
-				howManyOutboundBundlesWillBeCreated = new Integer(0);
+				howManyOutboundBundlesWillBeCreated = Integer.valueOf(0);
 			}
 			context.totalBundles = this.howManyOutboundBundlesWillBeCreated;
 			MOVESEngine.updateExpectedDoneFiles(howManyOutboundBundlesWillBeCreated.intValue());
@@ -644,6 +647,8 @@ public class MasterLoop extends MOVESThread {
 		newSubscription.priority = priority;
 
 		synchronized (subscriptions) {
+			allSubscribers.add(loopable);
+
 			TreeSet<MasterLoopableSubscription> processSubscriptions;
 			if(subscriptions.containsKey(process)) {
 				processSubscriptions = subscriptions.get(process);
@@ -663,6 +668,8 @@ public class MasterLoop extends MOVESThread {
 	**/
 	public void completelyUnSubscribe(MasterLoopable loopable) {
 		synchronized (subscriptions) {
+			allSubscribers.remove(loopable);
+
 			Iterator<EmissionProcess> subscriptionSetIter = subscriptions.keySet().iterator();
 
 			while (subscriptionSetIter.hasNext()) {
@@ -683,6 +690,14 @@ public class MasterLoop extends MOVESThread {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Get the set of subscribers.
+	 * @return the set of all subscribers
+	**/
+	public ArrayList<MasterLoopable> getSubscribers() {
+		return allSubscribers;
 	}
 
 	/**
@@ -951,7 +966,7 @@ public class MasterLoop extends MOVESThread {
 				// Remember the priority of the current object about to be queued
 				previousPriorityGroup = iterSubscription.priority;
 				context.setExecutionPriority(previousPriorityGroup);
-				queueLoopableForProcessing(new Integer(iterSubscription.priority),
+				queueLoopableForProcessing(Integer.valueOf(iterSubscription.priority),
 						iterSubscription.loopable);
 
 				// If there are more subscriptions in the list, then move on otherwise stop

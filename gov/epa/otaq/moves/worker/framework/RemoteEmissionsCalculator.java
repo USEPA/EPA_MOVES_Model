@@ -6,17 +6,53 @@
  *************************************************************************************************/
 package gov.epa.otaq.moves.worker.framework;
 
-import gov.epa.otaq.moves.common.*;
-import gov.epa.otaq.moves.worker.gui.*;
-import gov.epa.otaq.moves.utils.ApplicationRunner;
-import gov.epa.otaq.moves.utils.FileUtil;
-import gov.epa.otaq.moves.master.nonroad.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.FilenameFilter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.BufferedWriter;
+import java.io.OutputStreamWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
+import java.util.TreeMap;
+import java.util.TreeSet;
+
+import org.apache.commons.lang.math.NumberUtils;
+
+import gov.epa.otaq.moves.common.BundleManifest;
+import gov.epa.otaq.moves.common.CompilationFlags;
+import gov.epa.otaq.moves.common.DatabaseUtilities;
+import gov.epa.otaq.moves.common.DistributedWorkFileName;
+import gov.epa.otaq.moves.common.DistributedWorkFileState;
+import gov.epa.otaq.moves.common.FileUtilities;
+import gov.epa.otaq.moves.common.JARUtilities;
+import gov.epa.otaq.moves.common.LogMessageCategory;
+import gov.epa.otaq.moves.common.Logger;
+import gov.epa.otaq.moves.common.MOVESThread;
+import gov.epa.otaq.moves.common.ParallelSQLRunner;
+import gov.epa.otaq.moves.common.SQLRunner;
+import gov.epa.otaq.moves.common.StringUtilities;
+import gov.epa.otaq.moves.common.TreeMapIgnoreCase;
+import gov.epa.otaq.moves.master.framework.MOVESEngine;
 import gov.epa.otaq.moves.master.gui.MOVESWindow;
 //import gov.epa.otaq.moves.master.framework.MasterLoopContext;
-
-import java.io.*;
-import java.sql.*;
-import java.util.*;
+import gov.epa.otaq.moves.master.nonroad.NonroadHelper;
+import gov.epa.otaq.moves.utils.ApplicationRunner;
+import gov.epa.otaq.moves.utils.FileUtil;
+import gov.epa.otaq.moves.worker.gui.WorkerGUI;
+import gov.epa.otaq.moves.worker.gui.WorkerWindow;
 
 /**
  * MOVES breaks up work into generic work bundles which are handed off to a pool of distributed
@@ -43,7 +79,7 @@ import java.util.*;
  * @author		Wesley Faler
  * @author		Sarah Luo
  * @author 		Tim Hull
- * @version		2015-08-19
+ * @version		2017-02-01
 **/
 public class RemoteEmissionsCalculator extends MOVESThread {
 	/** Constant name of file containing SQL statement for worker to execute. **/
@@ -53,13 +89,20 @@ public class RemoteEmissionsCalculator extends MOVESThread {
 	/** Constant name of file containing flags from the master **/
 	public static final String FLAGS_FILE_NAME = "flags.txt";
 	/** Constant name of file to write errors to. **/
-	public static final String ERROR_FILE_NAME = "Errors.txt";
+	public static final String ERROR_FILE_NAME = "Errors.txt";	
+	/** File containing text error message reported by a worker **/
+	static final String NR_ERROR_FILE_NAME = "nrerrors.txt";	
+	/** File containing text error message reported by a worker **/
+	static final String NR_WARNING_FILE_NAME = "nrwarnings.txt";
 	/** Constant name of file to write worker output table to. **/
 	public static final String OUTPUT_DATA_FILE_NAME = "Output.tbl";
 	/** Constant name of file to write worker activity output table to. **/
 	public static final String OUTPUT_ACTIVITY_DATA_FILE_NAME = "Activity.tbl";
 	/** When true, a new worker database name is created for each bundle. **/
 	private static final boolean SHOULD_DEBUG_WORKER_DATABASE = false; // true;
+	
+	private static final String WARNING = "WARNING: ";
+	private static final String ERROR = "ERROR: ";
 
 	/** true if the worker should shutdown if no TODO or InProgress files are available. **/
 	public static boolean isAutoShutdownMode = false;
@@ -247,8 +290,7 @@ public class RemoteEmissionsCalculator extends MOVESThread {
 				}
 			}
 			if(!didFind && attemptedFileCount > 0) {
-				Logger.log(LogMessageCategory.INFO,"Failed to claim ownership of "
-						+ attemptedFileCount + " files");
+				//Logger.log(LogMessageCategory.INFO,"Failed to claim ownership of " + attemptedFileCount + " files");
 			}
 			advanceShutdownTimeout();
 		} else {
@@ -612,6 +654,7 @@ public class RemoteEmissionsCalculator extends MOVESThread {
 
 			long bundleStartMillis = System.currentTimeMillis();
 			resetTimers();
+			startUnassignedTimer();
 
 			removeUnwantedTables();
 
@@ -693,6 +736,7 @@ public class RemoteEmissionsCalculator extends MOVESThread {
 				sqlRunner.stats.print();
 			}
 
+			startTimer("BundleResults");
 			if(manifest.tablesToRetrieve.contains("MOVESWorkerOutput")) {
 				// SELECT * can't be used since it would export MOVESOutputRowID. This
 				// AUTO_INCREMENT field can't be exported across databases.
@@ -766,6 +810,7 @@ public class RemoteEmissionsCalculator extends MOVESThread {
 						+"sourceTypeID,"
 						+"regClassID,"
 						+"fuelTypeID,"
+						+"fuelSubTypeID,"
 						+"modelYearID,"
 						+"roadTypeID,"
 						+"SCC,"
@@ -843,6 +888,16 @@ public class RemoteEmissionsCalculator extends MOVESThread {
 			}
 			if(errorFile.isFile() && !returnFileList.contains(errorFile)) {
 				returnFileList.add(errorFile);
+			}
+			
+			// if the NR errors/warnings files exist, add them to the list to send them to the master for the OutputProcessor to handle
+			File nrErrorFile = new File(workingFolderPath, NR_ERROR_FILE_NAME);
+			if(nrErrorFile.isFile() && !returnFileList.contains(nrErrorFile)) {
+				returnFileList.add(nrErrorFile);
+			}
+			File nrWarningFile = new File(workingFolderPath, NR_WARNING_FILE_NAME);
+			if(nrWarningFile.isFile() && !returnFileList.contains(nrWarningFile)) {
+				returnFileList.add(nrWarningFile);
 			}
 
 			finishActiveTimer();
@@ -925,7 +980,7 @@ public class RemoteEmissionsCalculator extends MOVESThread {
 			int start, int end, TreeMapIgnoreCase replacements, File errorFile,
 			File workingPath, File optFilePath, BundleManifest manifest)
 			throws IOException {
-		ExternalCalculator externalCalc = new ExternalCalculator(database,workingPath,isTest);
+		ExternalCalculator externalCalc = new ExternalCalculator(this,database,workingPath,isTest);
 		String sql = "";
 		
 		try {
@@ -1047,11 +1102,45 @@ public class RemoteEmissionsCalculator extends MOVESThread {
 		long elapsedTimeMillis;
 		float elapsedTimeSec;
 
-		Logger.log(LogMessageCategory.DEBUG,
-				"Current dir: " + System.getProperty("user.dir"));
-		File targetApplicationPath =
-		// new File(WorkerConfiguration.theWorkerConfiguration.nonroadApplicationPath);
-		new File(workingFolderPath, "nonroad.exe");
+		Logger.log(LogMessageCategory.DEBUG,"Current dir: " + System.getProperty("user.dir"));
+		File targetApplicationPath = new File(workingFolderPath, "nonroad.exe");
+		
+		/*
+		File targetApplicationPath = new File(WorkerConfiguration.theWorkerConfiguration.nonroadApplicationPath);
+
+		try {
+			if(!targetApplicationPath.exists()) {
+				String updatedPath = WorkerConfiguration.theWorkerConfiguration.nonroadApplicationPath;
+				if(updatedPath.startsWith("/") || updatedPath.startsWith("\\")) {
+					updatedPath = ".." + updatedPath;
+				} else {
+					updatedPath = "../" + updatedPath;
+				}
+				targetApplicationPath = new File(updatedPath);
+				if(!targetApplicationPath.exists()) {
+					if(updatedPath.startsWith("/") || updatedPath.startsWith("\\")) {
+						updatedPath = ".." + updatedPath;
+					} else {
+						updatedPath = "../" + updatedPath;
+					}
+					targetApplicationPath = new File(updatedPath);
+					if(!targetApplicationPath.exists()) {
+						targetApplicationPath = null;
+					}
+				}
+			}
+		} catch(Exception e) {
+			targetApplicationPath = null;
+		}
+		if(targetApplicationPath == null) {
+			targetApplicationPath = new File(workingFolderPath, "nonroad.exe");
+		}
+		try {
+			Logger.log(LogMessageCategory.DEBUG,"Using Nonroad path: " + targetApplicationPath.getCanonicalPath());
+		} catch(IOException e) {
+			// Nothing to do here
+		}
+		*/
 
 		String[] arguments = new String[1];
 		arguments[0] = "nonroad.opt";
@@ -1062,6 +1151,7 @@ public class RemoteEmissionsCalculator extends MOVESThread {
 		File processOutputPath = new File(targetFolderPath, "NonroadProcessOutput.txt");
 		String inputText = null;
 		try {
+			startTimer("NonroadExternalApp");
 			ApplicationRunner.runApplication(targetApplicationPath, arguments,
 					targetFolderPath, new FileOutputStream(processOutputPath),
 					inputText, runInCmd, environment);
@@ -1073,17 +1163,99 @@ public class RemoteEmissionsCalculator extends MOVESThread {
 			e.printStackTrace();
 		}
 
+		if(processOutputPath.exists()) {
+			//loop through the file and get Error/Warnings
+			List<String> errors = new ArrayList<>();
+			List<String> warnings = new ArrayList<>();
+
+			try(BufferedReader br = new BufferedReader(new FileReader(processOutputPath))) {
+				StringBuilder message = null;
+				boolean readMessage = false;
+				boolean isError = false;
+
+				for(String line; (line = br.readLine()) != null; ) {
+					// process the line.
+
+					//look for start WARNING or ERROR
+			    	if(!readMessage && (line.indexOf(ERROR) > -1 || line.indexOf(WARNING) > -1 )) {
+			    		//start reading message
+			    		isError = line.indexOf(ERROR) > -1;
+
+			    		message = new StringBuilder(line.substring(line.indexOf( isError ? ERROR : WARNING ) + (isError ? ERROR.length() : WARNING.length())).trim());
+			    		readMessage = true;
+			    		
+			    		continue;
+			    	} else if(readMessage && "".equals(line.trim())) {
+			    		//message is over, add to list and reset
+			    		if(isError) {
+			    			errors.add(message.toString());
+			    		} else {
+			    			warnings.add(message.toString());
+			    		}
+
+			    		readMessage = false;
+			    	} else if(readMessage) {
+			    		//message spans multiple lines, append
+			    		message.append("\n|");
+			    		message.append(line.trim());
+			    	}
+			    }
+		
+				//allow for no empty line
+				if(readMessage) {
+					if(isError) {
+		    			errors.add(message.toString());
+		    		} else {
+		    			warnings.add(message.toString());
+		    		}
+				}
+				
+				// Write errors to file for the OutputProcessor to handle
+				if(errors.size() > 0) {
+					File errorFilePath = new File(workingFolderPath, NR_ERROR_FILE_NAME);
+					PrintWriter errorWriter = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(errorFilePath))));	
+							
+					for(String error : errors) {
+						// This will end up in moveslog.txt as long as the worker is running on the same computer
+						// as the master is. It will always end up in the moveserror table of the output database.
+						Logger.log(LogMessageCategory.ERROR, error);
+						errorWriter.println(ERROR + error);
+					}
+					
+					errorWriter.close();
+				}
+
+				// Write warnings to file for the OutputProcessor to handle
+				if(warnings.size() > 0) {
+					File warningFilePath = new File(workingFolderPath, NR_WARNING_FILE_NAME);
+					PrintWriter warningWriter = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(warningFilePath))));	
+							
+					for(String warning : warnings) {
+						// This will end up in moveslog.txt as long as the worker is running on the same computer
+						// as the master is. It will always end up in the moveserror table of the output database.
+						Logger.log(LogMessageCategory.WARNING, warning);					
+						warningWriter.println(WARNING + warning);
+					}
+					
+					warningWriter.close();
+				}
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
 		elapsedTimeMillis = System.currentTimeMillis() - start;
 		elapsedTimeSec = elapsedTimeMillis / 1000F;
 		Logger.log(LogMessageCategory.INFO,
 				"Time spent on running nonroad.exe (sec): " + elapsedTimeSec);
 
 		if (true) {
+			startTimer("NonroadLoadResults");
 			start = System.currentTimeMillis();
 			String sql = null; // "load data infile ? into table ?";
 			PreparedStatement statement = null;
 			try {
-
 				for (String table : NonroadHelper.nonroadTableNeededAtWorkerSide) {
 					sql = "load data infile " + "\'"
 							+ workingFolderPath.getCanonicalPath()
@@ -1117,7 +1289,7 @@ public class RemoteEmissionsCalculator extends MOVESThread {
 			BufferedReader bmvReader = null;
 
 			try {
-System.out.println("Nonroad files are in: " + workingFolderPath.getCanonicalPath());
+				System.out.println("Nonroad files are in: " + workingFolderPath.getCanonicalPath());
 				bmyReader = new BufferedReader(new FileReader(new File(
 						workingFolderPath, "NONROAD.BMY")));
 			} catch (IOException e) {
@@ -1167,6 +1339,7 @@ System.out.println("Nonroad files are in: " + workingFolderPath.getCanonicalPath
 			Logger.log(LogMessageCategory.INFO,
 					"Time spent on loading data into worker output database (sec): "
 							+ elapsedTimeSec);
+			startUnassignedTimer();
 		}
 	}
 
@@ -1425,6 +1598,11 @@ System.out.println("Nonroad files are in: " + workingFolderPath.getCanonicalPath
 		currentTimerName = null;
 	}
 
+	/** Start the timer used to account for all time not explicitly assigned **/
+	void startUnassignedTimer() {
+		startTimer("Other");
+	}
+
 	/**
 	 * Start a named timer, finishing any previous timer.
 	 * @param timerName name of the timer, never null or empty.
@@ -1432,6 +1610,7 @@ System.out.println("Nonroad files are in: " + workingFolderPath.getCanonicalPath
 	void startTimer(String timerName) {
 		finishActiveTimer();
 		if(timerName == null || timerName.length() <= 0) {
+			startUnassignedTimer();
 			return;
 		}
 		timerName = timerName.trim();

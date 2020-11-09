@@ -1,4 +1,4 @@
--- Version 2014-05-19
+-- Version 2017-09-29
 -- Author Wesley Faler
 
 -- @algorithm
@@ -45,6 +45,11 @@ TRUNCATE TABLE hotellingActivityDistribution;
 ##create.SHO##;
 TRUNCATE TABLE SHO;
 -- End Section SHO
+
+-- Section ONI
+##create.SHO##;
+TRUNCATE TABLE SHO;
+-- End Section ONI
 
 -- Section SHP
 ##create.SHP##;
@@ -160,7 +165,8 @@ into outfile '##hotellingActivityDistribution##'
 from hotellingActivityDistribution
 where opModeID <> 200
 and beginModelYearID <= ##context.year##
-and endModelYearID >= ##context.year## - 30;
+and endModelYearID >= ##context.year## - 30
+and zoneID = ##hotellingActivityZoneID##;
 -- End Section hotellingHours
 
 -- Section SHO
@@ -171,6 +177,15 @@ INNER JOIN RunSpecMonth USING (monthID)
 WHERE yearID = ##context.year##
 AND linkID = ##context.iterLocation.linkRecordID##;
 -- End Section SHO
+
+-- Section ONI
+SELECT SHO.* 
+INTO OUTFILE '##SHO##'
+FROM SHO
+INNER JOIN RunSpecMonth USING (monthID)
+WHERE yearID = ##context.year##
+AND linkID = ##context.iterLocation.linkRecordID##;
+-- End Section ONI
 
 -- Section SHP
 SELECT SHP.* 
@@ -202,20 +217,13 @@ cache SELECT *
 INTO OUTFILE '##roadTypeDistribution##'
 FROM roadTypeDistribution;
 
--- Population requires roads that do not have separate ramps.
 cache select zoneID,
-	case when roadTypeID=8 then 2
-		when roadTypeID=9 then 4
-		else roadTypeID
-	end as roadTypeID, 
+	roadTypeID,
 	sum(SHOAllocFactor) as SHOAllocFactor
 into outfile '##zoneRoadType##'
 from zoneRoadType
 where zoneID=##context.iterLocation.zoneRecordID##
-group by case when roadTypeID=8 then 2
-		when roadTypeID=9 then 4
-		else roadTypeID
-end;
+group by roadTypeID;
 -- End Section NonProjectDomain
 
 -- Section ProjectDomain
@@ -823,7 +831,7 @@ insert into ##ActivityTable## (yearID, monthID, dayID, hourID, stateID, countyID
 select s.yearID, s.monthID, h.dayID, h.hourID,
 		##context.iterLocation.stateRecordID## as stateID,
 		##context.iterLocation.countyRecordID## as countyID,
-		zoneID,
+		s.zoneID,
 		##context.iterLocation.linkRecordID## linkID, s.sourceTypeID, stf.regClassID,
 		stff.fuelTypeID as fuelTypeID,
 		(s.yearID-s.ageID) as modelYearID,
@@ -854,7 +862,7 @@ insert into ##ActivityTable## (yearID, monthID, dayID, hourID, stateID, countyID
 select s.yearID, s.monthID, h.dayID, h.hourID,
 		##context.iterLocation.stateRecordID## as stateID,
 		##context.iterLocation.countyRecordID## as countyID,
-		zoneID,
+		s.zoneID,
 		##context.iterLocation.linkRecordID## linkID, s.sourceTypeID,
 		stff.fuelTypeID as fuelTypeID,
 		(s.yearID-s.ageID) as modelYearID,
@@ -875,6 +883,59 @@ inner join hotellingActivityDistribution ha on (
 -- End Section NoRegClassID
 
 -- End Section hotellingHours
+
+-- Section ONI
+-- 16, "shi", "Source Hours Idling" -- changed to sho (4)
+
+-- Section WithRegClassID
+-- @algorithm shi = sho[roadTypeID=1,sourceTypeID,hourDayID,monthID,yearID,ageID,linkID]*fuelFraction[sourceTypeID,modelYearID,fuelTypeID]*regClassFraction[fuelTypeID,modelYearID,sourceTypeID,regClassID]
+insert into ##ActivityTable## (yearID, monthID, dayID, hourID, stateID, countyID,
+		zoneID, linkID, sourceTypeID, regClassID, fuelTypeID, modelYearID, roadTypeID, SCC,
+		activityTypeID, activity)
+select s.yearID, s.monthID, h.dayID, h.hourID,
+		##context.iterLocation.stateRecordID## as stateID,
+		##context.iterLocation.countyRecordID## as countyID,
+		##context.iterLocation.zoneRecordID## as zoneID,
+		s.linkID, s.sourceTypeID, stf.regClassID,
+		stff.fuelTypeID as fuelTypeID,
+		(s.yearID-s.ageID) as modelYearID,
+		l.roadTypeID as roadTypeID,
+		NULL as SCC,
+		4 as activityTypeID,
+		(SHO*stff.fuelFraction*stf.regClassFraction) as activity
+from SHO s
+inner join HourDay h on h.hourDayID=s.hourDayID
+inner join sourceTypeFuelFraction stff on (stff.sourceTypeID=s.sourceTypeID and stff.modelYearID=(s.yearID-s.ageID))
+inner join Link l on (l.linkID=s.linkID)
+inner join RegClassSourceTypeFraction stf on (
+	stf.sourceTypeID = stff.sourceTypeID
+	and stf.fuelTypeID = stff.fuelTypeID
+	and stf.modelYearID = stff.modelYearID
+);
+-- End Section WithRegClassID
+
+-- Section NoRegClassID
+insert into ##ActivityTable## (yearID, monthID, dayID, hourID, stateID, countyID,
+		zoneID, linkID, sourceTypeID, fuelTypeID, modelYearID, roadTypeID, SCC,
+		activityTypeID, activity)
+select s.yearID, s.monthID, h.dayID, h.hourID,
+		##context.iterLocation.stateRecordID## as stateID,
+		##context.iterLocation.countyRecordID## as countyID,
+		##context.iterLocation.zoneRecordID## as zoneID,
+		s.linkID, s.sourceTypeID,
+		stff.fuelTypeID as fuelTypeID,
+		(s.yearID-s.ageID) as modelYearID,
+		l.roadTypeID as roadTypeID,
+		NULL as SCC,
+		4 as activityTypeID,
+		(SHO*stff.fuelFraction) as activity
+from SHO s
+inner join HourDay h on h.hourDayID=s.hourDayID
+inner join sourceTypeFuelFraction stff on (stff.sourceTypeID=s.sourceTypeID and stff.modelYearID=(s.yearID-s.ageID))
+inner join Link l on (l.linkID=s.linkID);
+-- End Section NoRegClassID
+
+-- End Section ONI
 
 -- End Section Processing
 

@@ -5,6 +5,7 @@
 package gov.epa.otaq.moves.master.implementation.importers;
 
 import gov.epa.otaq.moves.master.framework.importers.*;
+import gov.epa.otaq.moves.common.*;
 
 import java.io.*;
 import java.sql.*;
@@ -21,7 +22,7 @@ import gov.epa.otaq.moves.common.*;
  * NMIM or Mobile format) into MOVES.
  * 
  * @author		Wesley Faler
- * @version		2009-04-20
+ * @version		2015-09-16
 **/
 public class LinkSourceTypeHourImporter extends ImporterBase {
 	/** Data handler for this importer **/
@@ -147,14 +148,74 @@ public class LinkSourceTypeHourImporter extends ImporterBase {
 	**/
 	public RunSpecSectionStatus getProjectDataStatus(Connection db) 
 			throws Exception {
+		String sql;
+		SQLRunner.Query query = new SQLRunner.Query();
+		boolean hasError = false;
+		
 		if(db == null) {
 			return new RunSpecSectionStatus(RunSpecSectionStatus.OK);
 		}
+		
 		boolean hasSourceTypes = manager.tableHasSourceTypes(db,
-				"select distinct sourceTypeID from " + primaryTableName);
-		if(hasSourceTypes) {
-			return new RunSpecSectionStatus(RunSpecSectionStatus.OK);
+				"select distinct sourceTypeID from " + primaryTableName,
+				this,primaryTableName + " is missing sourceTypeID(s)");
+		if(!hasSourceTypes) {
+			return new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);
 		}
-		return new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);
+		
+		// check for any link VHT distributions not summing to one
+		sql = "SELECT linkID, sum(sourceTypeHourFraction) as sourceTypeHourFractionTotal " +
+			  "  FROM linksourcetypehour " +
+			  "  GROUP BY linkID " +
+			  "  HAVING ROUND(sourceTypeHourFractionTotal, 4) <> 1.0000";
+		try {
+			query.open(db,sql);
+			while(query.rs.next()) {
+				int tempLinkID = query.rs.getInt(1);
+				float tempSumsToValue = query.rs.getFloat(2);
+				addQualityMessage("ERROR: sourceTypeHourFraction sums to " + tempSumsToValue + " on linkID " + tempLinkID); 
+				hasError = true;
+			}
+		} finally {
+			query.close();
+		}
+		
+		// check for the off-network link, which should not be in this table
+		sql = "SELECT distinct linkID " +
+			  "FROM linksourcetypehour " +
+			  "JOIN link using (linkID) " +
+			  "WHERE roadTypeID = 1;";
+		try {
+			query.open(db,sql);
+			while(query.rs.next()) {
+				int tempLinkID = query.rs.getInt(1);
+				addQualityMessage("ERROR: linkID " + tempLinkID + " is the off-network link and should not be included in this table."); 
+				hasError = true;
+			}
+		} finally {
+			query.close();
+		}
+		
+		// check for missing links
+		sql = "SELECT distinct linkID " +
+			  "FROM link " +
+			  "LEFT JOIN linksourcetypehour using (linkID) " +
+			  "WHERE sourceTypeHourFraction is NULL AND roadTypeID <> 1";
+		try {
+			query.open(db,sql);
+			while(query.rs.next()) {
+				int tempLinkID = query.rs.getInt(1);
+				addQualityMessage("ERROR: linkID " + tempLinkID + " is missing."); 
+				hasError = true;
+			}
+		} finally {
+			query.close();
+		}
+		
+		if(hasError) {
+			return new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);
+		}
+	
+		return new RunSpecSectionStatus(RunSpecSectionStatus.OK);
 	}
 }

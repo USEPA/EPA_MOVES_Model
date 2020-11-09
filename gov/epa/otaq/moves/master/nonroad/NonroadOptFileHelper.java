@@ -67,7 +67,7 @@ public class NonroadOptFileHelper {
 			optFileWriter.println("Summation type     : TYPICAL DAY"); // Period
 																		// total");
 			optFileWriter.println("Year of episode    : "
-					+ (new Integer(yearID)).toString());
+					+ (Integer.valueOf(yearID)).toString());
 			optFileWriter.println("Season of year     : ");
 			optFileWriter.println("Month of year      : " + monthName);
 			optFileWriter.println("Weekday or weekend : " + dayStr);

@@ -66,8 +66,8 @@ public class SulfurModelTest extends TestCase {
 
 		// Setup calendar years so that a model year will need 2 ages
 		TreeSet<Integer> calendarYears = new TreeSet<Integer>();
-		calendarYears.add(new Integer(startYear));
-		calendarYears.add(new Integer(startYear+1));
+		calendarYears.add(Integer.valueOf(startYear));
+		calendarYears.add(Integer.valueOf(startYear+1));
 		ExecutionRunSpec.fillYearsAndModelYears(testDB,calendarYears);
 
 		TreeSet<Integer> sourceTypes = DatabaseUtilities.getIntegerSet(inputDB,

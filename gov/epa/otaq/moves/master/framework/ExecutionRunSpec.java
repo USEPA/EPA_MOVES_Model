@@ -19,7 +19,8 @@ import java.io.*;
  * only while a RunSpec is being executed.
  *
  * @author		Wesley Faler
- * @version		2015-01-06
+ * @author		Jarrod Brown
+ * @version		2018-06-21
 **/
 public class ExecutionRunSpec {
 	/** The singleton instance **/
@@ -170,7 +171,7 @@ public class ExecutionRunSpec {
 				PollutantProcessAssociation iterAssociation = i.next();
 				targetProcesses.add(iterAssociation.emissionProcess);
 				targetPollutants.add(iterAssociation.pollutant);
-				targetPollutantProcesses.add(new Integer(iterAssociation.getDatabaseKey(defaultDB)));
+				targetPollutantProcesses.add(Integer.valueOf(iterAssociation.getDatabaseKey(defaultDB)));
 				pollutantProcessAssociations.add(iterAssociation);
 			}
 			flagRequiredPollutantProcesses(defaultDB);
@@ -234,18 +235,18 @@ public class ExecutionRunSpec {
 				fuelYears.clear();
 				query.open(executionDB,sql);
 				while(query.rs.next()) {
-					fuelYears.add(new Integer(query.rs.getInt(1)));
+					fuelYears.add(Integer.valueOf(query.rs.getInt(1)));
 				}
 				query.close();
 			}
 			// Learn regions from the regionCounty table. This has already been filtered
 			// for the counties in the runspec.
 			regions.clear();
-			regions.add(new Integer(0));
+			regions.add(Integer.valueOf(0));
 			sql = "select distinct regionID from regionCounty";
 			query.open(executionDB,sql);
 			while(query.rs.next()) {
-				regions.add(new Integer(query.rs.getInt(1)));
+				regions.add(Integer.valueOf(query.rs.getInt(1)));
 			}
 			query.close();
 			// Learn month groups using the runspec months as a filter.
@@ -261,7 +262,7 @@ public class ExecutionRunSpec {
 				monthGroups.clear();
 				query.open(executionDB,sql);
 				while(query.rs.next()) {
-					monthGroups.add(new Integer(query.rs.getInt(1)));
+					monthGroups.add(Integer.valueOf(query.rs.getInt(1)));
 				}
 				query.close();
 			}
@@ -291,7 +292,7 @@ public class ExecutionRunSpec {
 				PollutantProcessAssociation iterAssociation = (PollutantProcessAssociation) i.next();
 				targetProcesses.add(iterAssociation.emissionProcess);
 				targetPollutants.add(iterAssociation.pollutant);
-				targetPollutantProcesses.add(new Integer(iterAssociation.getDatabaseKey(executionDB)));
+				targetPollutantProcesses.add(Integer.valueOf(iterAssociation.getDatabaseKey(executionDB)));
 				pollutantProcessAssociations.add(iterAssociation);
 			}
 			flagRequiredPollutantProcesses(executionDB);
@@ -430,7 +431,7 @@ public class ExecutionRunSpec {
 					|| getTimeSpan().aggregateBy.compareTo(OutputTimeStep.YEAR) < 0) {
 				for(Iterator i=targetRunSpec.timeSpan.months.iterator();i.hasNext();) {
 					TimeSpan.Month m = (TimeSpan.Month)i.next();
-					months.add(new Integer(m.monthID));
+					months.add(Integer.valueOf(m.monthID));
 				}
 			} else {
 				// The "YEAR" aggregation option uses one or more pseudo-months, so
@@ -438,7 +439,7 @@ public class ExecutionRunSpec {
 				sql = "SELECT monthID FROM MonthOfAnyYear ORDER BY monthID";
 				results = SQLRunner.executeQuery(targetDB,sql);
 				for(int i=0;results.next();i++) {
-					months.add(new Integer(results.getInt(1)));
+					months.add(Integer.valueOf(results.getInt(1)));
 				}
 				results.close();
 			}
@@ -447,13 +448,13 @@ public class ExecutionRunSpec {
 			if(useRunSpec) {
 				for(Iterator i=targetRunSpec.timeSpan.days.iterator();i.hasNext();) {
 					TimeSpan.Day d = (TimeSpan.Day)i.next();
-					days.add(new Integer(d.dayID));
+					days.add(Integer.valueOf(d.dayID));
 				}
 			} else {
 				sql = "SELECT dayID FROM DayOfAnyWeek ORDER BY dayID";
 				results = SQLRunner.executeQuery(targetDB,sql);
 				for(int i=0;results.next();i++) {
-					days.add(new Integer(results.getInt(1)));
+					days.add(Integer.valueOf(results.getInt(1)));
 				}
 				results.close();
 			}
@@ -472,7 +473,7 @@ public class ExecutionRunSpec {
 					TimeSpan.Hour h = (TimeSpan.Hour)i.next();
 					if(targetRunSpec.timeSpan.beginHourID <= h.hourID
 							&& targetRunSpec.timeSpan.endHourID >= h.hourID) {
-						hours.add(new Integer(h.hourID));
+						hours.add(Integer.valueOf(h.hourID));
 						//System.out.println("Add runSpec hour " + h.hourID + " between " + targetRunSpec.timeSpan.beginHourID + " and " + targetRunSpec.timeSpan.endHourID);
 					}
 				}
@@ -480,7 +481,7 @@ public class ExecutionRunSpec {
 				sql = "SELECT hourID FROM HourOfAnyDay ORDER BY hourID";
 				results = SQLRunner.executeQuery(targetDB,sql);
 				for(int i=0;results.next();i++) {
-					hours.add(new Integer(results.getInt(1)));
+					hours.add(Integer.valueOf(results.getInt(1)));
 				}
 				results.close();
 			}
@@ -501,7 +502,7 @@ public class ExecutionRunSpec {
 				results = SQLRunner.executeQuery(targetDB,sql);
 				hourdays.clear();
 				for(int i=0;results.next();i++) {
-					hourdays.add(new Integer(results.getInt(1)));
+					hourdays.add(Integer.valueOf(results.getInt(1)));
 				}
 				results.close();
 			}
@@ -694,7 +695,7 @@ public class ExecutionRunSpec {
 				if(nonhapTOG != null) {
 					PollutantProcessAssociation nht = PollutantProcessAssociation.createByID(88,ppa.emissionProcess.databaseKey);
 					if(nht != null && !ExecutionRunSpec.theExecutionRunSpec.doesHavePollutantAndProcess(nht.pollutant,nht.emissionProcess)) {
-						targetPollutantProcesses.add(new Integer(nht.getDatabaseKey(db)));
+						targetPollutantProcesses.add(Integer.valueOf(nht.getDatabaseKey(db)));
 						pollutantProcessAssociations.add(nht);
 						targetPollutants.add(nonhapTOG);
 					}
@@ -703,7 +704,7 @@ public class ExecutionRunSpec {
 				ArrayList<PollutantProcessAssociation> lumpedSpecies = TOGSpeciationCalculator.getMechanismLumpedSpecies(db,ppa);
 				for(PollutantProcessAssociation r : lumpedSpecies) {
 					if(!ExecutionRunSpec.theExecutionRunSpec.doesHavePollutantAndProcess(r.pollutant,r.emissionProcess)) {
-						targetPollutantProcesses.add(new Integer(r.getDatabaseKey()));
+						targetPollutantProcesses.add(Integer.valueOf(r.getDatabaseKey()));
 						pollutantProcessAssociations.add(r);
 						targetPollutants.add(r.pollutant);
 					}
@@ -744,7 +745,7 @@ public class ExecutionRunSpec {
 				pollutantName, emissionProcessName);
 		targetProcesses.add(ppa.emissionProcess);
 		targetPollutants.add(ppa.pollutant);
-		targetPollutantProcesses.add(new Integer(ppa.getDatabaseKey(db)));
+		targetPollutantProcesses.add(Integer.valueOf(ppa.getDatabaseKey(db)));
 		pollutantProcessAssociations.add(ppa);
 		Logger.log(LogMessageCategory.INFO,"Adding:(" + ppa.getDatabaseKey(db) + ") "
 				+ pollutantName + "/" + emissionProcessName);
@@ -968,35 +969,125 @@ public class ExecutionRunSpec {
 	}
 
 	/**
-	 * Gets the user's roadtypes.
-	 * @return The set of all road types to be used in the simulation.
+	 * Gets the user's RoadTypes, or RoadTypes required by the specific run (eg. Off-network Idle)
+	 * @return The TreeSet of all RoadTypes to be used in the simulation.
 	**/
 	public TreeSet<RoadType> getRoadTypes() {
-		if(shouldSeparateRamps() && extraRoadTypes == null) {
-			extraRoadTypes = new TreeSet<RoadType>();
-			for(Iterator<RoadType> i = targetRunSpec.roadTypes.iterator(); i.hasNext();) {
-				RoadType roadType = (RoadType) i.next();
-				// Provide Rural Restricted only Ramps (8) for Rural Restricted Access (2) roads
-				if(roadType.roadTypeID==2) {
-					RoadType newRoad = new RoadType(8,"Rural Restricted only Ramps",Models.ModelCombination.M1);
-					extraRoadTypes.add(newRoad);
-				}
-				// Provide Urban Restricted only Ramps (9) for Urban Restricted Access (4) roads
-				if(roadType.roadTypeID==4) {
-					RoadType newRoad = new RoadType(9,"Urban Restricted only Ramps",Models.ModelCombination.M1);
-					extraRoadTypes.add(newRoad);
-				}
+		
+		executionRoadTypes = new TreeSet<RoadType>();
+		
+		//For off-network idle, all road types are required to calculate correctly.
+		//Check to see if off-network roadtype and running process is selected in the runspec.
+		boolean containsOffNetwork = false;
+		boolean containsRunning = false;
+		boolean needsAllRoadTypes = false;
+		//Check if off-network is present in the runspec
+		for (Iterator<RoadType> i = targetRunSpec.roadTypes.iterator();i.hasNext();){
+			RoadType r = i.next();
+			if (r.roadTypeID == 1){
+				containsOffNetwork = true;
+				break;
 			}
 		}
-		if(extraRoadTypes != null && extraRoadTypes.size() > 0) {
+		//Check if running process is present in the runspec
+		for (Iterator<EmissionProcess> i = targetProcesses.iterator();i.hasNext();){
+			EmissionProcess e = i.next();
+			if (e.databaseKey == 1){
+				containsRunning = true;
+				break;
+			}
+		}
+		//If both off-network and running process are in the runspec, all roadtypes are needed
+		needsAllRoadTypes = (containsOffNetwork && containsRunning);
+		
+		//If off-network idle is needed, return all roadtypes
+		if (needsAllRoadTypes){
+			try{
+				TreeSet<RoadType> allRoadTypes = getAllRoadTypes();
+				if (targetRunSpec.roadTypes.size() < allRoadTypes.size()){
+					Logger.log(LogMessageCategory.INFO,"WARNING: Off-Network Idle requires all roadtypes. Selecting all roadtypes regardless of runspec.");
+				}
+				executionRoadTypes.addAll(allRoadTypes);
+				return executionRoadTypes;
+			}
+			catch (InterruptedException e){
+				Logger.logError(e, "ExecutionRunSpec[getRoadTypes]: Thread Interrupted. Not all roadtypes will be selected.");
+			}
+		//ramps(? Ramps have been removed from the model, this may be deprecated)
+		} else if(extraRoadTypes != null && extraRoadTypes.size() > 0) {
 			if(executionRoadTypes == null) {
-				executionRoadTypes = new TreeSet<RoadType>();
 				executionRoadTypes.addAll(extraRoadTypes);
 				executionRoadTypes.addAll(targetRunSpec.roadTypes);
 			}
 			return executionRoadTypes;
 		}
+		//If off-network idle and ramps are not needed, just return the roadtypes from the runspec
 		return targetRunSpec.roadTypes;
+	}
+	
+	/**
+	 * Gets all roadtypes from the default Database for onroad only.
+	 * @return The TreeSet of all RoadTypes for onroad from the default database.
+	 * @throws InterruptedException if thread is interrupted. 
+	**/
+	public TreeSet<RoadType> getAllRoadTypes() throws InterruptedException {
+		
+		//Create a blank container for all roadtypes that will be selected from the default database
+		TreeSet<RoadType> defaultRoadTypeListOutput = new TreeSet<RoadType>();
+		
+		//Create a new SQL connection to the default database, log if connection fails
+		Connection db = DatabaseConnectionManager.checkOutConnection(MOVESDatabaseType.DEFAULT);
+		if (null == db) {
+			Logger.log(LogMessageCategory.ERROR,"ExecutionRunSpec[getAllRoadTypes]: Unable to connect to database.");
+		}
+		
+		//Create database query string for all onroad roadtype selections
+		String sql = "SELECT roadTypeID, roadDesc, isAffectedByOnroad, isAffectedByNonroad"
+				+ " FROM roadtype"
+				+ " WHERE shouldDisplay = 1"
+				+ " AND isAffectedByOnroad = TRUE"
+				+ " ORDER BY roadDesc";
+				
+		//Query database using connection db with the query string
+		try {
+			PreparedStatement statement = db.prepareStatement(sql);
+			ResultSet results = SQLRunner.executeQuery(statement, sql);
+			if (results != null) {
+				while (results.next()) {
+					int roadTypeID = results.getInt(1);
+					boolean isAffectedByOnroad = results.getBoolean(3);
+					boolean isAffectedByNonroad = results.getBoolean(4);
+					//Create temporary RoadType object for query results
+					RoadType r = null;
+					//Add query results to the RoadType object only for onroad RoadTypes
+					if (isAffectedByOnroad && isAffectedByNonroad) {
+						r = new RoadType(roadTypeID,
+								results.getString(2),
+								Models.ModelCombination.M12);
+					} else if (isAffectedByOnroad) {
+						r = new RoadType(roadTypeID,
+								results.getString(2),
+								Models.ModelCombination.M1);
+					}
+					//Add the temporary RoadType object to the container for all onroad RoadTypes
+					if(r != null) {
+						defaultRoadTypeListOutput.add(r);
+					}
+				}
+				results.close();
+				}
+			statement.close();
+			}
+		catch (SQLException e) {
+			Logger.logError(e, "ExecutionRunSpec[getAllRoadTypes]: Unable to load a list of road types.");
+		}
+	    finally {
+			//Close the database connection
+			DatabaseConnectionManager.checkInConnection(MOVESDatabaseType.DEFAULT,db);
+			db = null;
+		}
+		
+		return defaultRoadTypeListOutput;
 	}
 
 	/**
@@ -1079,10 +1170,10 @@ public class ExecutionRunSpec {
 		links.clear();
 		for(Iterator<ExecutionLocation> i=executionLocations.iterator();i.hasNext();) {
 			ExecutionLocation location = (ExecutionLocation)i.next();
-			states.add(new Integer(location.stateRecordID));
-			counties.add(new Integer(location.countyRecordID));
-			zones.add(new Integer(location.zoneRecordID));
-			links.add(new Integer(location.linkRecordID));
+			states.add(Integer.valueOf(location.stateRecordID));
+			counties.add(Integer.valueOf(location.countyRecordID));
+			zones.add(Integer.valueOf(location.zoneRecordID));
+			links.add(Integer.valueOf(location.linkRecordID));
 		}
 	}
 
@@ -1093,8 +1184,8 @@ public class ExecutionRunSpec {
 			for(Iterator<OnRoadVehicleSelection>
 			i = targetRunSpec.onRoadVehicleSelections.iterator(); i.hasNext();) {
 				OnRoadVehicleSelection onRoadVehicleSelection = (OnRoadVehicleSelection) i.next();
-				sourceTypes.add(new Integer(onRoadVehicleSelection.sourceTypeID));
-				fuelTypes.add(new Integer(onRoadVehicleSelection.fuelTypeID));
+				sourceTypes.add(Integer.valueOf(onRoadVehicleSelection.sourceTypeID));
+				fuelTypes.add(Integer.valueOf(onRoadVehicleSelection.fuelTypeID));
 
 				//if(onRoadVehicleSelection.sourceTypeID == 11 && !didWarnAboutMotorcycles) {
 				//	didWarnAboutMotorcycles = true;
@@ -1110,8 +1201,8 @@ public class ExecutionRunSpec {
 			for(Iterator<OffRoadVehicleSelection>
 			i = targetRunSpec.offRoadVehicleSelections.iterator(); i.hasNext();) {
 				OffRoadVehicleSelection offRoadVehicleSelection = (OffRoadVehicleSelection) i.next();
-				sectors.add(new Integer(offRoadVehicleSelection.sectorID));
-				fuelTypes.add(new Integer(offRoadVehicleSelection.fuelTypeID));
+				sectors.add(Integer.valueOf(offRoadVehicleSelection.sectorID));
+				fuelTypes.add(Integer.valueOf(offRoadVehicleSelection.fuelTypeID));
 			}			
 			break;
 		case M12:
@@ -1123,8 +1214,8 @@ public class ExecutionRunSpec {
 			for(Iterator<OnRoadVehicleSelection>
 			i = targetRunSpec.onRoadVehicleSelections.iterator(); i.hasNext();) {
 				OnRoadVehicleSelection onRoadVehicleSelection = (OnRoadVehicleSelection) i.next();
-				sourceTypes.add(new Integer(onRoadVehicleSelection.sourceTypeID));
-				fuelTypes.add(new Integer(onRoadVehicleSelection.fuelTypeID));
+				sourceTypes.add(Integer.valueOf(onRoadVehicleSelection.sourceTypeID));
+				fuelTypes.add(Integer.valueOf(onRoadVehicleSelection.fuelTypeID));
 
 				//if(onRoadVehicleSelection.sourceTypeID == 11 && !didWarnAboutMotorcycles) {
 				//	didWarnAboutMotorcycles = true;
@@ -1190,7 +1281,6 @@ public class ExecutionRunSpec {
 			sql = "TRUNCATE RunSpecRoadType";
 			SQLRunner.executeSQL(executionDB,sql);
 			sql = "INSERT IGNORE INTO RunSpecRoadType (roadTypeID) VALUES (?)";
-			final boolean addRamps = shouldSeparateRamps();
 			statement = executionDB.prepareStatement(sql);
 			//for(Iterator<RoadType> i = targetRunSpec.roadTypes.iterator(); i.hasNext();) {
 			for(Iterator<RoadType> i = getRoadTypes().iterator(); i.hasNext();) {
@@ -1202,40 +1292,6 @@ public class ExecutionRunSpec {
 				SQLRunner.executeSQL(statement,sql);
 			}
 			statement.close();
-
-			// Copy SHOAllocFactor from blended road types to corresponding ramps.
-			// This is needed only when separating ramps in both Inventory and
-			// rate modes.
-			if(shouldSeparateRamps()) {
-				if(targetRunSpec.scale == ModelScale.MESOSCALE_LOOKUP) {
-					// Don't scale SHO by ramp fraction when making rates. Doing so
-					// could cause SHO to become zero and break our ability to aggregate
-					// rates over model year, source type, fuel, and regclass.
-
-					sql = "insert ignore into zoneRoadType (zoneID, roadTypeID, SHOAllocFactor)"
-							+ " select zoneID, case when z.roadTypeID=2 then 8 else 9 end, SHOAllocFactor"
-							+ " from zoneRoadType z"
-							+ " where z.roadTypeID in (2,4)";
-					SQLRunner.executeSQL(executionDB,sql);
-				} else {
-					// Inventory aggregation does not rely upon non-zero activity. Therefore,
-					// scale SHO by rampFraction and 1-rampFraction.
-
-					// Ramps get SHO scaled by rampFraction
-					sql = "insert ignore into zoneRoadType (zoneID, roadTypeID, SHOAllocFactor)"
-							+ " select zoneID, case when z.roadTypeID=2 then 8 else 9 end, (rampFraction*SHOAllocFactor) as SHOAllocFactor"
-							+ " from zoneRoadType z"
-							+ " inner join roadType r using (roadTypeID)"
-							+ " where z.roadTypeID in (2,4)";
-					SQLRunner.executeSQL(executionDB,sql);
-					
-					// Regular roads get SHO scaled by (1-rampFraction)
-					sql = "update zoneRoadType, roadType set SHOAllocFactor=(1-rampFraction)*SHOAllocFactor"
-							+ " where zoneRoadType.roadTypeID = roadType.roadTypeID"
-							+ " and zoneRoadType.roadTypeID in (2,4)";
-					SQLRunner.executeSQL(executionDB,sql);
-				}
-			}
 
 			// Build the calendar year selections
 			fillYearsAndModelYears(executionDB,years);
@@ -1529,18 +1585,28 @@ public class ExecutionRunSpec {
 		while(c != null) {
 			String name = c.getName();
 			//System.out.println("Checking save data: " + name);
-			if(theExecutionRunSpec.shouldKeepWorkerDatabases
-					&& name.equalsIgnoreCase("gov.epa.otaq.moves.master.framework.EmissionCalculator")) {
-				//System.out.println("Saving worker data.");
-				return true;
-			}
-			if(theExecutionRunSpec.targetRunSpec.classesToSaveData.contains(name)) {
-				//System.out.println("Saving master data");
+			if(shouldSaveDataByName(name)) {
 				return true;
 			}
 			c = c.getSuperclass();
 		}
 		//System.out.println("Not saving data.");
+		return false;
+	}
+
+	/**
+	 * Determine if a class of objects should preserve data during the simulation.
+	 * @param className the fully qualified class name to be checked
+	 * @return true if the object should save its data.
+	**/
+	public static boolean shouldSaveDataByName(String className) {
+		if(theExecutionRunSpec.shouldKeepWorkerDatabases
+				&& className.equalsIgnoreCase("gov.epa.otaq.moves.master.framework.EmissionCalculator")) {
+			return true;
+		}
+		if(theExecutionRunSpec.targetRunSpec.classesToSaveData.contains(className)) {
+			return true;
+		}
 		return false;
 	}
 
@@ -1667,7 +1733,7 @@ public class ExecutionRunSpec {
 	**/
 	public void runUpdateScript(Connection executionDB) {
 		try {
-			DatabaseUtilities.executeScript(executionDB,new File("database/UpdateExecution.sql"));
+			DatabaseUtilities.executeScript(executionDB,new File("database/UpdateExecution.sql"),null,true);
 		} catch(Exception e) {
 			Logger.logError(e,
 					"An exception occurred while running UpdateExecution.sql.");
@@ -1809,7 +1875,7 @@ public class ExecutionRunSpec {
 			for(Iterator<PollutantProcessAssociation>
 						i=pollutantProcessesNeedingAggregation.iterator();i.hasNext();) {
 				PollutantProcessAssociation ip = (PollutantProcessAssociation)i.next();
-				if(targetPollutantProcesses.contains(new Integer(ip.getDatabaseKey()))) {
+				if(targetPollutantProcesses.contains(Integer.valueOf(ip.getDatabaseKey()))) {
 					Logger.log(LogMessageCategory.INFO,"Final aggregation is being done"
 							+ " because the runspec includes " + ip);
 					return true;
@@ -2096,7 +2162,7 @@ public class ExecutionRunSpec {
 			// Do on road selections
 			for(int age=0;age<=30;age++) { // ages 0-30, inclusive
 				int modelYear = year - age;
-				Integer modelYearObject = new Integer(modelYear);
+				Integer modelYearObject = Integer.valueOf(modelYear);
 				if(!onRoadModelYears.contains(modelYearObject)) {
 					onRoadModelYears.add(modelYearObject);
 					sql = "insert into RunSpecModelYear (modelYearID) values (" + modelYear + ")";
@@ -2110,7 +2176,7 @@ public class ExecutionRunSpec {
 			// Do nonroad selections
 			for(int age=0;age<=50;age++) { // ages 0-50, inclusive
 				int modelYear = year - age;
-				Integer modelYearObject = new Integer(modelYear);
+				Integer modelYearObject = Integer.valueOf(modelYear);
 				if(!offRoadModelYears.contains(modelYearObject)) {
 					offRoadModelYears.add(modelYearObject);
 					sql = "insert into RunSpecNonRoadModelYear (modelYearID) values (" + modelYear + ")";
@@ -2331,17 +2397,5 @@ public class ExecutionRunSpec {
 	**/
 	public String findAndConvertModelYearMapping(String sqlLine) {
 		return modelYearMapper.findAndConvert(sqlLine);
-	}
-
-	/**
-	 * Used by emission rate mode to provide separate rates for ramps.
-	 * Only rates-first, non-project runs are capable of producing separate output.
-	 * @return true when ramps should have separate output.
-	**/
-	public boolean shouldSeparateRamps() {
-		if(CompilationFlags.DO_RATES_FIRST && targetRunSpec.domain != ModelDomain.PROJECT) {
-			return targetRunSpec.shouldSeparateRamps;
-		}
-		return false;
 	}
 }

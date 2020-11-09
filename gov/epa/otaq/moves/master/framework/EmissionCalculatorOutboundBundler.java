@@ -37,7 +37,7 @@ public class EmissionCalculatorOutboundBundler {
 	 * @return The next queue ID as String.
 	**/
 	public String getNextQueueID() {
-		return new Integer(getNextQueueIDCore()).toString();
+		return Integer.valueOf(getNextQueueIDCore()).toString();
 	}
 
 	/**

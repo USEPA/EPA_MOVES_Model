@@ -199,7 +199,7 @@ public class GraphTest extends TestCase {
 			}
 			howManyExecuted++;
 			assertFalse("Got too many nodes, expected exactly " + graph.nodeCount,howManyExecuted > graph.nodeCount);
-			Integer hash = new Integer(n.hashCode());
+			Integer hash = Integer.valueOf(n.hashCode());
 			assertFalse("Duplicate node scheduled",seenNodes.contains(hash));
 			seenNodes.add(hash);
 			sequence.add(n);
@@ -248,7 +248,7 @@ public class GraphTest extends TestCase {
 			}
 			howManyExecuted++;
 			assertFalse("Got too many nodes, expected exactly " + graph.nodeCount,howManyExecuted > graph.nodeCount);
-			Integer hash = new Integer(n.hashCode());
+			Integer hash = Integer.valueOf(n.hashCode());
 			assertFalse("Duplicate node scheduled",seenNodes.contains(hash));
 			seenNodes.add(hash);
 			sequence.add(n);

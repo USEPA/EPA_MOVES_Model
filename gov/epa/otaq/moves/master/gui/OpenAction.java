@@ -40,7 +40,7 @@ public class OpenAction extends JLFAbstractAction {
 		putValue(LARGE_ICON, getIcon(LARGE_ICON_OPEN));
 		putValue(Action.SHORT_DESCRIPTION, SHORT_DESCRIPTION_OPEN);
 		putValue(Action.LONG_DESCRIPTION, LONG_DESCRIPTION_OPEN);
-		putValue(Action.MNEMONIC_KEY, new Integer(MNEMONIC_KEY_OPEN));
+		putValue(Action.MNEMONIC_KEY, Integer.valueOf(MNEMONIC_KEY_OPEN));
 		putValue(Action.ACTION_COMMAND_KEY, ACTION_COMMAND_KEY_OPEN);
 	}
 }

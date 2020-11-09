@@ -241,7 +241,7 @@ public class WorkerConfiguration {
 						}
 					} else if (name.compareToIgnoreCase("workerDebug") == 0) {
 						if (value != null && !value.trim().isEmpty()) {
-							this.workerDebug = new Boolean(value);
+							this.workerDebug = Boolean.valueOf(value);
 						}
 					} else if(name.compareToIgnoreCase("mysqlUserName") == 0) {
 						if(value != null) {

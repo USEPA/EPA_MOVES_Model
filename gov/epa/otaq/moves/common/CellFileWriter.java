@@ -16,9 +16,42 @@ import org.apache.poi.xssf.streaming.SXSSFWorkbook;
  * Encapsulates writing to an XLSX, XLS, CSV, or tabbed text file under a unified API.
  * 
  * @author		Wesley Faler
- * @version		2013-11-10
+ * @version		2017-09-30
 **/
 public class CellFileWriter {
+	/**
+	 * Begin accumulating tabs into a single file across multiple instances of CellFileWriter.
+	 * @param multipleFileToUse file to be created
+	**/
+	public static void startMultipleWrite(File multipleFileToUse) {
+		//System.out.println("CellFileWriter.startMultipleWrite...");
+		stopMultipleWrite();
+		isMultipleWrite = true;
+		multipleFile = multipleFileToUse;
+		multipleWriter = null; // populated upon the next instantiation of CellFileWriter.
+	}
+
+	/** Stop accumulating tabs across multiple instances of CellFileWriter. Close any open file. **/	
+	public static void stopMultipleWrite() {
+		//System.out.println("CellFileWriter.stopMultipleWrite...");
+
+		// Clear the multiple-writer mode so operations will complete.
+		isMultipleWrite = false;
+		multipleFile = null;
+
+		if(multipleWriter != null) {
+			multipleWriter.close();
+			multipleWriter = null;
+		}
+	}
+
+	/** true when accumulating multiple instances of CellFileWriter into a single file **/
+	static boolean isMultipleWrite = false;
+	/** file accumulating tabs for multiple-write mode **/
+	static File multipleFile = null;
+	/** Writer for the accumulated file **/
+	static CellFileWriter multipleWriter = null;
+
 	/** File to written into **/
 	File file;
 	/** Type of the file **/
@@ -39,6 +72,10 @@ public class CellFileWriter {
 	int columnIndex = 0;
 	/** row index, zero based **/
 	int rowIndex = 0;
+	/** names of tabs in the file **/
+	TreeSetIgnoreCase existingTabNames = new TreeSetIgnoreCase();
+	/** true when writing is authorized to the current tab **/
+	boolean allowWriteToTab = true;
 
 	/**
 	 * Constructor
@@ -48,8 +85,21 @@ public class CellFileWriter {
 	 * @throws Exception if unable to open the file
 	**/
 	public CellFileWriter(File fileToUse, String firstTabName) throws Exception {
+		if(isMultipleWrite && fileToUse != multipleFile) {
+			//System.out.println("CellFileWriter.CellFileWriter stopping multiple write");
+			stopMultipleWrite();
+		}
+		if(isMultipleWrite && multipleWriter == null) {
+			//System.out.println("CellFileWriter.CellFileWriter claiming multipleWriter");
+			multipleWriter = this;
+		}
 		file = fileToUse;
 		fileType = CellFile.getFileType(file);
+		if(shouldDeferToMultipleWriter()) {
+			//System.out.println("CellFileWriter.CellFileWriter deferring first tab "+firstTabName);
+			multipleWriter.startTab(firstTabName);
+			return;
+		}
 		if(file.exists()) {
 			FileUtilities.deleteFileWithRetry(file);
 			if(file.exists()) {
@@ -63,7 +113,15 @@ public class CellFileWriter {
 				workbook = new SXSSFWorkbook(100);
 			}
 			xlsCreateHelper = workbook.getCreationHelper();
-			sheet = workbook.createSheet(firstTabName);
+			if(!existingTabNames.contains(firstTabName)) {
+				//System.out.println("CellFileWriter.CellFileWriter created first tab " + firstTabName);
+				existingTabNames.add(firstTabName);
+				allowWriteToTab = true;
+				sheet = workbook.createSheet(firstTabName);
+			} else {
+				//System.out.println("CellFileWriter.CellFileWriter skipping first tab " + firstTabName);
+				allowWriteToTab = false;
+			}
 		} else {
 			writer = new PrintWriter(new BufferedWriter(new FileWriter(file)));
 		}
@@ -75,6 +133,18 @@ public class CellFileWriter {
 	**/
 	public int getFileType() {
 		return fileType;
+	}
+
+	/**
+	 * Determine when an operation should be performed by the multiple-writer instead of the
+	 * current object.
+	 * @return true when multiperWriter should be invoked rather than the local function.
+	**/
+	private boolean shouldDeferToMultipleWriter() {
+		if(isMultipleWrite && this != multipleWriter) {
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -116,6 +186,13 @@ public class CellFileWriter {
 	 * @throws Exception if anything goes wrong
 	**/
 	public void writeCell(Object value) throws Exception {
+		if(shouldDeferToMultipleWriter()) {
+			multipleWriter.writeCell(value);
+			return;
+		}
+		if(!allowWriteToTab) {
+			return;
+		}
 		if(value == null) {
 			skipCell();
 		} else if(value instanceof Integer) {
@@ -135,6 +212,13 @@ public class CellFileWriter {
 	 * @throws Exception if anything goes wrong
 	**/
 	public void writeTextCell(String value) throws Exception {
+		if(shouldDeferToMultipleWriter()) {
+			multipleWriter.writeTextCell(value);
+			return;
+		}
+		if(!allowWriteToTab) {
+			return;
+		}
 		if(value == null) {
 			value = "";
 		}
@@ -169,6 +253,13 @@ public class CellFileWriter {
 	 * @throws Exception if anything goes wrong
 	**/
 	public void writeIntCell(int value) throws Exception {
+		if(shouldDeferToMultipleWriter()) {
+			multipleWriter.writeIntCell(value);
+			return;
+		}
+		if(!allowWriteToTab) {
+			return;
+		}
 		if(fileType == CellFile.XLS || fileType == CellFile.XLSX) {
 			createCell(columnIndex).setCellValue(value);
 		} else if(fileType == CellFile.CSV) {
@@ -191,6 +282,13 @@ public class CellFileWriter {
 	 * @throws Exception if anything goes wrong
 	**/
 	public void writeDoubleCell(double value) throws Exception {
+		if(shouldDeferToMultipleWriter()) {
+			multipleWriter.writeDoubleCell(value);
+			return;
+		}
+		if(!allowWriteToTab) {
+			return;
+		}
 		if(fileType == CellFile.XLS || fileType == CellFile.XLSX) {
 			createCell(columnIndex).setCellValue(value);
 		} else if(fileType == CellFile.CSV) {
@@ -211,6 +309,13 @@ public class CellFileWriter {
 	 * Advance the cursor in the current row.
 	**/
 	public void skipCell() {
+		if(shouldDeferToMultipleWriter()) {
+			multipleWriter.skipCell();
+			return;
+		}
+		if(!allowWriteToTab) {
+			return;
+		}
 		columnIndex++;
 		if(fileType == CellFile.XLS || fileType == CellFile.XLSX) {
 			// Nothing to do here
@@ -226,6 +331,13 @@ public class CellFileWriter {
 	 * @throws Exception if anything goes wrong
 	**/
 	public void endRow() throws Exception {
+		if(shouldDeferToMultipleWriter()) {
+			multipleWriter.endRow();
+			return;
+		}
+		if(!allowWriteToTab) {
+			return;
+		}
 		rowIndex++;
 		columnIndex = 0;
 		if(fileType == CellFile.XLS || fileType == CellFile.XLSX) {
@@ -247,11 +359,24 @@ public class CellFileWriter {
 	 * @throws Exception if anything goes wrong
 	**/
 	public void startTab(String tabName) throws Exception {
+		if(shouldDeferToMultipleWriter()) {
+			//System.out.println("CellFileWriter.startTab deferring " + tabName);
+			multipleWriter.startTab(tabName);
+			return;
+		}
 		flush();
 		if(fileType == CellFile.XLS || fileType == CellFile.XLSX) {
 			sheet = null;
 			row = null;
-			sheet = workbook.createSheet(tabName);
+			if(!existingTabNames.contains(tabName)) {
+				//System.out.println("CellFileWriter.startTab creating " + tabName);
+				existingTabNames.add(tabName);
+				allowWriteToTab = true;
+				sheet = workbook.createSheet(tabName);
+			} else {
+				//System.out.println("CellFileWriter.startTab skipping " + tabName);
+				allowWriteToTab = false;
+			}
 		} else {
 			writer.close();
 			writer = null;
@@ -276,6 +401,10 @@ public class CellFileWriter {
 	 * If the current row does not have any data, no new row will be started.
 	**/
 	public void flush() {
+		if(shouldDeferToMultipleWriter()) {
+			multipleWriter.flush();
+			return;
+		}
 		if(writer != null) {
 			try {
 				if(currentLine.length() > 0) {
@@ -297,6 +426,12 @@ public class CellFileWriter {
 
 	/** Flush all data and close the file **/
 	public void close() {
+		if(isMultipleWrite) {
+			// Nothing to do here, only close the multiple writer through the stopMultipleWrite() function.
+			//System.out.println("CellFileWriter.close skipped as not done with multiple write.");
+			return;
+		}
+		//System.out.println("CellFileWriter.close closing sheet and file");
 		flush();
 		if(writer != null) {
 			try {
@@ -329,6 +464,7 @@ public class CellFileWriter {
 			}
 			workbook = null;
 		}
+		//System.out.println("CellFileWriter.close done");
 	}
 
 	/**
@@ -340,6 +476,12 @@ public class CellFileWriter {
 	 * @throws Exception if anything goes wrong
 	**/
 	public int writeSQLResults(Connection db, String sql, ISQLFilter filter) throws Exception {
+		if(shouldDeferToMultipleWriter()) {
+			return multipleWriter.writeSQLResults(db,sql,filter);
+		}
+		if(!allowWriteToTab) {
+			return 0;
+		}
 		int[] dataTypes = null; // -1:not used, 0:getString(), 1:getInt, 2:getFloat, 3:getDouble
 		SQLRunner.Query query = new SQLRunner.Query();
 		int rowsWritten = 0;

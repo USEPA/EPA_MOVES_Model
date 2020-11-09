@@ -13,7 +13,7 @@ package gov.epa.otaq.moves.common;
  * @author		Wesley Faler
  * @version		2011-09-10
 **/
-public class OffRoadVehicleSelection implements Comparable {
+public class OffRoadVehicleSelection implements Comparable<OffRoadVehicleSelection> {
 	/** Identifies a fuel. **/
 	public int fuelTypeID;
 	/** Fuel description from database, used for toString() purposes **/
@@ -40,30 +40,29 @@ public class OffRoadVehicleSelection implements Comparable {
 
 	/**
 	 * Comparison routine used to sort these objects.
-	 * Compares Fuel IDs first then sector IDs, ignoring case.
-	 * @param otherObject another OffRoadVehicleSelection to compare to
+	 * Compares Sector IDs first then Fuel IDs, ignoring case.
+	 * @param other another OffRoadVehicleSelection to compare to
 	 * @return <0 if this one should go before the other, 0 if they are the same, and >0 if
 	 * it should go after the other
 	**/
-	public int compareTo(Object otherObject) {
-		OffRoadVehicleSelection otherSelection = (OffRoadVehicleSelection)otherObject;
-		if(otherSelection==null) {
+	public int compareTo(OffRoadVehicleSelection other) {
+		if(other==null) {
 			return +1;
 		}
-		int result = fuelTypeDesc.compareToIgnoreCase(otherSelection.fuelTypeDesc);
+		int result = sectorName.compareToIgnoreCase(other.sectorName);
 		if(result == 0) {
-			result = sectorName.compareToIgnoreCase(otherSelection.sectorName);
+			result = fuelTypeDesc.compareToIgnoreCase(other.fuelTypeDesc);
 		}
 		return result;
 	}
 
 	/**
 	* Returns whether two objects are equal.
-	* @param otherObject Another OffRoadVehicleSelection object.
+	* @param other Another OffRoadVehicleSelection object.
 	* @return true if the objects are equal, false if they are not.
 	**/
-	public boolean equals(Object otherObject) {
-		return compareTo(otherObject)==0;
+	public boolean equals(OffRoadVehicleSelection other) {
+		return compareTo(other)==0;
 	}
 
 	/**
@@ -72,7 +71,7 @@ public class OffRoadVehicleSelection implements Comparable {
 	**/
 	public String toString() {
 		if(isValid()) {
-			return fuelTypeDesc + " - " + sectorName;
+			return sectorName + " - " + fuelTypeDesc;
 		} else {
 			return "(invalid entry)";
 		}

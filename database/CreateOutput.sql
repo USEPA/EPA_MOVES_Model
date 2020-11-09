@@ -1,5 +1,5 @@
 /*
-   Version 2015-03-16
+   Version 2017-09-29
    -- MOVESRun table structure modified by Mitch Cumberworth per Task 206
    -- Foreign keys removed by Wesley Faler Oct. 2007 to speedup Master-side INSERTs
    -- Output and activity primary keys and unique keys removed by Wesley Faler Jan. 2008 to speedup Master-side INSERTs
@@ -18,6 +18,7 @@ DROP TABLE IF EXISTS MOVESRun;
 DROP TABLE IF EXISTS MOVESError;
 DROP TABLE IF EXISTS MOVESEventLog;
 DROP TABLE IF EXISTS MOVESWorkersUsed;
+DROP TABLE IF EXISTS bundleTracking;
 DROP TABLE IF EXISTS ActivityType;
 DROP TABLE IF EXISTS MOVESTablesUsed;
 DROP TABLE IF EXISTS RatePerDistance;
@@ -195,6 +196,7 @@ CREATE TABLE MOVESActivityOutput (
 	sourceTypeID         SMALLINT UNSIGNED NULL DEFAULT NULL,
 	regClassID           SMALLINT UNSIGNED NULL DEFAULT NULL,
 	fuelTypeID           SMALLINT UNSIGNED NULL DEFAULT NULL,
+	fuelSubTypeID        SMALLINT UNSIGNED NULL DEFAULT NULL,
 	modelYearID          SMALLINT UNSIGNED NULL DEFAULT NULL,
 -- ******************************************************
 -- roadTypeID is not redundant with linkID in the cases where
@@ -255,6 +257,8 @@ INSERT IGNORE INTO ActivityType (activityTypeID, activityType, activityTypeDesc)
 VALUES (14, "hotellingElectric", "Hotelling Battery or AC");
 INSERT IGNORE INTO ActivityType (activityTypeID, activityType, activityTypeDesc)
 VALUES (15, "hotellingOff", "Hotelling All Engines Off");
+INSERT IGNORE INTO ActivityType (activityTypeID, activityType, activityTypeDesc)
+VALUES (16, "shi", "Source Hours Idle");
 
 
 

@@ -273,9 +273,15 @@ public class WorkerGUI {
 		if(workerSocketCount == 0) {
 			try {
 				workerSocket = new ServerSocket(WORKER_FLAG_PORT);
+				Logger.log(LogMessageCategory.INFO,"Setting worker flag for " + WorkerConfiguration.theWorkerConfiguration.distributedWorkerId + 
+												   " on port " + WORKER_FLAG_PORT);
 			} catch(Exception e) {
-				if(e.toString().indexOf("JVM_Bind") < 0) {
-					Logger.logError(e,"Unable to setup flag for worker's presense");
+				if(e.toString().toLowerCase().contains("jvm_bind") || e.toString().toLowerCase().contains("net_bind")) {
+					Logger.log(LogMessageCategory.INFO,"Not setting worker flag for " + WorkerConfiguration.theWorkerConfiguration.distributedWorkerId + 
+													   " because port " + WORKER_FLAG_PORT + " is already bound by another worker.");
+				} else {
+					// a different error has occurred
+					Logger.logError(e,"Unable to setup flag for worker's presence");
 				}
 			}
 		}

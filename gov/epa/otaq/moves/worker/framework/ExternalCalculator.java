@@ -19,7 +19,7 @@ import java.util.*;
  * Interface to an external calculator program.
  *
  * @author		Wesley Faler
- * @version		2015-03-22
+ * @version		2017-05-17
 **/
 public class ExternalCalculator {
 	/** SQL pseudo command to use the external calculator **/
@@ -33,13 +33,17 @@ public class ExternalCalculator {
 	TreeSetIgnoreCase moduleNames = new TreeSetIgnoreCase();
 	/** true when detailed debugging information should be logged by the external calculator **/
 	boolean shouldDebug;
+	/** Owner used for tracking timing **/
+	RemoteEmissionsCalculator owner;
 
 	/**
 	 * Constructor.
+	 * @param ownerToUse owner used for tracking timing.
 	 * @param databaseToUse database connection.
 	 * @param workingFolderPathToUse folder to hold all intermediate files and results.
 	**/
-	public ExternalCalculator(Connection databaseToUse, File workingFolderPathToUse, boolean shouldDebugToUse) {
+	public ExternalCalculator(RemoteEmissionsCalculator ownerToUse, Connection databaseToUse, File workingFolderPathToUse, boolean shouldDebugToUse) {
+		owner = ownerToUse;
 		database = databaseToUse;
 		workingFolderPath = workingFolderPathToUse;
 		shouldDebug = shouldDebugToUse;
@@ -95,6 +99,8 @@ public class ExternalCalculator {
 		PrintWriter loadDetailsWriter = null;
 		String sql = "";
 		boolean splitByFuelSubTypeID = moduleNames.contains("FuelSubType");
+		boolean hasActivityOutput = false;
+
 		//Logger.log(LogMessageCategory.DEBUG,"ExternalCalculator.execute. splitByFuelSubTypeID="+splitByFuelSubTypeID);
 		try {
 			// Write the module names into extmodules file
@@ -177,8 +183,13 @@ public class ExternalCalculator {
 				loadDetailsWriter.close();
 				loadDetailsWriter = null;
 			}
+			owner.startTimer("ExternalCalcWriteInput");
 			extmodulesWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(workingFolderPath,"extmodules"))));
 			for(String moduleName : moduleNames) {
+				if (moduleName.equals("DistanceCalculator")){
+					hasActivityOutput = true;
+				}
+
 				extmodulesWriter.write(moduleName);
 				extmodulesWriter.write('\n');
 			}
@@ -209,6 +220,33 @@ public class ExternalCalculator {
 				Logger.logError(e,"Unable to save MOVESWorkerOutput using: " + sql);
 				return;
 			}
+
+			// Save MOVESWorkerActivityOutput to disk, only when it needs to be split by fuelsubtype.
+			if(splitByFuelSubTypeID) {
+				File mwoActivity = new File(workingFolderPath,"movesworkeractivityoutput");
+				if(mwoActivity.exists()) {
+					FileUtilities.deleteFileWithRetry(mwoActivity);
+				}
+				String mwoActivityPath = mwoActivity.getCanonicalPath().replace('\\','/');
+				sql = "select "
+						+ " MOVESRunID,iterationID,"
+						+ " yearID,monthID,dayID,hourID,"
+						+ " stateID,countyID,zoneID,linkID,"
+						+ " sourceTypeID,regClassID,"
+						+ " fuelTypeID,modelYearID,"
+						+ " roadTypeID,SCC,"
+						+ " engTechID,sectorID,hpID,"
+						+ " activityTypeID,activity"
+						+ " into outfile " + DatabaseUtilities.escapeSQL(mwoActivityPath)
+						+ " from MOVESWorkerActivityOutput";
+				try {
+					SQLRunner.executeSQL(database,sql);
+				} catch(Exception e) {
+					Logger.logError(e,"Unable to save MOVESWorkerActivityOutput using: " + sql);
+					return;
+				}
+			}
+
 			sql = "";
 			// Prepare to receive the new output
 			File newMWO = new File(workingFolderPath,"newmovesworkeroutput");
@@ -216,6 +254,20 @@ public class ExternalCalculator {
 				FileUtilities.deleteFileWithRetry(newMWO);
 			}
 			String newMWOPath = newMWO.getCanonicalPath().replace('\\','/');
+
+			File newMWOActivity = new File(workingFolderPath,"newmovesworkeractivityoutput");
+			if(newMWOActivity.exists()) {
+				FileUtilities.deleteFileWithRetry(newMWOActivity);
+			}
+			String newMWOActivityPath = newMWOActivity.getCanonicalPath().replace('\\','/');
+			
+			//EM - this block added to fix the rates bug EMT-809 on 12/20/2018
+			File newBRO = new File(workingFolderPath,"newbaserateoutput");
+			if(newBRO.exists()) {
+				FileUtilities.deleteFileWithRetry(newBRO);
+			}
+			String newBROPath = newBRO.getCanonicalPath().replace('\\','/');
+
 			// Run the external calculator in the working directory that contains all table files
 			long start = System.currentTimeMillis();
 			long elapsedTimeMillis;
@@ -229,6 +281,7 @@ public class ExternalCalculator {
 			File processOutputPath = new File(targetFolderPath, "ExternalCalculatorProcessOutput.txt");
 			String inputText = null;
 			try {
+				owner.startTimer("ExternalCalcRun");
 				ApplicationRunner.runApplication(targetApplicationPath, arguments,
 						targetFolderPath, new FileOutputStream(processOutputPath),
 						inputText, runInCmd, environment);
@@ -251,6 +304,7 @@ public class ExternalCalculator {
 				return;
 			}
 			// Process the calculator response
+			owner.startTimer("ExternalCalcReadResults");
 			String[] statements = {
 				"drop table if exists ExtMOVESWorkerOutput",
 
@@ -271,7 +325,7 @@ public class ExternalCalculator {
 					+ ")",
 
 				(splitByFuelSubTypeID? "truncate MOVESWorkerOutput" : ""),
-
+/*
 				"insert into MOVESWorkerOutput ("
 						+ " 	MOVESRunID,iterationID,"
 						+ " 	yearID,monthID,dayID,hourID,"
@@ -304,6 +358,31 @@ public class ExternalCalculator {
 						+ " 	engTechID,sectorID,hpID"
 						+ (splitByFuelSubTypeID? ",fuelSubTypeID" : "")
 						,
+*/
+				"insert into MOVESWorkerOutput ("
+						+ " 	MOVESRunID,iterationID,"
+						+ " 	yearID,monthID,dayID,hourID,"
+						+ " 	stateID,countyID,zoneID,linkID,"
+						+ " 	pollutantID,processID,"
+						+ " 	sourceTypeID,regClassID,"
+						+ " 	fuelTypeID,modelYearID,"
+						+ " 	roadTypeID,SCC,"
+						+ " 	engTechID,sectorID,hpID,"
+						+ " 	emissionQuant,emissionRate"
+						+ (splitByFuelSubTypeID? ",fuelSubTypeID" : "")
+						+ ")"
+						+ " select MOVESRunID,iterationID,"
+						+ " 	yearID,monthID,dayID,hourID,"
+						+ " 	stateID,countyID,zoneID,linkID,"
+						+ " 	pollutantID,processID,"
+						+ " 	sourceTypeID,regClassID,"
+						+ " 	fuelTypeID,modelYearID,"
+						+ " 	roadTypeID,SCC,"
+						+ " 	engTechID,sectorID,hpID,"
+						+ " 	emissionQuant, emissionRate"
+						+ (splitByFuelSubTypeID? ",fuelSubTypeID" : "")
+						+ " from ExtMOVESWorkerOutput"
+						,
 
 				"drop table if exists ExtMOVESWorkerOutput"
 			};
@@ -315,10 +394,155 @@ public class ExternalCalculator {
 				}
 				SQLRunner.executeSQL(database,sql);
 			}
+
+			// Load activity data, when split by fuelsubtype
+			if(hasActivityOutput || splitByFuelSubTypeID) {	
+				String[] activityStatements = {
+					"drop table if exists ExtMOVESWorkerActivityOutput",
+	
+					"create table ExtMOVESWorkerActivityOutput like movesworkeractivityoutput",
+	
+					"load data infile " + DatabaseUtilities.escapeSQL(newMWOActivityPath)
+						+ " into table ExtMOVESWorkerActivityOutput ("
+						+ " 	MOVESRunID,iterationID,"
+						+ " 	yearID,monthID,dayID,hourID,"
+						+ " 	stateID,countyID,zoneID,linkID,"
+						+ " 	sourceTypeID,regClassID,"
+						+ " 	fuelTypeID,modelYearID,"
+						+ " 	roadTypeID,SCC,"
+						+ " 	engTechID,sectorID,hpID,"
+						+ " 	activityTypeID,activity"
+						+ ((splitByFuelSubTypeID)? ",fuelSubTypeID" : "")
+						+ ")",
+	
+					((splitByFuelSubTypeID)? "truncate MOVESWorkerActivityOutput" : ""),
+/*	
+					"insert into MOVESWorkerActivityOutput ("
+							+ " 	MOVESRunID,iterationID,"
+							+ " 	yearID,monthID,dayID,hourID,"
+							+ " 	stateID,countyID,zoneID,linkID,"
+							+ " 	sourceTypeID,regClassID,"
+							+ " 	fuelTypeID,modelYearID,"
+							+ " 	roadTypeID,SCC,"
+							+ " 	engTechID,sectorID,hpID,"
+							+ " 	activityTypeID,activity"
+							//+ (splitByFuelSubTypeID? ",fuelSubTypeID" : "")
+							+ ")"
+							+ " select MOVESRunID,iterationID,"
+							+ " 	yearID,monthID,dayID,hourID,"
+							+ " 	stateID,countyID,zoneID,linkID,"
+							+ " 	sourceTypeID,regClassID,"
+							+ " 	fuelTypeID,modelYearID,"
+							+ " 	roadTypeID,SCC,"
+							+ " 	engTechID,sectorID,hpID,"
+							+ " 	activityTypeID, sum(activity) as activity"
+							//+ (splitByFuelSubTypeID? ",fuelSubTypeID" : "")
+							+ " from ExtMOVESWorkerActivityOutput"
+							+ " group by yearID,monthID,dayID,hourID,"
+							+ " 	stateID,countyID,zoneID,linkID,"
+							+ " 	sourceTypeID,regClassID,"
+							+ " 	fuelTypeID,modelYearID,"
+							+ " 	roadTypeID,SCC,"
+							+ " 	engTechID,sectorID,hpID,"
+							+ " 	activityTypeID"
+							//+ (splitByFuelSubTypeID? ",fuelSubTypeID" : "")
+							,
+*/
+
+					"insert into MOVESWorkerActivityOutput ("
+							+ " 	MOVESRunID,iterationID,"
+							+ " 	yearID,monthID,dayID,hourID,"
+							+ " 	stateID,countyID,zoneID,linkID,"
+							+ " 	sourceTypeID,regClassID,"
+							+ " 	fuelTypeID,modelYearID,"
+							+ " 	roadTypeID,SCC,"
+							+ " 	engTechID,sectorID,hpID,"
+							+ " 	activityTypeID,activity"
+							+ ((splitByFuelSubTypeID)? ",fuelSubTypeID" : "")
+							+ ")"
+							+ " select MOVESRunID,iterationID,"
+							+ " 	yearID,monthID,dayID,hourID,"
+							+ " 	stateID,countyID,zoneID,linkID,"
+							+ " 	sourceTypeID,regClassID,"
+							+ " 	fuelTypeID,modelYearID,"
+							+ " 	roadTypeID,SCC,"
+							+ " 	engTechID,sectorID,hpID,"
+							+ " 	activityTypeID, activity"
+							+ ((splitByFuelSubTypeID)? ",fuelSubTypeID" : "")
+							+ " from ExtMOVESWorkerActivityOutput"
+							,
+					"drop table if exists ExtMOVESWorkerActivityOutput"
+				};
+				start = System.currentTimeMillis();
+				for(int i=0;i<activityStatements.length;i++) {
+					sql = activityStatements[i];
+					if(sql == null || sql.length() == 0) {
+						continue;
+					}
+					SQLRunner.executeSQL(database,sql);
+				}
+			}
+			
+			//EM - entire if block added to fix rates bug EMT-809 12/20/2018
+			if(newBRO.exists()) {
+				String[] broStatements = {
+					"drop table if exists ExtBaseRateOutput",
+
+					"create table ExtBaseRateOutput like baserateoutput",
+
+					"load data infile " + DatabaseUtilities.escapeSQL(newBROPath)
+						+ " into table ExtBaseRateOutput ("
+						+ " 	MOVESRunID,iterationID,"
+						+ " 	yearID,monthID,hourDayID,"
+						+ " 	zoneID,linkID,"
+						+ " 	pollutantID,processID,"
+						+ " 	sourceTypeID,regClassID,"
+						+ " 	fuelTypeID,modelYearID,"
+						+ " 	roadTypeID,SCC,"
+						+ " 	avgSpeedBinID,"
+						+ " 	meanBaseRate,emissionRate"
+						+ ")",
+
+					"insert into baserateoutput ("
+							+ " 	MOVESRunID,iterationID,"
+							+ " 	yearID,monthID,hourDayID,"
+							+ " 	zoneID,linkID,"
+							+ " 	pollutantID,processID,"
+							+ " 	sourceTypeID,regClassID,"
+							+ " 	fuelTypeID,modelYearID,"
+							+ " 	roadTypeID,SCC,"
+							+ " 	avgSpeedBinID,"
+							+ " 	meanBaseRate,emissionRate"
+							+ ")"
+							+ " select MOVESRunID,iterationID,"
+							+ " 	yearID,monthID,hourDayID,"
+							+ " 	zoneID,linkID,"
+							+ " 	pollutantID,processID,"
+							+ " 	sourceTypeID,regClassID,"
+							+ " 	fuelTypeID,modelYearID,"
+							+ " 	roadTypeID,SCC,"
+							+ " 	avgSpeedBinID,"
+							+ " 	meanBaseRate,emissionRate"
+							+ " from ExtBaseRateOutput"
+							,
+
+					"drop table if exists ExtBaseRateOutput"
+				};
+				start = System.currentTimeMillis();
+				for(int i=0;i<broStatements.length;i++) {
+					sql = broStatements[i];
+					if(sql == null || sql.length() == 0) {
+						continue;
+					}
+					SQLRunner.executeSQL(database,sql);
+				}
+			}
+
 			elapsedTimeMillis = System.currentTimeMillis() - start;
 			elapsedTimeSec = elapsedTimeMillis / 1000F;
 			Logger.log(LogMessageCategory.INFO,
 					"Time spent on absorbing external calculator results (sec): " + elapsedTimeSec);
+			owner.startUnassignedTimer();
 		} catch(Exception e) {
 			Logger.logError(e,"Unable to run the external calculator.");
 		} finally {

@@ -27,6 +27,9 @@ public class EmissionProcess implements Comparable {
 	 * Primary Key value used to indicate the exact database record that this object relates to.
 	**/
 	public int databaseKey;
+	
+	//saves the order of the columns in the jtable
+	private int displayKey;
 
 	/** The displayable name for the process **/
 	public String processName;
@@ -134,6 +137,28 @@ public class EmissionProcess implements Comparable {
 	}
 
 	/**
+	 * Default constructor
+	 * @param key Sets databaseKey.
+	 * @param name Sets processName.
+	 * @param useRealRoads Sets occursOnRealRoads.  Pass "Y" for true.
+	 * @param isAffectedByOnroad True when OnRoad can calculate this pollutant
+	 * @param isAffectedByNonroad True when NonRoad can calculate this pollutant
+	 * @param displayKey order of display on the Process table
+	**/
+	public EmissionProcess(int key, String name, String useRealRoads,
+			boolean isAffectedByOnroad, boolean isAffectedByNonroad, int display) {
+		processName = name;
+		databaseKey = key;
+		displayKey = display;
+		occursOnRealRoads = useRealRoads != null && useRealRoads.equals("Y");
+		this.isAffectedByOnroad = isAffectedByOnroad;
+		this.isAffectedByNonroad = isAffectedByNonroad;
+		if(!allProcesses.contains(this)) {
+			allProcesses.add(this);
+		}
+	}
+
+	/**
 	 * Comparable Interface Implementation. Used to order EmissionProcess objects for display. This
 	 * method should never return 0 (equal) unless the objects compared are the same object.
 	 * @param otherObject Another EmissionProcess object to compare.
@@ -153,10 +178,11 @@ public class EmissionProcess implements Comparable {
 		}
 		return processName.compareToIgnoreCase(other.processName);
 */
+		//code for task 1902 (changed to use displaykey - was the databasekey)
 		EmissionProcess other = (EmissionProcess)otherObject;
-		if(databaseKey < other.databaseKey) {
+		if(displayKey < other.displayKey) {
 			return -1;
-		} else if (databaseKey > other.databaseKey) {
+		} else if (displayKey > other.displayKey) {
 			return 1;
 		} else {
 			return 0;

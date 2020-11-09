@@ -26,6 +26,7 @@ begin
 		insert into importTempMessages (message)
 		select concat('ERROR: Source type ',sourceTypeID,', hourDayID ',hourDayID,', link ',linkID,', polProcessID ',polProcessID,' opmodeFraction is not 1.0 but instead ',round(sum(opModeFraction),4))
 		from opModeDistribution
+		join ##defaultDatabase##.operatingmode using (opModeID)
 		group by sourceTypeID, hourDayID, linkID, polProcessID
 		having round(sum(opModeFraction),4) <> 1.0000;
 	end if;

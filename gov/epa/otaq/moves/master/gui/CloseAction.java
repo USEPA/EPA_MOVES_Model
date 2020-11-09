@@ -40,7 +40,7 @@ public class CloseAction extends JLFAbstractAction {
 		putValue(LARGE_ICON, getIcon(LARGE_ICON_CLOSE));
 		putValue(Action.SHORT_DESCRIPTION, SHORT_DESCRIPTION_CLOSE);
 		putValue(Action.LONG_DESCRIPTION, LONG_DESCRIPTION_CLOSE);
-		putValue(Action.MNEMONIC_KEY, new Integer(MNEMONIC_KEY_CLOSE));
+		putValue(Action.MNEMONIC_KEY, Integer.valueOf(MNEMONIC_KEY_CLOSE));
 		putValue(Action.ACTION_COMMAND_KEY, ACTION_COMMAND_KEY_CLOSE);
 	}
 }

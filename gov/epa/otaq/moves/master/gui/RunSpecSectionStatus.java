@@ -5,6 +5,8 @@
 package gov.epa.otaq.moves.master.gui;
 
 import javax.swing.*;
+import java.awt.image.*;
+
 import gov.epa.otaq.moves.master.runspec.RunSpec;
 
 /**
@@ -30,44 +32,58 @@ public class RunSpecSectionStatus implements Comparable {
 	public static final int TREE_OPEN = 3;
 
 	/** Constant image icon file and path for the NOT READY status. **/
-	static ImageIcon notReadyImage = 
-			new ImageIcon("gov/epa/otaq/moves/master/gui/images/needsData.gif");
+	private static ImageIcon notReady100 = new ImageIcon("gov/epa/otaq/moves/master/gui/images/needsData_60.png");
+	private static ImageIcon notReady125 = new ImageIcon("gov/epa/otaq/moves/master/gui/images/needsData_84.png");
+	private static ImageIcon notReady150 = new ImageIcon("gov/epa/otaq/moves/master/gui/images/needsData_96.png");
+	private static ImageIcon notReady175 = new ImageIcon("gov/epa/otaq/moves/master/gui/images/needsData_112.png");
+	private static BaseMultiResolutionImage notReadyBMRI = new BaseMultiResolutionImage(notReady100.getImage(), notReady125.getImage(), notReady150.getImage(), notReady175.getImage());
+	static ImageIcon notReadyImage = new ImageIcon(notReadyBMRI);
+			
 	/** Constant image icon file and path for the DEFAULTS status. **/
-	static ImageIcon defaultsImage =
-			new ImageIcon("gov/epa/otaq/moves/master/gui/images/defaultData.gif");
+	private static ImageIcon defaults100 = new ImageIcon("gov/epa/otaq/moves/master/gui/images/defaultData_60.png");
+	private static ImageIcon defaults125 = new ImageIcon("gov/epa/otaq/moves/master/gui/images/defaultData_84.png");
+	private static ImageIcon defaults150 = new ImageIcon("gov/epa/otaq/moves/master/gui/images/defaultData_96.png");
+	private static ImageIcon defaults175 = new ImageIcon("gov/epa/otaq/moves/master/gui/images/defaultData_112.png");
+	private static BaseMultiResolutionImage defaultsBMRI = new BaseMultiResolutionImage(defaults100.getImage(), defaults125.getImage(), defaults150.getImage(), defaults175.getImage());
+	static ImageIcon defaultsImage = new ImageIcon(defaultsBMRI);
+			
 	/** Constant image icon file and path for the OK status. **/
-	static ImageIcon okImage =
-			new ImageIcon("gov/epa/otaq/moves/master/gui/images/filledIn.gif");
-
+	private static ImageIcon okImage100 = new ImageIcon("gov/epa/otaq/moves/master/gui/images/filledIn_60.png");
+	private static ImageIcon okImage125 = new ImageIcon("gov/epa/otaq/moves/master/gui/images/filledIn_84.png");
+	private static ImageIcon okImage150 = new ImageIcon("gov/epa/otaq/moves/master/gui/images/filledIn_96.png");
+	private static ImageIcon okImage175 = new ImageIcon("gov/epa/otaq/moves/master/gui/images/filledIn_112.png");
+	private static BaseMultiResolutionImage okImageBMRI = new BaseMultiResolutionImage(okImage100.getImage(), okImage125.getImage(), okImage150.getImage(), okImage175.getImage());
+	static ImageIcon okImage = new ImageIcon(okImageBMRI);
+	
 	/** Constant image icon file and path for the wide NOT READY status. **/
 	static ImageIcon notReadyWideImage = 
-			new ImageIcon("gov/epa/otaq/moves/master/gui/images/needsDataWide.gif");
+			new ImageIcon("gov/epa/otaq/moves/master/gui/images/needsDataWide.png");
 	/** Constant image icon file and path for the wide DEFAULTS status. **/
 	static ImageIcon defaultsWideImage =
-			new ImageIcon("gov/epa/otaq/moves/master/gui/images/defaultDataWide.gif");
+			new ImageIcon("gov/epa/otaq/moves/master/gui/images/defaultDataWide.png");
 	/** Constant image icon file and path for the wide OK status. **/
 	static ImageIcon okWideImage =
-			new ImageIcon("gov/epa/otaq/moves/master/gui/images/filledInWide.gif");
+			new ImageIcon("gov/epa/otaq/moves/master/gui/images/filledInWide.png");
 
 	/** Constant image icon file and path for the tree closed NOT READY status. **/
 	static ImageIcon notReadyTreeClosedImage = 
-			new ImageIcon("gov/epa/otaq/moves/master/gui/images/needsDataTreeClosed.gif");
+			new ImageIcon("gov/epa/otaq/moves/master/gui/images/needsDataTreeClosed.png");
 	/** Constant image icon file and path for the tree closed DEFAULTS status. **/
 	static ImageIcon defaultsTreeClosedImage =
-			new ImageIcon("gov/epa/otaq/moves/master/gui/images/defaultDataTreeClosed.gif");
+			new ImageIcon("gov/epa/otaq/moves/master/gui/images/defaultDataTreeClosed.png");
 	/** Constant image icon file and path for the tree closed OK status. **/
 	static ImageIcon okTreeClosedImage =
-			new ImageIcon("gov/epa/otaq/moves/master/gui/images/filledInTreeClosed.gif");
+			new ImageIcon("gov/epa/otaq/moves/master/gui/images/filledInTreeClosed.png");
 
 	/** Constant image icon file and path for the tree open NOT READY status. **/
 	static ImageIcon notReadyTreeOpenImage = 
-			new ImageIcon("gov/epa/otaq/moves/master/gui/images/needsDataTreeOpen.gif");
+			new ImageIcon("gov/epa/otaq/moves/master/gui/images/needsDataTreeOpen.png");
 	/** Constant image icon file and path for the tree open DEFAULTS status. **/
 	static ImageIcon defaultsTreeOpenImage =
-			new ImageIcon("gov/epa/otaq/moves/master/gui/images/defaultDataTreeOpen.gif");
+			new ImageIcon("gov/epa/otaq/moves/master/gui/images/defaultDataTreeOpen.png");
 	/** Constant image icon file and path for the tree open OK status. **/
 	static ImageIcon okTreeOpenImage =
-			new ImageIcon("gov/epa/otaq/moves/master/gui/images/filledInTreeOpen.gif");
+			new ImageIcon("gov/epa/otaq/moves/master/gui/images/filledInTreeOpen.png");
 
 	/** The RunSpec Section Status. **/
 	public int status;

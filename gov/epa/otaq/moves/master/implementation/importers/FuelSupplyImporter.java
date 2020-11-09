@@ -23,7 +23,7 @@ import gov.epa.otaq.moves.master.framework.SystemConfiguration;
  * NMIM or Mobile format) into the MOVES FuelSupply table.
  * 
  * @author		Wesley Faler
- * @version		2009-09-21
+ * @version		2015-09-16
 **/
 public class FuelSupplyImporter extends ImporterBase {
 	/** Data handler for this importer **/
@@ -148,13 +148,15 @@ public class FuelSupplyImporter extends ImporterBase {
 			return new RunSpecSectionStatus(RunSpecSectionStatus.OK);
 		}
 		boolean hasCounties = manager.tableHasCounties(db,
-				"select distinct countyID from fuelSupply");
+				"select distinct countyID from fuelSupply",
+				this,"fuelSupply is missing countyID(s)");
 		if(!hasCounties) {
 			return new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);
 		}
 		boolean hasYears = manager.tableHasYears(db,
 				"select distinct yearID from fuelSupply"
-				+ " inner join year using (fuelYearID)");
+				+ " inner join year using (fuelYearID)",
+				this,"fuelSupply is missing fuels from year(s)");
 		if(!hasYears) {
 			return new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);
 		}
@@ -170,7 +172,8 @@ public class FuelSupplyImporter extends ImporterBase {
 				+ " select distinct fuelTypeID"
 				+ " from fuelSupply fs"
 				+ " inner join fuelFormulation ff using (fuelFormulationID)"
-				+ " inner join " + defaultDatabaseName + ".fuelSubType fst using (fuelSubTypeID)");
+				+ " inner join " + defaultDatabaseName + ".fuelSubType fst using (fuelSubTypeID)",
+				this,"fuelSupply is missing forumulations for fuelTypeID(s)");
 		if(!hasFuels) {
 			return new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);
 		}

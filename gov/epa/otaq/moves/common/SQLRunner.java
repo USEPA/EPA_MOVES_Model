@@ -36,7 +36,7 @@ public class SQLRunner {
 	public static void addInnoDBConnection(Connection db) {
 		if(allowInnoDB) {
 			//System.out.println("INNODB: Adding db " + db.hashCode());
-			innodbConnections.add(new Integer(db.hashCode()));
+			innodbConnections.add(Integer.valueOf(db.hashCode()));
 		}
 	}
 
@@ -46,7 +46,7 @@ public class SQLRunner {
 	**/
 	public static void removeInnoDBConnection(Connection db) {
 		//System.out.println("INNODB: Removing db " + db.hashCode());
-		innodbConnections.remove(new Integer(db.hashCode()));
+		innodbConnections.remove(Integer.valueOf(db.hashCode()));
 	}
 
 	/**
@@ -58,7 +58,7 @@ public class SQLRunner {
 		if(!allowInnoDB) {
 			return false;
 		}
-		boolean result = innodbConnections.contains(new Integer(db.hashCode()));
+		boolean result = innodbConnections.contains(Integer.valueOf(db.hashCode()));
 		if(result) {
 			//System.out.println("INNODB: Using db " + db.hashCode());
 		}

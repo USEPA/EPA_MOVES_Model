@@ -5,6 +5,7 @@
  *
  *************************************************************************************************/
 package gov.epa.otaq.moves.common;
+import static org.apache.commons.lang.StringEscapeUtils.escapeHtml;
 
 import java.util.*;
 
@@ -127,6 +128,18 @@ public class StringUtilities {
 	public static String safeGetString(String inString) {
 		if(inString != null) {
 			return inString;
+		}
+		return new String("");
+	}
+
+	/**
+	 * Ensures that null String objects are treated as empty strings.
+	 * @param inString The input String object to check.
+	 * @return Returns the input String if non-null, other returns an empty String object.
+	**/
+	public static String safeGetEscapedString(String inString) {
+		if(inString != null) {
+			return escapeHtml(inString);
 		}
 		return new String("");
 	}

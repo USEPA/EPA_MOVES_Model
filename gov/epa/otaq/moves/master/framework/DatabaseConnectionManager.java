@@ -508,7 +508,7 @@ public class DatabaseConnectionManager {
 		if(connection != null) {
 			synchronized(connectionTimeouts) {
 				long timeout = System.currentTimeMillis() + CONNECTION_TIMEOUT_MILLIS;
-				connectionTimeouts.put(connection,new Long(timeout));
+				connectionTimeouts.put(connection,Long.valueOf(timeout));
 			}
 		}
 	}

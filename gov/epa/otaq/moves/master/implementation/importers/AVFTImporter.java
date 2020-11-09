@@ -23,7 +23,7 @@ import gov.epa.otaq.moves.master.framework.SystemConfiguration;
  *
  * @author		Wesley Faler
  * @author		Don Smith
- * @version		2013-09-15
+ * @version		2015-09-16
 **/
 public class AVFTImporter extends ImporterBase {
 	/** Data handler for this importer **/
@@ -260,7 +260,8 @@ public class AVFTImporter extends ImporterBase {
 		}
 
 		boolean hasSourceType = manager.tableHasSourceTypes(db,
-				"select distinct sourceTypeID from AVFT");
+				"select distinct sourceTypeID from AVFT",
+				this,"AVFT is missing sourceTypeID(s)");
 		if(!hasSourceType) {
 			return new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);
 		}
@@ -272,7 +273,7 @@ public class AVFTImporter extends ImporterBase {
 			if( yo instanceof Integer ){
 				int year = ((Integer)yo).intValue();
 				for( int age=0; age<=30; age++){
-					modelYears.add(new Integer(year-age));
+					modelYears.add(Integer.valueOf(year-age));
 				}
 			}
 		}
@@ -280,7 +281,8 @@ public class AVFTImporter extends ImporterBase {
 			Object yo = i.next();
 			boolean hasModelYears = manager.tableHasIntegers(db,
 					"select distinct modelYearID from AVFT where sourceTypeID = "+yo,
-					modelYears);
+					modelYears,
+					this,"AVFT is missing modelYearID(s)");
 			if(!hasModelYears ) {
 				return new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);
 			}

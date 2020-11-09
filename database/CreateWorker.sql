@@ -1,6 +1,6 @@
 -- Create the MOVESWorker database and schema.
 -- Author Wesley Faler
--- Version 2015-03-16
+-- Version 2015-12-01
 
 DROP TABLE IF EXISTS MOVESOutput;
 DROP TABLE IF EXISTS MOVESWorkerOutput;
@@ -112,6 +112,7 @@ CREATE TABLE IF NOT EXISTS MOVESWorkerActivityOutput (
 	sourceTypeID         SMALLINT UNSIGNED NULL,
 	regClassID           SMALLINT UNSIGNED NULL,
 	fuelTypeID           SMALLINT UNSIGNED NULL,
+	fuelSubTypeID        SMALLINT UNSIGNED NULL,
 	modelYearID          SMALLINT UNSIGNED NULL,
 
 	-- ******************************************************

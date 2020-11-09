@@ -1,5 +1,5 @@
 -- Author Wesley Faler
--- Version 2015-05-19
+-- Version 2016-10-04
 
 -- Mark any years in hpmsVTypeYear as base years in the Year table
 
@@ -52,24 +52,24 @@ update HPMSVTypeYear set VMTGrowthFactor=0 where VMTGrowthFactor is null;
 
 -- Complain about any years outside of MOVES's range
 insert into importTempMessages (message)
-select distinct concat('ERROR: Year ',yearID,' in HPMSVTypeYear is outside the range of 1990-2050 and cannot be used') as errorMessage
+select distinct concat('ERROR: Year ',yearID,' in HPMSVTypeYear is outside the range of 1990-2060 and cannot be used') as errorMessage
 from hpmsVTypeYear
-where yearID < 1990 or yearID > 2050;
+where yearID < 1990 or yearID > 2060;
 
 insert into importTempMessages (message)
-select distinct concat('ERROR: Year ',yearID,' in HPMSVtypeDay is outside the range of 1990-2050 and cannot be used') as errorMessage
+select distinct concat('ERROR: Year ',yearID,' in HPMSVtypeDay is outside the range of 1990-2060 and cannot be used') as errorMessage
 from HPMSVtypeDay
-where yearID < 1990 or yearID > 2050;
+where yearID < 1990 or yearID > 2060;
 
 insert into importTempMessages (message)
-select distinct concat('ERROR: Year ',yearID,' in SourceTypeYearVMT is outside the range of 1990-2050 and cannot be used') as errorMessage
+select distinct concat('ERROR: Year ',yearID,' in SourceTypeYearVMT is outside the range of 1990-2060 and cannot be used') as errorMessage
 from SourceTypeYearVMT
-where yearID < 1990 or yearID > 2050;
+where yearID < 1990 or yearID > 2060;
 
 insert into importTempMessages (message)
-select distinct concat('ERROR: Year ',yearID,' in SourceTypeDayVMT is outside the range of 1990-2050 and cannot be used') as errorMessage
+select distinct concat('ERROR: Year ',yearID,' in SourceTypeDayVMT is outside the range of 1990-2060 and cannot be used') as errorMessage
 from SourceTypeDayVMT
-where yearID < 1990 or yearID > 2050;
+where yearID < 1990 or yearID > 2060;
 
 -- MonthVMTFraction
 -- Fill with 0's for entries that were not imported

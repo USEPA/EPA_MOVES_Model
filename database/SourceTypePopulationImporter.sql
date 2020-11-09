@@ -1,5 +1,5 @@
 -- Author Wesley Faler
--- Version 2013-11-20
+-- Version 2016-10-04
 
 -- Mark any years in SourceTypeYear as base years in the Year table
 
@@ -59,6 +59,6 @@ update SourceTypeYear set migrationRate=0 where migrationRate is null;
 
 -- Complain about any years outside of MOVES's range
 insert into importTempMessages (message)
-select distinct concat('ERROR: Year ',yearID,' is outside the range of 1990-2050 and cannot be used') as errorMessage
+select distinct concat('ERROR: Year ',yearID,' is outside the range of 1990-2060 and cannot be used') as errorMessage
 from SourceTypeYear
-where yearID < 1990 or yearID > 2050;
+where yearID < 1990 or yearID > 2060;

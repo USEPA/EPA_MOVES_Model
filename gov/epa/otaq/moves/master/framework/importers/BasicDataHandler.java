@@ -16,7 +16,8 @@ import gov.epa.otaq.moves.master.runspec.*;
  *
  * @author		Wesley Faler
  * @author		Don Smith
- * @version		2015-06-09
+ * @author		Jarrod Brown
+ * @version		2018-06-22
 **/
 public class BasicDataHandler implements IDataHandler {
 	/** Marker for the beginning of a table's definition **/
@@ -153,13 +154,13 @@ public class BasicDataHandler implements IDataHandler {
 		+ " order by yearID",
 
 		"County",
-		"select countyID, stateName, countyName"
+		"select countyID, stateName, countyName, countyTypeID, idleRegionID"
 		+ " from County"
 		+ " inner join State using (stateID)"
 		+ " order by stateName, countyName",
 
 		"CountyState",
-		"select countyID, countyName, State.stateID, stateName"
+		"select countyID, countyName, State.stateID, stateName, countyTypeID, idleRegionID"
 		+ " from County"
 		+ " inner join State using (stateID)"
 		+ " order by stateName, countyName",
@@ -263,7 +264,7 @@ public class BasicDataHandler implements IDataHandler {
 		+ " order by opModeID",
 
 		"State",
-		"SELECT stateID, stateName, stateAbbr FROM state ORDER BY stateName",
+		"SELECT stateID, stateName, stateAbbr, idleRegionID FROM state ORDER BY stateName",
 
 		"IMInspectFreq",
 		"select inspectFreq, inspectFreqDesc from IMInspectFreq order by inspectFreq",
@@ -284,7 +285,17 @@ public class BasicDataHandler implements IDataHandler {
 		"Region",
 		"select regionID, VV, WW, XX, YY, ZZ, description"
 		+ " from region"
-		+ " order by regionID"
+		+ " order by regionID",
+
+		"CountyType",
+		"select countyTypeID, countyTypeDescription"
+		+ " from countyType"
+		+ " order by countyTypeID",
+
+		"IdleRegion",
+		"select idleRegionID, idleRegionDescription"
+		+ " from idleRegion"
+		+ " order by idleRegionID"
 
 		/* TODO reinstate once NRDB use is mandatory
 		"NRAgeCategory",
@@ -659,7 +670,9 @@ public class BasicDataHandler implements IDataHandler {
 					reader.close();
 					reader = null;
 					foundAnyTables = true;
-					messages.add(tableName + " imported.");
+					if (shouldCommit){
+						messages.add(tableName + " imported.");
+					}
 				} else {
 					messages.add(tableName + " not imported, no file specified.");
 				}
@@ -912,7 +925,7 @@ public class BasicDataHandler implements IDataHandler {
 										+ " " + tempMessage.text;
 							} else {
 								t = "WARNING: " + (String)columnNames.get(i)
-										+ " " + rowData[i] + " is not used but is still imported.";
+										+ " " + rowData[i] + " is not used.";
 							}
 							for(Iterator j=messages.iterator();j.hasNext();) {
 								String tm = (String)j.next();
@@ -928,7 +941,7 @@ public class BasicDataHandler implements IDataHandler {
 							}
 						} else if(filteredRowCount == 3) {
 							messages.add(
-									"WARNING: Additional data is not used but is still imported.");
+									"WARNING: Additional data is not used.");
 						}
 						filteredRowCount++;
 					}
@@ -1419,6 +1432,7 @@ public class BasicDataHandler implements IDataHandler {
 						if(!messagesAlreadySeen.contains(m)) {
 							messagesAlreadySeen.add(m);
 							messages.add(m);
+							importer.addQualityMessage(m);
 						}
 					}
 				}

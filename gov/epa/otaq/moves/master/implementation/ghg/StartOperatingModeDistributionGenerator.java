@@ -22,7 +22,7 @@ import java.util.Iterator;
  * @author		Wes Faler
  * @author      EPA Mitch C. (assumed existence of all HC pollutants)
  * @author      EPA Gwo S. (Added NH3 ammonia)
- * @version		2014-07-24
+ * @version		2016-08-30
 **/
 public class StartOperatingModeDistributionGenerator extends Generator {
 	/**
@@ -72,12 +72,6 @@ public class StartOperatingModeDistributionGenerator extends Generator {
 	/** The Total Energy Consumption pollutant **/
 	private static Pollutant totalEnergyConsumption =
 				Pollutant.findByName("Total Energy Consumption");
-	/** The Fossil Fuel Energy Consumption pollutant **/
-	private static Pollutant fossilFuelEnergyConsumption =
-				Pollutant.findByName("Fossil Fuel Energy Consumption");
-	/** The Petroleum Energy Consumption pollutant **/
-	private static Pollutant petroleumEnergyConsumption =
-				Pollutant.findByName("Petroleum Energy Consumption");
 	/** The Start Exhaust Emission Process **/
 	private static EmissionProcess startExhaust = EmissionProcess.findByName("Start Exhaust");
 
@@ -192,9 +186,7 @@ public class StartOperatingModeDistributionGenerator extends Generator {
 						(nH3 != null && polProcess.pollutant.compareTo(nH3)==0) ||
 						(eCarbon25 != null && polProcess.pollutant.compareTo(eCarbon25)==0) ||
 						(nonECPM25 != null && polProcess.pollutant.compareTo(nonECPM25)==0) ||
-						(totalEnergyConsumption != null && polProcess.pollutant.compareTo(totalEnergyConsumption)==0) ||
-						(fossilFuelEnergyConsumption != null && polProcess.pollutant.compareTo(fossilFuelEnergyConsumption)==0) ||
-						(petroleumEnergyConsumption != null && polProcess.pollutant.compareTo(petroleumEnergyConsumption)==0)) {
+						(totalEnergyConsumption != null && polProcess.pollutant.compareTo(totalEnergyConsumption)==0)) {
 					polProcessIDs += "," + polProcess.getDatabaseKey(db);
 				}
 			}
@@ -429,30 +421,13 @@ public class StartOperatingModeDistributionGenerator extends Generator {
 					 * @input opModePolProcAssoc
 					 * @condition Non-Project domain
 					**/
-					sql = "INSERT IGNORE INTO RatesOpModeDistribution ("+
-								"sourceTypeID,"+
-								"roadTypeID,"+
-								"avgSpeedBinID,"+
-								"hourDayID,"+
-								"polProcessID,"+
-								"opModeID,"+
-								"opModeFraction) "+
-							"select "+
-								"somd.sourceTypeID,"+
-								"1 as roadTypeID,"+
-								"0 as avgSpeedBinID,"+
-								"somd.hourDayID,"+
-								"omppa.polProcessID,"+
-								"somd.opModeID,"+
-								"somd.opModeFraction "+
-							"from "+
-								"StartOpModeDistribution somd "+
-								"inner join sourceTypePolProcess stpp on (stpp.sourceTypeID = somd.sourceTypeID) "+
-								"inner join opModePolProcAssoc omppa on ("+
-									"omppa.polProcessID = stpp.polProcessID "+
-									"and omppa.opModeID = somd.opModeID) "+
-							"where "+
-								"stpp.polProcessID IN (" + polProcessIDs.substring(1) + ")";
+					sql = "insert ignore into ratesOpModeDistribution (avgSpeedBinID, roadTypeID, "
+					+ " sourceTypeID, hourDayID, polProcessID, opModeID, opModeFraction, opModeFractionCV)"
+					+ " select distinct 0 as avgSpeedBinID, 1 as roadTypeID, "
+					+ " somd.sourceTypeID, (somd.hourID*10+somd.dayID) as hourDayID, ppa.polProcessID, somd.opModeID, somd.opModeFraction, null as opModeFractionCV"
+					+ " from startsOpModeDistribution somd "
+					+ " cross join pollutantprocessassoc ppa"
+					+ " where ppa.processID in (2,16)";
 					SQLRunner.executeSQL(db, sql);
 				}
 
@@ -489,19 +464,12 @@ public class StartOperatingModeDistributionGenerator extends Generator {
 				if(inContext.iterLocation.roadTypeRecordID != 1) {
 					return;
 				}
-
-				sql = "INSERT IGNORE INTO OpModeDistribution "
-						+ " SELECT somd.sourceTypeID, hd.hourDayID, l.linkID, ppa.polProcessID, "
-						+ "     somd.opModeID, somd.opModeFraction, NULL AS opModeFractionCV, 'N'"
-						+ " FROM StartOpModeDistribution somd"
-						+ " INNER JOIN Link l INNER JOIN Zone z ON z.zoneID=l.zoneID"
-						+ " INNER JOIN PollutantProcessAssoc ppa INNER JOIN HourDay hd ON (hd.hourDayID = somd.hourDayID)"
-						+ " LEFT OUTER JOIN existingStartOMD eomd using (sourceTypeID, linkID, polProcessID)"
-						+ " WHERE l.linkID = " + inContext.iterLocation.linkRecordID
-						+ " AND z.zoneID = " + inContext.iterLocation.zoneRecordID
-						+ " AND l.roadTypeID = " + inContext.iterLocation.roadTypeRecordID
-						+ " AND polProcessID " + "IN (" + polProcessIDs.substring(1) + ")"
-						+ " AND eomd.sourceTypeID is null";
+				sql = "insert ignore into opModeDistribution (sourceTypeID, hourDayID, linkID, polProcessID, opModeID, opModeFraction, opModeFractionCV)"
+					+ " select distinct somd.sourceTypeID, (somd.hourID*10+somd.dayID) as hourDayID, l.linkID, ppa.polProcessID, somd.opModeID, somd.opModeFraction, null as opModeFractionCV"
+					+ " from startsOpModeDistribution somd "
+					+ " cross join pollutantprocessassoc ppa "
+					+ " cross join link l"
+					+ " where ppa.processID in (2,16)";
 				SQLRunner.executeSQL(db, sql);
 			}
 		} catch (SQLException e) {

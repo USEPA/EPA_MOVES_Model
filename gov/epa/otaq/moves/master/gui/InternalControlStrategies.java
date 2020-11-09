@@ -28,6 +28,7 @@ import gov.epa.otaq.moves.master.runspec.RunSpecXML;
  *
  * @author		Wesley Faler
  * @author		Tim Hull
+ * @author  	Bill Shaw (508 compliance mods)
  * @version		2015-03-17
 **/
 public class InternalControlStrategies extends JPanel implements RunSpecEditor, ActionListener,
@@ -233,48 +234,66 @@ public class InternalControlStrategies extends JPanel implements RunSpecEditor, 
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		instancesScrollPane.setName("instancesScrollPane");
+		listLabel.setDisplayedMnemonic('L');
+		listLabel.setLabelFor(instancesList);
 
 		// Create buttons
 		newButton = new JButton("New");
 		newButton.setName("newButton");
 		newButton.addActionListener(this);
 		ToolTipHelper.add(newButton,"Create a new object");
+		newButton.setMnemonic('N');
+		newButton.setDisplayedMnemonicIndex(0);
 
 		importButton = new JButton("Import...");
 		importButton.setName("importButton");
 		importButton.addActionListener(this);
 		ToolTipHelper.add(importButton,"Import a previously exported object");
+		importButton.setMnemonic('I');
+		importButton.setDisplayedMnemonicIndex(0);
 
 		exportButton = new JButton("Export...");
 		exportButton.setName("exportButton");
 		exportButton.addActionListener(this);
 		ToolTipHelper.add(exportButton,"Export the current object to a file");
+		exportButton.setMnemonic('E');
+		exportButton.setDisplayedMnemonicIndex(0);
 
 		exportDefaultButton = new JButton("Export Default...");
 		exportDefaultButton.setName("exportDefaultButton");
 		exportDefaultButton.addActionListener(this);
 		ToolTipHelper.add(exportDefaultButton,"Export default data to a file");
+		exportDefaultButton.setMnemonic('x');
+		exportDefaultButton.setDisplayedMnemonicIndex(1);
 
 		deleteButton = new JButton("Delete...");
 		deleteButton.setName("deleteButton");
 		deleteButton.addActionListener(this);
 		ToolTipHelper.add(deleteButton,"Delete the current object from the RunSpec");
+		deleteButton.setMnemonic('e');
+		deleteButton.setDisplayedMnemonicIndex(1);
 
 		cancelButton = new JButton("Cancel");
 		cancelButton.setName("cancelButton");
 		cancelButton.addActionListener(this);
 		ToolTipHelper.add(cancelButton,"Cancel recent edits");
+		cancelButton.setMnemonic('a');
+		cancelButton.setDisplayedMnemonicIndex(1);
 
 		descriptionButton = new JButton("Description...");
 		descriptionButton.setName("descriptionButton");
 		descriptionButton.addActionListener(this);
 		ToolTipHelper.add(descriptionButton,"Edit the description of the current object");
+		descriptionButton.setMnemonic('p');
+		descriptionButton.setDisplayedMnemonicIndex(6);
 
 		checkButton = new JButton("Check...");
 		checkButton.setName("checkButton");
 		checkButton.addActionListener(this);
 		ToolTipHelper.add(checkButton,
 				"Explain reasons for the Not Ready (exclaimation point) status");
+		checkButton.setMnemonic('h');
+		checkButton.setDisplayedMnemonicIndex(1);
 
 		// Panels
 		defaultPanel = new JPanel();
@@ -500,8 +519,8 @@ public class InternalControlStrategies extends JPanel implements RunSpecEditor, 
 		}
 
 		try {
-			InternalControlStrategy strategy =
-					(InternalControlStrategy)Class.forName(getName()).newInstance();
+			Class<?> c = Class.forName(getName());
+			InternalControlStrategy strategy = (InternalControlStrategy) c.getConstructor().newInstance();
 			instancesListModel.addElement(strategy);
 			instancesList.setSelectedValue(strategy,true);
 		} catch(Exception e) {
@@ -773,8 +792,8 @@ public class InternalControlStrategies extends JPanel implements RunSpecEditor, 
 			}
 			if(instances.isEmpty()) {
 				try {
-					InternalControlStrategy strategy =
-							(InternalControlStrategy)Class.forName(getName()).newInstance();
+					Class<?> c = Class.forName(getName());
+					InternalControlStrategy strategy = (InternalControlStrategy) c.getConstructor().newInstance();
 					instances.add(strategy);
 				} catch(Exception e) {
 					/**
@@ -927,11 +946,15 @@ public class InternalControlStrategies extends JPanel implements RunSpecEditor, 
 			okButton.addActionListener(this);
 			okButton.setName("okButton");
 			ToolTipHelper.add(okButton,"Accept the new description");
+			okButton.setMnemonic('O');
+			okButton.setDisplayedMnemonicIndex(0);
 
 			cancelButton = new JButton("Cancel");
 			cancelButton.addActionListener(this);
 			cancelButton.setName("cancelButton");
 			ToolTipHelper.add(cancelButton,"Abandon changes to the description");
+			cancelButton.setMnemonic('C');
+			cancelButton.setDisplayedMnemonicIndex(0);
 
 			descriptionPanel = new JPanel();
 			descriptionPanel.setName("descriptionPanel");
@@ -941,6 +964,8 @@ public class InternalControlStrategies extends JPanel implements RunSpecEditor, 
 			descriptionField = new JTextField(30);
 			descriptionField.setName("descriptionField");
 			ToolTipHelper.add(descriptionField,"A description of the current object");
+			descriptionLabel.setDisplayedMnemonic('p');
+			descriptionLabel.setLabelFor(descriptionField);
 		}
 
 		/**

@@ -10,21 +10,21 @@ import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
 import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.text.*;
 import java.io.*;
 import java.util.*;
-import java.text.*;
 import gov.epa.otaq.moves.common.*;
 import gov.epa.otaq.moves.master.framework.*;
-import gov.epa.otaq.moves.master.runspec.*;
 import gov.epa.otaq.moves.master.gui.*;
 
 /**
  * GUI framework holding 1 or more importers as tabs.
  *
  * @author		Wesley Faler
- * @version		2014-01-11
+ * @author		Bill Shaw
+ * @author		John Covey
+ * @author		Mike Kender	task 1903
+ * @author		John Covey task 2003
+ * @version		2020-07-24
 **/
 public class ImporterGUI extends JDialog implements ActionListener, FocusListener {
 	/** The parent JFrame which invokes this dialog. **/
@@ -41,8 +41,6 @@ public class ImporterGUI extends JDialog implements ActionListener, FocusListene
 	JButton createDatabaseButton;
 	/** Refresh database button **/
 	JButton refreshDatabaseButton;
-	/** Check Database button **/
-	JButton checkDatabaseButton;
 	/** Clear All Imported Data button **/
 	JButton clearAllDatabaseButton;
 	/** Server text control. **/
@@ -93,6 +91,13 @@ public class ImporterGUI extends JDialog implements ActionListener, FocusListene
 		getContentPane().add(createPanel(), BorderLayout.CENTER);
 		pack();
 		setResizable(true);
+		
+		// make closing window via the "X" the same as clicking the Done button
+		this.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				doneButton.doClick();
+			}
+		});
 	}
 
 	/** Allows the parent to display this dialog as modal. **/
@@ -111,7 +116,7 @@ public class ImporterGUI extends JDialog implements ActionListener, FocusListene
 	 * Fill the controls
 	 * @return false if anything could not be filled/updated
 	**/
-	boolean populateControls() {
+	public boolean populateControls() {
 		if(manager.runSpec.scaleInputDatabase != null
 				&& manager.runSpec.scaleInputDatabase.hasDatabase()) {
 			server.setText(manager.runSpec.scaleInputDatabase.serverName);
@@ -136,8 +141,12 @@ public class ImporterGUI extends JDialog implements ActionListener, FocusListene
 		int tabIndex = 0;
 		doneButton = new JButton("Done");
 		doneButton.addActionListener(this);
+		doneButton.setMnemonic('o');
+		doneButton.setDisplayedMnemonicIndex(1);
+		ToolTipHelper.add(doneButton, "Close the dialog");
 
 		tabs = new JTabbedPane();
+		tabs.addKeyListener(new TabbedPanelKeyAdapter(tabs));
 
 		JPanel p = makeTitledPanel("RunSpec Summary",createRunSpecSummaryPanel());
 		tabs.addTab("RunSpec Summary",null,p,"Summary of the RunSpec's Filters");
@@ -145,6 +154,7 @@ public class ImporterGUI extends JDialog implements ActionListener, FocusListene
 
 		p = makeTitledPanel("Database",createDatabasePanel());
 		tabs.addTab("Database",null,p,"Database selection");
+//		tabs.setMnemonicAt(1, 'a');
 		tabIndex++;
 
 		for(int i=0;i<manager.importers.size();i++) {
@@ -156,17 +166,38 @@ public class ImporterGUI extends JDialog implements ActionListener, FocusListene
 					p = makeTitledPanel(importerPanel.getTitle(),p);
 					tabs.addTab(importerPanel.getTitle(),null,p,
 							importerPanel.getTitle() + " importer");
-					importerTabIndexes.put(importer.getClass().getName(),new Integer(tabIndex));
+					tabs.setEnabledAt(tabIndex, false); //disabled by default
+					if(importerPanel.getTitle().charAt(0) == 'V') {
+						tabs.setMnemonicAt(tabIndex, 'V');
+					}
+					importerTabIndexes.put(importer.getClass().getName(),Integer.valueOf(tabIndex));
 					tabIndex++;
 				}
 			}
 		}
-
+		
 		p = makeTitledPanel("Tools",createToolsPanel());
 		tabs.addTab("Tools",null,p,"XML tools");
 		tabIndex++;
 	}
 
+	/** Handle pollutant table key actions **/
+	class TabbedPanelKeyAdapter extends KeyAdapter {
+		JTabbedPane table;
+
+		public TabbedPanelKeyAdapter(JTabbedPane tableToUse) {
+			table = tableToUse;
+		}
+
+		public void keyPressed(KeyEvent e) {
+			
+			if (e.getKeyCode() == KeyEvent.VK_F1 && e.isControlDown()) {
+				JComponent component = (JComponent) e.getSource();
+				component.setToolTipText(table.getToolTipTextAt(table.getSelectedIndex()));
+			}
+		}
+	}
+	
 	/**
 	 * Sets the layout of the controls.
 	 * @return the container as JPanel of the controls
@@ -255,20 +286,31 @@ public class ImporterGUI extends JDialog implements ActionListener, FocusListene
 	 * @param e the ActionEvent to be handled.
 	**/
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == doneButton) {
-			dispose();
-		} else if(e.getSource() == generateXMLButton) {
-			handleGenerateXML();
-		} else if(e.getSource() == createDatabaseButton) {
-			handleCreateDatabaseButton();
-		} else if(e.getSource() == refreshDatabaseButton) {
-			handleRefreshDatabaseButton();
-		} else if(e.getSource() == checkDatabaseButton) {
-			handleCheckDatabaseButton();
-		} else if(e.getSource() == databaseCombo) {
-			processDatabaseComboChange(true);
-		} else if(e.getSource() == clearAllDatabaseButton) {
-			handleClearAllDatabaseButton();
+		try {
+			((MOVESWindow)frame).setWaitCursor();
+			if(e.getSource() == doneButton) {
+				// update main window when closing
+				String description = ((MOVESWindow)frame).runSpec.scaleInputDatabase.description;
+				((MOVESWindow)frame).runSpec.scaleInputDatabase = new DatabaseSelection();
+				((MOVESWindow)frame).runSpec.scaleInputDatabase.databaseName = (String)databaseCombo.getSelectedItem();
+				((MOVESWindow)frame).runSpec.scaleInputDatabase.serverName = server.getText();
+				((MOVESWindow)frame).runSpec.scaleInputDatabase.description = description;
+				((MOVESWindow)frame).createInputDatabasePanel.loadFromRunSpec(((MOVESWindow)frame).runSpec);
+				((MOVESWindow)frame).navigationPanel.updateCreateInputDatabaseIcon();
+				dispose();
+			} else if(e.getSource() == generateXMLButton) {
+				handleGenerateXML();
+			} else if(e.getSource() == createDatabaseButton) {
+				handleCreateDatabaseButton();
+			} else if(e.getSource() == refreshDatabaseButton) {
+				handleRefreshDatabaseButton();
+			} else if(e.getSource() == databaseCombo) {
+				processDatabaseComboChange(true);
+			} else if(e.getSource() == clearAllDatabaseButton) {
+				handleClearAllDatabaseButton();
+			}
+		} finally {
+			((MOVESWindow)frame).setDefaultCursor();
 		}
 	}
 
@@ -356,6 +398,9 @@ public class ImporterGUI extends JDialog implements ActionListener, FocusListene
 
 		generateXMLButton = new JButton("Generate Importer XML File");
 		generateXMLButton.addActionListener(this);
+		generateXMLButton.setMnemonic('G');
+		generateXMLButton.setDisplayedMnemonicIndex(0);
+		ToolTipHelper.add(generateXMLButton, "Generate an XML file to use with the command line interface");
 
 		JLabel label1;
 		JLabel label2;
@@ -393,18 +438,18 @@ public class ImporterGUI extends JDialog implements ActionListener, FocusListene
 	 * Generate the Database tab.
 	 * @return panel for the Database tab
 	**/
-	JPanel createDatabasePanel() {
+	public JPanel createDatabasePanel() {
 		createDatabaseButton = new JButton("Create Database");
 		createDatabaseButton.addActionListener(this);
+		ToolTipHelper.add(createDatabaseButton, "Create the database on the specified server");
 
 		refreshDatabaseButton = new JButton("Refresh");
 		refreshDatabaseButton.addActionListener(this);
-
-		checkDatabaseButton = new JButton("Check Database");
-		checkDatabaseButton.addActionListener(this);
+		ToolTipHelper.add(refreshDatabaseButton, "Refresh the database listing from the specified server");
 
 		clearAllDatabaseButton = new JButton("Clear All Imported Data");
 		clearAllDatabaseButton.addActionListener(this);
+		ToolTipHelper.add(clearAllDatabaseButton, "Clear all data in the specified database");
 
 		server = new JTextField(10);
 		server.setText("localhost");
@@ -569,7 +614,7 @@ public class ImporterGUI extends JDialog implements ActionListener, FocusListene
 			Logger.log(LogMessageCategory.ERROR,"Could not connect to the database");
 			return;
 		}
-		String sql = "SHOW DATABASES";
+		String sql = "select table_schema as input_dbs from information_schema.tables where table_name = 'auditlog' order by input_dbs";
 		PreparedStatement statement = null;
 		ResultSet results = null;
 		try {
@@ -710,19 +755,6 @@ public class ImporterGUI extends JDialog implements ActionListener, FocusListene
 	}
 
 	/**
-	 * Handle the Check Database button
-	**/
-	void handleCheckDatabaseButton() {
-		if(!processDatabaseComboChange(true)) {
-			JOptionPane.showMessageDialog(this, "The database cannot be used.", "Error",
-					JOptionPane.ERROR_MESSAGE);
-		} else {
-			JOptionPane.showMessageDialog(this, "The database can be used.", "Success",
-					JOptionPane.INFORMATION_MESSAGE);
-		}
-	}
-
-	/**
 	 * Handles the database combo change.
 	 * @param shouldDisplayErrors true if error messages should be displayed
 	 * @return false if the selected database is not valid, or not yet selected.
@@ -815,6 +847,10 @@ public class ImporterGUI extends JDialog implements ActionListener, FocusListene
 		}
 		if(status != null && shouldDisplayErrors) {
 			JOptionPane.showMessageDialog(this, status);
+		} else {
+			for(int x=0; x<tabs.getTabCount(); x++) {
+				tabs.setEnabledAt(x, true);
+			}
 		}
 		return status == null;
 	}
@@ -875,11 +911,20 @@ public class ImporterGUI extends JDialog implements ActionListener, FocusListene
 			JOptionPane.showMessageDialog(this,"Specify a database name.");
 			return;
 		}
+		else if (!DatabaseUtilities.isDatabaseNameValid(newDatabaseName)) {
+			JOptionPane.showMessageDialog(this,Constants.DATABASE_NAME_VALIDATION_MESSAGE);
+			return;
+		}
 
 		DatabaseSelection dbSelection = new DatabaseSelection();
 		if(server.getText().length() > 0) {
 			dbSelection.serverName = server.getText();
-		} else {
+			if (!DatabaseUtilities.isServerNameValid(server.getText())) {
+				JOptionPane.showMessageDialog(this,Constants.SERVER_NAME_VALIDATION_MESSAGE);
+				return;		
+			}
+		} 
+		else {
 			dbSelection.serverName = SystemConfiguration.getTheSystemConfiguration().
 					databaseSelections[MOVESDatabaseType.DEFAULT.getIndex()].serverName;
 		}
@@ -910,6 +955,7 @@ public class ImporterGUI extends JDialog implements ActionListener, FocusListene
 			}
 			refreshDomainStatusIcons();
 			clearLogDisplay();
+			processDatabaseComboChange(true);
 		}
 	}
 
@@ -1088,12 +1134,31 @@ public class ImporterGUI extends JDialog implements ActionListener, FocusListene
 	 * Examine each importer for domain completeness, updating its icon as needed.
 	**/
 	void refreshDomainStatusIcons() {
-		if(manager.isCountyDomain) {
-			refreshCountyDomainStatusIcons();
-		} else if(manager.isProjectDomain) {
-			refreshProjectDomainStatusIcons();
-		} else {
-			refreshImporterStatusIcons();
+		try {
+			((MOVESWindow)frame).setWaitCursor();
+			ArrayList<ImporterBase> importersToUpdate = new ArrayList<ImporterBase>();
+			for(int i=0;i<manager.importers.size();i++) {
+				IImporter importer = (IImporter)manager.importers.get(i);
+				if(!(importer instanceof ImporterBase)) {
+					continue;
+				}
+				((ImporterBase)importer).removeQualityMessages();
+				importersToUpdate.add((ImporterBase)importer);
+			}
+			if(manager.isCountyDomain) {
+				refreshCountyDomainStatusIcons();
+			} else if(manager.isProjectDomain) {
+				refreshProjectDomainStatusIcons();
+			} else {
+				refreshImporterStatusIcons();
+			}
+			for(ImporterBase i : importersToUpdate) {
+				if(i.tabBaseProvider != null) {
+					i.tabBaseProvider.showMessages();
+				}
+			}
+		} finally {
+			((MOVESWindow)frame).setDefaultCursor();
 		}
 	}
 
@@ -1108,14 +1173,17 @@ public class ImporterGUI extends JDialog implements ActionListener, FocusListene
 			if(nullIsBlank) {
 				return null;
 			} else {
+				errorImage.setDescription(Constants.IMPORTER_GUI_NOT_READY_TOOLTIP);
 				return errorImage;
 			}
 		}
 		if(status.status == RunSpecSectionStatus.OK) {
+			okImage.setDescription(Constants.IMPORTER_GUI_READY_TOOLTIP);
 			return okImage;
 		} else if(status.status == RunSpecSectionStatus.DEFAULTS) {
 			return defaultImage;
 		} else {
+			errorImage.setDescription(Constants.IMPORTER_GUI_NOT_READY_TOOLTIP);
 			return errorImage;
 		}
 	}
@@ -1138,26 +1206,47 @@ public class ImporterGUI extends JDialog implements ActionListener, FocusListene
 			shouldCloseConnection = true;
 		}
 		try {
+			RunSpecSectionStatus netStatus = null; // used to determine if all tabs are green checks or not
 			for(int i=0;i<manager.importers.size();i++) {
 				IImporter importer = (IImporter)manager.importers.get(i);
 				if(!(importer instanceof ICountyDataImporter)) {
 					continue;
 				}
+				
+				// determine importer's status
 				RunSpecSectionStatus status = null;
 				if(db != null) {
 					try {
 						importer.refreshFromAuditLog(db);
 						status = ((ICountyDataImporter)importer).getCountyDataStatus(db);
 					} catch(Exception e) {
-						// Nothing to do here
+						Logger.logError(e,"Unable to validate County Data Status");
 					}
 				}
+				
+				// set the green check or red x icon for the importer's tab along with a descriptive tooltip
 				Integer index = (Integer)importerTabIndexes.get(importer.getClass().getName());
 				if(index == null) {
 					continue;
 				}
 				tabs.setIconAt(index.intValue(),getImage(status,false));
+				tabs.setToolTipTextAt(index, tabs.getTitleAt(index) + Constants.IMPORTER_GUI_BASE_TOOLTIP + ((ImageIcon) tabs.getIconAt(index)).getDescription());
+				
+				// calculate net status of all importers
+				if(status != null) {
+					if(netStatus == null) {
+						netStatus = status;
+					} else {
+						netStatus.makeWorstOfTwo(status);
+					}
+					//Logger.log(LogMessageCategory.DEBUG,"After evaluating status of " + importer.getName() + ", netStatus is " + String.valueOf(netStatus.status));
+				} else {
+					//Logger.log(LogMessageCategory.DEBUG,"After evaluating status of " + importer.getName() + ", netStatus has no change (status was null)");
+				}
 			}
+			
+			// Save netStatus to MOVESWindow so the CreateInputDatabase panel can be appropriately updated
+			((MOVESWindow)frame).domainImporterNetStatus = netStatus;
 		} finally {
 			if(shouldCloseConnection) {
 				DatabaseUtilities.closeConnection(db);
@@ -1184,11 +1273,14 @@ public class ImporterGUI extends JDialog implements ActionListener, FocusListene
 			shouldCloseConnection = true;
 		}
 		try {
+			RunSpecSectionStatus netStatus = null; // used to determine if all tabs are green checks or not
 			for(int i=0;i<manager.importers.size();i++) {
 				IImporter importer = (IImporter)manager.importers.get(i);
 				if(!(importer instanceof IProjectDataImporter)) {
 					continue;
 				}
+				
+				// determine importer's status
 				RunSpecSectionStatus status = null;
 				if(db != null) {
 					try {
@@ -1198,12 +1290,30 @@ public class ImporterGUI extends JDialog implements ActionListener, FocusListene
 						// Nothing to do here
 					}
 				}
+				
+				// set the green check or red x icon for the importer's tab along with a descriptive tooltip
 				Integer index = (Integer)importerTabIndexes.get(importer.getClass().getName());
 				if(index == null) {
 					continue;
 				}
 				tabs.setIconAt(index.intValue(),getImage(status,false));
-			}
+				tabs.setToolTipTextAt(index, tabs.getTitleAt(index) + Constants.IMPORTER_GUI_BASE_TOOLTIP + ((ImageIcon) tabs.getIconAt(index)).getDescription());
+				
+				// calculate net status of all importers
+                if(status != null) {
+                    if(netStatus == null) {
+                        netStatus = status;
+                    } else {
+                        netStatus.makeWorstOfTwo(status);
+                    }
+                    //Logger.log(LogMessageCategory.DEBUG,"After evaluating status of " + importer.getName() + ", netStatus is " + String.valueOf(netStatus.status));
+                } else {
+                    //Logger.log(LogMessageCategory.DEBUG,"After evaluating status of " + importer.getName() + ", netStatus has no change (status was null)");
+                }
+            }
+			
+			// Save net status to MOVESWindow so the CreateInputDatabase panel can be appropriately updated
+			((MOVESWindow)frame).domainImporterNetStatus = netStatus;
 		} finally {
 			if(shouldCloseConnection) {
 				DatabaseUtilities.closeConnection(db);
@@ -1227,11 +1337,14 @@ public class ImporterGUI extends JDialog implements ActionListener, FocusListene
 			shouldCloseConnection = true;
 		}
 		try {
+			RunSpecSectionStatus netStatus = null; // used to determine if all tabs are green checks or not
 			for(int i=0;i<manager.importers.size();i++) {
 				IImporter importer = (IImporter)manager.importers.get(i);
 				if(!(importer instanceof IDataStatus)) {
 					continue;
 				}
+				
+				// determine importer's status
 				RunSpecSectionStatus status = null;
 				if(db != null) {
 					try {
@@ -1241,12 +1354,31 @@ public class ImporterGUI extends JDialog implements ActionListener, FocusListene
 						// Nothing to do here
 					}
 				}
+				
+				// set the green check or red x icon for the importer's tab along with a descriptive tooltip
 				Integer index = (Integer)importerTabIndexes.get(importer.getClass().getName());
 				if(index == null) {
 					continue;
 				}
 				tabs.setIconAt(index.intValue(),getImage(status,true));
-			}
+				if ((ImageIcon) tabs.getIconAt(index) != null) {
+					tabs.setToolTipTextAt(index, tabs.getTitleAt(index) + Constants.IMPORTER_GUI_BASE_TOOLTIP + ((ImageIcon) tabs.getIconAt(index)).getDescription());
+				}
+				
+				// calculate net status of all importers
+				if(status != null) {
+                    if(netStatus == null) {
+                        netStatus = status;
+                    } else {
+                        netStatus.makeWorstOfTwo(status);
+                    }
+                    //Logger.log(LogMessageCategory.DEBUG,"After evaluating status of " + importer.getName() + ", netStatus is " + String.valueOf(netStatus.status));
+                } else {
+                    //Logger.log(LogMessageCategory.DEBUG,"After evaluating status of " + importer.getName() + ", netStatus has no change (status was null)");
+                }
+            }
+			// Save net status to MOVESWindow so the CreateInputDatabase panel can be appropriately updated
+			((MOVESWindow)frame).domainImporterNetStatus = netStatus;
 		} finally {
 			if(shouldCloseConnection) {
 				DatabaseUtilities.closeConnection(db);

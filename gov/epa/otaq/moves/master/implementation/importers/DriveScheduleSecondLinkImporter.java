@@ -151,4 +151,6 @@ public class DriveScheduleSecondLinkImporter extends ImporterBase {
 		return super.getProjectDataStatus(db);
 		//return new RunSpecSectionStatus(RunSpecSectionStatus.OK);
 	}
+	
+	// no SQL error checks for DriveScheduleSecondLinkImporter
 }

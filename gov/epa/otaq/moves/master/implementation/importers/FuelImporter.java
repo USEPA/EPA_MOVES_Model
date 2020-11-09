@@ -24,7 +24,7 @@ import gov.epa.otaq.moves.master.framework.SystemConfiguration;
  * MOVES Fuels Importer.
  *
  * @author		Wesley Faler
- * @version		2015-05-22
+ * @version		2015-09-17
 **/
 public class FuelImporter extends ImporterBase {
 	/** Data handler for this importer **/
@@ -580,8 +580,16 @@ public class FuelImporter extends ImporterBase {
 		*/
 		boolean hasYears = manager.tableHasYears(db,
 				"select distinct yearID from fuelSupply"
-				+ " inner join year using (fuelYearID)");
+				+ " inner join year using (fuelYearID)",
+				this,"fuelSupply is missing fuels from year(s)");
 		if(!hasYears) {
+			return new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);
+		}
+		
+		boolean hasMonths = manager.tableHasMonths(db,
+				"select distinct monthGroupID from fuelSupply ",
+				this,"fuelSupply is missing fuels from months(s)");
+		if(!hasMonths) {
 			return new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);
 		}
 
@@ -591,16 +599,90 @@ public class FuelImporter extends ImporterBase {
 				"select distinct fuelTypeID"
 				+ " from fuelSupply fs"
 				+ " inner join fuelFormulation ff using (fuelFormulationID)"
-				+ " inner join " + defaultDatabaseName + ".fuelSubType fst using (fuelSubTypeID)");
+				+ " inner join " + defaultDatabaseName + ".fuelSubType fst using (fuelSubTypeID)",
+				this,"fuelSupply is missing formulations for fuelTypeID(s)");
 		if(!hasFuels) {
 			return new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);
 		}
+		
+		// Check for the ImporterBase's check for unused fuelRegionIDs (which is originally declared a warning, but should be 
+		// converted into an error)
+		SQLRunner.Query query = new SQLRunner.Query();
+		ArrayList<Integer> fuelRegionIDs = new ArrayList<Integer>();
+		String sql = "SELECT DISTINCT fuelRegionID FROM fuelsupply";
+		try {
+			query.open(db,sql);
+			while(query.rs.next()) {
+				fuelRegionIDs.add(Integer.valueOf(query.rs.getInt(1)));
+			}
+		} finally {
+			query.close();
+		}
+		boolean hasWrongRegion = false;
+		for (int fuelRegion : fuelRegionIDs) {
+			String searchMessage = "WARNING: fuelRegionID " + fuelRegion + " is not used.";
+			String replaceMessage = "ERROR: fuelRegionID " + fuelRegion + " is not used. Hint: change fuelFormulationIDs instead of fuelRegionIDs.";
+			if (messages.contains(searchMessage)) {
+				messages.remove(searchMessage);
+				messages.add(replaceMessage);
+				hasWrongRegion = true;
+			}
+			if (qualityMessages.contains(searchMessage)) {
+				qualityMessages.remove(searchMessage);
+				qualityMessages.add(replaceMessage);
+				hasWrongRegion = true;
+			}
+		}
+		if (hasWrongRegion) {
+			return new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);
+		}
+		
+		// Perform another check for unused fuelRegionIDs (because the ImporterBase's checks don't happen if you close and reopen the CDM/PDM)
+		int countyID = (int)SQLRunner.executeScalar(db,"select countyID from county");
+		int previousFuelRegionID = -1;
+		boolean fuelRegionUsed = true; // initialize to true so the -1 fuel region (above) doesn't end up in the error list
+		sql = "SELECT distinct fuelRegionID, countyID " + 
+			  "FROM fuelsupply JOIN " + defaultDatabaseName + ".regionCounty on fuelRegionID = regionID " + 
+			  "ORDER BY fuelRegionID, countyID";
+		try {
+			query.open(db,sql);
+			while(query.rs.next()) {
+				int recordFuelRegionID = query.rs.getInt(1);
+				int recordCountyID = query.rs.getInt(2);
+				
+				// new region
+				if (previousFuelRegionID != recordFuelRegionID) {
+					// issue error if we got to a new region without finding the current county associated with it
+					if (!fuelRegionUsed) {
+						addQualityMessage("ERROR: fuelRegionID " + previousFuelRegionID + " is not used. Hint: change fuelFormulationIDs instead of fuelRegionIDs.");
+						return new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);
+					}
+					// reset for new region
+					previousFuelRegionID = recordFuelRegionID;
+					fuelRegionUsed = false;
+				}
+				
+				// current county is associated with this fuel region
+				if (recordCountyID == countyID) {
+					fuelRegionUsed = true;
+				}
+			}
+			
+			// issue error if we got to the end of the query without finding the county associated with the last fuelRegionID
+			if (!fuelRegionUsed) {
+				addQualityMessage("ERROR: fuelRegionID " + previousFuelRegionID + " is not used. Hint: change fuelFormulationIDs instead of fuelRegionIDs.");
+				return new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);
+			} 
+		} finally {
+			query.close();
+		}
 
+		// on to other checks
 		if(!manager.isNonroad()) {
 			if(CompilationFlags.USE_FUELUSAGEFRACTION) {
-				// Check fuelUsageFraction.  Accept the table if it does not exist or if it is empty.
-				// Otherwise, it must have all required counties, fuel years, and fuel types just
-				// as fuelSupply must.
+				// Check fuelUsageFraction.  Earlier versions of MOVES accepted the table if it does not exist or if it is empty.
+				// (otherwise, it must have all required counties, fuel years, and fuel types just as fuelSupply must).
+				// For MOVES3, you must import the FuelUsageFraction table, and it must have all required counties, fuel years, and fuel types.
 				boolean hasNonEmptyFuelUsageFractionTable = false;
 				try {
 					int count = (int)SQLRunner.executeScalar(db,"select count(*) from fuelUsageFraction");
@@ -609,35 +691,46 @@ public class FuelImporter extends ImporterBase {
 					}
 				} catch(Exception e) {
 					// This happens if the table doesn't exist
+					addQualityMessage("ERROR: FuelUsageFraction table does not exist. You may need to recreate your database to solve this problem.");
+					return new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);			
 				}
 				if(hasNonEmptyFuelUsageFractionTable) {
 					boolean hasCounties = manager.tableHasCounties(db,
-							"select distinct countyID from fuelUsageFraction");
+							"select distinct countyID from fuelUsageFraction",
+							this,"fuelUsageFraction is missing countyID(s)");
 					if(!hasCounties) {
 						return new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);
 					}
 					hasYears = manager.tableHasYears(db,
 							"select distinct yearID from fuelUsageFraction"
-							+ " inner join year using (fuelYearID)");
+							+ " inner join year using (fuelYearID)",
+							this,"fuelUsageFraction is missing entries for year(s)");
 					if(!hasYears) {
 						return new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);
 					}
 	
 					hasFuels = manager.tableHasFuelTypes(db,
-							"select distinct sourceBinFuelTypeID from fuelUsageFraction");
+							"select distinct sourceBinFuelTypeID from fuelUsageFraction",
+							this,"fuelUsageFraction sourceBinFuelTypeID is missing fuelTypeID(s)");
 					if(!hasFuels) {
 						return new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);
 					}
 					hasFuels = manager.tableHasFuelTypes(db,
-							"select distinct fuelSupplyFuelTypeID from fuelUsageFraction");
+							"select distinct fuelSupplyFuelTypeID from fuelUsageFraction",
+							this,"fuelUsageFraction fuelSupplyFuelTypeID is missing fuelTypeID(s)");
 					if(!hasFuels) {
 						return new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);
 					}
+				} else {
+					addQualityMessage("ERROR: FuelUsageFraction table is not imported.");
+					return new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);	
 				}
 			}
 	
-			// If there is any data at all in the AVFT table, it must cover all fuel types
-			// whether or not they are in the runspec.
+
+			// Check AVFT.  Earlier versions of MOVES accepted the table if it does not exist or if it is empty.
+			// (otherwise, it must have all fuel types, regardless if they are in the runspec).
+			// For MOVES3, you must import the AVFT table, and it must have all fuel types.
 			boolean hasNonEmptyAVFTTable = false;
 			try {
 				int count = (int)SQLRunner.executeScalar(db,"select count(*) from avft");
@@ -646,16 +739,22 @@ public class FuelImporter extends ImporterBase {
 				}
 			} catch(Exception e) {
 				// This happens if the table doesn't exist
+				addQualityMessage("ERROR: AVFT table does not exist. You may need to recreate your database to solve this problem.");
+				return new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);	
 			}
 			if(hasNonEmptyAVFTTable) {
 				// Verify the user imported at least the fuels in the runspec.
-				hasFuels = manager.tableHasFuelTypes(db, "select distinct fuelTypeID from avft");
+				hasFuels = manager.tableHasFuelTypes(db, "select distinct fuelTypeID from avft",
+						this,"AVFT is missing fuelTypeID(s)");
 				if(!hasFuels) {
 					return new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);
 				}
+			} else {
+				addQualityMessage("ERROR: AVFT table is not imported.");
+				return new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);	
 			}
 		}
-
+		
 		return getImporterDataStatusCore(db,true);
 	}
 

@@ -1,7 +1,7 @@
 -- Create utility tables in the MOVESExecution database.
 -- Author Harvey Michaels
 -- Author Wesley Faler
--- Version 2014-06-25
+-- Version 2017-03-22
 
 -- --------------------------------------------------------------------
 -- Fill the set of regions used by the runspec
@@ -126,22 +126,6 @@ alter table togSpeciation add maxModelYearID smallint not null default 0;
 update togSpeciation set minModelYearID = floor(modelYearGroupID/10000),
 	maxModelYearID = mod(modelYearGroupID,10000)
 where minModelYearID=0 or maxModelYearID=0;
-
--- --------------------------------------------------------------------
--- Provide average speed distributions for ramp road types.
--- These are needed when providing separate rates for ramps.
--- --------------------------------------------------------------------
--- Copy Rural Restricted Access (2) into Rural Ramps (8)
-insert into avgSpeedDistribution (sourceTypeID, roadTypeID, hourDayID, avgSpeedBinID, avgSpeedFraction)
-select sourceTypeID, 8 as roadTypeID, hourDayID, avgSpeedBinID, avgSpeedFraction
-from avgSpeedDistribution
-where roadTypeID=2;
-
--- Copy Urban Restricted Access (4) into Urban Ramps (9)
-insert into avgSpeedDistribution (sourceTypeID, roadTypeID, hourDayID, avgSpeedBinID, avgSpeedFraction)
-select sourceTypeID, 9 as roadTypeID, hourDayID, avgSpeedBinID, avgSpeedFraction
-from avgSpeedDistribution
-where roadTypeID=4;
 
 -- --------------------------------------------------------------------
 -- Provide a place for THC E85/E10 fuel adjustments. These are special cases

@@ -38,17 +38,17 @@ public class FileTimeUtility {
 		calendar.setTime(date);
 		
 		int intMonth = (calendar.get(Calendar.MONTH));
-		String mm = (new Integer(intMonth+1)).toString();
+		String mm = (Integer.valueOf(intMonth+1)).toString();
 		int intDay = (calendar.get(Calendar.DAY_OF_MONTH));
-		String dd = (new Integer(intDay)).toString();
+		String dd = (Integer.valueOf(intDay)).toString();
 		int intYear = (calendar.get(Calendar.YEAR));
-		String yyyy = (new Integer (intYear)).toString();
+		String yyyy = (Integer.valueOf(intYear)).toString();
 		int intHour = (calendar.get(Calendar.HOUR_OF_DAY));
-		String hh = (new Integer(intHour)).toString();
+		String hh = (Integer.valueOf(intHour)).toString();
 		int intMin = (calendar.get(Calendar.MINUTE));
-		String min = (new Integer(intMin)).toString();
+		String min = (Integer.valueOf(intMin)).toString();
 		int intSec = (calendar.get(Calendar.SECOND));
-		String ss = (new Integer(intSec)).toString();
+		String ss = (Integer.valueOf(intSec)).toString();
 		return yyyy + "-" + mm + "-" + dd + " " + hh + ":" + min + ":" + ss;
 	}
 }

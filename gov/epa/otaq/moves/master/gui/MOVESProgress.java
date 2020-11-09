@@ -8,6 +8,7 @@ package gov.epa.otaq.moves.master.gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.*;
 import java.sql.*;
 import javax.swing.*;
 
@@ -21,7 +22,9 @@ import gov.epa.otaq.moves.master.framework.*;
  *
  * @author		Daniel Cox
  * @author		Wesley Faler
- * @version		2014-06-27
+ * @author  	Bill Shaw (508 compliance mods)
+ * @author      John Covey (Task 2003)
+ * @version  2020-07-24
 **/
 public class MOVESProgress extends JPanel implements MOVESEngineListener, ActionListener {
 	/** EPA Seal image icon. **/
@@ -132,6 +135,9 @@ public class MOVESProgress extends JPanel implements MOVESEngineListener, Action
 			okButton = new JButton("OK");
 			okButton.addActionListener(this);
 			okButton.setName("okButton");
+			okButton.setMnemonic('O');
+			okButton.setDisplayedMnemonicIndex(0);
+			ToolTipHelper.add(okButton, "Close this dialog");
 
 			stateLabel = new JLabel("                ");
 			stateLabel.setName("stateLabel");
@@ -219,11 +225,18 @@ public class MOVESProgress extends JPanel implements MOVESEngineListener, Action
 	 * @param shouldHideProgressBar Should the progress bar be initially hidden
 	**/
 	void createControls(boolean shouldHideProgressBar) {
-		movesLogo = new ImageIcon("gov/epa/otaq/moves/master/gui/images/moves_logo_480.png");
+		ImageIcon movesLogo100 = new ImageIcon("gov/epa/otaq/moves/master/gui/images/MOVES3-logo-480.png");
+		ImageIcon movesLogo125 = new ImageIcon("gov/epa/otaq/moves/master/gui/images/MOVES3-logo-600.png");
+		ImageIcon movesLogo150 = new ImageIcon("gov/epa/otaq/moves/master/gui/images/MOVES3-logo-720.png");
+		ImageIcon movesLogo175 = new ImageIcon("gov/epa/otaq/moves/master/gui/images/MOVES3-logo-840.png");
+		BaseMultiResolutionImage bmri = new BaseMultiResolutionImage(movesLogo100.getImage(), movesLogo125.getImage(), movesLogo150.getImage(), movesLogo175.getImage());
+		movesLogo = new ImageIcon(bmri);
+		
 		movesLogoLabel = new JLabel(movesLogo);
 		movesLogoLabel.setName("movesLogoLabel");
 		emptyLabel = new JLabel("      ");
 		emptyLabel.setName("emptyLabel");
+		movesLogoLabel.setToolTipText(Constants.MOVES_LOGIN_LOGO_TOOLTIP);
 
 		progressBar = new JProgressBar();
 		progressBar.setName("progressBar");

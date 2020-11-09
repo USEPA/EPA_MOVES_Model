@@ -29,7 +29,10 @@ import java.sql.*;
  * @author		EPA Mitch C.
  * @author      EPA William Aikman
  * @author		Tim Hull
- * @version		2015-08-18
+ * @author  	Bill Shaw (508 compliance mods)
+ * @author		Mike Kender (Task 2003)
+ * @author		John Covey (Task 2003)
+ * @version     2020-08-14
 **/
 public class OnRoadVehicleEquipment extends JPanel implements ListSelectionListener,
 		ActionListener, RunSpecEditor {
@@ -77,6 +80,8 @@ public class OnRoadVehicleEquipment extends JPanel implements ListSelectionListe
 	JPanel messageLogPanel;
 	/** Layout for Message Panel **/
 	FlowLayout messageLogFlowLayout;
+	/** Label warning of deprecated Intercity Buses option. **/
+	JLabel hadDeprecatedIntercityBusesLabel;
 
 	/** Inner class to hold the fuel types loaded from the database **/
 	class FuelEntry {
@@ -154,7 +159,7 @@ public class OnRoadVehicleEquipment extends JPanel implements ListSelectionListe
 	 * @param destination The StringBuffer to fill.
 	**/
 	public void getPrintableDescription(RunSpec runspec, StringBuffer destination) {
-		destination.append("On Road Vehicle Equipment:\r\n");
+		destination.append("On Road Vehicles:\r\n");
 		for(Iterator i=runspec.onRoadVehicleSelections.iterator();i.hasNext();) {
 			destination.append("\t" + i.next() + "\r\n");
 		}
@@ -168,7 +173,37 @@ public class OnRoadVehicleEquipment extends JPanel implements ListSelectionListe
 		sourceUseTypeLabel = new JLabel("Source Use Types:");
 		sourceUseTypeLabel.setName("sourceUseTypeLabel");
 		selectionLabel = new JLabel("Selections:");
+		selectionLabel.setDisplayedMnemonic('n');
 		selectionLabel.setName("selectionLabel");
+
+		sourceUseTypeLabel.addFocusListener(new FocusListener() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				//nothing special here, yet
+			}
+
+			@Override
+			public void focusGained(FocusEvent e) {
+				if(sourceUseTypeList.getSelectedIndices().length > 0) {
+					sourceUseTypeList.setSelectedIndex(sourceUseTypeList.getSelectedIndices()[0]);
+				}
+			}
+		});
+
+		selectionLabel.addFocusListener(new FocusListener() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				//nothing special here, yet
+			}
+
+			@Override
+			public void focusGained(FocusEvent e) {
+				if(selectionList.getSelectedIndices().length > 0) {
+					selectionList.setSelectedIndex(selectionList.getSelectedIndices()[0]);
+				}
+			}
+		});
+
 		fuelListModel = new DefaultListModel<FuelEntry>();
 		sourceUseTypeListModel = new DefaultListModel<SourceTypeEntry>();
 		selectionListModel = new DefaultListModel<OnRoadVehicleSelection>();
@@ -187,9 +222,12 @@ public class OnRoadVehicleEquipment extends JPanel implements ListSelectionListe
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		fuelScrollPane.setName("fuelScrollPane");
+		fuelLabel.setLabelFor(fuelScrollPane);
+		fuelList.setEnabled(false);
+		fuelList.setToolTipText(Constants.ONROAD_FUELS_TOOLTIP);
+
 
 		sourceUseTypeList = new JListWithToolTips<SourceTypeEntry>(sourceUseTypeListModel);
-
 		sourceUseTypeList.setName("sourceUseTypeList");
 		sourceUseTypeList.setSelectionMode(
 				ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
@@ -197,11 +235,46 @@ public class OnRoadVehicleEquipment extends JPanel implements ListSelectionListe
 		sourceUseTypeList.addListSelectionListener(this);
 		sourceUseTypeList.setVisibleRowCount(9);
 		sourceUseTypeList.setPrototypeCellValue(new SourceTypeEntry() { public String toString() { return "CharacterCountToDisplay"; }});
+		sourceUseTypeList.addKeyListener(new KeyListener() {
+			public void keyReleased(KeyEvent e) {
+				if (sourceUseTypeList.getModel().getSize() == 0) {
+					JOptionPane.showMessageDialog(null, "no 'Source Use Types' to select");
+	            } else if (sourceUseTypeList.isSelectionEmpty()) {
+	            	sourceUseTypeList.setSelectedIndex(0);
+	            }
+			}
+
+			public void keyTyped(KeyEvent e) {
+				//nothing to do, for now
+			}
+
+			public void keyPressed(KeyEvent e) {
+				//nothing to do, for now
+			}
+		});
+
+		sourceUseTypeList.setToolTipText(Constants.ONROAD_SOURCE_USE_TYPES_TOOLTIP);
 		sourceUseTypeScrollPane = new JScrollPane(sourceUseTypeList);
 		sourceUseTypeScrollPane = new JScrollPane(sourceUseTypeList,
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		sourceUseTypeScrollPane.setName("sourceUseTypeScrollPane");
+		sourceUseTypeLabel.setDisplayedMnemonic('o');
+		sourceUseTypeLabel.setLabelFor(sourceUseTypeScrollPane);
+
+		sourceUseTypeLabel.addFocusListener(new FocusListener() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				//nothing special here, yet
+			}
+
+			@Override
+			public void focusGained(FocusEvent e) {
+				if(sourceUseTypeList.getSelectedIndices().length > 0) {
+					sourceUseTypeList.setSelectedIndex(sourceUseTypeList.getSelectedIndices()[0]);
+				}
+			}
+		});
 
 		selectionList = new JListWithToolTips<OnRoadVehicleSelection>(selectionListModel);
 		selectionList.setName("selectionList");
@@ -211,27 +284,55 @@ public class OnRoadVehicleEquipment extends JPanel implements ListSelectionListe
 		selectionList.addListSelectionListener(this);
 		selectionList.setVisibleRowCount(9);
 		selectionList.setPrototypeCellValue(new OnRoadVehicleSelection() { public String toString() { return "CharacterCountToDisplayXXXXXXXXXX"; }});
+		selectionList.addKeyListener(new KeyListener() {
+			public void keyReleased(KeyEvent e) {
+				if (selectionList.getModel().getSize() == 0) {
+					JOptionPane.showMessageDialog(null, "no 'Selections' to select");
+	            } else if (selectionList.isSelectionEmpty()) {
+	            	selectionList.setSelectedIndex(0);
+	            }
+			}
+
+			public void keyTyped(KeyEvent e) {
+				//nothing to do, for now
+			}
+
+			public void keyPressed(KeyEvent e) {
+				//nothing to do, for now
+			}
+		});
+
+		selectionList.setToolTipText(Constants.ONROAD_SELECTIONS_TOOLTIP);
 		selectionScrollPane = new JScrollPane(selectionList);
 		selectionScrollPane = new JScrollPane(selectionList,
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		selectionScrollPane.setName("selectionScrollPane");
+		selectionLabel.setLabelFor(selectionScrollPane);
 
 		fuelSelectAll = new JButton("Select All");
 		fuelSelectAll.setName("fuelSelectAll");
 		ToolTipHelper.add(fuelSelectAll,"Select all fuel types");
+		fuelSelectAll.setVisible(false);
+		fuelSelectAll.setMnemonic('l');
+
 		sourceUseTypeSelectAll = new JButton("Select All");
 		sourceUseTypeSelectAll.setName("sourceUseTypeSelectAll");
+		sourceUseTypeSelectAll.setMnemonic('l');
+		sourceUseTypeSelectAll.setDisplayedMnemonicIndex(2);
 		ToolTipHelper.add(sourceUseTypeSelectAll,"Select all source use types");
 		selectionDelete = new JButton("Delete");
 		selectionDelete.setName("selectionDelete");
 		selectionDelete.setEnabled(false); // disabled until selection made
+		selectionDelete.setMnemonic('D');
+		selectionDelete.setDisplayedMnemonicIndex(0);
 		ToolTipHelper.add(selectionDelete,"Delete the selected Fuel and Source Use Type combinations");
 		addFuelSourceUseTypeCombinations = new JButton("Add Fuel/Type Combinations");
 		addFuelSourceUseTypeCombinations.setName("addFuelSourceUseTypeCombinations");
 		addFuelSourceUseTypeCombinations.setEnabled(false); // disabled until item in list
-		ToolTipHelper.add(addFuelSourceUseTypeCombinations,"Add selected Fuel and Source Use Type"
-				+ " combinations");
+		addFuelSourceUseTypeCombinations.setMnemonic('m');
+		addFuelSourceUseTypeCombinations.setDisplayedMnemonicIndex(16);
+		ToolTipHelper.add(addFuelSourceUseTypeCombinations,"Add selected Fuel and Source Use Type combinations");
 
 		// Register a listener for the buttons.
 		fuelSelectAll.addActionListener(this);
@@ -244,14 +345,24 @@ public class OnRoadVehicleEquipment extends JPanel implements ListSelectionListe
 		messageLogList.setName("messageLogList");
 		messageLogList.setSelectedIndex(-1);
 		messageLogList.setVisibleRowCount(5);
-		messageLogList.setPrototypeCellValue("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" +
-				"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+		messageLogList.setPrototypeCellValue("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
 		messageLogPane = new JScrollPane(messageLogList,
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		messageLogPane.setName("messageLogPane");
 		messageLogPanel = new JPanel();
 		messageLogPanel.setVisible(false);
+		
+		ImageIcon warningImage = new ImageIcon("gov/epa/otaq/moves/master/gui/images/dataExists.gif");
+		hadDeprecatedIntercityBusesLabel = new JLabel(
+				"<html><body>WARNING: RunSpec originally had SourceTypeID 41 \"Intercity Buses\" selected. In this version<br>" + 
+				            "of MOVES, SourceTypeID 41 represents \"Other Buses\", which includes all buses that are not<br>" +
+							"owned or operated by a transit agency or school. Additionally, not all available Fuel Types<br>" + 
+							"have been added for the selected Source Types. Please delete all selected Source Type/Fuel Type<br>" +
+							"combinations and reselect them to ensure compatibility with this version of MOVES.<br>" +
+							"Note: Saving to a new RunSpec and opening it will remove this message.</body></html>",
+				warningImage, JLabel.LEFT);
+		hadDeprecatedIntercityBusesLabel.setName("hadDeprecatedIntercityBusesLabel");
 	}
 
 	/** Sets the layout of the controls. **/
@@ -260,7 +371,7 @@ public class OnRoadVehicleEquipment extends JPanel implements ListSelectionListe
 		gbc.fill = GridBagConstraints.NONE;
 		gbc.insets = new Insets(2,2,2,2);
 		gbc.gridwidth = 3;
-		gbc.gridheight = 5;
+		gbc.gridheight = 6;
 		gbc.weightx = 0;
 		gbc.weighty = 0;
 		setLayout(new GridBagLayout());
@@ -309,12 +420,15 @@ public class OnRoadVehicleEquipment extends JPanel implements ListSelectionListe
 		add(selectionDelete, gbc);
 
 		messageLogPanel.setLayout(new BoxLayout(messageLogPanel, BoxLayout.Y_AXIS));
-		messageLogPanel.add(new JLabel("On Road Vehicle Equipment Requirements"));
+		messageLogPanel.add(new JLabel("Onroad Vehicle Requirements"));
 		messageLogPanel.add(messageLogPane);
 
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		LayoutUtility.setPositionOnGrid(gbc, 0, 4, "WEST", 3, 1);
 		add(messageLogPanel, gbc);
+
+		LayoutUtility.setPositionOnGrid(gbc,0, 5, "WEST", 3, 2);
+		add(hadDeprecatedIntercityBusesLabel, gbc);
 	}
 
 	/**
@@ -329,6 +443,7 @@ public class OnRoadVehicleEquipment extends JPanel implements ListSelectionListe
 
 	/** Helper method for enabling/disabling all buttons depending upon list selections **/
 	public void updateButtonStates() {
+		/*
 		if (fuelList.getSelectedIndex() == -1) {
 			//No selection: enable/disable relevant controls.
 			fuelSelectAll.setEnabled(true);
@@ -347,6 +462,7 @@ public class OnRoadVehicleEquipment extends JPanel implements ListSelectionListe
 				addFuelSourceUseTypeCombinations.setEnabled(true);
 			}
 		}
+		*/
 		if (sourceUseTypeList.getSelectedIndex() == -1) {
 			//No selection: enable/disable relevant controls.
 			sourceUseTypeSelectAll.setEnabled(true);
@@ -355,6 +471,7 @@ public class OnRoadVehicleEquipment extends JPanel implements ListSelectionListe
 			addFuelSourceUseTypeCombinations.setEnabled(false);
 		} else if (sourceUseTypeList.getSelectedIndices().length >= 1) {
 			sourceUseTypeSelectAll.setEnabled(true);
+			/*
 			if (fuelList.getSelectedIndices().length < 1) {
 				// the following button only enabled when item(s)
 				// selected in both the fuel and sourceUseType lists.
@@ -364,6 +481,8 @@ public class OnRoadVehicleEquipment extends JPanel implements ListSelectionListe
 				// selected in both the fuel and sourceUseType lists.
 				addFuelSourceUseTypeCombinations.setEnabled(true);
 			}
+			*/
+			addFuelSourceUseTypeCombinations.setEnabled(true);
 		}
 		if (selectionList.getSelectedIndex() == -1) {
 			//No selection: enable/disable relevant controls.
@@ -409,19 +528,32 @@ public class OnRoadVehicleEquipment extends JPanel implements ListSelectionListe
 	public void processSelectionDeleteButton() {
 		Object[] selectedItems = selectionList.getSelectedValuesList().toArray();
 		for(int i=0;i<selectedItems.length;i++) {
-			selectionListModel.removeElement(selectedItems[i]);
+			//selectionListModel.removeElement(selectedItems[i]);
+			for(int j=0;j<selectionListModel.getSize();j++) {
+				OnRoadVehicleSelection s = selectionListModel.get(j);
+				if(s.sourceTypeID == ((OnRoadVehicleSelection)selectedItems[i]).sourceTypeID) {
+					selectionListModel.removeElement(s);
+					j = -1;
+				}
+			}
 		}
 	}
 
 	/** Handles the Add Fuel/Type Combination button. **/
 	public void processFuelSourceUseTypeCombinationsButton() {
-		if(fuelList.getSelectedIndex() < 0 || sourceUseTypeList.getSelectedIndex() < 0) {
+		if(/*fuelList.getSelectedIndex() < 0 || */sourceUseTypeList.getSelectedIndex() < 0) {
 			return;
 		}
-		Object[] fuelItems = fuelList.getSelectedValuesList().toArray();
+		//Object[] fuelItems = fuelList.getSelectedValuesList().toArray();
+		ArrayList<FuelEntry> rawFuelItems = new ArrayList<FuelEntry>();
+		for(int i=0;i<fuelListModel.getSize();i++) {
+			rawFuelItems.add(fuelListModel.get(i));
+		}
+		Object[] fuelItems = rawFuelItems.toArray();
+	
 		Object[] sourceUseTypeItems = sourceUseTypeList.getSelectedValuesList().toArray();
-		for(int i=0;i<fuelItems.length;i++) {
-			for(int j=0;j<sourceUseTypeItems.length;j++) {
+		for(int j=0;j<sourceUseTypeItems.length;j++) {
+			for(int i=0;i<fuelItems.length;i++) {
 				FuelEntry fuelEntry = (FuelEntry)fuelItems[i];
 				SourceTypeEntry sourceEntry = (SourceTypeEntry)sourceUseTypeItems[j];
 				OnRoadVehicleSelection fs = new OnRoadVehicleSelection();
@@ -509,11 +641,26 @@ public class OnRoadVehicleEquipment extends JPanel implements ListSelectionListe
 	 * @param	runspec the RunSpec to get the description text from.
 	**/
 	public void loadFromRunSpec(RunSpec runspec) {
+		// clear GUI list
 		selectionListModel.removeAllElements();
-		for(Iterator<OnRoadVehicleSelection> i=runspec.onRoadVehicleSelections.iterator();
-				i.hasNext();) {
-			selectionListModel.addElement(i.next());
+		
+		// load RunSpec selections into a temporary list
+		ArrayList<OnRoadVehicleSelection> sortedList = new ArrayList<OnRoadVehicleSelection>();
+		Iterator<OnRoadVehicleSelection> i = runspec.onRoadVehicleSelections.iterator();
+		while(i.hasNext()) {
+			sortedList.add(i.next());
 		}
+		
+		// Sort so that old runspecs will look the same as new runspecs
+		Collections.sort(sortedList);
+		
+		// add the sorted list to the GUI
+		for(OnRoadVehicleSelection element : sortedList) {
+			selectionListModel.addElement(element);
+		}
+		
+		// warn user if runspec had Intercity Buses
+		hadDeprecatedIntercityBusesLabel.setVisible(runspec.hadIntercityBuses);
 		displaySectionStatus();
 	}
 
@@ -595,7 +742,7 @@ public class OnRoadVehicleEquipment extends JPanel implements ListSelectionListe
 				fuelListModel.addElement(new FuelEntry(ftID,fDesc));
 			}
 		} catch(Exception e) {
-			Logger.logError(e,"Unable to load a list of fuels for On Road Vehicle Equipment.");
+			Logger.logError(e,"Unable to load a list of fuels for On Road Vehicles.");
 		} finally {
 			query.onFinally();
 		}

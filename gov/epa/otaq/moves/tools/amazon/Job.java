@@ -301,7 +301,7 @@ public class Job {
 				S3.log("Invalid timeout provided \"" + timeoutMinutesText + "\"");
 				return;
 			}
-			Integer visibilityTimeout = new Integer(timeoutMinutes*60);
+			Integer visibilityTimeout = Integer.valueOf(timeoutMinutes*60);
 			queueURL = sqs.createQueue(new CreateQueueRequest(queueName,visibilityTimeout)).getQueueUrl();
 			S3.log("Created queue \"" + queueName + "\" with timeout of " + visibilityTimeout + " seconds");
         } catch (AmazonServiceException ase) {
@@ -497,7 +497,7 @@ public class Job {
 				done = true;
 
 				String statusText = null;
-	            ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest(queueURL).withMaxNumberOfMessages(new Integer(10));
+	            ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest(queueURL).withMaxNumberOfMessages(Integer.valueOf(10));
 	            List<Message> messages = sqs.receiveMessage(receiveMessageRequest).getMessages();
 	            for (Message message : messages) {
 	            	/*
@@ -648,7 +648,7 @@ public class Job {
 					done = true;
 
 					String statusText = null;
-		            ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest(queueURL).withMaxNumberOfMessages(new Integer(10));
+		            ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest(queueURL).withMaxNumberOfMessages(Integer.valueOf(10));
 		            List<Message> messages = sqs.receiveMessage(receiveMessageRequest).getMessages();
 		            for (Message message : messages) {
 		                System.out.println("  Message");
@@ -739,7 +739,7 @@ public class Job {
             String messageReceiptHandle = "";
 
 			while(true) {
-	            ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest(queueURL).withMaxNumberOfMessages(new Integer(1));
+	            ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest(queueURL).withMaxNumberOfMessages(Integer.valueOf(1));
 	            List<Message> messages = sqs.receiveMessage(receiveMessageRequest).getMessages();
 	            for (Message message : messages) {
 	                System.out.println("  Message");
@@ -2787,7 +2787,7 @@ public class Job {
             String messageReceiptHandle = "";
 
 			while(true) {
-	            ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest(queueURL).withMaxNumberOfMessages(new Integer(1));
+	            ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest(queueURL).withMaxNumberOfMessages(Integer.valueOf(1));
 	            List<Message> messages = sqs.receiveMessage(receiveMessageRequest).getMessages();
 	            for (Message message : messages) {
 	                System.out.println("  Message");

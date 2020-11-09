@@ -29,7 +29,10 @@ import gov.epa.otaq.moves.common.*;
  * @author		EPA-elg
  * @author		EPA Mitch C.
  * @author 		Tim Hull
- * @version		2014-10-08
+ * @author  	Bill Shaw (508 compliance mods)
+ * @author		Mike Kender (Task 2003)
+ * @author		John Covey (Task 2003)
+ * @version     2020-07-30
 **/
 public class RoadTypeScreen extends JPanel implements ListSelectionListener,
 		ActionListener, RunSpecEditor {
@@ -71,10 +74,8 @@ public class RoadTypeScreen extends JPanel implements ListSelectionListener,
 	static ArrayList<RoadType> refuelingRoads = new ArrayList<RoadType>();
 	/** Owner window, used to detect current model so a filtered set of road types can be displayed **/
 	MOVESWindow movesRootWindow = null;
-	/** Checkbox controls separation of ramp rates from highway rates **/
-	JCheckBox separateRamps;
-	/** True when separating ramps is permitted by the calculation mode **/
-	boolean canSeparateRamps = false;
+	/** Label warning of deprecated ramp option. **/
+	JLabel hasDeprecatedShouldSeparateRampsTrueLabel;
 
 	/**
 	 * Constructs a OnRoadVehicleEquipment panel, also creates
@@ -96,7 +97,6 @@ public class RoadTypeScreen extends JPanel implements ListSelectionListener,
 		for(Iterator<RoadType> i=runspec.roadTypes.iterator();i.hasNext();) {
 			destination.append("\t" + i.next() + "\r\n");
 		}
-		destination.append("Separate ramp rates: " + runspec.shouldSeparateRamps + "\r\n");
 		destination.append("\r\n");
 	}
 
@@ -104,46 +104,93 @@ public class RoadTypeScreen extends JPanel implements ListSelectionListener,
 	public void createControls() {
 		roadTypeLabel = new JLabel("Available Road Types:");
 		roadTypeLabel.setName("roadTypeLabel");
+		roadTypeLabel.setDisplayedMnemonic('v');
 		selectionLabel = new JLabel("Selected Road Types:");
 		selectionLabel.setName("selectionLabel");
+		selectionLabel.setDisplayedMnemonic('y');
 		roadTypeListModel = new DefaultListModel<RoadType>();
 		selectionListModel = new DefaultListModel<RoadType>();
 		loadRoadTypes();
 		roadTypeList = new JListWithToolTips<RoadType>(roadTypeListModel);
 		roadTypeList.setName("roadTypeList");
+		ToolTipHelper.add(roadTypeList,Constants.ROAD_TYPE_AVAILABLE_TOOLTIP);
+
 		roadTypeList.setSelectionMode(
 				ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		roadTypeList.setSelectedIndex(-1);
 		roadTypeList.addListSelectionListener(this);
 		roadTypeList.setVisibleRowCount(13);
 		roadTypeList.setPrototypeCellValue(new RoadType() { public String toString() { return "CharacterCountToDisplayXXXXX"; }});
+		roadTypeList.addKeyListener(new KeyListener() {
+			public void keyReleased(KeyEvent e) {
+				if (roadTypeList.getModel().getSize() == 0) {
+					JOptionPane.showMessageDialog(null, "no 'Available Road Types' to select");
+	            } else if (roadTypeList.isSelectionEmpty()) {
+	            	roadTypeList.setSelectedIndex(0);
+	            }
+			}
+
+			public void keyTyped(KeyEvent e) {
+				//nothing to do, for now
+			}
+
+			public void keyPressed(KeyEvent e) {
+				//nothing to do, for now
+			}
+		});
+
 		roadTypeScrollPane = new JScrollPane(roadTypeList,
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		roadTypeScrollPane.setName("roadTypeScrollPane");
+		roadTypeLabel.setLabelFor(roadTypeList);
 
 		selectionList = new JListWithToolTips<RoadType>(selectionListModel);
 		selectionList.setName("selectionList");
+		ToolTipHelper.add(selectionList,Constants.ROAD_TYPE_SELECTED_TOOLTIP);
 		selectionList.setSelectionMode(
 				ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		selectionList.setSelectedIndex(-1);
 		selectionList.addListSelectionListener(this);
 		selectionList.setVisibleRowCount(13);
 		selectionList.setPrototypeCellValue(new RoadType() { public String toString() { return "CharacterCountToDisplayXXXXX"; }});
+		selectionList.addKeyListener(new KeyListener() {
+			public void keyReleased(KeyEvent e) {
+				if (selectionList.getModel().getSize() == 0) {
+					JOptionPane.showMessageDialog(null, "no 'Selection Road Types' to select");
+	            } else if (selectionList.isSelectionEmpty()) {
+	            	selectionList.setSelectedIndex(0);
+	            }
+			}
+
+			public void keyTyped(KeyEvent e) {
+				//nothing to do, for now
+			}
+
+			public void keyPressed(KeyEvent e) {
+				//nothing to do, for now
+			}
+		});
+
 		selectionScrollPane = new JScrollPane(selectionList);
 		selectionScrollPane = new JScrollPane(selectionList,
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		selectionScrollPane.setName("selectionScrollPane");
+		selectionLabel.setLabelFor(selectionList);
 
 		roadTypeSelectAll = new JButton("Select All");
+		roadTypeSelectAll.setMnemonic('c');
 		roadTypeSelectAll.setName("roadTypeSelectAll");
 		ToolTipHelper.add(roadTypeSelectAll,"Select all road types");
 		selectionDelete = new JButton("Delete");
+		selectionDelete.setMnemonic('l');
 		selectionDelete.setName("selectionDelete");
 		selectionDelete.setEnabled(false); // disabled until selection made
 		ToolTipHelper.add(selectionDelete,"Delete all selected road types");
 		addRoadType = new JButton("Add");
+		addRoadType.setMnemonic('d');
+		addRoadType.setDisplayedMnemonicIndex(1);
 		addRoadType.setName("addRoadType");
 		addRoadType.setEnabled(false); // disabled until item in list
 		ToolTipHelper.add(addRoadType,"Add selected road types to RunSpec");
@@ -153,11 +200,12 @@ public class RoadTypeScreen extends JPanel implements ListSelectionListener,
 		selectionDelete.addActionListener(this);
 		addRoadType.addActionListener(this);
 
-		separateRamps = new JCheckBox("Provide separate ramp output");
-		separateRamps.setName("separateRamps");
-		ToolTipHelper.add(separateRamps,"Separate ramp and highway emissions");
-        separateRamps.setSelected(false);
-		separateRamps.addActionListener(this);
+		ImageIcon warningImage = new ImageIcon("gov/epa/otaq/moves/master/gui/images/dataExists.gif");
+		hasDeprecatedShouldSeparateRampsTrueLabel = new JLabel(
+				"<html><body>WARNING: Runspec uses a deprecated Ramp feature.<br>"
+				+ "Update by saving to a new file and opening it.</body></html>",
+				warningImage, JLabel.LEFT);
+		hasDeprecatedShouldSeparateRampsTrueLabel.setName("hasDeprecatedShouldSeparateRampsTrueLabel");
 	}
 
 	/** Sets the layout of the controls. **/
@@ -188,8 +236,8 @@ public class RoadTypeScreen extends JPanel implements ListSelectionListener,
 		LayoutUtility.setPositionOnGrid(gbc,1, 2, "EAST", 1, 1);
 		add(selectionDelete, gbc);
 
-		LayoutUtility.setPositionOnGrid(gbc,1, 3, "EAST", 1, 1);
-		add(separateRamps, gbc);
+		LayoutUtility.setPositionOnGrid(gbc,0, 3, "WEST", 2, 2);
+		add(hasDeprecatedShouldSeparateRampsTrueLabel, gbc);
 	}
 
 	/**
@@ -217,23 +265,6 @@ public class RoadTypeScreen extends JPanel implements ListSelectionListener,
 			addRoadType.setEnabled(true);
 		}
 
-		boolean hasHighway = false;
-		for(int i=0;i<selectionListModel.getSize();i++) {
-			RoadType r = (RoadType)selectionListModel.getElementAt(i);
-			if(r.roadTypeID == 2 || r.roadTypeID == 4) {
-				hasHighway = true;
-			}
-		}
-		if(hasHighway && canSeparateRamps) {
-			separateRamps.setEnabled(true);
-		} else {
-			separateRamps.setSelected(false);
-			separateRamps.setEnabled(false);
-		}
-
-		//if(hasRefuelingLoss) { // || hasMesoscaleEvap) {
-			//selectionDelete.setEnabled(false);
-		//} else 
 		if(selectionList.getSelectedIndex() == -1) {
 			//No selection: enable/disable relevant controls.
 			selectionDelete.setEnabled(false);
@@ -263,8 +294,6 @@ public class RoadTypeScreen extends JPanel implements ListSelectionListener,
 		} else if(e.getSource() == addRoadType) {
 			processAddRoadTypeButton();
 			MOVESNavigation.singleton.updateRunSpecSectionStatus();
-		} else if(e.getSource() == separateRamps) {
-			// Nothing to do here, just let the button states be updated
 		}
 		updateButtonStates();
 	}
@@ -277,9 +306,6 @@ public class RoadTypeScreen extends JPanel implements ListSelectionListener,
 
 	/** Handles the Delete button. **/
 	public void processSelectionDeleteButton() {
-		//if(hasRefuelingLoss) { // || hasMesoscaleEvap) {
-		//	return;
-		//}
 		Object[] selectedItems = selectionList.getSelectedValuesList().toArray();
 		for(int i=0;i<selectedItems.length;i++) {
 			if(!((((RoadType)selectedItems[i]).roadTypeID == 1) &&
@@ -376,7 +402,6 @@ public class RoadTypeScreen extends JPanel implements ListSelectionListener,
 			RoadType roadType = (RoadType)selectionListModel.getElementAt(i);
 			runspec.roadTypes.add(roadType);
 		}
-		runspec.shouldSeparateRamps = separateRamps.isSelected();
 	}
 
 	/**
@@ -390,10 +415,6 @@ public class RoadTypeScreen extends JPanel implements ListSelectionListener,
 		hasStartExhaust = false;
 		hasRefuelingLoss = false;
 		hasMesoscaleEvap = false;
-		canSeparateRamps = false;
-		if(CompilationFlags.DO_RATES_FIRST && runspec.domain != ModelDomain.PROJECT && runspec.scale != ModelScale.MESOSCALE_LOOKUP) {
-			canSeparateRamps = true;
-		}
 		for(Iterator<PollutantProcessAssociation> i=runspec.pollutantProcessAssociations.iterator();
 				i.hasNext();) {
 			PollutantProcessAssociation p = (PollutantProcessAssociation)i.next();
@@ -449,13 +470,10 @@ public class RoadTypeScreen extends JPanel implements ListSelectionListener,
 		selectionList.setEnabled(hasOnRoadSelections);
 		roadTypeSelectAll.setEnabled(hasOnRoadSelections);
 		addRoadType.setEnabled(hasOnRoadSelections);
-		selectionDelete.setEnabled(hasOnRoadSelections); // && !hasMesoscaleEvap && !hasRefuelingLoss);
+		selectionDelete.setEnabled(hasOnRoadSelections);
 
-		if(canSeparateRamps) {
-			separateRamps.setSelected(runspec.shouldSeparateRamps);
-		} else {
-			separateRamps.setSelected(false);
-		}
+		hasDeprecatedShouldSeparateRampsTrueLabel.setVisible(runspec.hasDeprecatedShouldSeparateRampsTrue);
+
 		updateButtonStates();
 	}
 
@@ -497,18 +515,30 @@ public class RoadTypeScreen extends JPanel implements ListSelectionListener,
 	public RunSpecSectionStatus calculateRunSpecSectionStatus(RunSpec runspec,
 			TreeMap<String,RunSpecSectionStatus> sections) {
 		RunSpecSectionStatus status;
-		if(runspec.roadTypes.isEmpty()) {
+		if(runspec.hasDeprecatedShouldSeparateRampsTrue) {
+			status = new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);
+		} else if(runspec.roadTypes.isEmpty()) {
 			status = new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);
 		} else if(!runspec.models.contains(Model.NONROAD)) {
 			// Look for required road types
 			boolean usesRefuelingLoss = false;
 			boolean usesMesoscaleEvap = false;
 			boolean needsNonOffnetworkRoad = false;
+			boolean calculatesONI = false;
 			for(Iterator i=runspec.pollutantProcessAssociations.iterator();i.hasNext();) {
 				PollutantProcessAssociation p = (PollutantProcessAssociation)i.next();
 				switch(p.emissionProcess.databaseKey) {
 					case 1: // 1 == Running Exhaust
 						needsNonOffnetworkRoad = true;
+						// ONI (Off network idling) needs all road types when off-network
+						// is selected with any Running Exhaust process
+						// However, Project Scale does not calculate ONI
+						for(RoadType r : runspec.roadTypes) {
+							if(r.roadTypeID == 1 && runspec.domain != ModelDomain.PROJECT) {
+								calculatesONI = true;
+								break;
+							}
+						}
 						break;
 					case 9: // 9 == Brakewear
 						needsNonOffnetworkRoad = true;
@@ -540,7 +570,8 @@ public class RoadTypeScreen extends JPanel implements ListSelectionListener,
 				}
 			}
 			boolean isOK = true;
-			if(isOK && usesRefuelingLoss) {
+			// if calculating ONI or refueling losses, all road types are required
+			if(isOK && (usesRefuelingLoss || calculatesONI)) {
 				boolean hasRequiredRoads = false;
 				if(runspec.roadTypes.size() < roadTypeListModel.getSize()) {
 					hasRequiredRoads = hasRefuelingRoads(runspec);
@@ -577,12 +608,9 @@ public class RoadTypeScreen extends JPanel implements ListSelectionListener,
 	**/
 	public RunSpecSectionStatus saveDefaultsToRunSpec(RunSpec runspec,
 			TreeMap<String,RunSpecSectionStatus> sections) {
+		runspec.hasDeprecatedShouldSeparateRampsTrue = false;
 		runspec.roadTypes.clear();
 		loadRoadTypes();
-
-		if(runspec.scale == ModelScale.MESOSCALE_LOOKUP) {
-			runspec.shouldSeparateRamps = false;
-		}
 
 		// Default is to select all road types but only if there are on-road selections
 		if(!runspec.onRoadVehicleSelections.isEmpty()) {

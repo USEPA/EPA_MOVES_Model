@@ -21,7 +21,7 @@ import java.sql.*;
  *
  * @author		Wesley Faler
  * @author		Mitch Cumberworth
- * @version		2014-05-28
+ * @version		2017-05-16
 **/
 public class SourceBinDistributionGenerator extends Generator {
 	/** Default constructor **/
@@ -56,6 +56,8 @@ public class SourceBinDistributionGenerator extends Generator {
 	int priorProcessID = 0;
 	/** Tables created that need to be dropped **/
 	TreeSet<String> tablesToDrop = new TreeSet<String>();
+	/** Model-year specific rolling and drag terms **/
+	SourceTypePhysics modelYearPhysics = new SourceTypePhysics();
 
 	/**
 	 * Requests that this object subscribe to the given loop at desired looping points.
@@ -101,7 +103,7 @@ public class SourceBinDistributionGenerator extends Generator {
 		try {
 			db = DatabaseConnectionManager.checkOutConnection(MOVESDatabaseType.EXECUTION);
 			long start;
-			Integer processID = new Integer(context.iterProcess.databaseKey);
+			Integer processID = Integer.valueOf(context.iterProcess.databaseKey);
 			boolean isNewProcess = !processesDone.contains(processID);
 			if(isNewProcess) {
 				processesDone.add(processID);
@@ -139,6 +141,9 @@ public class SourceBinDistributionGenerator extends Generator {
 			}
 			if(isNewCountyYear) {
 				doCountyYear(context.iterProcess.databaseKey, context.iterLocation.countyRecordID, context.year); // TODO steps 300-399
+			}
+			if(isNewProcess && ExecutionRunSpec.theExecutionRunSpec.getModelDomain() == ModelDomain.PROJECT) {
+				modelYearPhysics.updateEmissionRateTables(db,context.iterProcess.databaseKey);
 			}
 			totalTime = System.currentTimeMillis() - start;
 		} catch (Exception e) {
@@ -292,7 +297,7 @@ public class SourceBinDistributionGenerator extends Generator {
 			rs = SQLRunner.executeQuery(statement,sql);
 			while(rs.next()) {
 				int id = rs.getInt(1);
-				sourceTypesToUse.add(new Integer(id));
+				sourceTypesToUse.add(Integer.valueOf(id));
 			}
 			rs.close();
 			rs = null;
@@ -560,7 +565,7 @@ public class SourceBinDistributionGenerator extends Generator {
 			while(rs.next()) {
 				int sourceTypeID = rs.getInt(1);
 				int fuelTypeID = rs.getInt(2);
-				Integer id = new Integer(sourceTypeID);
+				Integer id = Integer.valueOf(sourceTypeID);
 				String csv = (String)fuelTypesBySourceType.get(id);
 				if(csv == null) {
 					csv = "";
@@ -578,7 +583,7 @@ public class SourceBinDistributionGenerator extends Generator {
 		} catch (SQLException e) {
 			Logger.logSqlError(e,"Unable to calculate model year range needed", sql);
 			firstModelYearNeeded = 1966;
-			lastModelYearNeeded = 2050;
+			lastModelYearNeeded = 2060;
 		} finally {
 			if(rs != null) {
 				try {

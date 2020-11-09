@@ -25,7 +25,7 @@ public class InstanceCounter {
 	/** TCP/IP port used on the socket designating a running process **/
 	private static final int BASE_FLAG_PORT = 13133;
 	/** Mutex for instance checking **/
-	private static Integer mutex = new Integer(13133);
+	private static Integer mutex = Integer.valueOf(13133);
 	/** 1-based instance identifier.  A value of 0 indicates it has not been set. **/
 	private static int instanceID = 0;
 	/** TCP/IP socket used to indicate the instance's presence **/

@@ -1,6 +1,6 @@
 /**************************************************************************************************
  * @(#)RampFractionImporter.java 
- *
+ * DEPRECATED -- This importer is no longer used as of MOVES3
  *************************************************************************************************/
 package gov.epa.otaq.moves.master.implementation.importers;
 

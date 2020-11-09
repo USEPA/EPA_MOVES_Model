@@ -76,14 +76,12 @@ public class MesoscaleLookupOperatingModeDistributionGenerator extends Generator
 			if(!hasBeenSetup) {
 				start = System.currentTimeMillis();
 				modelYearPhysics.setup(db);
-				calculateRampOpModes();
 				bracketAverageSpeedBins();
 				determineDriveScheduleProportions();
 				if(!validateDriveScheduleDistribution()) {
 					isValid = false;
 				}
 				if(isValid) {
-					//determineDriveScheduleDistributionIsRamp();
 					determineDriveScheduleDistributionNonRamp();
 					calculateEnginePowerBySecond();
 					determineOpModeIDPerSecond();
@@ -156,65 +154,6 @@ public class MesoscaleLookupOperatingModeDistributionGenerator extends Generator
 	}
 
 	/**
-	 * Calculate the operating modes for vehicles on ramps.
-	**/
-	void calculateRampOpModes() {
-		String sql = "";
-		String[] statements = {
-			"drop table if exists tempAvgSpeedDistribution",
-			
-			"create table tempAvgSpeedDistribution like AvgSpeedDistribution",
-			
-			"insert into tempAvgSpeedDistribution ("
-					+ " 	sourceTypeID, roadTypeID, hourDayID, avgSpeedBinID, avgSpeedFraction)"
-					+ " select sourceTypeID, avgsp.roadTypeID, hourDayID, avgSpeedBinID, rampFraction as avgSpeedFraction"
-					+ " from RoadType rt"
-					+ " inner join AvgSpeedDistribution avgsp on avgsp.roadTypeID=rt.roadTypeID"
-					+ " and rt.rampFraction > 0",
-			
-			"alter table tempAvgSpeedDistribution add key (sourceTypeID, roadTypeID, avgSpeedBinID)",
-			
-			"drop table if exists tempRoadOpModeDistribution",
-			
-			"create table tempRoadOpModeDistribution like roadOpModeDistribution",
-			
-			"insert into tempRoadOpModeDistribution ("
-					+ " 	sourceTypeID, opModeID, roadTypeID, isRamp, avgSpeedBinID, opModeFraction)"
-					+ " select sourceTypeID, opModeID, roadTypeID, isRamp, avgSpeedBinID, opModeFraction"
-					+ " from roadOpModeDistribution"
-					+ " where isRamp='Y'",
-			
-			"alter table tempRoadOpModeDistribution add key (sourceTypeID, roadTypeID, avgSpeedBinID)",
-
-			"drop table if exists OMDGRampOpMode",
-
-			"create table OMDGRampOpMode"
-					+ " select romd.sourceTypeID, romd.roadTypeID, romd.avgSpeedBinID, hourDayID, opModeID,"
-					+ " (avgSpeedFraction*opModeFraction) as opModeFraction" // note: avgSpeedFraction here actually holds rampFraction from a prior statement
-					+ " from tempAvgSpeedDistribution avgsp"
-					+ " inner join tempRoadOpmodeDistribution romd on ("
-					+ " 	romd.sourceTypeID=avgsp.sourceTypeID"
-					+ " 	and romd.roadTypeID=avgsp.roadTypeID"
-					+ " 	and romd.avgSpeedBinID=avgsp.avgSpeedBinID"
-					+ " )"
-		};
-		try {
-			for(int i=0;i<statements.length;i++) {
-				sql = statements[i];
-				SQLRunner.executeSQL(db,sql);
-			}
-			sql = "insert ignore into OMDGRampOpMode (sourceTypeID, roadTypeID, avgSpeedBinID, hourDayID, opModeID, opModeFraction)"
-					+ " select tempSourceTypeID, roadTypeID, avgSpeedBinID, hourDayID, opModeID, opModeFraction"
-					+ " from OMDGRampOpMode"
-					+ " inner join sourceUseTypePhysicsMapping on (realSourceTypeID=sourceTypeID)"
-					+ " where tempSourceTypeID <> realSourceTypeID";
-			SQLRunner.executeSQL(db,sql);
-		} catch (SQLException e) {
-			Logger.logSqlError(e,"Could not calculate average speeds", sql);
-		}
-	}
-
-	/**
 	 * OMDG-1: Determine the drive schedules that bracket each Average Speed Bin value.
 	 * <p>Each average speed bin lies between (is bracketed) by the average speeds of two drive
 	 * schedules. Determine which two drive schedules bracket the average speed bin and store the
@@ -226,26 +165,6 @@ public class MesoscaleLookupOperatingModeDistributionGenerator extends Generator
 
 		ResultSet rs = null;
 		try {
-			// Remove DriveScheduleAssoc records with isRamp='Y' but associated with RoadTypes with
-			// rampFraction <= 0 since these are nonsensical conditions.
-			sql = "SELECT dsa.sourceTypeID,dsa.roadTypeID,dsa.isRamp,dsa.driveScheduleID "+
-					"FROM DriveScheduleAssoc dsa, RoadType rt "+
-					"WHERE dsa.isRamp IN ('Y','y') AND "+
-					"dsa.roadTypeID = rt.roadTypeID AND "+
-					"rt.rampFraction <= 0";
-			rs = SQLRunner.executeQuery(db,sql);
-			while(rs.next()) {
-				sql = "DELETE FROM DriveScheduleAssoc "+
-						"WHERE isRamp IN ('Y','y') AND "+
-						"sourceTypeID = " + rs.getInt("sourceTypeID") + " AND " +
-						"roadTypeID = " + rs.getInt("roadTypeID") + " AND " +
-						"driveScheduleID = " + rs.getInt("driveScheduleID");
-				SQLRunner.executeSQL(db,sql);
-			}
-			rs.close();
-			rs = null;
-
-			//
 			// The documentation doesn't mention this but, going from the spreadsheet, speed bins
 			// with values below and above the lowest and highest drive schedule values are bound
 			// to those values. The following query determines these bounded values.
@@ -320,8 +239,7 @@ public class MesoscaleLookupOperatingModeDistributionGenerator extends Generator
 						"rsrt.roadTypeID = dsa.roadTypeID AND "+
 						"rsst.sourceTypeID = dsa.sourceTypeID AND "+
 						"ds.driveScheduleID = dsa.driveScheduleID AND "+
-						"ds.averageSpeed <= asb.avgBinSpeed AND "+
-						"(dsa.isRamp <> 'Y' AND dsa.isRamp <> 'y') "+
+						"ds.averageSpeed <= asb.avgBinSpeed "+
 					"GROUP BY "+
 						"dsa.sourceTypeID,"+
 						"dsa.roadTypeID,"+
@@ -353,8 +271,7 @@ public class MesoscaleLookupOperatingModeDistributionGenerator extends Generator
 						"ds.driveScheduleID = dsa.driveScheduleID AND "+
 						"dsb.sourceTypeID = dsa.sourceTypeID AND "+
 						"dsb.roadTypeID = dsa.roadTypeID AND "+
-						"asb.avgBinSpeed < dsb.scheduleBoundLo AND "+
-						"(dsa.isRamp <> 'Y' AND dsa.isRamp <> 'y') ";
+						"asb.avgBinSpeed < dsb.scheduleBoundLo";
 			SQLRunner.executeSQL(db, sql);
 
 			sql = "CREATE TABLE IF NOT EXISTS BracketScheduleLo ("+
@@ -390,8 +307,7 @@ public class MesoscaleLookupOperatingModeDistributionGenerator extends Generator
 						"dsa.driveScheduleID = ds.driveScheduleID AND "+
 						"dsa.sourceTypeID = bsl.sourceTypeID AND "+
 						"dsa.roadTypeID = bsl.roadTypeID AND "+
-						"ds.averageSpeed = bsl.loScheduleSpeed AND "+
-						"(dsa.isRamp <> 'Y' AND dsa.isRamp <> 'y') ";
+						"ds.averageSpeed = bsl.loScheduleSpeed";
 			SQLRunner.executeSQL(db, sql);
 
 			SQLRunner.executeSQL(db,"ANALYZE TABLE BracketScheduleLo");
@@ -435,8 +351,7 @@ public class MesoscaleLookupOperatingModeDistributionGenerator extends Generator
 						"rsrt.roadTypeID = dsa.roadTypeID AND "+
 						"rsst.sourceTypeID = dsa.sourceTypeID AND "+
 						"ds.driveScheduleID = dsa.driveScheduleID AND "+
-						"ds.averageSpeed > asb.avgBinSpeed AND "+
-						"(dsa.isRamp <> 'Y' AND dsa.isRamp <> 'y') "+
+						"ds.averageSpeed > asb.avgBinSpeed "+
 					"GROUP BY "+
 						"dsa.sourceTypeID,"+
 						"dsa.roadTypeID,"+
@@ -468,8 +383,7 @@ public class MesoscaleLookupOperatingModeDistributionGenerator extends Generator
 						"ds.driveScheduleID = dsa.driveScheduleID AND "+
 						"dsb.sourceTypeID = dsa.sourceTypeID AND "+
 						"dsb.roadTypeID = dsa.roadTypeID AND "+
-						"asb.avgBinSpeed > dsb.scheduleBoundHi AND "+
-						"(dsa.isRamp <> 'Y' AND dsa.isRamp <> 'y') ";
+						"asb.avgBinSpeed > dsb.scheduleBoundHi";
 			SQLRunner.executeSQL(db, sql);
 
 			SQLRunner.executeSQL(db,"ANALYZE TABLE BracketScheduleHi2");
@@ -507,8 +421,7 @@ public class MesoscaleLookupOperatingModeDistributionGenerator extends Generator
 						"dsa.driveScheduleID = ds.driveScheduleID AND "+
 						"dsa.sourceTypeID = bsl.sourceTypeID AND "+
 						"dsa.roadTypeID = bsl.roadTypeID AND "+
-						"ds.averageSpeed = bsl.hiScheduleSpeed AND "+
-						"(dsa.isRamp <> 'Y' AND dsa.isRamp <> 'y') ";
+						"ds.averageSpeed = bsl.hiScheduleSpeed";
 			SQLRunner.executeSQL(db, sql);
 
 			SQLRunner.executeSQL(db,"ANALYZE TABLE BracketScheduleHi");
@@ -644,83 +557,12 @@ public class MesoscaleLookupOperatingModeDistributionGenerator extends Generator
 		int lastRoadType = -1;
 		int lastDriveScheduleID = -1;
 		try {
-			/*
-			sql = "SELECT DISTINCT dsa.sourceTypeID, dsa.roadTypeID"
-					+ " FROM DriveScheduleAssoc dsa, RunSpecRoadType rsrt, "
-					+ " RunSpecSourceType rsst "
-					+ " WHERE (dsa.isRamp = 'Y' OR dsa.isRamp='y')"
-					+ " AND dsa.roadTypeID = rsrt.roadTypeID"
-					+ " AND dsa.sourceTypeID = rsst.sourceTypeID"
-					+ " ORDER BY sourceTypeID, roadTypeID";
-			statement = db.prepareStatement(sql);
-			ResultSet result = SQLRunner.executeQuery(statement, sql);
-			int lastSourceType = -1;
-			int lastRoadType = -1;
-			int lastDriveScheduleID = -1;
-			while(result.next()) {
-				int sourceType = result.getInt(1);
-				int roadType = result.getInt(2);
-				if(lastSourceType != sourceType || lastRoadType != roadType) {
-					lastSourceType = sourceType;
-					lastRoadType = roadType;
-				} else {
-					Logger.log(LogMessageCategory.ERROR,
-							"Ramp Schedule has more than one driving schedule");
-					return false;
-				}
-			}
-			statement.close();
-			result.close();
-			*/
-
-			/*
-			sql = "SELECT DISTINCT dsa.SourceTypeID, dsa.RoadTypeID, dsa.IsRamp "
-					+ " FROM RoadType rt, DriveScheduleAssoc dsa, RunSpecRoadType rsrt, "
-					+ " RunSpecSourceType rsst "
-					+ " WHERE rt.RampFraction > 0 "
-					+ " AND rt.RoadTypeID = dsa.RoadTypeID "
-					+ " AND dsa.RoadTypeID = rsrt.RoadTypeID "
-					+ " AND dsa.sourceTypeID = rsst.sourceTypeID"
-					+ " ORDER BY dsa.SourceTypeID, dsa.RoadTypeID, dsa.IsRamp";
-			statement = db.prepareStatement(sql);
-			result = SQLRunner.executeQuery(statement, sql);
-			lastSourceType = -1;
-			lastRoadType = -1;
-			boolean hasRamp = false;
-			while(result.next()) {
-				int sourceType = result.getInt(1);
-				int roadType = result.getInt(2);
-				boolean isRamp = result.getString(3).equalsIgnoreCase("Y");
-				if(lastSourceType != sourceType || lastRoadType != roadType) {
-					if(lastSourceType >= 0 && !hasRamp) {
-						Logger.log(LogMessageCategory.ERROR,
-								"No ramp schedule for road type " + lastRoadType + " and "
-								+ "source type " + lastSourceType);
-						return false;
-					}
-					lastSourceType = sourceType;
-					lastRoadType = roadType;
-					hasRamp = isRamp;
-				} else {
-					hasRamp = hasRamp || isRamp;
-				}
-			}
-			if(lastSourceType >= 0 && !hasRamp) {
-				Logger.log(LogMessageCategory.ERROR,
-						"No ramp schedule for road type " + lastRoadType + " and "
-						+ "source type " + lastSourceType);
-				return false;
-			}
-			statement.close();
-			result.close();
-			*/
-
-			sql = "SELECT DISTINCT dsa.SourceTypeID, dsa.RoadTypeID, dsa.IsRamp "
+			sql = "SELECT DISTINCT dsa.SourceTypeID, dsa.RoadTypeID "
 					+ " FROM DriveScheduleAssoc dsa, RunSpecRoadType rsrt, "
 					+ " RunSpecSourceType rsst "
 					+ " WHERE dsa.roadTypeID = rsrt.roadTypeID"
 					+ " AND dsa.sourceTypeID = rsst.sourceTypeID"
-					+ " ORDER BY dsa.SourceTypeID, dsa.RoadTypeID, dsa.IsRamp";
+					+ " ORDER BY dsa.SourceTypeID, dsa.RoadTypeID";
 			statement = db.prepareStatement(sql);
 			result = SQLRunner.executeQuery(statement, sql);
 			lastSourceType = -1;
@@ -729,24 +571,23 @@ public class MesoscaleLookupOperatingModeDistributionGenerator extends Generator
 			while(result.next()) {
 				int sourceType = result.getInt(1);
 				int roadType = result.getInt(2);
-				boolean isNonRamp = result.getString(3).equalsIgnoreCase("N");
 				if(lastSourceType != sourceType || lastRoadType != roadType) {
 					if(lastSourceType >= 0 && !hasNonRamp) {
 						Logger.log(LogMessageCategory.ERROR,
-								"No non-ramp schedule for road type " + lastRoadType + " and "
+								"No drive schedule for road type " + lastRoadType + " and "
 								+ "source type " + lastSourceType);
 						return false;
 					}
 					lastSourceType = sourceType;
 					lastRoadType = roadType;
-					hasNonRamp = isNonRamp;
+					hasNonRamp = true;
 				} else {
-					hasNonRamp = hasNonRamp || isNonRamp;
+					hasNonRamp = true;
 				}
 			}
 			if(lastSourceType >= 0 && !hasNonRamp) {
 				Logger.log(LogMessageCategory.ERROR,
-						"No non-ramp schedule for road type " + lastRoadType + " and "
+						"No drive schedule for road type " + lastRoadType + " and "
 						+ "source type " + lastSourceType);
 				return false;
 			}
@@ -764,62 +605,6 @@ public class MesoscaleLookupOperatingModeDistributionGenerator extends Generator
 		}
 		return true;
 	}
-
-	/**
-	 * OMDG-3 (IsRamp) : Determine Distribution of RAMP Drive Schedules.
-	 * <p>This step determines the distribution of drive schedules which represents the sum of
-	 * all of the average speed bins. This is done for each source type, roadway type, day of
-	 * week and hour of day.</p>
-	**/
-	/*
-	void determineDriveScheduleDistributionIsRamp() {
-		String sql = "";
-		try {
-			sql = "CREATE TABLE IF NOT EXISTS DriveScheduleFraction ("+
-					"sourceTypeID          SMALLINT,"+
-					"roadTypeID            SMALLINT,"+
-					"avgSpeedBinID         SMALLINT,"+
-					"driveScheduleID       SMALLINT,"+
-					"isRamp                CHAR(1),"+
-					"driveScheduleFraction FLOAT,"+
-					"UNIQUE INDEX XPKDriveScheduleFraction ("+
-							"sourceTypeID, roadTypeID, avgSpeedBinID, driveScheduleID))";
-			SQLRunner.executeSQL(db, sql);
-
-			sql = "TRUNCATE DriveScheduleFraction";
-			SQLRunner.executeSQL(db, sql);
-
-			sql = "INSERT INTO DriveScheduleFraction ( "+
-						"sourceTypeID,"+
-						"roadTypeID,"+
-						"avgSpeedBinID,"+
-						"driveScheduleID,"+
-						"isRamp,"+
-						"driveScheduleFraction) "+
-					"SELECT " +
-						"dsa.sourceTypeID,"+
-						"dsa.roadTypeID,"+
-						"asb.avgSpeedBinID,"+
-						"dsa.driveScheduleID,"+
-						"dsa.isRamp,"+
-						"rt.rampFraction "+
-					"FROM " +
-						"DriveScheduleAssoc dsa,"+
-						"RoadType rt,"+
-						"RunSpecSourceType rsst,"+
-						"AvgSpeedBin asb "+
-					"WHERE (dsa.isRamp = 'Y' OR dsa.isRamp='y') AND "+
-						"dsa.roadTypeID = rt.roadTypeID AND "+
-						"dsa.sourceTypeID = rsst.sourceTypeID";
-			SQLRunner.executeSQL(db, sql);
-
-			SQLRunner.executeSQL(db,"ANALYZE TABLE DriveScheduleFraction");
-		} catch(SQLException e) {
-			Logger.logSqlError(e,"Could not determine the distribution of drive schedules for ramp"
-					+ " drive cycle.", sql);
-		}
-	}
-	*/
 
 	/**
 	 * OMDG-3 (Non-Ramp) : Determine Distribution of Non Ramp Drive Schedules.
@@ -917,7 +702,6 @@ public class MesoscaleLookupOperatingModeDistributionGenerator extends Generator
 					"roadTypeID            SMALLINT,"+
 					"avgSpeedBinID         SMALLINT,"+
 					"driveScheduleID       SMALLINT,"+
-					"isRamp                CHAR(1),"+
 					"driveScheduleFraction FLOAT,"+
 					"UNIQUE INDEX XPKDriveScheduleFraction ("+
 							"sourceTypeID, roadTypeID, avgSpeedBinID, driveScheduleID))";
@@ -929,16 +713,13 @@ public class MesoscaleLookupOperatingModeDistributionGenerator extends Generator
 						"roadTypeID, "+
 						"avgSpeedBinID, "+
 						"driveScheduleID, "+
-						"isRamp, "+
 						"driveScheduleFraction) "+
 					"SELECT  "+
 						"bsh.sourceTypeID, "+
 						"bsh.roadTypeID, "+
 						"dsfh.avgSpeedBinID, "+
 						"bsh.driveScheduleID, "+
-						"dsa.isRamp, "+
 						"(dsfl.driveScheduleFraction + dsfh.driveScheduleFraction) "+
-							"* (1 - rt.rampFraction) "+
 					"FROM  "+
 						"BracketScheduleHi bsh, "+
 						"DriveScheduleFractionLo dsfl, "+
@@ -946,7 +727,6 @@ public class MesoscaleLookupOperatingModeDistributionGenerator extends Generator
 						"RoadType rt, "+
 						"DriveScheduleAssoc dsa "+
 					"WHERE  "+
-						"(dsa.isRamp='N' OR dsa.isRamp='n') AND  "+
 						"bsh.sourceTypeID = dsfl.sourceTypeID AND "+
 						"bsh.roadTypeID = dsfl.roadTypeID AND  "+
 						"rt.roadTypeID = dsa.roadTypeID AND  "+
@@ -968,23 +748,19 @@ public class MesoscaleLookupOperatingModeDistributionGenerator extends Generator
 						"roadTypeID, "+
 						"avgSpeedBinID, "+
 						"driveScheduleID, "+
-						"isRamp, "+
 						"driveScheduleFraction) "+
 					"SELECT  "+
 						"bsl.sourceTypeID, "+
 						"bsl.roadTypeID, "+
 						"dsfl.avgSpeedBinID, "+
 						"bsl.driveScheduleID, "+
-						"dsa.isRamp, "+
 						"dsfl.driveScheduleFraction "+
-							"* (1 - rt.rampFraction) "+
 					"FROM  "+
 						"BracketScheduleLo bsl, "+
 						"DriveScheduleFractionLo dsfl, "+
 						"RoadType rt, "+
 						"DriveScheduleAssoc dsa "+
 					"WHERE  "+
-						"(dsa.isRamp='N' OR dsa.isRamp='n') AND "+
 						"bsl.sourceTypeID = dsfl.sourceTypeID AND "+
 						"bsl.roadTypeID = dsfl.roadTypeID AND  "+
 						"bsl.avgSpeedBinID = dsfl.avgSpeedBinID AND "+
@@ -1003,23 +779,19 @@ public class MesoscaleLookupOperatingModeDistributionGenerator extends Generator
 						"roadTypeID, "+
 						"avgSpeedBinID, "+
 						"driveScheduleID, "+
-						"isRamp, "+
 						"driveScheduleFraction) "+
 					"SELECT  "+
 						"bsh.sourceTypeID, "+
 						"bsh.roadTypeID, "+
 						"dsfh.avgSpeedBinID, "+
 						"bsh.driveScheduleID, "+
-						"dsa.isRamp, "+
 						"dsfh.driveScheduleFraction "+
-							"* (1 - rt.rampFraction) "+
 					"FROM  "+
 						"BracketScheduleHi bsh, "+
 						"DriveScheduleFractionHi dsfh, "+
 						"RoadType rt, "+
 						"DriveScheduleAssoc dsa "+
 					"WHERE  "+
-						"(dsa.isRamp='N' OR dsa.isRamp='n') AND  "+
 						"bsh.sourceTypeID = dsfh.sourceTypeID AND "+
 						"bsh.roadTypeID = dsfh.roadTypeID AND "+
 						"bsh.avgSpeedBinID = dsfh.avgSpeedBinID AND "+
@@ -1031,8 +803,8 @@ public class MesoscaleLookupOperatingModeDistributionGenerator extends Generator
 						"bsh.driveScheduleID = dsa.driveScheduleID ";
 			SQLRunner.executeSQL(db, sql);
 
-			sql = "insert ignore into DriveScheduleFraction (sourceTypeID, roadTypeID, avgSpeedBinID, driveScheduleID, isRamp, driveScheduleFraction)"
-					+ " select tempSourceTypeID, roadTypeID, avgSpeedBinID, driveScheduleID, isRamp, driveScheduleFraction"
+			sql = "insert ignore into DriveScheduleFraction (sourceTypeID, roadTypeID, avgSpeedBinID, driveScheduleID, driveScheduleFraction)"
+					+ " select tempSourceTypeID, roadTypeID, avgSpeedBinID, driveScheduleID, driveScheduleFraction"
 					+ " from DriveScheduleFraction"
 					+ " inner join sourceUseTypePhysicsMapping on (realSourceTypeID=sourceTypeID)"
 					+ " where tempSourceTypeID <> realSourceTypeID";
@@ -1041,7 +813,7 @@ public class MesoscaleLookupOperatingModeDistributionGenerator extends Generator
 			SQLRunner.executeSQL(db,"ANALYZE TABLE DriveScheduleFraction");
 		} catch(SQLException e) {
 			Logger.logSqlError(e,"Could not determine the distribution of drive schedules for "
-					+ "non ramp drive cycle.", sql);
+					+ "a drive cycle.", sql);
 		}
 	}
 
@@ -1636,31 +1408,7 @@ public class MesoscaleLookupOperatingModeDistributionGenerator extends Generator
 				"TRUNCATE OpModeFraction2a",
 				"TRUNCATE OpModeFraction2b",
 
-				// Add ramp-based information (which has already been scaled by rampFraction)
-				"INSERT INTO OpModeFraction2a ("+
-						"sourceTypeID,"+
-						"roadTypeID,"+
-						"avgSpeedBinID,"+
-						"hourDayID,"+
-						"opModeID,"+
-						"polProcessID,"+
-						"opModeFraction) "+
-					"SELECT "+
-						"ropm.sourceTypeID,"+
-						"ropm.roadTypeID,"+
-						"ropm.avgSpeedBinID,"+
-						"ropm.hourDayID,"+
-						"ropm.opModeID,"+
-						"omppa.polProcessID,"+
-						"ropm.opModeFraction "+
-					"FROM "+
-						"OMDGRampOpMode ropm,"+
-						"OpModePolProcAssocTrimmed omppa " +
-					"WHERE "+
-						"omppa.opModeID = ropm.opModeID AND "+
-						"omppa.polProcessID not in (11710) ",
-
-				// Add non-ramp-based information (which has already been scaled by 1-rampFraction)
+				// Add road information
 				"INSERT INTO OpModeFraction2b ("+
 						"sourceTypeID,"+
 						"roadTypeID,"+
@@ -1706,7 +1454,7 @@ public class MesoscaleLookupOperatingModeDistributionGenerator extends Generator
 
 				"ANALYZE TABLE OpModeFraction2a",
 
-				// Aggregate ramp and non-ramp data
+				// Aggregate data from OpModeFraction2a
 				"INSERT INTO OpModeFraction2 ("+
 						"sourceTypeID,"+
 						"roadTypeID,"+
