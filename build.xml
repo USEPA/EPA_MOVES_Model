@@ -127,12 +127,19 @@
 		<echo message="    ant -Dbuild=20101011 jarcode" />
 		<echo message="    above makes code_20101011.jar" />
 		<echo message="-------------------------------------------------------------------------------"/>
-		<echo message="setlogin     - store database user and password" />
+		<echo message="setlogin        - store database user and password if the defaults have changed" />
 		<echo message="    ant -Duser=moves -Dpassword=secret setlogin" />
-		<echo message="convert      - run a database conversion script. IMPORTANT: Use setlogin first." />
-		<echo message="    ant -Dinput=2014input -Doutput=2014Ainput -Dscript=Convert2014_CDM_PDM.sql convert" />
-		<echo message="run          - Execute a runspec. IMPORTANT: Use setlogin first." />
-		<echo message="               Use -Drunspec= to name the one runspec that will be used." />
+		<echo message="convert2014_3   - convert a MOVES2014 database for use with MOVES3. IMPORTANT:" />
+		<echo message="                  see database\ConversionScripts\InputDatabaseConverstionHelp.pdf" />
+		<echo message="    ant -Dinput=m2014_in -Doutput=m3_in convert2014_3" />
+		<echo message="convert2014ab_3 - convert a MOVES2014a/b database for use with MOVES3. IMPORTANT:" />
+		<echo message="                  see database\ConversionScripts\InputDatabaseConverstionHelp.pdf" />
+		<echo message="    ant -Dinput=m2014b_in -Doutput=m3_in convert2014ab_3" />
+		<echo message="dbimporter      - run the MOVES Data Importers. IMPORTANT: Generate XML description" />
+		<echo message="                  file first from the Tools tab of the County or Project Data Importer"/>
+		<echo message="    ant -Dimport=c:\mydbimporter.xml dbimporter" />
+		<echo message="run             - Execute a runspec. " />
+		<echo message="                  Use -Drunspec= to name the one runspec that will be used." />
 		<echo message="    ant -Drunspec=c:\myrunspecs\runspec1.mrs run" />
 		
 	</target>
@@ -1083,7 +1090,7 @@
 		</jar>
 	</target>
 
-	<target name="convert" depends="">
+	<target name="convert2014_3" depends="">
 		<java classname="gov.epa.otaq.moves.master.commandline.DatabaseConverter" fork="yes" maxmemory="512m">
 			<classpath>
 				<pathelement path="${java.class.path}" />
@@ -1091,7 +1098,19 @@
 			<classpath refid="classpath" />
 			<arg value="-input=${input}" />
 			<arg value="-output=${output}" />
-			<arg value="-script=${script}" />
+			<arg value="-script=database\ConversionScripts\Convert_MOVES2014_input_to_MOVES3.sql" />
+		</java>
+	</target>
+
+	<target name="convert2014ab_3" depends="">
+		<java classname="gov.epa.otaq.moves.master.commandline.DatabaseConverter" fork="yes" maxmemory="512m">
+			<classpath>
+				<pathelement path="${java.class.path}" />
+			</classpath>
+			<classpath refid="classpath" />
+			<arg value="-input=${input}" />
+			<arg value="-output=${output}" />
+			<arg value="-script=database\ConversionScripts\Convert_MOVES2014ab_input_to_MOVES3.sql" />
 		</java>
 	</target>
 
@@ -1166,7 +1185,31 @@
 			</else>
 		</if>
 	</target>	
-
+	
+	<target name="dbimporter" depends="">
+		<if>
+			<and>
+				<isset property="import" />
+				<not>
+					<equals arg1="${import}" arg2="" />
+				</not>
+			</and>
+			<then>
+				<java classname="gov.epa.otaq.moves.master.commandline.MOVESCommandLine" fork="yes" maxmemory="2048m" spawn="false">
+					<classpath>
+						<pathelement path="${java.class.path}" />
+					</classpath>
+					<classpath refid="classpath" />
+					<arg value="-i" />
+					<arg value="${import}" />
+				</java>
+			</then>
+			<else>
+				<echo>ERROR: A XML importer file was not provided.  Use -Dimport=somefile.xml</echo>
+			</else>
+		</if>
+	</target>	
+	
 	<target name="run" depends="">
 		<if>
 			<and>
@@ -1190,6 +1233,5 @@
 			</else>
 		</if>
 	</target>
-	
 
 </project>
