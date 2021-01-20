@@ -712,29 +712,39 @@ public class CreateInputDatabase extends JPanel implements ActionListener, Focus
 				return false;
 			}
 			try {
-				inputDatabaseConflictsWithTimeOrCounty = false;
-				ArrayList<String> messages = new ArrayList<String>();
-				int result =
-						ImporterManager.isCountyDomainDatabase(MOVESAPI.getTheAPI().getRunSpec(),
-						messages,db,true);
-				if(result < 0) {
-					// Display the error messages
-					String t = "Unable to use this entry as a County Domain database.";
-					for(Iterator<String> i=messages.iterator();i.hasNext();) {
-						t += "\r\n";
-						t += i.next();
-					}
-					t += "\r\n\r\nKeep input database (Yes), or discard input database (No)?";
-					inputDatabaseConflictsWithTimeOrCounty = true;
-					if(JOptionPane.showConfirmDialog(this, t, "Error",
-							JOptionPane.ERROR_MESSAGE + JOptionPane.YES_NO_OPTION)
-							== JOptionPane.YES_OPTION) {
-						result = 0;
-					}
+				boolean isCounty = MOVESAPI.getTheAPI().getRunSpec().domain == ModelDomain.SINGLE_COUNTY;
+				boolean isProject = MOVESAPI.getTheAPI().getRunSpec().domain == ModelDomain.PROJECT;
+				// check if it is a compatible county or project db if necessary
+				if(isCounty || isProject) {
+					inputDatabaseConflictsWithTimeOrCounty = false;
+					ArrayList<String> messages = new ArrayList<String>();
+					int result =
+							ImporterManager.isCountyDomainDatabase(MOVESAPI.getTheAPI().getRunSpec(),
+							messages,db,true);
 					if(result < 0) {
-						databaseCombo.setSelectedItem("");
-						saveToRunSpec(MOVESAPI.getTheAPI().getRunSpec());
-						return false;
+						// Display the error messages
+						String t = "Unable to use this entry as a Domain database.";
+						if(isCounty) {
+							t = "Unable to use this entry as a County Domain database.";
+						} else if(isProject) {
+							t = "Unable to use this entry as a Project Domain database.";
+						}
+						for(Iterator<String> i=messages.iterator();i.hasNext();) {
+							t += "\r\n";
+							t += i.next();
+						}
+						t += "\r\n\r\nKeep input database (Yes), or discard input database (No)?";
+						inputDatabaseConflictsWithTimeOrCounty = true;
+						if(JOptionPane.showConfirmDialog(this, t, "Error",
+								JOptionPane.ERROR_MESSAGE + JOptionPane.YES_NO_OPTION)
+								== JOptionPane.YES_OPTION) {
+							result = 0;
+						}
+						if(result < 0) {
+							databaseCombo.setSelectedItem("");
+							saveToRunSpec(MOVESAPI.getTheAPI().getRunSpec());
+							return false;
+						}
 					}
 				}
 			} finally {
