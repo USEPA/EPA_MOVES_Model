@@ -352,7 +352,38 @@ REPLACE INTO FuelSupply (fuelRegionID, fuelYearID, monthGroupID, fuelFormulation
   FROM AggFuelSupply;
 
 FLUSH TABLE FuelSupply;
-   
+
+
+--
+-- E10 Fuel Properties
+--
+-- This table already includes fuelRegionID 0 and is by month, so the only aggregation that could be needed is
+-- month to year. Weight using the VMT activity like the other tables.
+INSERT IGNORE INTO e10fuelproperties (fuelRegionID,fuelYearID,monthGroupID,RVP,sulfurLevel,ETOHVolume,MTBEVolume,
+                                      ETBEVolume,TAMEVolume,aromaticContent,olefinContent,benzeneContent,e200,e300,
+									  BioDieselEsterVolume,CetaneIndex,PAHContent,T50,T90)
+	select fuelRegionID, fuelYearID,
+		   0 as monthGroupID, 
+		   sum(RVP*actFract)/sum(actFract) as RVP,
+		   sum(sulfurLevel*actFract)/sum(actFract) as sulfurLevel,
+		   sum(ETOHVolume*actFract)/sum(actFract) as ETOHVolume,
+		   sum(MTBEVolume*actFract)/sum(actFract) as MTBEVolume,
+		   sum(ETBEVolume*actFract)/sum(actFract) as ETBEVolume,
+		   sum(TAMEVolume*actFract)/sum(actFract) as TAMEVolume,
+		   sum(aromaticContent*actFract)/sum(actFract) as aromaticContent,
+		   sum(olefinContent*actFract)/sum(actFract) as olefinContent,
+		   sum(benzeneContent*actFract)/sum(actFract) as benzeneContent,
+		   sum(e200*actFract)/sum(actFract) as e200,
+		   sum(e300*actFract)/sum(actFract) as e300,
+		   sum(BioDieselEsterVolume*actFract)/sum(actFract) as BioDieselEsterVolume,
+		   sum(CetaneIndex*actFract)/sum(actFract) as CetaneIndex,
+		   sum(PAHContent*actFract)/sum(actFract) as PAHContent,
+		   sum(T50*actFract)/sum(actFract) as T50,
+		   sum(T90*actFract)/sum(actFract) as T90
+	from e10fuelproperties
+	INNER JOIN MonthGroupWeighting USING(monthGroupID)
+	group by fuelRegionID, fuelYearID;
+
 --
 -- AverageTankTemperature
 --
