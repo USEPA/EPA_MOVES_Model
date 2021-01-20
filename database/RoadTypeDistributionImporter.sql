@@ -1,19 +1,5 @@
 -- Version 2008-10-28
 
--- Ensure roadTypeDistribution table is not empty
-drop table if exists tempNotEmpty;
-
-create table tempNotEmpty
-	select count(*) as numRows from roadTypeDistribution;
-
-insert into importTempMessages (message)
-	select 'ERROR: No data have been imported for the RoadTypeDistribution table'
-	from tempNotEmpty
-	where numRows = 0;
-
-drop table if exists tempNotEmpty;
-
-
 -- Ensure distributions sum to 1.0 for all sourceTypeID combinations. Added a check for nulls,
 -- because otherwise it could try to evaluate NULL <> 1.0000, which would not result in any rows being identified.
 drop table if exists tempNotUnity;
