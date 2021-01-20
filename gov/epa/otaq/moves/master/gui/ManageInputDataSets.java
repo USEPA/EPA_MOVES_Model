@@ -108,9 +108,10 @@ public class ManageInputDataSets extends JPanel implements ListSelectionListener
 	public void createControls() {
 		sectionDescriptionLabel = new JLabel("<html><p style=\"font-style: italic; font-weight: normal;\">" +
 											 "Use this feature to select an input database created by a MOVES <br>" +
-		                                     "tool (i.e., LEV or NLEV tool). Do not select County, Project, or <br>" +
-											 "Default Scale input databases here, as those kinds of databases <br>" +
-											 "should be selected on the Create Input Database Panel.</p></html>");
+		                                     "tool (i.e., LEV or NLEV tool) or optional input databases for <br>" +
+											 "Default Scale or Nonroad runs. Do not select County or Project<br>" +
+											 "input databases here, as those kinds of databases should be<br>" +
+											 "selected on the Create Input Database Panel.</p></html>");
 		sectionDescriptionLabel.setName("sectionDescriptionLabel"); 
 		
 		serverLabel = new JLabel("Server:");

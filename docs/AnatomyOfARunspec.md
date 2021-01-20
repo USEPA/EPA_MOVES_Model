@@ -1,16 +1,16 @@
-# Anatomy of a MOVES Runspec
+# Anatomy of a MOVES RunSpec
 
-This document describes each element found in a MOVES run specification (runspec) and how it is used. It is intended to help users read and interpret a runspec file outside of the MOVES GUI. The MOVES GUI provides layers of error checking to prevent users from creating non-functional runspecs. The details of this error checking are outside the scope of this document. Therefore this document should not be seen as a guide for how to write a runspec by hand. 
+This document describes each element found in a MOVES run specification (RunSpec) and how it is used. It is intended to help users read and interpret a RunSpec file outside of the MOVES GUI. The MOVES GUI provides layers of error checking to prevent users from creating non-functional RunSpecs. The details of this error checking are outside the scope of this document. Therefore this document should not be seen as a guide for how to write a RunSpec by hand. 
 
-MOVES runspecs are formatted as xml and follow standard xml conventions.  Each heading in the rest of the document refers to a specific xml element in a runspec. Subelements are noted with subheadings, with element and subelement names indicated in **bold text**. Likewise, element attributes are indicated in *italic text*. Each element contains example text from a MOVES runspec. For better readability, attribute values are presented in plaintext, but all attribute values should be enclosed in quotation marks (eg. `id="1"`) in a MOVES runspec.
+MOVES RunSpecs are formatted as xml and follow standard xml conventions.  Each heading in the rest of the document refers to a specific xml element in a RunSpec. Subelements are noted with subheadings, with element and subelement names indicated in **bold text**. Likewise, element attributes are indicated in *italic text*. Each element contains example text from a MOVES RunSpec. For better readability, attribute values are presented in plaintext, but all attribute values should be enclosed in quotation marks (eg. `id="1"`) in a MOVES RunSpec.
 
 ## Description
 
 ```xml
-<description><![CDATA[Runspec description text goes here]]></description>
+<description><![CDATA[RunSpec description text goes here]]></description>
 ```
 
-The description field is entered in the Description section of the MOVES GUI.
+The description field is entered in the Description Panel of the MOVES GUI. The `<![CDATA[...]]>` is used to allow any character to be saved in this field.
 
 ## Models
 
@@ -20,7 +20,7 @@ The description field is entered in the Description section of the MOVES GUI.
 </models>
 ```
 
-The **models** element is a required element for a MOVES runspec. It has a single subelement of type **model**. The **model** subelement has only one attribute: *value*. 
+The **models** element is a required element for a MOVES RunSpec. It has a single subelement of type **model**. The **model** subelement has only one attribute: *value*. 
 
 Valid entries for *value* are:
 
@@ -33,7 +33,7 @@ Valid entries for *value* are:
 <modelscale value="Inv"/>
 ```
 
-The **modelscale** element is a required element for a MOVES runspec. It has only one attribute: *value*. 
+The **modelscale** element is a required element for a MOVES RunSpec. It has only one attribute: *value*. 
 
 Valid entries for *value* attribute are:
 
@@ -46,13 +46,13 @@ Valid entries for *value* attribute are:
 <modeldomain value="NATIONAL"/>
 ```
 
-The **modeldomain** element is a required element for a MOVES runspec. It has only one attribute: *value*. 
+The **modeldomain** element is a required element for a MOVES RunSpec. It has only one attribute: *value*. 
 
 Valid entries for *value* are:
 
-* NATIONAL - used to select a default scale (also known as national scale) run. This is the only option for a Nonroad run.
-* SINGLE - used to select a county scale run
-* PROJECT - used to select a project scale run
+* NATIONAL - used to select a Default Scale (also known as national scale) run. This is the only option for a Nonroad run.
+* SINGLE - used to select a County Scale run
+* PROJECT - used to select a Project Scale run
 
 ## Geographic selections
 
@@ -62,16 +62,16 @@ Valid entries for *value* are:
 </geographicselections>
 ```
 
-The **geographicselections** element is a required element for a MOVES runspec. It has a single type of subelement: **geographicselection**. For this element there are three attributes: *type*, *key*, and *description*. For an onroad default scale run, more than one **geographicselection** may be added, indicating that the MOVES run will include more than one county.
+The **geographicselections** element is a required element for a MOVES RunSpec. It has a single type of subelement: **geographicselection**. For this element there are three attributes: *type*, *key*, and *description*. For an onroad Default Scale run, more than one **geographicselection** may be added, indicating that the MOVES run will include more than one county.
 
 Valid entries for *type* are:
 
 * COUNTY - this is the default value for most MOVES runs
-* NATION - this value is selected in the GUI by choosing "Nation" in the "Advanced Features" section under "Region Aggregation"
+* NATION - this value is selected in the GUI by choosing "Nation" in the "Advanced Features" Panel under "Region Aggregation"
 
 The value entered for *key* should be the countyID (which is the same as a county's FIPS code) associated with the specified geographic selection in the county table in the MOVES database.  In the case where `type="NATION"`, the value for *key* should be "0".
 
-The *description* attribute is a user aide and is not used by MOVES at runtime.
+The *description* attribute is a user aid and is not used by MOVES at runtime.
 
 ## Timespan
 
@@ -87,7 +87,7 @@ The *description* attribute is a user aide and is not used by MOVES at runtime.
 </timespan>
 ```
 
-The **timespan** element is a required element for a MOVES runspec. It defines the timespans(s) covered by the MOVES run. When running MOVES at project scale, only one year,month,day,hour combination can be covered by the runspec. The **timespan** element has seven subelements: **year**, **month**, **day**, **beginhour**, **endhour**, and **aggregateBy**.
+The **timespan** element is a required element for a MOVES RunSpec. It defines the timespans(s) covered by the MOVES run. When running MOVES at Project Scale, only one year, month, day, hour combination can be covered by the RunSpec. The **timespan** element has seven subelements: **year**, **month**, **day**, **beginhour**, **endhour**, and **aggregateBy**.
 
 ### year
 
@@ -95,17 +95,17 @@ The **year** subelement indicates the calendar year for the model run. More than
 
 ### month
 
-The **month** subelement indicates the month of the year for the model to run. More than one month can be selected by including multiple **month** subelements. Each month chosen will be run for each of the years defined in the runspec. The **month** subelement has only one attribute: *id*. Entries for *id* are given as a one or two digit month (eg. `id="2"`, or `id="12"`) and match the MOVES monthID, which starts at 1 for January and ends at 12 for December.
+The **month** subelement indicates the month of the year for the model to run. More than one month can be selected by including multiple **month** subelements. Each month chosen will be run for each of the years defined in the RunSpec. The **month** subelement has only one attribute: *id*. Entries for *id* are given as a one or two digit month (eg. `id="2"`, or `id="12"`) and match the MOVES monthID, which starts at 1 for January and ends at 12 for December.
 
 ### day
 
-The **day** subelement indicates the types of days for the model to run. Up to two **day** subelements can be included within **timespan**. Each type of day chosen will be run for every combination of year and month in the runspec. The **day** subelement has only one attribute: *id*.
+The **day** subelement indicates the types of days for the model to run. Up to two **day** subelements can be included within **timespan**. Each type of day chosen will be run for every combination of year and month in the RunSpec. The **day** subelement has only one attribute: *id*.
 
 Valid entries for *id* are:
 
-* 2 - this indicates weekdays
+* 2 - this indicates weekday days
 
-* 5 - this indicates weekends
+* 5 - this indicates weekend days
 
 ### beginhour
 
@@ -117,7 +117,7 @@ The **endhour** subelement indicates the last hour of the day to be included in 
 
 ### aggregateBy
 
-The **aggregateBy** subelement indicates the degree of temporal pre-aggregation that should be done to the input data before the model runs. In the MOVES GUI this is selected in the "Time Aggregation" box of the "Advanced Features" section. The **aggregateBy** subelement has only one attribute: *key*. 
+The **aggregateBy** subelement indicates the degree of temporal pre-aggregation that should be done to the input data before the model runs. In the MOVES GUI this is selected in the "Time Aggregation" box of the "Advanced Features" Panel. The **aggregateBy** subelement has only one attribute: *key*. 
 
 Valid entries for *key* are:
 
@@ -137,7 +137,7 @@ Valid entries for *key* are:
 
 The **onroadvehicleselections** element selects the fueltype and sourcetype combinations to be included in the MOVES run. This element and its subelements are only required for onroad MOVES runs. 
 
-The **onroadvehicleselections** element has a single type of subelement: **onroadvehicleselection**. Many **onroadvehicleselection** subelements may be included in the runspec. For **onroadvehicleselection** there are four attributes that should be entered: *fueltypeid*, *fueltypedesc*, *sourcetypeid*, and *sourcetypename*.
+The **onroadvehicleselections** element has a single type of subelement: **onroadvehicleselection**. Many **onroadvehicleselection** subelements may be included in the RunSpec. For **onroadvehicleselection** there are four attributes that should be entered: *fueltypeid*, *fueltypedesc*, *sourcetypeid*, and *sourcetypename*.
 
 Values for *fueltypeid* and *fueltypedesc* should be taken from the `fueltype` table in the MOVES default database. 
 
@@ -167,7 +167,7 @@ Values for *sectorid* and *sectorname* should be taken from the `sector` table o
 </offroadvehiclesccs>
 ```
 
-The **offroadvehiclesccs** element is not necessary to complete a MOVES run and may be omitted from a runspec.
+The **offroadvehiclesccs** element is not necessary to complete a MOVES run and may be omitted from a RunSpec.
 
 ## Road types
 
@@ -181,7 +181,7 @@ The **offroadvehiclesccs** element is not necessary to complete a MOVES run and 
 </roadtypes>
 ```
 
-The **roadtypes** element is a required element for a MOVES runspec. It defines the road types to be included in the MOVES run. Each included roadtype is specified by a **roadtype** subelement with the attributes: *roadtypeid*, *roadtypename*, and *modelCombination*. When creating a MOVES onroad runspec at the national or county scale all roadtypes except for "Nonroad" should be included in the runspec. Likewise, when creating a MOVES nonroad runspec only the nonroad roadtype (roadtypeID 100) should be selected.
+The **roadtypes** element is a required element for a MOVES RunSpec. It defines the road types to be included in the MOVES run. Each included roadtype is specified by a **roadtype** subelement with the attributes: *roadtypeid*, *roadtypename*, and *modelCombination*. When creating a MOVES onroad RunSpec at the national or County Scale all roadtypes except for "Nonroad" should be included in the RunSpec. Likewise, when creating a MOVES nonroad RunSpec only the nonroad roadtype (roadtypeID 100) should be selected.
 
 Values for *roadtypeid* and *roadtypename* should be taken from the `roadtype` table of the MOVES default database.
 
@@ -199,7 +199,7 @@ Valid entries for *modelCombination* are:
 </pollutantprocessassociations>
 ```
 
-The **pollutantprocessassociations** element is is a required element for a MOVES runspec and is typically the largest part of a MOVES runspec. It details all of the combinations of pollutants and processes that should be included in the MOVES run. Many of these combinations have prerequisites that must also be included in this element. All of the pollutant and process combinations are enumerated in the `pollutantprocessassoc` table in the MOVES default database. More information on this table can be found in the [MOVES database documentation](MOVESDatabaseTables.md).
+The **pollutantprocessassociations** element is is a required element for a MOVES RunSpec and is typically the largest part of a MOVES RunSpec. It details all of the combinations of pollutants and processes that should be included in the MOVES run. Many of these combinations have prerequisites that must also be included in this element. All of the pollutant and process combinations are enumerated in the `pollutantprocessassoc` table in the MOVES default database. More information on this table can be found in the [MOVES database documentation](MOVESDatabaseTables.md).
 
 The  **pollutantprocessassociations** element is composed of **pollutantprocessassociation** subelements with the attributes: *pollutantkey*, *pollutantname*, *processkey*, and *processname*.
 
@@ -215,7 +215,7 @@ Values for *processkey* and *processname* should be taken from the `emissionproc
 </databaseselections>
 ```
 
-This element is populated by the "Input Data Sets" box in the "Advance Features" section of the MOVES GUI. MOVES uses values from these input database tables instead of those in the MOVES default database. If no input databases are to be used, this element may be omitted from the runspec. The **databaseselections** element may contain several **databaseselection** attributes: *servername*, *databasename*, and *description*.
+This element is populated by the "Input Data Sets" box in the "Advance Features" Panel of the MOVES GUI. This element is used to specify input databases created by MOVES tools (e.g., the "Build LEV Input Database" Tool), or to specify optional input databases for Default Scale or Nonroad runs. MOVES uses values from these input database tables instead of those in the MOVES default database. Zero or more **databaseselection** elements may be used, and the data will be imported in the order specified (i.e., if multiple databases have the same tables, and the tables have the same key entries, the values from the last database specified will be used in the MOVES run). If no input databases are to be used, this element may be omitted from the RunSpec. The **databaseselections** element may contain several **databaseselection** attributes: *servername*, *databasename*, and *description*.
 
 The value entered for *servername* should be the address of the SQL server that hosts the selected database. MOVES defaults to the same server that contains the default database if this attribute is empty.
 
@@ -230,7 +230,7 @@ The value for *description* is not used at runtime, but is helpful for identifyi
 </internalcontrolstrategies>
 ```
 
-The **internalcontrolstrategies** element has been deprecated and may be omitted from the runspec.
+The **internalcontrolstrategies** element has been deprecated and may be omitted from the RunSpec.
 
 ## Input database
 
@@ -252,7 +252,7 @@ The value for *description* is not used at runtime, but is helpful for identifyi
 <uncertaintyparameters uncertaintymodeenabled="false" numberofrunspersimulation="0" numberofsimulations="0"/>
 ```
 
-The **uncertaintyparameters** element has been deprecated  and may be omitted from the runspec. 
+The **uncertaintyparameters** element has been deprecated  and may be omitted from the RunSpec. 
 
 ## Geographic output detail
 
@@ -260,13 +260,13 @@ The **uncertaintyparameters** element has been deprecated  and may be omitted fr
 <geographicoutputdetail description="NATION"/>
 ```
 
-The **geographicoutputdetail** element is set in the "Output Aggregation" box in the "Output Emissions Detail" section of the MOVES GUI. This element has one attribute: *description*.
+The **geographicoutputdetail** element is set in the "Output Aggregation" box in the "Output Emissions Detail" Panel of the MOVES GUI. This element has one attribute: *description*.
 
 Valid entries for *description* are:
 
-* NATION - aggregate outputs at over the entire nation
+* NATION - aggregate outputs over all geographical detail 
 * STATE - aggregate outputs by state
-* COUNTY - aggregate outputs by count
+* COUNTY - aggregate outputs by county
 * ZONE - aggregate outputs by zone
 * LINK - aggregate outputs by link (Project mode only)
 
@@ -291,7 +291,7 @@ Valid entries for *description* are:
 </outputemissionsbreakdownselection>
 ```
 
-The **outputemissionsbreakdownselection** element defines granularity of the MOVEs run output. The **outputemissionsbreakdownselection** element has fourteen subelements: **modelyear**, **fueltype**, **fuelsubtype**, **emissionprocess**, **onroadoffroad**, **roadtype**, **sourceusetype**, **movesvehicletype**, **onroadscc**, **estimateduncertainty**, **sector**, **engtechid**, **hpclass**, and **aggregateBy**. These elements are summarized below, for brevity. All of these elements can be toggled by setting the *selected* attribute to "true". MOVES defaults to having none of the options selected if this element is omitted from the runspec.
+The **outputemissionsbreakdownselection** element defines granularity of the MOVES run output. The **outputemissionsbreakdownselection** element has fourteen subelements: **modelyear**, **fueltype**, **fuelsubtype**, **emissionprocess**, **onroadoffroad**, **roadtype**, **sourceusetype**, **movesvehicletype**, **onroadscc**, **estimateduncertainty**, **sector**, **engtechid**, **hpclass**, and **aggregateBy**. These elements are summarized below, for brevity. All of these elements can be toggled by setting the *selected* attribute to "true". MOVES defaults to having none of the options selected if this element is omitted from the RunSpec.
 
 | subelement               | description                                                                                                                     |
 | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------- |
@@ -316,7 +316,7 @@ The **outputemissionsbreakdownselection** element defines granularity of the MOV
 <outputdatabase servername="" databasename="demo_county_inv_mo" description=""/>
 ```
 
-The element **outputdatabase** is a required element for a MOVES runspec. It identifies the database to store the MOVES output in. it contains the attributes: *servername*, *databasename*, and *description*.
+The element **outputdatabase** is a required element for a MOVES RunSpec. It identifies the database to store the MOVES output in. it contains the attributes: *servername*, *databasename*, and *description*.
 
 The value entered for *servername* should be the address of the SQL server that hosts the selected database. MOVES defaults to the same server that contains the default database if this attribute is empty.
 
@@ -330,13 +330,13 @@ The value for *description* is not used at runtime, but is helpful for identifyi
 <outputtimestep value="Hour"/>
 ```
 
-The element **outputtimestep** is a required element for a MOVES runspec. This element sets the degree of temporal aggregation of the model output.  The **outputtimestep** element has only one attribute: *value*. 
+The element **outputtimestep** is a required element for a MOVES RunSpec. This element sets the degree of temporal aggregation of the model output.  The **outputtimestep** element has only one attribute: *value*. 
 
 Valid entries for *value* are:
 
-* Hour - aggregate by each hour
-* 24-Hour Day - aggregate over a full 24 hour day
-* Portion of Week - aggregate by weekday/weekend
+* Hour - results are not aggregated and are reported for each hour in the RunSpec
+* 24-Hour Day - aggregate results over a full 24-hour day for a typical weekend day (dayID 2) or weekday day (dayID 5)
+* Portion of Week - aggregate results by weekday and weekend portions of the week. Specifically, results for dayID 2 will be emissions for a typical 2-day weekend and results for dayID 5 will be emissions for a typical 5-day work week. This is equivalent to selecting 24-Hour Day and multiplying the weekend day results by 2 and the weekday day results by 5.
 * Month - aggregate by month
 * Year - aggregate by calendar year
 
@@ -346,7 +346,7 @@ Valid entries for *value* are:
 <outputvmtdata value="false"/>
 ```
 
-Allows output vehicle miles traveled (VMT). It can only be set to "true" for onroad runs. This element is not necessary to complete a MOVES run and may be omitted from a runspec.
+If set to true, include vehicle miles traveled (VMT) activity in the output database if calculated during the MOVES run. It can only be set to "true" for onroad runs. This element is not necessary to complete a MOVES run and may be omitted from a RunSpec.
 
 ## Output sho
 
@@ -354,7 +354,7 @@ Allows output vehicle miles traveled (VMT). It can only be set to "true" for onr
 <outputsho value="false"/>
 ```
 
-Allows output source hours operating (SHO). It can only be set to "true" for onroad runs. This element is not necessary to complete a MOVES run and may be omitted from a runspec.
+If set to true, include source hours operating (SHO) activity in the output database if calculated during the MOVES run. It can only be set to "true" for onroad runs. This element is not necessary to complete a MOVES run and may be omitted from a RunSpec.
 
 ## Output sh
 
@@ -362,7 +362,7 @@ Allows output source hours operating (SHO). It can only be set to "true" for onr
 <outputsh value="false"/>
 ```
 
-Allows output source hours (SH). It can only be set to "true" for onroad runs. This element is not necessary to complete a MOVES run and may be omitted from a runspec.
+If set to true, include source hours (SH) activity in the output database if calculated during the MOVES run. It can only be set to "true" for onroad runs. This element is not necessary to complete a MOVES run and may be omitted from a RunSpec.
 
 ## Output shp
 
@@ -370,7 +370,7 @@ Allows output source hours (SH). It can only be set to "true" for onroad runs. T
 <outputshp value="false"/>
 ```
 
-Allows output source hours parked (SHP). It can only be set to "true" for onroad runs. This element is not necessary to complete a MOVES run and may be omitted from a runspec.
+If set to true, include source hours parked (SHP) activity in the output database if calculated during the MOVES run. It can only be set to "true" for onroad runs. This element is not necessary to complete a MOVES run and may be omitted from a RunSpec.
 
 ## Output shidling
 
@@ -378,7 +378,7 @@ Allows output source hours parked (SHP). It can only be set to "true" for onroad
 <outputshidling value="false"/>
 ```
 
-Allows output source hours idling (shidling). It can only be set to "true" for onroad runs. This element is not necessary to complete a MOVES run and may be omitted from a runspec.
+If set to true, include source hours idling (shidling) activity in the output database if calculated during the MOVES run. It can only be set to "true" for onroad runs. This element is not necessary to complete a MOVES run and may be omitted from a RunSpec.
 
 ## Output starts
 
@@ -386,7 +386,7 @@ Allows output source hours idling (shidling). It can only be set to "true" for o
 <outputstarts value="false"/>
 ```
 
-Allows output starts. It can only be set to "true" for onroad runs. This element is not necessary to complete a MOVES run and may be omitted from a runspec.
+If set to true, include starts activity in the output database if calculated during the MOVES run. It can only be set to "true" for onroad runs. This element is not necessary to complete a MOVES run and may be omitted from a RunSpec.
 
 ## Output population
 
@@ -394,7 +394,7 @@ Allows output starts. It can only be set to "true" for onroad runs. This element
 <outputpopulation value="false"/>
 ```
 
-Allows output population. It can only be set to "true" for onroad runs. This element is not necessary to complete a MOVES run and may be omitted from a runspec.
+If set to true, include vehicle population counts in the output database if calculated during the MOVES run. It can only be set to "true" for onroad runs. This element is not necessary to complete a MOVES run and may be omitted from a RunSpec.
 
 ## Scale input database
 
@@ -402,7 +402,7 @@ Allows output population. It can only be set to "true" for onroad runs. This ele
 <scaleinputdatabase servername="localhost" databasename="cdb_pueblo_mi" description=""/>
 ```
 
-This selects the input database used by project and county scale runs. This element only needs to be included for MOVES runs at County Scale or Project Scale.
+This selects the input database used by Project and County Scale runs. This element only needs to be included for MOVES runs at County Scale or Project Scale and is not used for Default Scale or Nonroad runs.
 
 ## PM size
 
@@ -410,7 +410,7 @@ This selects the input database used by project and county scale runs. This elem
 <pmsize value="0"/>
 ```
 
-This element is deprecated. This element may be omitted from a runspec, or *value* must be set to 0 otherwise. 
+This element is deprecated. This element may be omitted from a RunSpec, or *value* must be set to 0 otherwise. 
 
 ## Output factors
 
@@ -469,7 +469,7 @@ Valid entries for the *energyunits* parameter are:
 </savedata>
 ```
 
-The **savedata** element is typically empty in a runspec and is generally only used for debugging purposes. Checking the "Save Data" boxes in the "Masterloopable Components" box of the "Advance Features" section of the MOVES GUI, adds **class** subelements to **savedata**. This element is not necessary to complete a MOVES run and may be omitted from a runspec.
+The **savedata** element is typically empty in a RunSpec and is generally only used for debugging purposes. Checking the "Save Data" boxes in the "Masterloopable Components" box of the "Advance Features" Panel of the MOVES GUI, adds **class** subelements to **savedata**. This element is not necessary to complete a MOVES run and may be omitted from a RunSpec.
 
 Valid *name* parameters for these subelements are:
 
@@ -497,7 +497,7 @@ Valid *name* parameters for these subelements are:
 </donotexecute>
 ```
 
-The **donotexecute** element is typically empty in a runspec and is generally only used for debugging purposes. Checking the "Don't Execute" boxes in the "Masterloopable Components" box of the "Advance Features" section of the MOVES GUI, adds **class** subelements to **donotexecute**. This element is not necessary to complete a MOVES run and may be omitted from a runspec.
+The **donotexecute** element is typically empty in a RunSpec and is generally only used for debugging purposes. Checking the "Don't Execute" boxes in the "Masterloopable Components" box of the "Advance Features" Panel of the MOVES GUI, adds **class** subelements to **donotexecute**. This element is not necessary to complete a MOVES run and may be omitted from a RunSpec.
 
 Valid *name* parameters for these subelements are:
 
@@ -524,7 +524,7 @@ Valid *name* parameters for these subelements are:
 <generatordatabase shouldsave="false" servername="" databasename="" description=""/>
 ```
 
-The **generatordatabase** element specifies the database to save the outputs selected in the **savedata** element. This element is not necessary to complete a MOVES run and may be omitted from a runspec.
+The **generatordatabase** element specifies the database to save the outputs selected in the **savedata** element. This element is not necessary to complete a MOVES run and may be omitted from a RunSpec.
 
 ## Donotperformfinalaggregation
 
@@ -532,7 +532,7 @@ The **generatordatabase** element specifies the database to save the outputs sel
 <donotperformfinalaggregation selected="false"/>
 ```
 
-*selected* is a boolean flag that is used for debugging purposes. If left unselected, MOVES will write data to the output database at the level of detail at which it calculates emissions. This element is not necessary to complete a MOVES run and may be omitted from a runspec.
+*selected* is a boolean flag that is used for debugging purposes. If left unselected, MOVES will write data to the output database at the level of detail at which it calculates emissions. This element is not necessary to complete a MOVES run and may be omitted from a RunSpec.
 
 ## Lookuptableflags
 
@@ -540,4 +540,4 @@ The **generatordatabase** element specifies the database to save the outputs sel
 <lookuptableflags scenarioid="" truncateoutput="true" truncateactivity="true" truncatebaserates="true"/>
 ```
 
-This element is not necessary to complete a MOVES run and may be omitted from a runspec.
+This element is not necessary to complete a MOVES run and may be omitted from a RunSpec.
