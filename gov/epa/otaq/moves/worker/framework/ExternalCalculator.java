@@ -483,6 +483,43 @@ public class ExternalCalculator {
 				}
 			}
 			
+			// When we include fuelSubTypeID, the Go calculator splits out the emissions and activity by fuelSubTypeID.
+			// This works for everything except avgHP (activityTypeID 9) and LF (activityTypeID 12), which should not be split.
+			// This chunk fixes avgHP and LF by summing the split components and resaving.
+			if (splitByFuelSubTypeID) {				
+				sql = "UPDATE MOVESWorkerActivityOutput mwoActivity, ( " + 
+					  "SELECT MOVESRunID, iterationID, yearID , monthID,dayID,hourID,stateID,countyID,zoneID ,linkID,sourceTypeID,regClassID,fuelTypeID, " +
+					  "modelYearID,roadTypeID,SCC,engTechID,sectorID,hpID,activityTypeID,sum(activity) as totalActivity " +
+					  "FROM MOVESWorkerActivityOutput " +
+					  "WHERE fuelTypeID = 1 and activityTypeID in (9, 12) " +
+					  "group by MOVESRunID,iterationID,yearID ,monthID,dayID,hourID,stateID,countyID,zoneID ,linkID,sourceTypeID,regClassID,fuelTypeID, " +
+					  "         modelYearID,roadTypeID,SCC,engTechID,sectorID,hpID,activityTypeID " +
+					  ") as tActivity " +
+					  "SET activity = totalActivity " +
+					  "WHERE mwoActivity.MOVESRunID = tActivity.MOVESRunID and" +
+					  "      mwoActivity.iterationID = tActivity.iterationID and" +
+					  "      mwoActivity.yearID = tActivity.yearID and" +
+					  "      mwoActivity.monthID = tActivity.monthID and" +
+					  "      mwoActivity.dayID = tActivity.dayID and" +
+					  "      mwoActivity.hourID = tActivity.hourID and" +
+					  "      mwoActivity.stateID = tActivity.stateID and" +
+					  "      mwoActivity.countyID = tActivity.countyID and" +
+					  "      mwoActivity.zoneID = tActivity.zoneID and" +
+					  "      mwoActivity.linkID = tActivity.linkID and" +
+					  "      mwoActivity.sourceTypeID = tActivity.sourceTypeID and" +
+					  "      mwoActivity.regClassID = tActivity.regClassID and" +
+					  "      mwoActivity.fuelTypeID = tActivity.fuelTypeID and" +
+					  "      mwoActivity.modelYearID = tActivity.modelYearID and" +
+					  "      mwoActivity.roadTypeID = tActivity.roadTypeID and" +
+					  "      mwoActivity.SCC = tActivity.SCC and" +
+					  "      mwoActivity.engTechID = tActivity.engTechID and" +
+					  "      mwoActivity.sectorID = tActivity.sectorID and" +
+					  "      mwoActivity.hpID = tActivity.hpID and" +
+					  "      mwoActivity.activityTypeID = tActivity.activityTypeID";
+				SQLRunner.executeSQL(database,sql);
+			}
+	  
+			
 			//EM - entire if block added to fix rates bug EMT-809 12/20/2018
 			if(newBRO.exists()) {
 				String[] broStatements = {

@@ -97,6 +97,10 @@ public class NonroadOptFileSqlHelper {
 			statement.setInt(2, monthID);
 			statement.setInt(3, episodeYear);
 			results = SQLRunner.executeQuery(statement, sql);
+			
+			// Note: Even if the results set contains no rows, this block will still run and RVPmkt and gasSulfurPercent will be 0.
+			// This will happen if the user imports fuel data that do not include gasoline rows (e.g., if you are running diesel only,
+			// export default fuels, and reimport them).
 			if ((results != null) && results.next()) {
 				RVPmkt = results.getDouble(1);
 				// oxygenWeightPercent = results.getDouble(2);
@@ -106,9 +110,36 @@ public class NonroadOptFileSqlHelper {
 				isOK = false;
 			}
 			statement.close();
-			if (!isOK) {
-				Logger.log(LogMessageCategory.ERROR,
-						"Failed to get the RVPmkt, gasSulfurPercent information for OPTIONS.");
+			
+			// isOK will be true even if the above statement runs and returns no rows
+			// Therefore, check to make sure RVP and sulfur have nonzero values. If they are both zeros, it is most likely that 
+			// no data were actually found in the above rows (also, NR Fortran will fail when error checking this input data).
+			// If this happens, get the default RVP and sulfur values for fuelFormulationID 10 so that the Fortran will run.
+			// Issue a warning message so that the user knows this is happening in case they intended to import gasoline fuels
+			if (!isOK || (RVPmkt == 0.0 && gasSulfurPercent == 0.0)) {
+				Logger.log(LogMessageCategory.INFO, "Failed to get the RVPmkt, gasSulfurPercent information for OPTIONS. Using default values for FuelFormulationID 10 instead.");
+				
+				// func A
+				sql = "select RVP as RVPmkt, volToWtPercentOxy as oxyMkt, sulfurLevel/10000 as gasSulfur " +
+					  "from fuelformulation fs " +
+					  "where fuelFormulationID = 10;";
+				statement = executionDB.prepareStatement(sql);
+				results = SQLRunner.executeQuery(statement, sql);
+				if ((results != null) && results.next()) {
+					RVPmkt = results.getDouble(1);
+					// oxygenWeightPercent = results.getDouble(2);
+					gasSulfurPercent = results.getDouble(3);
+					results.close();
+				} else {
+					isOK = false;
+				}
+				statement.close();
+				
+				// If RVP and sulfur are *still* 0, we couldn't find even a default fuel to run with, so issue the error message
+				// (NR Fortran will fail)
+				if (!isOK || (RVPmkt == 0.0 && gasSulfurPercent == 0.0)) {
+					Logger.log(LogMessageCategory.ERROR, "Failed to get the default FuelFormulationID 10 RVPmkt, gasSulfurPercent information for OPTIONS.");
+				}
 			}
 
 			// oxygenWeightPercent -- function A2
