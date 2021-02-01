@@ -20,6 +20,10 @@ This folder contains MOVES notes and code documentation to help developers under
 
 * [Tips for Faster MOVES Runs](TipsForFasterMOVESRuns.md): Suggestions for how to structure MOVES runs to be as efficient as possible
 
+* [Installation Troubleshooting.pdf](InstallationTroubleshooting.pdf): Answers for frequently asked questions regarding installation issues
+
+* [QuickStartGuideToAccessingMariaDBData.pdf](QuickStartGuideToAccessingMariaDBData.pdf): Tips for users who are transitioning from MySQL and MySQL Workbench to MariaDB and HeidiSQL
+
 ## MOVES Cheat Sheets:
 
 These PDF cheat sheets summarize common tables and values used to create MOVES runs and interpret their outputs. 
@@ -28,3 +32,4 @@ These PDF cheat sheets summarize common tables and values used to create MOVES r
 
 * [Nonroad Cheat Sheet](MOVES3CheatsheetNonroad.pdf)
 
+    
