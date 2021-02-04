@@ -40,6 +40,7 @@ To get set up:
 ```bash
 setenv
 ant compileall
+ant go
 ant rungui
 ```
 
