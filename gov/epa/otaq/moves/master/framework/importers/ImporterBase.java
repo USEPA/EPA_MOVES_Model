@@ -412,6 +412,20 @@ public class ImporterBase implements IImporter, ICountyDataImporter, IProjectDat
 			messages.add(t);
 		}
 	}
+	
+	/**
+	 * Add a custom message. Differs from addQualityMessage in that it doesn't prepend all non-error messages with "Missing: "
+	 * @param t message to be shown.
+	**/
+	public void addCustomMessage(String t) {
+		if(t == null || t.length() <= 0 || t.equalsIgnoreCase("OK") || t.equalsIgnoreCase("NOT_READY")) {
+			return;
+		}
+		if(!qualityMessages.contains(t)) {
+			qualityMessages.add(t);
+			messages.add(t);
+		}
+	}
 
 	/**
 	 * Remove all messages about data quality, without disturbing other messages.

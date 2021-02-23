@@ -260,43 +260,43 @@ begin
 		end if;
 	end if;
 
-	-- Complain about fixable gaps in T50/T90/E200/E300 data
+	-- Complain about fixable gaps in T50/T90/E200/E300 data (only for gasoline & gasohol)
 	insert into importTempMessages (message)
 	select distinct concat('Warning: Fuel formulation ',fuelFormulationID,' is using calculated E200') as message
 	from fuelFormulation where T50 is not null and T50 > 0 and (e200 is null or e200 <= 0)
-	and fuelSubtypeID not in (30);
+	and fuelSubtypeID in (10, 11, 12, 13, 14, 15);
 
 	insert into importTempMessages (message)
 	select distinct concat('Warning: Fuel formulation ',fuelFormulationID,' is using calculated E300') as message
 	from fuelFormulation where T90 is not null and T90 > 0 and (e300 is null or e300 <= 0)
-	and fuelSubtypeID not in (30);
+	and fuelSubtypeID in (10, 11, 12, 13, 14, 15);
 
 	insert into importTempMessages (message)
 	select distinct concat('Warning: Fuel formulation ',fuelFormulationID,' is using calculated T50') as message
 	from fuelFormulation where e200 is not null and e200 > 0 and (T50 is null or T50 <= 0)
-	and fuelSubtypeID not in (30);
+	and fuelSubtypeID in (10, 11, 12, 13, 14, 15);
 
 	insert into importTempMessages (message)
 	select distinct concat('Warning: Fuel formulation ',fuelFormulationID,' is using calculated T90') as message
 	from fuelFormulation where e300 is not null and e300 > 0 and (T90 is null or T90 <= 0)
-	and fuelSubtypeID not in (30);
+	and fuelSubtypeID in (10, 11, 12, 13, 14, 15);
 
-	-- Complain about unfixable gaps in T50/T90/E200/E300 data
+	-- Complain about unfixable gaps in T50/T90/E200/E300 data (only for gasoline & gasohol)
 	insert into importTempMessages (message)
 	select distinct concat('ERROR: Fuel formulation ',fuelFormulationID,' is missing both E200 and T50') as message
 	from fuelFormulation where (T50 is null or T50 <= 0) and (e200 is null or e200 <= 0)
-	and fuelSubtypeID not in (20,21,22,23,24,30,40,90);
+	and fuelSubtypeID in (10, 11, 12, 13, 14, 15);
 
 	insert into importTempMessages (message)
 	select distinct concat('ERROR: Fuel formulation ',fuelFormulationID,' is missing both E300 and T90') as message
 	from fuelFormulation where (T90 is null or T90 <= 0) and (e300 is null or e300 <= 0)
-	and fuelSubtypeID not in (20,21,22,23,24,30,40,90);
+	and fuelSubtypeID in (10, 11, 12, 13, 14, 15);
 
-	-- Fill gaps in T50/T90/E200/E300 data
-	update fuelFormulation set T50 = 2.0408163 * (147.91 - e200) where e200 is not null and e200 > 0 and (T50 is null or T50 <= 0);
-	update fuelFormulation set T90 = 4.5454545 * (155.47 - e300) where e300 is not null and e300 > 0 and (T90 is null or T90 <= 0);
-	update fuelFormulation set e200 = 147.91-(T50/2.0408163) where T50 is not null and T50 > 0 and (e200 is null or e200 <= 0);
-	update fuelFormulation set e300 = 155.47-(T90/4.5454545) where T90 is not null and T90 > 0 and (e300 is null or e300 <= 0);
+	-- Fill gaps in T50/T90/E200/E300 data (only for gasoline & gasohol)
+	update fuelFormulation set T50 = 2.0408163 * (147.91 - e200) where e200 is not null and e200 > 0 and (T50 is null or T50 <= 0) and fuelSubTypeID in (10, 11, 12, 13, 14, 15);
+	update fuelFormulation set T90 = 4.5454545 * (155.47 - e300) where e300 is not null and e300 > 0 and (T90 is null or T90 <= 0) and fuelSubTypeID in (10, 11, 12, 13, 14, 15);
+	update fuelFormulation set e200 = 147.91-(T50/2.0408163) where T50 is not null and T50 > 0 and (e200 is null or e200 <= 0) and fuelSubTypeID in (10, 11, 12, 13, 14, 15);
+	update fuelFormulation set e300 = 155.47-(T90/4.5454545) where T90 is not null and T90 > 0 and (e300 is null or e300 <= 0) and fuelSubTypeID in (10, 11, 12, 13, 14, 15);
 	
 	-- Ensure market shares sum to 1.0 for all fuel types, year, month, counties.
 	drop table if exists tempFuelSupplyNotUnity;

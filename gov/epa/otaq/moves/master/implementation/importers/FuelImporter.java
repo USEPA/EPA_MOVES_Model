@@ -753,6 +753,26 @@ public class FuelImporter extends ImporterBase {
 				addQualityMessage("ERROR: AVFT table is not imported.");
 				return new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);	
 			}
+			
+			
+			// Check FuelFormulation
+			boolean hasUnsupportedDieselParameters = false;
+			try {
+				int count = (int)SQLRunner.executeScalar(db,"select count(*) from fuelformulation where fuelSubTypeID in (20,21,22,23,24) and ( " +
+                                                            "(RVP > 0) OR (ETOHVolume > 0) OR (MTBEVolume > 0) OR (ETBEVolume > 0) OR (TAMEVolume > 0) OR " +
+															"(aromaticContent > 0) OR (olefinContent > 0) OR (benzeneContent > 0) OR (e200 > 0) OR " +
+															"(e300 > 0) OR (volToWtPercentOxy > 0) OR (PAHContent > 0) OR (T50 > 0) OR (T90 > 0))");
+				if(count > 0) {
+					hasUnsupportedDieselParameters = true;
+				}
+			} catch(Exception e) {
+				// This happens if the table doesn't exist
+				addQualityMessage("ERROR: FuelFormulation table does not exist. You may need to recreate your database to solve this problem.");
+				return new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);	
+			}
+			if(hasUnsupportedDieselParameters) {
+				addCustomMessage("Warning: Diesel rows in FuelFormulation currently only support entries for SulfurLevel and BioDieselEsterVolume. Other values will be ignored.");
+			}
 		}
 		
 		return getImporterDataStatusCore(db,true);
