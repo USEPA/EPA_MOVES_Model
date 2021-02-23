@@ -281,6 +281,33 @@ select distinct fuelRegionID as regionID, fuelRegionID*1000 as countyID, 2 as re
 from fuelSupply;
 
 --
+-- E10 Fuel Properties
+--
+INSERT IGNORE INTO e10fuelproperties (fuelRegionID,fuelYearID,monthGroupID,RVP,sulfurLevel,ETOHVolume,MTBEVolume,
+                                      ETBEVolume,TAMEVolume,aromaticContent,olefinContent,benzeneContent,e200,e300,
+									  BioDieselEsterVolume,CetaneIndex,PAHContent,T50,T90)
+	select stateID as fuelRegionID, fuelYearID, monthGroupID, 
+		   sum(RVP*actFract) as RVP,
+		   sum(sulfurLevel*actFract) as sulfurLevel,
+		   sum(ETOHVolume*actFract) as ETOHVolume,
+		   sum(MTBEVolume*actFract) as MTBEVolume,
+		   sum(ETBEVolume*actFract) as ETBEVolume,
+		   sum(TAMEVolume*actFract) as TAMEVolume,
+		   sum(aromaticContent*actFract) as aromaticContent,
+		   sum(olefinContent*actFract) as olefinContent,
+		   sum(benzeneContent*actFract) as benzeneContent,
+		   sum(e200*actFract) as e200,
+		   sum(e300*actFract) as e300,
+		   sum(BioDieselEsterVolume*actFract) as BioDieselEsterVolume,
+		   sum(CetaneIndex*actFract) as CetaneIndex,
+		   sum(PAHContent*actFract) as PAHContent,
+		   sum(T50*actFract) as T50,
+		   sum(T90*actFract) as T90
+	from e10fuelproperties
+	join SurrogateRegionActivity USING (fuelRegionID,fuelYearID)
+	group by stateID, fuelYearID, monthGroupID;
+
+--
 -- Fuel Usage
 --
 -- SELECT "Making Aggregate FuelUsageFraction Table" AS MARKER_POINT;
