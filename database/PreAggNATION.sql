@@ -32,13 +32,16 @@ DROP TABLE IF EXISTS AggFuelUsageFraction;
 DROP TABLE IF EXISTS OldTotalIdleFraction;
 
 -- Since "Nation" does not include the Virgin Islands or
--- Puerto Rico, remove their information from State, County, Zone
--- and all Nonroad tables as well.
+-- Puerto Rico, remove their information from State, County, Zone,
+-- ZoneRoadType, and all Nonroad tables as well.
 delete from zone
 using state
 inner join county on (county.stateID=state.stateID)
 inner join zone on (zone.countyID=county.countyID)
 where state.stateID in (72,78);
+
+delete from zoneroadtype
+where round(zoneID/10000, 0) in (72,78);
 
 delete from nrBaseYearEquipPopulation where stateID in (72,78);
 delete from nrGrowthPatternFinder where stateID in (72,78);
