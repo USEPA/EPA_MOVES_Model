@@ -446,20 +446,33 @@ public class VehicleTypeVMTImporter extends ImporterBase {
 			//Logger.log(LogMessageCategory.DEBUG,"VehicleTypeVMTImporter.onImportBegin");
 			assessSituation();
 			showPanels();
-
+			
+			boolean runViaGUI = importer.getImporterManager().RunMode == importer.getImporterManager().RUN_VIA_GUI;
 			if(hpms.isSelected()) {
 				clearTable("SourceTypeYearVMT");
 				clearTable("SourceTypeDayVMT");
 				clearTable(annual.isSelected()? "HPMSVtypeDay" : "HPMSVtypeYear");
-			} else if(sourceType.isSelected()) {
+			}
+			if(runViaGUI && sourceType.isSelected()) {
 				assessSituation();
 				clearTable("HPMSVtypeYear");
 				clearTable("HPMSVtypeDay");
 				clearTable(annual.isSelected()? "SourceTypeDayVMT" : "SourceTypeYearVMT");
 			}
-			if(daily.isSelected()) {
+			if(runViaGUI && daily.isSelected()) {
 				clearTable("MonthVMTFraction");
 				clearTable("DayVMTFraction");
+			}
+			
+			// nothing "is selected" since we are not running via GUI, so we don't know what is going to be imported yet, so clear everything
+			if(!runViaGUI) {
+				clearTable("SourceTypeYearVMT");
+				clearTable("SourceTypeDayVMT");
+				clearTable("HPMSVtypeYear");
+				clearTable("HPMSVtypeDay");
+				clearTable("MonthVMTFraction");
+				clearTable("DayVMTFraction");
+				clearTable("HourVMTFraction");
 			}
 		}
 
@@ -761,6 +774,8 @@ public class VehicleTypeVMTImporter extends ImporterBase {
 
 	/** Class for interfacing to BasicDataHandler's needs during an import **/
 	class BasicDataHandlerProvider implements BasicDataHandler.IProvider, BasicDataHandler.IProvider2 {
+		public boolean runViaGUI = false;
+		
 		/**
 		 * Called to notify that an Import operation is starting.
 		**/
@@ -775,38 +790,41 @@ public class VehicleTypeVMTImporter extends ImporterBase {
 		 * no file has been specified.
 		**/
 		public String getTableFileSource(String tableName) {
+			// if we are running via the GUI, import files based on what is visible
+			// if we are not running via the GUI, import everything that is presented to us
+			
 			if(tableName.equalsIgnoreCase("HPMSVtypeYear")) {
-				if(!HPMSVtypeYearPart.isVisible()) {
+				if(runViaGUI && !HPMSVtypeYearPart.isVisible()) {
 					return "\rSKIP\r";
 				}
 				return HPMSVtypeYearPart.fileName;
 			} else if(tableName.equalsIgnoreCase("HPMSVtypeDay")) {
-				if(!HPMSVtypeDayPart.isVisible()) {
+				if(runViaGUI && !HPMSVtypeDayPart.isVisible()) {
 					return "\rSKIP\r";
 				}
 				return HPMSVtypeDayPart.fileName;
 			} else if(tableName.equalsIgnoreCase("SourceTypeYearVMT")) {
-				if(!SourceTypeYearVMTPart.isVisible()) {
+				if(runViaGUI && !SourceTypeYearVMTPart.isVisible()) {
 					return "\rSKIP\r";
 				}
 				return SourceTypeYearVMTPart.fileName;
 			} else if(tableName.equalsIgnoreCase("SourceTypeDayVMT")) {
-				if(!SourceTypeDayVMTPart.isVisible()) {
+				if(runViaGUI && !SourceTypeDayVMTPart.isVisible()) {
 					return "\rSKIP\r";
 				}
 				return SourceTypeDayVMTPart.fileName;
 			} else if(tableName.equalsIgnoreCase("monthVMTFraction")) {
-				if(!monthPart.isVisible()) {
+				if(runViaGUI && !monthPart.isVisible()) {
 					return "\rSKIP\r";
 				}
 				return monthPart.fileName;
 			} else if(tableName.equalsIgnoreCase("dayVMTFraction")) {
-				if(!dayPart.isVisible()) {
+				if(runViaGUI && !dayPart.isVisible()) {
 					return "\rSKIP\r";
 				}
 				return dayPart.fileName;
 			} else if(tableName.equalsIgnoreCase("hourVMTFraction")) {
-				if(!hourPart.isVisible()) {
+				if(runViaGUI && !hourPart.isVisible()) {
 					return "\rSKIP\r";
 				}
 				return hourPart.fileName;
@@ -983,7 +1001,10 @@ public class VehicleTypeVMTImporter extends ImporterBase {
 		parts.add(dayPart);
 		parts.add(hourPart);
 
-		basicDataHandler = new BasicDataHandler(this,dataTableDescriptor,new BasicDataHandlerProvider());
+		BasicDataHandlerProvider provider = new BasicDataHandlerProvider();
+		provider.runViaGUI = this.getImporterManager().RunMode == this.getImporterManager().RUN_VIA_GUI;
+		
+		basicDataHandler = new BasicDataHandler(this, dataTableDescriptor, provider);
 		dataHandler = basicDataHandler;
 	}
 

@@ -20,6 +20,9 @@ import gov.epa.otaq.moves.master.runspec.*;
  * @version		2018-06-22
 **/
 public class BasicDataHandler implements IDataHandler {
+	/** record whether or not any tables were imported; static so this record is valid across all basic data handlers **/
+	private static boolean foundAnyTables = false;
+	
 	/** Marker for the beginning of a table's definition **/
 	public static final String BEGIN_TABLE = "**BEGIN_TABLE**";
 
@@ -633,7 +636,6 @@ public class BasicDataHandler implements IDataHandler {
 		String tableName = "";
 		try {
 			importer.getImporterManager().fillCountyDomainTables(db);
-			boolean foundAnyTables = false;
 			if(importDataProvider instanceof IProvider2) {
 				((IProvider2)importDataProvider).onImportBegin();
 			}

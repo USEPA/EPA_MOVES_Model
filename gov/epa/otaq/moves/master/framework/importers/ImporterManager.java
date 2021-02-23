@@ -33,6 +33,11 @@ public class ImporterManager {
 	public static final int STANDARD_MODE = 0;
 	/** Mode to show only the I/M and related tabs **/
 	public static final int IM_ONLY_MODE = 1;
+	
+	/** Importers might need to behave differently depending on if the GUI is actually being shown or not **/
+	public static final int RUN_VIA_GUI = 0;
+	public static final int RUN_VIA_XML = 1;
+	public static int RunMode = RUN_VIA_GUI; // assume importers are being run via the GUI unless otherwise specified
 
 	/** True if the XML generation code should perform a self-check **/
 	private static boolean shouldTestXML = false;
@@ -911,6 +916,8 @@ public class ImporterManager {
 	 * @throws Exception upon any other problem
 	**/
 	private static ImporterManager fromXML(Node importerNode) throws SAXException, Exception {
+		// turn on XML mode so the importer manager knows it is being run from XML
+		RunMode = RUN_VIA_XML;
 		ImporterManager manager = new ImporterManager(null);
 		NamedNodeMap attributes = importerNode.getAttributes();
 		for(int i = 0; i < attributes.getLength(); i++) {
