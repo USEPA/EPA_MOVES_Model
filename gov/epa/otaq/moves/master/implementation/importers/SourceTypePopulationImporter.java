@@ -247,7 +247,7 @@ public class SourceTypePopulationImporter extends ImporterBase {
 			return new RunSpecSectionStatus(RunSpecSectionStatus.OK);
 		}
 		boolean hasSourceTypes = manager.tableHasSourceTypes(db,
-				"select distinct sourceTypeID from " + primaryTableName + " where sourceTypePopulation > 0",
+				"select distinct sourceTypeID from " + primaryTableName,
 				this,primaryTableName + " is missing sourceTypeID(s)");
 		boolean hasYears = manager.tableHasYears(db,
 				"select distinct yearID from " + primaryTableName,
