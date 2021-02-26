@@ -59,7 +59,7 @@ public class ImporterInstantiator {
 			"gov.epa.otaq.moves.master.implementation.importers.ZoneImporter",
 		"Hotelling", "hotelling", "|general|county|project|",
 			"gov.epa.otaq.moves.master.implementation.importers.HotellingImporter",
-		"Idle", "idle", "|county|",
+		"Idle", "idle", "|general|county|",
 			"gov.epa.otaq.moves.master.implementation.importers.IdleImporter",
 		"I/M", "imcoverage", "|general|county|project|",
 			"gov.epa.otaq.moves.master.implementation.importers.IMImporter",
