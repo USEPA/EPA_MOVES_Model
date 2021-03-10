@@ -1,11 +1,8 @@
 # MOVES3.0.1
-This branch contains code fixes that will be released in the next patch to MOVES.
-
-# MOVES3
 
 EPA's MOtor Vehicle Emission Simulator (MOVES) is a state-of-the-science emission modeling system that estimates emissions for mobile sources at the national, county, and project level for criteria air pollutants, greenhouse gases, and air toxics, available under EPA's Open Source Software policy. 
 
-MOVES3 is the latest version of MOVES available for regulatory purposes. For more information, see [Policy Guidance on the Use of MOVES3 for State Implementation Plan Development, Transportation Conformity, General Conformity, and Other Purposes (EPA-420-B-20-044)](https://www.epa.gov/moves/latest-version-motor-vehicle-emission-simulator-moves#sip).
+MOVES3.0 (available at https://github.com/USEPA/EPA_MOVES_Model and https://www.epa.gov/moves/latest-version-motor-vehicle-emission-simulator-moves) is the latest version of MOVES available for regulatory purposes. For more information, see [Policy Guidance on the Use of MOVES3 for State Implementation Plan Development, Transportation Conformity, General Conformity, and Other Purposes (EPA-420-B-20-044)](https://www.epa.gov/moves/latest-version-motor-vehicle-emission-simulator-moves#sip). 
 
 For additional information on MOVES, visit EPA's [MOVES website](https://www.epa.gov/moves). A standard installer for MOVES is available [here](https://www.epa.gov/moves/latest-version-motor-vehicle-emission-simulator-moves#download). Or, to compile and MOVES from source, follow the instructions below.
 
@@ -42,8 +39,7 @@ To get set up:
 
 ```bash
 setenv
-ant compileall
-ant rungui
+ant crungui
 ```
 
 6. Hereafter to run MOVES, simply navigate to the MOVES directory and run:
@@ -54,7 +50,7 @@ MOVESMaster.bat
 
 ### Need help?
 
-Documentation on the software components of MOVES, database structure, running MOVES from the command line, tips for improving MOVES performance, and other information are available in the [\docs](docs) directory of this project. Peer-reviewed documentation on the data and algorithms used in MOVES are available in the [Onroad Technical Reports](https://www.epa.gov/moves/moves-onroad-technical-reports) and [Nonroad Technical Reports](https://www.epa.gov/moves/nonroad-technical-reports). On-your-own training modules are available [here](https://www.epa.gov/moves/moves-training-sessions#training). If you have feedback, [email the MOVES inbox](mailto:mobile@epa.gov).
+Documentation on the software components of MOVES, database structure, running MOVES from the command line, tips for improving MOVES performance, and other information are available in the [\docs](docs\Readme.md) directory of this project. Peer-reviewed documentation on the data and algorithms used in MOVES are available in the [Onroad Technical Reports](https://www.epa.gov/moves/moves-onroad-technical-reports) and [Nonroad Technical Reports](https://www.epa.gov/moves/nonroad-technical-reports). On-your-own training modules are available [here](https://www.epa.gov/moves/moves-training-sessions#training). If you have feedback, [email the MOVES inbox](mailto:mobile@epa.gov).
 
 ### Previous MOVES Versions
 

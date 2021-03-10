@@ -28,9 +28,17 @@ This folder contains conversion scripts to help users convert input databases fo
 
 This folder contains the template SQL scripts used to create the needed inputs for modeling emissions in states that have adopted LEV or NLEV standards. These scripts can be accessed from the MOVES GUI under the Tools menu.
 
+### database/NEIQA
+
+This folder contains the SQL scripts for the NEI Submissions QA Tool as well as the instructions for using them. These scripts are run via ant.
+
 ### database/NonroadProcessingScripts
 
 This folder contains the post-processing scripts for nonroad runs. These scripts can be run from the MOVES GUI under the Post Processing menu.
+
+### database/ONITool
+
+This folder contains the SQL script for the ONI Tool as well as instructions for using it. This tool can be accessed from the MOVES GUI under the Tools menu.
 
 ### database/OutputProcessingScripts
 
@@ -95,6 +103,10 @@ This contains Java code for basic tasks that aren't MOVES-specific but that MOVE
 ### gov/epa/otaq/moves/worker
 
 This contains the basic code for the MOVES worker. It includes the java files for the worker command that is executed through the command line via the Ant commands defined in build.xml. There is also a framework folder similar to the master/framework folder but quite a bit smaller. Finally there is gui folder for the GUI component that displays the worker status during a MOVES run.
+
+## jre
+
+This folder contains the components of the Java Runtime Environment necessary for running MOVES.
 
 ## libs
 
