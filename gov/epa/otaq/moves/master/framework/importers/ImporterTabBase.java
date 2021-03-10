@@ -484,8 +484,8 @@ public class ImporterTabBase implements IImporterPanel, FocusListener, ActionLis
 
 		if(exportResult == 0) { // If there were no errors but no data was exported...
 			JOptionPane.showMessageDialog(null,
-					"No data was retrieved. Consult the user guide for more options.",
-					"No Data", JOptionPane.ERROR_MESSAGE);
+				"Could not find default data for " + importer.getName() + " using the current\nRunSpec selections.\n\nEither modify the RunSpec or click \"Create Template...\" instead.",
+				"No Data for " + importer.getName(), JOptionPane.ERROR_MESSAGE);
 		}
 	}
 

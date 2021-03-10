@@ -27,7 +27,7 @@ begin
 
 	-- The endModelYearID must be the same or after the beginModelYearID.  If not, an ERROR message shall appear and the tab header shall show a red X.
 	insert into importTempMessages (message)
-	select distinct concat('ERROR: endModelYearID ',endModelYearID,' must be the same or before beginModelYearID ',beginModelYearID) as errorMessage
+	select distinct concat('ERROR: endModelYearID ',endModelYearID,' must be the same or after beginModelYearID ',beginModelYearID) as errorMessage
 	from onRoadRetrofit
 	where endModelYearID < beginModelYearID;
 

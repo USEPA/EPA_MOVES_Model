@@ -1065,13 +1065,17 @@ public class DatabaseUtilities {
 	}
 	
 	/**
-	 * Execute a script that is designed to build a LEV database.  This involves two databases:
-	 * the output database being created, and a
-	 * default database that supplies missing data.  The script is run in the context of the output
-	 * database.  The default database should be given the name ##defaultdb## in the script.
+	 * Execute a script that calculates default ONI activity. This involves three databases:
+	 * the input CDB database, a default database that supplies missing data, and a temporary
+	 * database that holds intermediate calculations.  The script  is run in the context of
+	 * the input database.
+	 * ##defaultdb## is the name of the default database
+	 * ##inputdb## is the name of the CDB
+	 * ##tempdb## is the name of the temporary database used to hold the intermediate calculations
 	 * @param saveFile file object to receive the output data
 	 * @param inputDatabase input database to be used
 	 * @param defaultDatabase database providing missing data
+	 * @param messages holds messages to be displayed to the user
 	 * @throws FileNotFoundException when the script file cannot be found
 	 * @throws IOException when the script file cannot be read
 	 * @throws SQLException when a database cannot be accessed or created
@@ -1206,6 +1210,131 @@ public class DatabaseUtilities {
 			} catch (Exception e) {
 				messages.add(e.toString());
 				Logger.logError(e, "Close save file failed.");
+				success = false;
+			}
+		}
+		
+		return success;
+	}
+	
+	// these private variables are used in executeNEIQA() and saveNEIQA()
+	/** save the script file name used in executeNEIQA() so that saveNEIQA() knows which script was used **/
+	private static String qaScriptName = null;
+	/** keep track of how many times executeNEIQA() is called (need to do some setup on the first time) **/
+	private static int countNEIQA = 0;
+	
+	/**
+	 * Execute a script that performs NEI QA checks.  This involves two databases:
+	 * the input CDB database and a default database that supplies data definitions.  The script 
+	 * is run in the context of the input database.
+	 * ##defaultdb## is the name of the default database
+	 * @param scriptPath file path to NEI QA Script
+	 * @param inputDatabase input database to be used
+	 * @param defaultDatabase database providing missing data
+	 * @param saveFile file object to receive the output data
+	 * @throws FileNotFoundException when the script file cannot be found
+	 * @throws IOException when the script file cannot be read
+	 * @throws SQLException when a database cannot be accessed or created
+	**/
+	public static boolean executeNEIQA(File qaScript, DatabaseSelection inputDatabase, DatabaseSelection defaultDatabase)
+			throws FileNotFoundException, IOException, SQLException {
+		Connection inputDB = null;
+		Connection defaultDB = null;
+		boolean success = false;
+		String sql;
+		
+		// save for use in saveNEIQA()
+		qaScriptName = qaScript.getName();
+		
+		try {
+			// make connection to input db (this is the db the script will be run against)
+			inputDB = inputDatabase.openConnectionOrNull();
+			if(inputDB == null) {
+				throw new SQLException("Unable to connect to input database " + inputDatabase.databaseName);
+			}
+			
+			// make sure default database is accessible, but we don't need to keep the connection open
+			defaultDB = defaultDatabase.openConnectionOrNull();
+			if(defaultDB == null) {
+				throw new SQLException("Unable to connect to default database " + defaultDatabase.databaseName);
+			}
+			closeConnection(defaultDB);
+			defaultDB = null;
+			
+			// drop the results database if this is the first time we are run (start with a clean slate)
+			if(countNEIQA == 0) {
+				SQLRunner.executeSQL(inputDB, "DROP DATABASE IF EXISTS `all_cdb_checks`");
+			}
+			countNEIQA++;
+			
+			// list all strings that need to be replaced in the script here
+			TreeMapIgnoreCase replacements = new TreeMapIgnoreCase();
+			replacements.put("##defaultdb##",defaultDatabase.databaseName);
+			
+			// run it!
+			executeScript(inputDB,qaScript,replacements,false);
+			success = true;
+			
+		} finally {
+			if(inputDB != null) {
+				closeConnection(inputDB);
+				inputDB = null;
+			}
+			if(defaultDB != null) {
+				closeConnection(defaultDB);
+				defaultDB = null;
+			}
+		}
+		
+		return success;
+	}
+
+	/**
+	 * Save the result of the NEI QA checks.  
+	 * @param defaultDatabase to make a connection to 
+	 * @param saveFile file object to receive the output data
+	 * @throws SQLException when a database cannot be accessed
+	 * @throws Exception if there are errors accessing or creating the output file
+	**/
+	public static boolean saveNEIQA(DatabaseSelection defaultDatabase, File saveFile)
+			throws SQLException, Exception {
+		Connection defaultDB = null;
+		CellFileWriter writer = null;
+		boolean success = false;
+		String sql;
+		
+		try {
+			// make connection to database
+			defaultDB = defaultDatabase.openConnectionOrNull();
+			if(defaultDB == null) {
+				throw new SQLException("Unable to connect to default database " + defaultDatabase.databaseName);
+			}
+
+			// CellFileWriter can handle many file types, including .xlsx, .xls, .csv, and .txt
+			writer = new CellFileWriter(saveFile, qaScriptName);
+			
+			// results are stored in a table name dependent on which set of checks were run
+			if(qaScriptName.toLowerCase().contains("nonroad")) {
+				sql = "select * from all_cdb_checks.all_nrcdb_checks";
+			} else {
+				sql = "select * from all_cdb_checks.all_cdb_checks";
+			}
+			
+			// write results
+			writer.writeSQLResults(defaultDB, sql, null);
+			success = true;
+			
+		} finally {
+			if(defaultDB != null) {
+				closeConnection(defaultDB);
+				defaultDB = null;
+			}
+			try {
+				if(writer != null) {
+					writer.close();
+				}
+			} catch (Exception e) {
+				Logger.logError(e, "Could not close " + saveFile.getName());
 				success = false;
 			}
 		}

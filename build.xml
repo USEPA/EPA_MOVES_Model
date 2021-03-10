@@ -32,116 +32,121 @@
 		<echo message="ant build file for MOVES"/>
 		<echo message=""/>
 		<echo message="Available targets:"/>
-		<echo message="---------------------------------------------------"/>
+		<echo message="-------------------------------------------------------------------------------"/>
 		<echo message="clean        - delete previously built .class files"/>
 		<echo message="compile      - compile changed Java classes"/>
 		<echo message="compileall   - compile all Java classes"/>
 		<echo message="go           - compile all Go code for all configurations (64-bit, 32-bit, Linux)"/>
 		<echo message="go32         - compile all Go code for 32-bit architecture"/>
-		<echo message="go32local    - compile all Go code using the Go compiler at ${user.dir}\go32. Expect errors if you do not have a Go compiler installed in this location."/>
+		<echo message="go32local    - compile all Go code using the Go compiler at ${user.dir}\go32. " />
+		<echo message="               Expect errors if you do not have a Go compiler installed here." />
 		<echo message="go64         - compile all Go code for 64-bit architecture"/>
 		<echo message="compilejavago - compile all Java classes and Go (64-bit) code"/>
-		<echo message="----------------------------------------------------"/>
+		<echo message="-------------------------------------------------------------------------------"/>
 		<echo message="docs         - generate Java docs"/>
-		<echo message="algorithms   - generate algorithm HTML file" />
-		<echo message="----------------------------------------------------------------"/>
-		<echo message="all          - compile java and go, generate docs, and run alltests"/>
-		<echo message="alltests     - all tests"/>
-		<echo message="cleantests   - delete all previously built test results"/>
-		<echo message="guitests     - all GUI unit tests in testdata/abbot/production"/>
-		<echo message="inprogressguitests - all GUI unit tests in testdata/abbot/inprogress"/>
-		<echo message="508tests     - run Section 508 tests" />		
-		<echo message="costello     - run the Costello tool for building GUI test scripts" />
-		<echo message="recenttests  - recent tests, as set by development"/>
-		<echo message="testcleanup  - delete intermediate files generated during tests"/>
-		<echo message="slowqueries  - analyze MySQL slow queries" />
-		<echo message="errormessages- generate error message RTF file" />
-		<echo message="-----------------------------------------------"/>
-		<echo message="startmysql   - start a local copy of MySQL" />
-		<echo message="stopmysql    - stop the local copy of MySQL" />
-		<echo message="------------------------------------------------------"/>
+		<echo message="algorithms   - generate algorithm HTML file (DEPRECATED)" />
+		<echo message="-------------------------------------------------------------------------------"/>
+		<echo message="all          - compile java and go, generate docs, and run alltests (DEPRECATED)"/>
+		<echo message="alltests     - all tests (DEPRECATED)"/>
+		<echo message="cleantests   - delete all previously built test results (DEPRECATED)"/>
+		<echo message="guitests     - all GUI unit tests in testdata/abbot/production (DEPRECATED)"/>
+		<echo message="inprogressguitests - all GUI unit tests in testdata/abbot/inprogress (DEPRECATED)"/>
+		<echo message="508tests     - run Section 508 tests (DEPRECATED)" />		
+		<echo message="costello     - run the Costello tool for building GUI test scripts (DEPRECATED)" />
+		<echo message="recenttests  - recent tests, as set by development (DEPRECATED)"/>
+		<echo message="testcleanup  - delete intermediate files generated during tests (DEPRECATED)"/>
+		<echo message="slowqueries  - analyze MySQL slow queries (DEPRECATED)" />
+		<echo message="errormessages- generate error message RTF file (DEPRECATED)" />
+		<echo message="-------------------------------------------------------------------------------"/>
+		<echo message="startmysql   - start a local copy of MySQL (DEPRECATED)" />
+		<echo message="stopmysql    - stop the local copy of MySQL (DEPRECATED)" />
+		<echo message="-------------------------------------------------------------------------------"/>
 		<echo message="rungui       - display the MOVES Master user interface"/>
 		<echo message="runworker    - display the MOVES Worker user interface"/>
 		<echo message="crungui      - compile and run the MOVES Master user interface"/>
 		<echo message="crunworker   - compile and run the MOVES Worker user interface"/>
-		<echo message="--------------------------------------------------------------"/>
-		<echo message="1worker      - start a local copy of MySQL and 1 local worker" />
-		<echo message="               using the manyworkers.txt configuration file." />
-		<echo message="               The worker will shutdown after there have been" />
-		<echo message="               no TODO or InProgress files present for 2 minutes." />
-		<echo message="               After the worker stops, the local copy of MySQL" />
-		<echo message="               is stopped as well." />
-		<echo message="               Before using, edit manyworkers.txt to use your" />
-		<echo message="               system's sharedDistributedFolderPath." />
-		<echo message="               If the MySQL daemon is already running, a local" />
-		<echo message="               copy of MySQL will not be started nor will the" />
-		<echo message="               the daemon be stopped, but the worker(s) will still" />
-		<echo message="               be started." />
-		<echo message="               The ANT flag -Dnoshutdown=1 may be given to start" />
-		<echo message="               the worker but never shut it down even when work" />
-		<echo message="               is no longer available." />
-		<echo message="2workers     - like 1worker but with 2 concurrent workers" />
-		<echo message="3workers     - like 1worker but with 3 concurrent workers" />
-		<echo message="manyworkers  - like 1worker but with a user defined number of workers." />
-		<echo message="               Requires ANT flag -Dmaxworkers=N to be set where N is " />
-		<echo message="               the desired number of workers to be started." />
-		<echo message="    ant -Dmaxworkers=N manyworkers" />
-		<echo message="--------------------------------------------------------"/>
-		<echo message="maketodo     - start a local copy of MySQL and 1 master," />
-		<echo message="               set to only generate TODO files without getting" />
-		<echo message="               DONE files or deleting TODO, DONE, or InProgress" />
-		<echo message="               files upon exiting.  Use -Drunspec= to name the" />
-		<echo message="               one runspec that will be used. Before using," />
-		<echo message="               edit maketodo.txt to use your system's" />
-		<echo message="               system's sharedDistributedFolderPath." />
-		<echo message="               If the MySQL daemon is already running, a local" />
-		<echo message="               copy of MySQL will not be started nor will the" />
-		<echo message="               the daemon be stopped, but the master will still" />
-		<echo message="               be started. IMPORTANT: Use setlogin first." />
-		<echo message="    ant -Drunspec=c:\myrunspecs\runspec1.mrs maketodo" />
-		<echo message="master1worker -start a local copy of MySQL and 1 master," />
-		<echo message="               set to start a single worker and wait for its" />
-		<echo message="               DONE files.  Like maketodo, use -Drunspec= to" />
-		<echo message="               specify the runspec.  Before using edit both" />
-		<echo message="               maketodo.txt and manyworkers.txt for your" />
-		<echo message="               system's master and worker path settings." />
-		<echo message="               If the MySQL daemon is already running, a local" />
-		<echo message="               copy of MySQL will not be started nor will the" />
-		<echo message="               the daemon be stopped, but the master, and its" />
-		<echo message="               will still be started. IMPORTANT: Use setlogin first." />
-		<echo message="pickup       - start a local copy of MySQL and a master" />
-		<echo message="               that will pickup DONE files.  Use -Dpdspec= to" />
-		<echo message="               name the PDSpec XML file that will be used." />
-		<echo message="               Before using, edit maketodo.txt to use your system's" />
-		<echo message="               system's sharedDistributedFolderPath." />
-		<echo message="               If the MySQL daemon is already running, a local" />
-		<echo message="               copy of MySQL will not be started nor will the" />
-		<echo message="               the daemon be stopped, but the master will still" />
-		<echo message="               be started. IMPORTANT: Use setlogin first." />
-		<echo message="    ant -Dpdspec=c:\myinfo\filestoget.xml pickup" />
-		<echo message="makejre      - creates a JRE that only contains the components" />
-		<echo message="               used by MOVES. Will only work with Java 9 or later." />
-		<echo message="------------------------------------------------------"/>
-		<echo message="makeamazon   - create amazon/movesamazon.jar utilities" />
-		<echo message="jarcode      - create a jar of the current code for use with Amazon" />
-		<echo message="    ant -Dbuild=20101011 jarcode" />
-		<echo message="    above makes code_20101011.jar" />
 		<echo message="-------------------------------------------------------------------------------"/>
-		<echo message="setlogin        - store database user and password if the defaults have changed" />
-		<echo message="    ant -Duser=moves -Dpassword=secret setlogin" />
-		<echo message="convert2014_3   - convert a MOVES2014 database for use with MOVES3. IMPORTANT:" />
-		<echo message="                  see database\ConversionScripts\InputDatabaseConverstionHelp.pdf" />
-		<echo message="    ant -Dinput=m2014_in -Doutput=m3_in convert2014_3" />
-		<echo message="convert2014ab_3 - convert a MOVES2014a/b database for use with MOVES3. IMPORTANT:" />
-		<echo message="                  see database\ConversionScripts\InputDatabaseConverstionHelp.pdf" />
-		<echo message="    ant -Dinput=m2014b_in -Doutput=m3_in convert2014ab_3" />
-		<echo message="dbimporter      - run the MOVES Data Importers. IMPORTANT: Generate XML description" />
-		<echo message="                  file first from the Tools tab of the County or Project Data Importer"/>
-		<echo message="    ant -Dimport=c:\mydbimporter.xml dbimporter" />
+		<echo message="1worker      - start 1 local worker using the manyworkers.txt configuration " />
+		<echo message="               file. If running on the same computer as MOVES Master, this" />
+		<echo message="               should be run in a separate command window. The worker will" />
+		<echo message="               shutdown after there have been no TODO or InProgress files " />
+		<echo message="               present for 2 minutes. Before using, edit manyworkers.txt to use" />
+		<echo message="               your system's sharedDistributedFolderPath. " />
+		<echo message="               Use -Dnoshutdown=1 to prevent the worker from shutting down when" />
+		<echo message="               work is no longer available. This can be useful for runs where" />
+		<echo message="               MOVES takes more than 2 minutes to produce TODO files. In this" />
+		<echo message="               case, when the worker processes are no longer needed, they can" />
+		<echo message="               be manually shut down by pressing Ctrl+C at the prompt." />
+		<echo message="    ant 1worker -Dnoshutdown=1" />
+		<echo message="2workers     - like 1worker but with 2 concurrent workers" />
+		<echo message="    ant 2workers -Dnoshutdown=1" />
+		<echo message="3workers     - like 1worker but with 3 concurrent workers" />
+		<echo message="    ant 3workers -Dnoshutdown=1" />
+		<echo message="manyworkers  - like 1worker but with a user defined number of workers." />
+		<echo message="               Use -Dmaxworkers=N to be set where N is the desired number of" />
+		<echo message="               workers to be started. Note: Using more than 3 workers is" />
+		<echo message="               unlikely to measurably improve performance." />
+		<echo message="    ant manyworkers -Dmaxworkers=N" />
+		<echo message="-------------------------------------------------------------------------------"/>
+		<echo message="maketodo     - start MOVES to only generate TODO files without picking up DONE" />
+		<echo message="               files or deleting TODO, DONE, or InProgress files upon exiting. " />
+		<echo message="               Use -Drunspec= to name the one runspec that will be used. Before" />
+		<echo message="               using, edit maketodo.txt to use your system's " />
+		<echo message="               sharedDistributedFolderPath." />
+		<echo message="    ant maketodo -Drunspec=c:\myrunspecs\runspec1.mrs" />
+		<echo message="master1worker -start MOVES with a single worker and wait for its DONE files." />
+		<echo message="               Like maketodo, use -Drunspec= to specify the runspec. Before " />
+		<echo message="               using, edit both maketodo.txt and manyworkers.txt for your " />
+		<echo message="               system's master and worker path settings." />
+		<echo message="    ant master1worker -Drunspec=c:\myrunspecs\runspec1.mrs" />
+		<echo message="pickup       - start MOVES to only pickup DONE files. Use -Dpdspec= to name the" />
+		<echo message="               PDSpec XML file that will be used. Before using, edit " />
+		<echo message="               maketodo.txt to use your system's sharedDistributedFolderPath." />
+		<echo message="    ant pickup -Dpdspec=c:\myinfo\filestoget.xml" />
+		<echo message="makejre      - creates a Java Runtime Environment in .\jre that only contains" />
+		<echo message="               the Java components used by MOVES." />
+		<echo message="-------------------------------------------------------------------------------"/>
+		<echo message="makeamazon   - create amazon/movesamazon.jar utilities" />
+		<echo message="jarcode      - create a jar of the code for use with Amazon. Use -Dbuild= to " />
+		<echo message="               to specify the build date. The resulting file name will be" />
+		<echo message="               yyyymmdd_code.jar" />
+		<echo message="    ant jarcode -Dbuild=yyyymmdd" />
+		<echo message="-------------------------------------------------------------------------------"/>
+		<echo message="setlogin     - store database user and password if the defaults have changed" />
+		<echo message="    ant setlogin -Duser=moves -Dpassword=secret" />
+		<echo message="-------------------------------------------------------------------------------"/>
+		<echo message="convert2014_3   - convert a MOVES2014 database for use with MOVES3. Specify" />
+		<echo message="                  the name of the starting database with -Dinput= and name the" />
+		<echo message="                  resulting database with -Doutput= argument. IMPORTANT: see" />
+		<echo message="                  database\ConversionScripts\InputDatabaseConverstionHelp.pdf" />
+		<echo message="    ant convert2014_3 -Dinput=m2014_in -Doutput=m3_in" />
+		<echo message="convert2014ab_3 - convert a MOVES2014a/b database for use with MOVES3. Specify" />
+		<echo message="                  the name of the starting database with -Dinput= and name the" />
+		<echo message="                  resulting database with -Doutput= argument. IMPORTANT: see" />
+		<echo message="                  database\ConversionScripts\InputDatabaseConverstionHelp.pdf" />
+		<echo message="    ant convert2014ab_3 -Dinput=m2014b_in -Doutput=m3_in" />
+		<echo message="-------------------------------------------------------------------------------"/>
+		<echo message="dbimporter      - run the MOVES Data Importers. IMPORTANT: Generate XML " />
+		<echo message="                  file from the Tools tab of the County or Project Data " />
+		<echo message="                  Manager, and then edit as needed."/>
+		<echo message="    ant dbimporter -Dimport=c:\mydbimporter.xml" />
+		<echo message="-------------------------------------------------------------------------------"/>
+		<echo message="onroadNEIQA     - run the onroad NEI QA scripts against one or more input " />
+		<echo message="                  databases. Use -Dinput= argument to provide the name of the" />
+		<echo message="                  database. If providing more than one database, either comma" />
+		<echo message="                  separate the names and quote the whole argument, or list the" />
+		<echo message="                  database names one per line in a text file and supply the path" />
+		<echo message="                  to this file in -Dinput. Use -Doutput= to specify the output" />
+        <echo message="                  file path; file types can be .xls(x), .txt, or .csv. For help," />
+		<echo message="                  see database\NEIQA\NEIQAInstructions.pdf" />
+		<echo message="    ant onroadNEIQA -Dinput=&quot;cXXXXXyYYYY_in,cZZZZZyYYYY_in&quot; -Doutput=PSC_QA_Report.xlsx" />
+		<echo message="    ant onroadNEIQA -Dinput=db_list.txt -Doutput=PSC_QA_Report.xlsx" />
+		<echo message="nonroadNEIQA    - run the nonroad NEI QA scripts. Usage has the same arguments" />
+		<echo message="                  as the onroadNEIQA command. " />
+		<echo message="-------------------------------------------------------------------------------"/>
 		<echo message="run             - Execute a runspec. " />
 		<echo message="                  Use -Drunspec= to name the one runspec that will be used." />
-		<echo message="    ant -Drunspec=c:\myrunspecs\runspec1.mrs run" />
-		
+		<echo message="    ant run -Drunspec=c:\myrunspecs\runspec1.mrs" />		
 	</target>
 
 	<path id="classpath">
@@ -1114,6 +1119,78 @@
 		</java>
 	</target>
 
+	<target name="onroadNEIQA" depends="">
+		<if>
+			<or>
+				<not>
+					<isset property="input" />
+				</not>
+				<equals arg1="${input}" arg2="" />
+			</or>
+			<then>
+				<echo>ERROR: The -Dinput= argument was not provided. Type ANT for more information.</echo>
+			</then>	
+			<elseif>
+				<or>
+					<not>
+						<isset property="output" />
+					</not>
+					<equals arg1="${output}" arg2="" />
+				</or>
+				<then>
+					<echo>ERROR: The -Doutput= argument was not provided. Type ANT for more information.</echo>
+				</then>
+			</elseif>
+			<else>
+				<java classname="gov.epa.otaq.moves.master.commandline.NEIQAScriptsRunner" fork="yes" maxmemory="512m">
+					<classpath>
+						<pathelement path="${java.class.path}" />
+					</classpath>
+					<classpath refid="classpath" />
+					<arg value="-input=${input}" />
+					<arg value="-output=${output}" />
+					<arg value="-script=database\NEIQA\M3onroadCDBchecks.sql" />
+				</java>
+			</else>
+		</if>		
+	</target>
+
+	<target name="nonroadNEIQA" depends="">
+		<if>
+			<or>
+				<not>
+					<isset property="input" />
+				</not>
+				<equals arg1="${input}" arg2="" />
+			</or>
+			<then>
+				<echo>ERROR: The -Dinput= argument was not provided. Type ANT for more information.</echo>
+			</then>	
+			<elseif>
+				<or>
+					<not>
+						<isset property="output" />
+					</not>
+					<equals arg1="${output}" arg2="" />
+				</or>
+				<then>
+					<echo>ERROR: The -Doutput= argument was not provided. Type ANT for more information.</echo>
+				</then>
+			</elseif>
+			<else>
+				<java classname="gov.epa.otaq.moves.master.commandline.NEIQAScriptsRunner" fork="yes" maxmemory="512m">
+					<classpath>
+						<pathelement path="${java.class.path}" />
+					</classpath>
+					<classpath refid="classpath" />
+					<arg value="-input=${input}" />
+					<arg value="-output=${output}" />
+					<arg value="-script=database\NEIQA\M3nonroadCDBchecks.sql" />
+				</java>
+			</else>
+		</if>
+	</target>
+	
 	<target name="setlogin" depends="">
 		<java classname="gov.epa.otaq.moves.master.commandline.SetLogin" fork="yes" maxmemory="512m">
 			<classpath>
