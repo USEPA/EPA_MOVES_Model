@@ -728,5 +728,5 @@ c
       integer*4 MAXYEAR
 c
       parameter( MINYEAR = 1970 )
-      parameter( MAXYEAR = 2050 )
+      parameter( MAXYEAR = 2060 )
 c

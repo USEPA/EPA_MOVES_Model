@@ -32,13 +32,16 @@ DROP TABLE IF EXISTS AggFuelUsageFraction;
 DROP TABLE IF EXISTS OldTotalIdleFraction;
 
 -- Since "Nation" does not include the Virgin Islands or
--- Puerto Rico, remove their information from State, County, Zone
--- and all Nonroad tables as well.
+-- Puerto Rico, remove their information from State, County, Zone,
+-- ZoneRoadType, and all Nonroad tables as well.
 delete from zone
 using state
 inner join county on (county.stateID=state.stateID)
 inner join zone on (zone.countyID=county.countyID)
 where state.stateID in (72,78);
+
+delete from zoneroadtype
+where round(zoneID/10000, 0) in (72,78);
 
 delete from nrBaseYearEquipPopulation where stateID in (72,78);
 delete from nrGrowthPatternFinder where stateID in (72,78);
@@ -71,15 +74,17 @@ create table SurrogateActivity (
 
 insert into SurrogateActivity (zoneID, countyID, actFract)
   SELECT zoneID, countyID, startAllocFactor as actFract from Zone;
+  
+drop table if exists SurrogateActivityTotal;
+create table SurrogateActivityTotal
+select sum(actFract) as nationalActivityFraction
+from SurrogateActivity;
+
 
 -- 
 -- SurrogateStateActivity Table
 -- 
 -- SELECT "Making SurrogateStateActivity" AS MARKER_POINT;
-drop table if exists SurrogateStateActivityTotal;
-create table SurrogateStateActivityTotal
-select sum(actFract) as nationalActivityFraction
-from SurrogateActivity;
 
 drop table if exists SurrogateStateActivity;
 create table SurrogateStateActivity (
@@ -95,7 +100,7 @@ select c.stateID,
 	end as actFract
 from SurrogateActivity sa
 inner join County c using (countyID)
-inner join SurrogateStateActivityTotal t
+inner join SurrogateActivityTotal t
 where t.nationalActivityFraction > 0
 group by c.stateID;
 
@@ -116,7 +121,7 @@ select countyID,
 	else sum(actFract)/nationalActivityFraction
 	end as actFract
 from SurrogateActivity sa
-inner join SurrogateStateActivityTotal t
+inner join SurrogateActivityTotal t
 where t.nationalActivityFraction > 0
 group by countyID;
 
@@ -223,9 +228,9 @@ CREATE Table AggZoneMonthHour (
 	temperature FLOAT,
 	relHumidity FLOAT);
 INSERT INTO AggZoneMonthHour	
-  SELECT monthID, hourID, sum(temperature*actFract) as temperature,
-    sum(relHumidity*actFract) AS relHumidity
-  FROM ZoneMonthHour INNER JOIN SurrogateActivity USING (zoneID)
+  SELECT monthID, hourID, sum(temperature*actFract)/nationalActivityFraction as temperature,
+    sum(relHumidity*actFract)/nationalActivityFraction AS relHumidity
+  FROM ZoneMonthHour INNER JOIN SurrogateActivity USING (zoneID) JOIN SurrogateActivityTotal
   GROUP BY monthID, hourID;
 CREATE UNIQUE INDEX index1 ON AggZoneMonthHour (monthID, hourID);  
 TRUNCATE ZoneMonthHour;
@@ -341,6 +346,11 @@ from fuelSupply;
 --
 -- SELECT "Making FuelUsageFraction" AS MARKER_POINT;
 --  Creating table explicitly to control column types and avoid significance problems
+-- 
+-- Because fuel usage fraction is used early in the TAG, reductions here for PR/VI propagate to all
+-- activity calculations (i.e., for every activityTypeID). This is why this table is not normalized
+-- to total national activity.
+-- 
 CREATE TABLE AggFuelUsageFraction (
 	fuelYearID SMALLINT,
 	modelYearGroupID int,
@@ -397,9 +407,9 @@ INSERT INTO IMCoverage (stateID, countyID, yearID, polProcessID, fuelTypeID,
 SELECT 0 as stateID, 0 as countyID, yearID, polProcessID, fuelTypeID,
 	sourceTypeID, IMProgramID, inspectFreq, testStandardsID,
 	begModelYearID, endModelYearID, useIMyn,
-	(complianceFactor*actFract) as complianceFactor
+	(complianceFactor*actFract)/nationalActivityFraction as complianceFactor
 FROM OldIMCoverage
-INNER JOIN SurrogateActivity USING(countyID);
+INNER JOIN SurrogateActivity USING(countyID) JOIN SurrogateActivityTotal;
 
 --
 --  SHO    
@@ -514,8 +524,8 @@ CREATE Table AggAverageTankTemperature (
 	averageTankTemperature FLOAT);
 INSERT INTO AggAverageTankTemperature
   SELECT tankTemperatureGroupID, monthID, hourDayID, opModeID,
-    sum(averageTankTemperature*actFract) as averageTankTemperature
-  FROM AverageTankTemperature INNER JOIN SurrogateActivity USING (zoneID)
+    sum(averageTankTemperature*actFract)/nationalActivityFraction as averageTankTemperature
+  FROM AverageTankTemperature INNER JOIN SurrogateActivity USING (zoneID) JOIN SurrogateActivityTotal
   GROUP BY tankTemperatureGroupID, monthID, hourDayID, opModeID;
 
 
@@ -540,8 +550,8 @@ CREATE Table AggSoakActivityFraction (
 	soakActivityFraction double);
 INSERT INTO AggSoakActivityFraction
   SELECT sourceTypeID, monthID, hourDayID, opModeID,
-    sum(soakActivityFraction*actFract) as soakActivityFraction
-  FROM SoakActivityFraction INNER JOIN SurrogateActivity USING (zoneID)
+    sum(soakActivityFraction*actFract)/nationalActivityFraction as soakActivityFraction
+  FROM SoakActivityFraction INNER JOIN SurrogateActivity USING (zoneID) JOIN SurrogateActivityTotal
   GROUP BY sourceTypeID, monthID, hourDayID, opModeID;
 TRUNCATE SoakActivityFraction;
 REPLACE INTO SoakActivityFraction (sourceTypeID, zoneID, 
@@ -560,8 +570,8 @@ CREATE Table AggColdSoakTankTemperature (
 	hourID SMALLINT,
 	coldSoakTankTemperature FLOAT);
 INSERT INTO AggColdSoakTankTemperature
-  SELECT monthID, hourID, sum(coldSoakTankTemperature*actFract) as coldSoakTankTemperature
-  FROM ColdSoakTankTemperature INNER JOIN SurrogateActivity USING (zoneID)
+  SELECT monthID, hourID, sum(coldSoakTankTemperature*actFract)/nationalActivityFraction as coldSoakTankTemperature
+  FROM ColdSoakTankTemperature INNER JOIN SurrogateActivity USING (zoneID) JOIN SurrogateActivityTotal
   GROUP BY monthID, hourID;
 CREATE UNIQUE INDEX index1 ON AggColdSoakTankTemperature (monthID, hourID);  
 TRUNCATE ColdSoakTankTemperature;
@@ -582,8 +592,8 @@ CREATE Table AggColdSoakInitialHourFraction (
 	initialHourDayID SMALLINT,
 	coldSoakInitialHourFraction FLOAT);
 INSERT INTO AggColdSoakInitialHourFraction
-  SELECT sourceTypeID, monthID, hourDayID, initialHourDayID, sum(coldSoakInitialHourFraction*actFract) as coldSoakInitialHourFraction
-  FROM ColdSoakInitialHourFraction INNER JOIN SurrogateActivity USING (zoneID)
+  SELECT sourceTypeID, monthID, hourDayID, initialHourDayID, sum(coldSoakInitialHourFraction*actFract)/nationalActivityFraction as coldSoakInitialHourFraction
+  FROM ColdSoakInitialHourFraction INNER JOIN SurrogateActivity USING (zoneID) JOIN SurrogateActivityTotal
   GROUP BY sourceTypeID, monthID, hourDayID, initialHourDayID;
 CREATE UNIQUE INDEX index1 ON AggColdSoakInitialHourFraction (sourceTypeID, monthID, hourDayID, initialHourDayID);
 TRUNCATE ColdSoakInitialHourFraction;
@@ -607,9 +617,9 @@ CREATE Table AggAverageTankGasoline (
 	RVP FLOAT);
 INSERT INTO AggAverageTankGasoline
   SELECT fuelTypeID, fuelYearID, monthGroupID, 
-  	sum(ETOHVolume*actFract) as ETOHVolume,
-  	sum(RVP*actFract) as RVP
-  FROM AverageTankGasoline INNER JOIN SurrogateActivity USING (zoneID)
+  	sum(ETOHVolume*actFract)/nationalActivityFraction as ETOHVolume,
+  	sum(RVP*actFract)/nationalActivityFraction as RVP
+  FROM AverageTankGasoline INNER JOIN SurrogateActivity USING (zoneID) JOIN SurrogateActivityTotal
   GROUP BY fuelTypeID, fuelYearID, monthGroupID;
 CREATE UNIQUE INDEX index1 ON AggAverageTankGasoline (fuelTypeID, fuelYearID, monthGroupID);
 TRUNCATE AverageTankGasoline;
@@ -708,7 +718,7 @@ DROP TABLE IF EXISTS AggAverageTankTemperature;
 DROP TABLE IF EXISTS AggSoakActivityFraction;
 DROP TABLE IF EXISTS AggFuelUsageFraction;
 
-drop table if exists SurrogateStateActivityTotal;
+drop table if exists SurrogateActivityTotal;
 drop table if exists SurrogateStateActivity;
 drop table if exists SurrogateCountyActivity;
 DROP TABLE IF EXISTS OldnrBaseYearEquipPopulation;
