@@ -173,45 +173,6 @@ ant convert2014ab_3 Dinput=m2014b_in -Doutput=m3_in
 
 `-Dinput` and `-Doutput` are the same as with the other conversion command, and `convert2014ab_3` tells Ant to use the conversion scripts for going from a MOVES2014a or MOVES2014b input database to MOVES3 format.
 
-## Batch mode input database creation
-MOVES includes an Ant command to create input databases, which can save time if you need to create many input databases at once. The following steps assume that you already have all of your input data files QA-ed and ready to go.
-
-1.  Using the MOVES GUI, create your base RunSpec.
-
-2.  Using the Create Input Database Panel, create a corresponding database, and enter the Data Manager. Fully populate the database so that you get all green checks. *Note: do not close and re-enter the Data Manager during this step or before performing step 3. All tables must be populated in one session for step 3 to work.*
-
-3.  On the Tools tab of the Data Manager, click the Generate Importer XML File button, and give it a name. The file extension should be `.xml`.
-
-4.  Make copies of the XML file for each database that you want to build on the command line. Open the file and make the following changes:
-
-    *   Within the `<filters>` tab, make any changes reflective of differences between the base RunSpec and the RunSpec that you will use with this database. For example, if the new database will be for a different calendar year, change the `<year key="XXXX">` entry.
-    *   Name the database in the `<databaseselection>` tag. For example, `<databaseselection servername="localhost" databasename="new_db" />`
-    *   Update the `<filename>` and `<section>` tags for each input group to point to the corresponding data file and tab (if the file is .xlsx)
-
-5.  For each input database to be created, run the following command (changing the path to the importer as appropriate):
-```
-C:\Users\Public\EPA\MOVES\MOVES3>ant -Dimport=c:\mydbimporter.xml dbimporter
-```
-
-## Converting input databases on the command line
-
-MOVES includes an Ant command to convert input databases from previous versions of MOVES to the current version, which can save time if you need to do this for many databases. Please see the help file at [database\ConversionScripts\InputDatabaseConverstionHelp.pdf](..\database\ConversionScripts\InputDatabaseConverstionHelp.pdf) for more information on the uses and limitations of this feature. Note that more work is needed after running this command before the converted database can be used with MOVES.
-
-The following command can be used to convert a MOVES2014 (not a MOVES2014a or MOVES2014b) input database to the MOVES3 format:
-```
-C:\Users\Public\EPA\MOVES\MOVES3>ant -Dinput=m2014_in -Doutput=m3_in convert2014_3
-```
-
-`-Dinput` is used to specify the old input database name, and `-Doutput` is used to specify the name for the new, converted database. `convert2014_3` tells Ant to use the conversion scripts for going from MOVES2014 to MOVES3.
-
-The following command can be used to convert a MOVES2014a or MOVES2014b input database to the MOVES3 format:
-
-```
-C:\Users\Public\EPA\MOVES\MOVES3>ant -Dinput=m2014b_in -Doutput=m3_in convert2014ab_3
-```
-
-`-Dinput` and `-Doutput` are the same as with the other conversion command, and `convert2014ab_3` tells Ant to use the conversion scripts for going from a MOVES2014a or MOVES2014b input database to MOVES3 format.
-
 ## Additional remarks
 
 The above examples demonstrate a simple way of running MOVES from the Windows command prompt. The example scripts should be considered just examples. Different MOVES install configurations may change some of the details needed to run the scripts. Likewise, the Windows command prompt offers a rich scripting environment that can be used to expand these examples to do things such as: 
