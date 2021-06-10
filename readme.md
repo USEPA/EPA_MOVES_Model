@@ -24,29 +24,43 @@ To get set up:
     *   `mysql.exe --version`
     *   `java.exe -version`
     *   `go.exe version`
-    
-3. If MariaDB is running on a non-default port (i.e., any port other than 3306), create a file called `MySQL.txt` in the root MOVES directory, and save the port number to this text file. This file should contain no whitespace, just the port number.
 
-4. Uncomment line 2 of `setenv.bat` and comment out line 3 to set the JDK and JRE paths to match your environment (i.e., remove `REM` from the beginning of line 2 and add it to the beginning of line 3).
+3. MOVES has some specific MariaDB configuration requirements. Locate the MariaDB configuration file (on Windows, this is my.ini located in your data directory--see #4 of [Quick Start Guide to Accessing MariaDB Data](docs/QuickStartGuideToAccessingMariaDBData.pdf) for help on finding your data directory), and ensure the following lines are saved in the file:
 
-5. Unzip the default database dumpfile from the .zip file in the `\database\Setup` directory to the same directory.
+    ```ini
+    [mysqld]
+    default-storage-engine=MyISAM
+    secure-file-priv=''
+    sql_mode=STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
+    lower_case_table_names=1
+    character-set-server=utf8
+    collation-server=utf8_unicode_ci
+    init-connect='SET NAMES utf8'
+    ```
+    Restart MariaDB after modifying this file.
 
-6. Edit `\database\Setup\SetupDatabase.bat` to use the MariaDB root user's password, and then run it. This batch file creates the MOVES database user by running `\database\Setup\CreateMOVESUser.sql`, and then installs the default database by running the dumpfile you extracted in the previous step. 
+4. If MariaDB is running on a non-default port (i.e., any port other than 3306), create a file called `MySQL.txt` in the root MOVES directory, and save the port number to this text file. This file should contain no whitespace, just the port number.
+
+5. Uncomment line 2 of `setenv.bat` and comment out line 3 to set the JDK and JRE paths to match your environment (i.e., remove `REM` from the beginning of line 2 and add it to the beginning of line 3).
+
+6. Unzip the default database dumpfile from the .zip file in the `\database\Setup` directory to the same directory.
+
+7. Edit `\database\Setup\SetupDatabase.bat` to use the MariaDB root user's password, and then run it. This batch file creates the MOVES database user by running `\database\Setup\CreateMOVESUser.sql`, and then installs the default database by running the dumpfile you extracted in the previous step. 
 
     Note: if MariaDB is running on a different port, you will need to edit `SetupDatabase.bat` to add the command-line flag `--port=XXXX`, where `XXXX` is the port number.
 
-7. Open a command prompt, navigate to your MOVES source code directory, and run the following commands to compile MOVES and launch the GUI:
+8. Open a command prompt, navigate to your MOVES source code directory, and run the following commands to compile MOVES and launch the GUI:
 
-```bash
-setenv
-ant crungui
-```
+    ```bash
+    setenv
+    ant crungui
+    ```
 
-6. Hereafter to run MOVES, simply navigate to the MOVES directory and run:
+9. Hereafter to run MOVES, simply navigate to the MOVES directory and run:
 
-```bash
-MOVESMaster.bat
-```
+    ```bash
+    MOVESMaster.bat
+    ```
 
 ### Need help?
 
