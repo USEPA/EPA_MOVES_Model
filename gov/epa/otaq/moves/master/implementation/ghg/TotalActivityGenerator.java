@@ -213,12 +213,11 @@ public class TotalActivityGenerator extends Generator {
 				growVMTToAnalysisYear(inContext.year); // steps 150-159
 				allocateVMTByRoadTypeSourceAge(inContext.year); // steps 160-169
 				calculateVMTByRoadwayHour(inContext.year); // steps 170-179
-				focusStart = System.currentTimeMillis();
-				convertVMTToTotalActivityBasis(); // steps 180-189
-				focusTime += System.currentTimeMillis() - focusStart;
 				resultsYear = inContext.year;
 				growthTime += System.currentTimeMillis() - start;
 			}
+
+
 
 			start = System.currentTimeMillis();
 			allocateTotalActivityBasis(inContext); // steps 190-199
@@ -1659,10 +1658,13 @@ public class TotalActivityGenerator extends Generator {
 
 	/**
 	 * Tag-7: Convert VMT to Total Activity Basis
-	 * Calculate Starts and Source Hours Parked.
+	 * Calculate SHO, Source Hours Parked, and hotelling. Also calculates the startsPerVehicle table,
+	 * which is not the actual starts table that gets used (starts are now calculated in AdjustStarts,
+	 * using the startsPerDayPerVehicle table or the user input tables). However, it appears other places
+     * might still use startsPerVehicle (?), so this will remain for now.	 
 	 * @throws SQLException If VMT cannot be converted to Total Activity Basis.
 	**/
-	void convertVMTToTotalActivityBasis() throws SQLException {
+	void convertVMTToTotalActivityBasis(int zoneID) throws SQLException {
 		long start = 0;
 
 		String sql = "";
@@ -1806,6 +1808,9 @@ public class TotalActivityGenerator extends Generator {
 		 * @output VMTByAgeRoadwayDay
 		 * @input VMTByAgeRoadwayHour
 		**/
+		// clear VMTByAgeRoadwayDay first
+		sql = "TRUNCATE TABLE VMTByAgeRoadwayDay";
+		SQLRunner.executeSQL(db,sql);
 		sql = "insert ignore into VMTByAgeRoadwayDay ("
 				+ " 	yearID, roadTypeID, sourceTypeID, ageID, monthID, dayID, VMT, hotellingHours)"
 				+ " select yearID, roadTypeID, sourceTypeID, ageID, monthID, dayID, sum(VMT), 0 as hotellingHours"
@@ -1825,17 +1830,23 @@ public class TotalActivityGenerator extends Generator {
 		sql = "update VMTByAgeRoadwayDay, hotellingCalendarYear, ZoneRoadType"
 				+ " set hotellingHours = VMT * ZoneRoadType.SHOAllocFactor * hotellingRate"
 				+ " where VMTByAgeRoadwayDay.yearID = hotellingCalendarYear.yearID"
+				+ " and ZoneRoadType.zoneID = " + zoneID
 				+ " and VMTByAgeRoadwayDay.roadTypeID = ZoneRoadType.roadTypeID"
 				+ " and VMTByAgeRoadwayDay.roadTypeID in (2,4)";
 		SQLRunner.executeSQL(db,sql);
 
 		/**
+		 * Note that this is called "idleHours" and stored in "IdleHoursByAgeHour", but
+		 * this is actually hotelling activity. This is *not* related to ONI.
 		 * @step 180
 		 * @algorithm idleHours = hotellingHours * hotellingDist.
 		 * @output IdleHoursByAgeHour
 		 * @input VMTByAgeRoadwayDay
 		 * @input SourceTypeHour2
 		**/
+		// clear IdleHoursByAgeHour first
+		sql = "TRUNCATE TABLE IdleHoursByAgeHour";
+		SQLRunner.executeSQL(db,sql);
 		sql = "insert ignore into IdleHoursByAgeHour ("
 				+ " 	yearID,sourceTypeID,ageID,"
 				+ " 	monthID,dayID,hourID,idleHours)"
@@ -1854,7 +1865,7 @@ public class TotalActivityGenerator extends Generator {
 		sql = "DROP TABLE IF EXISTS SourceTypeHour2";
 		SQLRunner.executeSQL(db,sql);
 
-		// Calculate starts
+		// Calculate startsPerVehicle
 		if(initialLoop) {
 			start = System.currentTimeMillis();
 			sql = "DROP TABLE IF EXISTS StartsPerSampleVehicle";
@@ -2086,6 +2097,11 @@ public class TotalActivityGenerator extends Generator {
 
 		// Don't update the activity tables unless the zone changes
 		if(newYearForZone) {
+			
+			// convertVMTToTotalActivityBasis used to be part of the VMT growth that was done once per year
+			// However, the hotelling part of this function changes by ZoneID, so it needs to be done once per zone (as well as per year)
+			convertVMTToTotalActivityBasis(inContext.iterLocation.zoneRecordID); // steps 180-189
+			
 			if(needSHO && !checkAndMark("SHO",zoneID,analysisYear)) {
 				if(!checkAndMark("ZoneRoadTypeLinkTemp",zoneID,0)) {
 					sql = "drop table if exists ZoneRoadTypeLinkTemp";
