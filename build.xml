@@ -144,6 +144,19 @@
 		<echo message="nonroadNEIQA    - run the nonroad NEI QA scripts. Usage has the same arguments" />
 		<echo message="                  as the onroadNEIQA command. " />
 		<echo message="-------------------------------------------------------------------------------"/>
+		<echo message="oniTool         - run the ONI Tool against one or more input databases. Use" />
+		<echo message="                  -Dinput= argument to provide the name of the database. If" />
+		<echo message="                  providing more than one database, either comma separate the" />
+		<echo message="                  names and quote the whole argument, or list the database" />
+		<echo message="                  names one per line in a text file and supply the path to this" />
+		<echo message="                  file in -Dinput. When running the ONI Tool via the command" /> 
+		<echo message="                  line, the output is saved to a table called &quot;onitooloutput&quot;" />
+		<echo message="                  in each input database. For additional help, see" />
+		<echo message="                  database\ONITool\InstructionsForONITool.pdf and " />
+		<echo message="                  docs\ONIToolCommandLine.md" />
+		<echo message="    ant oniTool -Dinput=&quot;cXXXXXyYYYY_in,cZZZZZyYYYY_in&quot;" />
+		<echo message="    ant oniTool -Dinput=db_list.txt" />
+		<echo message="-------------------------------------------------------------------------------"/>
 		<echo message="run             - Execute a runspec. " />
 		<echo message="                  Use -Drunspec= to name the one runspec that will be used." />
 		<echo message="    ant run -Drunspec=c:\myrunspecs\runspec1.mrs" />		
@@ -1186,6 +1199,31 @@
 					<arg value="-input=${input}" />
 					<arg value="-output=${output}" />
 					<arg value="-script=database\NEIQA\M3nonroadCDBchecks.sql" />
+				</java>
+			</else>
+		</if>
+	</target>
+	
+	<target name="oniTool" depends="">
+		<if>
+			<or>
+				<not>
+					<isset property="input" />
+				</not>
+				<equals arg1="${input}" arg2="" />
+			</or>
+			<then>
+				<echo>ERROR: The -Dinput= argument was not provided. Type ANT for more information.</echo>
+			</then>	
+			<else>
+				<java classname="gov.epa.otaq.moves.master.commandline.ONIToolRunner" fork="yes" maxmemory="512m">
+					<classpath>
+						<pathelement path="${java.class.path}" />
+					</classpath>
+					<classpath refid="classpath" />
+					<arg value="-input=${input}" />
+					<arg value="-output=${output}" />
+					<arg value="-script=database\ONITool\ONITool.sql" />
 				</java>
 			</else>
 		</if>

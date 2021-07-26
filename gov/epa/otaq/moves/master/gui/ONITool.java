@@ -433,7 +433,7 @@ public class ONITool extends JDialog implements ActionListener {
 			inputDatabase.serverName = defaultDatabase.serverName;
 			inputDatabase.databaseName = inputDatabaseName;
 			try {
-				success = DatabaseUtilities.executeONITool(saveFile,inputDatabase,defaultDatabase,messages);
+				success = DatabaseUtilities.executeONITool(saveFile,inputDatabase,defaultDatabase,messages,true, false);
 			} catch(Exception e) {
 				Logger.log(LogMessageCategory.ERROR, "ONI Tool failed: " + e);
 				success = false;
