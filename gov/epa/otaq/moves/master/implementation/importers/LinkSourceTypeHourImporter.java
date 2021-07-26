@@ -151,16 +151,33 @@ public class LinkSourceTypeHourImporter extends ImporterBase {
 		String sql;
 		SQLRunner.Query query = new SQLRunner.Query();
 		boolean hasError = false;
+		boolean hasOnNetworkRoadTypes = false;
+		boolean hasSourceTypes = false;
 		
 		if(db == null) {
 			return new RunSpecSectionStatus(RunSpecSectionStatus.OK);
 		}
 		
-		boolean hasSourceTypes = manager.tableHasSourceTypes(db,
-				"select distinct sourceTypeID from " + primaryTableName,
-				this,primaryTableName + " is missing sourceTypeID(s)");
-		if(!hasSourceTypes) {
-			return new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);
+		// only check for all source types if this run has an on-network road type
+		// (off-network only runs don't need this table)
+		sql = "SELECT count(linkID) as numOnNetworkLinks " +
+			  "FROM link " +
+			  "WHERE roadTypeID <> 1";
+		try {
+			query.open(db,sql);
+			while(query.rs.next()) {
+				int numOnNetworkLinks = query.rs.getInt(1);
+				if (numOnNetworkLinks > 0) {
+					hasSourceTypes = manager.tableHasSourceTypes(db,
+							"select distinct sourceTypeID from " + primaryTableName,
+							this,primaryTableName + " is missing sourceTypeID(s)");
+					if(!hasSourceTypes) {
+						return new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);
+					}
+				}
+			}
+		} finally {
+			query.close();
 		}
 		
 		// check for any link VHT distributions not summing to one
