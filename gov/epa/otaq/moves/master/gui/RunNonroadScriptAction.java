@@ -18,11 +18,11 @@ public class RunNonroadScriptAction extends JLFAbstractAction {
 	/** Constant command key text. **/
 	static final String ACTION_COMMAND_KEY_RUN_SCRIPT = "run nonroad script command";
 	/** Constant action name. **/
-	static final String NAME_RUN_SCRIPT = "Run MySQL Script on Nonroad Output Database";
+	static final String NAME_RUN_SCRIPT = "Run SQL Script on Nonroad Output Database";
 	/** Constant short description text. **/
 	static final String SHORT_DESCRIPTION_RUN_SCRIPT = "Run Nonroad Script";
 	/** Constant long description text. **/
-	static final String LONG_DESCRIPTION_RUN_SCRIPT = "Run MySQL Script on Nonroad Output Database";
+	static final String LONG_DESCRIPTION_RUN_SCRIPT = "Run SQL Script on Nonroad Output Database";
 //	static final int MNEMONIC_KEY_RUN_SCRIPT = 'R';
 
 	/**

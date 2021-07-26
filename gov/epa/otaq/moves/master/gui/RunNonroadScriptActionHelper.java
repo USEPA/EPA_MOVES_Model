@@ -473,8 +473,9 @@ public class RunNonroadScriptActionHelper {
 	**/
 	private static void EmissionFactors_by_SCC_and_ModelYear(String tableName, String units, Object writer, Connection oConn) throws Exception {
 		if (writer instanceof CellFileWriter) {
-			String sql = "SELECT MOVESRunID, yearID, monthID, dayID, stateID, countyID, SCC, sccDescription, fuelTypeID, hpID, hpBin, pollutantID, processID, modelYearID, emissionRate, emissionRateUnits " +
-					  "FROM " + tableName + " ORDER BY countyID, yearID, monthID";
+			String sql = "SELECT MOVESRunID, yearID, monthID, dayID, stateID, countyID, SCC, sccDescription, fuelTypeID, hpID, " +
+			             "       hpBin, pollutantID, processID, modelYearID, engTechID, engTechDesc, emissionRate, emissionRateUnits " +
+					     "FROM " + tableName + " ORDER BY countyID, yearID, monthID";
 			((CellFileWriter)writer).writeSQLResults(oConn, sql, null);
 		} else if (writer instanceof PrintWriter) {
 			SQLRunner.Query query = new SQLRunner.Query();
@@ -495,6 +496,8 @@ public class RunNonroadScriptActionHelper {
 			header += StringUtilities.rightSpacePad("Pollutant", 11);
 			header += StringUtilities.rightSpacePad("Process", 10);
 			header += StringUtilities.rightSpacePad("Model Year", 12);
+			header += StringUtilities.rightSpacePad("EngTech", 9);
+			header += StringUtilities.rightSpacePad("EngTechDesc", 52);
 			header += StringUtilities.rightSpacePad("Emission Rate", 30);
 			
 			// Print header
@@ -513,7 +516,12 @@ public class RunNonroadScriptActionHelper {
 					for (Integer calendarYear : calendarYears) {
 						for (Integer month : months) {
 							for (Integer day : days) {
-								sql = "SELECT MOVESRunID, yearID, monthID, dayID, stateID, countyID, SCC, sccDescription, fuelTypeID, hpID, hpBin, pollutantID, processID, modelYearID, emissionRate " +
+								sql = "SELECT MOVESRunID, yearID, monthID, dayID, stateID, countyID, SCC, sccDescription, " +
+								      "       fuelTypeID, hpID, hpBin, pollutantID, processID, modelYearID, engTechID, " + 
+									  "       CASE WHEN LENGTH(engTechDesc) > 50 " +
+                                      "            THEN CONCAT(SUBSTRING(engTechDesc, 1, 47), '...') " +
+								      "            ELSE engTechDesc END AS engTechDesc, " +
+									  "       emissionRate " +
 									  "FROM " + tableName + " WHERE 1";
 								if (county > 0)
 									sql += " AND countyID = " + county.toString();
@@ -556,6 +564,8 @@ public class RunNonroadScriptActionHelper {
 										result += StringUtilities.rightSpacePad(StringUtilities.safeGetString(query.rs.getString("pollutantID")), 11);
 										result += StringUtilities.rightSpacePad(StringUtilities.safeGetString(query.rs.getString("processID")), 10);
 										result += StringUtilities.rightSpacePad(StringUtilities.safeGetString(query.rs.getString("modelYearID")), 12);
+										result += StringUtilities.rightSpacePad(StringUtilities.safeGetString(query.rs.getString("engTechID")), 9);
+										result += StringUtilities.rightSpacePad(StringUtilities.safeGetString(query.rs.getString("engTechDesc")), 52);
 										result += StringUtilities.rightSpacePad(StringUtilities.safeGetString(query.rs.getString("emissionRate")), 30);
 										((PrintWriter)writer).println(result);
 									}

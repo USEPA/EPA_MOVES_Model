@@ -1,10 +1,11 @@
--- Nonroad Post Processing Script (updated 7/26/2018):
+-- Nonroad Post Processing Script (updated 6/23/2021):
 -- Emission factors in grams per horsepower-hour by SCC, horsepower class, 
 -- and model year
 --  
 -- MOVES-Nonroad Output Guidance:
 --       SCC, HP class, and model year must be selected and present in the
---       results. This script will run faster if engine tech is not selected. 
+--       results. This script will run faster if engine tech is not selected,
+--       but it can be included if that information is desired in the output. 
 --       It is strongly recommended to only have one sector and fuel type per
 --       output database when running this script. Additionally, this script 
 --       will run faster if there is only one year, month, and day in the output.
@@ -20,19 +21,58 @@
 
 flush tables;
 
--- Set up indexing
+-- Set up indexing for setting NULL values to 0
+set @exist := (select count(*) from information_schema.statistics where table_schema = DATABASE() and table_name = 'movesoutput' and index_name = 'index_state');
+set @sqlstmt := if( @exist > 0, 'select ''INFO: index_state already exists.''', 'create index index_state on movesoutput ( stateID )');
+PREPARE stmt FROM @sqlstmt;
+EXECUTE stmt;
+
+set @exist := (select count(*) from information_schema.statistics where table_schema = DATABASE() and table_name = 'movesactivityoutput' and index_name = 'index_state');
+set @sqlstmt := if( @exist > 0, 'select ''INFO: index_state already exists.''', 'create index index_state on movesactivityoutput ( stateID )');
+PREPARE stmt FROM @sqlstmt;
+EXECUTE stmt;
+
+set @exist := (select count(*) from information_schema.statistics where table_schema = DATABASE() and table_name = 'movesoutput' and index_name = 'index_county');
+set @sqlstmt := if( @exist > 0, 'select ''INFO: index_county already exists.''', 'create index index_county on movesoutput ( countyID )');
+PREPARE stmt FROM @sqlstmt;
+EXECUTE stmt;
+
+set @exist := (select count(*) from information_schema.statistics where table_schema = DATABASE() and table_name = 'movesactivityoutput' and index_name = 'index_county');
+set @sqlstmt := if( @exist > 0, 'select ''INFO: index_county already exists.''', 'create index index_county on movesactivityoutput ( countyID )');
+PREPARE stmt FROM @sqlstmt;
+EXECUTE stmt;
+
+set @exist := (select count(*) from information_schema.statistics where table_schema = DATABASE() and table_name = 'movesoutput' and index_name = 'index_engtech');
+set @sqlstmt := if( @exist > 0, 'select ''INFO: index_engtech already exists.''', 'create index index_engtech on movesoutput ( engTechID )');
+PREPARE stmt FROM @sqlstmt;
+EXECUTE stmt;
+
+set @exist := (select count(*) from information_schema.statistics where table_schema = DATABASE() and table_name = 'movesactivityoutput' and index_name = 'index_engtech');
+set @sqlstmt := if( @exist > 0, 'select ''INFO: index_engtech already exists.''', 'create index index_engtech on movesactivityoutput ( engTechID )');
+PREPARE stmt FROM @sqlstmt;
+EXECUTE stmt;
+
+-- Convert NULLs to 0 to improve joins
+UPDATE movesoutput SET stateID = 0 WHERE stateID IS NULL;
+UPDATE movesoutput SET countyID = 0 WHERE countyID IS NULL;
+UPDATE movesoutput SET engTechID = 0 WHERE engTechID IS NULL;
+UPDATE movesactivityoutput SET stateID = 0 WHERE stateID IS NULL;
+UPDATE movesactivityoutput SET countyID = 0 WHERE countyID IS NULL;
+UPDATE movesactivityoutput SET engTechID = 0 WHERE engTechID IS NULL;
+
+-- Set up indexing for everything else
 set @exist := (select count(*) from information_schema.statistics where table_schema = DATABASE() and table_name = 'movesoutput' and index_name = 'index1');
-set @sqlstmt := if( @exist > 0, 'select ''INFO: Index already exists.''', 'create index index1 on movesoutput ( MOVESRunID )');
+set @sqlstmt := if( @exist > 0, 'select ''INFO: index1 already exists.''', 'create index index1 on movesoutput ( MOVESRunID )');
 PREPARE stmt FROM @sqlstmt;
 EXECUTE stmt;
 
 set @exist := (select count(*) from information_schema.statistics where table_schema = DATABASE() and table_name = 'movesoutput' and index_name = 'index103');
-set @sqlstmt := if( @exist > 0, 'select ''INFO: Index already exists.''', 'create index index103 on movesoutput ( MOVESRunID,yearID,monthID,dayID,stateID,countyID,SCC,hpID,pollutantID,processID,modelYearID )');
+set @sqlstmt := if( @exist > 0, 'select ''INFO: index103 already exists.''', 'create index index103 on movesoutput ( MOVESRunID,yearID,monthID,dayID,stateID,countyID,SCC,hpID,pollutantID,processID,modelYearID )');
 PREPARE stmt FROM @sqlstmt;																						
 EXECUTE stmt;
 
 set @exist := (select count(*) from information_schema.statistics where table_schema = DATABASE() and table_name = 'movesactivityoutput' and index_name = 'index10');
-set @sqlstmt := if( @exist > 0, 'select ''INFO: Index already exists.''', 'create index index10 on movesactivityoutput ( activitytypeid )');
+set @sqlstmt := if( @exist > 0, 'select ''INFO: index10 already exists.''', 'create index index10 on movesactivityoutput ( activitytypeid )');
 PREPARE stmt FROM @sqlstmt;
 EXECUTE stmt;
 
@@ -98,9 +138,7 @@ create index index1 on sourceHours (MOVESRunID,yearID,monthID,dayID,stateID,coun
 create index index1 on horsepower (MOVESRunID,yearID,monthID,dayID,stateID,countyID,SCC,modelYearID,engTechID,hpID);
 create index index1 on loadfactor (MOVESRunID,yearID,monthID,dayID,stateID,countyID,SCC,modelYearID,engTechID,hpID);
 
--- Note: b1.col = b2.col OR b1.col IS NULL AND b2.col IS NULL is used instead of just a simple 
---   USING() command because USING() doesn't work if there are NULLs
--- Additionally, JOIN followed by ALTER is used instead of a single statement with multiple joins
+-- Note: JOIN followed by ALTER is used instead of a single statement with multiple joins
 --   because if the tables are very large, the separate statements are faster
 drop table if exists hphr;
 create table hphr
@@ -119,16 +157,7 @@ select
 	b2.avgHorsepower	
 from sourceHours b1
 join horsepower b2
-	on ((b1.MOVESRunID=b2.MOVESRunID) AND
-		(b1.yearID=b2.yearID) AND 
-		(b1.monthID=b2.monthID) AND 
-		(b1.dayID=b2.dayID) AND 
-		(b1.stateID=b2.stateID OR b1.stateID IS NULL AND b2.stateID IS NULL) AND 
-		(b1.countyID=b2.countyID OR b1.countyID IS NULL AND b2.countyID IS NULL) AND  
-		(b1.SCC=b2.SCC) AND 
-		(b1.modelYearID=b2.modelYearID) AND 
-		(b1.engTechID=b2.engTechID OR b1.engTechID IS NULL AND b2.engTechID IS NULL) AND 
-		(b1.hpID=b2.hpID));
+USING (MOVESRunID,yearID,monthID,dayID,stateID,countyID,SCC,modelYearID,engTechID,hpID);
 
 create index index1 on hphr (MOVESRunID,yearID,monthID,dayID,stateID,countyID,SCC,modelYearID,engTechID,hpID);
 
@@ -140,11 +169,11 @@ set b1.loadFactor = b3.loadFactor,
 		(b1.yearID=b3.yearID) AND 
 		(b1.monthID=b3.monthID) AND 
 		(b1.dayID=b3.dayID) AND 
-		(b1.stateID=b3.stateID OR b1.stateID IS NULL AND b3.stateID IS NULL) AND 
-		(b1.countyID=b3.countyID OR b1.countyID IS NULL AND b3.countyID IS NULL) AND 
+		(b1.stateID=b3.stateID) AND 
+		(b1.countyID=b3.countyID) AND 
 		(b1.SCC=b3.SCC) AND 
 		(b1.modelYearID=b3.modelYearID) AND 
-		(b1.engTechID=b3.engTechID OR b1.engTechID IS NULL AND b3.engTechID IS NULL) AND 
+		(b1.engTechID=b3.engTechID) AND 
 		(b1.hpID=b3.hpID));
 
 create index index2 on hphr (MOVESRunID,yearID,monthID,dayID,stateID,countyID,SCC,hpID,modelYearID);
@@ -174,13 +203,14 @@ select
     pollutantID,
     processID,
 	modelYearID,
+	engTechID,
     units.factor * sum(emissionQuant) as emissionQuant
 from movesoutput m
 left join movesrun using (movesrunid)
 left join units on (movesrun.massUnits = units.fromUnit)
-group by MOVESRunID,yearID,monthID,dayID,stateID,countyID,SCC,hpID,pollutantID,processID,modelYearID;
+group by MOVESRunID,yearID,monthID,dayID,stateID,countyID,SCC,hpID,pollutantID,processID,modelYearID,engTechID;
 
-create index index1 on temp1 (MOVESRunID,yearID,monthID,dayID,stateID,countyID,SCC,hpID,modelYearID);
+create index index1 on temp1 (MOVESRunID,yearID,monthID,dayID,stateID,countyID,SCC,hpID,modelYearID,engTechID);
 create index index2 on temp1 (SCC);
 create index index3 on temp1 (hpID);
 
@@ -198,11 +228,12 @@ select
 	SCC,
 	hpID,
 	modelYearID,
+	engTechID,
     sum(hpHours) as hpHours
 from hphr
-group by MOVESRunID,yearID,monthID,dayID,stateID,countyID,SCC,hpID,modelYearID;
+group by MOVESRunID,yearID,monthID,dayID,stateID,countyID,SCC,hpID,modelYearID,engTechID;
 
-create index index1 on temp2 (MOVESRunID,yearID,monthID,dayID,stateID,countyID,SCC,hpID,modelYearID);
+create index index1 on temp2 (MOVESRunID,yearID,monthID,dayID,stateID,countyID,SCC,hpID,modelYearID,engTechID);
 
 
 -- Join temp1 and temp2 and calculate the emission rate for the resulting output table
@@ -223,24 +254,19 @@ select
     b1.pollutantID,
     b1.processID,
 	b1.modelYearID,
+	b1.engTechID,
+	e.engTechDesc,
 	b1.emissionQuant,
     b2.hpHours,
     IF(b2.hpHours != 0, b1.emissionQuant / b2.hpHours, NULL) as emissionRate,
     'g/hp-hr' as emissionRateUnits
 from temp1 b1
-inner join temp2 b2 
-	on ((b1.MOVESRunID=b2.MOVESRunID) AND
-		(b1.yearID=b2.yearID) AND 
-		(b1.monthID=b2.monthID) AND 
-		(b1.dayID=b2.dayID) AND 
-		(b1.stateID=b2.stateID OR b1.stateID IS NULL AND b2.stateID IS NULL) AND 
-		(b1.countyID=b2.countyID OR b1.countyID IS NULL AND b2.countyID IS NULL) AND 
-		(b1.SCC=b2.SCC) AND
-		(b1.hpID=b2.hpID) AND 
-		(b1.modelYearID=b2.modelYearID))
+inner join temp2 b2 USING (MOVESRunID,yearID,monthID,dayID,stateID,countyID,SCC,hpID,modelYearID,engTechID)
 left join ##defaultdb##.nrscc s on (b1.scc=s.scc)
-left join ##defaultdb##.nrhprangebin h on (b1.hpID=h.NRHPRangeBinID);
+left join ##defaultdb##.nrhprangebin h on (b1.hpID=h.NRHPRangeBinID)
+left join ##defaultdb##.enginetech e on (b1.engTechID=e.engTechID);
 
+-- Drop intermediate tables and the primary indexes
 drop table if exists sourceHours;
 drop table if exists loadfactor;
 drop table if exists horsepower;
@@ -248,3 +274,57 @@ drop table if exists temp1;
 drop table if exists temp2;
 drop table if exists hphr;
 drop table if exists units;
+
+set @exist := (select count(*) from information_schema.statistics where table_schema = DATABASE() and table_name = 'movesoutput' and index_name = 'index1');
+set @sqlstmt := if( @exist = 0, 'select ''INFO: index1 does not exist.''', 'drop index index1 on movesoutput');
+PREPARE stmt FROM @sqlstmt;
+EXECUTE stmt;
+
+set @exist := (select count(*) from information_schema.statistics where table_schema = DATABASE() and table_name = 'movesoutput' and index_name = 'index103');
+set @sqlstmt := if( @exist = 0, 'select ''INFO: index103 does not exist.''', 'drop index index103 on movesoutput');
+PREPARE stmt FROM @sqlstmt;																						
+EXECUTE stmt;
+
+set @exist := (select count(*) from information_schema.statistics where table_schema = DATABASE() and table_name = 'movesactivityoutput' and index_name = 'index10');
+set @sqlstmt := if( @exist = 0, 'select ''INFO: index10 does not exist.''', 'drop index index10 on movesactivityoutput');
+PREPARE stmt FROM @sqlstmt;
+EXECUTE stmt;
+
+-- Revert 0s to NULLs
+UPDATE movesoutput SET stateID = NULL WHERE stateID = 0;
+UPDATE movesoutput SET countyID = NULL WHERE countyID = 0;
+UPDATE movesoutput SET engTechID = NULL WHERE engTechID = 0;
+UPDATE movesactivityoutput SET stateID = NULL WHERE stateID = 0;
+UPDATE movesactivityoutput SET countyID = NULL WHERE countyID = 0;
+UPDATE movesactivityoutput SET engTechID = NULL WHERE engTechID = 0;
+
+-- drop the rest of the indexes
+set @exist := (select count(*) from information_schema.statistics where table_schema = DATABASE() and table_name = 'movesoutput' and index_name = 'index_state');
+set @sqlstmt := if( @exist = 0, 'select ''INFO: index_state does not exist.''', 'drop index index_state on movesoutput');
+PREPARE stmt FROM @sqlstmt;
+EXECUTE stmt;
+
+set @exist := (select count(*) from information_schema.statistics where table_schema = DATABASE() and table_name = 'movesactivityoutput' and index_name = 'index_state');
+set @sqlstmt := if( @exist = 0, 'select ''INFO: index_state does not exist.''', 'drop index index_state on movesactivityoutput');
+PREPARE stmt FROM @sqlstmt;
+EXECUTE stmt;
+
+set @exist := (select count(*) from information_schema.statistics where table_schema = DATABASE() and table_name = 'movesoutput' and index_name = 'index_county');
+set @sqlstmt := if( @exist = 0, 'select ''INFO: index_county does not exist.''', 'drop index index_county on movesoutput');
+PREPARE stmt FROM @sqlstmt;
+EXECUTE stmt;
+
+set @exist := (select count(*) from information_schema.statistics where table_schema = DATABASE() and table_name = 'movesactivityoutput' and index_name = 'index_county');
+set @sqlstmt := if( @exist = 0, 'select ''INFO: index_county does not exist.''', 'drop index index_county on movesactivityoutput');
+PREPARE stmt FROM @sqlstmt;
+EXECUTE stmt;
+
+set @exist := (select count(*) from information_schema.statistics where table_schema = DATABASE() and table_name = 'movesoutput' and index_name = 'index_engtech');
+set @sqlstmt := if( @exist = 0, 'select ''INFO: index_engtech does not exist.''', 'drop index index_engtech on movesoutput');
+PREPARE stmt FROM @sqlstmt;
+EXECUTE stmt;
+
+set @exist := (select count(*) from information_schema.statistics where table_schema = DATABASE() and table_name = 'movesactivityoutput' and index_name = 'index_engtech');
+set @sqlstmt := if( @exist = 0, 'select ''INFO: index_engtech does not exist.''', 'drop index index_engtech on movesactivityoutput');
+PREPARE stmt FROM @sqlstmt;
+EXECUTE stmt;
