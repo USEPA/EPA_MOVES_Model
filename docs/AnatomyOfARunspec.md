@@ -43,14 +43,14 @@ Valid entries for *value* attribute are:
 ## Model domain
 
 ```xml
-<modeldomain value="NATIONAL"/>
+<modeldomain value="DEFAULT"/>
 ```
 
 The **modeldomain** element is a required element for a MOVES RunSpec. It has only one attribute: *value*. 
 
 Valid entries for *value* are:
 
-* NATIONAL - used to select a Default Scale (also known as national scale) run. This is the only option for a Nonroad run.
+* DEFAULT - used to select a Default Scale run. This is the only option for a Nonroad run.
 * SINGLE - used to select a County Scale run
 * PROJECT - used to select a Project Scale run
 
