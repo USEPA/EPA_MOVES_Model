@@ -41,7 +41,7 @@ To get set up:
 
 4. If MariaDB is running on a non-default port (i.e., any port other than 3306), create a file called `MySQL.txt` in the root MOVES directory, and save the port number to this text file. This file should contain no whitespace, just the port number.
 
-5. Uncomment line 2 of `setenv.bat` and comment out line 3 to set the JDK and JRE paths to match your environment (i.e., remove `REM` from the beginning of line 2 and add it to the beginning of line 3).
+5. Uncomment line 2 of `setenv.bat` and comment out line 3 to set the JDK and JRE paths to match your environment (i.e., remove `REM` from the beginning of line 2 and add it to the beginning of line 3). You may also need to set `JAVA_HOME` to your JDK path on line 6.
 
 6. Unzip the default database dumpfile from the .zip file in the `\database\Setup` directory to the same directory.
 
@@ -55,6 +55,8 @@ To get set up:
     setenv
     ant crungui
     ```
+
+    For additional information about compiling MOVES, see [CommandLineMOVES.md](docs\CommandLineMOVES.md#compiling-moves).
 
 9. Hereafter to run MOVES, simply navigate to the MOVES directory and run:
 

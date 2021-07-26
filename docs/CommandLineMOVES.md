@@ -167,11 +167,34 @@ ant convert2014_3 -Dinput=m2014_in -Doutput=m3_in
 
 The following command can be used to convert a MOVES2014a or MOVES2014b input database to the MOVES3 format:
 
-```
+```cmd
 ant convert2014ab_3 Dinput=m2014b_in -Doutput=m3_in
 ```
 
 `-Dinput` and `-Doutput` are the same as with the other conversion command, and `convert2014ab_3` tells Ant to use the conversion scripts for going from a MOVES2014a or MOVES2014b input database to MOVES3 format.
+
+## Compiling MOVES
+
+MOVES uses three compiled languages during runtime: Java, Go, and Fortran (the last only used when running Nonroad). If you use the MOVES Installer, you will receive all the compiled code and can run the model directly without compiling. If you are cloning this repository, you will only receive the compiled Fortran, and will need to compile Java and Go before running the model.
+
+The following command can be used to compile both the Java and the Go, and then launch the GUI:
+
+```cmd
+ant crungui
+```
+
+If desired, Java and Go can be compiled separately. The following commands can be used when compiling Java:
+* `ant clean`: Removes all compiled Java .class files
+* `ant compile`: Compiles all uncompiled Java files and recompiles any existing, out-of-date .class files
+* `ant compileall`: Compiles all Java files
+
+The following commands can be used when compiling Go:
+* `ant go64`: Compiles 64-bit versions of the two Go runtime executables used by MOVES. This is the option most users will use.
+* `ant go32`: Compiles 32-bit versions of the two Go runtime executables used by MOVES. This option is only needed when running MOVES on 32-bit architecture.
+* `ant go32local`: Compiles 32-bit versions of the Go runtime using a version of the Go compiler installed in the `.\go32` subdirectory of MOVES. This option is useful if you want to compile the 32-bit executable using a different version of Go than what is installed system-wide. It only works if you have created a `.\go32` subdirectory and copied an entire Go installation to this location.
+* `ant go`: Compiles all of the above (i.e., 64-bit, 32-bit, and 32-bit local), as well as Linux versions of the two Go runtime executables. If any step fails (e.g., `go32local`), you'll see an error message, but the compiler will continue to the next step in the sequence. 
+
+For instructions on how to compile the Fortran code, see [Readme.md](..\NONROAD\NR08a\SOURCE\readme.md) in the Nonroad source code directory.
 
 ## Additional remarks
 
