@@ -980,7 +980,9 @@ public class ExecutionRunSpec {
 		//Check to see if off-network roadtype and running process is selected in the runspec.
 		boolean containsOffNetwork = false;
 		boolean containsRunning = false;
+		boolean isProjectScale = (targetRunSpec.domain == ModelDomain.PROJECT);
 		boolean needsAllRoadTypes = false;
+		
 		//Check if off-network is present in the runspec
 		for (Iterator<RoadType> i = targetRunSpec.roadTypes.iterator();i.hasNext();){
 			RoadType r = i.next();
@@ -998,7 +1000,8 @@ public class ExecutionRunSpec {
 			}
 		}
 		//If both off-network and running process are in the runspec, all roadtypes are needed
-		needsAllRoadTypes = (containsOffNetwork && containsRunning);
+		// (except Project scale doesn't calculate ONI, so they are not needed for Project Scale)
+		needsAllRoadTypes = (containsOffNetwork && containsRunning && !isProjectScale);
 		
 		//If off-network idle is needed, return all roadtypes
 		if (needsAllRoadTypes){
