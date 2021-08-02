@@ -1,3 +1,12 @@
+## MOVES3.0.2 Development
+
+This branch contains all of the changes in development for MOVES3.0.2, the next minor patch for MOVES3.0.
+
+For a preview of MOVES3.0.2, follow the instructions below in **Requirements and Set Up** with these additional steps:
+
+* After cloning this repository (step 1), checkout the `dev/v3.0.2` branch
+* After installing the default database (step 7), follow the instructions on https://github.com/USEPA/EPA_MOVES_Model/issues/28
+
 # MOVES3.0.2
 
 EPA's MOtor Vehicle Emission Simulator (MOVES) is a state-of-the-science emission modeling system that estimates emissions for mobile sources at the national, county, and project level for criteria air pollutants, greenhouse gases, and air toxics, available under EPA's Open Source Software policy. 
