@@ -257,9 +257,6 @@ INSERT IGNORE INTO ActivityType (activityTypeID, activityType, activityTypeDesc)
 VALUES (14, "hotellingElectric", "Hotelling Battery or AC");
 INSERT IGNORE INTO ActivityType (activityTypeID, activityType, activityTypeDesc)
 VALUES (15, "hotellingOff", "Hotelling All Engines Off");
-INSERT IGNORE INTO ActivityType (activityTypeID, activityType, activityTypeDesc)
-VALUES (16, "shi", "Source Hours Idle");
-
 
 
 CREATE TABLE MOVESWorkersUsed (

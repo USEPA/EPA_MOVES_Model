@@ -885,7 +885,7 @@ inner join hotellingActivityDistribution ha on (
 -- End Section hotellingHours
 
 -- Section ONI
--- 16, "shi", "Source Hours Idling" -- changed to sho (4)
+-- 4, "SHO", "Source Hours Operating" on roadTypeID 1
 
 -- Section WithRegClassID
 -- @algorithm shi = sho[roadTypeID=1,sourceTypeID,hourDayID,monthID,yearID,ageID,linkID]*fuelFraction[sourceTypeID,modelYearID,fuelTypeID]*regClassFraction[fuelTypeID,modelYearID,sourceTypeID,regClassID]
