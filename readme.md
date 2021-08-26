@@ -2,10 +2,7 @@
 
 This branch contains all of the changes in development for MOVES3.0.2, the next minor patch for MOVES3.0.
 
-For a preview of MOVES3.0.2, follow the instructions below in **Requirements and Set Up** with these additional steps:
-
-* After cloning this repository (step 1), checkout the `dev/v3.0.2` branch
-* After installing the default database (step 7), follow the instructions on https://github.com/USEPA/EPA_MOVES_Model/issues/28
+For a preview of MOVES3.0.2, follow the instructions below in **Requirements and Set Up**. Just make sure that after cloning this repository (step 1), checkout the `dev/v3.0.2` branch before continuing to the other steps.
 
 # MOVES3.0.2
 
@@ -79,7 +76,7 @@ Documentation on the software components of MOVES, database structure, running M
 
 ### Previous MOVES Versions
 
-MOVES3 is the second version of MOVES posted on GitHub. The previous version, MOVES2014b December 2018 Technical Update, can be accessed using the following tag: [MOVES2014b-Dec2018](https://github.com/USEPA/EPA_MOVES_Model/tree/MOVES2014b-Dec2018). Older versions of MOVES are available at the [MOVES website](https://www.epa.gov/moves/moves-versions-limited-current-use).
+Previous versions of MOVES3 as well the MOVES2014b December 2018 Technical Update can be accessed on GitHub at [MOVES Releases](https://github.com/USEPA/EPA_MOVES_Model/releases). Older versions of MOVES are available at the [MOVES website](https://www.epa.gov/moves/moves-versions-limited-current-use).
 
 ### License
 

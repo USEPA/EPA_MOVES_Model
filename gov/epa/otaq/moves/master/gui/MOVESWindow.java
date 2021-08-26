@@ -217,7 +217,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 	/** Name of output file that performance profiles are written to **/
 	static final String PERFORMANCE_PROFILER_FILE_NAME = "guiprofile.txt";
 	/** Date of the Current Release **/
-	public static final String MOVES_VERSION = "MOVES3.0.1";
+	public static final String MOVES_VERSION = "MOVES3.0.2";
 	/** directory where output db processing scripts are located **/
 	static final String DB_SCRIPTS_DIR = "database" + File.separator + "OutputProcessingScripts";
 	static final String DB_NONROAD_SCRIPTS_DIR = "database" + File.separator + "NonroadProcessingScripts";
