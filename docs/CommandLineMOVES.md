@@ -194,7 +194,7 @@ The following commands can be used when compiling Go:
 * `ant go32local`: Compiles 32-bit versions of the Go runtime using a version of the Go compiler installed in the `.\go32` subdirectory of MOVES. This option is useful if you want to compile the 32-bit executable using a different version of Go than what is installed system-wide. It only works if you have created a `.\go32` subdirectory and copied an entire Go installation to this location.
 * `ant go`: Compiles all of the above (i.e., 64-bit, 32-bit, and 32-bit local), as well as Linux versions of the two Go runtime executables. If any step fails (e.g., `go32local`), you'll see an error message, but the compiler will continue to the next step in the sequence. 
 
-For instructions on how to compile the Fortran code, see [Readme.md](..\NONROAD\NR08a\SOURCE\readme.md) in the Nonroad source code directory.
+For instructions on how to compile the Fortran code, see [Readme.md](../NONROAD/NR08a/SOURCE/readme.md) in the Nonroad source code directory.
 
 ## Additional remarks
 
