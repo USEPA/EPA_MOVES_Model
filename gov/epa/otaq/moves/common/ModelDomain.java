@@ -27,7 +27,9 @@ public class ModelDomain {
 	static TreeMapIgnoreCase allInstances = new TreeMapIgnoreCase();
 
 	/** Enumerated type (as static instance) for a model domain value. **/
-	public static final ModelDomain NATIONAL_ALLOCATION = new ModelDomain("NATIONAL");
+	public static final ModelDomain DEPRECATED_NATIONAL_ALLOCATION = new ModelDomain("NATIONAL");
+	/** Enumerated type (as static instance) for a model domain value. **/
+	public static final ModelDomain NATIONAL_ALLOCATION = new ModelDomain("DEFAULT");
 	/** Enumerated type (as static instance) for a model domain value. **/
 	public static final ModelDomain SINGLE_COUNTY = new ModelDomain("SINGLE");
 	/** Enumerated type (as static instance) for a model domain value. **/
@@ -63,6 +65,13 @@ public class ModelDomain {
 	 * @return The constant type. This will be null if the given name wasn't found.
 	**/
 	public static ModelDomain getByName(String name) {
-		return (ModelDomain)allInstances.get(name);
+		ModelDomain domain = (ModelDomain)allInstances.get(name);
+		
+		// return the new "national allocation" domain instead of the deprecated one if
+		// that one is still being used.
+		if (domain == ModelDomain.DEPRECATED_NATIONAL_ALLOCATION) {
+			domain = ModelDomain.NATIONAL_ALLOCATION;
+		}
+		return domain;
 	}
 }

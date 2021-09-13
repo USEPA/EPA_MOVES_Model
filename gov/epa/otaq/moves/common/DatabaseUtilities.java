@@ -1082,7 +1082,8 @@ public class DatabaseUtilities {
 	 * @throws Exception if there are errors accessing or creating the output file
 	**/
 	public static boolean executeONITool(File saveFile, DatabaseSelection inputDatabase,
-			DatabaseSelection defaultDatabase, ArrayList<String> messages)
+			DatabaseSelection defaultDatabase, ArrayList<String> messages, 
+			boolean writeOutput, boolean writeToCDB)
 			throws FileNotFoundException, IOException, SQLException, Exception {
 		File oniToolScript = new File("./database/ONITool/ONITool.sql");
 		Connection inputDB = null;
@@ -1171,10 +1172,19 @@ public class DatabaseUtilities {
 
 			// save output and drop temp database if there was success
 			if(success) {
-				writer = new CellFileWriter(saveFile,"ONI Tool Output");
-				sql = "SELECT * FROM `" + tempDatabaseName + "`.`ONIToolOutput`";
-				writer.writeSQLResults(inputDB, sql, null);
-				
+				if(writeToCDB) {
+					sql = "DROP TABLE IF EXISTS `" + inputDatabase.databaseName + "`.onitooloutput";
+					SQLRunner.executeSQL(inputDB,sql);
+					
+					sql = "CREATE TABLE `" + inputDatabase.databaseName + "`.onitooloutput " +
+						"SELECT * FROM `" + tempDatabaseName + "`.`ONIToolOutput`";
+					SQLRunner.executeSQL(inputDB,sql);
+				}
+				if(writeOutput) {
+					writer = new CellFileWriter(saveFile,"ONI Tool Output");
+					sql = "SELECT * FROM `" + tempDatabaseName + "`.`ONIToolOutput`";
+					writer.writeSQLResults(inputDB, sql, null);
+				}
 				SQLRunner.executeSQL(inputDB, "DROP DATABASE IF EXISTS `" + tempDatabaseName + "`");
 			}
 		} catch(FileNotFoundException e) {

@@ -217,7 +217,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 	/** Name of output file that performance profiles are written to **/
 	static final String PERFORMANCE_PROFILER_FILE_NAME = "guiprofile.txt";
 	/** Date of the Current Release **/
-	public static final String MOVES_VERSION = "MOVES3.0.1";
+	public static final String MOVES_VERSION = "MOVES3.0.2";
 	/** directory where output db processing scripts are located **/
 	static final String DB_SCRIPTS_DIR = "database" + File.separator + "OutputProcessingScripts";
 	static final String DB_NONROAD_SCRIPTS_DIR = "database" + File.separator + "NonroadProcessingScripts";
@@ -1347,15 +1347,18 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 			return;
 		}
 		
-		// Ask where to save output
-		navigationPanel.commitActiveEditor();
-		FileDialog fd = new FileDialog(this,
-				"Save Nonroad Post Processing Script Output As...", FileDialog.SAVE);
-		fd.setVisible(true); //fd.show();
-		if ((fd.getDirectory() == null) || (fd.getFile() == null)) {
-			return;
+		// Ask where to save output (bypass for the Decoded script, which works the same as the onroad version (i.e., it creates two tables in the database)
+		String saveFileName = "";
+		if (!scriptName.equalsIgnoreCase("DecodedNonroadOutput.sql")) {
+			navigationPanel.commitActiveEditor();
+			FileDialog fd = new FileDialog(this,
+					"Save Nonroad Post Processing Script Output As...", FileDialog.SAVE);
+			fd.setVisible(true); //fd.show();
+			if ((fd.getDirectory() == null) || (fd.getFile() == null)) {
+				return;
+			}
+			saveFileName = fd.getDirectory() + fd.getFile();
 		}
-		String saveFileName = fd.getDirectory() + fd.getFile();
 		
 		boolean hasErrors = false;
 		try {
@@ -1365,7 +1368,11 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 			replacements.put("##defaultdb##",defaultDatabase.databaseName);
 			replacements.put("##scaleinputdb##",runSpec.scaleInputDatabase.databaseName);			
 			DatabaseUtilities.executeScript(oConn,scriptFile,replacements);
-			hasErrors = RunNonroadScriptActionHelper.processScriptOutput(scriptName, saveFileName, oConn);			
+			
+			// save the output (again, except for the Decoded script)
+			if (!scriptName.equalsIgnoreCase("DecodedNonroadOutput.sql")) {
+				hasErrors = RunNonroadScriptActionHelper.processScriptOutput(scriptName, saveFileName, oConn);
+			}				
 		} catch (Exception e) {
 			hasErrors = true;
 			Logger.log(LogMessageCategory.ERROR,

@@ -1,4 +1,4 @@
-# MOVES3.0.1
+# MOVES3.0.2
 
 EPA's MOtor Vehicle Emission Simulator (MOVES) is a state-of-the-science emission modeling system that estimates emissions for mobile sources at the national, county, and project level for criteria air pollutants, greenhouse gases, and air toxics, available under EPA's Open Source Software policy. 
 
@@ -41,7 +41,7 @@ To get set up:
 
 4. If MariaDB is running on a non-default port (i.e., any port other than 3306), create a file called `MySQL.txt` in the root MOVES directory, and save the port number to this text file. This file should contain no whitespace, just the port number.
 
-5. Uncomment line 2 of `setenv.bat` and comment out line 3 to set the JDK and JRE paths to match your environment (i.e., remove `REM` from the beginning of line 2 and add it to the beginning of line 3).
+5. Uncomment line 2 of `setenv.bat` and comment out line 3 to set the JDK and JRE paths to match your environment (i.e., remove `REM` from the beginning of line 2 and add it to the beginning of line 3). You may also need to set `JAVA_HOME` to your JDK path on line 6.
 
 6. Unzip the default database dumpfile from the .zip file in the `\database\Setup` directory to the same directory.
 
@@ -56,6 +56,8 @@ To get set up:
     ant crungui
     ```
 
+    For additional information about compiling MOVES, see [CommandLineMOVES.md](docs\CommandLineMOVES.md#compiling-moves).
+
 9. Hereafter to run MOVES, simply navigate to the MOVES directory and run:
 
     ```bash
@@ -68,7 +70,7 @@ Documentation on the software components of MOVES, database structure, running M
 
 ### Previous MOVES Versions
 
-MOVES3 is the second version of MOVES posted on GitHub. The previous version, MOVES2014b December 2018 Technical Update, can be accessed using the following tag: [MOVES2014b-Dec2018](https://github.com/USEPA/EPA_MOVES_Model/tree/MOVES2014b-Dec2018). Older versions of MOVES are available at the [MOVES website](https://www.epa.gov/moves/moves-versions-limited-current-use).
+Previous versions of MOVES3 as well the MOVES2014b December 2018 Technical Update can be accessed on GitHub at [MOVES Releases](https://github.com/USEPA/EPA_MOVES_Model/releases). Older versions of MOVES are available at the [MOVES website](https://www.epa.gov/moves/moves-versions-limited-current-use).
 
 ### License
 

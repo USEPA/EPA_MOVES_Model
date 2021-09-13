@@ -144,6 +144,19 @@
 		<echo message="nonroadNEIQA    - run the nonroad NEI QA scripts. Usage has the same arguments" />
 		<echo message="                  as the onroadNEIQA command. " />
 		<echo message="-------------------------------------------------------------------------------"/>
+		<echo message="oniTool         - run the ONI Tool against one or more input databases. Use" />
+		<echo message="                  -Dinput= argument to provide the name of the database. If" />
+		<echo message="                  providing more than one database, either comma separate the" />
+		<echo message="                  names and quote the whole argument, or list the database" />
+		<echo message="                  names one per line in a text file and supply the path to this" />
+		<echo message="                  file in -Dinput. When running the ONI Tool via the command" /> 
+		<echo message="                  line, the output is saved to a table called &quot;onitooloutput&quot;" />
+		<echo message="                  in each input database. For additional help, see" />
+		<echo message="                  database\ONITool\InstructionsForONITool.pdf and " />
+		<echo message="                  docs\ONIToolCommandLine.md" />
+		<echo message="    ant oniTool -Dinput=&quot;cXXXXXyYYYY_in,cZZZZZyYYYY_in&quot;" />
+		<echo message="    ant oniTool -Dinput=db_list.txt" />
+		<echo message="-------------------------------------------------------------------------------"/>
 		<echo message="run             - Execute a runspec. " />
 		<echo message="                  Use -Drunspec= to name the one runspec that will be used." />
 		<echo message="    ant run -Drunspec=c:\myrunspecs\runspec1.mrs" />		
@@ -232,7 +245,7 @@
 	<target name="go64" depends="">
 		<!-- Build the 64-bit versions of the Go calculator and generators -->
 		<echo message="Building the 64-bit version of the Go calculator with the system-wide Go compiler."/>
-		<exec executable="go.exe" spawn="false" dir="${user.dir}/calc/" output="gocalc64output.txt" failifexecutionfails="true">
+		<exec executable="go" spawn="false" dir="${user.dir}/calc/" output="gocalc64output.txt" failifexecutionfails="true">
 			<env key="GOARCH" value="amd64"/>
 			<env key="GOMAXPROCS" value="4"/>
 			<arg value="build" />
@@ -241,7 +254,7 @@
 			<arg value="externalcalculatorgo.go" />
 		</exec>
 		<echo message="Building the 64-bit version of the Go generator with the system-wide Go compiler."/>
-		<exec executable="go.exe" spawn="false" dir="${user.dir}/generators/" output="gogenerators64output.txt" failifexecutionfails="true">
+		<exec executable="go" spawn="false" dir="${user.dir}/generators/" output="gogenerators64output.txt" failifexecutionfails="true">
 			<env key="GOARCH" value="amd64"/>
 			<env key="GOMAXPROCS" value="4"/>
 			<arg value="build" />
@@ -256,7 +269,7 @@
 	<target name="go32" depends="">
 		<!-- Build the 32-bit versions of the Go calculator and generators -->
 		<echo message="Building the 32-bit version of the Go calculator with the system-wide Go compiler."/>
-		<exec executable="go.exe" spawn="false" dir="${user.dir}/calc/" output="gocalc32output.txt" failifexecutionfails="true">
+		<exec executable="go" spawn="false" dir="${user.dir}/calc/" output="gocalc32output.txt" failifexecutionfails="true">
 			<env key="GOARCH" value="386"/>
 			<env key="GOMAXPROCS" value="4"/>
 			<arg value="build" />
@@ -265,7 +278,7 @@
 			<arg value="externalcalculatorgo.go" />
 		</exec>
 		<echo message="Building the 32-bit version of the Go generator with the system-wide Go compiler."/>
-		<exec executable="go.exe" spawn="false" dir="${user.dir}/generators/" output="gogenerators32output.txt" failifexecutionfails="true">
+		<exec executable="go" spawn="false" dir="${user.dir}/generators/" output="gogenerators32output.txt" failifexecutionfails="true">
 			<env key="GOARCH" value="386"/>
 			<env key="GOMAXPROCS" value="4"/>
 			<arg value="build" />
@@ -280,7 +293,7 @@
 	<target name="go32local" depends="">
 		<!-- Build the 32-bit versions of the Go calculator and generators using the local \go32 compiler -->
 		<echo message="Building the 32-bit version of the Go calculator with the local \go32 compiler. Expect errors if no \go32 directory exists."/>
-		<exec executable="${user.dir}\go32\bin\go.exe" spawn="false" dir="${user.dir}/calc/" output="gocalc32localoutput.txt" failifexecutionfails="true">
+		<exec executable="${user.dir}\go32\bin\go" spawn="false" dir="${user.dir}/calc/" output="gocalc32localoutput.txt" failifexecutionfails="true">
  			<env key="Path" value="${user.dir}\go32\bin\;${env.Path}" />
  			<env key="GOARCH" value="386"/>
 			<env key="GOMAXPROCS" value="4"/>
@@ -291,7 +304,7 @@
 			<arg value="externalcalculatorgo.go" />
 		</exec>
 		<echo message="Building the 32-bit version of the Go generators with the local \go32 compiler. Expect errors if no \go32 directory exists."/>
-		<exec executable="${user.dir}\go32\bin\go.exe" spawn="false" dir="${user.dir}/generators/" output="gogenerator32localoutput.txt" failifexecutionfails="true">
+		<exec executable="${user.dir}\go32\bin\go" spawn="false" dir="${user.dir}/generators/" output="gogenerator32localoutput.txt" failifexecutionfails="true">
  			<env key="Path" value="${user.dir}\go32\bin\;${env.Path}" />
  			<env key="GOARCH" value="386"/>
 			<env key="GOMAXPROCS" value="4"/>
@@ -316,7 +329,7 @@
 			<arg value="externalcalculatorgo.go" />
 		</exec>
 		<echo message="Building the default 32/64 version of the Go calculator with the system-wide Go compiler."/>
-		<exec executable="go.exe" spawn="false" dir="${user.dir}/calc/" output="gocalcdefaultoutput.txt" failifexecutionfails="true">
+		<exec executable="go" spawn="false" dir="${user.dir}/calc/" output="gocalcdefaultoutput.txt" failifexecutionfails="true">
 			<env key="GOMAXPROCS" value="4"/>
 			<arg value="build" />
 			<arg value="-o" />
@@ -324,7 +337,7 @@
 			<arg value="externalcalculatorgo.go" />
 		</exec>
 		<echo message="Building the 64-bit version of the Go calculator with the system-wide Go compiler. Expect errors if on a 32-bit system."/>
-		<exec executable="go.exe" spawn="false" dir="${user.dir}/calc/" output="gocalc64output.txt" failifexecutionfails="false">
+		<exec executable="go" spawn="false" dir="${user.dir}/calc/" output="gocalc64output.txt" failifexecutionfails="false">
 			<env key="GOARCH" value="amd64"/>
 			<env key="GOMAXPROCS" value="4"/>
 			<arg value="build" />
@@ -333,7 +346,7 @@
 			<arg value="externalcalculatorgo.go" />
 		</exec>
 		<echo message="Building the 32-bit version of the Go calculator with the system-wide Go compiler."/>
-		<exec executable="go.exe" spawn="false" dir="${user.dir}/calc/" output="gocalc32output.txt" failifexecutionfails="true">
+		<exec executable="go" spawn="false" dir="${user.dir}/calc/" output="gocalc32output.txt" failifexecutionfails="true">
 			<env key="GOARCH" value="386"/>
 			<env key="GOMAXPROCS" value="4"/>
 			<arg value="build" />
@@ -342,7 +355,7 @@
 			<arg value="externalcalculatorgo.go" />
 		</exec>
 		<echo message="Building the 32-bit version of the Go calculator with the local \go32 compiler. Expect errors if no \go32 directory exists."/>
-		<exec executable="${user.dir}\go32\bin\go.exe" spawn="false" dir="${user.dir}/calc/" output="gocalc32localoutput.txt" failifexecutionfails="false">
+		<exec executable="${user.dir}\go32\bin\go" spawn="false" dir="${user.dir}/calc/" output="gocalc32localoutput.txt" failifexecutionfails="false">
  			<env key="Path" value="${user.dir}\go32\bin\;${env.Path}" />
  			<env key="GOARCH" value="386"/>
 			<env key="GOMAXPROCS" value="4"/>
@@ -363,7 +376,7 @@
 			<arg value="externalgenerator.go" />
 		</exec>
 		<echo message="Building the default 32/64 version of the Go generators with the system-wide Go compiler."/>
-		<exec executable="go.exe" spawn="false" dir="${user.dir}/generators/" output="gogeneratorsdefaultoutput.txt" failifexecutionfails="true">
+		<exec executable="go" spawn="false" dir="${user.dir}/generators/" output="gogeneratorsdefaultoutput.txt" failifexecutionfails="true">
 			<env key="GOMAXPROCS" value="4"/>
 			<arg value="build" />
 			<arg value="-mod" />
@@ -373,7 +386,7 @@
 			<arg value="externalgenerator.go" />
 		</exec>
 		<echo message="Building the 64-bit version of the Go generators with the system-wide Go compiler. Expect errors if on a 32-bit system."/>
-		<exec executable="go.exe" spawn="false" dir="${user.dir}/generators/" output="gogenerators64output.txt" failifexecutionfails="false">
+		<exec executable="go" spawn="false" dir="${user.dir}/generators/" output="gogenerators64output.txt" failifexecutionfails="false">
 			<env key="GOARCH" value="amd64"/>
 			<env key="GOMAXPROCS" value="4"/>
 			<arg value="build" />
@@ -384,7 +397,7 @@
 			<arg value="externalgenerator.go" />
 		</exec>
 		<echo message="Building the 32-bit version of the Go generators with the system-wide Go compiler."/>
-		<exec executable="go.exe" spawn="false" dir="${user.dir}/generators/" output="gogenerators32output.txt" failifexecutionfails="true">
+		<exec executable="go" spawn="false" dir="${user.dir}/generators/" output="gogenerators32output.txt" failifexecutionfails="true">
 			<env key="GOARCH" value="386"/>
 			<env key="GOMAXPROCS" value="4"/>
 			<arg value="build" />
@@ -395,7 +408,7 @@
 			<arg value="externalgenerator.go" />
 		</exec>
 		<echo message="Building the 32-bit version of the Go generators with the local \go32 compiler. Expect errors if no \go32 directory exists."/>
-		<exec executable="${user.dir}\go32\bin\go.exe" spawn="false" dir="${user.dir}/generators/" output="gogenerator32localoutput.txt" failifexecutionfails="false">
+		<exec executable="${user.dir}\go32\bin\go" spawn="false" dir="${user.dir}/generators/" output="gogenerator32localoutput.txt" failifexecutionfails="false">
  			<env key="Path" value="${user.dir}\go32\bin\;${env.Path}" />
  			<env key="GOARCH" value="386"/>
 			<env key="GOMAXPROCS" value="4"/>
@@ -1186,6 +1199,31 @@
 					<arg value="-input=${input}" />
 					<arg value="-output=${output}" />
 					<arg value="-script=database\NEIQA\M3nonroadCDBchecks.sql" />
+				</java>
+			</else>
+		</if>
+	</target>
+	
+	<target name="oniTool" depends="">
+		<if>
+			<or>
+				<not>
+					<isset property="input" />
+				</not>
+				<equals arg1="${input}" arg2="" />
+			</or>
+			<then>
+				<echo>ERROR: The -Dinput= argument was not provided. Type ANT for more information.</echo>
+			</then>	
+			<else>
+				<java classname="gov.epa.otaq.moves.master.commandline.ONIToolRunner" fork="yes" maxmemory="512m">
+					<classpath>
+						<pathelement path="${java.class.path}" />
+					</classpath>
+					<classpath refid="classpath" />
+					<arg value="-input=${input}" />
+					<arg value="-output=${output}" />
+					<arg value="-script=database\ONITool\ONITool.sql" />
 				</java>
 			</else>
 		</if>

@@ -1,12 +1,12 @@
 defaultServerName = localhost
-defaultDatabaseName = movesdb20210209
+defaultDatabaseName = movesdb20210726
 executionServerName = localhost
 executionDatabaseName = *
 outputServerName = localhost
 outputDatabaseName = MOVESOutput
-nonroadExePath = NONROAD\NR08a\NONROAD.exe
-generatorExePath = generators\externalgenerator64.exe
-sharedDistributedFolderPath = SharedWork
+nonroadExePath = NONROAD/NR08a/NONROAD.exe
+generatorExePath = generators/externalgenerator64.exe
+sharedDistributedFolderPath = sharedwork
 computerIDPath = MOVESComputerID.txt
 masterFolderPath = .
 saveTODOPath = SaveTODO

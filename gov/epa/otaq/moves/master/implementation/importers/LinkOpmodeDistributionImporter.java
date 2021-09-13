@@ -184,7 +184,40 @@ public class LinkOpmodeDistributionImporter extends ImporterBase {
 			Object p = values[3];
 			Object o = values[4];
 			String key = p.toString() + "|" + o.toString();
-			return templateKeys.contains(key);
+			
+			// templateKeys contains more polProcess/OpMode combinations than we actually want to include in the template
+			// However, it's a good start. If the combination doesn't exist in the set, reject it. If it does, check for
+			// other invalid combinations
+			if(templateKeys.contains(key)) {
+				// first, get integer values for easy comparisons
+				int polProcessID = 0;
+				int opModeID = 0;
+				try {
+					polProcessID = Integer.parseInt(p.toString());
+					opModeID = Integer.parseInt(o.toString());
+				} catch (NumberFormatException e) {
+					return true;
+				}
+				
+				// Remove the hotelling operating modes (those use a different importer)
+				if(opModeID == 200 || opModeID == 201 || opModeID == 203 || opModeID == 204) {
+					return false;
+				}
+				
+				// Remove other non-applicable operating modes
+				if(opModeID == 100 || opModeID == 150 || opModeID == 151 || opModeID == 300) {
+					return false;
+				}
+				
+				// Keep opModeID 501 for the brakewear polProcessIDs and remove all others
+				if(opModeID == 501) {
+					return (polProcessID == 10609 || polProcessID == 11609);
+				}
+			} else {
+				return false;
+			}
+			
+			return true;
 		}
 	}
 
