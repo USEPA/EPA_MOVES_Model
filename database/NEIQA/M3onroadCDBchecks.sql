@@ -1,5 +1,5 @@
 -- MOVES3 NEI QA Script for Onroad CDBs
--- Last Updated: MOVES3.0.1
+-- Last Updated: MOVES3.0.3
 -- ##############################################################################
 -- Usage Notes:  This script is intended to be run via the ANT command 
 --               "onroadNEIQA". See database\NEIQA\NEIQAHelp.pdf for more info.
@@ -12,7 +12,7 @@
 --                     database, as found in MOVESConfiguration.txt
 -- ##############################################################################
 
-set @version = MID("##defaultdb##", 8, 8);
+set @version = CONCAT('db', MID("##defaultdb##", 8, 8), '-rev20210916');
 
 -- Coordinate this message with the Done statement at the end of this file.
 select '  .. M3onroadCDBchecks.sql',curTime(), database();
@@ -424,7 +424,7 @@ CREATE TABLE CDB_Checks (
    msgType           char(50),
    msgDate           date,
    msgTime           time,
-   version           char(8),
+   version           char(22),
    sumKeyID          int(11),
    sumKeyDescription char(50)
  ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
@@ -460,7 +460,10 @@ Insert into CDB_Checks set tableName = 'fuelusagefraction';
 Insert into CDB_Checks set tableName = 'hourvmtfraction';
 Insert into CDB_Checks set tableName = 'dayvmtfraction';
 Insert into CDB_Checks set tableName = 'monthvmtfraction';
-Insert into CDB_Checks set tableName = 'hpmsVTypeYear';
+Insert into CDB_Checks set tableName = 'hpmsvtypeday';
+Insert into CDB_Checks set tableName = 'hpmsvtypeyear';
+Insert into CDB_Checks set tableName = 'sourcetypedayvmt';
+Insert into CDB_Checks set tableName = 'sourcetypeyearvmt';
 Insert into CDB_Checks set tableName = 'hotellingactivitydistribution';
 Insert into CDB_Checks set tableName = 'hotellingagefraction';
 Insert into CDB_Checks set tableName = 'hotellinghoursperday';
@@ -514,7 +517,10 @@ where  TABLE_SCHEMA = (select database())
 					   'hourvmtfraction',
 					   'dayvmtfraction',
 					   'monthvmtfraction',
-					   'hpmsVTypeYear',
+					   'hpmsvtypeday',
+					   'hpmsvtypeyear',
+					   'sourcetypedayvmt',
+					   'sourcetypeyearvmt',
 					   'hotellingactivitydistribution',
 					   'hotellingagefraction',
 					   'hotellinghoursperday',
@@ -557,7 +563,10 @@ Update CDB_Checks as a, tempb as b set a.count = b.table_rows Where a.tableName 
 Update CDB_Checks as a, tempb as b set a.count = b.table_rows Where a.tableName = 'hourvmtfraction' and  b.TableName = 'hourvmtfraction';
 Update CDB_Checks as a, tempb as b set a.count = b.table_rows Where a.tableName = 'dayvmtfraction' and  b.TableName = 'dayvmtfraction';
 Update CDB_Checks as a, tempb as b set a.count = b.table_rows Where a.tableName = 'monthvmtfraction' and  b.TableName = 'monthvmtfraction';
-Update CDB_Checks as a, tempb as b set a.count = b.table_rows Where a.tableName = 'hpmsVTypeYear' and  b.TableName = 'hpmsVTypeYear';
+Update CDB_Checks as a, tempb as b set a.count = b.table_rows Where a.tableName = 'hpmsvtypeday' and  b.TableName = 'hpmsvtypeday';
+Update CDB_Checks as a, tempb as b set a.count = b.table_rows Where a.tableName = 'hpmsvtypeyear' and  b.TableName = 'hpmsvtypeyear';
+Update CDB_Checks as a, tempb as b set a.count = b.table_rows Where a.tableName = 'sourcetypedayvmt' and  b.TableName = 'sourcetypedayvmt';
+Update CDB_Checks as a, tempb as b set a.count = b.table_rows Where a.tableName = 'sourcetypeyearvmt' and  b.TableName = 'sourcetypeyearvmt';
 Update CDB_Checks as a, tempb as b set a.count = b.table_rows Where a.tableName = 'hotellingactivitydistribution' and  b.TableName = 'hotellingactivitydistribution';
 Update CDB_Checks as a, tempb as b set a.count = b.table_rows Where a.tableName = 'hotellingagefraction' and  b.TableName = 'hotellingagefraction';
 Update CDB_Checks as a, tempb as b set a.count = b.table_rows Where a.tableName = 'hotellinghoursperday' and  b.TableName = 'hotellinghoursperday';
@@ -642,7 +651,10 @@ CREATE TABLE IF NOT EXISTS `fuelusagefraction` LIKE ##defaultdb##.fuelusagefract
 CREATE TABLE IF NOT EXISTS `hourvmtfraction` LIKE ##defaultdb##.hourvmtfraction;
 CREATE TABLE IF NOT EXISTS `dayvmtfraction` LIKE ##defaultdb##.dayvmtfraction;
 CREATE TABLE IF NOT EXISTS `monthvmtfraction` LIKE ##defaultdb##.monthvmtfraction;
-CREATE TABLE IF NOT EXISTS `hpmsVTypeYear` LIKE ##defaultdb##.hpmsVTypeYear;
+CREATE TABLE IF NOT EXISTS `hpmsvtypeday` LIKE ##defaultdb##.hpmsvtypeday;
+CREATE TABLE IF NOT EXISTS `hpmsvtypeyear` LIKE ##defaultdb##.hpmsvtypeyear;
+CREATE TABLE IF NOT EXISTS `sourcetypedayvmt` LIKE ##defaultdb##.sourcetypedayvmt;
+CREATE TABLE IF NOT EXISTS `sourcetypeyearvmt` LIKE ##defaultdb##.sourcetypeyearvmt;
 
 -- hotelling
 CREATE TABLE IF NOT EXISTS `hotellingactivitydistribution` LIKE ##defaultdb##.hotellingactivitydistribution;
@@ -3731,6 +3743,7 @@ from (
 	CROSS JOIN ##defaultdb##.roadtype
 	CROSS JOIN ##defaultdb##.dayofanyweek
 	CROSS JOIN ##defaultdb##.hourofanyday
+	WHERE roadTypeID BETWEEN 2 and 5
 ) as t1 left join hourvmtfraction using (sourceTypeID, roadTypeID, dayID, hourID)
 where hourVMTFraction is NULL 
 ORDER BY sourceTypeID, roadTypeID, dayID, hourID LIMIT 1;
@@ -7147,7 +7160,8 @@ Update        CDB_Checks set status = 'Error'   where checkNumber is not null an
 --                                            if you supply them: fuelformulation, fuelsupply, and zonemonthhour)
 Update        CDB_Checks set status = 'Warning' where checkNumber in 
 			  (1608,1609,1610,1611,1807,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2101,
-			   2102,2103,2104,2406,2507,2508,2808,2809,3605,3805,3906,4506,5001,5002,5003,5004,5005,5006);
+			   2102,2103,2104,2406,2507,2508,2808,2809,3605,3804,3805,3906,4506,5001,5002,5003,5004,5005,
+			   5006);
 
 -- special cases for VMT/starts checks --
 -- mark all VMT row count checks as 'complete' regardless of results
