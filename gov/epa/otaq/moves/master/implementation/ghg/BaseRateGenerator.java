@@ -253,7 +253,7 @@ public class BaseRateGenerator extends Generator {
 			projectStringJoin = "		left join sourceusetypephysicsmapping sutpm on ("
 				+ "		    sutpm.realSourceTypeID = stmy.sourceTypeID"
 				+ "         and sutpm.regClassID = sb.regClassID"
-				+ "         and left(sutpm.opModeIDOffset, 2) = left(er.opModeID, 2))";
+				+ "         and FLOOR(sutpm.opModeIDOffset/100)*100 = FLOOR(er.opModeID/100)*100)";
 			projectStringWhere = "  	(ppmy.modelYearID BETWEEN sutpm.beginModelYearID AND sutpm.endModelYearID OR er.OpModeID = 501) AND";
 		} else  {
 			projectStringJoin = "";
