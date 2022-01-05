@@ -267,6 +267,9 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 				//toggle the checkbox
 				int modelRow = table.convertRowIndexToModel(table.getSelectedRow());
 				Boolean obj = (Boolean)processesTable.getModel().getValueAt(modelRow, table.getSelectedColumn() + 2);
+				if(obj == null) {
+					obj = false;
+				}
 				model.setValueAt(!obj, modelRow, table.getSelectedColumn() + 2);
 				model.fireTableCellUpdated(modelRow, table.getSelectedColumn() + 2);
 				MOVESNavigation.singleton.updateRunSpecSectionStatus();
@@ -502,18 +505,10 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 
 	    private Border getNoFocusedBorder() {
 	        Border border = UIManager.getBorder("Table.cellNoFocusBorder");
-	        if (System.getSecurityManager() != null) {
-	            if (border != null) {
-	            	return border;
-	            }
-
-	            return SAFE_NO_FOCUS_BORDER;
-	        } else if (border != null) {
-	            if (noFocusBorder == null || noFocusBorder == DEFAULT_NO_FOCUS_BORDER) {
-	                return border;
-	            }
-	        }
-	        return noFocusBorder;
+			if (border != null) {
+				return border;
+			}
+			return SAFE_NO_FOCUS_BORDER;
 	    }
 	}
 	

@@ -14,11 +14,8 @@
 	<condition property="java11">
 	  <javaversion exactly="11"/>
 	</condition>
-	<condition property="java12">
-	  <javaversion exactly="12"/>
-	</condition>
-	<condition property="java13">
-	  <javaversion exactly="13"/>
+	<condition property="java17">
+	  <javaversion exactly="17"/>
 	</condition>
 	<condition property="atleastJava9">
 		<javaversion atleast="9"/>
