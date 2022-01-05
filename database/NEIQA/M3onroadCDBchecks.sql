@@ -12,7 +12,7 @@
 --                     database, as found in MOVESConfiguration.txt
 -- ##############################################################################
 
-set @version = CONCAT('db', MID("##defaultdb##", 8, 8), '-rev20210916');
+set @version = CONCAT('db', MID("##defaultdb##", 8, 8), '-rev20220104');
 
 -- Coordinate this message with the Done statement at the end of this file.
 select '  .. M3onroadCDBchecks.sql',curTime(), database();
@@ -1621,7 +1621,7 @@ Select   "avgSpeedDistribution" as tableName,
 From     tempA
 Where    aMatch <> 'yes';
 
---       check no. 1604: check for unkown roadTypeIDs
+--       check no. 1604: check for unknown roadTypeIDs
 INSERT INTO QA_Checks_Log values ( 1604, 'OK', @hVersion, curDate(), curTime() );
 Drop table if exists tempA;
 Create table tempA
@@ -1732,6 +1732,7 @@ Select   "avgSpeedDistribution" as tableName,
          roadTypeID,
          hourDayID
 from avgspeeddistribution
+where roadTypeID not in (1, 100)
 group by sourceTypeID, roadTypeID, hourDayID, avgSpeedFraction
 having count(*) = (select count(*) from ##defaultdb##.avgspeedbin)
 order by sourceTypeID, roadTypeID, hourDayID, avgSpeedBinID LIMIT 1;
@@ -1754,11 +1755,11 @@ Select   "avgSpeedDistribution" as tableName,
 from (select sourceTypeID, roadTypeID, hourID, avgSpeedBinID, avgSpeedFraction as weekendFraction
 	  from avgspeeddistribution
 	  join ##defaultdb##.hourday using (hourDayID)
-	  where dayID = 2) as we
+	  where dayID = 2 and roadTypeID not in (1, 100)) as we
 join (select sourceTypeID, roadTypeID, hourID, avgSpeedBinID, avgSpeedFraction as weekdayFraction
 	  from avgspeeddistribution
 	  join ##defaultdb##.hourday using (hourDayID)
-	  where dayID = 5) as wd using (sourceTypeID, roadTypeID, hourID, avgSpeedBinID)
+	  where dayID = 5 and roadTypeID not in (1, 100)) as wd using (sourceTypeID, roadTypeID, hourID, avgSpeedBinID)
 group by sourceTypeID, roadTypeID, hourID
 having sum(abs(weekendFraction - weekdayFraction)) < 0.00001
 order by sourceTypeID, roadTypeID, hourID LIMIT 1;
@@ -1816,7 +1817,7 @@ Select   "avgSpeedDistribution" as tableName,
          roadTypeID,
          hourDayID
 from avgspeeddistribution
-where avgSpeedFraction = 0 and avgSpeedBinID = 1
+where avgSpeedFraction = 0 and avgSpeedBinID = 1 and roadTypeID not in (1, 100)
 LIMIT 1;
 
 
@@ -2103,7 +2104,8 @@ Select   "dayVMTFraction" as tableName,
          'dayID 2 is 2/7 and dayID 5 is 5/7' as testValue,
          sourceTypeID, monthID, roadTypeID
 from dayvmtfraction
-where abs(dayVMTFraction - dayID/7) < 0.00001
+where abs(dayVMTFraction - dayID/7) < 0.00001 
+  and roadTypeID not in (1, 100)
 order by sourceTypeID, monthID, roadTypeID LIMIT 1;
 
 --       check no. 1808: check for missing sourceTypeID, monthID, roadTypeID, dayID combinations
@@ -3779,6 +3781,7 @@ Select   "hourVMTFraction" as tableName,
          concat('all are ', hourVMTFraction) as testValue,
 		 sourceTypeID, roadTypeID, dayID
 from hourvmtfraction
+where roadTypeID not in (1, 100)
 group by sourceTypeID, roadTypeID, dayID, hourVMTFraction
 having count(*) = (select count(*) from ##defaultdb##.hourOfAnyDay)
 order by sourceTypeID, roadTypeID, dayID LIMIT 1;
@@ -3798,10 +3801,10 @@ Select   "hourVMTFraction" as tableName,
          roadTypeID
 from (select sourceTypeID, roadTypeID, hourID, hourVMTFraction as weekendFraction
 	  from hourVMTFraction
-	  where dayID = 2 and roadTypeID <> 1) as we
+	  where dayID = 2 and roadTypeID not in (1, 100)) as we
 join (select sourceTypeID, roadTypeID, hourID, hourVMTFraction as weekdayFraction
 	  from hourVMTFraction
-	  where dayID = 5 and roadTypeID <> 1) as wd using (sourceTypeID, roadTypeID, hourID)
+	  where dayID = 5 and roadTypeID not in (1, 100)) as wd using (sourceTypeID, roadTypeID, hourID)
 group by sourceTypeID, roadTypeID
 having sum(abs(weekendFraction - weekdayFraction)) < 0.00001
 order by sourceTypeID, roadTypeID LIMIT 1;
@@ -5304,7 +5307,7 @@ Select   "roadtypedistribution" as tableName,
          concat('all are ', roadTypeVMTFraction) as testValue,
 		 sourceTypeID
 from roadtypedistribution
-where roadTypeID <> 1
+where roadTypeID not in (1, 100)
 group by sourceTypeID, roadTypeVMTFraction
 having count(*) = (select count(*) from ##defaultdb##.roadtype where roadTypeID not in (1, 100))
 order by sourceTypeID LIMIT 1;
@@ -7110,6 +7113,7 @@ Select  "zoneRoadType"       as tableName,
          count(*) as `count`,
          roadTypeID
 From     zoneroadtype
+where    roadTypeID not in (1, 100)
 Group by roadTypeId
 Having   SHOAllocFactor2 <> 1 or `count` > 1;
  
