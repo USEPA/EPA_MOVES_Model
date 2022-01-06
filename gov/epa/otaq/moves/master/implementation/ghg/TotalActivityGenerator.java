@@ -201,7 +201,7 @@ public class TotalActivityGenerator extends Generator {
 				setupTime += System.currentTimeMillis() - start;
 			}
 
-			if(inContext.year > resultsYear) {
+			if(inContext.year != resultsYear) {
 				start = System.currentTimeMillis();
 				baseYear = determineBaseYear(inContext.year); // step 110
 				if(baseYear > resultsYear) {
@@ -216,8 +216,6 @@ public class TotalActivityGenerator extends Generator {
 				resultsYear = inContext.year;
 				growthTime += System.currentTimeMillis() - start;
 			}
-
-
 
 			start = System.currentTimeMillis();
 			allocateTotalActivityBasis(inContext); // steps 190-199
@@ -331,7 +329,7 @@ public class TotalActivityGenerator extends Generator {
 		sql = "TRUNCATE VMTByAgeRoadwayHour";
 		SQLRunner.executeSQL(db,sql);
 
-		sql = "create table vmtByMYRoadHourFraction ("
+		sql = "create table if not exists vmtByMYRoadHourFraction ("
 				+ " 	yearID smallint not null,"
 				+ " 	roadTypeID smallint not null,"
 				+ " 	sourceTypeID smallint not null,"
@@ -1214,7 +1212,7 @@ public class TotalActivityGenerator extends Generator {
 	 * @throws SQLException if the VMT cannot be grown to the analysis year.
 	**/
 	void growVMTToAnalysisYear(int analysisYear) throws SQLException {
-		growVMTToAnalysisYear(db, analysisYear, baseYear, resultsYear, true);
+		growVMTToAnalysisYear(db, analysisYear, baseYear, resultsYear, false);
 	}
 
 	/**
@@ -1479,6 +1477,9 @@ public class TotalActivityGenerator extends Generator {
 		String sql = "";
 
 		sql = "TRUNCATE VMTByAgeRoadwayHour";
+		SQLRunner.executeSQL(db,sql);
+		
+		sql = "TRUNCATE vmtByMYRoadHourFraction";
 		SQLRunner.executeSQL(db,sql);
 
 		sql = "DROP TABLE IF EXISTS AvarMonth ";
@@ -2068,7 +2069,7 @@ public class TotalActivityGenerator extends Generator {
 			currentZoneID = zoneID;
 			currentYearForZone = analysisYear;
 		} else if(zoneID==currentZoneID) {
-			if(currentYearForZone<analysisYear) {
+			if(currentYearForZone != analysisYear) {
 				currentYearForZone = analysisYear;
 				newYearForZone = true;
 				linksInZone = "";
