@@ -176,6 +176,7 @@
 		<pathelement location="libs/jai_core.jar" />
 		<pathelement location="libs/jai_codec.jar" />
 		<pathelement location="libs/commons-lang-2.2.jar" />
+		<pathelement location="libs/commons-io-2.11.0.jar" />
 		<pathelement location="libs/abbot/abbot.jar" />
 		<pathelement location="libs/abbot/bsh-2.0b4.jar" />
 		<pathelement location="libs/abbot/costello.jar" />

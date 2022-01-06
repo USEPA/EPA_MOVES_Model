@@ -15,6 +15,7 @@ import java.util.*;
 import java.net.*;
 import java.sql.*;
 import gov.epa.otaq.moves.worker.framework.WorkerConfiguration;
+import org.apache.commons.io.input.BOMInputStream;
 
 /**
  * This class provides the API for MOVES.
@@ -535,7 +536,7 @@ public class MOVESAPI implements MOVESEngineListener, MOVESEngine.CompletedListe
 		try {
 			boolean isError = false;
 			LineNumberReader fileReader = new LineNumberReader(
-					new InputStreamReader(new FileInputStream(runSpecListFile)));
+					new InputStreamReader(new BOMInputStream(new FileInputStream(runSpecListFile))));
 			try {
 				String iterLine;
 				while ((iterLine = fileReader.readLine()) != null) {
@@ -584,7 +585,7 @@ public class MOVESAPI implements MOVESEngineListener, MOVESEngine.CompletedListe
 		try {
 			boolean isError = false;
 			LineNumberReader fileReader = new LineNumberReader(
-					new InputStreamReader(new FileInputStream(importerListFile)));
+					new InputStreamReader(new BOMInputStream(new FileInputStream(importerListFile), false)));
 			try {
 				String iterLine;
 				while ((iterLine = fileReader.readLine()) != null) {

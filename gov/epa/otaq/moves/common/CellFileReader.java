@@ -9,6 +9,7 @@ import java.util.*;
 import java.util.TimeZone;
 import java.text.SimpleDateFormat;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.commons.io.input.BOMInputStream;
 
 /**
  * Read XLSX, XLS, CSV, or tabbed text files.
@@ -26,8 +27,8 @@ public class CellFileReader {
 	File file;
 	/** Type of the file, from CellFile.CSV, .XLS, .XLSX, .TABBED_TEXT **/
 	int fileType = 0;
-	/** InputStream for XLS/XLSX files **/
-	InputStream inputStream = null;
+	/** BOMInputStream for XLS/XLSX files **/
+	BOMInputStream inputStream = null;
 	/** Workbook for XLS files **/
 	Workbook workbook = null;
 	/** Workbook for XLS files **/
@@ -101,7 +102,7 @@ public class CellFileReader {
 			throw new IOException("File does not exist: " + file.getName());
 		}
 		if(fileType == CellFile.XLS || fileType == CellFile.XLSX) {
-			inputStream = new FileInputStream(file);
+			inputStream = new BOMInputStream(new FileInputStream(file), false);
 			workbook = WorkbookFactory.create(inputStream);
 
 			sheet = null;
@@ -128,7 +129,8 @@ public class CellFileReader {
 			lastRow = sheet.getLastRowNum();
 			//System.out.println("firstRow="+firstRow+", lastRow="+lastRow);
 		} else {
-			reader = new BufferedReader(new FileReader(file));
+			BOMInputStream bomReader = new BOMInputStream(new FileInputStream(file), false);
+			reader = new BufferedReader(new InputStreamReader(bomReader));
 		}
 		// Read the first row
 		rowIndex = -1;

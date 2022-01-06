@@ -8,6 +8,7 @@ import java.io.*;
 import java.util.*;
 import java.text.SimpleDateFormat;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.commons.io.input.BOMInputStream;
 
 /**
  * Utility for reading an XLS or XLSX file into memory.
@@ -27,10 +28,10 @@ public class XLSReader {
 	**/
 	public ArrayList<String> getSheets(File file) throws Exception {
 		ArrayList<String> result = new ArrayList<String>();
-		InputStream input = null;
+		BOMInputStream input = null;
 		Workbook workbook = null;
 		try {
-			input = new FileInputStream(file);
+			input = new BOMInputStream(new FileInputStream(file), false);
 			workbook = WorkbookFactory.create(input);
 			int howManySheets = workbook.getNumberOfSheets();
 			for(int i=0;i<howManySheets;i++) {
@@ -73,11 +74,11 @@ public class XLSReader {
 	**/
 	public String read(File file, int sheetIndex) throws Exception {
 		StringBuffer buffer = new StringBuffer(100000);
-		InputStream input = null;
+		BOMInputStream input = null;
 		Workbook workbook = null;
 		
 		try {
-			input = new FileInputStream(file);
+			input = new BOMInputStream(new FileInputStream(file), false);
 			workbook = WorkbookFactory.create(input);
 			int howManySheets = workbook.getNumberOfSheets();
 			if(sheetIndex < 0) {
