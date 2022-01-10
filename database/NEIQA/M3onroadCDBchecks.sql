@@ -1,5 +1,5 @@
 -- MOVES3 NEI QA Script for Onroad CDBs
--- Last Updated: MOVES3.0.1
+-- Last Updated: MOVES3.0.3
 -- ##############################################################################
 -- Usage Notes:  This script is intended to be run via the ANT command 
 --               "onroadNEIQA". See database\NEIQA\NEIQAHelp.pdf for more info.
@@ -12,7 +12,7 @@
 --                     database, as found in MOVESConfiguration.txt
 -- ##############################################################################
 
-set @version = MID("##defaultdb##", 8, 8);
+set @version = CONCAT('db', MID("##defaultdb##", 8, 8), '-rev20220104');
 
 -- Coordinate this message with the Done statement at the end of this file.
 select '  .. M3onroadCDBchecks.sql',curTime(), database();
@@ -424,7 +424,7 @@ CREATE TABLE CDB_Checks (
    msgType           char(50),
    msgDate           date,
    msgTime           time,
-   version           char(8),
+   version           char(22),
    sumKeyID          int(11),
    sumKeyDescription char(50)
  ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
@@ -460,7 +460,10 @@ Insert into CDB_Checks set tableName = 'fuelusagefraction';
 Insert into CDB_Checks set tableName = 'hourvmtfraction';
 Insert into CDB_Checks set tableName = 'dayvmtfraction';
 Insert into CDB_Checks set tableName = 'monthvmtfraction';
-Insert into CDB_Checks set tableName = 'hpmsVTypeYear';
+Insert into CDB_Checks set tableName = 'hpmsvtypeday';
+Insert into CDB_Checks set tableName = 'hpmsvtypeyear';
+Insert into CDB_Checks set tableName = 'sourcetypedayvmt';
+Insert into CDB_Checks set tableName = 'sourcetypeyearvmt';
 Insert into CDB_Checks set tableName = 'hotellingactivitydistribution';
 Insert into CDB_Checks set tableName = 'hotellingagefraction';
 Insert into CDB_Checks set tableName = 'hotellinghoursperday';
@@ -514,7 +517,10 @@ where  TABLE_SCHEMA = (select database())
 					   'hourvmtfraction',
 					   'dayvmtfraction',
 					   'monthvmtfraction',
-					   'hpmsVTypeYear',
+					   'hpmsvtypeday',
+					   'hpmsvtypeyear',
+					   'sourcetypedayvmt',
+					   'sourcetypeyearvmt',
 					   'hotellingactivitydistribution',
 					   'hotellingagefraction',
 					   'hotellinghoursperday',
@@ -557,7 +563,10 @@ Update CDB_Checks as a, tempb as b set a.count = b.table_rows Where a.tableName 
 Update CDB_Checks as a, tempb as b set a.count = b.table_rows Where a.tableName = 'hourvmtfraction' and  b.TableName = 'hourvmtfraction';
 Update CDB_Checks as a, tempb as b set a.count = b.table_rows Where a.tableName = 'dayvmtfraction' and  b.TableName = 'dayvmtfraction';
 Update CDB_Checks as a, tempb as b set a.count = b.table_rows Where a.tableName = 'monthvmtfraction' and  b.TableName = 'monthvmtfraction';
-Update CDB_Checks as a, tempb as b set a.count = b.table_rows Where a.tableName = 'hpmsVTypeYear' and  b.TableName = 'hpmsVTypeYear';
+Update CDB_Checks as a, tempb as b set a.count = b.table_rows Where a.tableName = 'hpmsvtypeday' and  b.TableName = 'hpmsvtypeday';
+Update CDB_Checks as a, tempb as b set a.count = b.table_rows Where a.tableName = 'hpmsvtypeyear' and  b.TableName = 'hpmsvtypeyear';
+Update CDB_Checks as a, tempb as b set a.count = b.table_rows Where a.tableName = 'sourcetypedayvmt' and  b.TableName = 'sourcetypedayvmt';
+Update CDB_Checks as a, tempb as b set a.count = b.table_rows Where a.tableName = 'sourcetypeyearvmt' and  b.TableName = 'sourcetypeyearvmt';
 Update CDB_Checks as a, tempb as b set a.count = b.table_rows Where a.tableName = 'hotellingactivitydistribution' and  b.TableName = 'hotellingactivitydistribution';
 Update CDB_Checks as a, tempb as b set a.count = b.table_rows Where a.tableName = 'hotellingagefraction' and  b.TableName = 'hotellingagefraction';
 Update CDB_Checks as a, tempb as b set a.count = b.table_rows Where a.tableName = 'hotellinghoursperday' and  b.TableName = 'hotellinghoursperday';
@@ -642,7 +651,10 @@ CREATE TABLE IF NOT EXISTS `fuelusagefraction` LIKE ##defaultdb##.fuelusagefract
 CREATE TABLE IF NOT EXISTS `hourvmtfraction` LIKE ##defaultdb##.hourvmtfraction;
 CREATE TABLE IF NOT EXISTS `dayvmtfraction` LIKE ##defaultdb##.dayvmtfraction;
 CREATE TABLE IF NOT EXISTS `monthvmtfraction` LIKE ##defaultdb##.monthvmtfraction;
-CREATE TABLE IF NOT EXISTS `hpmsVTypeYear` LIKE ##defaultdb##.hpmsVTypeYear;
+CREATE TABLE IF NOT EXISTS `hpmsvtypeday` LIKE ##defaultdb##.hpmsvtypeday;
+CREATE TABLE IF NOT EXISTS `hpmsvtypeyear` LIKE ##defaultdb##.hpmsvtypeyear;
+CREATE TABLE IF NOT EXISTS `sourcetypedayvmt` LIKE ##defaultdb##.sourcetypedayvmt;
+CREATE TABLE IF NOT EXISTS `sourcetypeyearvmt` LIKE ##defaultdb##.sourcetypeyearvmt;
 
 -- hotelling
 CREATE TABLE IF NOT EXISTS `hotellingactivitydistribution` LIKE ##defaultdb##.hotellingactivitydistribution;
@@ -1609,7 +1621,7 @@ Select   "avgSpeedDistribution" as tableName,
 From     tempA
 Where    aMatch <> 'yes';
 
---       check no. 1604: check for unkown roadTypeIDs
+--       check no. 1604: check for unknown roadTypeIDs
 INSERT INTO QA_Checks_Log values ( 1604, 'OK', @hVersion, curDate(), curTime() );
 Drop table if exists tempA;
 Create table tempA
@@ -1720,6 +1732,7 @@ Select   "avgSpeedDistribution" as tableName,
          roadTypeID,
          hourDayID
 from avgspeeddistribution
+where roadTypeID not in (1, 100)
 group by sourceTypeID, roadTypeID, hourDayID, avgSpeedFraction
 having count(*) = (select count(*) from ##defaultdb##.avgspeedbin)
 order by sourceTypeID, roadTypeID, hourDayID, avgSpeedBinID LIMIT 1;
@@ -1742,11 +1755,11 @@ Select   "avgSpeedDistribution" as tableName,
 from (select sourceTypeID, roadTypeID, hourID, avgSpeedBinID, avgSpeedFraction as weekendFraction
 	  from avgspeeddistribution
 	  join ##defaultdb##.hourday using (hourDayID)
-	  where dayID = 2) as we
+	  where dayID = 2 and roadTypeID not in (1, 100)) as we
 join (select sourceTypeID, roadTypeID, hourID, avgSpeedBinID, avgSpeedFraction as weekdayFraction
 	  from avgspeeddistribution
 	  join ##defaultdb##.hourday using (hourDayID)
-	  where dayID = 5) as wd using (sourceTypeID, roadTypeID, hourID, avgSpeedBinID)
+	  where dayID = 5 and roadTypeID not in (1, 100)) as wd using (sourceTypeID, roadTypeID, hourID, avgSpeedBinID)
 group by sourceTypeID, roadTypeID, hourID
 having sum(abs(weekendFraction - weekdayFraction)) < 0.00001
 order by sourceTypeID, roadTypeID, hourID LIMIT 1;
@@ -1804,7 +1817,7 @@ Select   "avgSpeedDistribution" as tableName,
          roadTypeID,
          hourDayID
 from avgspeeddistribution
-where avgSpeedFraction = 0 and avgSpeedBinID = 1
+where avgSpeedFraction = 0 and avgSpeedBinID = 1 and roadTypeID not in (1, 100)
 LIMIT 1;
 
 
@@ -2091,7 +2104,8 @@ Select   "dayVMTFraction" as tableName,
          'dayID 2 is 2/7 and dayID 5 is 5/7' as testValue,
          sourceTypeID, monthID, roadTypeID
 from dayvmtfraction
-where abs(dayVMTFraction - dayID/7) < 0.00001
+where abs(dayVMTFraction - dayID/7) < 0.00001 
+  and roadTypeID not in (1, 100)
 order by sourceTypeID, monthID, roadTypeID LIMIT 1;
 
 --       check no. 1808: check for missing sourceTypeID, monthID, roadTypeID, dayID combinations
@@ -3731,6 +3745,7 @@ from (
 	CROSS JOIN ##defaultdb##.roadtype
 	CROSS JOIN ##defaultdb##.dayofanyweek
 	CROSS JOIN ##defaultdb##.hourofanyday
+	WHERE roadTypeID BETWEEN 2 and 5
 ) as t1 left join hourvmtfraction using (sourceTypeID, roadTypeID, dayID, hourID)
 where hourVMTFraction is NULL 
 ORDER BY sourceTypeID, roadTypeID, dayID, hourID LIMIT 1;
@@ -3766,6 +3781,7 @@ Select   "hourVMTFraction" as tableName,
          concat('all are ', hourVMTFraction) as testValue,
 		 sourceTypeID, roadTypeID, dayID
 from hourvmtfraction
+where roadTypeID not in (1, 100)
 group by sourceTypeID, roadTypeID, dayID, hourVMTFraction
 having count(*) = (select count(*) from ##defaultdb##.hourOfAnyDay)
 order by sourceTypeID, roadTypeID, dayID LIMIT 1;
@@ -3785,10 +3801,10 @@ Select   "hourVMTFraction" as tableName,
          roadTypeID
 from (select sourceTypeID, roadTypeID, hourID, hourVMTFraction as weekendFraction
 	  from hourVMTFraction
-	  where dayID = 2 and roadTypeID <> 1) as we
+	  where dayID = 2 and roadTypeID not in (1, 100)) as we
 join (select sourceTypeID, roadTypeID, hourID, hourVMTFraction as weekdayFraction
 	  from hourVMTFraction
-	  where dayID = 5 and roadTypeID <> 1) as wd using (sourceTypeID, roadTypeID, hourID)
+	  where dayID = 5 and roadTypeID not in (1, 100)) as wd using (sourceTypeID, roadTypeID, hourID)
 group by sourceTypeID, roadTypeID
 having sum(abs(weekendFraction - weekdayFraction)) < 0.00001
 order by sourceTypeID, roadTypeID LIMIT 1;
@@ -5291,7 +5307,7 @@ Select   "roadtypedistribution" as tableName,
          concat('all are ', roadTypeVMTFraction) as testValue,
 		 sourceTypeID
 from roadtypedistribution
-where roadTypeID <> 1
+where roadTypeID not in (1, 100)
 group by sourceTypeID, roadTypeVMTFraction
 having count(*) = (select count(*) from ##defaultdb##.roadtype where roadTypeID not in (1, 100))
 order by sourceTypeID LIMIT 1;
@@ -7097,6 +7113,7 @@ Select  "zoneRoadType"       as tableName,
          count(*) as `count`,
          roadTypeID
 From     zoneroadtype
+where    roadTypeID not in (1, 100)
 Group by roadTypeId
 Having   SHOAllocFactor2 <> 1 or `count` > 1;
  
@@ -7147,7 +7164,8 @@ Update        CDB_Checks set status = 'Error'   where checkNumber is not null an
 --                                            if you supply them: fuelformulation, fuelsupply, and zonemonthhour)
 Update        CDB_Checks set status = 'Warning' where checkNumber in 
 			  (1608,1609,1610,1611,1807,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2101,
-			   2102,2103,2104,2406,2507,2508,2808,2809,3605,3805,3906,4506,5001,5002,5003,5004,5005,5006);
+			   2102,2103,2104,2406,2507,2508,2808,2809,3605,3804,3805,3906,4506,5001,5002,5003,5004,5005,
+			   5006);
 
 -- special cases for VMT/starts checks --
 -- mark all VMT row count checks as 'complete' regardless of results

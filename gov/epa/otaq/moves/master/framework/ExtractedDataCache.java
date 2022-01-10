@@ -19,7 +19,7 @@ import java.io.*;
 **/
 public class ExtractedDataCache {
 	/** Mutex for guarding all shared data **/
-	private static Integer mutex = Integer.valueOf(101110);
+	private static Object mutex = new Object();
 	/** Folder holding all cached files **/
 	private static File cacheFolder = null;
 

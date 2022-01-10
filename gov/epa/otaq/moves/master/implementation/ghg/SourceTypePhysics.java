@@ -452,10 +452,10 @@ public class SourceTypePhysics {
 			//Logger.log(LogMessageCategory.DEBUG,"SourceTypePhysics.updateEmissionRateTables skipped for process " + processID);
 			return;
 		}
-		System.out.println("SourceTypePhysics.updateEmissionRateTables starting for process 1...");
+		Logger.log(LogMessageCategory.DEBUG,"SourceTypePhysics.updateEmissionRateTables starting for process " + processID);
 		String alreadyKey = "updateEmissionRates|" + processID;
 		if(alreadyDoneFlags.contains(alreadyKey)) {
-			Logger.log(LogMessageCategory.DEBUG,"SourceTypePhysics.updateEmissionRateTables already done");
+			Logger.log(LogMessageCategory.DEBUG,"SourceTypePhysics.updateEmissionRateTables already done for process " + processID);
 			return;
 		}
 		alreadyDoneFlags.add(alreadyKey);

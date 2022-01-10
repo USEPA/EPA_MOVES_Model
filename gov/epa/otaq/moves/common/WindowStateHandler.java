@@ -73,7 +73,7 @@ public class WindowStateHandler implements ComponentListener, WindowListener {
 	public static String infoFileName = "MOVESWindows.txt";
 
 	/** Mutex to synchronize access from all windows to the information file **/
-	private static Integer fileMutex = Integer.valueOf(90210);
+	private static Object fileMutex = new Object();
 
 	/** Window being controlled **/
 	Window window = null;

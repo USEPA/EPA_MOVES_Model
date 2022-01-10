@@ -1103,7 +1103,7 @@ public class NonroadOutputDataLoader {
 	/** Counter for temporary files, used to ensure unique file names **/
 	static int temporaryFileNumber = 0;
 	/** Guard for static variables **/
-	static Integer globalMutex = Integer.valueOf(819);
+	private static Object globalMutex = new Object();
 
 	/**
 	 * Get the name of a new file that can be used for temporary data.

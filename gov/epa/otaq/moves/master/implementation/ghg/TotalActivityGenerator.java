@@ -201,7 +201,7 @@ public class TotalActivityGenerator extends Generator {
 				setupTime += System.currentTimeMillis() - start;
 			}
 
-			if(inContext.year > resultsYear) {
+			if(inContext.year != resultsYear) {
 				start = System.currentTimeMillis();
 				baseYear = determineBaseYear(inContext.year); // step 110
 				if(baseYear > resultsYear) {
@@ -216,8 +216,6 @@ public class TotalActivityGenerator extends Generator {
 				resultsYear = inContext.year;
 				growthTime += System.currentTimeMillis() - start;
 			}
-
-
 
 			start = System.currentTimeMillis();
 			allocateTotalActivityBasis(inContext); // steps 190-199
@@ -331,7 +329,7 @@ public class TotalActivityGenerator extends Generator {
 		sql = "TRUNCATE VMTByAgeRoadwayHour";
 		SQLRunner.executeSQL(db,sql);
 
-		sql = "create table vmtByMYRoadHourFraction ("
+		sql = "create table if not exists vmtByMYRoadHourFraction ("
 				+ " 	yearID smallint not null,"
 				+ " 	roadTypeID smallint not null,"
 				+ " 	sourceTypeID smallint not null,"
@@ -1214,7 +1212,7 @@ public class TotalActivityGenerator extends Generator {
 	 * @throws SQLException if the VMT cannot be grown to the analysis year.
 	**/
 	void growVMTToAnalysisYear(int analysisYear) throws SQLException {
-		growVMTToAnalysisYear(db, analysisYear, baseYear, resultsYear, true);
+		growVMTToAnalysisYear(db, analysisYear, baseYear, resultsYear, false);
 	}
 
 	/**
@@ -1479,6 +1477,9 @@ public class TotalActivityGenerator extends Generator {
 		String sql = "";
 
 		sql = "TRUNCATE VMTByAgeRoadwayHour";
+		SQLRunner.executeSQL(db,sql);
+		
+		sql = "TRUNCATE vmtByMYRoadHourFraction";
 		SQLRunner.executeSQL(db,sql);
 
 		sql = "DROP TABLE IF EXISTS AvarMonth ";
@@ -1815,7 +1816,7 @@ public class TotalActivityGenerator extends Generator {
 				+ " 	yearID, roadTypeID, sourceTypeID, ageID, monthID, dayID, VMT, hotellingHours)"
 				+ " select yearID, roadTypeID, sourceTypeID, ageID, monthID, dayID, sum(VMT), 0 as hotellingHours"
 				+ " from VMTByAgeRoadwayHour"
-				+ " where roadTypeID in (2,4) and sourceTypeID=62"
+				+ " where sourceTypeID=62"
 				+ " group by yearID, roadTypeID, sourceTypeID, ageID, monthID, dayID"
 				+ " order by null";
 		SQLRunner.executeSQL(db,sql);
@@ -1831,8 +1832,22 @@ public class TotalActivityGenerator extends Generator {
 				+ " set hotellingHours = VMT * ZoneRoadType.SHOAllocFactor * hotellingRate"
 				+ " where VMTByAgeRoadwayDay.yearID = hotellingCalendarYear.yearID"
 				+ " and ZoneRoadType.zoneID = " + zoneID
-				+ " and VMTByAgeRoadwayDay.roadTypeID = ZoneRoadType.roadTypeID"
-				+ " and VMTByAgeRoadwayDay.roadTypeID in (2,4)";
+				+ " and VMTByAgeRoadwayDay.roadTypeID = ZoneRoadType.roadTypeID";
+		SQLRunner.executeSQL(db,sql);
+		
+		/*
+		The IdleHoursByAgeHour table in the next step stores hotelling hours based on data in VMTByAgeRoadwayDay.
+		VMTByAgeRoadwayDay has activity for all road types, but we only want road types 2 and 4 in most cases,
+		and therefore we typically want to delete road types 3 and 5. The only exception to this is where a 
+		county-scale user has provided hotelling activity in hotellinghoursperday, but they have 0 VMT on road 
+		types 2 and 4 -- in this case, we want to keep VMT from all road types in this table so we calculate
+		non-zero default hotelling activity that can later be adjusted to reflect user input via AdjustHotelling.sql
+		*/
+		sql = "DELETE FROM VMTByAgeRoadwayDay " +
+				// delete road types 3 and 5 any time there is activity on road types 2 and 4 (because the algorithm works as expected for both default scale and county scale with or without user input)
+				" WHERE (roadTypeID not in (2,4) and (select sum(hotellinghours) from VMTByAgeRoadwayDay WHERE roadTypeID in (2,4)) > 0)" +
+				// if we get here, there is no activity on road types 2 and 4. delete road types 3 and 5 (which will result in no hotelling activity) only if no hotelling input has been provided
+				" or (roadTypeID not in (2,4) and (SELECT count(*) from hotellinghoursperday) = 0)";
 		SQLRunner.executeSQL(db,sql);
 
 		/**
@@ -1854,7 +1869,6 @@ public class TotalActivityGenerator extends Generator {
 				+ " 	v.monthID,sth.dayID,sth.hourID,sum(v.hotellingHours*sth.hotellingDist)"
 				+ " from VMTByAgeRoadwayDay as v"
 				+ " inner join sourceTypeHour2 as sth using (sourceTypeID, dayID)"
-				+ " where v.roadTypeID in (2,4)"
 				+ " group by v.yearID,v.sourceTypeID,v.ageID,"
 				+ " 	v.monthID,sth.dayID,sth.hourID";
 		SQLRunner.executeSQL(db,sql);
@@ -2055,7 +2069,7 @@ public class TotalActivityGenerator extends Generator {
 			currentZoneID = zoneID;
 			currentYearForZone = analysisYear;
 		} else if(zoneID==currentZoneID) {
-			if(currentYearForZone<analysisYear) {
+			if(currentYearForZone != analysisYear) {
 				currentYearForZone = analysisYear;
 				newYearForZone = true;
 				linksInZone = "";

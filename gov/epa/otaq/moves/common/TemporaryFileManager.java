@@ -18,7 +18,7 @@ import java.util.*;
 **/
 public class TemporaryFileManager {
 	/** Mutex used to synchronize access to variables **/
-	private static Integer mutex = Integer.valueOf(42);
+	private static Object mutex = new Object();
 	/** Folder to hold all temporary folders and files **/
 	private static File workingFolder = null;
 	/** Number of file name collisions, used to add uniqueness to names **/

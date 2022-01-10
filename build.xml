@@ -14,11 +14,8 @@
 	<condition property="java11">
 	  <javaversion exactly="11"/>
 	</condition>
-	<condition property="java12">
-	  <javaversion exactly="12"/>
-	</condition>
-	<condition property="java13">
-	  <javaversion exactly="13"/>
+	<condition property="java17">
+	  <javaversion exactly="17"/>
 	</condition>
 	<condition property="atleastJava9">
 		<javaversion atleast="9"/>
@@ -164,39 +161,17 @@
 
 	<path id="classpath">
 		<pathelement location="." />
-		<pathelement location="libs/poi/xmlbeans-2.3.0.jar" />
-		<pathelement location="libs/jlfgr-1_0.jar" />
+		<pathelement location="libs/ant-contrib-1.0b3.jar" />
+		<pathelement location="libs/commons-io-2.11.0.jar" />
+		<pathelement location="libs/commons-lang-2.2.jar" />
 		<pathelement location="libs/junit-4.5.jar" />
 		<pathelement location="libs/mysql-connector-java-5.1.17-bin.jar" />
-		<pathelement location="libs/jaxp-api.jar" />
-		<pathelement location="libs/xercesImpl.jar" />
-		<pathelement location="libs/xml-apis.jar" />
-		<pathelement location="libs/sax.jar" />
-		<pathelement location="libs/jakarta-regexp-1.3.jar" />
-		<pathelement location="libs/jai_core.jar" />
-		<pathelement location="libs/jai_codec.jar" />
-		<pathelement location="libs/commons-lang-2.2.jar" />
 		<pathelement location="libs/abbot/abbot.jar" />
-		<pathelement location="libs/abbot/bsh-2.0b4.jar" />
 		<pathelement location="libs/abbot/costello.jar" />
-		<pathelement location="libs/abbot/gnu-regexp-1.1.0.jar" />
-		<pathelement location="libs/abbot/jdom-1.0.jar" />
 		<pathelement location="libs/poi/commons-codec-1.5.jar" />
-		<pathelement location="libs/poi/commons-logging-1.1.jar" />
-		<pathelement location="libs/poi/dom4j-1.6.1.jar" />
-		<pathelement location="libs/poi/log4j-1.2.13.jar" />
 		<pathelement location="libs/poi/poi-3.9-20121203.jar" />
 		<pathelement location="libs/poi/poi-ooxml-3.9-20121203.jar" />
-		<pathelement location="libs/poi/poi-ooxml-schemas-3.9-20121203.jar" />
-		<pathelement location="libs/poi/stax-api-1.0.1.jar" />
 		<pathelement location="amazon/libs/aws-java-sdk-1.1.4.jar" />
-		<pathelement location="amazon/libs/commons-codec-1.3.jar" />
-		<pathelement location="amazon/libs/commons-httpclient-3.0.1.jar" />
-		<pathelement location="amazon/libs/commons-logging-1.1.1.jar" />
-		<pathelement location="amazon/libs/jackson-core-asl-1.4.3.jar" />
-		<pathelement location="amazon/libs/mail-1.4.3.jar" />
-		<pathelement location="amazon/libs/stax-1.2.0.jar" />
-		<pathelement location="amazon/libs/stax-api-1.0.1.jar" />
 	</path>
 
 	<target name="init">

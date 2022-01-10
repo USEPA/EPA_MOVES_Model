@@ -55,7 +55,7 @@ public class NonroadEmissionCalculator extends EmissionCalculator
 	**/
 
 	/** Mutex used to synchronize access to variables **/
-	private static Integer mutex = Integer.valueOf(42);
+	private static Object mutex = new Object();
 
 	/** Set of pollutant/processes calculated by the Nonroad.exe program **/
 	public static final int[] nonroadPolProcessIDs = {

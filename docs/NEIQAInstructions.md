@@ -8,7 +8,7 @@ The QA Tool is run in MOVES via the command line, using Ant, the MOVES dependenc
 
 ## Prerequisites
 
-In order to run the NEI QA Tool on a county database (CDB), MOVES version 3.0.1 or greater must be installed. The QA Tool also assumes the CDB has already been built using the MOVES County Data Manager or otherwise and is ready to be checked. The tool *will not* aid in creating or populating an NEI CDB.
+In order to run the NEI QA Tool on a county database (CDB), MOVES version 3.0.1 or greater must be installed. Note that MOVES3.0.3 contains minor fixes that improves the tool. The QA Tool also assumes the CDB has already been built using the MOVES County Data Manager or otherwise and is ready to be checked. The tool *will not* aid in creating or populating an NEI CDB.
 
 ### County Database Naming Convention
 
@@ -362,7 +362,7 @@ The QA scripts create two new tables in the input database, `cdb_checks` and `qa
 |         | 3801    | roadtypedistribution                                         | checks for unknown roadTypeID                                | Error   |                                                              |
 |         | 3802    | roadtypedistribution                                         | checks for unknown sourceTypeID                              | Error   |                                                              |
 |         | 3803    | roadtypedistribution                                         | checks that VMTFraction sums to 1 by sourceTypeID            | Error   |                                                              |
-|         | 3804    | roadtypedistribution                                         | make sure no VMTFraction values are greater than or equal to 1 | Error   |                                                              |
+|         | 3804    | roadtypedistribution                                         | make sure no VMTFraction values are greater than or equal to 1 | Warning |                                                              |
 |         | 3805    | roadtypedistribution                                         | make sure no road type profiles are flat                     | Warning | For example, all 1/4                                         |
 |         | 3806    | roadtypedistribution                                         | makes sure all combinations of roadTypeID and sourceTypeID are  present | Error   | This returns only the first missing combination, not all of them |
 | 39      | 3900    | sourcetypeagedistribution                                    | table check (indicates that the checks associated with this table have  started) | Info    |                                                              |
