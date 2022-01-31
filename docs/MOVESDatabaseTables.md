@@ -145,19 +145,19 @@ avgSpeedBin defines the average speed bins, and their integer IDs, that are used
 
 ### avgSpeedDistribution
 
-avgSpeedDistribution contains the default average speed distributions in MOVES, and is also a user input table.
+avgSpeedDistribution contains the default average speed distributions in MOVES as a fraction of time, and is also a user input table.
 
-| Field            | Type        | Null | Key | Default | Comment                                                                                                      |
-| ---------------- | ----------- | ---- | --- | ------- | ------------------------------------------------------------------------------------------------------------ |
-| sourceTypeID     | smallint(6) | NO   | PRI | 0       |                                                                                                              |
-| roadTypeID       | smallint(6) | NO   | PRI | 0       |                                                                                                              |
-| hourDayID        | smallint(6) | NO   | PRI | 0       |                                                                                                              |
-| avgSpeedBinID    | smallint(6) | NO   | PRI | 0       |                                                                                                              |
-| avgSpeedFraction | float       | YES  |     |         | fraction of VMT in the average speed bin. Sums to 1 for each source type, road type, and hourDay combination |
+| Field            | Type        | Null | Key  | Default | Comment                                                      |
+| ---------------- | ----------- | ---- | ---- | ------- | ------------------------------------------------------------ |
+| sourceTypeID     | smallint(6) | NO   | PRI  | 0       |                                                              |
+| roadTypeID       | smallint(6) | NO   | PRI  | 0       |                                                              |
+| hourDayID        | smallint(6) | NO   | PRI  | 0       |                                                              |
+| avgSpeedBinID    | smallint(6) | NO   | PRI  | 0       |                                                              |
+| avgSpeedFraction | float       | YES  |      |         | fraction of SHO in the average speed bin. Sums to 1 for each source type, road type, and hourDay combination |
 
 ### baseFuel
 
-baseFuel  contains the MOVES fuelFormulation used as the basis for the complex and  predictive fuel effects models (MY < 2001 vehicles).
+baseFuel contains the MOVES fuelFormulation used as the basis for the complex and  predictive fuel effects models (MY < 2001 vehicles).
 
 | Field             | Type         | Null | Key  | Default | Comment                                                 |
 | ----------------- | ------------ | ---- | ---- | ------- | ------------------------------------------------------- |
