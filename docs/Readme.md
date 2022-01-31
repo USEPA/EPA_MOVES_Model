@@ -39,5 +39,6 @@ These PDF cheat sheets summarize common tables and values used to create MOVES r
 * [Anatomy of a RunSpec](AnatomyOfARunspec.md): An overview of all of the fields contained in a MOVES RunSpec
 * [MOVES Code: Folder by Folder](FolderByFolder.md): Descriptions of the contents within the folders in the MOVES source code directory
 * [Debugging MOVES](DebuggingMOVES.md): Tips for troubleshooting and debugging unexpected behavior in MOVES runs
+* [SQL Tip Sheet](SQLTipSheet.pdf): Cheat sheet for SQL syntax
 
     
