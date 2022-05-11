@@ -1,4 +1,10 @@
-# MOVES3.0.3
+# MOVES3.0.4 Development
+
+This branch contains all of the changes in development for MOVES3.0.4, the next minor patch for MOVES3.0.
+
+For a preview of MOVES3.0.4, follow the instructions below in **Requirements and Set Up**. Just make sure that after cloning this repository (step 1), checkout the `dev/v3.0.4` branch before continuing to the other steps.
+
+# MOVES3.0.4
 
 EPA's MOtor Vehicle Emission Simulator (MOVES) is a state-of-the-science emission modeling system that estimates emissions for mobile sources at the national, county, and project level for criteria air pollutants, greenhouse gases, and air toxics, available under EPA's Open Source Software policy. 
 
@@ -13,7 +19,7 @@ This repository contains all of the source code and data required to compile and
 MOVES uses MariaDB, Java, and Go. At minimum, you will need the following:
 
 * [MariaDB](https://mariadb.org/download/?t=mariadb&p=mariadb&r=10.4.23) (version 10.4 or later)
-* [Java JDK](https://docs.microsoft.com/en-us/java/openjdk/download#openjdk-11) (version 11)
+* [Java JDK](https://docs.microsoft.com/en-us/java/openjdk/download#openjdk-11) (version 11 or version 17)
 * [Go](https://golang.org/dl) (version 1.13 or later)
 
 To get set up:
@@ -41,7 +47,7 @@ To get set up:
 
 4. If MariaDB is running on a non-default port (i.e., any port other than 3306), create a file called `MySQL.txt` in the root MOVES directory, and save the port number to this text file. This file should contain no whitespace, just the port number.
 
-5. Uncomment line 2 of `setenv.bat` and comment out line 3 to set the JDK and JRE paths to match your environment (i.e., remove `REM` from the beginning of line 2 and add it to the beginning of line 3). You may also need to set `JAVA_HOME` to your JDK path on line 6.
+5. Uncomment line 2 of `setenv.bat` and comment out line 3 to set the JDK and JRE paths to match your environment (i.e., remove `REM` from the beginning of line 2 and add it to the beginning of line 3). Then, set `JAVA_HOME` to your JDK path on line 6.
 
 6. Unzip the default database dumpfile from the .zip file in the `\database\Setup` directory to the same directory.
 
