@@ -64,7 +64,15 @@
   </name>
   <name>
     <first>Alex</first>
+    <last></last>
+  </name>
+  <name>
+    <first>Alex</first>
     <last>Rosen</last>
+  </name>
+  <name>
+    <first>Alexander</first>
+    <last>Grund</last>
   </name>
   <name>
     <first>Alexei</first>
@@ -165,6 +173,10 @@
     <last>Kuiper</last>
   </name>
   <name>
+    <first>Arturo</first>
+    <last>Bernal</last>
+  </name>
+  <name>
     <first>Arun</first>
     <last>Jamwal</last>
   </name>
@@ -190,6 +202,10 @@
   <name>
     <first>Bart</first>
     <last>Vanhaute</last>
+  </name>
+  <name>
+    <first>Basil</first>
+    <last>Crow</last>
   </name>
   <name>
     <first>Benjamin</first>
@@ -553,6 +569,10 @@
   </name>
   <name>
     <first>Eric</first>
+    <last>Delaunay</last>
+  </name>
+  <name>
+    <first>Eric</first>
     <last>Olsen</last>
   </name>
   <name>
@@ -661,6 +681,10 @@
     <last>Twiggs</last>
   </name>
   <name>
+    <first>Gösen</first>
+    <last></last>
+  </name>
+  <name>
     <first>Greg</first>
     <last>Nelson</last>
   </name>
@@ -687,6 +711,10 @@
   <name>
     <first>Haroon</first>
     <last>Rafique</last>
+  </name>
+  <name>
+    <first>Helder</first>
+    <last>Pereira</last>
   </name>
   <name>
     <first>Hiroaki</first>
@@ -924,6 +952,10 @@
     <last>Simpson</last>
   </name>
   <name>
+    <first>Julien</first>
+    <last>Lepiller</last>
+  </name>
+  <name>
     <first>Justin</first>
     <last>Vallon</last>
   </name>
@@ -1027,6 +1059,14 @@
   <name>
     <first>Maneesh</first>
     <last>Sahu</last>
+  </name>
+  <name>
+    <first>Marc</first>
+    <last>Guillemot</last>
+  </name>
+  <name>
+    <first>Marc</first>
+    <last>Strapetz</last>
   </name>
   <name>
     <first>Marcel</first>
@@ -1172,6 +1212,11 @@
     <last>Gutheil</last>
   </name>
   <name>
+    <first>Matthias</first>
+    <middle>Johann</middle>
+    <last>Vill</last>
+  </name>
+  <name>
     <first>Michael</first>
     <last>Bayne</last>
   </name>
@@ -1211,6 +1256,10 @@
   <name>
     <first>Michael</first>
     <last>Seele</last>
+  </name>
+  <name>
+    <first>Mickaël</first>
+    <last>Guessant</last>
   </name>
   <name>
     <last>Miha</last>
@@ -1599,6 +1648,10 @@
     <last>Law</last>
   </name>
   <name>
+    <first>Simon</first>
+    <last>Legner</last>
+  </name>
+  <name>
     <first>Simone</first>
     <last>Bordet</last>
   </name>
@@ -1736,6 +1789,10 @@
     <last>Endres</last>
   </name>
   <name>
+    <first>TJ</first>
+    <last>Rothwell</last>
+  </name>
+  <name>
     <first>Tom</first>
     <last>Ball</last>
   </name>
@@ -1766,6 +1823,10 @@
   <name>
     <first>Tomáš</first>
     <last>Zezula</last>
+  </name>
+  <name>
+    <first>Tony</first>
+    <last>Gravagno</last>
   </name>
   <name>
     <first>Trejkaz</first>
