@@ -1817,6 +1817,24 @@ nrRetrofitFactors is not populated by default, but can be provided by users for 
 | retrofitID                | smallint(6) | NO   | PRI  |         | arbitrary ID used to model separate retrofit programs        |
 | annualFractionRetrofit    | float       | YES  |      |         | fraction of vehicles retrofitted                             |
 | retrofitEffectiveFraction | float       | YES  |      |         | effectiveness of the retrofit in reducing emissions. Can be  between 0 and 1 - a value of 0.1 is a 10% reduction in emissions. |
+### nrROCSpeciation
+
+nrROCSpeciation (ROC stands for Reactive Organic Carbon) lists the profile from the SPECIATE database that is used to speciate NMOG (non-methane organic gases) and PM to lumped species by fuel sub type, tier, number of strokes, and engine technology, and emission process.
+
+| Field                  | Type        | Null | Key | Default | Comment                                                                               |
+|------------------------|-------------|------|-----|---------|---------------------------------------------------------------------------------------|
+| fuelSubtypeID          | smallint(6) | NO   | PRI |         |                                                                                       |
+| tierID                 | smallint(6) | NO   | PRI |         |                                                                                       |
+| strokes                | smallint(6) | NO   | PRI |         |                                                                                       |
+| engTechID              | int(11)     | NO   | PRI |         |                                                                                       |
+| processID              | int(11)     | NO   | PRI |         |                                                                                       |
+| pmSpeciationProfileID  | varchar(10) | YES  |     |         | SPECIATE profile used for PM                                                          |
+| CROCCode               | varchar(10) | YES  |     |         | alternate profile ID formulation                                                      |
+| CROCOMRatio            | double      | YES  |     |         | conversion factor used to convert from PM organic matter to total Condensible ROC     |
+| togSpeciationProfileID | varchar(10) | YES  |     |         | SPECIATE profile used for organic gases                                               |
+| GROCCode               | varchar(10) | YES  |     |         | alternate profile ID formulation                                                      |
+| GROCNMOGRatio          | double      | YES  |     |         | conversion factor used to convert from non-methane organic gases to total Gaseous ROC |
+
 
 ### nrSCC
 
@@ -2264,6 +2282,24 @@ roadTypeDistribution allocates total activity to each road type. It contains def
 | sourceTypeID        | smallint(6) | NO   | PRI | 0       |                                                   |
 | roadTypeID          | smallint(6) | NO   | PRI | 0       |                                                   |
 | roadTypeVMTFraction | float       | YES  |     |         | fraction of VMT on each road type per source type |
+### rocSpeciation
+
+rocSpeciation (ROC stands for Reactive Organic Carbon) lists the profile from the SPECIATE database that is used to speciate NMOG (non-methane organic gases) and PM to lumped species by fuel sub type, regulatory class, process, and model year.
+
+| Field                  | Type        | Null | Key | Default | Comment                                                                               |
+|------------------------|-------------|------|-----|---------|---------------------------------------------------------------------------------------|
+| fuelSubtypeID          | smallint(6) | NO   | PRI |         |                                                                                       |
+| regClassID             | smallint(6) | NO   | PRI |         |                                                                                       |
+| processID              | smallint(6) | NO   | PRI |         |                                                                                       |
+| minModelYearID         | int(11)     | NO   | PRI |         |                                                                                       |
+| maxModelYearID         | int(11)     | NO   | PRI |         |                                                                                       |
+| pmSpeciationProfileID  | varchar(10) | YES  |     |         | SPECIATE profile used for PM                                                          |
+| CROCCode               | varchar(10) | YES  |     |         | alternate profile ID formulation                                                      |
+| CROCOMRatio            | double      | YES  |     |         | conversion factor used to convert from PM organic matter to total Condensible ROC     |
+| togSpeciationProfileID | varchar(10) | YES  |     |         | SPECIATE profile used for organic gases                                               |
+| GROCCode               | varchar(10) | YES  |     |         | alternate profile ID formulation                                                      |
+| GROCNMOGRatio          | double      | YES  |     |         | conversion factor used to convert from non-methane organic gases to total Gaseous ROC |
+
 
 ### sampleVehicleDay
 

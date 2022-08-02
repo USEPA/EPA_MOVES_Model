@@ -109,6 +109,10 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 	Convert2014aTo3Action convert2014aTo3Action;
 	/** Run ONI Tool Action **/
 	ONIToolAction oniToolAction;
+	/** Run Speciation Profile Weight Action **/
+	ProfileWeightScriptAction profileWeightScriptAction;	
+	/** Run Nonroad Speciation Profile Weight Action **/
+	ProfileWeightScriptActionNR profileWeightScriptActionNR;
 	/** Run MySQL Script Action **/
 	SummaryReportAction summaryReportAction;
 	/** User Guide menu action. **/
@@ -518,6 +522,10 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		convert2014aTo3Action.addActionListener(this);
 		oniToolAction = new ONIToolAction();
 		oniToolAction.addActionListener(this);
+		profileWeightScriptAction = new ProfileWeightScriptAction();
+		profileWeightScriptAction.addActionListener(this);
+		profileWeightScriptActionNR = new ProfileWeightScriptActionNR();
+		profileWeightScriptActionNR.addActionListener(this);
 		summaryReportAction = new SummaryReportAction();
 		summaryReportAction.addActionListener(this);
 		userGuideAction = new UserGuideAction();
@@ -668,6 +676,10 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		menuItem.addMouseListener(mouseHandler);
 		menuItem = toolsMenu.add(oniToolAction);
 		menuItem.addMouseListener(mouseHandler);
+		menuItem = toolsMenu.add(profileWeightScriptAction);
+		menuItem.addMouseListener(mouseHandler);
+		menuItem = toolsMenu.add(profileWeightScriptActionNR);
+		menuItem.addMouseListener(mouseHandler);
 		JMenu settingsMenu = new JMenu("Settings");
 		settingsMenu.setMnemonic('S');
 		settingsMenu.setName("settingsMenu");
@@ -774,6 +786,10 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 			handleConverterAction(Converter.MODE_2014A_TO_3);
 		} else if (command.equals(oniToolAction.getActionCommand())) {
 			handleONIToolAction();
+		} else if (command.equals(profileWeightScriptAction.getActionCommand())) {
+			handleProfileWeightScriptAction();
+		} else if (command.equals(profileWeightScriptActionNR.getActionCommand())) {
+			handleProfileWeightScriptActionNR();
 		} else if (command.equals(summaryReportAction.getActionCommand())) {
 			handleSummaryReportAction();
 		} else if (command.equals(userGuideAction.getActionCommand())) {
@@ -1474,6 +1490,26 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		// simple offset from main window origin
 		ot.setLocation(getLocationOnScreen().x + 100, getLocationOnScreen().y + 100);
 		ot.showModal();
+	}
+	
+	/**
+	 * Handles the Run Speciation Profile Weighting Script menu action.
+	**/
+	void handleProfileWeightScriptAction() {
+		ProfileWeightScript pws = new ProfileWeightScript(this);
+		// simple offset from main window origin
+		pws.setLocation(getLocationOnScreen().x + 100, getLocationOnScreen().y + 100);
+		pws.showModal();
+	}
+	
+	/**
+	 * Handles the Run Nonroad Speciation Profile Weighting Script menu action.
+	**/
+	void handleProfileWeightScriptActionNR() {
+		ProfileWeightScriptNR pws = new ProfileWeightScriptNR(this);
+		// simple offset from main window origin
+		pws.setLocation(getLocationOnScreen().x + 100, getLocationOnScreen().y + 100);
+		pws.showModal();
 	}
 
 	/** Handles the Configure menu action. **/

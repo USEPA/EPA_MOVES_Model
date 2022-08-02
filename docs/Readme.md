@@ -28,8 +28,7 @@ These PDF cheat sheets summarize common tables and values used to create MOVES r
 * [Building LEV and NLEV input databases](../database/LEV_NLEVScripts/InstructionsForLEV_NLEV_Tool.pdf): Instructions on how to use the LEV/NLEV Tool in the MOVES GUI
 * [National Emissions Inventory Submissions QA Tool](NEIQAInstructions.md): Instructions and documentation for the NEI Submissions QA Tool
 * [ONI Tool](../database/ONITool/InstructionsForONITool.pdf): Instructions on how to use the ONI Tool when running MOVES in rates mode with default off-network idling activity
-
-
+* MOVES Speciation tools: Instructions for how to speciate MOVES output as a post-processing step, for both [onroad](../database/ProfileWeightScripts/OnroadSpeciationInstructions.pdf) and [nonroad](../database/ProfileWeightScripts/NonroadSpeciationInstructions.pdf).
 
 ## Developer References:
 

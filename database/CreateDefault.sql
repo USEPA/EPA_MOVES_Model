@@ -1868,6 +1868,21 @@ CREATE TABLE  nrRetrofitFactors (
   PRIMARY KEY (SCC,engTechID,hpMin,hpMax,pollutantID,retrofitID)
 );
 
+CREATE TABLE nrrocspeciation (
+  fuelSubtypeID smallint(6) NOT NULL,
+  tierID smallint(6) NOT NULL,
+  strokes smallint(6) NOT NULL,
+  engTechID int(11) NOT NULL,
+  processID int(11) NOT NULL,
+  pmSpeciationProfileID varchar(10) DEFAULT NULL,
+  CROCCode varchar(10) DEFAULT NULL,
+  CROCOMRatio double DEFAULT NULL,
+  togSpeciationProfileID varchar(10) DEFAULT NULL,
+  GROCCode varchar(10) DEFAULT NULL,
+  GROCNMOGRatio double DEFAULT NULL,
+  PRIMARY KEY (fuelSubtypeID,tierID,strokes,engTechID,processID)
+);
+
 CREATE TABLE nrSCC(
   SCC CHAR(10) NOT NULL,
   NREquipTypeID SMALLINT(6) NOT NULL,
@@ -2291,6 +2306,21 @@ CREATE UNIQUE INDEX XPKRoadTypeDistribution ON RoadTypeDistribution
 (
        sourceTypeID                   ASC,
        roadTypeID                     ASC
+);
+
+create table rocspeciation (
+	fuelSubtypeID smallint(6),
+    regClassID smallint(6),
+    processID smallint(6),
+    minModelYearID int(11),
+    maxModelYearID int(11),
+    pmSpeciationProfileID varchar(10),
+    CROCCode varchar(10),
+    CROCOMRatio double,
+    togSpeciationProfileID varchar(10),
+    GROCCode varchar(10),
+	GROCNMOGRatio double,
+    PRIMARY KEY (fuelSubtypeID,regClassID,processID,minModelYearID,maxModelYearID)
 );
 
 CREATE TABLE SampleVehicleDay (

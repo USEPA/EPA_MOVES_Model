@@ -1227,6 +1227,178 @@ public class DatabaseUtilities {
 		return success;
 	}
 	
+	/**
+	 * Execute a script that calculates speciation profile weights for NonHAPTOG and PM. This involves three databases:
+	 * the MOVES output database, which has the MOVES output for runs with NonHAPTOG and PM output, a new database
+	 * which holds the profile weight tables produced by the script, and a MOVES default database.
+	 * ##defaultdb## is the name of the default database
+	 * ##outputdb## is the name of the MOVES output database
+	 * ##workingdb## is the name of the database for the profile weight tables
+	 * @param outputDatabase MOVES output database to be used
+	 * @param newDatabase new database to be used for profile weighting tables
+	 * @param defaultDatabase database providing fuels data
+	 * @param messages holds messages to be displayed to the user
+	 * @throws FileNotFoundException when the script file cannot be found
+	 * @throws IOException when the script file cannot be read
+	 * @throws SQLException when a database cannot be accessed or created
+	 * @throws Exception if there are errors accessing or creating the output file
+	**/
+	public static boolean executeProfileWeightScript(DatabaseSelection outputDatabase, DatabaseSelection newDatabase,
+			DatabaseSelection defaultDatabase, ArrayList<String> messages)
+			throws FileNotFoundException, IOException, SQLException, Exception {
+		File profileWeightScript = new File("./database/ProfileWeightScripts/onroadProfileWeights.sql");
+		Connection outputDB = null;
+		Connection defaultDB = null;
+		Connection newDB = null;
+		SQLRunner.Query query = new SQLRunner.Query();
+		boolean success = false;
+		String sql;
+		
+		try {
+			// make connection to output db (this is the db the script will be run against)
+			outputDB = outputDatabase.openConnectionOrNull();
+			if(outputDB == null) {
+				throw new SQLException("Unable to connect to MOVES output database " + outputDatabase.databaseName);
+			}
+			
+			// make sure default database is accessible, but we don't need to keep the connection open
+			defaultDB = defaultDatabase.openConnectionOrNull();
+			if(defaultDB == null) {
+				throw new SQLException("Unable to connect to default database " + defaultDatabase.databaseName);
+			}
+			closeConnection(defaultDB);
+			defaultDB = null;
+			
+			// list all strings that need to be replaced in the script here
+			TreeMapIgnoreCase replacements = new TreeMapIgnoreCase();
+			replacements.put("##defDB##",defaultDatabase.databaseName);
+			replacements.put("##outputDB##",outputDatabase.databaseName);
+			replacements.put("##newDB##",newDatabase.databaseName);
+			
+			// run the script
+			executeScript(outputDB,profileWeightScript,replacements,false);
+
+		} catch(FileNotFoundException e) {
+			messages.add(e.toString());
+			success = false;
+			throw e;
+		} catch(IOException e) {
+			messages.add(e.toString());
+			success = false;
+			throw e;
+		} catch(SQLException e) {
+			messages.add(e.toString());
+			success = false;
+			throw e;
+		} catch(Exception e) {
+			messages.add(e.toString());
+			success = false;
+			throw e;
+		} finally {
+			query.onFinally();
+			if(outputDB != null) {
+				closeConnection(outputDB);
+				outputDB = null;
+			}
+			if(defaultDB != null) {
+				closeConnection(defaultDB);
+				defaultDB = null;
+			}
+			if(newDB != null) {
+				closeConnection(newDB);
+				newDB = null;
+			}
+		}
+		
+		return success;
+	}
+	
+	/**
+	 * Execute a script that calculates speciation profile weights for nonroad NonHAPTOG and PM. This involves three databases:
+	 * the MOVES output database, which has the MOVES output for runs with NonHAPTOG and PM output, a new database
+	 * which holds the profile weight tables produced by the script, and a MOVES default database.
+	 * ##defaultdb## is the name of the default database
+	 * ##outputdb## is the name of the MOVES output database
+	 * ##workingdb## is the name of the database for the profile weight tables
+	 * @param outputDatabase MOVES output database to be used
+	 * @param newDatabase new database to be used for profile weighting tables
+	 * @param defaultDatabase database providing fuels data
+	 * @param messages holds messages to be displayed to the user
+	 * @throws FileNotFoundException when the script file cannot be found
+	 * @throws IOException when the script file cannot be read
+	 * @throws SQLException when a database cannot be accessed or created
+	 * @throws Exception if there are errors accessing or creating the output file
+	**/
+	public static boolean executeProfileWeightScriptNR(DatabaseSelection outputDatabase, DatabaseSelection newDatabase,
+			DatabaseSelection defaultDatabase, ArrayList<String> messages)
+			throws FileNotFoundException, IOException, SQLException, Exception {
+		File nrProfileWeightScript = new File("./database/ProfileWeightScripts/nonroadProfileWeights.sql");
+		Connection outputDB = null;
+		Connection defaultDB = null;
+		Connection newDB = null;
+		SQLRunner.Query query = new SQLRunner.Query();
+		boolean success = false;
+		String sql;
+		
+		try {
+			// make connection to output db (this is the db the script will be run against)
+			outputDB = outputDatabase.openConnectionOrNull();
+			if(outputDB == null) {
+				throw new SQLException("Unable to connect to MOVES output database " + outputDatabase.databaseName);
+			}
+			
+			// make sure default database is accessible, but we don't need to keep the connection open
+			defaultDB = defaultDatabase.openConnectionOrNull();
+			if(defaultDB == null) {
+				throw new SQLException("Unable to connect to default database " + defaultDatabase.databaseName);
+			}
+			closeConnection(defaultDB);
+			defaultDB = null;
+			
+			// list all strings that need to be replaced in the script here
+			TreeMapIgnoreCase replacements = new TreeMapIgnoreCase();
+			replacements.put("##defDB##",defaultDatabase.databaseName);
+			replacements.put("##outputDB##",outputDatabase.databaseName);
+			replacements.put("##newDB##",newDatabase.databaseName);
+			
+			// run the script
+			executeScript(outputDB,nrProfileWeightScript,replacements,false);
+
+		} catch(FileNotFoundException e) {
+			messages.add(e.toString());
+			success = false;
+			throw e;
+		} catch(IOException e) {
+			messages.add(e.toString());
+			success = false;
+			throw e;
+		} catch(SQLException e) {
+			messages.add(e.toString());
+			success = false;
+			throw e;
+		} catch(Exception e) {
+			messages.add(e.toString());
+			success = false;
+			throw e;
+		} finally {
+			query.onFinally();
+			if(outputDB != null) {
+				closeConnection(outputDB);
+				outputDB = null;
+			}
+			if(defaultDB != null) {
+				closeConnection(defaultDB);
+				defaultDB = null;
+			}
+			if(newDB != null) {
+				closeConnection(newDB);
+				newDB = null;
+			}
+		}
+		
+		return success;
+	}
+	
 	// these private variables are used in executeNEIQA() and saveNEIQA()
 	/** save the script file name used in executeNEIQA() so that saveNEIQA() knows which script was used **/
 	private static String qaScriptName = null;

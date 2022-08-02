@@ -1255,7 +1255,8 @@ public class MOVESInstantiator {
 			"CB05 Mechanism",null,"gov.epa.otaq.moves.master.implementation.ghg.TOGSpeciationCalculator",
 			"CB6CMAQ Mechanism",null,"gov.epa.otaq.moves.master.implementation.ghg.TOGSpeciationCalculator",
 			"SAPRC07T Mechanism",null,"gov.epa.otaq.moves.master.implementation.ghg.TOGSpeciationCalculator",
-			"CB6AE7 Mechanism",null,"gov.epa.otaq.moves.master.implementation.ghg.TOGSpeciationCalculator"
+			"CB6AE7 Mechanism",null,"gov.epa.otaq.moves.master.implementation.ghg.TOGSpeciationCalculator",
+			"NonHAPTOG Mechanism",null,"gov.epa.otaq.moves.master.implementation.ghg.TOGSpeciationCalculator"
 		};
 
 		String pollutantsProcessesAndNeedsNonroad[] = {
