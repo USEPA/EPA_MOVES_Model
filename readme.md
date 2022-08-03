@@ -1,9 +1,3 @@
-# MOVES3.0.4 Development
-
-This branch contains all of the changes in development for MOVES3.0.4, the next minor patch for MOVES3.0.
-
-For a preview of MOVES3.0.4, follow the instructions below in **Requirements and Set Up**. Just make sure that after cloning this repository (step 1), checkout the `dev/v3.0.4` branch before continuing to the other steps.
-
 # MOVES3.0.4
 
 EPA's MOtor Vehicle Emission Simulator (MOVES) is a state-of-the-science emission modeling system that estimates emissions for mobile sources at the national, county, and project level for criteria air pollutants, greenhouse gases, and air toxics, available under EPA's Open Source Software policy. 
@@ -72,7 +66,16 @@ To get set up:
 
 ### Need help?
 
-Documentation on the software components of MOVES, database structure, running MOVES from the command line, tips for improving MOVES performance, and other information are available in the [\docs](docs/Readme.md) directory of this project. Peer-reviewed documentation on the data and algorithms used in MOVES are available in the [Onroad Technical Reports](https://www.epa.gov/moves/moves-onroad-technical-reports) and [Nonroad Technical Reports](https://www.epa.gov/moves/nonroad-technical-reports). On-your-own training modules are available [here](https://www.epa.gov/moves/moves-training-sessions#training). If you have feedback, [email the MOVES inbox](mailto:mobile@epa.gov).
+Documentation on the software components of MOVES, database structure, running MOVES from the command line, tips for improving MOVES performance, and other information are available in the [\docs](docs/Readme.md) directory of this project. To check the status of reported issues and planned improvements, see the [MOVES GitHub Issue Tracker](https://github.com/USEPA/EPA_MOVES_Model/issues).
+
+Additional resources listed below are available at the MOVES website:
+
+* [MOVES3 Technical Guidance](https://nepis.epa.gov/Exe/ZyPDF.cgi?Dockey=P1010LY2.pdf): Guidance on appropriate input assumptions and sources of data for the use of MOVES3 in SIP development and regional emissions analyses for transportation conformity determinations in states other than California. It also includes guidance on developing nonroad inventories with MOVES3.
+* [Onroad Technical Reports](https://www.epa.gov/moves/moves-onroad-technical-reports) and [Nonroad Technical Reports](https://www.epa.gov/moves/nonroad-technical-reports): Access peer-reviewed documentation on the default inputs and algorithms used in MOVES
+* [MOVES Training](https://www.epa.gov/moves/moves-training-sessions#training): Contains on-your-own training modules for using MOVES
+* [MOVES FAQ](https://www.epa.gov/moves/frequent-questions-about-moves-and-related-models): Frequent asked questions about MOVES and related models
+
+If you have questions or feedback about MOVES, [email the MOVES inbox](mailto:mobile@epa.gov).
 
 ### Previous MOVES Versions
 
