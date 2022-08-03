@@ -1245,7 +1245,7 @@
 			<classpath refid="classpath" />
 		</java>
 	</target>
-
+	
 	<target name="makejre" depends="compile">
 		<delete dir="./jre" />
 		<if>
@@ -1263,11 +1263,15 @@
 					<arg value="--module-path" /> 
 					<arg value="gov/" /> 
 					<arg value="--add-modules" /> 
-					<arg value="java.base,java.desktop,java.logging,java.management,java.naming,java.rmi,java.sql,java.xml" />
+					<arg value="java.base,java.desktop,java.logging,java.management,java.naming,java.rmi,java.sql,java.xml,jdk.jartool" />
 					<arg value="--output" /> 
 					<arg value="jre" />
 				</exec>
 				<touch file="jre/lib/tools.jar" />
+				<exec executable="cmd" spawn="false">	
+					<arg value="/c" />
+					<arg value="@FOR /F &quot;usebackq delims==&quot; %i IN (`where.exe jar.exe`) DO @copy &quot;%i&quot; &quot;jre/bin/jar.exe&quot; /y >NUL &amp;&amp; @echo Copied &quot;%i&quot; to jre/bin &amp;&amp; @exit" />
+				</exec>
 			</then>
 			<else>
 				<if>
@@ -1284,11 +1288,15 @@
 							<arg value="--module-path" /> 
 							<arg value="gov/" /> 
 							<arg value="--add-modules" /> 
-							<arg value="java.base,java.desktop,java.logging,java.management,java.naming,java.rmi,java.sql,java.transaction.xa,java.xml" />
+							<arg value="java.base,java.desktop,java.logging,java.management,java.naming,java.rmi,java.sql,java.transaction.xa,java.xml,jdk.jartool" />
 							<arg value="--output" /> 
 							<arg value="jre" />
 						</exec>
 						<touch file="jre/lib/tools.jar" />
+						<exec executable="cmd" spawn="false">	
+							<arg value="/c" />
+							<arg value="@FOR /F &quot;usebackq delims==&quot; %i IN (`where.exe jar.exe`) DO @copy &quot;%i&quot; &quot;jre/bin/jar.exe&quot; /y >NUL &amp;&amp; @echo Copied &quot;%i&quot; to jre/bin &amp;&amp; @exit" />
+						</exec>
 					</then>
 					<else>
 						<echo>makejre only works with Java 9 and later</echo>
