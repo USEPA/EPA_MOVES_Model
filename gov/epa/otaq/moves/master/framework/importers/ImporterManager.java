@@ -2967,6 +2967,16 @@ public class ImporterManager {
 						}
 						return -1;
 					}
+					
+					// The county's countyTypeID and MSA can't be NULL
+					sql = "select count(*) from County where ISNULL(countyTypeID) or ISNULL(msa)";
+					int numRowsWithNullData = (int)SQLRunner.executeScalar(db,sql);
+					if(numRowsWithNullData > 0) {
+						if(messages != null) {
+							messages.add("Error: The County table is missing countyTypeID and/or MSA data. To fix, recreate this database from scratch using the County Database Manager.");
+						}
+						return -1;
+					}
 				}
 			} catch(Exception e) {
 				// An error here indicates the lack of the County table.

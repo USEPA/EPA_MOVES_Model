@@ -1330,8 +1330,14 @@ public class LoopingTool extends JDialog implements ActionListener {
 			scriptWriter.println("rem set up moves environment:");
 			scriptWriter.println("cd \"" + movesFolder + "\"");
 			scriptWriter.println("call setenv.bat");
-			scriptWriter.println("if exist moveslog_old.txt erase moveslog_old.txt");
-			scriptWriter.println("if exist moveslog.txt rename moveslog.txt moveslog_old.txt");
+			scriptWriter.println("if exist moveslog.txt REN \"moveslog.txt\" \"%logfile%\"");
+			scriptWriter.println("if exist %logfile% (");
+			scriptWriter.println("	if not exist moveslog.zip ( ");
+			scriptWriter.println("		jar cMf moveslog.zip \"%logfile%\" && del \"%logfile%\"");
+			scriptWriter.println("	) else ( ");
+			scriptWriter.println("		jar uMf moveslog.zip \"%logfile%\" && del \"%logfile%\"");
+			scriptWriter.println("	)");
+			scriptWriter.println(")");
 			scriptWriter.println("rem ----------------------------------------------------------- \n");
 			scriptWriter.println("rem Run MOVES for each runspec:");
 

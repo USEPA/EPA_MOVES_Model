@@ -28,8 +28,7 @@ These PDF cheat sheets summarize common tables and values used to create MOVES r
 * [Building LEV and NLEV input databases](../database/LEV_NLEVScripts/InstructionsForLEV_NLEV_Tool.pdf): Instructions on how to use the LEV/NLEV Tool in the MOVES GUI
 * [National Emissions Inventory Submissions QA Tool](NEIQAInstructions.md): Instructions and documentation for the NEI Submissions QA Tool
 * [ONI Tool](../database/ONITool/InstructionsForONITool.pdf): Instructions on how to use the ONI Tool when running MOVES in rates mode with default off-network idling activity
-
-
+* MOVES Speciation tools: Instructions for how to speciate MOVES output as a post-processing step, for both [onroad](../database/ProfileWeightScripts/OnroadSpeciationInstructions.pdf) and [nonroad](../database/ProfileWeightScripts/NonroadSpeciationInstructions.pdf).
 
 ## Developer References:
 
@@ -40,5 +39,6 @@ These PDF cheat sheets summarize common tables and values used to create MOVES r
 * [MOVES Code: Folder by Folder](FolderByFolder.md): Descriptions of the contents within the folders in the MOVES source code directory
 * [Debugging MOVES](DebuggingMOVES.md): Tips for troubleshooting and debugging unexpected behavior in MOVES runs
 * [SQL Tip Sheet](SQLTipSheet.pdf): Cheat sheet for SQL syntax
+* [Compiling NONROAD](../NONROAD/NR08a/SOURCE/readme.md): Instructions on how to compile the NONROAD Fortran code
 
-    
+

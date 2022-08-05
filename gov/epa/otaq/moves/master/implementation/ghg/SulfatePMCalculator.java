@@ -272,7 +272,7 @@ public class SulfatePMCalculator extends EmissionCalculator {
 					+ " inner join emissionProcess ep on (ep.processID=ppa.processID)"
 					+ " inner join pollutant p on (p.pollutantID=ppa.pollutantID)"
 					+ " where ppa.processID in (" + processIDs + ")"
-					+ " and ppa.pollutantID in (112,115,119,118,120)";
+					+ " and ppa.pollutantID in (112,115,119,118,120,123,124)";
 			query.open(db,sql);
 			while(query.rs.next()) {
 				int processID = query.rs.getInt(1);

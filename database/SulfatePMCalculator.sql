@@ -365,7 +365,7 @@ select MOVESRunID,iterationID,
 	engTechID,sectorID,hpID,
 	emissionQuant,emissionRate
 from spmOutput2
-where pollutantID in (112,115,119);
+where pollutantID in (112,115,119,120);
 
 -- Note: To get NonECNonSO4PM in the output for debugging purposes, add 120 to the
 -- list of pollutantIDs above.
@@ -429,6 +429,75 @@ inner join PMSpeciation ps on (
 	and ps.minModelYearID <= spm.modelYearID
 	and ps.maxModelYearID >= spm.modelYearID
 );
+
+-- @algorithm Calculate Total Organic Matter (TOM) as the sum of organic carbon and NCOM, pollutantIDs 111 and 122
+insert into MOVESWorkerOutput(MOVESRunID,iterationID,
+	yearID,monthID,dayID,hourID,
+	stateID,countyID,zoneID,linkID,
+	pollutantID,processID,
+	sourceTypeID,regClassID,fuelTypeID,modelYearID,
+	roadTypeID,SCC,
+	engTechID,sectorID,hpID,
+	emissionQuant,emissionRate)
+select MOVESRunID, iterationID, 
+	yearID, monthID, dayID, hourID, 
+	stateID, countyID, zoneID, linkID, 
+	123 as pollutantID, processID,
+    sourceTypeID, regClassID, fuelTypeID, modelYearID, 
+	roadTypeID, SCC, 
+	engTechID, sectorID, hpID,
+    sum(emissionQuant) as emissionQuant,
+	sum(emissionRate) as emissionRate
+from MOVESWorkerOutput
+	where pollutantID in (111, 122)
+group by MOVESRunID, iterationID, 
+	yearID, monthID, dayID, hourID, 
+	stateID, countyID, zoneID, linkID, 
+	processID,
+    sourceTypeID, regClassID, fuelTypeID, modelYearID, 
+	roadTypeID, SCC, engTechID, sectorID, hpID;
+	
+-- @algorithm Calculate NonECNonSO4NonOM PM as the NonECNonSO4 PM minus the TOM that we just calculated. 
+-- @algorithm We could try and do some subtraction, but we just use the combined OM ratio in PMSpeciation because subtraction requires merging on possibly null columns
+insert into MOVESWorkerOutput(MOVESRunID,iterationID,
+	yearID,monthID,dayID,hourID,
+	stateID,countyID,zoneID,linkID,
+	pollutantID,processID,
+	sourceTypeID,regClassID,fuelTypeID,modelYearID,
+	roadTypeID,SCC,
+	engTechID,sectorID,hpID,
+	emissionQuant,emissionRate)
+select MOVESRunID, iterationID, 
+	yearID, monthID, dayID, hourID, 
+	stateID, countyID, zoneID, linkID, 
+	124 as pollutantID, mwo.processID,
+    mwo.sourceTypeID, regClassID, mwo.fuelTypeID, modelYearID, 
+	roadTypeID, SCC, 
+	engTechID, sectorID, hpID,
+    sum(emissionQuant) * ratio124 as emissionQuant,
+	sum(emissionRate) * ratio124 as emissionRate
+from MOVESWorkerOutput mwo
+join (select processID,sourceTypeID,fuelTypeID,minModelYearID,maxModelYearID, 
+		(1 - sum(pmSpeciationFraction)) as ratio124 
+		FROM PMSpeciation
+        where outputPollutantID in (111, 122)
+		group by processID,inputPollutantID,sourceTypeID,fuelTypeID,minModelYearID,maxModelYearID) ps on (
+	ps.processID = mwo.processID
+	and mwo.pollutantID = 120
+	and ps.sourceTypeID = mwo.sourceTypeID
+	and ps.fuelTypeID = mwo.fuelTypeID
+	and ps.minModelYearID <= mwo.modelYearID
+	and ps.maxModelYearID >= mwo.modelYearID)
+group by MOVESRunID, iterationID, 
+	yearID, monthID, dayID, hourID, 
+	stateID, countyID, zoneID, linkID, 
+	pollutantID, processID,
+    sourceTypeID, regClassID, fuelTypeID, modelYearID, 
+	roadTypeID, SCC, engTechID, sectorID, hpID;
+	
+-- @algorithm At this point, the MOVESWorkerOutput database may have pollutantIDs 120, 123, and 124 even if users don't want them in the output
+-- @algorithm The following query drops 120 no matter what, and then drops 123 and 124 if they aren't in the runspec
+delete from MOVESWorkerOutput where pollutantID = 120 or (pollutantID in (123,124) and pollutantID*100+processID not in (##polProcessIDs##));
 
 -- End Section Processing
 
