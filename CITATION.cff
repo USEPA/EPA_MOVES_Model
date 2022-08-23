@@ -9,5 +9,5 @@ identifiers:
     value: "Office of Transportation and Air Quality. US Environmental Protection Agency. Ann Arbor, MI."
     description: "Publisher"
 url: "https://www.epa.gov/moves"
-version: "Development 3.0.4"
-#date-released: YYYY-MM-DD
+version: 3.0.4
+date-released: 2022-08-05
