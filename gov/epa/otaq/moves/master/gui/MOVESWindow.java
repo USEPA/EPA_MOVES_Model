@@ -115,8 +115,14 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 	ProfileWeightScriptActionNR profileWeightScriptActionNR;
 	/** Run MySQL Script Action **/
 	SummaryReportAction summaryReportAction;
-	/** User Guide menu action. **/
-	UserGuideAction userGuideAction;
+	/** Open Website menu action. **/
+	OpenWebsiteAction openWebsiteAction;
+	/** Open GitHub menu action. **/
+	OpenGitHubAction openGitHubAction;
+	/** Open Onroad CheatSheet menu action. **/
+	OpenOnroadCheatSheetAction openOnroadCheatSheetAction;
+	/** Open Nonroad CheatSheet menu action. **/
+	OpenNonroadCheatSheetAction openNonroadCheatSheetAction;
 	/** About menu action. **/
 	AboutAction aboutAction;
 	/** Configure menu action. **/
@@ -528,8 +534,14 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		profileWeightScriptActionNR.addActionListener(this);
 		summaryReportAction = new SummaryReportAction();
 		summaryReportAction.addActionListener(this);
-		userGuideAction = new UserGuideAction();
-		userGuideAction.addActionListener(this);
+		openWebsiteAction = new OpenWebsiteAction();
+		openWebsiteAction.addActionListener(this);
+		openGitHubAction = new OpenGitHubAction();
+		openGitHubAction.addActionListener(this);
+		openOnroadCheatSheetAction = new OpenOnroadCheatSheetAction();
+		openOnroadCheatSheetAction.addActionListener(this);
+		openNonroadCheatSheetAction = new OpenNonroadCheatSheetAction();
+		openNonroadCheatSheetAction.addActionListener(this);
 		aboutAction = new AboutAction();
 		aboutAction.addActionListener(this);
 		configureAction = new ConfigureAction();
@@ -688,7 +700,13 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		menuItem.setName("configureMenuItem");
 		JMenu helpMenu = new JMenu("Help");
 		helpMenu.setMnemonic('H');
-		menuItem = helpMenu.add(userGuideAction);
+		menuItem = helpMenu.add(openWebsiteAction);
+		menuItem.addMouseListener(mouseHandler);
+		menuItem = helpMenu.add(openGitHubAction);
+		menuItem.addMouseListener(mouseHandler);
+		menuItem = helpMenu.add(openOnroadCheatSheetAction);
+		menuItem.addMouseListener(mouseHandler);
+		menuItem = helpMenu.add(openNonroadCheatSheetAction);
 		menuItem.addMouseListener(mouseHandler);
 		helpMenu.addSeparator();
 		menuItem = helpMenu.add(aboutAction);
@@ -792,8 +810,14 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 			handleProfileWeightScriptActionNR();
 		} else if (command.equals(summaryReportAction.getActionCommand())) {
 			handleSummaryReportAction();
-		} else if (command.equals(userGuideAction.getActionCommand())) {
-			handleUserGuideAction();
+		} else if (command.equals(openWebsiteAction.getActionCommand())) {
+			handleOpenWebsiteAction();
+		} else if (command.equals(openGitHubAction.getActionCommand())) {
+			handleOpenGitHubAction();
+		} else if (command.equals(openOnroadCheatSheetAction.getActionCommand())) {
+			handleOpenOnroadCheatSheetAction();
+		} else if (command.equals(openNonroadCheatSheetAction.getActionCommand())) {
+			handleOpenNonroadCheatSheetAction();
 		} else if (command.equals(aboutAction.getActionCommand())) {
 			handleAboutAction(false);
 		} else if (command.equals(configureAction.getActionCommand())) {
@@ -1520,9 +1544,48 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		c.showModal();
 	}
 
-	/** Handles the User Guide menu action. **/
-	void handleUserGuideAction() {
-		showURL("http://www.epa.gov/otaq/models/moves/");
+	/** Handles the open website menu action. **/
+	void handleOpenWebsiteAction() {
+		showURL("https://www.epa.gov/moves");
+	}
+
+	/** Handles the Open GitHub menu action. **/
+	void handleOpenGitHubAction() {
+		showURL("https://github.com/USEPA/EPA_MOVES_Model");
+	}
+
+	/** Handles the Open Onroad CheatSheet menu action. **/
+	void handleOpenOnroadCheatSheetAction() {
+		try {
+			File file = new File("docs/MOVES3CheatsheetOnroad.pdf");
+			if(!file.exists()) {
+				Logger.log(LogMessageCategory.ERROR, "Could not find the onroad cheatsheet file at: " + file.getAbsolutePath());
+				return;
+			}
+			if(!OpenFile.open(file)) {
+				return;
+			}
+		} catch(Exception e) {
+			Logger.log(LogMessageCategory.ERROR, "Could not open the onroad cheatsheet file: " + e);
+			return;
+		}
+	}
+
+	/** Handles the Open Website menu action. **/
+	void handleOpenNonroadCheatSheetAction() {
+		try {
+			File file = new File("docs/MOVES3CheatsheetNonroad.pdf");
+			if(!file.exists()) {
+				Logger.log(LogMessageCategory.ERROR, "Could not find the nonroad cheatsheet file at: " + file.getAbsolutePath());
+				return;
+			}
+			if(!OpenFile.open(file)) {
+				return;
+			}
+		} catch(Exception e) {
+			Logger.log(LogMessageCategory.ERROR, "Could not open the nonroad cheatsheet file: " + e);
+			return;
+		}
 	}
 
 	/**
