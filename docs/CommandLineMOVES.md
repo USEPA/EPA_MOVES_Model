@@ -6,17 +6,17 @@ While the easiest way to interact with MOVES is via its graphical user interface
 
 ## Set up the command environment
 
-The first step to running MOVES from the command line is to set up the shell environment to point to all of the resources it needs to run MOVES. Open the Windows command prompt and navigate to the MOVES directory. By default, the path is `C:\Users\Public\EPA\MOVES\MOVES3.0`. The command to change directories is `cd`:
+The first step to running MOVES from the command line is to set up the shell environment to point to all of the resources it needs to run MOVES. Open the Windows command prompt and navigate to the MOVES directory. By default, the path is `C:\Users\Public\EPA\MOVES\MOVES3.1`. The command to change directories is `cd`:
 
 ```cmd
-C:\> cd C:\Users\Public\EPA\MOVES\MOVES3.0
+C:\> cd C:\Users\Public\EPA\MOVES\MOVES3.1
 
 ```
 
 Then, enter the name `setenv` to run the setenv.bat script, which will set up your environment for you:
 
 ```cmd
-C:\Users\Public\EPA\MOVES\MOVES3.0> setenv
+C:\Users\Public\EPA\MOVES\MOVES3.1> setenv
 ```
 
 This will execute the setenv.bat script without displaying anything to the command window. The script tells the Windows command shell where to find the Java Runtime Environment (JRE) bundled with MOVES and where to find the Ant utility.
@@ -84,7 +84,7 @@ Below is a simple MOVES batch script for running multiple RunSpecs sequentially.
 set RunSpecDir=%CD%
 
 :: Set MOVES install location
-set MOVESDir=C:\Users\Public\EPA\MOVES\MOVES3.0
+set MOVESDir=C:\Users\Public\EPA\MOVES\MOVES3.1
 
 :: Set up MOVES environment
 cd /d %MOVESDir%
@@ -112,7 +112,7 @@ The script below is like the previous script, except that this script also launc
 set RunSpecDir=%CD%
 
 :: Set MOVES install location
-set MOVESDir=C:\Users\Public\EPA\MOVES\MOVES3.0
+set MOVESDir=C:\Users\Public\EPA\MOVES\MOVES3.1
 
 :: Set up MOVES environment
 cd /d %MOVESDir%
