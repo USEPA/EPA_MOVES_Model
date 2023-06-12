@@ -172,7 +172,7 @@ public class LoopingTool extends JDialog implements ActionListener {
 					+ "\r\n\r\n"
 					+ "The final BAT file, located in your output directory, can be "
 					+ "run as is, or can be edited manually for distribution onto "
-					+ "multiple MOVES master machines."
+					+ "multiple MOVES machines."
 					);
 			instructionsTextPane.setEditable(false);
 			instructionsTextPane.setBackground(UIManager.getColor("Panel.background"));

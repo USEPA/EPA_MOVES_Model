@@ -17,13 +17,13 @@ public class ProfileWeightScriptAction extends JLFAbstractAction {
 			"profileWeightScript";
 	/** Constant action name. **/
 	static final String NAME =
-			"Onroad Speciation Profile Weighting Script";
+			"Speciation Profile Scripts";
 	/** Constant short description text. **/
 	static final String SHORT_DESCRIPTION =
-			"Run the onroad speciation profile weighting script";
+			"Run a speciation profile weighting script";
 	/** Constant long description text. **/
 	static final String LONG_DESCRIPTION =
-			"Run the onroad speciation profile weighting script";
+			"Run a speciation profile weighting script";
 	/** Constant mnemonic key. **/
 	static final int MNEMONIC_KEY = 'S';
 

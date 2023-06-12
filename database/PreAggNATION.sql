@@ -14,7 +14,7 @@
 
 DROP TABLE IF EXISTS SurrogateActivity;
 DROP TABLE IF EXISTS OldCounty;
-DROP TABLE IF EXISTS OldYear;
+DROP TABLE IF EXISTS OldCountyYear;
 DROP TABLE IF EXISTS OldLink;
 DROP TABLE IF EXISTS AggZoneMonthHour;   
 DROP TABLE IF EXISTS OldOpModeDistribution; 
@@ -25,11 +25,20 @@ DROP TABLE IF EXISTS OldIMCoverage;
 DROP TABLE IF EXISTS AggSHO;
 DROP TABLE IF EXISTS AggSourceHours;
 DROP TABLE IF EXISTS AggStarts;
-DROP TABLE IF EXISTS AggExtendedIdleHours; 
 DROP TABLE IF EXISTS AggAverageTankTemperature;
 DROP TABLE IF EXISTS AggSoakActivityFraction;
 DROP TABLE IF EXISTS AggFuelUsageFraction;
 DROP TABLE IF EXISTS OldTotalIdleFraction;
+DROP TABLE IF EXISTS OldHotellingHourFraction;
+DROP TABLE IF EXISTS AggHotellingHourFraction;
+DROP TABLE IF EXISTS OldHotellingMonthAdjust;
+DROP TABLE IF EXISTS AggHotellingMonthAdjust;
+DROP TABLE IF EXISTS OldHotellingHoursPerDay;
+DROP TABLE IF EXISTS AggHotellingHoursPerDay;
+DROP TABLE IF EXISTS OldHotellingAgeFraction;
+DROP TABLE IF EXISTS AggHotellingAgeFraction;
+DROP TABLE IF EXISTS OldHotellingActivityDistribution;
+DROP TABLE IF EXISTS AggHotellingActivityDistribution;
 
 -- Since "Nation" does not include the Virgin Islands or
 -- Puerto Rico, remove their information from State, County, Zone,
@@ -185,11 +194,12 @@ FLUSH TABLE County;
 -- CountyYear Table
 --
 -- SELECT "Making CountyYear" AS MARKER_POINT;
-CREATE TABLE OldYear SELECT DISTINCT yearID from CountyYear;
+CREATE TABLE OldCountyYear SELECT * from CountyYear;
 TRUNCATE CountyYear;
-REPLACE INTO CountyYear (countyID, yearID)
-	SELECT 0 AS countyID, yearID
-	FROM OldYear;
+INSERT INTO CountyYear (countyID, yearID, refuelingVaporProgramAdjust, refuelingSpillProgramAdjust)
+	SELECT 0 AS countyID, yearID, sum(refuelingVaporProgramAdjust*ActFract), sum(refuelingSpillProgramAdjust*ActFract)
+	FROM OldCountyYear INNER JOIN SurrogateActivity USING (countyID)
+    GROUP BY yearID;
 FLUSH TABLE CountyYear;
   
 --
@@ -225,8 +235,8 @@ FLUSH TABLE Link;
 CREATE Table AggZoneMonthHour (
 	monthID SMALLINT,
 	hourID SMALLINT,
-	temperature FLOAT,
-	relHumidity FLOAT);
+	temperature DOUBLE,
+	relHumidity DOUBLE);
 INSERT INTO AggZoneMonthHour	
   SELECT monthID, hourID, sum(temperature*actFract)/nationalActivityFraction as temperature,
     sum(relHumidity*actFract)/nationalActivityFraction AS relHumidity
@@ -234,10 +244,10 @@ INSERT INTO AggZoneMonthHour
   GROUP BY monthID, hourID;
 CREATE UNIQUE INDEX index1 ON AggZoneMonthHour (monthID, hourID);  
 TRUNCATE ZoneMonthHour;
-REPLACE INTO ZoneMonthHour (monthID, zoneID, hourID, temperature, temperatureCV,
-    relHumidity, relativeHumidityCV, heatIndex, specificHumidity)
+REPLACE INTO ZoneMonthHour (monthID, zoneID, hourID, temperature,
+    relHumidity, molWaterFraction, heatIndex, specificHumidity)
   SELECT monthID, 0 AS zoneID, hourID, temperature,
-    NULL AS temperatureCV, relHumidity, NULL AS relativeHumidityCV, 
+    relHumidity, 0.0 AS molWaterFraction, 
     0.0 as heatIndex, 0.0 as specificHumidity 
   FROM AggZoneMonthHour 
   GROUP BY monthID, hourID;
@@ -286,7 +296,7 @@ FLUSH TABLE ZoneRoadType;
 CREATE TABLE AggFuelSupply (
 	fuelYearID SMALLINT,
 	monthGroupID SMALLINT,
-	fuelFormulationID SMALLINT,
+	fuelFormulationID INT(11),
 	haveFract double);
 INSERT INTO AggFuelSupply
   SELECT FuelSupply.fuelYearID, monthGroupID,fuelFormulationID, 
@@ -312,7 +322,7 @@ FLUSH TABLE FuelSupply;
 CREATE TABLE AggNRFuelSupply (
 	fuelYearID SMALLINT,
 	monthGroupID SMALLINT,
-	fuelFormulationID SMALLINT,
+	fuelFormulationID INT(11),
 	haveFract double);
 INSERT INTO AggNRFuelSupply
   SELECT NRFuelSupply.fuelYearID, monthGroupID,fuelFormulationID, 
@@ -487,30 +497,6 @@ REPLACE INTO Starts (hourDayID, monthID, yearID, ageID, zoneID,
     sourceTypeID, starts, NULL AS startsCV, "Y" AS isUserInput
   FROM AggStarts;
 FLUSH TABLE Starts;
-  
---
---  ExtendedIdleHours
---
--- SELECT "Making ExtendedIdleHours" AS MARKER_POINT;
-CREATE TABLE AggExtendedIdleHours (
-	sourceTypeID SMALLINT,
-	hourDayID SMALLINT,
-	monthID SMALLINT,
-	yearID SMALLINT,
-	ageID SMALLINT,
-	extendedIdleHours double);
-INSERT INTO AggExtendedIdleHours
-  SELECT sourceTypeID, hourDayID, monthID, yearID, ageID,  
-    sum(extendedIdleHours) AS extendedIdleHours
-  FROM ExtendedIdleHours
-  GROUP BY sourceTypeID, hourDayID, monthID, yearID, ageID; 
-TRUNCATE ExtendedIdleHours;
-REPLACE INTO ExtendedIdleHours (sourceTypeID, hourDayID, monthID, yearID, ageID, zoneID, 
-     extendedIdleHours, extendedIdleHoursCV, isUserInput)
-  SELECT sourceTypeID, hourDayID, monthID, yearID, ageID, 0 AS zoneID, 
-    extendedIdleHours, NULL AS extendedIdleHoursCV, "Y" AS isUserInput
-  FROM AggExtendedIdleHours; 
-FLUSH TABLE ExtendedIdleHours;
 
 -- 
 -- AverageTankTemperature
@@ -698,12 +684,123 @@ INSERT INTO TotalIdleFraction (sourceTypeID, minModelYearID, maxModelYearID, mon
   WHERE idleRegionID = 103;
 FLUSH TABLE TotalIdleFraction;
 
+
+--
+-- HotellingHourFraction
+--
+CREATE TABLE OldHotellingHourFraction
+  SELECT * FROM HotellingHourFraction;
+-- Creating table explicitly to control column type and avoid significance problem
+CREATE TABLE AggHotellingHourFraction (
+	dayID SMALLINT,
+	hourID SMALLINT,
+	hourFraction double
+);
+INSERT INTO AggHotellingHourFraction
+  SELECT dayID, hourID, sum(hourFraction*COALESCE(actFract, 1.0)) as hourFraction
+  FROM OldHotellingHourFraction 
+  LEFT JOIN SurrogateActivity USING(zoneID)
+  GROUP BY dayID, hourID;
+TRUNCATE HotellingHourFraction;
+INSERT INTO HotellingHourFraction (zoneID, dayID, hourID, hourFraction)
+  SELECT 0 AS zoneID, dayID, hourID, least(hourFraction,1.0)
+  FROM AggHotellingHourFraction;
+FLUSH TABLE HotellingHourFraction;
+
+--
+-- HotellingMonthAdjust
+--
+CREATE TABLE OldHotellingMonthAdjust
+  SELECT * FROM HotellingMonthAdjust;
+-- Creating table explicitly to control column type and avoid significance problem
+CREATE TABLE AggHotellingMonthAdjust (
+	monthID SMALLINT,
+	monthAdjustment double
+);
+INSERT INTO AggHotellingMonthAdjust
+  SELECT monthID, sum(monthAdjustment*COALESCE(actFract, 1.0)) as monthAdjustment
+  FROM OldHotellingMonthAdjust 
+  LEFT JOIN SurrogateActivity USING(zoneID)
+  GROUP BY monthID;
+TRUNCATE HotellingMonthAdjust;
+INSERT INTO HotellingMonthAdjust (zoneID, monthID, monthAdjustment)
+  SELECT 0 AS zoneID, monthID, monthAdjustment
+  FROM AggHotellingMonthAdjust;
+FLUSH TABLE HotellingMonthAdjust;
+
+--
+-- HotellingHoursPerDay. Do not need to weight activity, since HHPD contains total hours per typical day
+--                       (not hours per day per vehicle), so just aggregate everything together.
+--
+CREATE TABLE OldHotellingHoursPerDay
+  SELECT * FROM HotellingHoursPerDay AS hhpd;
+-- Creating table explicitly to control column type and avoid significance problem
+CREATE TABLE AggHotellingHoursPerDay (
+    yearID SMALLINT,
+	dayID SMALLINT,
+	hotellinghoursperday double
+);
+INSERT INTO AggHotellingHoursPerDay
+  SELECT yearID, dayID, sum(hotellinghoursperday) as hotellinghoursperday
+  FROM OldHotellingHoursPerDay
+  GROUP BY yearID, dayID;
+TRUNCATE HotellingHoursPerDay;
+INSERT INTO HotellingHoursPerDay (yearID, zoneID, dayID, hotellinghoursperday)
+  SELECT yearID, 0 AS zoneID, dayID, hotellinghoursperday
+  FROM AggHotellingHoursPerDay;
+FLUSH TABLE HotellingHoursPerDay;
+
+--
+-- HotellingAgeFraction
+--
+CREATE TABLE OldHotellingAgeFraction
+  SELECT * FROM HotellingAgeFraction;
+-- Creating table explicitly to control column type and avoid significance problem
+CREATE TABLE AggHotellingAgeFraction (
+	ageID SMALLINT,
+	ageFraction double
+);
+INSERT INTO AggHotellingAgeFraction
+  SELECT ageID, sum(ageFraction*COALESCE(actFract, 1.0)) as ageFraction
+  FROM OldHotellingAgeFraction 
+  LEFT JOIN SurrogateActivity USING(zoneID)
+  GROUP BY ageID;
+TRUNCATE HotellingAgeFraction;
+INSERT INTO HotellingAgeFraction (zoneID, ageID, ageFraction)
+  SELECT 0 AS zoneID, ageID, least(ageFraction, 1.0) as ageFraction
+  FROM AggHotellingAgeFraction;
+FLUSH TABLE HotellingAgeFraction;
+
+--
+-- HotellingActivityDistribution
+--
+CREATE TABLE OldHotellingActivityDistribution
+  SELECT * FROM HotellingActivityDistribution;
+-- Creating table explicitly to control column type and avoid significance problem
+CREATE TABLE AggHotellingActivityDistribution (
+	fuelTypeID SMALLINT,
+    beginModelYearID SMALLINT,
+    endModelYearID SMALLINT,
+    opModeID SMALLINT,
+	opModeFraction FLOAT
+);
+INSERT INTO AggHotellingActivityDistribution
+  SELECT fuelTypeID, beginModelYearID, endModelYearID, opModeID, sum(opModeFraction*COALESCE(actFract, 1.0)) as opModeFraction
+  FROM OldHotellingActivityDistribution 
+  LEFT JOIN SurrogateActivity USING(zoneID)
+  GROUP BY fuelTypeID, beginModelYearID, endModelYearID, opModeID;
+TRUNCATE HotellingActivityDistribution;
+INSERT INTO HotellingActivityDistribution (zoneID, fuelTypeID, beginModelYearID, endModelYearID, opModeID, opModeFraction)
+  SELECT 990000 AS zoneID, fuelTypeID, beginModelYearID, endModelYearID, opModeID, least(opModeFraction, 1.0) as opModeFraction
+  FROM AggHotellingActivityDistribution;
+FLUSH TABLE HotellingActivityDistribution;
+
 --
 -- Drop any New Tables Created 
 --
 -- DROP TABLE IF EXISTS SurrogateActivity;
 DROP TABLE IF EXISTS OldCounty;
-DROP TABLE IF EXISTS OldYear;
+DROP TABLE IF EXISTS OldCountyYear;
 DROP TABLE IF EXISTS OldLink;
 DROP TABLE IF EXISTS AggZoneMonthHour;   
 DROP TABLE IF EXISTS OldOpModeDistribution; 
@@ -713,7 +810,6 @@ DROP TABLE IF EXISTS OldIMCoverage;
 DROP TABLE IF EXISTS AggSHO;
 DROP TABLE IF EXISTS AggSourceHours;
 DROP TABLE IF EXISTS AggStarts;
-DROP TABLE IF EXISTS AggExtendedIdleHours; 
 DROP TABLE IF EXISTS AggAverageTankTemperature;
 DROP TABLE IF EXISTS AggSoakActivityFraction;
 DROP TABLE IF EXISTS AggFuelUsageFraction;
@@ -726,6 +822,18 @@ DROP TABLE IF EXISTS OldnrGrowthPatternFinder;
 DROP TABLE IF EXISTS OldnrFuelSupply;
 DROP TABLE IF EXISTS OldnrStateSurrogate;
 DROP TABLE IF EXISTS OldTotalIdleFraction;
+
+DROP TABLE IF EXISTS OldHotellingHourFraction;
+DROP TABLE IF EXISTS AggHotellingHourFraction;
+DROP TABLE IF EXISTS OldHotellingMonthAdjust;
+DROP TABLE IF EXISTS AggHotellingMonthAdjust;
+DROP TABLE IF EXISTS OldHotellingHoursPerDay;
+DROP TABLE IF EXISTS AggHotellingHoursPerDay;
+DROP TABLE IF EXISTS OldHotellingAgeFraction;
+DROP TABLE IF EXISTS AggHotellingAgeFraction;
+DROP TABLE IF EXISTS OldHotellingActivityDistribution;
+DROP TABLE IF EXISTS AggHotellingActivityDistribution;
+
 
 -- FLUSH TABLES;
 

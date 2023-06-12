@@ -2,21 +2,21 @@
 
 ## Introduction
 
-While the easiest way to interact with MOVES is via its graphical user interface (GUI), it is sometimes useful to process MOVES RunSpecs in batches via the Windows command line. To this end, MOVES has a set of commands that can be accessed via the command line tool Ant. These commands can be further scripted using Batch files or PowerShell scripts. This document provides a brief introduction to the MOVES Ant commands and example batch scripts for running multiple MOVES RunSpecs in series. All of the examples presented here will use the Windows command shell (cmd.exe).
+While the easiest way to interact with MOVES is via its graphical user interface (GUI), it is sometimes useful to process MOVES RunSpecs in batches via the Windows command line. To this end, MOVES has a set of commands that can be accessed via the command line tool Ant. These commands can be further scripted using Batch files or PowerShell scripts. This document provides a brief introduction to the MOVES Ant commands and example batch scripts for running multiple MOVES RunSpecs in series. All of the examples presented here will use the Windows command shell (cmd.exe)
 
 ## Set up the command environment
 
-The first step to running MOVES from the command line is to set up the shell environment to point to all of the resources it needs to run MOVES. Open the Windows command prompt and navigate to the MOVES directory. By default, the path is `C:\Users\Public\EPA\MOVES\MOVES3.1`. The command to change directories is `cd`:
+The first step to running MOVES from the command line is to set up the shell environment to point to all of the resources it needs to run MOVES. Open the Windows command prompt and navigate to the MOVES directory. By default, the path is `C:\Users\Public\EPA\MOVES\MOVES4`. The command to change directories is `cd`:
 
 ```cmd
-C:\> cd C:\Users\Public\EPA\MOVES\MOVES3.1
+C:\> cd C:\Users\Public\EPA\MOVES\MOVES4
 
 ```
 
 Then, enter the name `setenv` to run the setenv.bat script, which will set up your environment for you:
 
 ```cmd
-C:\Users\Public\EPA\MOVES\MOVES3.1> setenv
+C:\Users\Public\EPA\MOVES\MOVES4> setenv
 ```
 
 This will execute the setenv.bat script without displaying anything to the command window. The script tells the Windows command shell where to find the Java Runtime Environment (JRE) bundled with MOVES and where to find the Ant utility.
@@ -35,9 +35,9 @@ This will display a list of the Ant commands that are defined in the MOVES build
 
 ## Running MOVES
 
-A MOVES run can be launched from the command line. This method assumes that you have previously built a RunSpec (and any required input databases) using the GUI. Note that MOVES does not perform all of the same error checks before starting a run when launched from the command line as it does when launching from the GUI, so it is important to ensure that you do not have any errors in your RunSpec or input databases before starting a run using this method. 
+A MOVES run can be launched from the command line. This method assumes that you have previously built a RunSpec (and any required input databases) using the GUI. 
 
-### Launching MOVES master
+### Launching a MOVES run
 
 The following command starts a MOVES run:
 
@@ -45,7 +45,7 @@ The following command starts a MOVES run:
 ant run -Drunspec="PathToRunSpec\RunSpec.mrs"
 ```
 
-The RunSpec is specified using the `-Drunspec=` flag. The flag takes a relative path from the MOVES directory to the RunSpec to be run.  By default, `run` will also start one worker to process bundles for the MOVES run as long as no other workers are detected. However, you may start additional MOVES workers using the command described below, which may speed up your MOVES run.
+The RunSpec path is specified using the `-Drunspec=` flag. If the path is not absolute (i.e., does not start with a drive letter such as C:), it is interpreted relative to the MOVES directory.  By default, `run` will also start one worker to process bundles for the MOVES run as long as no other workers are detected. However, you may start additional MOVES workers using the command described below, which may speed up your MOVES run.
 
 ### Launching MOVES workers
 
@@ -84,7 +84,7 @@ Below is a simple MOVES batch script for running multiple RunSpecs sequentially.
 set RunSpecDir=%CD%
 
 :: Set MOVES install location
-set MOVESDir=C:\Users\Public\EPA\MOVES\MOVES3.1
+set MOVESDir=C:\Users\Public\EPA\MOVES\MOVES4
 
 :: Set up MOVES environment
 cd /d %MOVESDir%
@@ -112,7 +112,7 @@ The script below is like the previous script, except that this script also launc
 set RunSpecDir=%CD%
 
 :: Set MOVES install location
-set MOVESDir=C:\Users\Public\EPA\MOVES\MOVES3.1
+set MOVESDir=C:\Users\Public\EPA\MOVES\MOVES4
 
 :: Set up MOVES environment
 cd /d %MOVESDir%
@@ -156,22 +156,14 @@ ant dbimporter -Dimport="c:\mydbimporter.xml"
 
 ## Converting input databases on the command line
 
-MOVES includes an Ant command to convert input databases from previous versions of MOVES to the current version, which can save time if you need to do this for many databases. Please see the help file at [database\ConversionScripts\InputDatabaseConverstionHelp.pdf](..\database\ConversionScripts\InputDatabaseConverstionHelp.pdf) for more information on the uses and limitations of this feature. Note that more work is needed after running this command before the converted database can be used with MOVES.
+MOVES includes an Ant command to convert input databases from previous versions of MOVES to the current version, which can save time if you need to do this for many databases. Please see the help file at [database\ConversionScripts\InputDatabaseConversionHelp.pdf](..\database\ConversionScripts\InputDatabaseConversionHelp.pdf) for more information on the uses and limitations of this feature. Note that more work is needed after running this command before the converted database can be used with MOVES.
 
-The following command can be used to convert a MOVES2014 (not a MOVES2014a or MOVES2014b) input database to the MOVES3 format:
+The following command can be used to convert a MOVES3 input database to the MOVES4 format:
 ```cmd
-ant convert2014_3 -Dinput=m2014_in -Doutput=m3_in
+ant convert3_db_to_4 -Dinput=m3_in -Doutput=m4_in
 ```
 
-`-Dinput` is used to specify the old input database name, and `-Doutput` is used to specify the name for the new, converted database. `convert2014_3` tells Ant to use the conversion scripts for going from MOVES2014 to MOVES3.
-
-The following command can be used to convert a MOVES2014a or MOVES2014b input database to the MOVES3 format:
-
-```cmd
-ant convert2014ab_3 Dinput=m2014b_in -Doutput=m3_in
-```
-
-`-Dinput` and `-Doutput` are the same as with the other conversion command, and `convert2014ab_3` tells Ant to use the conversion scripts for going from a MOVES2014a or MOVES2014b input database to MOVES3 format.
+`-Dinput` is used to specify the old input database name, and `-Doutput` is used to specify the name for the new, converted database. `convert3_db_to_4` tells Ant to use the conversion scripts for going from MOVES3 to MOVES4.
 
 ## Compiling MOVES
 
@@ -194,13 +186,13 @@ The following commands can be used when compiling Go:
 * `ant go32local`: Compiles 32-bit versions of the Go runtime using a version of the Go compiler installed in the `.\go32` subdirectory of MOVES. This option is useful if you want to compile the 32-bit executable using a different version of Go than what is installed system-wide. It only works if you have created a `.\go32` subdirectory and copied an entire Go installation to this location.
 * `ant go`: Compiles all of the above (i.e., 64-bit, 32-bit, and 32-bit local), as well as Linux versions of the two Go runtime executables. If any step fails (e.g., `go32local`), you'll see an error message, but the compiler will continue to the next step in the sequence. 
 
-For instructions on how to compile the Fortran code, see [Readme.md](../NONROAD/NR08a/SOURCE/readme.md) in the Nonroad source code directory.
+For instructions on how to compile the Fortran code, see [Readme.md](..\NONROAD\NR08a\SOURCE\readme.md) in the Nonroad source code directory.
 
 ## Additional remarks
 
 The above examples demonstrate a simple way of running MOVES from the Windows command prompt. The example scripts should be considered just examples. Different MOVES install configurations may change some of the details needed to run the scripts. Likewise, the Windows command prompt offers a rich scripting environment that can be used to expand these examples to do things such as: 
 
-* Archive the `moveslog.txt` generated with each run (see `MOVESMaster.bat` for an example of this)
+* Archive the `moveslog.txt` generated with each run (see `MOVESMain.bat` for an example of this)
 
 * Loop through an arbitrary set of RunSpecs by searching the folder for files with .mrs extensions
 

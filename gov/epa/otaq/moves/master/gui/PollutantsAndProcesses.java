@@ -589,6 +589,9 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 		@Override
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 				int row, int column) {
+			if(((String)value).equals("Auxiliary Power Exhaust")) {
+				value = "Other Hotelling Exhaust"; // renaming for GUI use because this process actually represents more than just APUs when running MOVES
+			}
 			int width = table.getColumnModel().getColumn(column).getWidth();
 			setText((String) value);
 			setSize(width, (int) (getPreferredSize().height * 1.3));
@@ -1117,7 +1120,7 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 						, constantColSize + 7	//Crankcase Start Exhaust
 						, constantColSize		//Extended Idle Exhaust
 						, constantColSize + 15	//Crankcase Extended Idle Exhaust
-						, constantColSize		//Auxillary Power Exhaust
+						, constantColSize    	//Auxillary Power Exhaust (renamed to be Other Hotelling Exhaust for display purposes)
 						, constantColSize + 15	//Evap Permeation
 						, constantColSize		//Evap Fuel Vapor Venting
 						, constantColSize		//Evap Fuel Leaks

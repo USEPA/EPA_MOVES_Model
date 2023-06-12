@@ -2238,7 +2238,7 @@ public class InputDataManager {
 					    + " polProcessID INT NOT NULL,"
 					    + " sourceTypeID SMALLINT NOT NULL,"
 					    + " fuelMYGroupID INTEGER NOT NULL,"
-					    + " fuelFormulationID SMALLINT NOT NULL,"
+					    + " fuelFormulationID int(11) NOT NULL,"
 					    + " fuelAdjustment FLOAT NULL,"
 					    + " fuelAdjustmentGPA FLOAT NULL)";
 				SQLRunner.executeSQL(outputConnection,sql);
@@ -2313,7 +2313,7 @@ public class InputDataManager {
 						+ " fuelMYGroupID int(11) default NULL,"
 						+ " fuelTypeID smallint(6) default NULL,"
 						+ " sourceTypeID smallint(6) NOT NULL default '0',"
-						+ " FuelFormulationID smallint(6) default NULL,"
+						+ " FuelFormulationID int(11) default NULL,"
 						+ " ATRatio float default NULL,"
 						+ " ATRatioCV float default NULL)";
 				SQLRunner.executeSQL(outputConnection,sql);
@@ -2778,6 +2778,14 @@ public class InputDataManager {
 			throws SQLException, IOException, Exception {
 		//System.out.println("merge(includeFuelSupply=" + includeFuelSupply + ")");
 
+		// make a copy of default db's svp, vpop, and age distribution tables for all runs
+		// (these are used by the baserategenerator)
+		if (isDefaultDatabase) {
+			DatabaseUtilities.copyDefaultTableWithRename(source, destination, "samplevehiclepopulation", "samplevehiclepopulationdefault");
+			DatabaseUtilities.copyDefaultTableWithRename(source, destination, "sourcetypeyear", "sourcetypeyeardefault");
+			DatabaseUtilities.copyDefaultTableWithRename(source, destination, "sourcetypeagedistribution", "sourcetypeagedistributiondefault");
+		}
+		
 		// Validate source
 
 		if(!isDefaultSchemaPresent(source)) {
@@ -3107,9 +3115,10 @@ public class InputDataManager {
 					null,null,null,null,null,null,null,null,null,null),
 			new TableToCopy("evapRVPTemperatureAdjustment",null,null,null,null,null,null,null,"processID",
 					null,null,null,null,null,null,"fuelTypeID",null,null,null),
-			new TableToCopy("ExtendedIdleHours","yearID","monthID",null,"zoneID",null,null,null,
-					null,null,null,"hourDayID",null,null,"sourceTypeID",null,null,null,
-					"isUserInput"),
+            new TableToCopy("evefficiency",null,null,null,null,null,null,null,null,
+                    null,null,null,null,"polProcessID","sourceTypeID",null,null,null,null),
+			new TableToCopy("evpopiceadjustld",null,null,null,null,null,null,null,null,
+					null,null,null,null,"polProcessID",null,null,null,null,null),
 //			new TableToCopy("FuelAdjustment",null,null,null,null,null,null,null,null,null,
 //					null,null,null,"polProcessID","sourceTypeID",null,/*"fuelSubTypeID"*/ null,null,null),
 			// FuelEngTechAssoc not filtered because AVFT control strategy
@@ -3259,8 +3268,6 @@ public class InputDataManager {
 					"dayID","hourID",null,null,null,null,"sourceTypeID",null,null,null,null),
 			new TableToCopy("linkSourceTypeHour",null,null, null /*"linkID"*/,null,null,null,null,
 					null,null,null,null,null,null,"sourceTypeID",null,null,null,null),
-			new TableToCopy("lumpedSpeciesName",null,null,null,null,null,null,null,null,
-					null,null,null,null,null,null,null,null,null,null),
 			new TableToCopy("M6SulfurCoeff",null,null,null,null,null,null,"pollutantID",
 					null,null,null,null,null,null,null,null ,null,null,null),
 			new TableToCopy("MeanFuelParameters",null,null,null,null,null,null,null,null,
@@ -3296,6 +3303,8 @@ public class InputDataManager {
 					null,null,null,null,null,null,null,null,null,null),
 			new TableToCopy("NONO2Ratio",null,null,null,null,null,null,null,null,
 					null,null,null,null,"polProcessID","sourceTypeID","fuelTypeID",null,null,null),
+			new TableToCopy("NOxHumidityAdjust",null,null,null,null,null,null,null,null,
+					null,null,null,null,null,null,"fuelTypeID",null,null,null),
 			new TableToCopy("offNetworkLink",null,null,null,null,null,null,null,
 					null,null,null,null,null,null,"sourceTypeID",null,null,null,null),
 			new TableToCopy("OMDGPolProcessRepresented",null,null,null,null,null,null,null,null,
@@ -3340,6 +3349,8 @@ public class InputDataManager {
 
 			new TableToCopy("PollutantProcessModelYear",null,null,null,null,null,null,null,null,
 					null,null,null,null,"polProcessID",null,null,null,null,null),
+			new TableToCopy("RefuelingControlTechnology", null, null, null, null, null, null, null,
+					"processID", null, null, null, null, null, "sourceTypeID", null,null, null, null),
 			new TableToCopy("RefuelingFactors", null, null, null, null, null, null, null, null,
 					null, null, null, null, null, null, "fuelTypeID", null, null, null),
 			new TableToCopy("RegulatoryClass",null,null,null,null,null,null,null,null,
@@ -3487,13 +3498,7 @@ public class InputDataManager {
 					null,null,null,null,null,null,null,null,null,null),
 			new TableToCopy("TemperatureAdjustment",null,null,null,null,null,null,null,null,
 					null,null,null,null,"polProcessID",null,"fuelTypeID",null,null,null),
-			new TableToCopy("temperatureFactorExpression", null, null, null, null, null, null, "pollutantID", "processID",
-					null, null, null, null, null, "sourceTypeID", "fuelTypeID", null, null, null),
 			new TableToCopy("TemperatureProfileID",null,"monthID",null,"zoneID",null,null,null,null,
-					null,null,null,null,null,null,null,null,null,null),
-			new TableToCopy("togSpeciation",null,null,null,null,null,null,null,"processID",
-					null,null,null,null,null,null,null,"fuelSubtypeID",null,null),
-			new TableToCopy("TOGSpeciationProfile",null,null,null,null,null,null,null,null,
 					null,null,null,null,null,null,null,null,null,null),
 			new TableToCopy("TOGSpeciationProfileName",null,null,null,null,null,null,null,null,
 					null,null,null,null,null,null,null,null,null,null),

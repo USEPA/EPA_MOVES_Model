@@ -281,6 +281,46 @@ public class BaseRateGenerator extends Generator {
 
 			/**
 			 * @step 010
+			 * @algorithm Create table to hold national LD EV Sales as a fraction of national total LD vehicles for use in adjusting
+			 *            EmissionRate and EmissionRateByAge values based on EV populations.
+			 *            These use copies of the default tables to ensure the national sales fraction is calculated correctly at all scales.
+			 * evSales=sum(sourceTypePopulation * age 0 fraction * LD EV stmyFraction) / sum(sourceTypePopulation * age 0 fraction * total LD stmyFraction)
+			 * @output evSalesFractionLD
+			 * @input sourcetypeyeardefault
+			 * @input sourcetypeagedistributiondefault
+			 * @input samplevehiclepopulationdefault
+			**/
+			"#CORE",
+			"DROP TABLE if EXISTS evSalesFractionLD",
+			"CREATE TABLE evSalesFractionLD "
+			+ "SELECT modelYearID, evsales/ldsales AS evFraction "
+			+ "FROM ( "
+			+ "	SELECT modelYearID,  "
+			+ "	       sum(sourceTypePopulation * ageFraction * stmyFraction) AS evsales "
+			+ "	FROM sourcetypeyeardefault sty "
+			+ "	JOIN sourcetypeagedistributiondefault stad USING (sourceTypeID, yearID) "
+			+ "	JOIN samplevehiclepopulationdefault svp ON (sty.sourceTypeID = svp.sourceTypeID AND "
+			+ "	                                            stad.yearID - stad.ageID = svp.modelYearID) "
+			+ "	WHERE ageID = 0 "
+			+ "	      AND regClassID IN (20, 30) "
+			+ "	      AND fuelTypeID = 9 "
+			+ "	      AND modelYearID <= " + year + " AND modelYearID >= " + (year - 30) + " "
+			+ "	GROUP BY modelYearID "
+			+ ") AS t1 JOIN ( "
+			+ "	SELECT modelYearID,  "
+			+ "	       sum(sourceTypePopulation * ageFraction * stmyFraction) AS ldsales "
+			+ "	FROM sourcetypeyeardefault sty "
+			+ "	JOIN sourcetypeagedistributiondefault stad USING (sourceTypeID, yearID) "
+			+ "	JOIN samplevehiclepopulationdefault svp ON (sty.sourceTypeID = svp.sourceTypeID AND "
+			+ "	                                            stad.yearID - stad.ageID = svp.modelYearID) "
+			+ "	WHERE ageID = 0 "
+			+ "	      AND regClassID IN (20, 30) "
+			+ "	      AND modelYearID <= " + year + " AND modelYearID >= " + (year - 30) + " "
+			+ "	GROUP BY modelYearID "
+			+ ") AS t2 USING (modelYearID) ",
+
+			/**
+			 * @step 010
 			 * @algorithm Weight age-based rates by sourcebin distribution.
 			 * MeanBaseRate=sum(SourceBinActivityFraction * MeanBaseRate)/normalizationFactor.
 			 * MeanBaseRateIM=sum(SourceBinActivityFraction * MeanBaseRateIM)/normalizationFactor.
@@ -443,6 +483,62 @@ public class BaseRateGenerator extends Generator {
 			+ " 	er.opModeID,"
 			+ "		sb.regClassID"
 			+ " HAVING SUM(sbd.SourceBinActivityFraction) > 0",
+
+			/**
+			 * @step 010
+			 * @algorithm Adjust non-age-based rates by EV sales. The adjustmentWeight is actually a multiplier, so it increases the apparent total number of vehicles,
+			 *            which is why this equation is more complicated than just dividing the emission rate by (1 - evFraction * adjustmentWeight).
+			 * MeanBaseRate=MeanBaseRate * adjustment/(1 - (evFraction*adjustmentWeight)/((1-evFraction) + (evFraction*adjustmentWeight)))
+			 * MeanBaseRateIM=MeanBaseRateIM * adjustment/(1 - (evFraction*adjustmentWeight)/((1-evFraction) + (evFraction*adjustmentWeight)))
+			 * MeanBaseRateACAdj=MeanBaseRateACAdj * adjustment/(1 - (evFraction*adjustmentWeight)/((1-evFraction) + (evFraction*adjustmentWeight)))
+			 * MeanBaseRateIMACAdj=MeanBaseRateIMACAdj * adjustment/(1 - (evFraction*adjustmentWeight)/((1-evFraction) + (evFraction*adjustmentWeight)))
+			 * @output SBWeightedEmissionRate
+			 * @input evSalesFractionLD
+			 * @input evpopiceadjustld
+			**/
+			"#SBWeightedEmissionRate",
+			"CREATE INDEX IF NOT EXISTS `epialdjoin` ON sbweightedemissionrate (polProcessID, modelYearID)",
+			"UPDATE sbweightedemissionrate sbert, "
+			+ "       evSalesFractionLD sales, "
+			+ "       evpopiceadjustld epiald "
+			+ "SET sbert.meanBaseRate = sbert.meanBaseRate * epiald.adjustment / (1 - (sales.evFraction*epiald.adjustmentWeight)/((1-sales.evFraction) + (sales.evFraction*epiald.adjustmentWeight))), "
+			+ "    sbert.meanBaseRateIM = sbert.meanBaseRateIM * epiald.adjustment / (1 - (sales.evFraction*epiald.adjustmentWeight)/((1-sales.evFraction) + (sales.evFraction*epiald.adjustmentWeight))), "
+			+ "    sbert.meanBaseRateACAdj = sbert.meanBaseRateACAdj * epiald.adjustment / (1 - (sales.evFraction*epiald.adjustmentWeight)/((1-sales.evFraction) + (sales.evFraction*epiald.adjustmentWeight))), "
+			+ "    sbert.meanBaseRateIMACAdj = sbert.meanBaseRateIMACAdj * epiald.adjustment / (1 - (sales.evFraction*epiald.adjustmentWeight)/((1-sales.evFraction) + (sales.evFraction*epiald.adjustmentWeight))) "
+			+ "WHERE sbert.polProcessID = epiald.polProcessID "
+			+ "  AND sbert.modelYearID = sales.modelYearID "
+			+ "  AND sbert.modelYearID BETWEEN epiald.beginModelYearID AND epiald.endModelYearID "
+			+ "  AND fuelTypeID <> 9 "
+			+ "  AND regClassID in (20,30) "
+			+ "  AND evFraction <> 1 ",
+
+			/**
+			 * @step 010
+			 * @algorithm Adjust age-based rates by EV sales.
+			 * MeanBaseRate=MeanBaseRate*adjustment/(1-evFraction*adjustmentWeight)
+			 * MeanBaseRateIM=MeanBaseRateIM*adjustment/(1-evFraction*adjustmentWeight)
+			 * MeanBaseRateACAdj=MeanBaseRateACAdj*adjustment/(1-evFraction*adjustmentWeight)
+			 * MeanBaseRateIMACAdj=MeanBaseRateIMACAdj*adjustment/(1-evFraction*adjustmentWeight)
+			 * @output SBWeightedEmissionRateByAge
+			 * @input evSalesFractionLD
+			 * @input evpopiceadjustld
+			**/
+			"#SBWeightedEmissionRateByAge",
+			"CREATE INDEX IF NOT EXISTS `epialdjoin` ON sbweightedemissionratebyage (polProcessID, modelYearID)",
+			"UPDATE sbweightedemissionratebyage sberbat, "
+			+ "       evSalesFractionLD sales, "
+			+ "       evpopiceadjustld epiald "
+			+ "SET sberbat.meanBaseRate = sberbat.meanBaseRate * epiald.adjustment / (1-sales.evFraction*epiald.adjustmentWeight), "
+			+ "    sberbat.meanBaseRateIM = sberbat.meanBaseRateIM * epiald.adjustment / (1-sales.evFraction*epiald.adjustmentWeight), "
+			+ "    sberbat.meanBaseRateACAdj = sberbat.meanBaseRateACAdj * epiald.adjustment / (1-sales.evFraction*epiald.adjustmentWeight), "
+			+ "    sberbat.meanBaseRateIMACAdj = sberbat.meanBaseRateIMACAdj * epiald.adjustment / (1-sales.evFraction*epiald.adjustmentWeight) "
+			+ "WHERE sberbat.polProcessID = epiald.polProcessID "
+			+ "  AND sberbat.modelYearID = sales.modelYearID "
+			+ "  AND sberbat.modelYearID BETWEEN epiald.beginModelYearID AND epiald.endModelYearID "
+			+ "  AND fuelTypeID <> 9 "
+			+ "  AND regClassID in (20,30) "
+			+ "  AND evFraction*adjustmentWeight <> 1 ",
+
 
 			/**
 			 * @step 020
@@ -674,6 +770,13 @@ public class BaseRateGenerator extends Generator {
 		brbaFlags.keepOpModeID = keepOpModeID;
 		brbaFlags.useAvgSpeedBin = useAvgSpeedBin;
 
+		String opModeID = "0";
+		boolean groupByOpModeID = false;
+		if (processID == 91) {
+			opModeID = "er.opModeID";
+			groupByOpModeID = true;
+		}
+		
 		/**
 		 * @step 101
 		 * @algorithm avgSpeedFractionClause=coalesce(avgSpeedFraction,0) when conditions are met, 1 otherwise.
@@ -833,10 +936,10 @@ public class BaseRateGenerator extends Generator {
 			+ " 	romd.sourceTypeID, romd.roadTypeID,"
 			+ (!useAvgSpeedBin? " 0 as avgSpeedBinID," : " romd.avgSpeedBinID,")
 			+ "		romd.polProcessID, romd.hourDayID,"
-			+ " 	er.modelYearID, er.fuelTypeID, er.regClassID, 0 as opModeID,"
+			+ " 	er.modelYearID, er.fuelTypeID, er.regClassID, " + opModeID + " as opModeID,"
 			+ "		sum(opModeFraction" + avgSpeedFraction + sumSBD + "),"
 			+ "		sum(opModeFraction" + avgSpeedFraction + sumSBD + "),"
-			+ " 	sum(MeanBaseRate * opModeFraction" + avgSpeedFraction + quantAdjust + "),"
+			+ " 	sum(MeanBaseRate * opModeFraction" + avgSpeedFraction + quantAdjust + ")," // this doesn't have the sumSBD term because the meanBaseRate is coming from sbWeightedEmissionRate table, which already has SBD applied
 			+ " 	sum(MeanBaseRateIM * opModeFraction" + avgSpeedFraction + quantAdjust + "),"
 			+ " 	sum(MeanBaseRateACAdj * opModeFraction" + avgSpeedFraction + quantAdjust + "),"
 			+ " 	sum(MeanBaseRateIMACAdj * opModeFraction" + avgSpeedFraction + quantAdjust + "),"
@@ -861,13 +964,14 @@ public class BaseRateGenerator extends Generator {
 			+ " 		er.sourceTypeID = romd.sourceTypeID"
 			+ " 		and er.polProcessID = romd.polProcessID"
 			+ " 		and er.opModeID = romd.opModeID"
-			+ " 	)"
+			+ " 	) "
 			+ " where romd.sourceTypeID = ##sourceTypeID## and romd.polProcessID = ##polProcessID##"
 			+ (isProjectDomain && roadTypeID > 0? " and romd.roadTypeID=" + roadTypeID : "")
 			+ " group by"
 			+ " 	romd.sourceTypeID, romd.polProcessID, romd.roadTypeID, romd.hourDayID,"
 			+ (!useAvgSpeedBin? "" : " romd.avgSpeedBinID,")
-			+ " 	er.modelYearID, er.fuelTypeID, er.regClassID",
+			+ " 	er.modelYearID, er.fuelTypeID, er.regClassID"
+			+ (groupByOpModeID? ",er.opModeID" : ""),
 
 			// Add from distanceEmissionRate.
 

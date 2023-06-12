@@ -179,6 +179,18 @@ public class MeteorologyImporter extends ImporterBase {
 		} finally {
 			query.close();
 		}
+
+        // check for wrong schema
+		sql = "SELECT molWaterFraction FROM zonemonthhour LIMIT 0";
+        try {
+            query.open(db,sql);
+            while(query.rs.next()) {}
+        } catch (SQLException e) {
+            addQualityMessage("ERROR: zonemonthhour has incorrect schema. This database will either need to be converted or recreated.");
+            hasError = true;
+        } finally {
+            query.close();
+        }
 				
 		if(hasMonths && hasHours && hasZones && !hasError) {
 			return new RunSpecSectionStatus(RunSpecSectionStatus.OK);

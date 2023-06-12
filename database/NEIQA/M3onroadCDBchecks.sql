@@ -405,9 +405,9 @@ CREATE TABLE CDB_Checks (
    testDescription   char(250),
    testValue         text,
    `count`           int(11),
-   dataBaseName      char(100),
+   databaseName      char(100),
    dayID             smallint(6),
-   fuelFormulationID smallint(6),
+   fuelFormulationID int(11),
    fuelTypeId        smallint(6),
    fuelSubtypeID     smallint(6),
    fuelYearID        smallint(6),
@@ -957,6 +957,30 @@ Select   "year"   as tableName,
 From     tempA
 Where    aMatch <> 'yes';
 
+--       check no. 1105: check column type definitions for input db mismatches with default db
+INSERT INTO QA_Checks_Log values (1105, 'OK', @hVersion, curDate(), curTime());
+INSERT INTO CDB_Checks
+		( TableName,
+		  CheckNumber,
+		  TestDescription,
+		  TestValue)
+SELECT 'year' as TableName, 
+		1105 as CheckNumber, 
+		'Incorrect Column Definition' as TestDescription, 
+		concat('Expected ', column_name, ' to be of type ', t2.column_type, '(', 
+				case when t2.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t2.column_key <> '' then concat(',key:', t2.column_key) else '' end, 
+				') but is of type ', t1.column_type, '(',
+				case when t1.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t1.column_key <> '' then concat(',key:', t1.column_key) else '' end, 
+				')'
+		) as TestValue
+from (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##inputdb##' and table_name = 'year') t1 
+join (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##defaultdb##' and table_name = 'year') t2 using (column_name)
+where t1.column_type <> t2.column_type or t1.is_nullable <> t2.is_nullable or t1.column_key <> t2.column_key;
+
 -- state
 Insert into CDB_Checks (CheckNumber, TableName, TestDescription) values (1200, "state", "Table Check:");
 
@@ -1029,6 +1053,30 @@ Insert into CDB_Checks
   "Number of Rows",
   (Select count(*) from state) );
 Delete from CDB_Checks where checkNumber=1203 and testValue>0;
+
+--       check no. 1204: check column type definitions for input db mismatches with default db
+INSERT INTO QA_Checks_Log values (1204, 'OK', @hVersion, curDate(), curTime());
+INSERT INTO CDB_Checks
+		( TableName,
+		  CheckNumber,
+		  TestDescription,
+		  TestValue)
+SELECT 'state' as TableName, 
+		1204 as CheckNumber, 
+		'Incorrect Column Definition' as TestDescription, 
+		concat('Expected ', column_name, ' to be of type ', t2.column_type, '(', 
+				case when t2.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t2.column_key <> '' then concat(',key:', t2.column_key) else '' end, 
+				') but is of type ', t1.column_type, '(',
+				case when t1.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t1.column_key <> '' then concat(',key:', t1.column_key) else '' end, 
+				')'
+		) as TestValue
+from (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##inputdb##' and table_name = 'state') t1 
+join (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##defaultdb##' and table_name = 'state') t2 using (column_name)
+where t1.column_type <> t2.column_type or t1.is_nullable <> t2.is_nullable or t1.column_key <> t2.column_key;
 
 
 -- Check for the county table
@@ -1236,6 +1284,30 @@ Select   "county"             as tableName,
 From     tempA
 Where    aMatch <> 'yes';
 
+--       check no. 1309: check column type definitions for input db mismatches with default db
+INSERT INTO QA_Checks_Log values (1309, 'OK', @hVersion, curDate(), curTime());
+INSERT INTO CDB_Checks
+		( TableName,
+		  CheckNumber,
+		  TestDescription,
+		  TestValue)
+SELECT 'county' as TableName, 
+		1309 as CheckNumber, 
+		'Incorrect Column Definition' as TestDescription, 
+		concat('Expected ', column_name, ' to be of type ', t2.column_type, '(', 
+				case when t2.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t2.column_key <> '' then concat(',key:', t2.column_key) else '' end, 
+				') but is of type ', t1.column_type, '(',
+				case when t1.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t1.column_key <> '' then concat(',key:', t1.column_key) else '' end, 
+				')'
+		) as TestValue
+from (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##inputdb##' and table_name = 'county') t1 
+join (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##defaultdb##' and table_name = 'county') t2 using (column_name)
+where t1.column_type <> t2.column_type or t1.is_nullable <> t2.is_nullable or t1.column_key <> t2.column_key;
+
 
 -- Zone
 Insert into CDB_Checks (CheckNumber, TableName, TestDescription) values (1400, "zone", "Table Check:");
@@ -1340,6 +1412,30 @@ Insert into CDB_Checks
   "Number of Rows",
   (Select count(*) from zone) );
 Delete from CDB_Checks where checkNumber=1406 and testValue>0;
+
+--       check no. 1407: check column type definitions for input db mismatches with default db
+INSERT INTO QA_Checks_Log values (1407, 'OK', @hVersion, curDate(), curTime());
+INSERT INTO CDB_Checks
+		( TableName,
+		  CheckNumber,
+		  TestDescription,
+		  TestValue)
+SELECT 'zone' as TableName, 
+		1407 as CheckNumber, 
+		'Incorrect Column Definition' as TestDescription, 
+		concat('Expected ', column_name, ' to be of type ', t2.column_type, '(', 
+				case when t2.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t2.column_key <> '' then concat(',key:', t2.column_key) else '' end, 
+				') but is of type ', t1.column_type, '(',
+				case when t1.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t1.column_key <> '' then concat(',key:', t1.column_key) else '' end, 
+				')'
+		) as TestValue
+from (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##inputdb##' and table_name = 'zone') t1 
+join (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##defaultdb##' and table_name = 'zone') t2 using (column_name)
+where t1.column_type <> t2.column_type or t1.is_nullable <> t2.is_nullable or t1.column_key <> t2.column_key;
 
 
 --       Table  Check: avft
@@ -1537,6 +1633,30 @@ INSERT INTO QA_Checks_Log values ( 1507, 'OK', @hVersion, curDate(), curTime() )
   left join avft using (sourceTypeID, fuelTypeID, modelYearID)
 	where fuelEngFraction is NULL 
 	ORDER BY sourceTypeID, fuelTypeID, modelYearID LIMIT 1;
+	
+--       check no. 1508: check column type definitions for input db mismatches with default db
+INSERT INTO QA_Checks_Log values (1508, 'OK', @hVersion, curDate(), curTime());
+INSERT INTO CDB_Checks
+		( TableName,
+		  CheckNumber,
+		  TestDescription,
+		  TestValue)
+SELECT 'avft' as TableName, 
+		1508 as CheckNumber, 
+		'Incorrect Column Definition' as TestDescription, 
+		concat('Expected ', column_name, ' to be of type ', t2.column_type, '(', 
+				case when t2.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t2.column_key <> '' then concat(',key:', t2.column_key) else '' end, 
+				') but is of type ', t1.column_type, '(',
+				case when t1.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t1.column_key <> '' then concat(',key:', t1.column_key) else '' end, 
+				')'
+		) as TestValue
+from (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##inputdb##' and table_name = 'avft') t1 
+join (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##defaultdb##' and table_name = 'avft') t2 using (column_name)
+where t1.column_type <> t2.column_type or t1.is_nullable <> t2.is_nullable or t1.column_key <> t2.column_key;
 
 
 --       Table  Check: avgspeeddistribution
@@ -1820,6 +1940,30 @@ from avgspeeddistribution
 where avgSpeedFraction = 0 and avgSpeedBinID = 1 and roadTypeID not in (1, 100)
 LIMIT 1;
 
+--       check no. 1612: check column type definitions for input db mismatches with default db
+INSERT INTO QA_Checks_Log values (1612, 'OK', @hVersion, curDate(), curTime());
+INSERT INTO CDB_Checks
+		( TableName,
+		  CheckNumber,
+		  TestDescription,
+		  TestValue)
+SELECT 'avgSpeedDistribution' as TableName, 
+		1612 as CheckNumber, 
+		'Incorrect Column Definition' as TestDescription, 
+		concat('Expected ', column_name, ' to be of type ', t2.column_type, '(', 
+				case when t2.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t2.column_key <> '' then concat(',key:', t2.column_key) else '' end, 
+				') but is of type ', t1.column_type, '(',
+				case when t1.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t1.column_key <> '' then concat(',key:', t1.column_key) else '' end, 
+				')'
+		) as TestValue
+from (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##inputdb##' and table_name = 'avgspeeddistribution') t1 
+join (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##defaultdb##' and table_name = 'avgspeeddistribution') t2 using (column_name)
+where t1.column_type <> t2.column_type or t1.is_nullable <> t2.is_nullable or t1.column_key <> t2.column_key;
+
 
 -- countyYear
 Insert into CDB_Checks (CheckNumber, TableName, TestDescription) values (1700, "countyyear", "Table Check:");
@@ -1933,6 +2077,30 @@ Select   "countyYear"                 as tableName,
          n       as count               --
 From     tempA
 Where    aMatch <> 'yes';
+
+--       check no. 1705: check column type definitions for input db mismatches with default db
+INSERT INTO QA_Checks_Log values (1705, 'OK', @hVersion, curDate(), curTime());
+INSERT INTO CDB_Checks
+		( TableName,
+		  CheckNumber,
+		  TestDescription,
+		  TestValue)
+SELECT 'countyYear' as TableName, 
+		1705 as CheckNumber, 
+		'Incorrect Column Definition' as TestDescription, 
+		concat('Expected ', column_name, ' to be of type ', t2.column_type, '(', 
+				case when t2.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t2.column_key <> '' then concat(',key:', t2.column_key) else '' end, 
+				') but is of type ', t1.column_type, '(',
+				case when t1.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t1.column_key <> '' then concat(',key:', t1.column_key) else '' end, 
+				')'
+		) as TestValue
+from (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##inputdb##' and table_name = 'countyyear') t1 
+join (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##defaultdb##' and table_name = 'countyyear') t2 using (column_name)
+where t1.column_type <> t2.column_type or t1.is_nullable <> t2.is_nullable or t1.column_key <> t2.column_key;
 
 
 -- dayVMTFraction checks
@@ -2133,6 +2301,30 @@ join (select count(*) as n from dayvmtfraction) as t2
 where dayVMTFraction is NULL and n > 0
 ORDER BY sourceTypeID, monthID, roadTypeID, dayID LIMIT 1;
 
+--       check no. 1809: check column type definitions for input db mismatches with default db
+INSERT INTO QA_Checks_Log values (1809, 'OK', @hVersion, curDate(), curTime());
+INSERT INTO CDB_Checks
+		( TableName,
+		  CheckNumber,
+		  TestDescription,
+		  TestValue)
+SELECT 'dayVMTFraction' as TableName, 
+		1809 as CheckNumber, 
+		'Incorrect Column Definition' as TestDescription, 
+		concat('Expected ', column_name, ' to be of type ', t2.column_type, '(', 
+				case when t2.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t2.column_key <> '' then concat(',key:', t2.column_key) else '' end, 
+				') but is of type ', t1.column_type, '(',
+				case when t1.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t1.column_key <> '' then concat(',key:', t1.column_key) else '' end, 
+				')'
+		) as TestValue
+from (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##inputdb##' and table_name = 'dayvmtfraction') t1 
+join (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##defaultdb##' and table_name = 'dayvmtfraction') t2 using (column_name)
+where t1.column_type <> t2.column_type or t1.is_nullable <> t2.is_nullable or t1.column_key <> t2.column_key;
+
 
 -- emissionRateByAge
 Insert into CDB_Checks (CheckNumber, TableName, TestDescription) values (1900, "emissionRateByAge", "Table Check:");
@@ -2220,6 +2412,30 @@ Select   "emissionRateByAge" as tableName,
          n                   as count               --
 From     tempA
 Where    aMatch <> 'yes';
+
+--       check no. 1904: check column type definitions for input db mismatches with default db
+INSERT INTO QA_Checks_Log values (1904, 'OK', @hVersion, curDate(), curTime());
+INSERT INTO CDB_Checks
+		( TableName,
+		  CheckNumber,
+		  TestDescription,
+		  TestValue)
+SELECT 'emissionRateByAge' as TableName, 
+		1904 as CheckNumber, 
+		'Incorrect Column Definition' as TestDescription, 
+		concat('Expected ', column_name, ' to be of type ', t2.column_type, '(', 
+				case when t2.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t2.column_key <> '' then concat(',key:', t2.column_key) else '' end, 
+				') but is of type ', t1.column_type, '(',
+				case when t1.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t1.column_key <> '' then concat(',key:', t1.column_key) else '' end, 
+				')'
+		) as TestValue
+from (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##inputdb##' and table_name = 'emissionratebyage') t1 
+join (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##defaultdb##' and table_name = 'emissionratebyage') t2 using (column_name)
+where t1.column_type <> t2.column_type or t1.is_nullable <> t2.is_nullable or t1.column_key <> t2.column_key;
 
 -- Checks for fuelformulation
 Insert into CDB_Checks (CheckNumber, TableName, TestDescription) values (2000, "fuelFormulation", "Table Check:");
@@ -2588,6 +2804,30 @@ Insert into CDB_Checks
      and  table_schema = database()) );
 Delete from CDB_Checks where checkNumber=2013 and testValue=2;
 
+--       check no. 2014: check column type definitions for input db mismatches with default db
+INSERT INTO QA_Checks_Log values (2014, 'OK', @hVersion, curDate(), curTime());
+INSERT INTO CDB_Checks
+		( TableName,
+		  CheckNumber,
+		  TestDescription,
+		  TestValue)
+SELECT 'fuelFormulation' as TableName, 
+		2014 as CheckNumber, 
+		'Incorrect Column Definition' as TestDescription, 
+		concat('Expected ', column_name, ' to be of type ', t2.column_type, '(', 
+				case when t2.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t2.column_key <> '' then concat(',key:', t2.column_key) else '' end, 
+				') but is of type ', t1.column_type, '(',
+				case when t1.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t1.column_key <> '' then concat(',key:', t1.column_key) else '' end, 
+				')'
+		) as TestValue
+from (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##inputdb##' and table_name = 'fuelformulation') t1 
+join (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##defaultdb##' and table_name = 'fuelformulation') t2 using (column_name)
+where t1.column_type <> t2.column_type or t1.is_nullable <> t2.is_nullable or t1.column_key <> t2.column_key;
+
 -- fuelsupply checks
 Insert into CDB_Checks (CheckNumber, TableName, TestDescription) values (2100, "fuelSupply", "Table Check:");
 
@@ -2688,6 +2928,30 @@ Select   "fuelSupply"   as tableName,
          count(distinct fuelRegionID)              as `count`
 from fuelsupply
 having `count` > 1;
+
+--       check no. 2105: check column type definitions for input db mismatches with default db
+INSERT INTO QA_Checks_Log values (2105, 'OK', @hVersion, curDate(), curTime());
+INSERT INTO CDB_Checks
+		( TableName,
+		  CheckNumber,
+		  TestDescription,
+		  TestValue)
+SELECT 'fuelSupply' as TableName, 
+		2105 as CheckNumber, 
+		'Incorrect Column Definition' as TestDescription, 
+		concat('Expected ', column_name, ' to be of type ', t2.column_type, '(', 
+				case when t2.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t2.column_key <> '' then concat(',key:', t2.column_key) else '' end, 
+				') but is of type ', t1.column_type, '(',
+				case when t1.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t1.column_key <> '' then concat(',key:', t1.column_key) else '' end, 
+				')'
+		) as TestValue
+from (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##inputdb##' and table_name = 'fuelsupply') t1 
+join (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##defaultdb##' and table_name = 'fuelsupply') t2 using (column_name)
+where t1.column_type <> t2.column_type or t1.is_nullable <> t2.is_nullable or t1.column_key <> t2.column_key;
 
 
 -- fuelusagefraction
@@ -2961,6 +3225,30 @@ Select      'fuelUsageFraction'   as tableName,
 from         tempA
 where    s < 0.99999
    or    s > 1.00001;
+   
+--       check no. 2210: check column type definitions for input db mismatches with default db
+INSERT INTO QA_Checks_Log values (2210, 'OK', @hVersion, curDate(), curTime());
+INSERT INTO CDB_Checks
+		( TableName,
+		  CheckNumber,
+		  TestDescription,
+		  TestValue)
+SELECT 'fuelUsageFraction' as TableName, 
+		2210 as CheckNumber, 
+		'Incorrect Column Definition' as TestDescription, 
+		concat('Expected ', column_name, ' to be of type ', t2.column_type, '(', 
+				case when t2.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t2.column_key <> '' then concat(',key:', t2.column_key) else '' end, 
+				') but is of type ', t1.column_type, '(',
+				case when t1.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t1.column_key <> '' then concat(',key:', t1.column_key) else '' end, 
+				')'
+		) as TestValue
+from (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##inputdb##' and table_name = 'fuelusagefraction') t1 
+join (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##defaultdb##' and table_name = 'fuelusagefraction') t2 using (column_name)
+where t1.column_type <> t2.column_type or t1.is_nullable <> t2.is_nullable or t1.column_key <> t2.column_key;
  
 
 -- hotellingActivityDistribution
@@ -3075,6 +3363,30 @@ Select  "hotellingActivityDistribution" as tableName,
          (Select count(*) from qa_checks_had) as count
 From     qa_checks_had
 Where    (Select count(*) from qa_checks_had) > 0;
+
+--       check no. 2306: check column type definitions for input db mismatches with default db
+INSERT INTO QA_Checks_Log values (2306, 'OK', @hVersion, curDate(), curTime());
+INSERT INTO CDB_Checks
+		( TableName,
+		  CheckNumber,
+		  TestDescription,
+		  TestValue)
+SELECT 'hotellingActivityDistribution' as TableName, 
+		2306 as CheckNumber, 
+		'Incorrect Column Definition' as TestDescription, 
+		concat('Expected ', column_name, ' to be of type ', t2.column_type, '(', 
+				case when t2.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t2.column_key <> '' then concat(',key:', t2.column_key) else '' end, 
+				') but is of type ', t1.column_type, '(',
+				case when t1.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t1.column_key <> '' then concat(',key:', t1.column_key) else '' end, 
+				')'
+		) as TestValue
+from (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##inputdb##' and table_name = 'hotellingactivitydistribution') t1 
+join (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##defaultdb##' and table_name = 'hotellingactivitydistribution') t2 using (column_name)
+where t1.column_type <> t2.column_type or t1.is_nullable <> t2.is_nullable or t1.column_key <> t2.column_key;
 
 
 -- hotellingagefraction
@@ -3207,6 +3519,30 @@ from hotellingagefraction
 group by zoneID, ageFraction
 having count(*) = (select count(*) from ##defaultdb##.agecategory)
 order by zoneID LIMIT 1;
+
+--       check no. 2407: check column type definitions for input db mismatches with default db
+INSERT INTO QA_Checks_Log values (2407, 'OK', @hVersion, curDate(), curTime());
+INSERT INTO CDB_Checks
+		( TableName,
+		  CheckNumber,
+		  TestDescription,
+		  TestValue)
+SELECT 'hotellingAgeFraction' as TableName, 
+		2407 as CheckNumber, 
+		'Incorrect Column Definition' as TestDescription, 
+		concat('Expected ', column_name, ' to be of type ', t2.column_type, '(', 
+				case when t2.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t2.column_key <> '' then concat(',key:', t2.column_key) else '' end, 
+				') but is of type ', t1.column_type, '(',
+				case when t1.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t1.column_key <> '' then concat(',key:', t1.column_key) else '' end, 
+				')'
+		) as TestValue
+from (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##inputdb##' and table_name = 'hotellingagefraction') t1 
+join (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##defaultdb##' and table_name = 'hotellingagefraction') t2 using (column_name)
+where t1.column_type <> t2.column_type or t1.is_nullable <> t2.is_nullable or t1.column_key <> t2.column_key;
 
 
 -- hotellinghourfraction
@@ -3393,6 +3729,30 @@ group by zoneID
 having sum(abs(weekendFraction - weekdayFraction)) < 0.00001
 order by zoneID LIMIT 1;
 
+--       check no. 2509: check column type definitions for input db mismatches with default db
+INSERT INTO QA_Checks_Log values (2509, 'OK', @hVersion, curDate(), curTime());
+INSERT INTO CDB_Checks
+		( TableName,
+		  CheckNumber,
+		  TestDescription,
+		  TestValue)
+SELECT 'hotellingHourFraction' as TableName, 
+		2509 as CheckNumber, 
+		'Incorrect Column Definition' as TestDescription, 
+		concat('Expected ', column_name, ' to be of type ', t2.column_type, '(', 
+				case when t2.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t2.column_key <> '' then concat(',key:', t2.column_key) else '' end, 
+				') but is of type ', t1.column_type, '(',
+				case when t1.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t1.column_key <> '' then concat(',key:', t1.column_key) else '' end, 
+				')'
+		) as TestValue
+from (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##inputdb##' and table_name = 'hotellinghourfraction') t1 
+join (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##defaultdb##' and table_name = 'hotellinghourfraction') t2 using (column_name)
+where t1.column_type <> t2.column_type or t1.is_nullable <> t2.is_nullable or t1.column_key <> t2.column_key;
+
 
 -- hotellinghoursperday
 Insert into CDB_Checks (CheckNumber, TableName, TestDescription) values (2600, "hotellinghoursperday", "Table Check:");
@@ -3504,6 +3864,30 @@ join (select count(*) as c from hotellinghoursperday) as t2
 where hotellingHoursPerDay is NULL and c > 0
 ORDER BY yearID, zoneID, dayID LIMIT 1;
 
+--       check no. 2605: check column type definitions for input db mismatches with default db
+INSERT INTO QA_Checks_Log values (2605, 'OK', @hVersion, curDate(), curTime());
+INSERT INTO CDB_Checks
+		( TableName,
+		  CheckNumber,
+		  TestDescription,
+		  TestValue)
+SELECT 'hotellingHoursPerDay' as TableName, 
+		2605 as CheckNumber, 
+		'Incorrect Column Definition' as TestDescription, 
+		concat('Expected ', column_name, ' to be of type ', t2.column_type, '(', 
+				case when t2.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t2.column_key <> '' then concat(',key:', t2.column_key) else '' end, 
+				') but is of type ', t1.column_type, '(',
+				case when t1.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t1.column_key <> '' then concat(',key:', t1.column_key) else '' end, 
+				')'
+		) as TestValue
+from (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##inputdb##' and table_name = 'hotellinghoursperday') t1 
+join (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##defaultdb##' and table_name = 'hotellinghoursperday') t2 using (column_name)
+where t1.column_type <> t2.column_type or t1.is_nullable <> t2.is_nullable or t1.column_key <> t2.column_key;
+
 
 -- hotellingmonthadjust
 Insert into CDB_Checks (CheckNumber, TableName, TestDescription) values (2700, "hotellingmonthadjust", "Table Check:");
@@ -3586,6 +3970,30 @@ left join hotellingmonthadjust using (zoneID, monthID)
 join (select count(*) as c from hotellingmonthadjust) as t2
 where monthAdjustment is NULL and c > 0
 ORDER BY zoneID, monthID LIMIT 1;
+
+--       check no. 2704: check column type definitions for input db mismatches with default db
+INSERT INTO QA_Checks_Log values (2704, 'OK', @hVersion, curDate(), curTime());
+INSERT INTO CDB_Checks
+		( TableName,
+		  CheckNumber,
+		  TestDescription,
+		  TestValue)
+SELECT 'hotellingMonthAdjust' as TableName, 
+		2704 as CheckNumber, 
+		'Incorrect Column Definition' as TestDescription, 
+		concat('Expected ', column_name, ' to be of type ', t2.column_type, '(', 
+				case when t2.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t2.column_key <> '' then concat(',key:', t2.column_key) else '' end, 
+				') but is of type ', t1.column_type, '(',
+				case when t1.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t1.column_key <> '' then concat(',key:', t1.column_key) else '' end, 
+				')'
+		) as TestValue
+from (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##inputdb##' and table_name = 'hotellingmonthadjust') t1 
+join (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##defaultdb##' and table_name = 'hotellingmonthadjust') t2 using (column_name)
+where t1.column_type <> t2.column_type or t1.is_nullable <> t2.is_nullable or t1.column_key <> t2.column_key;
 
 
 -- hourVMTFraction checks
@@ -3809,6 +4217,30 @@ group by sourceTypeID, roadTypeID
 having sum(abs(weekendFraction - weekdayFraction)) < 0.00001
 order by sourceTypeID, roadTypeID LIMIT 1;
 
+--       check no. 2810: check column type definitions for input db mismatches with default db
+INSERT INTO QA_Checks_Log values (2810, 'OK', @hVersion, curDate(), curTime());
+INSERT INTO CDB_Checks
+		( TableName,
+		  CheckNumber,
+		  TestDescription,
+		  TestValue)
+SELECT 'hourVMTFraction' as TableName, 
+		2810 as CheckNumber, 
+		'Incorrect Column Definition' as TestDescription, 
+		concat('Expected ', column_name, ' to be of type ', t2.column_type, '(', 
+				case when t2.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t2.column_key <> '' then concat(',key:', t2.column_key) else '' end, 
+				') but is of type ', t1.column_type, '(',
+				case when t1.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t1.column_key <> '' then concat(',key:', t1.column_key) else '' end, 
+				')'
+		) as TestValue
+from (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##inputdb##' and table_name = 'hourvmtfraction') t1 
+join (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##defaultdb##' and table_name = 'hourvmtfraction') t2 using (column_name)
+where t1.column_type <> t2.column_type or t1.is_nullable <> t2.is_nullable or t1.column_key <> t2.column_key;
+
 
 -- HPMSVTypeDay
 Insert into CDB_Checks (CheckNumber, TableName, TestDescription) values (2900, "HPMSVTypeDay", "Table Check:");
@@ -3955,6 +4387,30 @@ join (select count(*) as n from hpmsvtypeday) as t2
 where VMT is NULL and n > 0
 ORDER BY yearID, monthID, dayID, HPMSVtypeID LIMIT 1;
 
+--       check no. 2906: check column type definitions for input db mismatches with default db
+INSERT INTO QA_Checks_Log values (2906, 'OK', @hVersion, curDate(), curTime());
+INSERT INTO CDB_Checks
+		( TableName,
+		  CheckNumber,
+		  TestDescription,
+		  TestValue)
+SELECT 'hpmsVtypeDay' as TableName, 
+		2906 as CheckNumber, 
+		'Incorrect Column Definition' as TestDescription, 
+		concat('Expected ', column_name, ' to be of type ', t2.column_type, '(', 
+				case when t2.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t2.column_key <> '' then concat(',key:', t2.column_key) else '' end, 
+				') but is of type ', t1.column_type, '(',
+				case when t1.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t1.column_key <> '' then concat(',key:', t1.column_key) else '' end, 
+				')'
+		) as TestValue
+from (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##inputdb##' and table_name = 'hpmsvtypeday') t1 
+join (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##defaultdb##' and table_name = 'hpmsvtypeday') t2 using (column_name)
+where t1.column_type <> t2.column_type or t1.is_nullable <> t2.is_nullable or t1.column_key <> t2.column_key;
+
 
 -- checks for HPMSVTypeYear
 Insert into CDB_Checks (CheckNumber, TableName, TestDescription) values (3000, "hpmsVTypeYear", "Table Check:");
@@ -4038,6 +4494,30 @@ join (select count(*) as n from hpmsvtypeyear) as t2
 where HPMSBaseYearVMT is NULL and n > 0
 ORDER BY yearID, HPMSVtypeID LIMIT 1;
 
+--       check no. 3004: check column type definitions for input db mismatches with default db
+INSERT INTO QA_Checks_Log values (3004, 'OK', @hVersion, curDate(), curTime());
+INSERT INTO CDB_Checks
+		( TableName,
+		  CheckNumber,
+		  TestDescription,
+		  TestValue)
+SELECT 'hpmsVtypeYear' as TableName, 
+		3004 as CheckNumber, 
+		'Incorrect Column Definition' as TestDescription, 
+		concat('Expected ', column_name, ' to be of type ', t2.column_type, '(', 
+				case when t2.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t2.column_key <> '' then concat(',key:', t2.column_key) else '' end, 
+				') but is of type ', t1.column_type, '(',
+				case when t1.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t1.column_key <> '' then concat(',key:', t1.column_key) else '' end, 
+				')'
+		) as TestValue
+from (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##inputdb##' and table_name = 'hpmsvtypeyear') t1 
+join (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##defaultdb##' and table_name = 'hpmsvtypeyear') t2 using (column_name)
+where t1.column_type <> t2.column_type or t1.is_nullable <> t2.is_nullable or t1.column_key <> t2.column_key;
+
 
 -- idleDayAdjust
 Insert into CDB_Checks (CheckNumber, TableName, TestDescription) values (3100, "idleDayAdjust", "Table Check:");
@@ -4118,6 +4598,30 @@ join (select count(*) as n from idledayadjust) as t2
 where idleDayAdjust is NULL and n > 0
 ORDER BY sourceTypeID, dayID LIMIT 1;
 
+--       check no. 3104: check column type definitions for input db mismatches with default db
+INSERT INTO QA_Checks_Log values (3104, 'OK', @hVersion, curDate(), curTime());
+INSERT INTO CDB_Checks
+		( TableName,
+		  CheckNumber,
+		  TestDescription,
+		  TestValue)
+SELECT 'idleDayAdjust' as TableName, 
+		3104 as CheckNumber, 
+		'Incorrect Column Definition' as TestDescription, 
+		concat('Expected ', column_name, ' to be of type ', t2.column_type, '(', 
+				case when t2.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t2.column_key <> '' then concat(',key:', t2.column_key) else '' end, 
+				') but is of type ', t1.column_type, '(',
+				case when t1.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t1.column_key <> '' then concat(',key:', t1.column_key) else '' end, 
+				')'
+		) as TestValue
+from (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##inputdb##' and table_name = 'idledayadjust') t1 
+join (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##defaultdb##' and table_name = 'idledayadjust') t2 using (column_name)
+where t1.column_type <> t2.column_type or t1.is_nullable <> t2.is_nullable or t1.column_key <> t2.column_key;
+
 
 -- idlemodelyeargrouping
 Insert into CDB_Checks (CheckNumber, TableName, TestDescription) values (3200, "idlemodelyeargrouping", "Table Check:");
@@ -4193,6 +4697,30 @@ Select  "idlemodelyeargrouping" as tableName,
          (Select count(*) from qa_checks_imyg) as count
 From     qa_checks_imyg
 Where    (Select count(*) from qa_checks_imyg) > 0;
+
+--       check no. 3204: check column type definitions for input db mismatches with default db
+INSERT INTO QA_Checks_Log values (3204, 'OK', @hVersion, curDate(), curTime());
+INSERT INTO CDB_Checks
+		( TableName,
+		  CheckNumber,
+		  TestDescription,
+		  TestValue)
+SELECT 'idleModelYearGrouping' as TableName, 
+		3204 as CheckNumber, 
+		'Incorrect Column Definition' as TestDescription, 
+		concat('Expected ', column_name, ' to be of type ', t2.column_type, '(', 
+				case when t2.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t2.column_key <> '' then concat(',key:', t2.column_key) else '' end, 
+				') but is of type ', t1.column_type, '(',
+				case when t1.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t1.column_key <> '' then concat(',key:', t1.column_key) else '' end, 
+				')'
+		) as TestValue
+from (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##inputdb##' and table_name = 'idlemodelyeargrouping') t1 
+join (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##defaultdb##' and table_name = 'idlemodelyeargrouping') t2 using (column_name)
+where t1.column_type <> t2.column_type or t1.is_nullable <> t2.is_nullable or t1.column_key <> t2.column_key;
 
 
 -- idlemonthadjust
@@ -4273,6 +4801,31 @@ from (
 join (select count(*) as n from idlemonthadjust) as t2
 where idlemonthadjust is NULL and n > 0
 ORDER BY sourceTypeID, monthID LIMIT 1;
+
+--       check no. 3304: check column type definitions for input db mismatches with default db
+INSERT INTO QA_Checks_Log values (3304, 'OK', @hVersion, curDate(), curTime());
+INSERT INTO CDB_Checks
+		( TableName,
+		  CheckNumber,
+		  TestDescription,
+		  TestValue)
+SELECT 'idleMonthAdjust' as TableName, 
+		3304 as CheckNumber, 
+		'Incorrect Column Definition' as TestDescription, 
+		concat('Expected ', column_name, ' to be of type ', t2.column_type, '(', 
+				case when t2.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t2.column_key <> '' then concat(',key:', t2.column_key) else '' end, 
+				') but is of type ', t1.column_type, '(',
+				case when t1.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t1.column_key <> '' then concat(',key:', t1.column_key) else '' end, 
+				')'
+		) as TestValue
+from (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##inputdb##' and table_name = 'idlemonthadjust') t1 
+join (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##defaultdb##' and table_name = 'idlemonthadjust') t2 using (column_name)
+where t1.column_type <> t2.column_type or t1.is_nullable <> t2.is_nullable or t1.column_key <> t2.column_key;
+
 
 
 -- totalidlefraction
@@ -4495,6 +5048,30 @@ from (
 join (select count(*) as n from totalidlefraction) as t2
 where totalIdleFraction is NULL and n > 0
 ORDER BY sourceTypeID, monthID, dayID LIMIT 1;
+
+--       check no. 3410: check column type definitions for input db mismatches with default db
+INSERT INTO QA_Checks_Log values (3410, 'OK', @hVersion, curDate(), curTime());
+INSERT INTO CDB_Checks
+		( TableName,
+		  CheckNumber,
+		  TestDescription,
+		  TestValue)
+SELECT 'totalidlefraction' as TableName, 
+		3410 as CheckNumber, 
+		'Incorrect Column Definition' as TestDescription, 
+		concat('Expected ', column_name, ' to be of type ', t2.column_type, '(', 
+				case when t2.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t2.column_key <> '' then concat(',key:', t2.column_key) else '' end, 
+				') but is of type ', t1.column_type, '(',
+				case when t1.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t1.column_key <> '' then concat(',key:', t1.column_key) else '' end, 
+				')'
+		) as TestValue
+from (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##inputdb##' and table_name = 'totalidlefraction') t1 
+join (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##defaultdb##' and table_name = 'totalidlefraction') t2 using (column_name)
+where t1.column_type <> t2.column_type or t1.is_nullable <> t2.is_nullable or t1.column_key <> t2.column_key;
 
 
 -- IMCoverage checks
@@ -4849,6 +5426,30 @@ Select  "imCoverage" as tableName,
 From     qa_checks_im
 Where    (Select count(*) from qa_checks_im) > 0;
 
+--       check no. 3512: check column type definitions for input db mismatches with default db
+INSERT INTO QA_Checks_Log values (3512, 'OK', @hVersion, curDate(), curTime());
+INSERT INTO CDB_Checks
+		( TableName,
+		  CheckNumber,
+		  TestDescription,
+		  TestValue)
+SELECT 'imCoverage' as TableName, 
+		3512 as CheckNumber, 
+		'Incorrect Column Definition' as TestDescription, 
+		concat('Expected ', column_name, ' to be of type ', t2.column_type, '(', 
+				case when t2.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t2.column_key <> '' then concat(',key:', t2.column_key) else '' end, 
+				') but is of type ', t1.column_type, '(',
+				case when t1.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t1.column_key <> '' then concat(',key:', t1.column_key) else '' end, 
+				')'
+		) as TestValue
+from (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##inputdb##' and table_name = 'imcoverage') t1 
+join (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##defaultdb##' and table_name = 'imcoverage') t2 using (column_name)
+where t1.column_type <> t2.column_type or t1.is_nullable <> t2.is_nullable or t1.column_key <> t2.column_key;
+
 
 -- monthVMTFraction checks
 Insert into CDB_Checks (CheckNumber, TableName, TestDescription) values (3600, "monthVmtFraction", "Table Check:");
@@ -4993,6 +5594,30 @@ join (select count(*) as n from monthVMTFraction) as t2
 where monthVMTFraction.monthVMTFraction is NULL and n > 0
 ORDER BY sourceTypeID, monthID LIMIT 1;
 
+--       check no. 3607: check column type definitions for input db mismatches with default db
+INSERT INTO QA_Checks_Log values (3607, 'OK', @hVersion, curDate(), curTime());
+INSERT INTO CDB_Checks
+		( TableName,
+		  CheckNumber,
+		  TestDescription,
+		  TestValue)
+SELECT 'monthVMTFraction' as TableName, 
+		3607 as CheckNumber, 
+		'Incorrect Column Definition' as TestDescription, 
+		concat('Expected ', column_name, ' to be of type ', t2.column_type, '(', 
+				case when t2.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t2.column_key <> '' then concat(',key:', t2.column_key) else '' end, 
+				') but is of type ', t1.column_type, '(',
+				case when t1.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t1.column_key <> '' then concat(',key:', t1.column_key) else '' end, 
+				')'
+		) as TestValue
+from (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##inputdb##' and table_name = 'monthvmtfraction') t1 
+join (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##defaultdb##' and table_name = 'monthvmtfraction') t2 using (column_name)
+where t1.column_type <> t2.column_type or t1.is_nullable <> t2.is_nullable or t1.column_key <> t2.column_key;
+
 
 -- onroadretrofit
 Insert into CDB_Checks (CheckNumber, TableName, TestDescription) values (3700, "onRoadRetroFit", "Table Check:");
@@ -5017,7 +5642,7 @@ Insert into CDB_Checks
          TestDescription,
          testValue,
          count  )
-Select   "onRoadRetroFit" as tableName,
+Select   "onRoadRetrofit" as tableName,
          3701              as checkNumber,
         "pollutantId"     as testDescription,
          pollutantId      as testValue,
@@ -5046,7 +5671,7 @@ Insert into CDB_Checks
          TestDescription,
          testValue,
          count  )
-Select   "onRoadRetroFit" as tableName,
+Select   "onRoadRetrofit" as tableName,
          3702              as checkNumber,
         "processId"       as testDescription,
          processId        as testValue,
@@ -5075,7 +5700,7 @@ Insert into CDB_Checks
          TestDescription,
          testValue,
          count  )
-Select   "onRoadRetroFit" as tableName,
+Select   "onRoadRetrofit" as tableName,
          3703              as checkNumber,
         "fuelTypeId "     as testDescription,
          fuelTypeId       as testValue,
@@ -5104,7 +5729,7 @@ Insert into CDB_Checks
          TestDescription,
          testValue,
          count  )
-Select   "onRoadRetroFit" as tableName,
+Select   "onRoadRetrofit" as tableName,
          3704              as checkNumber,
         "sourceTypeId"    as testDescription,
          sourceTypeId     as testValue,
@@ -5121,7 +5746,7 @@ Insert into CDB_Checks
          TestDescription,
          testValue,
          count  )
-Select   "onRoadRetroFit" as tableName,
+Select   "onRoadRetrofit" as tableName,
          3705              as checkNumber,
         "retrofitYearID > yearID"  as testDescription,
          retrofitYearId   as testValue,
@@ -5139,7 +5764,7 @@ Insert into CDB_Checks
          TestDescription,
          testValue,
          count  )
-Select   "onRoadRetroFit" as tableName,
+Select   "onRoadRetrofit" as tableName,
          3706              as checkNumber,
         "endModelYearId > retrofitYearID"  as testDescription,
          CONCAT(endModelYearId, ' > ', retrofitYearID) as testValue,
@@ -5156,7 +5781,7 @@ Insert into CDB_Checks
          TestDescription,
          testValue,
          count  )
-Select   "onRoadRetroFit"  as tableName,
+Select   "onRoadRetrofit"  as tableName,
          3707               as checkNumber,
         "beginModelYearId > endModelYearID" as testDescription,
          CONCAT(beginModelYearId, ' > ', endModelYearID)  as testValue,
@@ -5173,7 +5798,7 @@ Insert into CDB_Checks
          TestDescription,
          testValue,
          count  )
-Select   "onRoadRetroFit"  as tableName,
+Select   "onRoadRetrofit"  as tableName,
          3708               as checkNumber,
         "cumFractionRetrofit range" as testDescription,
          cumFractionRetrofit as testValue,
@@ -5190,7 +5815,7 @@ Insert into CDB_Checks
          TestDescription,
          testValue,
          count  )
-Select   "onRoadRetroFit"  as tableName,
+Select   "onRoadRetrofit"  as tableName,
          3709               as checkNumber,
         "retrofitEffectiveFraction range" as testDescription,
          retrofitEffectiveFraction as testValue,
@@ -5198,6 +5823,30 @@ Select   "onRoadRetroFit"  as tableName,
 from     onroadretrofit
 where    retrofitEffectiveFraction > 1
 group by retrofitEffectiveFraction;
+
+--       check no. 3710: check column type definitions for input db mismatches with default db
+INSERT INTO QA_Checks_Log values (3710, 'OK', @hVersion, curDate(), curTime());
+INSERT INTO CDB_Checks
+		( TableName,
+		  CheckNumber,
+		  TestDescription,
+		  TestValue)
+SELECT 'onRoadRetrofit' as TableName, 
+		3710 as CheckNumber, 
+		'Incorrect Column Definition' as TestDescription, 
+		concat('Expected ', column_name, ' to be of type ', t2.column_type, '(', 
+				case when t2.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t2.column_key <> '' then concat(',key:', t2.column_key) else '' end, 
+				') but is of type ', t1.column_type, '(',
+				case when t1.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t1.column_key <> '' then concat(',key:', t1.column_key) else '' end, 
+				')'
+		) as TestValue
+from (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##inputdb##' and table_name = 'onroadretrofit') t1 
+join (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##defaultdb##' and table_name = 'onroadretrofit') t2 using (column_name)
+where t1.column_type <> t2.column_type or t1.is_nullable <> t2.is_nullable or t1.column_key <> t2.column_key;
 
 
 -- roadTypeDistribution checks
@@ -5330,6 +5979,30 @@ from (
 ) as t1 left join roadtypedistribution using (sourceTypeID, roadTypeID)
 where roadTypeVMTFraction is NULL 
 ORDER BY sourceTypeID, roadTypeID LIMIT 1;
+
+--       check no. 3807: check column type definitions for input db mismatches with default db
+INSERT INTO QA_Checks_Log values (3807, 'OK', @hVersion, curDate(), curTime());
+INSERT INTO CDB_Checks
+		( TableName,
+		  CheckNumber,
+		  TestDescription,
+		  TestValue)
+SELECT 'roadTypeDistribution' as TableName, 
+		3807 as CheckNumber, 
+		'Incorrect Column Definition' as TestDescription, 
+		concat('Expected ', column_name, ' to be of type ', t2.column_type, '(', 
+				case when t2.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t2.column_key <> '' then concat(',key:', t2.column_key) else '' end, 
+				') but is of type ', t1.column_type, '(',
+				case when t1.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t1.column_key <> '' then concat(',key:', t1.column_key) else '' end, 
+				')'
+		) as TestValue
+from (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##inputdb##' and table_name = 'roadtypedistribution') t1 
+join (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##defaultdb##' and table_name = 'roadtypedistribution') t2 using (column_name)
+where t1.column_type <> t2.column_type or t1.is_nullable <> t2.is_nullable or t1.column_key <> t2.column_key;
 
 
 -- SourceTypeAgeDistribution checks
@@ -5476,6 +6149,30 @@ from sourcetypeagedistribution
 group by sourceTypeID, yearID, ageFraction
 having count(*) = (select count(*) from ##defaultdb##.ageCategory)
 order by sourceTypeID, yearID LIMIT 1;
+
+--       check no. 3907: check column type definitions for input db mismatches with default db
+INSERT INTO QA_Checks_Log values (3907, 'OK', @hVersion, curDate(), curTime());
+INSERT INTO CDB_Checks
+		( TableName,
+		  CheckNumber,
+		  TestDescription,
+		  TestValue)
+SELECT 'sourceTypeAgeDistribution' as TableName, 
+		3907 as CheckNumber, 
+		'Incorrect Column Definition' as TestDescription, 
+		concat('Expected ', column_name, ' to be of type ', t2.column_type, '(', 
+				case when t2.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t2.column_key <> '' then concat(',key:', t2.column_key) else '' end, 
+				') but is of type ', t1.column_type, '(',
+				case when t1.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t1.column_key <> '' then concat(',key:', t1.column_key) else '' end, 
+				')'
+		) as TestValue
+from (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##inputdb##' and table_name = 'sourcetypeagedistribution') t1 
+join (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##defaultdb##' and table_name = 'sourcetypeagedistribution') t2 using (column_name)
+where t1.column_type <> t2.column_type or t1.is_nullable <> t2.is_nullable or t1.column_key <> t2.column_key;
 
 
 -- sourceTypeDayVMT checks
@@ -5625,6 +6322,30 @@ join (select count(*) as n from sourcetypedayvmt) as t2
 where VMT is NULL and n > 0
 ORDER BY yearID, monthID, dayID, sourceTypeID LIMIT 1;
 
+--       check no. 4006: check column type definitions for input db mismatches with default db
+INSERT INTO QA_Checks_Log values (4006, 'OK', @hVersion, curDate(), curTime());
+INSERT INTO CDB_Checks
+		( TableName,
+		  CheckNumber,
+		  TestDescription,
+		  TestValue)
+SELECT 'sourceTypeDayVMT' as TableName, 
+		4006 as CheckNumber, 
+		'Incorrect Column Definition' as TestDescription, 
+		concat('Expected ', column_name, ' to be of type ', t2.column_type, '(', 
+				case when t2.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t2.column_key <> '' then concat(',key:', t2.column_key) else '' end, 
+				') but is of type ', t1.column_type, '(',
+				case when t1.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t1.column_key <> '' then concat(',key:', t1.column_key) else '' end, 
+				')'
+		) as TestValue
+from (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##inputdb##' and table_name = 'sourcetypedayvmt') t1 
+join (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##defaultdb##' and table_name = 'sourcetypedayvmt') t2 using (column_name)
+where t1.column_type <> t2.column_type or t1.is_nullable <> t2.is_nullable or t1.column_key <> t2.column_key;
+
 
 -- sourceTypeYearVMT
 Insert into CDB_Checks (CheckNumber, TableName, TestDescription) values (4100, "sourceTypeYearVMT", "Table Check:");
@@ -5710,6 +6431,30 @@ left join sourcetypeyearvmt using (yearID, sourceTypeID)
 join (select count(*) as n from sourcetypeyearvmt) as t2
 where VMT is NULL and n > 0
 ORDER BY yearID, sourceTypeID LIMIT 1;
+
+--       check no. 4104: check column type definitions for input db mismatches with default db
+INSERT INTO QA_Checks_Log values (4104, 'OK', @hVersion, curDate(), curTime());
+INSERT INTO CDB_Checks
+		( TableName,
+		  CheckNumber,
+		  TestDescription,
+		  TestValue)
+SELECT 'sourceTypeYearVMT' as TableName, 
+		4104 as CheckNumber, 
+		'Incorrect Column Definition' as TestDescription, 
+		concat('Expected ', column_name, ' to be of type ', t2.column_type, '(', 
+				case when t2.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t2.column_key <> '' then concat(',key:', t2.column_key) else '' end, 
+				') but is of type ', t1.column_type, '(',
+				case when t1.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t1.column_key <> '' then concat(',key:', t1.column_key) else '' end, 
+				')'
+		) as TestValue
+from (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##inputdb##' and table_name = 'sourcetypeyearvmt') t1 
+join (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##defaultdb##' and table_name = 'sourcetypeyearvmt') t2 using (column_name)
+where t1.column_type <> t2.column_type or t1.is_nullable <> t2.is_nullable or t1.column_key <> t2.column_key;
 
 
 -- SourceTypeYear
@@ -5912,6 +6657,31 @@ JOIN	 sourcetypeyear using (sourceTypeID, yearID)
 Where    (VMT > 0 and sourceTypePopulation = 0) OR
          (VMT = 0 and sourceTypePopulation > 0)
 group by sourceTypeID, yearID;
+
+--       check no. 4208: check column type definitions for input db mismatches with default db
+INSERT INTO QA_Checks_Log values (4208, 'OK', @hVersion, curDate(), curTime());
+INSERT INTO CDB_Checks
+		( TableName,
+		  CheckNumber,
+		  TestDescription,
+		  TestValue)
+SELECT 'sourceTypeYear' as TableName, 
+		4208 as CheckNumber, 
+		'Incorrect Column Definition' as TestDescription, 
+		concat('Expected ', column_name, ' to be of type ', t2.column_type, '(', 
+				case when t2.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t2.column_key <> '' then concat(',key:', t2.column_key) else '' end, 
+				') but is of type ', t1.column_type, '(',
+				case when t1.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t1.column_key <> '' then concat(',key:', t1.column_key) else '' end, 
+				')'
+		) as TestValue
+from (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##inputdb##' and table_name = 'sourcetypeyear') t1 
+join (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##defaultdb##' and table_name = 'sourcetypeyear') t2 using (column_name)
+where t1.column_type <> t2.column_type or t1.is_nullable <> t2.is_nullable or t1.column_key <> t2.column_key;
+
 
 
 -- starts checks
@@ -6145,6 +6915,30 @@ join (select count(*) as n from `starts`) as t2
 where `starts`.`starts` is NULL and n > 0
 ORDER BY hourDayID, monthID, yearID, ageID, zoneID, sourceTypeID LIMIT 1;
 
+--       check no. 4309: check column type definitions for input db mismatches with default db
+INSERT INTO QA_Checks_Log values (4309, 'OK', @hVersion, curDate(), curTime());
+INSERT INTO CDB_Checks
+		( TableName,
+		  CheckNumber,
+		  TestDescription,
+		  TestValue)
+SELECT 'starts' as TableName, 
+		4309 as CheckNumber, 
+		'Incorrect Column Definition' as TestDescription, 
+		concat('Expected ', column_name, ' to be of type ', t2.column_type, '(', 
+				case when t2.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t2.column_key <> '' then concat(',key:', t2.column_key) else '' end, 
+				') but is of type ', t1.column_type, '(',
+				case when t1.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t1.column_key <> '' then concat(',key:', t1.column_key) else '' end, 
+				')'
+		) as TestValue
+from (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##inputdb##' and table_name = 'starts') t1 
+join (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##defaultdb##' and table_name = 'starts') t2 using (column_name)
+where t1.column_type <> t2.column_type or t1.is_nullable <> t2.is_nullable or t1.column_key <> t2.column_key;
+
 
 -- startsAgeAdjustment checks
 Insert into CDB_Checks (CheckNumber, TableName, TestDescription) values (4400, "startsAgeAdjustment", "Table Check:");
@@ -6230,6 +7024,30 @@ left join startsageadjustment using (sourceTypeID, ageID)
 join (select count(*) as n from startsageadjustment) as t2
 where ageAdjustment is NULL and n > 0
 ORDER BY sourceTypeID, ageID LIMIT 1;
+
+--       check no. 4404: check column type definitions for input db mismatches with default db
+INSERT INTO QA_Checks_Log values (4404, 'OK', @hVersion, curDate(), curTime());
+INSERT INTO CDB_Checks
+		( TableName,
+		  CheckNumber,
+		  TestDescription,
+		  TestValue)
+SELECT 'startsAgeAdjustment' as TableName, 
+		4404 as CheckNumber, 
+		'Incorrect Column Definition' as TestDescription, 
+		concat('Expected ', column_name, ' to be of type ', t2.column_type, '(', 
+				case when t2.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t2.column_key <> '' then concat(',key:', t2.column_key) else '' end, 
+				') but is of type ', t1.column_type, '(',
+				case when t1.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t1.column_key <> '' then concat(',key:', t1.column_key) else '' end, 
+				')'
+		) as TestValue
+from (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##inputdb##' and table_name = 'startsageadjustment') t1 
+join (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##defaultdb##' and table_name = 'startsageadjustment') t2 using (column_name)
+where t1.column_type <> t2.column_type or t1.is_nullable <> t2.is_nullable or t1.column_key <> t2.column_key;
 
 
 -- startsHourFraction
@@ -6400,6 +7218,30 @@ join (select count(*) as n from startshourfraction) as t2
 where allocationFraction is NULL and n > 0
 ORDER BY dayID, hourID, sourceTypeID LIMIT 1;
 
+--       check no. 4508: check column type definitions for input db mismatches with default db
+INSERT INTO QA_Checks_Log values (4508, 'OK', @hVersion, curDate(), curTime());
+INSERT INTO CDB_Checks
+		( TableName,
+		  CheckNumber,
+		  TestDescription,
+		  TestValue)
+SELECT 'startsHourFraction' as TableName, 
+		4508 as CheckNumber, 
+		'Incorrect Column Definition' as TestDescription, 
+		concat('Expected ', column_name, ' to be of type ', t2.column_type, '(', 
+				case when t2.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t2.column_key <> '' then concat(',key:', t2.column_key) else '' end, 
+				') but is of type ', t1.column_type, '(',
+				case when t1.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t1.column_key <> '' then concat(',key:', t1.column_key) else '' end, 
+				')'
+		) as TestValue
+from (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##inputdb##' and table_name = 'startshourfraction') t1 
+join (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##defaultdb##' and table_name = 'startshourfraction') t2 using (column_name)
+where t1.column_type <> t2.column_type or t1.is_nullable <> t2.is_nullable or t1.column_key <> t2.column_key;
+
 
 -- startsmonthadjust
 Insert into CDB_Checks (CheckNumber, TableName, TestDescription) values (4600, "startsMonthAdjust", "Table Check:");
@@ -6483,6 +7325,30 @@ left join startsmonthadjust using (monthID, sourceTypeID)
 join (select count(*) as n from startsmonthadjust) as t2
 where monthAdjustment is NULL and n > 0
 ORDER BY monthID, sourceTypeID LIMIT 1;
+
+--       check no. 4604: check column type definitions for input db mismatches with default db
+INSERT INTO QA_Checks_Log values (4604, 'OK', @hVersion, curDate(), curTime());
+INSERT INTO CDB_Checks
+		( TableName,
+		  CheckNumber,
+		  TestDescription,
+		  TestValue)
+SELECT 'startsMonthAdjust' as TableName, 
+		4604 as CheckNumber, 
+		'Incorrect Column Definition' as TestDescription, 
+		concat('Expected ', column_name, ' to be of type ', t2.column_type, '(', 
+				case when t2.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t2.column_key <> '' then concat(',key:', t2.column_key) else '' end, 
+				') but is of type ', t1.column_type, '(',
+				case when t1.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t1.column_key <> '' then concat(',key:', t1.column_key) else '' end, 
+				')'
+		) as TestValue
+from (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##inputdb##' and table_name = 'startsmonthadjust') t1 
+join (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##defaultdb##' and table_name = 'startsmonthadjust') t2 using (column_name)
+where t1.column_type <> t2.column_type or t1.is_nullable <> t2.is_nullable or t1.column_key <> t2.column_key;
 
 
 -- startsopmodedistribution
@@ -6704,6 +7570,30 @@ join (select count(*) as n from startsopmodedistribution) as t2
 where opModeFraction is NULL and n > 0
 ORDER BY dayID, hourID, sourceTypeID, ageID, opModeID LIMIT 1;
 
+--       check no. 4709: check column type definitions for input db mismatches with default db
+INSERT INTO QA_Checks_Log values (4709, 'OK', @hVersion, curDate(), curTime());
+INSERT INTO CDB_Checks
+		( TableName,
+		  CheckNumber,
+		  TestDescription,
+		  TestValue)
+SELECT 'startsOpModeDistribution' as TableName, 
+		4709 as CheckNumber, 
+		'Incorrect Column Definition' as TestDescription, 
+		concat('Expected ', column_name, ' to be of type ', t2.column_type, '(', 
+				case when t2.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t2.column_key <> '' then concat(',key:', t2.column_key) else '' end, 
+				') but is of type ', t1.column_type, '(',
+				case when t1.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t1.column_key <> '' then concat(',key:', t1.column_key) else '' end, 
+				')'
+		) as TestValue
+from (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##inputdb##' and table_name = 'startsopmodedistribution') t1 
+join (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##defaultdb##' and table_name = 'startsopmodedistribution') t2 using (column_name)
+where t1.column_type <> t2.column_type or t1.is_nullable <> t2.is_nullable or t1.column_key <> t2.column_key;
+
 
 -- startsPerDay
 Insert into CDB_Checks (CheckNumber, TableName, TestDescription) values (4800, "startsPerDay", "Table Check:");
@@ -6787,6 +7677,30 @@ left join startsperday using (dayID, sourceTypeID)
 join (select count(*) as n from startsperday) as t2
 where startsPerDay.startsPerDay is NULL and n > 0
 ORDER BY dayID, sourceTypeID LIMIT 1;
+
+--       check no. 4804: check column type definitions for input db mismatches with default db
+INSERT INTO QA_Checks_Log values (4804, 'OK', @hVersion, curDate(), curTime());
+INSERT INTO CDB_Checks
+		( TableName,
+		  CheckNumber,
+		  TestDescription,
+		  TestValue)
+SELECT 'startsPerDay' as TableName, 
+		4804 as CheckNumber, 
+		'Incorrect Column Definition' as TestDescription, 
+		concat('Expected ', column_name, ' to be of type ', t2.column_type, '(', 
+				case when t2.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t2.column_key <> '' then concat(',key:', t2.column_key) else '' end, 
+				') but is of type ', t1.column_type, '(',
+				case when t1.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t1.column_key <> '' then concat(',key:', t1.column_key) else '' end, 
+				')'
+		) as TestValue
+from (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##inputdb##' and table_name = 'startsperday') t1 
+join (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##defaultdb##' and table_name = 'startsperday') t2 using (column_name)
+where t1.column_type <> t2.column_type or t1.is_nullable <> t2.is_nullable or t1.column_key <> t2.column_key;
 
 
 -- startsPerDayPerVehicle
@@ -6872,6 +7786,30 @@ left join startsPerDayPerVehicle using (dayID, sourceTypeID)
 join (select count(*) as n from startsPerDayPerVehicle) as t2
 where startsPerDayPerVehicle.startsPerDayPerVehicle is NULL and n > 0
 ORDER BY dayID, sourceTypeID LIMIT 1;
+
+--       check no. 4904: check column type definitions for input db mismatches with default db
+INSERT INTO QA_Checks_Log values (4904, 'OK', @hVersion, curDate(), curTime());
+INSERT INTO CDB_Checks
+		( TableName,
+		  CheckNumber,
+		  TestDescription,
+		  TestValue)
+SELECT 'startsPerDayPerVehicle' as TableName, 
+		4904 as CheckNumber, 
+		'Incorrect Column Definition' as TestDescription, 
+		concat('Expected ', column_name, ' to be of type ', t2.column_type, '(', 
+				case when t2.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t2.column_key <> '' then concat(',key:', t2.column_key) else '' end, 
+				') but is of type ', t1.column_type, '(',
+				case when t1.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t1.column_key <> '' then concat(',key:', t1.column_key) else '' end, 
+				')'
+		) as TestValue
+from (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##inputdb##' and table_name = 'startsperdaypervehicle') t1 
+join (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##defaultdb##' and table_name = 'startsperdaypervehicle') t2 using (column_name)
+where t1.column_type <> t2.column_type or t1.is_nullable <> t2.is_nullable or t1.column_key <> t2.column_key;
 
 
 -- zoneMonthHour
@@ -7035,6 +7973,30 @@ join (select count(*) as n from zonemonthhour) as t2
 where (temperature is NULL or relHumidity is NULL) and n > 0
 ORDER BY monthID, zoneID, hourID LIMIT 1;
 
+--       check no. 5007: check column type definitions for input db mismatches with default db
+INSERT INTO QA_Checks_Log values (5007, 'OK', @hVersion, curDate(), curTime());
+INSERT INTO CDB_Checks
+		( TableName,
+		  CheckNumber,
+		  TestDescription,
+		  TestValue)
+SELECT 'zoneMonthHour' as TableName, 
+		5007 as CheckNumber, 
+		'Incorrect Column Definition' as TestDescription, 
+		concat('Expected ', column_name, ' to be of type ', t2.column_type, '(', 
+				case when t2.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t2.column_key <> '' then concat(',key:', t2.column_key) else '' end, 
+				') but is of type ', t1.column_type, '(',
+				case when t1.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t1.column_key <> '' then concat(',key:', t1.column_key) else '' end, 
+				')'
+		) as TestValue
+from (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##inputdb##' and table_name = 'zonemonthhour') t1 
+join (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##defaultdb##' and table_name = 'zonemonthhour') t2 using (column_name)
+where t1.column_type <> t2.column_type or t1.is_nullable <> t2.is_nullable or t1.column_key <> t2.column_key;
+
 
 -- zoneRoadType
 Insert into CDB_Checks (CheckNumber, TableName, TestDescription) values (5100, "zoneRoadType", "Table Check:");
@@ -7135,6 +8097,30 @@ from (
 ) as t1 left join zoneroadtype using (zoneID, roadTypeID)
 where SHOAllocFactor is NULL 
 ORDER BY zoneID, roadTypeID LIMIT 1;
+
+--       check no. 5105: check column type definitions for input db mismatches with default db
+INSERT INTO QA_Checks_Log values (5105, 'OK', @hVersion, curDate(), curTime());
+INSERT INTO CDB_Checks
+		( TableName,
+		  CheckNumber,
+		  TestDescription,
+		  TestValue)
+SELECT 'zoneRoadType' as TableName, 
+		5105 as CheckNumber, 
+		'Incorrect Column Definition' as TestDescription, 
+		concat('Expected ', column_name, ' to be of type ', t2.column_type, '(', 
+				case when t2.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t2.column_key <> '' then concat(',key:', t2.column_key) else '' end, 
+				') but is of type ', t1.column_type, '(',
+				case when t1.is_nullable = 'YES' then 'NULL' else 'NOT NULL' end, 
+				case when t1.column_key <> '' then concat(',key:', t1.column_key) else '' end, 
+				')'
+		) as TestValue
+from (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##inputdb##' and table_name = 'zoneroadtype') t1 
+join (select column_name, column_type, is_nullable, column_key from information_schema.columns 
+		where table_schema = '##defaultdb##' and table_name = 'zoneroadtype') t2 using (column_name)
+where t1.column_type <> t2.column_type or t1.is_nullable <> t2.is_nullable or t1.column_key <> t2.column_key;
 -- ##############################################################################
 -- End data QA checks
 -- ##############################################################################

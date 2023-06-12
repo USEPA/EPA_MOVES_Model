@@ -180,7 +180,7 @@ public class MeteorologyGenerator extends Generator {
 					" WHERE temperature >= 78.0 ";
 			SQLRunner.executeSQL(db,sql);
 
-			sql = "DROP TABLE IF EXISTS TKT0";
+			sql = "DROP TABLE IF EXISTS TK";
 			SQLRunner.executeSQL(db,sql);
 
 			/**
@@ -188,28 +188,62 @@ public class MeteorologyGenerator extends Generator {
 			 * @algorithm TK = 0.56*(temperature-32)+273 AS TK.
 			 * T0 = 374.27-0.56*(temperature-32).
 			 * @input ZoneMonthHour
-			 * @output TKT0
+			 * @output TK
 			**/
-			sql = "CREATE TABLE TKT0 SELECT monthID, zoneID, hourID, relHumidity, " +
-					"0.56*(temperature-32)+273 AS TK, 374.27-0.56*(temperature-32) AS T0 " +
+			sql = "CREATE TABLE TK SELECT monthID, zoneID, hourID, relHumidity, " +
+					"(5/9)*(temperature-32)+273.15 AS TK " +
 					"FROM ZoneMonthHour";
 			SQLRunner.executeSQL(db,sql);
-
-			sql = "DROP TABLE IF EXISTS PV";
-			SQLRunner.executeSQL(db,sql);
-
+			
 			/**
 			 * @step 010
-			 * @algorithm PB = barometricPressure.
-			 * PV = (relHumidity/100)*6527.557*POW(10,(-T0/TK)*((3.2437+0.00588*T0+0.000000011702*POW(T0,3))/(1+0.00219*T0))).
-			 * @input Zone
-			 * @input County
-			 * @input TKT0
+			 * @algorithm calculate vapor pressure of water at saturation temperature, PH2O (kPa)
+			 * @input TK
+			 * @output PH2O
+			**/
+			sql = "DROP TABLE IF EXISTS PH2O";
+			SQLRunner.executeSQL(db,sql);
+
+			sql = "CREATE TABLE PH2O SELECT monthID, zoneID, hourID, relHumidity, TK, " +
+					"POW(10, 10.79574*(1-273.15/TK)" +
+						   "-5.028*LOG10(TK/273.15)" +
+						   "+1.50475*POW(10,-4) * (1-POW(10, -8.2969*(TK/273.15-1)))" +
+						   "+0.42873*POW(10,-3) * (POW(10,4.76955*(1-273.15/TK )) -1)" + 
+						   "-0.2138602) as PH2O" +
+				   " FROM TK";
+		    SQLRunner.executeSQL(db,sql);
+			
+			/** 
+			 * @step 010
+			 * @algorithm calculate H2O mole fraction, XH2O (mole H2O / mole ambient air)
+			 * @input PH2O
+			 * @input relHumidity
+			 * @input PB
+			 * @output XH2O
+			**/
+			sql = "DROP TABLE IF EXISTS XH2O";
+			SQLRunner.executeSQL(db,sql);
+			
+			sql = "CREATE TABLE XH2O SELECT monthID, zoneID, hourID, relHumidity, TK, PH2O, barometricPressure as PB, " +
+					"((relHumidity/100) * PH2O) / (barometricPressure * 3.38639) as XH2O" +
+				  " FROM PH2O" +
+				  " INNER JOIN Zone z USING (zoneID) INNER JOIN County USING (countyID)";
+			SQLRunner.executeSQL(db,sql);
+					
+			
+			/**
+			 * step 010
+			 * @algorithm calculate PV (kPa)
+			 * @input relHumidity
+			 * @input PH2O
 			 * @output PV
 			**/
-			sql = "CREATE TABLE PV SELECT monthID, z.zoneID, hourID, barometricPressure AS PB, " +
-					"(relHumidity/100)*6527.557*POW(10,(-T0/TK)*((3.2437+0.00588*T0+ " +
-					"0.000000011702*POW(T0,3))/(1+0.00219*T0))) AS PV FROM TKT0 " +
+			sql = "DROP TABLE IF EXISTS PV";
+			SQLRunner.executeSQL(db,sql);
+			
+			sql = "CREATE TABLE PV SELECT monthID, zoneID, hourID, PB, TK, PH2O, XH2O," +
+					"relHumidity/100 * PH2O as PV " +
+					"FROM XH2O " +
 					"INNER JOIN Zone z USING (zoneID) INNER JOIN County USING (countyID)";
 			SQLRunner.executeSQL(db,sql);
 
@@ -217,20 +251,28 @@ public class MeteorologyGenerator extends Generator {
 					+ "(monthID ASC, zoneID ASC, hourID ASC)";
 			SQLRunner.executeSQL(db,sql);
 
-			sql = "DROP TABLE TKT0";
-			SQLRunner.executeSQL(db,sql);
+			// sql = "DROP TABLE TK";
+			// SQLRunner.executeSQL(db,sql);
 
 			/**
 			 * @step 010
-			 * @algorithm specificHumidity=4347.8*PV/(PB-PV).
+			 * @algorithm calculate specificHumidity (grams H2O / kg dry air)
 			 * @input PV
+			 * @input PB
 			 * @output ZoneMonthHour
 			**/
-			sql = "UPDATE ZoneMonthHour, PV SET ZoneMonthHour.specificHumidity=4347.8*PV/(PB-PV) "+
+			sql = "UPDATE ZoneMonthHour, PV SET ZoneMonthHour.specificHumidity=(621.1 * PV) / (PB * 3.38639 - PV), ZoneMonthHour.molWaterFraction = XH2O "+
 					"WHERE ZoneMonthHour.monthID = PV.monthID AND ZoneMonthHour.zoneID = " +
 					"PV.zoneID AND ZoneMonthHour.hourID = PV.hourID";
 			SQLRunner.executeSQL(db,sql);
 
+			// cleanup intermediate tables
+			sql = "DROP TABLE TK";
+			SQLRunner.executeSQL(db,sql);
+			sql = "DROP TABLE PH2O";
+			SQLRunner.executeSQL(db,sql);
+			sql = "DROP TABLE XH2O";
+			SQLRunner.executeSQL(db,sql);
 			sql = "DROP TABLE PV";
 			SQLRunner.executeSQL(db,sql);
 		} catch (SQLException e) {

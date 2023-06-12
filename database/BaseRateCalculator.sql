@@ -30,13 +30,31 @@ CREATE TABLE EmissionRateAdjustmentWorker
 );
 TRUNCATE EmissionRateAdjustmentWorker;
 
+-- this is the table used by the worker; it only holds the rows necessary for this bundle
+-- (i.e., begin/end model year values get converted into rows for just the appropriate 
+--  modelYearIDs with the correct corresponding ageGroupID, etc.)
+-- it also has a fuelTypeID column, unlike the default database version, to explicitly note
+-- that these are for EVs only
+CREATE TABLE evefficiencyWorker
+(	
+	polProcessID			int(11)			not null,
+	sourceTypeID			smallint(6)		not null,
+	regClassID				smallint(6)		not null,
+    fuelTypeID              smallint(6)     not null,
+	modelYearID		        smallint(6)		not null,
+	batteryEfficiency       double null default NULL,
+	chargingEfficiency		double null default NULL,
+	primary key (polProcessID, sourceTypeID, ageGroupID, regClassID, modelYearID)
+);
+TRUNCATE evefficiencyWorker;
+
 ##create.FuelType##;
 TRUNCATE TABLE FuelType;
 
 create table if not exists LocalFuelSupply (
 	fuelTypeID smallint not null,
 	fuelSubtypeID smallint not null,
-	fuelFormulationID smallint not null,
+	fuelFormulationID int(11) not null,
 	marketShare double not null,
 	primary key (fuelFormulationID),
 	key (fuelTypeID, fuelSubtypeID, fuelFormulationID, marketShare),
@@ -80,6 +98,9 @@ TRUNCATE TABLE StartTempAdjustment;
 
 ##create.TemperatureAdjustment##;
 TRUNCATE TABLE TemperatureAdjustment;
+
+##create.noxhumidityadjust##;
+TRUNCATE TABLE noxhumidityadjust;
 
 -- Section GetActivity
 create table if not exists universalActivity (
@@ -127,9 +148,25 @@ create table if not exists smfrSBDSummary (
 truncate smfrSBDSummary;
 -- End Section AggregateSMFR
 
+-- Section Process90
+-- Section AdjustExtendedIdleEmissionRate
+create table if not exists extendedIdleEmissionRateFraction (
+	modelYearID smallint not null,
+	hourFractionAdjust double not null,
+	primary key (modelYearID)
+);
+-- End Section AdjustExtendedIdleEmissionRate
+-- End Section Process90
+
+
 -- Section Process91
 -- Section AdjustAPUEmissionRate
 create table if not exists apuEmissionRateFraction (
+	modelYearID smallint not null,
+	hourFractionAdjust double not null,
+	primary key (modelYearID)
+);
+create table if not exists shorepowerEmissionRateFraction (
 	modelYearID smallint not null,
 	hourFractionAdjust double not null,
 	primary key (modelYearID)
@@ -158,6 +195,28 @@ INTO OUTFILE '##EmissionRateAdjustmentWorker##'
 FROM EmissionRateAdjustment era 
 INNER JOIN pollutantprocessassoc USING (polprocessID)
 INNER JOIN modelyear
+WHERE processID = ##context.iterProcess.databaseKey##
+AND pollutantID in (##pollutantIDs##)
+AND modelYearID >= ##context.year##-30
+AND modelYearID <= ##context.year##
+AND endmodelYearID >= modelYearID
+AND beginmodelYearID <= modelYearID;
+
+-- @algorithm Create evefficiency by modelyear with the correct age
+-- @output evefficiencyWorker
+cache SELECT 
+	ev.polProcessID,
+	sourceTypeID,
+	regClassID,
+    9 as fuelTypeID,
+	modelYearID,
+	batteryEfficiency,
+	chargingEfficiency
+INTO OUTFILE '##evefficiencyWorker##'
+FROM evefficiency ev 
+INNER JOIN pollutantprocessassoc USING (polprocessID)
+INNER JOIN modelyear
+INNER JOIN agecategory a on (ageID = ##context.year##-modelYearID AND ev.ageGroupID = a.ageGroupID)
 WHERE processID = ##context.iterProcess.databaseKey##
 AND pollutantID in (##pollutantIDs##)
 AND modelYearID >= ##context.year##-30
@@ -437,7 +496,11 @@ FROM TemperatureAdjustment
 WHERE polProcessID IN (##pollutantProcessIDs##)
 AND fuelTypeID in (##macro.csv.all.fuelTypeID##);
 
-SELECT monthID, zoneID, hourID, temperature, temperatureCV, relHumidity, heatIndex, specificHumidity, relativeHumidityCV
+cache SELECT fuelTypeID, humidityNOxEq, humidityTermA, humidityTermB, humidityLowBound, humidityUpBound, humidityUnits
+INTO OUTFILE '##noxhumidityadjust##'
+FROM noxhumidityadjust;
+
+SELECT monthID, zoneID, hourID, temperature, relHumidity, heatIndex, specificHumidity, molWaterFraction
 INTO OUTFILE '##ZoneMonthHour##'
 FROM ZoneMonthHour
 WHERE zoneID = ##context.iterLocation.zoneRecordID##
@@ -494,30 +557,53 @@ and zoneID = ##context.iterLocation.zoneRecordID##;
 
 -- Section Process90
 
--- @algorithm activity=extendedIdleHours
+-- @algorithm activity=hotellingHours
 -- @condition Extended Idle Exhaust
-select ExtendedIdleHours.hourDayID, ##context.year##-ageID as modelYearID, sourceTypeID, extendedIdleHours as activity
+select hotellingHours.hourDayID, ##context.year##-ageID as modelYearID, sourceTypeID, sum(hotellingHours) as activity
 	into outfile '##universalActivity##'
-from ExtendedIdleHours
+from hotellingHours
 inner join RunSpecHourDay using (hourDayID)
 where monthID = ##context.monthID##
 and yearID = ##context.year##
 and zoneID = ##context.iterLocation.zoneRecordID##
-and sourceTypeID=62;
+and sourceTypeID=62
+group by hotellingHours.hourDayID, ageID, sourceTypeID;
+
+-- Section AdjustExtendedIdleEmissionRate
+
+-- @algorithm hourFractionAdjust=opModeFraction[opModeID=200].
+-- @input hotellingActivityDistribution
+-- @output extendedIdleEmissionRateFraction
+-- @condition Auxiliary Power Exhaust
+cache select modelYearID, fuelTypeID, opModeFraction as hourFractionAdjust
+	into outfile '##extendedIdleEmissionRateFraction##'
+from hotellingActivityDistribution
+inner join RunspecModelYearAge on (
+	beginModelYearID <= modelYearID
+	and endModelYearID >= modelYearID)
+where modelYearID <= ##context.year##
+and modelYearID >= ##context.year## - 30
+and yearID = ##context.year##
+and opModeID = 200
+and fuelTypeID in (##macro.csv.all.fuelTypeID##)
+and zoneID = ##hotellingActivityZoneID##;
+
+-- End Section AdjustExtendedIdleEmissionRate
 -- End Section Process90
 
 -- Section Process91
 
 -- @algorithm activity=hotellingHours
 -- @condition Auxiliary Power Exhaust
-select HotellingHours.hourDayID, ##context.year##-ageID as modelYearID, sourceTypeID, hotellingHours as activity
+select HotellingHours.hourDayID, ##context.year##-ageID as modelYearID, sourceTypeID, sum(hotellingHours) as activity
 	into outfile '##universalActivity##'
 from HotellingHours
 inner join RunSpecHourDay using (hourDayID)
 where monthID = ##context.monthID##
 and yearID = ##context.year##
 and zoneID = ##context.iterLocation.zoneRecordID##
-and sourceTypeID=62;
+and sourceTypeID=62
+group by HotellingHours.hourDayID, ageID, sourceTypeID;
 
 -- Section AdjustAPUEmissionRate
 
@@ -525,7 +611,7 @@ and sourceTypeID=62;
 -- @input hotellingActivityDistribution
 -- @output apuEmissionRateFraction
 -- @condition Auxiliary Power Exhaust
-cache select modelYearID, opModeFraction as hourFractionAdjust
+cache select modelYearID, fuelTypeID, opModeFraction as hourFractionAdjust
 	into outfile '##apuEmissionRateFraction##'
 from hotellingActivityDistribution
 inner join RunspecModelYearAge on (
@@ -535,6 +621,24 @@ where modelYearID <= ##context.year##
 and modelYearID >= ##context.year## - 30
 and yearID = ##context.year##
 and opModeID = 201
+and fuelTypeID in (##macro.csv.all.fuelTypeID##)
+and zoneID = ##hotellingActivityZoneID##;
+
+-- @algorithm hourFractionAdjust=opModeFraction[opModeID=201].
+-- @input hotellingActivityDistribution
+-- @output shorepowerEmissionRateFraction
+-- @condition Auxiliary Power Exhaust
+cache select modelYearID, fuelTypeID, opModeFraction as hourFractionAdjust
+	into outfile '##shorepowerEmissionRateFraction##'
+from hotellingActivityDistribution
+inner join RunspecModelYearAge on (
+	beginModelYearID <= modelYearID
+	and endModelYearID >= modelYearID)
+where modelYearID <= ##context.year##
+and modelYearID >= ##context.year## - 30
+and yearID = ##context.year##
+and opModeID = 203
+and fuelTypeID in (##macro.csv.all.fuelTypeID##)
 and zoneID = ##hotellingActivityZoneID##;
 
 -- End Section AdjustAPUEmissionRate
@@ -571,8 +675,6 @@ order by null;
 
 -- Section Processing
 
-alter table FuelType add key speed1 (fuelTypeID, humidityCorrectionCoeff);
-analyze table FuelType;
 
 alter table ZoneMonthHour add key speed1 (hourID, monthID, zoneID, temperature, specificHumidity, heatIndex);
 analyze table ZoneMonthHour;
@@ -723,7 +825,7 @@ alter table BaseRateOutputWithFuel add column emissionRateIM float default '0';
 alter table BaseRateOutputWithFuel add column opModeID smallint not null default '0';
 alter table BaseRateOutputWithFuel add column generalFraction float not null default '0';
 alter table BaseRateOutputWithFuel add column generalFractionRate float not null default '0';
-alter table BaseRateOutputWithFuel add column fuelFormulationID smallint not null default '0';
+alter table BaseRateOutputWithFuel add column fuelFormulationID int(11) not null default '0';
 alter table BaseRateOutputWithFuel add column fuelSubtypeID smallint not null default '0';
 alter table BaseRateOutputWithFuel add column polProcessID int not null default '0';
 alter table BaseRateOutputWithFuel add column fuelMarketShare double not null default '0';
@@ -793,7 +895,7 @@ alter table BaseRateOutputWithFuel add column heatIndex float null;
 update BaseRateOutputWithFuel, ZoneMonthHour, FuelType
 set BaseRateOutputWithFuel.temperature = ZoneMonthHour.temperature,
 	BaseRateOutputWithFuel.specificHumidity = ZoneMonthHour.specificHumidity,
-	BaseRateOutputWithFuel.K = 1.0 - ((greatest(21.0, least(ZoneMonthHour.specificHumidity, 124.0))) - 75.0) * FuelType.humidityCorrectionCoeff,
+	BaseRateOutputWithFuel.K = 1.0
 	BaseRateOutputWithFuel.heatIndex = ZoneMonthHour.heatIndex
 where BaseRateOutputWithFuel.zoneID = ZoneMonthHour.zoneID
 and BaseRateOutputWithFuel.monthID = ZoneMonthHour.monthID
@@ -990,7 +1092,7 @@ alter table BaseRateOutputWithFuel add column heatIndex float null;
 update BaseRateOutputWithFuel, ZoneMonthHour, FuelType
 set BaseRateOutputWithFuel.temperature = ZoneMonthHour.temperature,
 	BaseRateOutputWithFuel.specificHumidity = ZoneMonthHour.specificHumidity,
-	BaseRateOutputWithFuel.K = 1.0 - ((greatest(21.0, least(ZoneMonthHour.specificHumidity, 124.0))) - 75.0) * FuelType.humidityCorrectionCoeff,
+	BaseRateOutputWithFuel.K = 1.0
 	BaseRateOutputWithFuel.heatIndex = ZoneMonthHour.heatIndex
 where BaseRateOutputWithFuel.zoneID = ZoneMonthHour.zoneID
 and BaseRateOutputWithFuel.monthID = ZoneMonthHour.monthID
@@ -1211,6 +1313,22 @@ where BaseRateOutputWithFuel.polprocessID = EmissionRateAdjustmentWorker.polproc
 	and BaseRateOutputWithFuel.modelYearID = EmissionRateAdjustmentWorker.modelYearID;
 
 -- End Section EmissionRateAdjustment
+
+-- Section evefficiency
+
+-- @algorithm emissionRate=emissionRate/(batteryEfficiency*chargingEfficiency), 
+--            meanbaserate=meanbaserate/(batteryEfficiency*chargingEfficiency)
+update BaseRateOutputWithFuel, evefficiencyWorker
+set
+	emissionRate=emissionRate/(batteryEfficiency*chargingEfficiency),
+	meanbaserate=meanbaserate/(batteryEfficiency*chargingEfficiency)
+where BaseRateOutputWithFuel.polprocessID = evefficiencyWorker.polprocessID
+	and BaseRateOutputWithFuel.sourceTypeID = evefficiencyWorker.sourceTypeID
+	and BaseRateOutputWithFuel.fuelTypeID = evefficiencyWorker.fuelTypeID
+	and BaseRateOutputWithFuel.regClassID = evefficiencyWorker.regClassID
+	and BaseRateOutputWithFuel.modelYearID = evefficiencyWorker.modelYearID;
+
+-- End Section evefficiency
 
 alter table BaseRateOutputWithFuel add key (
 	sourceTypeID, avgSpeedBinID, hourDayID,

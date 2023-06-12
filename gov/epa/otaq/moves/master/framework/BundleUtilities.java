@@ -21,8 +21,6 @@ public class BundleUtilities {
 	/** true when tables should NOT be dropped in the MOVESWorker database **/
 	public static final boolean debugTablesOnWorker = false; // true;
 
-	/** cached CASE statement for use with the temperatureFactorExpression table **/
-	static String temperatureFactorExpressionCache = null;
 	/** cache of fuel year IDs keyed by year ID **/
 	static TreeMap<Integer,Integer> fuelYearFromYearCache = null;
 	/** cache of fuel region IDs keyed by county ID **/
@@ -30,61 +28,8 @@ public class BundleUtilities {
 
 	/** Clear any cached data. Use before any run. **/
 	public static void resetCachedData() {
-		temperatureFactorExpressionCache = null;
 		fuelYearFromYearCache = null;
 		fuelRegionFromCountyCache = null;
-	}
-
-	/** Build and cache a CASE statement for use with the temperatureFactorExpression table **/
-	private static void buildTemperatureExpressionCase() {
-		if(temperatureFactorExpressionCache != null) {
-			return;
-		}
-		Connection db = null;
-		SQLRunner.Query query = new SQLRunner.Query();
-		String sql = "";
-		try {
-			ArrayList<String> expressions = new ArrayList<String>();
-			db = DatabaseConnectionManager.checkOutConnection(MOVESDatabaseType.EXECUTION);
-			sql = "select distinct tempCorrectionExpression from temperatureFactorExpression";
-			query.open(db,sql);
-			while(query.rs.next()) {
-				String t = StringUtilities.safeGetString(query.rs.getString(1));
-				if(t.length() > 0) {
-					expressions.add(t);
-				}
-			}
-			query.close();
-			/*
-				(case
-				when tempCorrectionExpression='t1' then ( (temperature+4)*relHumidity )
-				when 1=0 then 1 else 1
-				end)
-			*/
-			temperatureFactorExpressionCache = "(case \n";
-			for(int i=0;i<expressions.size();i++) {
-				String e = expressions.get(i);
-				sql = "update temperatureFactorExpression set tempCorrectionExpression='t" + i + "'"
-						+ " where tempCorrectionExpression="
-						+ DatabaseUtilities.escapeSQL(e,true);
-				SQLRunner.executeSQL(db,sql);
-				
-				temperatureFactorExpressionCache += " when tempCorrectionExpression='t" + i + "'"
-						+ " then (" + e + ") \n";
-			}
-			temperatureFactorExpressionCache += " when 1=0 then 1 else 1 end) \n";
-		} catch(Exception e) {
-			Logger.logSqlError(e,"Unable to build temperature adjustment expressions",sql);
-			// Set a default that doesn't break SQL statements
-			temperatureFactorExpressionCache = "(case \n";
-			temperatureFactorExpressionCache += " when 1=0 then 1 else 1 end) \n";
-		} finally {
-			query.onFinally();
-			if(db != null) {
-				DatabaseConnectionManager.checkInConnection(MOVESDatabaseType.EXECUTION,db);
-				db = null;
-			}
-		}
 	}
 
 	/** Populate the cache of fuel year given a year **/
@@ -205,8 +150,6 @@ public class BundleUtilities {
 			TreeSetIgnoreCase enabledSectionNames,SQLForWorker sqlForWorker,
 			boolean shouldSaveData,
 			String timerName) {
-		// Build the temperature adjustment CASE statement
-		buildTemperatureExpressionCase();
 		buildFuelYearFromYearCache();
 
 		// create a DefaultDataMaker object to include default values in the worker SQLs
@@ -229,7 +172,6 @@ public class BundleUtilities {
 		String processID = Integer.valueOf(context.iterProcess.databaseKey).toString();
 		replacements.put("##context.iterProcess.databaseKey##",processID);
 		replacements.put("##context.allCurrentProcesses##",context.getAllProcessesCSV());
-		replacements.put("##context.temperatureFactorExpression##",StringUtilities.safeGetString(temperatureFactorExpressionCache));
 
 		OutputEmissionsBreakdownSelection outputEmissionsBreakdownSelection =
 				ExecutionRunSpec.theExecutionRunSpec.getOutputEmissionsBreakdownSelection();

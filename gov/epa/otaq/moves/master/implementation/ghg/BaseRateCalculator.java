@@ -260,7 +260,7 @@ public class BaseRateCalculator extends EmissionCalculator
 			if(query.rs.next()) {
 				sbdPolProcessID = query.rs.getString(1);
 			}
-			if(91 == context.iterProcess.databaseKey) {
+			if(90 == context.iterProcess.databaseKey || 91 == context.iterProcess.databaseKey) {
 				int hotellingActivityZoneID = TotalActivityGenerator.findHotellingActivityDistributionZoneIDToUse(executionDatabase,context.iterLocation.stateRecordID,context.iterLocation.zoneRecordID);
 				replacements.put("##hotellingActivityZoneID##",""+hotellingActivityZoneID);
 			}
@@ -389,8 +389,13 @@ public class BaseRateCalculator extends EmissionCalculator
 
 		// EM- we no longer only want the operating mode adjustment to happen in inventory once we add ONI to the model.
 		//if(ExecutionRunSpec.theExecutionRunSpec.getModelScale() != ModelScale.MESOSCALE_LOOKUP) {
-			// For inventory, APU rates need to be multiplied by zone-specific operating mode fraction
-			// spent using a diesel APU (opModeID 201).
+			// Extended Idle rates need to be multiplied by zone-specific operating mode fraction
+			// spent using extended idling (opModeID 200).
+			if(90 == context.iterProcess.databaseKey) {
+				enabledSectionNames.add("AdjustExtendedIdleEmissionRate");
+			}
+			// APU and shorepower rates need to be multiplied by zone-specific operating mode fraction
+			// spent using a diesel APU or in shorepower mode (opModeIDs 201 and 203).
 			if(91 == context.iterProcess.databaseKey) {
 				enabledSectionNames.add("AdjustAPUEmissionRate");
 			}
@@ -417,6 +422,9 @@ public class BaseRateCalculator extends EmissionCalculator
 		if(CompilationFlags.USE_EMISSIONRATEADJUSTMENT_FACTOR) {
 			enabledSectionNames.add("EmissionRateAdjustment");
 		}
+
+        // always run evefficiency section
+        enabledSectionNames.add("evefficiency");
 
 		// Pass section names as flags to the external calculator
 		for(String s : enabledSectionNames) {

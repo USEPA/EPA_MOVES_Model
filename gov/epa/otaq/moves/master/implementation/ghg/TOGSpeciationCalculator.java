@@ -75,14 +75,7 @@ public class TOGSpeciationCalculator extends EmissionCalculator {
 		}
 		int mechanismID = 1 + ((mechanismPollutant.databaseKey - 1000) / 500);
 		SQLRunner.Query query = new SQLRunner.Query();
-		String sql = "select distinct processID"
-				+ " from integratedSpeciesSet iss"
-				+ " inner join TOGSpeciationProfile sp on ("
-				+ " 	sp.mechanismID = iss.mechanismID"
-				+ " 	and sp.integratedSpeciesSetID = iss.integratedSpeciesSetID"
-				+ " 	and iss.useISSyn='Y')"
-				+ " inner join TOGSpeciation spec on (spec.togSpeciationProfileID = sp.togSpeciationProfileID)"
-				+ " where iss.mechanismID=" + mechanismID;
+		String sql = "select distinct processID from rocspeciation where togSpeciationProfileID is not null";
 		try {
 			ArrayList<EmissionProcess> processes = new ArrayList<EmissionProcess>();
 			query.open(db,sql);
@@ -125,11 +118,6 @@ public class TOGSpeciationCalculator extends EmissionCalculator {
 		String sql = "select distinct pollutantID"
 				+ " from integratedSpeciesSet"
 				+ " where useISSyn='Y'"
-				+ " and mechanismID=" + mechanismID
-				+ " union"
-				+ " select distinct pollutantID"
-				+ " from togSpeciationProfile"
-				+ " where pollutantID <> 88"
 				+ " and mechanismID=" + mechanismID;
 		try {
 			ArrayList<PollutantProcessAssociation> results = new ArrayList<PollutantProcessAssociation>();
@@ -159,52 +147,6 @@ public class TOGSpeciationCalculator extends EmissionCalculator {
 			return results;
 		} catch(SQLException e) {
 			Logger.logError(e,"Unable to query mechanism prerequisites: " + sql);
-			throw e;
-		} finally {
-			query.onFinally();
-		}
-	}
-
-	/**
-	 * Retrieve the set of pollutant/process associations that result from
-	 * a mechanism. This includes on the lumped species, not NonHAPTOG.
-	 * @param db database to be used.
-	 * @param mechanism a pollutant/process association for a mechanism.
-	 * @return a list of pollutants/process associations, may be empty, never null.
-	 * @throws SQLException if anything goes wrong.
-	**/
-	public static ArrayList<PollutantProcessAssociation> getMechanismLumpedSpecies(Connection db,
-			PollutantProcessAssociation mechanism)
-			throws SQLException {
-		int mechanismID = 1 + ((mechanism.pollutant.databaseKey - 1000) / 500);
-		SQLRunner.Query query = new SQLRunner.Query();
-		String sql = "select distinct 1000+(iss.mechanismID-1)*500+lumpedSpeciesID as pollutantID"
-				+ " from integratedSpeciesSet iss"
-				+ " inner join TOGSpeciationProfile sp on ("
-				+ " 	sp.mechanismID = iss.mechanismID"
-				+ " 	and sp.integratedSpeciesSetID = iss.integratedSpeciesSetID"
-				+ " 	and iss.useISSyn='Y')"
-				+ " inner join TOGSpeciation spec on (spec.togSpeciationProfileID = sp.togSpeciationProfileID)"
-				+ " inner join lumpedSpeciesName using (lumpedSpeciesName)"
-				+ " where iss.mechanismID=" + mechanismID
-				+ " and spec.processID=" + mechanism.emissionProcess.databaseKey;
-		try {
-			ArrayList<PollutantProcessAssociation> results = new ArrayList<PollutantProcessAssociation>();
-			query.open(db,sql);
-			while(query.rs.next()) {
-				int pollutantID = query.rs.getInt(1);
-				Pollutant pollutant = Pollutant.findByID(pollutantID);
-				if(pollutant != null) {
-					PollutantProcessAssociation ppa = PollutantProcessAssociation.createByID(pollutant.databaseKey,mechanism.emissionProcess.databaseKey);
-					if(ppa != null) {
-						results.add(ppa);
-					}
-				}
-			}
-			query.close();
-			return results;
-		} catch(SQLException e) {
-			Logger.logError(e,"Unable to query mechanism results: " + sql);
 			throw e;
 		} finally {
 			query.onFinally();
@@ -258,15 +200,6 @@ public class TOGSpeciationCalculator extends EmissionCalculator {
 					if(!nonhapProcesses.contains(processID)) {
 						nonhapProcesses.add(processID);
 						EmissionCalculatorRegistration.register(nonhapTOG,ep,this);
-					}
-					// Register lumped species pollutants for each mechanism pollutant/process.
-					ArrayList<PollutantProcessAssociation> lumpedSpecies = getMechanismLumpedSpecies(db,mechanismPPA);
-					for(PollutantProcessAssociation lump : lumpedSpecies) {
-						String lumpedKey = "" + processID + "|" + lump.pollutant.databaseKey;
-						if(!lumpedProcesses.contains(lumpedKey)) {
-							lumpedProcesses.add(lumpedKey);
-							EmissionCalculatorRegistration.register(lump.pollutant,ep,this);
-						}
 					}
 				}
 			}

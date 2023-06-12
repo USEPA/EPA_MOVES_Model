@@ -383,6 +383,9 @@ public class ImporterBase implements IImporter, ICountyDataImporter, IProjectDat
 		for(Iterator<IImporterPart> i=parts.iterator();i.hasNext();) {
 			i.next().refreshFromAuditLog(db);
 		}
+        if(tabBaseProvider == null) {
+			tabBaseProvider = new ImporterTabBaseProvider();
+		}
 		tabBaseProvider.showMessages();
 		//Logger.log(LogMessageCategory.DEBUG,"ImporterBase.refreshFromAuditLog Done");
 	}
@@ -436,4 +439,15 @@ public class ImporterBase implements IImporter, ICountyDataImporter, IProjectDat
 		}
 		qualityMessages.clear();
 	}
+
+    /**
+     * Get the list of messages about the imported data
+     * @return an ArrayList holding String objects
+    **/
+    public ArrayList<String> getMessages() {
+        if(tabBaseProvider == null) {
+			tabBaseProvider = new ImporterTabBaseProvider();
+		}
+        return tabBaseProvider.getMessages();
+    }
 }

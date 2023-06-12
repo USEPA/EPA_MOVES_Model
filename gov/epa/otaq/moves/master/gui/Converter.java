@@ -29,7 +29,7 @@ import gov.epa.otaq.moves.master.runspec.*;
  * @author  	Bill Shaw (508 compliance mods)
  * @author  	John Covey (Task 1903)
  * @author		Mike Kender (Task 2003)
- * @version 	2020-08-13
+ * @version 	2022-11-16
 **/
 public class Converter extends JDialog implements ActionListener {
 	/** Mode for conversion of a 2010A CDM/PDM database into a 2010B database **/
@@ -37,14 +37,16 @@ public class Converter extends JDialog implements ActionListener {
 	/** Mode for conversion of a 2010B CDM/PDM database into a 2014 database **/
 	private static final int MODE_2010B_TO_2014 = 1; // deprecated
 	/** Mode for conversion of a 2014 CDM/PDM database into a 2014A database **/
-	public static final int MODE_2014_TO_3 = 2;
+	public static final int MODE_2014_TO_3 = 2; // deprecated
 	/** Mode for conversion of a 2014A CDM/PDM database into a 3 database **/
-	public static final int MODE_2014A_TO_3 = 3;
+	public static final int MODE_2014A_TO_3 = 3; // deprecated
+	/** Mode for conversion of a MOVES3 CDM/PDM database into a MOVES4 database **/
+	public static final int MODE_3_TO_4 = 4;
 
 	/** The parent JFrame which invokes this dialog. **/
 	JFrame frame;
 	/** Default conversion mode **/
-	int mode = MODE_2014A_TO_3;
+	int mode = MODE_3_TO_4;
 
 	/** Instructions display **/
 	JTextPane instructionsTextPane;
@@ -64,8 +66,10 @@ public class Converter extends JDialog implements ActionListener {
 	String outputDirectoryFullPath = "";
 	/** List of messages **/
 	JList<String> messagesList;
-	/** Button to create RunSpecs from the control file **/
-	JButton createRunSpecsButton;
+	/** Button to convert the selected database **/
+	JButton convertDatabaseButton;
+	/** Button to save messages **/
+	JButton saveMessagesButton;
 	/** Button to close the window **/
 	JButton doneButton;
 	/** Button to open help **/
@@ -151,7 +155,8 @@ public class Converter extends JDialog implements ActionListener {
 		JLabel label4 = new JLabel();
 		JLabel label5 = new JLabel();
 		JScrollPane scrollPane2 = new JScrollPane();
-		createRunSpecsButton = new JButton();
+		convertDatabaseButton = new JButton();
+		saveMessagesButton = new JButton();
 		doneButton = new JButton();
 		openHelpButton = new JButton();
 
@@ -163,7 +168,8 @@ public class Converter extends JDialog implements ActionListener {
 		ToolTipHelper.add(scrollPane2,"Displays messages, warnings, and errors");
 
 		browseControlFileButton.addActionListener(this);
-		createRunSpecsButton.addActionListener(this);
+		saveMessagesButton.addActionListener(this);
+		convertDatabaseButton.addActionListener(this);
 		doneButton.addActionListener(this);
 		openHelpButton.addActionListener(this);
 
@@ -213,19 +219,16 @@ public class Converter extends JDialog implements ActionListener {
 
 			//---- instructionsTextPane ----
 			switch(mode) {
-				case MODE_2014A_TO_3:
+				case MODE_3_TO_4:
 					doc.insertString(doc.getLength(),
-						"This tool converts MOVES2014a and MOVES2014b input databases for County, Project,"
-						+ " and Nonroad runs into the MOVES3 format. Note: this tool does not convert"
-						+ " MOVES2014 input databases. To convert those databases, select \""
-						+ Convert2014To3Action.NAME 
-						+ "\" from the Tools menu."
+						"This tool converts MOVES3 input databases for County, Project,"
+						+ " and Nonroad runs into the MOVES4 format. "
 						+ "\r\n\r\n"
 						+ "Use the default conversion script listed below unless you have a customized"
 						+ " conversion script to use instead. In this advanced use case, use the \"Browse\""
 						+ " button below to select your customized script."
 						+ "\r\n\r\n"
-						+ "To use this tool, select a MOVES2014a or MOVES2014b input database from the"
+						+ "To use this tool, select a MOVES3 input database from the"
 						+ " \"Input Database\" drop-down list below. Then enter the name of a new database"
 						+ " to receive the converted data as the \"New Database\". Use the \"Convert Database\""
 						+ " button to execute the script file.  When you've converted all the databases needed," 
@@ -239,36 +242,7 @@ public class Converter extends JDialog implements ActionListener {
 						normal);
 					doc.insertString(doc.getLength(),
 						"Note that additional work is needed before using the converted input databases"
-						+ " with MOVES3. Click the \"Open Help\" button for more information.",
-						bold);
-					break;
-				case MODE_2014_TO_3:
-					doc.insertString(doc.getLength(),
-						"This tool converts MOVES2014 input databases for County, Project, and Nonroad"
-						+ " runs into the MOVES3 format. Note: this tool does not convert MOVES2014a or"
-						+ " MOVES2014b input databases. To convert those databases, select \""
-						+ Convert2014aTo3Action.NAME 
-						+ "\" from the Tools menu."
-						+ "\r\n\r\n"
-						+ "Use the default conversion script listed below unless you have a customized"
-						+ " conversion script to use instead. In this advanced use case, use the \"Browse\""
-						+ " button below to select your customized script."
-						+ "\r\n\r\n"
-						+ "To use this tool, select a MOVES2014 input database from the"
-						+ " \"Input Database\" drop-down list below. Then enter the name of a new database"
-						+ " to receive the converted data as the \"New Database\". Use the \"Convert Database\""
-						+ " button to execute the script file.  When you've converted all the databases needed," 
-						+ " click \"Done\"."
-						+ "\r\n\r\n"
-						+ "To use a converted database with this RunSpec, select your new database from the"
-						+ " drop-down list on the Create Input Database Panel. If it does not automatically" 
-						+ " appear in the list, you may need to click the \"Refresh\" button on that panel" 
-						+ " first."
-						+ "\r\n\r\n",
-						normal);
-					doc.insertString(doc.getLength(),
-						"Note that additional work is needed before using the converted input databases"
-						+ " with MOVES3. Click the \"Open Help\" button for more information.",
+						+ " with MOVES4. Click the \"Open Help\" button for more information.",
 						bold);
 					break;
 				default:
@@ -389,15 +363,24 @@ public class Converter extends JDialog implements ActionListener {
 			label4.setDisplayedMnemonic('M');
 			label4.setLabelFor(scrollPane2);
 
-			//---- createRunSpecsButton ----
-			createRunSpecsButton.setText("Convert Database");
-			ToolTipHelper.add(createRunSpecsButton,"Apply the script file to the input database, creating the new database");
-			result.add(createRunSpecsButton, new GridBagConstraints(2, 10, 1, 1, 0.0, 0.0,
+			//---- convertDatabaseButton ----
+			convertDatabaseButton.setText("Convert Database");
+			ToolTipHelper.add(convertDatabaseButton,"Apply the script file to the input database, creating the new database");
+			result.add(convertDatabaseButton, new GridBagConstraints(0, 10, 2, 1, 0.0, 0.0,
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				new Insets(0, 0, 5, 5), 0, 0));
-			createRunSpecsButton.setMnemonic('C');
-			createRunSpecsButton.setDisplayedMnemonicIndex(0);
+			convertDatabaseButton.setMnemonic('C');
+			convertDatabaseButton.setDisplayedMnemonicIndex(0);
 			
+			//---- saveMessagesButton ----
+			saveMessagesButton.setText("Save Messages");
+			ToolTipHelper.add(saveMessagesButton,"Save above messages as a text file.");
+			result.add(saveMessagesButton, new GridBagConstraints(2, 10, 1, 1, 0.0, 0.0,
+				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+				new Insets(0, 0, 5, 5), 0, 0));
+                saveMessagesButton.setMnemonic('S');
+                saveMessagesButton.setDisplayedMnemonicIndex(0);
+
 			//---- openHelpButton ----
 			openHelpButton.setText("Open Help");
 			ToolTipHelper.add(openHelpButton,"Open the help document (.pdf)");
@@ -430,13 +413,15 @@ public class Converter extends JDialog implements ActionListener {
 			handleRefreshButton();
 		} else if(e.getSource() == browseControlFileButton) {
 			handleBrowseScriptFileButton();
-		} else if(e.getSource() == createRunSpecsButton) {
+		} else if(e.getSource() == convertDatabaseButton) {
 			handleConvertButton();
-		} else if(e.getSource() == doneButton) {
-			handleDoneButton();
+		} else if(e.getSource() == saveMessagesButton) {
+			handleSaveMessagesButton();
 		} else if(e.getSource() == openHelpButton) {
 			handleOpenHelpButton();
-		}
+		}else if(e.getSource() == doneButton) {
+			handleDoneButton();
+		} 
 	}
 
 	/** Handle the Refresh button for databases **/
@@ -449,11 +434,8 @@ public class Converter extends JDialog implements ActionListener {
 		try {
 			File file = null;
 			switch(mode) {
-				case MODE_2014A_TO_3:
-					file = new File("database/ConversionScripts/Convert_MOVES2014ab_input_to_MOVES3.sql");
-					break;
-				case MODE_2014_TO_3:
-					file = new File("database/ConversionScripts/Convert_MOVES2014_input_to_MOVES3.sql");
+				case MODE_3_TO_4:
+					file = new File("database/ConversionScripts/Convert_MOVES3_input_to_MOVES4.sql");
 					break;
 			}
 			if(file == null || !file.exists()) {
@@ -505,7 +487,7 @@ public class Converter extends JDialog implements ActionListener {
 		}
 	}
 
-	/** Handle the Create RunSpecs button **/
+	/** Handle the Convert Databases button **/
 	void handleConvertButton() {
 		try {
 			resetMessages();
@@ -597,10 +579,33 @@ public class Converter extends JDialog implements ActionListener {
 		}
 	}
 
+	/** Handle the Save Messages button **/
+	void handleSaveMessagesButton() {
+        FileDialog fd = new FileDialog(frame, "Specify save file name (*.txt):", FileDialog.SAVE);
+        fd.setFile("*.txt");
+        fd.setVisible(true);
+
+        if ((fd.getDirectory() == null) || (fd.getFile() == null)) {
+            return;
+        }
+        String filePath = fd.getDirectory() + fd.getFile();
+        
+        try {
+            FileWriter writer = new FileWriter(filePath);
+            for(Iterator i=messages.iterator();i.hasNext();) {
+                writer.write((String)i.next() + "\r\n");
+            }                
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
+
 	/** Handle the open button for the help file **/
 	void handleOpenHelpButton() {
 		try {
-			File file = new File("database/ConversionScripts/InputDatabaseConverstionHelp.pdf");
+			File file = new File("database/ConversionScripts/InputDatabaseConversionHelp.pdf");
 			if(!file.exists()) {
 				Logger.log(LogMessageCategory.ERROR, "Could not find the help file at: " + file.getAbsolutePath());
 				return;
@@ -633,6 +638,7 @@ public class Converter extends JDialog implements ActionListener {
 			String m = (String)i.next();
 			messageListModel.addElement(m);
 		}
+        saveMessagesButton.setEnabled(messageListModel.size() > 0);
 	}
 
 	/**

@@ -137,18 +137,23 @@ public class DefaultDataMaker {
 				SQLRunner.executeSQL(executionDatabase,sql);
 	
 				// as third step create a list of fuelTypes, also by county, fuelYear, and monthGroup
-				//   which need a fuel supply
+				//   which need a fuel supply. Join with regioncounty to ensure only valid combinations get selected
 				sql = "DROP TABLE IF EXISTS NeededFuelSupply";
 				SQLRunner.executeSQL(executionDatabase,sql);
 	
 				sql = "CREATE TABLE NeededFuelSupply " +
-					"SELECT fuelRegionID, fuelYearID, monthGroupID, " +
+					"SELECT mrsfr.fuelRegionID, mrsfy.fuelYearID, mrsmg.monthGroupID, " +
 						"ft.fuelTypeID, defaultFormulationID " +
-					" FROM RunSpecFuelRegion " +
-					" CROSS JOIN RunSpecFuelYear " +
-					" CROSS JOIN RunSpecMonthGroup " +
-					" CROSS JOIN RunSpecFuelType " +
-					" INNER JOIN " + fuelTypeTables[i] + " ft ON RunSpecFuelType.fuelTypeID = ft.fuelTypeID ";
+					" FROM RunSpecFuelRegion mrsfr" +
+					" CROSS JOIN RunSpecFuelYear mrsfy" +
+					" CROSS JOIN RunSpecMonthGroup mrsmg" +
+					" CROSS JOIN RunSpecFuelType mrsft" +
+					" CROSS JOIN RunSpecCounty mrsc " +
+					" INNER JOIN " + fuelTypeTables[i] + " ft ON mrsft.fuelTypeID = ft.fuelTypeID " +
+					" INNER JOIN regioncounty rc ON mrsfr.fuelRegionID = rc.regionID " +
+                    "      AND mrsc.countyID = rc.countyID " +
+					"			  AND mrsfy.fuelYearID = rc.fuelYearID " +
+					"			  AND rc.regionCodeID = 1";
 				SQLRunner.executeSQL(executionDatabase,sql);
 	
 				sql = "create unique index XPKGivenFuelSupply on GivenFuelSupply ("
@@ -410,11 +415,11 @@ public class DefaultDataMaker {
 			+ " and moay.monthID = ##context.monthID##"
 			+ " and fst.fuelTypeID in (##macro.csv.all.nrFuelTypeID##);",
 
-			"cache select fuelTypeID, humidityCorrectionCoeff, fuelDensity, subjectToEvapCalculations"
+			"cache select fuelTypeID, fuelDensity, subjectToEvapCalculations"
 			+ " into outfile '##extfueltype##'"
 			+ " from fuelType;",
 
-			"cache select fuelTypeID, humidityCorrectionCoeff, fuelDensity, subjectToEvapCalculations"
+			"cache select fuelTypeID, fuelDensity, subjectToEvapCalculations"
 			+ " into outfile '##extnrfueltype##'"
 			+ " from nrFuelType;",
 			

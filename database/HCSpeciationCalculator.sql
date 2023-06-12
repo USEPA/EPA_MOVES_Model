@@ -25,14 +25,13 @@ create table extfuelsupply (
 	monthID smallint not null,
 	fuelTypeID smallint not null,
 	fuelSubTypeID smallint not null,
-	fuelFormulationID int not null,
+	fuelFormulationID int(11) not null,
 	marketShare double not null
 );
 
 drop table if exists extfueltype;
 create table extfueltype (
        fuelTypeID           SMALLINT NOT NULL,
-       humidityCorrectionCoeff FLOAT NULL,
  	   fuelDensity				FLOAT	NULL,
  	   subjectToEvapCalculations CHAR(1) NOT NULL DEFAULT 'N'
 );
@@ -51,7 +50,7 @@ create table extfuelsubtype (
 
 drop table if exists extfuelformulation;
 create table extfuelformulation (
-    fuelFormulationID SMALLINT NOT NULL PRIMARY KEY,
+    fuelFormulationID INT(11) NOT NULL PRIMARY KEY,
     fuelSubtypeID SMALLINT NOT NULL,
     RVP FLOAT NULL,
     sulfurLevel FLOAT NULL,
@@ -99,7 +98,7 @@ drop table if exists HCFuelSupply;
 CREATE TABLE IF NOT EXISTS HCFuelSupply (
   countyID int(11) NOT NULL,
   monthID smallint(6) NOT NULL,
-  fuelFormulationID smallint(6) NOT NULL,
+  fuelFormulationID int(11) NOT NULL,
   marketShare float default NULL,
   yearID smallint(6) NOT NULL,
   fuelTypeID smallint(6) NOT NULL,
@@ -110,7 +109,7 @@ TRUNCATE TABLE HCFuelSupply;
 
 drop table if exists HCFuelFormulation;
 CREATE TABLE IF NOT EXISTS HCFuelFormulation (
-    fuelFormulationID SMALLINT NOT NULL PRIMARY KEY,
+    fuelFormulationID INT(11) NOT NULL PRIMARY KEY,
     fuelSubtypeID SMALLINT NOT NULL,
     RVP FLOAT NULL,
     sulfurLevel FLOAT NULL,
@@ -244,7 +243,7 @@ and fs.fuelRegionID = ##context.fuelRegionID##
 and moay.monthID = ##context.monthID##
 and fst.fuelTypeID in (##macro.csv.all.fuelTypeID##);
 
-cache select fuelTypeID, humidityCorrectionCoeff, fuelDensity, subjectToEvapCalculations
+cache select fuelTypeID, fuelDensity, subjectToEvapCalculations
 into outfile '##extfueltype##'
 from fuelType;
 
@@ -437,7 +436,7 @@ CREATE TABLE IF NOT EXISTS HCWorkerOutput (
 	sourceTypeID         SMALLINT UNSIGNED NULL,
 	fuelTypeID           SMALLINT UNSIGNED NULL,
 	fuelSubtypeID		 SMALLINT UNSIGNED NULL,
-	fuelFormulationID	 SMALLINT UNSIGNED NULL,
+	fuelFormulationID	 INT(11) UNSIGNED NULL,
 	modelYearID          SMALLINT UNSIGNED NULL,
 	roadTypeID           SMALLINT UNSIGNED NULL,
 	SCC                  CHAR(10) NULL,
@@ -471,7 +470,7 @@ CREATE TABLE IF NOT EXISTS HCWorkerOutputAll (
 	sourceTypeID         SMALLINT UNSIGNED NULL,
 	fuelTypeID           SMALLINT UNSIGNED NULL,
 	fuelSubtypeID		 SMALLINT UNSIGNED NULL,
-	fuelFormulationID	 SMALLINT UNSIGNED NULL,
+	fuelFormulationID	 INT(11) UNSIGNED NULL,
 	modelYearID          SMALLINT UNSIGNED NULL,
 	roadTypeID           SMALLINT UNSIGNED NULL,
 	SCC                  CHAR(10) NULL,

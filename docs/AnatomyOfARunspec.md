@@ -87,7 +87,7 @@ The *description* attribute is a user aid and is not used by MOVES at runtime.
 </timespan>
 ```
 
-The **timespan** element is a required element for a MOVES RunSpec. It defines the timespans(s) covered by the MOVES run. When running MOVES at Project Scale, only one year, month, day, hour combination can be covered by the RunSpec. The **timespan** element has seven subelements: **year**, **month**, **day**, **beginhour**, **endhour**, and **aggregateBy**.
+The **timespan** element is a required element for a MOVES RunSpec. It defines the time spans(s) covered by the MOVES run. When running MOVES at Project Scale, only one year, month, day, hour combination can be covered by the RunSpec. The **timespan** element has seven subelements: **year**, **month**, **day**, **beginhour**, **endhour**, and **aggregateBy**.
 
 ### year
 
@@ -135,7 +135,7 @@ Valid entries for *key* are:
  </onroadvehicleselections>  
 ```
 
-The **onroadvehicleselections** element selects the fueltype and sourcetype combinations to be included in the MOVES run. This element and its subelements are only required for onroad MOVES runs. 
+The **onroadvehicleselections** element selects the fuel type and source type combinations to be included in the MOVES run. This element and its subelements are only required for onroad MOVES runs. 
 
 The **onroadvehicleselections** element has a single type of subelement: **onroadvehicleselection**. Many **onroadvehicleselection** subelements may be included in the RunSpec. For **onroadvehicleselection** there are four attributes that should be entered: *fueltypeid*, *fueltypedesc*, *sourcetypeid*, and *sourcetypename*.
 
@@ -152,9 +152,9 @@ Values for *sourcetypeid* and *sourcetypename* should be taken from the `sourceu
 </offroadvehicleselections>
 ```
 
-The **offroadvehicleselections** element selects the fueltype and sector combinations to be included in the MOVES run. This element and its subelements are only required for nonroad MOVES runs. 
+The **offroadvehicleselections** element selects the fuel type and sector combinations to be included in the MOVES run. This element and its subelements are only required for nonroad MOVES runs. 
 
-The **offroadvehicleselections** element has a single type of subelement: **offroadvehicleselection**. Many **offroadvehicleselection** subelements may be included in the reunspec. For **offroadvehicleselection** there are four attributes that should be entered: *fueltypeid*, *fueltypedesc*, *sectorid*, and *sectorname*.
+The **offroadvehicleselections** element has a single type of subelement: **offroadvehicleselection**. Many **offroadvehicleselection** subelements may be included in the RunSpec. For **offroadvehicleselection** there are four attributes that should be entered: *fueltypeid*, *fueltypedesc*, *sectorid*, and *sectorname*.
 
 Values for *fueltypeid* and *fueltypedesc* should be taken from the `nrfueltype` table in the MOVES default database. 
 
@@ -181,7 +181,7 @@ The **offroadvehiclesccs** element is not necessary to complete a MOVES run and 
 </roadtypes>
 ```
 
-The **roadtypes** element is a required element for a MOVES RunSpec. It defines the road types to be included in the MOVES run. Each included roadtype is specified by a **roadtype** subelement with the attributes: *roadtypeid*, *roadtypename*, and *modelCombination*. When creating a MOVES onroad RunSpec at the national or County Scale all roadtypes except for "Nonroad" should be included in the RunSpec. Likewise, when creating a MOVES nonroad RunSpec only the nonroad roadtype (roadtypeID 100) should be selected.
+The **roadtypes** element is a required element for a MOVES RunSpec. It defines the road types to be included in the MOVES run. Each included roadtype is specified by a **roadtype** subelement with the attributes: *roadtypeid*, *roadtypename*, and *modelCombination*. When creating a MOVES onroad RunSpec at the national or County Scale all road types except for "Nonroad" should be included in the RunSpec. Likewise, when creating a MOVES nonroad RunSpec only the nonroad roadtype (roadtypeID 100) should be selected.
 
 Values for *roadtypeid* and *roadtypename* should be taken from the `roadtype` table of the MOVES default database.
 
@@ -215,7 +215,7 @@ Values for *processkey* and *processname* should be taken from the `emissionproc
 </databaseselections>
 ```
 
-This element is populated by the "Input Data Sets" box in the "Advance Features" Panel of the MOVES GUI. This element is used to specify input databases created by MOVES tools (e.g., the "Build LEV Input Database" Tool), or to specify optional input databases for Default Scale or Nonroad runs. MOVES uses values from these input database tables instead of those in the MOVES default database. Zero or more **databaseselection** elements may be used, and the data will be imported in the order specified (i.e., if multiple databases have the same tables, and the tables have the same key entries, the values from the last database specified will be used in the MOVES run). If no input databases are to be used, this element may be omitted from the RunSpec. The **databaseselections** element may contain several **databaseselection** attributes: *servername*, *databasename*, and *description*.
+This element is populated by the "Input Data Sets" box in the "Advanced Features" Panel of the MOVES GUI. This element is used to specify input databases created by MOVES tools (e.g., the "Build LEV Input Database" Tool), or to specify optional input databases for Default Scale or Nonroad runs. MOVES uses values from these input database tables instead of those in the MOVES default database. Zero or more **databaseselection** elements may be used, and the data will be imported in the order specified (i.e., if multiple databases have the same tables, and the tables have the same key entries, the values from the last database specified will be used in the MOVES run). If no input databases are to be used, this element may be omitted from the RunSpec. The **databaseselections** element may contain several **databaseselection** attributes: *servername*, *databasename*, and *description*.
 
 The value entered for *servername* should be the address of the SQL server that hosts the selected database. MOVES defaults to the same server that contains the default database if this attribute is empty.
 
@@ -297,7 +297,7 @@ The **outputemissionsbreakdownselection** element defines granularity of the MOV
 | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------- |
 | **modelyear**            | Allows output of results by model year. It is selectable for all MOVES runs.                                                    |
 | **fueltype**             | Allows output of results by fuel type. It is selectable for all MOVES runs.                                                     |
-| **fuelsubtype**          | Allows output of results by fuel subtype. It is selectable for nonroad MOVES runs, but requires that fueltype also be selected. |
+| **fuelsubtype**          | Allows output of results by fuel subtype. It is selectable for nonroad MOVES runs, but requires that fuel type also be selected. |
 | **emissionprocess**      | Allows output of results by emission process. It is selectable for all MOVES runs.                                              |
 | **onroadoffroad**        | Deprecated and should never be selected                                                                                         |
 | **roadtype**             | Allows output of results by road type. It is only selectable for onroad MOVES runs.                                             |
@@ -469,9 +469,9 @@ Valid entries for the *energyunits* parameter are:
 </savedata>
 ```
 
-The **savedata** element is typically empty in a RunSpec and is generally only used for debugging purposes. Checking the "Save Data" boxes in the "Masterloopable Components" box of the "Advance Features" Panel of the MOVES GUI, adds **class** subelements to **savedata**. This element is not necessary to complete a MOVES run and may be omitted from a RunSpec.
+The **savedata** element was intended to be an advanced performance feature available to speed up batch runs by allowing users to save intermediate output from one run and to reuse it for another run with identical activity or other characteristics. Checking the "Save Data" boxes in the "Masterloopable Components" box of the "Advanced Features" Panel of the MOVES GUI adds **class** subelements to **savedata**.
 
-Valid *name* parameters for these subelements are:
+Valid *name* parameters for these **class** subelements are:
 
 * gov.epa.otaq.moves.master.framework.EmissionCalculator
 * gov.epa.otaq.moves.master.implementation.general.MeteorologyGenerator
@@ -489,6 +489,14 @@ Valid *name* parameters for these subelements are:
 * gov.epa.otaq.moves.master.implementation.ghg.TankFuelGenerator
 * gov.epa.otaq.moves.master.implementation.ghg.TankTemperatureGenerator
 * gov.epa.otaq.moves.master.implementation.ghg.TotalActivityGenerator
+
+When one or more of these options are selected, the **generatordatabase** tag should be utilized to specify where these data should be saved.
+
+In a subsequent run, the modeler may choose to not execute the associated component (see the **donotexecute** element), and instead input the saved data using the "Input Data Sets" function of the Advanced Features panel (see the **databaseselection** element). This choice is only appropriate if the saved data and the data that would have been generated are the same.
+
+However, these features were not updated or tested prior with the latest model release.  Some of the listed components are no longer used as of MOVES3.  Rather than using this feature to improve performance, we recommend using the strategies described [Tips For Faster MOVES Runs](TipsForFasterMOVESRuns.md).
+
+As such, this element is typically empty in a RunSpec, is not necessary to complete a MOVES run, and may be omitted from a RunSpec.
 
 ## Do not execute
 
@@ -497,7 +505,7 @@ Valid *name* parameters for these subelements are:
 </donotexecute>
 ```
 
-The **donotexecute** element is typically empty in a RunSpec and is generally only used for debugging purposes. Checking the "Don't Execute" boxes in the "Masterloopable Components" box of the "Advance Features" Panel of the MOVES GUI, adds **class** subelements to **donotexecute**. This element is not necessary to complete a MOVES run and may be omitted from a RunSpec.
+The **donotexecute** element was intended to be an advanced performance feature available to speed up batch runs by allowing users to save intermediate output from one run and to reuse it for another run with identical activity or other characteristics. Checking the "Don't Execute" boxes in the "Masterloopable Components" box of the "Advanced Features" Panel of the MOVES GUI, adds **class** subelements to **donotexecute**.
 
 Valid *name* parameters for these subelements are:
 
@@ -518,13 +526,21 @@ Valid *name* parameters for these subelements are:
 * gov.epa.otaq.moves.master.implementation.ghg.TankTemperatureGenerator
 * gov.epa.otaq.moves.master.implementation.ghg.TotalActivityGenerator
 
+In some runs, the modeler may choose to save the results of specific components (see the **savedata** element). In subsequent runs, those components can be skipped by specifying them using the **donotexecute** element, and instead input the saved data using the "Input Data Sets" function of the Advanced Features panel (see the **databaseselection** element). This choice is only appropriate if the saved data and the data that would have been generated are the same.
+
+However, these features were not updated and not tested prior with the latest model release.  Some of the listed components are no longer used as of MOVES3.  Rather than using this feature to improve performance, we recommend using the strategies described [Tips For Faster MOVES Runs](TipsForFasterMOVESRuns.md).
+
+As such, this element is typically empty in a RunSpec, is not necessary to complete a MOVES run, and may be omitted from a RunSpec.
+
 ## Generatordatabase
 
 ```xml
 <generatordatabase shouldsave="false" servername="" databasename="" description=""/>
 ```
 
-The **generatordatabase** element specifies the database to save the outputs selected in the **savedata** element. This element is not necessary to complete a MOVES run and may be omitted from a RunSpec.
+The **generatordatabase** element specifies the database to save the outputs selected in the **savedata** element. Specifically, if the **savedata** element is used, the *shouldsave* attribute should be set to "true", and a database name should be given in the *databasename* attribute to specify where to save the data.
+
+This element is not necessary to complete a MOVES run and may be omitted from a RunSpec.
 
 ## Donotperformfinalaggregation
 
@@ -532,12 +548,32 @@ The **generatordatabase** element specifies the database to save the outputs sel
 <donotperformfinalaggregation selected="false"/>
 ```
 
-*selected* is a boolean flag that is used for debugging purposes. If left unselected, MOVES will write data to the output database at the level of detail at which it calculates emissions. This element is not necessary to complete a MOVES run and may be omitted from a RunSpec.
+This element can be used for debugging purposes. It is only meaningful for inventory mode runs (see **modelscale** element). If *selected* is set to "true", the unaggregated outputs from each bundle will be saved to the output database. It may result in rows with duplicate ID fields that MOVES would have normally summed together during final aggregation. This element is not necessary to complete a MOVES run and may be omitted from a RunSpec.
 
 ## Lookuptableflags
 
 ```xml
 <lookuptableflags scenarioid="" truncateoutput="true" truncateactivity="true" truncatebaserates="true"/>
 ```
+
+This element is used for rates mode runs (see **modelscale** element). 
+
+The value saved in the *scenarioid* attribute should not be blank in a rates mode run. It gets saved directly in the rates output tables as the MOVESScenarioID column, which can be used as a granular method to differentiate rates from different scenarios. This field has a 40-character limit.
+
+The other attributes on this element instruct MOVES to delete interim data from various output database tables. These output tables are not intended to be used for rates mode output, so clearing the tables makes the output smaller:
+
+* *truncateoutput* instructs MOVES to clear the MOVESOutput table after rate calculations
+* *truncateactivity* instructs MOVES to clear the MOVESActivityOutput table after rate calculations
+* *truncatebaserates* instructs MOVES to clear the BaseRateOutput table after rate calculations
+
+This element is not necessary for inventory mode runs and may be omitted from a RunSpec.
+
+## Skipdomaindatabasevalidation
+
+```xml
+<skipdomaindatabasevalidation selected="false"/>
+```
+
+This element can be used for debugging purposes. If *selected* is set to "true", MOVES will skip the domain database validation step, allowing the model to be run without getting a green check on the Create Input Database Panel in the GUI. Caution: bypassing domain database validation can easily lead to invalid results. Do not use this setting for SIP or conformity analyses.
 
 This element is not necessary to complete a MOVES run and may be omitted from a RunSpec.

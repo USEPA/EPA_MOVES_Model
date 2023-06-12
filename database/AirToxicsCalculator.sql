@@ -101,7 +101,7 @@ CREATE TABLE IF NOT EXISTS ATRatioGas1ChainedTo (
 
 CREATE TABLE IF NOT EXISTS ATRatio (
   fuelTypeID smallint(6) NOT NULL,
-  fuelFormulationID smallint(6) NOT NULL,
+  fuelFormulationID int(11) NOT NULL,
   polProcessID int NOT NULL,
   minModelYearID smallint(6) NOT NULL,
   maxModelYearID smallint(6) NOT NULL,
@@ -120,7 +120,7 @@ TRUNCATE TABLE ATRatio;
 CREATE TABLE IF NOT EXISTS AT1FuelSupply (
   countyID int(11) NOT NULL,
   monthID smallint(6) NOT NULL,
-  fuelFormulationID smallint(6) NOT NULL,
+  fuelFormulationID int(11) NOT NULL,
   marketShare double default NULL,
   yearID smallint(6) NOT NULL,
   fuelTypeID smallint(6) NOT NULL,
@@ -247,7 +247,7 @@ TRUNCATE TABLE ATRatioNonGas;
 CREATE TABLE IF NOT EXISTS ATNonGasFuelSupply (
   countyID int(11) NOT NULL,
   monthID smallint(6) NOT NULL,
-  fuelFormulationID smallint(6) NOT NULL,
+  fuelFormulationID int(11) NOT NULL,
   marketShare float default NULL,
   yearID smallint(6) NOT NULL,
   fuelTypeID smallint(6) NOT NULL,

@@ -7,7 +7,6 @@ package baserategenerator
 
 import (
 	"bufio"
-	"bytes"
 	"database/sql"
 	"fmt"
 	"os"
@@ -477,13 +476,11 @@ func nextFileNumber() string {
 
 // Provide temporary data files holding SQL data to be LOAD'd into the database.
 type tempFiles struct {
-	fileIndex, outputRowCount int
+	fileIndex, outputRowCount                      int
 	fileName, baseFileName, tableName, columnNames string
-	outputFile *os.File
-	outputWriter *bufio.Writer
-	outputBuffer bytes.Buffer
-	bufferMaxSize, bufferWriteLimit int
-	sqlToWrite chan string
+	outputFile                                     *os.File
+	outputWriter                                   *bufio.Writer
+	sqlToWrite                                     chan string
 }
 
 // Create a new tempFiles object that is ready to be used.
@@ -498,12 +495,6 @@ func newTempFiles(baseFileName, tableName, columnNames string, sqlToWrite chan s
 	t.fileName = t.baseFileName + nextFileNumber()
 	t.outputRowCount = 0
 
-	t.bufferMaxSize = 4*1024*1024
-	t.bufferWriteLimit = t.bufferMaxSize - 2048
-
-	if t.bufferMaxSize > t.outputBuffer.Len() {
-		t.outputBuffer.Grow(t.bufferMaxSize - t.outputBuffer.Len())
-	}
 	f, err := os.Create(t.fileName)
 	if err != nil {
 		panic(err)
@@ -518,54 +509,18 @@ func newTempFiles(baseFileName, tableName, columnNames string, sqlToWrite chan s
 // upon file size.
 func (this *tempFiles) writeLine(line string) {
 	this.outputRowCount++
-	this.outputBuffer.WriteString(line)
-	if this.outputBuffer.Len() >= this.bufferWriteLimit {
-		this.outputBuffer.WriteTo(this.outputWriter)
-		this.outputBuffer.Reset()
-	}
-
-	if this.outputRowCount >= 200000 { // 2000000
-		if this.outputBuffer.Len() > 0 {
-			this.outputBuffer.WriteTo(this.outputWriter)
-			this.outputBuffer.Reset()
-		}
-		this.outputRowCount = 0
-		this.outputWriter.Flush()
-		this.outputFile.Close()
-
-		globalevents.SqlStarting()
-		this.sqlToWrite <- "load data infile '" + filepath.ToSlash(this.fileName) + "'" +
-				" ignore into table " + this.tableName + " (" + this.columnNames + ")"
-
-		this.fileIndex++
-		this.fileName = this.baseFileName + nextFileNumber()
-
-		f, err := os.Create(this.fileName)
-		if err != nil {
-			panic(err)
-		}
-		this.outputFile = f
-		this.outputWriter = bufio.NewWriter(this.outputFile)
-	}
+	this.outputWriter.WriteString(line)
 }
 
 // Finish all operations on the temporary data, writing anything remaining
 // to the database.
 func (this *tempFiles) close() {
-	hasFinalRecords := false
-	if this.outputBuffer.Len() > 0 {
-		this.outputBuffer.WriteTo(this.outputWriter)
-		this.outputBuffer.Reset()
-		hasFinalRecords = true
-	}
 	this.outputWriter.Flush()
 	this.outputFile.Close()
 
-	if hasFinalRecords {
-		globalevents.SqlStarting()
-		this.sqlToWrite <- "load data infile '" + filepath.ToSlash(this.fileName) + "'" +
-				" ignore into table " + this.tableName + " (" + this.columnNames + ")"
-	}
+	globalevents.SqlStarting()
+	this.sqlToWrite <- "load data infile '" + filepath.ToSlash(this.fileName) + "'" +
+		" ignore into table " + this.tableName + " (" + this.columnNames + ")"
 }
 
 // Grouping for accumulation of baseRate[ByAge] data.

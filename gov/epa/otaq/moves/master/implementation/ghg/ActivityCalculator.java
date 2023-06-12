@@ -366,7 +366,7 @@ public class ActivityCalculator extends EmissionCalculator {
 			enabledSectionNames.add("NonProjectDomain");
 		}
 
-		if(91 == context.iterProcess.databaseKey) {
+		if(91 == context.iterProcess.databaseKey || 90 == context.iterProcess.databaseKey) {
 			Connection executionDB = null;
 			try {
 				executionDB = DatabaseConnectionManager.checkOutConnection(MOVESDatabaseType.EXECUTION);

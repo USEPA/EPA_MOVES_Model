@@ -1,6 +1,6 @@
 /**************************************************************************************************
  * @(#)AVFTImporter.java
- *
+ * DEPRECATED -- This importer is not used and has been replaced by the FuelImporter
  *************************************************************************************************/
 package gov.epa.otaq.moves.master.implementation.importers;
 

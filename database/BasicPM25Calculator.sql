@@ -549,7 +549,7 @@ CREATE TABLE FuelSupplyWithFuelType (
        countyID INTEGER NOT NULL,
        yearID SMALLINT NOT NULL,
        monthID SMALLINT NOT NULL,
-       fuelFormulationID SMALLINT NOT NULL,
+       fuelFormulationID int(11) NOT NULL,
        fuelTypeID SMALLINT NOT NULL,
 	 marketShare FLOAT
 );

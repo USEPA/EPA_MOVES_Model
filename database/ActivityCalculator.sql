@@ -29,8 +29,11 @@ TRUNCATE TABLE SourceHours;
 -- End Section SourceHours
 
 -- Section ExtendedIdleHours
-##create.extendedIdleHours##;
-TRUNCATE TABLE extendedIdleHours;
+##create.hotellinghours##;
+TRUNCATE TABLE hotellinghours;
+
+##create.hotellingActivityDistribution##;
+TRUNCATE TABLE hotellingActivityDistribution;
 -- End Section ExtendedIdleHours
 
 -- Section hotellingHours
@@ -146,11 +149,19 @@ AND linkID = ##context.iterLocation.linkRecordID##;
 -- End Section SourceHours
 
 -- Section ExtendedIdleHours
-SELECT extendedIdleHours.*
-INTO OUTFILE '##ExtendedIdleHours##'
-FROM extendedIdleHours
+SELECT hotellinghours.*
+INTO OUTFILE '##hotellinghours##'
+FROM hotellinghours
 WHERE yearID = ##context.year##
 AND zoneID = ##context.iterLocation.zoneRecordID##;
+
+cache select *
+into outfile '##hotellingActivityDistribution##'
+from hotellingActivityDistribution
+where opModeID = 200
+and beginModelYearID <= ##context.year##
+and endModelYearID >= ##context.year## - 30
+and zoneID = ##hotellingActivityZoneID##;
 -- End Section ExtendedIdleHours
 
 -- Section hotellingHours
@@ -424,29 +435,32 @@ inner join Link l on (l.linkID=s.linkID);
 -- 3, "extidle", "Extended Idle Hours"
 
 -- Section WithRegClassID
--- @algorithm extendedIdleHours = extendedIdleHours[sourceTypeID,hourDayID,monthID,yearID,ageID,zoneID]*fuelFraction[sourceTypeID,modelYearID,fuelTypeID]*regClassFraction[fuelTypeID,modelYearID,sourceTypeID,regClassID]
+-- @algorithm extendedIdle hours = hotellingHours[sourceTypeID,fuelTypeID,hourDayID,monthID,yearID,ageID,zoneID]*opModeFraction[opModeID=200,modelYearID]*regClassFraction[fuelTypeID,modelYearID,sourceTypeID,regClassID].
 insert into ##ActivityTable## (yearID, monthID, dayID, hourID, stateID, countyID,
 		zoneID, linkID, sourceTypeID, regClassID, fuelTypeID, modelYearID, roadTypeID, SCC,
 		activityTypeID, activity)
 select s.yearID, s.monthID, h.dayID, h.hourID,
 		##context.iterLocation.stateRecordID## as stateID,
 		##context.iterLocation.countyRecordID## as countyID,
-		zoneID,
+		s.zoneID,
 		##context.iterLocation.linkRecordID## linkID, s.sourceTypeID, stf.regClassID,
-		stff.fuelTypeID as fuelTypeID,
+		s.fuelTypeID as fuelTypeID,
 		(s.yearID-s.ageID) as modelYearID,
 		##context.iterLocation.roadTypeRecordID## as roadTypeID,
 		NULL as SCC,
 		3 as activityTypeID,
-		(extendedIdleHours*stff.fuelFraction*stf.regClassFraction) as activity
-from extendedIdleHours s
+		(hotellingHours*opModeFraction*stf.regClassFraction) as activity
+from hotellingHours s
 inner join HourDay h on h.hourDayID=s.hourDayID
-inner join sourceTypeFuelFraction stff on (stff.sourceTypeID=s.sourceTypeID and stff.modelYearID=(s.yearID-s.ageID))
 inner join RegClassSourceTypeFraction stf on (
-	stf.sourceTypeID = stff.sourceTypeID
-	and stf.fuelTypeID = stff.fuelTypeID
-	and stf.modelYearID = stff.modelYearID
-);
+	stf.sourceTypeID = s.sourceTypeID
+	and stf.fuelTypeID = s.fuelTypeID
+	and stf.modelYearID = (s.yearID-s.ageID))
+inner join hotellingActivityDistribution ha on (
+	ha.beginModelYearID <= stf.modelYearID
+	and ha.endModelYearID >= stf.modelYearID
+	and ha.opModeID = 200
+	and ha.fuelTypeID = s.fuelTypeID);
 -- End Section WithRegClassID
 
 -- Section NoRegClassID
@@ -456,17 +470,21 @@ insert into ##ActivityTable## (yearID, monthID, dayID, hourID, stateID, countyID
 select s.yearID, s.monthID, h.dayID, h.hourID,
 		##context.iterLocation.stateRecordID## as stateID,
 		##context.iterLocation.countyRecordID## as countyID,
-		zoneID,
+		s.zoneID,
 		##context.iterLocation.linkRecordID## linkID, s.sourceTypeID,
-		stff.fuelTypeID as fuelTypeID,
+		s.fuelTypeID as fuelTypeID,
 		(s.yearID-s.ageID) as modelYearID,
 		##context.iterLocation.roadTypeRecordID## as roadTypeID,
 		NULL as SCC,
 		3 as activityTypeID,
-		(extendedIdleHours*stff.fuelFraction) as activity
-from extendedIdleHours s
+		(hotellingHours*opModeFraction) as activity
+from hotellingHours s
 inner join HourDay h on h.hourDayID=s.hourDayID
-inner join sourceTypeFuelFraction stff on (stff.sourceTypeID=s.sourceTypeID and stff.modelYearID=(s.yearID-s.ageID));
+inner join hotellingActivityDistribution ha on (
+	ha.beginModelYearID <= (s.yearID-s.ageID)
+	and ha.endModelYearID >= (s.yearID-s.ageID)
+	and ha.opModeID = 200
+	and ha.fuelTypeID = s.fuelTypeID);
 -- End Section NoRegClassID
 
 -- End Section ExtendedIdleHours
@@ -822,9 +840,9 @@ inner join sourceTypeFuelFraction stff on (stff.sourceTypeID=s.sourceTypeID and 
 -- 15, "hotellingOff", "Hotelling All Engines Off"
 
 -- Section WithRegClassID
--- @algorithm hotellingAux hours = hotellingHours[sourceTypeID,hourDayID,monthID,yearID,ageID,zoneID]*opModeFraction[opModeID=201,modelYearID]*fuelFraction[sourceTypeID,modelYearID,fuelTypeID]*regClassFraction[fuelTypeID,modelYearID,sourceTypeID,regClassID].
--- hotellingElectric hours = hotellingHours[sourceTypeID,hourDayID,monthID,yearID,ageID,zoneID]*opModeFraction[opModeID=203,modelYearID]*fuelFraction[sourceTypeID,modelYearID,fuelTypeID]*regClassFraction[fuelTypeID,modelYearID,sourceTypeID,regClassID].
--- hotellingOff hours = hotellingHours[sourceTypeID,hourDayID,monthID,yearID,ageID,zoneID]*opModeFraction[opModeID=204,modelYearID]*fuelFraction[sourceTypeID,modelYearID,fuelTypeID]*regClassFraction[fuelTypeID,modelYearID,sourceTypeID,regClassID].
+-- @algorithm hotellingAux hours = hotellingHours[sourceTypeID,fuelTypeID,hourDayID,monthID,yearID,ageID,zoneID]*opModeFraction[opModeID=201,modelYearID]*regClassFraction[fuelTypeID,modelYearID,sourceTypeID,regClassID].
+-- hotellingElectric hours = hotellingHours[sourceTypeID,fuelTypeID,hourDayID,monthID,yearID,ageID,zoneID]*opModeFraction[opModeID=203,modelYearID]*regClassFraction[fuelTypeID,modelYearID,sourceTypeID,regClassID].
+-- hotellingOff hours = hotellingHours[sourceTypeID,fuelTypeID,hourDayID,monthID,yearID,ageID,zoneID]*opModeFraction[opModeID=204,modelYearID]*regClassFraction[fuelTypeID,modelYearID,sourceTypeID,regClassID].
 insert into ##ActivityTable## (yearID, monthID, dayID, hourID, stateID, countyID,
 		zoneID, linkID, sourceTypeID, regClassID, fuelTypeID, modelYearID, roadTypeID, SCC,
 		activityTypeID, activity)
@@ -833,7 +851,7 @@ select s.yearID, s.monthID, h.dayID, h.hourID,
 		##context.iterLocation.countyRecordID## as countyID,
 		s.zoneID,
 		##context.iterLocation.linkRecordID## linkID, s.sourceTypeID, stf.regClassID,
-		stff.fuelTypeID as fuelTypeID,
+		s.fuelTypeID as fuelTypeID,
 		(s.yearID-s.ageID) as modelYearID,
 		##context.iterLocation.roadTypeRecordID## as roadTypeID,
 		NULL as SCC,
@@ -841,18 +859,18 @@ select s.yearID, s.monthID, h.dayID, h.hourID,
 			when opModeID=203 then 14
 			when opModeID=204 then 15
 			else 8 end as activityTypeID,
-		(hotellingHours*opModeFraction*stff.fuelFraction*stf.regClassFraction) as activity
+		(hotellingHours*opModeFraction*stf.regClassFraction) as activity
 from hotellingHours s
 inner join HourDay h on h.hourDayID=s.hourDayID
-inner join sourceTypeFuelFraction stff on (stff.sourceTypeID=s.sourceTypeID and stff.modelYearID=(s.yearID-s.ageID))
 inner join RegClassSourceTypeFraction stf on (
-	stf.sourceTypeID = stff.sourceTypeID
-	and stf.fuelTypeID = stff.fuelTypeID
-	and stf.modelYearID = stff.modelYearID)
+	stf.sourceTypeID = s.sourceTypeID
+	and stf.fuelTypeID = s.fuelTypeID
+	and stf.modelYearID = (s.yearID-s.ageID))
 inner join hotellingActivityDistribution ha on (
 	ha.beginModelYearID <= stf.modelYearID
 	and ha.endModelYearID >= stf.modelYearID
-	and ha.opModeID in (201,203,204));
+	and ha.opModeID in (201,203,204)
+	and ha.fuelTypeID = s.fuelTypeID);
 -- End Section WithRegClassID
 
 -- Section NoRegClassID
@@ -864,7 +882,7 @@ select s.yearID, s.monthID, h.dayID, h.hourID,
 		##context.iterLocation.countyRecordID## as countyID,
 		s.zoneID,
 		##context.iterLocation.linkRecordID## linkID, s.sourceTypeID,
-		stff.fuelTypeID as fuelTypeID,
+		s.fuelTypeID as fuelTypeID,
 		(s.yearID-s.ageID) as modelYearID,
 		##context.iterLocation.roadTypeRecordID## as roadTypeID,
 		NULL as SCC,
@@ -872,14 +890,14 @@ select s.yearID, s.monthID, h.dayID, h.hourID,
 			when opModeID=203 then 14
 			when opModeID=204 then 15
 			else 8 end as activityTypeID,
-		(hotellingHours*opModeFraction*stff.fuelFraction) as activity
+		(hotellingHours*opModeFraction) as activity
 from hotellingHours s
 inner join HourDay h on h.hourDayID=s.hourDayID
-inner join sourceTypeFuelFraction stff on (stff.sourceTypeID=s.sourceTypeID and stff.modelYearID=(s.yearID-s.ageID))
 inner join hotellingActivityDistribution ha on (
-	ha.beginModelYearID <= stff.modelYearID
-	and ha.endModelYearID >= stff.modelYearID
-	and ha.opModeID in (201,203,204));
+	ha.beginModelYearID <= (s.yearID-s.ageID)
+	and ha.endModelYearID >= (s.yearID-s.ageID)
+	and ha.opModeID in (201,203,204)
+	and ha.fuelTypeID = s.fuelTypeID);
 -- End Section NoRegClassID
 
 -- End Section hotellingHours

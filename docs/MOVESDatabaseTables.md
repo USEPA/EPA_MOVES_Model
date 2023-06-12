@@ -8,6 +8,16 @@ In all MOVES databases, the table names are formatted to be full lower-case. Col
 
 ## MOVES Default and Input Databases
 
+### activityType
+
+activityType defines the MOVES output activity types, mapping IDs to their physical interpretation.
+
+| Field            | Type                 | Null | Key | Default | Comment |
+| ---------------- | -------------------- | ---- | --- | ------- | ------- |
+| activityTypeID   | smallint(5) unsigned | NO   | PRI |         |         |
+| activityType     | char(20)             | NO   |     |         |         |
+| activityTypeDesc | char(50)             | YES  |     |         |         |
+
 ### ageCategory
 
 ageCategory defines the age categories used in MOVES.
@@ -45,7 +55,7 @@ atRatio  is empty in the default database and may be used during MOVES runtime t
 | Field             | Type        | Null | Key  | Default | Comment |
 | ----------------- | ----------- | ---- | ---- | ------- | ------- |
 | fuelTypeID        | smallint(6) | NO   | PRI  |         |         |
-| fuelFormulationID | smallint(6) | NO   | PRI  |         |         |
+| fuelFormulationID | int(11)     | NO   | PRI  |         |         |
 | polProcessID      | int(11)     | NO   | PRI  |         |         |
 | minModelYearID    | smallint(6) | NO   | PRI  |         |         |
 | maxModelYearID    | smallint(6) | NO   | PRI  |         |         |
@@ -81,7 +91,7 @@ atRatioNonGas  is used to calculate non-gaseous air toxics emissions based on VO
 
 ### auditLog
 
-auditLog is used in MOVES input databases, and is a log of all the data manager and import actions a user performed
+auditLog is used in MOVES input databases, and is a log of all the data manager and import actions a user performed.
 
 | Field            | Type          | Null | Key | Default | Comment |
 | ---------------- | ------------- | ---- | --- | ------- | ------- |
@@ -89,6 +99,8 @@ auditLog is used in MOVES input databases, and is a log of all the data manager 
 | importerName     | varchar(100)  | NO   | MUL |         |         |
 | briefDescription | varchar(100)  | YES  |     |         |         |
 | fullDescription  | varchar(4096) | YES  |     |         |         |
+
+ Additionally, this table is used to indicate that the "No I/M Program" box is checked on the I/M Programs tab of the County and Project Data Managers. When this box is checked, the auditlog table gets a row where the *importerName* column contains "I/M Programs Flag" and *briefDescription* is "No data needed".
 
 ### averageTankGasoline
 
@@ -164,7 +176,7 @@ baseFuel contains the MOVES fuelFormulation used as the basis for the complex an
 | calculationEngine | varchar(100) | NO   | PRI  |         | the specific model the base fuel should be applied into |
 | fuelTypeID        | smallint(6)  | NO   | PRI  |         |                                                         |
 | modelYearGroupID  | int(11)      | NO   | PRI  | 0       |                                                         |
-| fuelFormulationID | smallint(6)  | NO   |      |         |                                                         |
+| fuelFormulationID | int(11)      | NO   |      |         |                                                         |
 | description       | varchar(255) | NO   |      |         | a general description of what the base fuel represents  |
 | dataSourceID      | smallint(6)  | NO   |      |         |                                                         |
 
@@ -263,8 +275,9 @@ crankcaseEmissionRatio contains emission ratios used to calculate crankcase emis
 | minModelYearID   | smallint(6) | NO   | PRI  |         |                                                              |
 | maxModelYearID   | smallint(6) | NO   | PRI  |         |                                                              |
 | sourceTypeID     | smallint(6) | NO   | PRI  |         |                                                              |
+| regClassID       | smallint(6) | NO   | PRI  |         |                                                              |
 | fuelTypeID       | smallint(6) | NO   | PRI  |         |                                                              |
-| crankcaseRatio   | float       | NO   |      |         | ratio of crankcase emissions to exhuast emissions which is used to calculate the crankcase inventory |
+| crankcaseRatio   | float       | NO   |      |         | ratio of crankcase emissions to exhaust emissions which is used to calculate the crankcase inventory |
 | crankcaseRatioCV | float       | YES  |      |         | not used                                                     |
 
 ### criteriaRatio
@@ -274,7 +287,7 @@ criteriaRatio is empty in the default database, and is used during runtime as pa
 | Field             | Type        | Null | Key  | Default | Comment |
 | ----------------- | ----------- | ---- | ---- | ------- | ------- |
 | fuelTypeID        | smallint(6) | NO   | PRI  |         |         |
-| fuelFormulationID | smallint(6) | NO   | PRI  |         |         |
+| fuelFormulationID | int(11)     | NO   | PRI  |         |         |
 | polProcessID      | int(11)     | NO   | PRI  |         |         |
 | pollutantID       | smallint(6) | NO   | PRI  |         |         |
 | processID         | smallint(6) | NO   | PRI  |         |         |
@@ -560,21 +573,39 @@ evapTemperatureAdjustment defines the coefficients used in the temperature adjus
 | tempAdjustTerm1    | double      | NO   |      | 0       |         |
 | tempAdjustConstant | double      | NO   |      | 0       |         |
 
-### extendedIdleHours
+### evEfficiency
 
-extendedIdleHours is not populated in the default database, and is used during MOVES runtime to calculate extended idle emissions. It is an optional user input table which provides activity at the most detailed level.
+evEfficiency contains battery and charging efficiency values, which increase the energy consumption rates stored in emissionRate.
 
-| Field               | Type        | Null | Key | Default | Comment                                      |
-| ------------------- | ----------- | ---- | --- | ------- | -------------------------------------------- |
-| sourceTypeID        | smallint(6) | NO   | PRI | 0       |                                              |
-| hourDayID           | smallint(6) | NO   | PRI | 0       |                                              |
-| monthID             | smallint(6) | NO   | PRI | 0       |                                              |
-| yearID              | smallint(6) | NO   | PRI | 0       |                                              |
-| ageID               | smallint(6) | NO   | PRI | 0       |                                              |
-| zoneID              | int(11)     | NO   | PRI | 0       |                                              |
-| extendedIdleHours   | float       | YES  |     |         | total extended idle hours per each table key |
-| extendedIdleHoursCV | float       | YES  |     |         | not used                                     |
-| isUserInput         | char(1)     | NO   |     | N       |                                              |
+| Field              | Type        | Null | Key  | Default | Comment                                                                                                                 |
+| ------------------ | ----------- | ---- | ---- | ------- | ----------------------------------------------------------------------------------------------------------------------- |
+| polProcessID       | int(11)     | NO   | PRI  |         |                                                                                                                         |
+| sourceTypeID       | smallint(6) | NO   | PRI  |         |                                                                                                                         |
+| regClassID         | smallint(6) | NO   | PRI  |         |                                                                                                                         |
+| ageGroupID         | smallint(6) | NO   | PRI  |         |                                                                                                                         |
+| beginModelYearID   | smallint(6) | NO   | PRI  |         |                                                                                                                         |
+| endModelYearID     | smallint(6) | NO   | PRI  |         |                                                                                                                         |
+| batteryEfficiency  | double      | YES  |      |         | accounts for energy losses that occur when the battery is charging and discharging (i.e., charger-to-drivetrain losses) |
+| chargingEfficiency | double      | YES  |      |         | accounts for energy losses that occur in the charger (i.e., wall-to-charger losses)                                     |
+
+### evPopICEAdjustLD
+
+evPopICEAdjustLD is used to adjust emission rates for Tier 3 internal combustion engine (ICE) vehicles based on sales of electric vehicles (EV), due to regulatory fleet averaging of emission rates for total hydrocarbons and NOx emissions. For these pollutants, the multiplicative adjustment is calculated as:
+$$
+adjustment/(1-evFraction*adjustmentWeight)
+$$
+This table is also used to adjust energy consumption rates. In this use case, the adjustmentWeight is actually a multiplier, so it increases the apparent total number of vehicles, and the multiplicative adjustment is calculated as:
+$$
+adjustment/(1 - (evFraction*adjustmentWeight)/((1-evFraction) + (evFraction*adjustmentWeight)))
+$$
+
+| Field            | Type        | Null | Key  | Default | Comment                                                      |
+| ---------------- | ----------- | ---- | ---- | ------- | ------------------------------------------------------------ |
+| polProcessID     | int         | NO   | PRI  |         |                                                              |
+| beginModelYearID | smallint(6) | NO   | PRI  |         |                                                              |
+| endModelYearID   | smallint(6) | NO   | PRI  |         |                                                              |
+| adjustment       | double      | NO   |      | 1       | A scalar adjustment applied to the base emission rate regardless of the EV fraction. |
+| adjustmentWeight | double      | NO   |      | 1       | Relative weight EVs get in fleet averaging, compared to ICE vehicles. A weight of 1 indicates equal weighting, and a weight of 0 turns off the adjustment. |
 
 ### fuelAdjustment
 
@@ -585,7 +616,7 @@ fuelAdjustment contains no data by default and is used during runtime.
 | polProcessID        | int(11)     | NO   | PRI  | 0       |         |
 | fuelMYGroupID       | int(11)     | NO   | PRI  | 0       |         |
 | sourceTypeID        | smallint(6) | NO   | PRI  | 0       |         |
-| fuelFormulationID   | smallint(6) | NO   | PRI  | 0       |         |
+| fuelFormulationID   | int(11)     | NO   | PRI  | 0       |         |
 | fuelAdjustment      | float       | YES  |      |         |         |
 | fuelAdjustmentCV    | float       | YES  |      |         |         |
 | fuelAdjustmentGPA   | float       | YES  |      |         |         |
@@ -620,7 +651,7 @@ fuelFormulation contains fuel properties for all fuels used in the MOVES fuel ef
 
 | Field                | Type        | Null | Key  | Default | Comment                                                      |
 | -------------------- | ----------- | ---- | ---- | ------- | ------------------------------------------------------------ |
-| fuelFormulationID    | smallint(6) | NO   | PRI  | 0       | IDs < 100 are reserved for base fuel properties (see  baseFuel table) |
+| fuelFormulationID    | int(11)     | NO   | PRI  | 0       | IDs < 100 are reserved for base fuel properties (see  baseFuel table) |
 | fuelSubtypeID        | smallint(6) | NO   |      | 0       |                                                              |
 | RVP                  | float       | YES  |      |         | the Reid Vapor Pressure of the given fuel formulation in PSI |
 | sulfurLevel          | float       | NO   |      | 30      | the sulfur level of the given fuel formulation in ppm        |
@@ -702,22 +733,22 @@ fuelSubtype lists the fuel subtypes used in MOVES and contains basic fuel proper
 | fuelSubtypeFossilFraction      | float       | YES  |      |         | the volume fraction of conventional hydrocarbon content  (non-renewables) contained in the fuel |
 | fuelSubtypeFossilFractionCV    | float       | YES  |      |         | not used                                                     |
 | carbonContent                  | float       | YES  |      |         |                                                              |
-| oxidationFraction              | float       | YES  |      |         | the volume fraction of fully combustable fuel                |
+| oxidationFraction              | float       | YES  |      |         | the volume fraction of fully combustible fuel                |
 | carbonContentCV                | float       | YES  |      |         | not used                                                     |
 | oxidationFractionCV            | float       | YES  |      |         | not used                                                     |
 | energyContent                  | float       | YES  |      |         | the energy content of the given fuel in MJ/kg (lower/net  calorific value) |
 
 ### fuelSupply
 
-fuelSupply maps each fuel region (see regionCounty table) to the mix of fuel fomulations used in that region.
+fuelSupply maps each fuel region (see regionCounty table) to the mix of fuel formulations used in that region.
 
 | Field             | Type        | Null | Key  | Default | Comment                                                      |
 | ----------------- | ----------- | ---- | ---- | ------- | ------------------------------------------------------------ |
 | fuelRegionID      | int(11)     | NO   | PRI  | 0       | see regioncounty table                                       |
 | fuelYearID        | smallint(6) | NO   | PRI  | 0       |                                                              |
 | monthGroupID      | smallint(6) | NO   | PRI  | 0       |                                                              |
-| fuelFormulationID | smallint(6) | NO   | PRI  | 0       | see fuelformulation table                                    |
-| marketShare       | float       | YES  |      |         | the volume fraction of a given fuelformulation used in the  fuel region. Should sum to 1 for every month, for each fuel type present. |
+| fuelFormulationID | int(11)     | NO   | PRI  | 0       | see fuelformulation table                                    |
+| marketShare       | float       | YES  |      |         | the volume fraction of a given fuelformulation used in the fuel region. Should sum to 1 for every month, for each fuel type present. |
 | marketShareCV     | float       | YES  |      |         | not used                                                     |
 
 ### fuelSupplyYear
@@ -737,8 +768,6 @@ fuelType lists the general fuel types used in MOVES and basic fuel property data
 | fuelTypeID                | smallint(6) | NO   | PRI  | 0       |                                                              |
 | defaultFormulationID      | smallint(6) | NO   |      | 0       | a fallback fuel formulation MOVES will use if no specific fuel  formulation can be found for this fuel type in a given region |
 | fuelTypeDesc              | char(50)    | YES  |      |         | a general description of what the given fuel type represents |
-| humidityCorrectionCoeff   | float       | YES  |      |         |                                                              |
-| humidityCorrectionCoeffCV | float       | YES  |      |         | not used                                                     |
 | fuelDensity               | float       | YES  |      |         | the density of the given fuel type in grams / gallon         |
 | subjectToEvapCalculations | char(1)     | NO   | MUL  | N       | Y if MOVES contains applicable evaporative emissions models  for the given fuel type (other than refueling) |
 
@@ -763,8 +792,8 @@ fuelWizardFactors contains data used to adjust fuel properties using the Fuels W
 | ----------------- | ----------- | ---- | ---- | ------- | ------------------------------------------------------------ |
 | adjustedParameter | varchar(4)  | NO   | PRI  |         | the fuel property short name being adjusted by the fuels  wizard |
 | minLevel          | double      | NO   | PRI  |         | the minimum property level the adjustment can be applied for |
-| maxLevel          | double      | NO   | PRI  |         | the maxium property level the adjust can be applied for      |
-| functionType      | varchar(4)  | NO   | PRI  |         | ADD for additive adjustment effects, MULT for multiplicative  adjustment effects |
+| maxLevel          | double      | NO   | PRI  |         | the maximum property level the adjust can be applied for      |
+| functionType      | varchar(4)  | NO   | PRI  |         | ADD for additive adjustment effects, MULT for multiplicative adjustment effects |
 | monthGroupID      | smallint(6) | NO   | PRI  |         |                                                              |
 | fuelTypeID        | smallint(6) | NO   | PRI  |         |                                                              |
 | RVP_factor        | double      | YES  |      |         | magnitude of adjusted parameter                              |
@@ -782,7 +811,7 @@ fuelWizardFactors contains data used to adjust fuel properties using the Fuels W
 
 ### fullACAdjustment
 
-fullACAdjustment contains adjustments made to the base emission rates when there is full  loading of the air conditioning system.
+fullACAdjustment contains adjustments made to the base emission rates when there is full loading of the air conditioning system.
 
 | Field              | Type        | Null | Key  | Default | Comment                                                      |
 | ------------------ | ----------- | ---- | ---- | ------- | ------------------------------------------------------------ |
@@ -799,7 +828,7 @@ generalFuelRatio defines numeric fuel adjustment ratios that apply emission adju
 | Field              | Type                 | Null | Key  | Default | Comment                                                      |
 | ------------------ | -------------------- | ---- | ---- | ------- | ------------------------------------------------------------ |
 | fuelTypeID         | smallint(6)          | NO   | PRI  |         |                                                              |
-| fuelFormulationID  | smallint(6)          | NO   | PRI  |         |                                                              |
+| fuelFormulationID  | int(11)              | NO   | PRI  |         |                                                              |
 | polProcessID       | int(11)              | NO   | PRI  |         |                                                              |
 | pollutantID        | smallint(6)          | NO   | PRI  |         |                                                              |
 | processID          | smallint(6)          | NO   | PRI  |         |                                                              |
@@ -813,7 +842,7 @@ generalFuelRatio defines numeric fuel adjustment ratios that apply emission adju
 
 ### generalFuelRatioExpression
 
-generalfuelratioexpression  defines fuel adjustment equations that apply emission adjustments depending  on fuel properties in use. Primarily used to apply EPACT fuel effects models  for MY2001+ vehicles, as well as biodiesel fuel effects models. See MOVES Fuel Effects Technical Report for more detail.
+generalfuelratioexpression defines fuel adjustment equations that apply emission adjustments depending  on fuel properties in use. Primarily used to apply EPACT fuel effects models  for MY2001+ vehicles, as well as biodiesel fuel effects models. See MOVES Fuel Effects Technical Report for more detail.
 
 | Field                        | Type           | Null | Key  | Default | Comment                                                      |
 | ---------------------------- | -------------- | ---- | ---- | ------- | ------------------------------------------------------------ |
@@ -899,19 +928,20 @@ hcSpeciation is used to speciate hydrocarbon emissions. Specifically, it calcula
 
 ### hotellingActivityDistribution
 
-hotellingActivityDistribution applies a hotelling operating mode distribution to hotelling activity.
+hotellingActivityDistribution applies a hotelling operating mode distribution to hotelling activity. It allocates hotelling activity to extend idle (opModeID 200), diesel APU (201), shore power (203), or battery / engine off (204). It contains national default distributions, but also can be user provided.
 
-| Field            | Type        | Null | Key | Default | Comment                                                                                        |
-| ---------------- | ----------- | ---- | --- | ------- | ---------------------------------------------------------------------------------------------- |
-| zoneID           | int(11)     | NO   | PRI |         |                                                                                                |
-| beginModelYearID | smallint(6) | NO   | PRI |         |                                                                                                |
-| endModelYearID   | smallint(6) | NO   | PRI |         |                                                                                                |
-| opModeID         | smallint(6) | NO   | PRI |         | this table only contains the hotelling operating modes (200-204)                               |
-| opModeFraction   | float       | NO   |     |         | fraction of time spend in each operating mode, summing to 1 for each zone and model year group |
+| Field            | Type        | Null | Key  | Default | Comment                                                      |
+| ---------------- | ----------- | ---- | ---- | ------- | ------------------------------------------------------------ |
+| zoneID           | int(11)     | NO   | PRI  |         |                                                              |
+| fuelTypeID       | smallint(6) | NO   | PRI  |         |                                                              |
+| beginModelYearID | smallint(6) | NO   | PRI  |         |                                                              |
+| endModelYearID   | smallint(6) | NO   | PRI  |         |                                                              |
+| opModeID         | smallint(6) | NO   | PRI  |         | this table only contains the hotelling operating modes (200, 201, 203, and 204) |
+| opModeFraction   | float       | NO   |      |         | fraction of time spent in each operating mode, summing to 1 for each zone, fuel type, and model year group |
 
 ### hotellingAgeFraction
 
-hotellingAgeFraction allocates total hotelling activity by age. This is empty by default, and is a user provided table.
+hotellingAgeFraction allocates total hotelling activity by age. The default algorithm allocates hotelling activity according to VMT by age. If local data are available, they can be input into this table to override the default algorithm. Therefore, this table is empty by default.
 
 | Field       | Type        | Null | Key | Default | Comment                                                                     |
 | ----------- | ----------- | ---- | --- | ------- | --------------------------------------------------------------------------- |
@@ -930,7 +960,7 @@ hotellingCalendarYear is used to calculate hotelling activity based on VMT by co
 
 ### hotellingHourFraction
 
-hotellingHourFraction allocates hotelling activity by the hour of day. This is a user provided table that is empty by default.
+hotellingHourFraction allocates hotelling activity by the hour of day. The default algorithm allocates hotelling activity based on VMT hourly activity (see hourVMTFraction). If local data are available, they can be input into this table to override the default algorithm. Therefore, this table is empty by default.
 
 | Field        | Type        | Null | Key | Default | Comment                                                                    |
 | ------------ | ----------- | ---- | --- | ------- | -------------------------------------------------------------------------- |
@@ -941,33 +971,34 @@ hotellingHourFraction allocates hotelling activity by the hour of day. This is a
 
 ### hotellingHours
 
-hotellingHours is the most detailed hotelling activity table. It is built and used during a MOVES run to calculate hotelling activity and emissions, but can be provided by users.
+hotellingHours is calculated during a MOVES run to store total hotelling activity. It is subsequently used when calculating extended idle, APU, shore power, and battery/off activity and emissions. It cannot be provided by users; the other hotelling tables can be used instead to provide local data (i.e., hotellingActivityDistribution, hotellingAgeFraction, hotellingHourFraction, hotellingHoursPerDay, and hotellingMonthAdjust).
 
-| Field          | Type        | Null | Key | Default | Comment                             |
-| -------------- | ----------- | ---- | --- | ------- | ----------------------------------- |
-| sourceTypeID   | smallint(6) | NO   | PRI |         |                                     |
-| hourDayID      | smallint(6) | NO   | PRI |         |                                     |
-| monthID        | smallint(6) | NO   | PRI |         |                                     |
-| yearID         | smallint(6) | NO   | PRI |         |                                     |
-| ageID          | smallint(6) | NO   | PRI |         |                                     |
-| zoneID         | int(11)     | NO   | PRI |         |                                     |
-| hotellingHours | double      | YES  |     |         | total hotelling hours per table key |
-| isUserInput    | char(1)     | NO   |     | N       |                                     |
+| Field          | Type        | Null | Key  | Default | Comment                                         |
+| -------------- | ----------- | ---- | ---- | ------- | ----------------------------------------------- |
+| sourceTypeID   | smallint(6) | NO   | PRI  |         |                                                 |
+| fuelTypeID     | smallint(6) | NO   | PRI  |         |                                                 |
+| hourDayID      | smallint(6) | NO   | PRI  |         |                                                 |
+| monthID        | smallint(6) | NO   | PRI  |         |                                                 |
+| yearID         | smallint(6) | NO   | PRI  |         |                                                 |
+| ageID          | smallint(6) | NO   | PRI  |         |                                                 |
+| zoneID         | int(11)     | NO   | PRI  |         |                                                 |
+| hotellingHours | double      | YES  |      |         | total hotelling hours per table key             |
+| isUserInput    | char(1)     | NO   |      | N       | deprecated (no longer available for user input) |
 
 ### hotellingHoursPerDay
 
-hotellingHoursPerDay contains the average hotelling hours per day in a zone. This is a user provided table and is empty by default.
+hotellingHoursPerDay contains the average hotelling hours per day in a zone. The default algorithm calculates hotelling hours per day based on long-haul combination truck VMT on restricted access road types. If local data are available, they can be input into this table to override the default algorithm. Therefore, this table is empty by default.
 
-| Field                | Type        | Null | Key | Default | Comment                                                             |
-| -------------------- | ----------- | ---- | --- | ------- | ------------------------------------------------------------------- |
-| yearID               | smallint(6) | NO   | PRI |         |                                                                     |
-| zoneID               | int(11)     | NO   | PRI |         |                                                                     |
-| dayID                | smallint(6) | NO   | PRI |         |                                                                     |
-| hotellingHoursPerDay | double      | NO   |     |         | average number of hotelling hours per day within each year and zone |
+| Field                | Type        | Null | Key  | Default | Comment                                                      |
+| -------------------- | ----------- | ---- | ---- | ------- | ------------------------------------------------------------ |
+| yearID               | smallint(6) | NO   | PRI  |         |                                                              |
+| zoneID               | int(11)     | NO   | PRI  |         |                                                              |
+| dayID                | smallint(6) | NO   | PRI  |         |                                                              |
+| hotellingHoursPerDay | double      | NO   |      |         | average number of total hotelling hours per day within each year and zone |
 
 ### hotellingMonthAdjust
 
-hotellingMonthAdjust contains multiplicative factors to adjust hotelling activity within a month up or down based on data availability. This is a user provided table that is empty by default.
+hotellingMonthAdjust contains multiplicative factors to adjust hotelling activity within a month compared to the annual monthly average activity based on local data. This is a user provided table and is empty by default.
 
 | Field           | Type        | Null | Key | Default | Comment                                                                     |
 | --------------- | ----------- | ---- | --- | ------- | --------------------------------------------------------------------------- |
@@ -1234,15 +1265,6 @@ linkSourceTypeHour describes the activity of every source type on every link.
 | linkID                 | int(11)     | NO   | PRI |         |                                                                              |
 | sourceTypeID           | smallint(6) | NO   | PRI |         |                                                                              |
 | sourceTypeHourFraction | float       | YES  |     |         | Fraction of the hour during which vehicles of each source type are operating |
-
-### lumpedSpeciesName
-
-lumpedSpeciesName maps the lumped species integer ID to its name, used in calculating chemical mechanism output.
-
-| Field             | Type        | Null | Key | Default | Comment |
-| ----------------- | ----------- | ---- | --- | ------- | ------- |
-| lumpedSpeciesID   | smallint(6) | NO   | PRI |         |         |
-| lumpedSpeciesName | varchar(20) | YES  | MUL |         |         |
 
 ### m6SulfurCoeff
 
@@ -1599,7 +1621,7 @@ nrFuelSupply lists the nonroad fuels used in each fuel region and their market s
 | fuelRegionID      | int(11)     | NO   | PRI | 0       |          |
 | fuelYearID        | int(11)     | NO   | PRI | 0       |          |
 | monthGroupID      | smallint(6) | NO   | PRI | 0       |          |
-| fuelFormulationID | smallint(6) | NO   | PRI | 0       |          |
+| fuelFormulationID | int(11)     | NO   | PRI | 0       |          |
 | marketShare       | float       | YES  |     |         |          |
 | marketShareCV     | float       | YES  |     |         | not used |
 
@@ -1612,8 +1634,6 @@ nrFueltype lists the nonroad fuel types and contains some of their properties an
 | fuelTypeID                | smallint(6) | NO   | PRI | 0       |          |
 | defaultFormulationID      | smallint(6) | NO   |     | 0       |          |
 | fuelTypeDesc              | char(50)    | YES  |     |         |          |
-| humidityCorrectionCoeff   | float       | YES  |     |         |          |
-| humidityCorrectionCoeffCV | float       | YES  |     |         | not used |
 | fuelDensity               | float       | YES  |     |         |          |
 | subjectToEvapCalculations | char(1)     | NO   |     | N       |          |
 
@@ -1703,13 +1723,13 @@ nrHPCategory  lists the horsepower categories used for each engine technology (o
 
 nrHPRangeBin lists the horsepower ranges for each horsepower bin and maps them to an ID integer.
 
-| Field     | Type        | Null | Key  | Default | Comment                                                      |
-| --------- | ----------- | ---- | ---- | ------- | ------------------------------------------------------------ |
-| TR        | smallint(6) | NO   | PRI  |         |                                                              |
-| binName   | char(20)    | YES  |      |         | Nonroad HP bins: 0, 1, 3, 6, 11, 16, 25, 40, 50, 75, 100, 175, 300, 600,  750, 1000, 1200, 2000, 3000, 9999 |
-| hpMin     | smallint(6) | YES  |      |         |                                                              |
-| hpMax     | smallint(6) | YES  |      |         |                                                              |
-| engSizeID | smallint(6) | NO   |      |         |                                                              |
+| Field          | Type        | Null | Key  | Default | Comment                                                      |
+| -------------- | ----------- | ---- | ---- | ------- | ------------------------------------------------------------ |
+| NRHPRangeBinID | smallint(6) | NO   | PRI  |         |                                                              |
+| binName        | char(20)    | YES  |      |         |                                                              |
+| hpMin          | smallint(6) | YES  |      |         |                                                              |
+| hpMax          | smallint(6) | YES  |      |         |                                                              |
+| engSizeID      | smallint(6) | NO   |      |         |                                                              |
 
 ### nrIntegratedspecies
 
@@ -1817,6 +1837,7 @@ nrRetrofitFactors is not populated by default, but can be provided by users for 
 | retrofitID                | smallint(6) | NO   | PRI  |         | arbitrary ID used to model separate retrofit programs        |
 | annualFractionRetrofit    | float       | YES  |      |         | fraction of vehicles retrofitted                             |
 | retrofitEffectiveFraction | float       | YES  |      |         | effectiveness of the retrofit in reducing emissions. Can be  between 0 and 1 - a value of 0.1 is a 10% reduction in emissions. |
+
 ### nrROCSpeciation
 
 nrROCSpeciation (ROC stands for Reactive Organic Carbon) lists the profile from the SPECIATE database that is used to speciate NMOG (non-methane organic gases) and PM to lumped species by fuel sub type, tier, number of strokes, and engine technology, and emission process.
@@ -1952,7 +1973,7 @@ offNetworkLink contains user-provided information about off-network activity in 
 | zoneID                | int(11)     | NO   | PRI  | 0       |                                                              |
 | vehiclePopulation     | float       | YES  |      |         | total number of vehicles present in the project scale run    |
 | startFraction         | float       | YES  |      |         | fraction of population that start during the hour            |
-| extendedIdleFraction  | float       | YES  |      |         | fraction of the time the vehicle population is extended  idling, or "hotelling" during the hour |
+| extendedIdleFraction  | float       | YES  |      |         | fraction of the time the vehicle population is hotelling during the hour |
 | parkedVehicleFraction | float       | YES  |      |         | fraction of vehicles parked during the hour                  |
 
 ### omdgPolProcessRepresented
@@ -2160,6 +2181,21 @@ processGroupID defines two process groups - Exhaust or Evaporative.
 | processGroupID   | smallint(6) | NO   | PRI  |         |         |
 | processGroupName | char(15)    | NO   |      |         |         |
 
+### refuelingControlTechnology
+
+refuelingControlTechnology is used to adjust refueling vapor loss emissions (processID 18) for vehicles with Onboard Refueling Vapor Recovery (ORVR).
+
+| Field                   | Type        | Null | Key  | Default | Comment                                                        |
+| ----------------------- | ----------- | ---- | ---- | ------- | -------------------------------------------------------------- |
+| processID               | smallint(6) | NO   | PRI  |         |                                                                |
+| modelYearID             | smallint(6) | NO   | PRI  |         |                                                                |
+| regClassID              | smallint(6) | NO   | PRI  |         |                                                                |
+| sourceTypeID            | smallint(6) | NO   | PRI  |         |                                                                |
+| fuelTypeID              | smallint(6) | NO   | PRI  |         |                                                                |
+| ageID                   | smallint(6) | NO   | PRI  |         |                                                                |
+| refuelingTechAdjustment | float       | NO   |      | 0       | the fraction of vehicles with functional ORVR systems          |
+| controlledRefuelingRate | float       | NO   |      | 0       | the refueling vapor losses (g/gal) in a functional ORVR system. 0 if the fraction of vehicles with functional ORVR is also 0. |
+
 ### refuelingFactors
 
 refuelingFactors contains terms and coefficients used to calculate the vapor displacement rate for refueling emissions.
@@ -2282,6 +2318,7 @@ roadTypeDistribution allocates total activity to each road type. It contains def
 | sourceTypeID        | smallint(6) | NO   | PRI | 0       |                                                   |
 | roadTypeID          | smallint(6) | NO   | PRI | 0       |                                                   |
 | roadTypeVMTFraction | float       | YES  |     |         | fraction of VMT on each road type per source type |
+
 ### rocSpeciation
 
 rocSpeciation (ROC stands for Reactive Organic Carbon) lists the profile from the SPECIATE database that is used to speciate NMOG (non-methane organic gases) and PM to lumped species by fuel sub type, regulatory class, process, and model year.
@@ -2506,13 +2543,13 @@ sourceHours is used during MOVES runtime to calculate the total hours used in ca
 
 ### sourceTypeAge
 
-sourceTypeAge allocates VMT within an HPMS class by vehicle age, using the Relative Mileage Accumulation Rate, which is a mileage accumulation rate of a source type and age combination relative to other source type and age combinations within its HPMS class. This table is not used in MOVES3 but is populated for reference.
+sourceTypeAge allocates VMT within an HPMS class by vehicle age, using the Relative Mileage Accumulation Rate, which is a mileage accumulation rate of a source type and age combination relative to other source type and age combinations within its HPMS class.
 
 | Field                   | Type        | Null | Key  | Default | Comment                                                      |
 | ----------------------- | ----------- | ---- | ---- | ------- | ------------------------------------------------------------ |
 | ageID                   | smallint(6) | NO   | PRI  | 0       |                                                              |
 | sourceTypeID            | smallint(6) | NO   | PRI  | 0       |                                                              |
-| survivalRate            | double      | YES  |      |         |                                                              |
+| survivalRate            | double      | YES  |      |         | not directly used by MOVES. See the Age Distribution appendix in the Population and Activity of Onroad Vehicles technical report for information about how base survival rates are used |
 | relativeMAR             | double      | YES  |      |         | the  mileage accumulation of a source type and age combination relative to a  common source type, age combination in the HPMS class |
 | functioningACFraction   | double      | YES  |      |         | fraction of vehicles with functional AC systems              |
 | functioningACFractionCV | double      | YES  |      |         | not used                                                     |
@@ -2542,14 +2579,14 @@ sourceTypeDayVMT is used to allocate VMT by the day of the week. It is an option
 
 ### sourceTypeHour
 
-sourceTypeHour is used to calculate extended idle activity based on VMT.
+sourceTypeHour is used to allocate default hotelling activity by hour. Note that this table only holds default data; users may assign their own hotelling hour distribution via the hotellingHourFraction table.
 
-| Field         | Type        | Null | Key | Default | Comment                                                             |
-| ------------- | ----------- | ---- | --- | ------- | ------------------------------------------------------------------- |
-| sourceTypeID  | smallint(6) | NO   | PRI | 0       |                                                                     |
-| hourDayID     | smallint(6) | NO   | PRI | 0       |                                                                     |
-| idleSHOFactor | float       | YES  |     |         | extended idle hours per onroad SHO for combination long haul trucks |
-| hotellingdist | double      | YES  |     |         |                                                                     |
+| Field         | Type        | Null | Key  | Default | Comment                                            |
+| ------------- | ----------- | ---- | ---- | ------- | -------------------------------------------------- |
+| sourceTypeID  | smallint(6) | NO   | PRI  | 0       |                                                    |
+| hourDayID     | smallint(6) | NO   | PRI  | 0       |                                                    |
+| idleSHOFactor | float       | YES  |      |         | deprecated                                         |
+| hotellingdist | double      | YES  |      |         | fraction of daily hotelling activity for each hour |
 
 ### sourceTypeModelYear
 
@@ -2587,14 +2624,14 @@ sourceTypePolProcess describes which vehicle aspects are needed to calculate emi
 
 ### sourceTypeTechAdjustment
 
-sourceTypeTechAdjustment is used to adjust refueling vapor loss emissions based on vehicle technologies that can reduce emissions, like Onboard Refueling Vapor Recovery (ORVR).
+sourceTypeTechAdjustment is used to adjust refueling spillage emissions (processID 19) to account for ORVR. Note that the `refuelingTechAdjustment` values in this table are different than those in the RefuelingTechAdjustment table because these values have to be weighted to account for the lack of the regClassID dimension in this table.
 
 | Field                   | Type        | Null | Key  | Default | Comment                                                      |
 | ----------------------- | ----------- | ---- | ---- | ------- | ------------------------------------------------------------ |
 | processID               | smallint(6) | NO   | PRI  |         |                                                              |
 | sourceTypeID            | smallint(6) | NO   | PRI  |         |                                                              |
 | modelYearID             | smallint(6) | NO   | PRI  |         |                                                              |
-| refuelingTechAdjustment | float       | NO   |      | 0       | reduction in emissions as a decimal value, such that a value  of 0.1 is a 10% reduction |
+| refuelingTechAdjustment | float       | NO   |      | 0       | the fraction of vehicles with functional ORVR systems.       |
 
 ### sourceTypeYear
 
@@ -2900,20 +2937,6 @@ temperatureAdjustment contains the temperature adjustment applied to permeation 
 | minModelYearID    | smallint(6) | NO   | PRI  | 1960    |          |
 | maxModelYearID    | smallint(6) | NO   | PRI  | 2050    |          |
 
-### temperatureFactorExpression
-
-temperatureFactorExpression contains formulas for the temperature and humidity adjustments used for pollutantID 119 (H2O aerosol) running emissions.
-
-| Field                    | Type          | Null | Key  | Default | Comment |
-| ------------------------ | ------------- | ---- | ---- | ------- | ------- |
-| processID                | smallint(6)   | NO   | PRI  |         |         |
-| pollutantID              | smallint(6)   | NO   | PRI  |         |         |
-| fuelTypeID               | smallint(6)   | NO   | PRI  |         |         |
-| sourceTypeID             | smallint(6)   | NO   | PRI  |         |         |
-| minModelYearID           | smallint(6)   | NO   | PRI  |         |         |
-| maxModelYearID           | smallint(6)   | NO   | PRI  |         |         |
-| tempCorrectionExpression | varchar(5000) | YES  |      |         |         |
-
 ### temperatureProfileID
 
 temperatureProfileID maps temperature profiles to their zones and month. These temperature profiles are used in the ratePerProfile table in the MOVES output database. It is empty by default.
@@ -2924,35 +2947,9 @@ temperatureProfileID maps temperature profiles to their zones and month. These t
 | zoneID               | int(11)     | NO   | MUL |         |         |
 | monthID              | smallint(6) | NO   | MUL |         |         |
 
-### togSpeciation
-
-togSpeciation (TOG stands for Total Organic Gases) lists the profile from the SPECIATE database that is used to speciate NMOG (non-methane organic gases) to lumped species by fuel sub type, regulatory class, process, and model year.
-
-| Field                  | Type        | Null | Key | Default | Comment |
-| ---------------------- | ----------- | ---- | --- | ------- | ------- |
-| fuelSubtypeID          | smallint(6) | NO   | PRI |         |         |
-| regClassID             | smallint(6) | NO   | PRI |         |         |
-| processID              | smallint(6) | NO   | PRI |         |         |
-| modelYearGroupID       | int(11)     | NO   | PRI |         |         |
-| togSpeciationProfileID | varchar(10) | NO   | 0   |         |         |
-
-### togSpeciationProfile
-
-togSpeciationProfile contains the profiles from the SPECIATE database that is used to allocate NMOG emissions to lumped species.
-
-| Field                     | Type        | Null | Key  | Default | Comment                                      |
-| ------------------------- | ----------- | ---- | ---- | ------- | -------------------------------------------- |
-| mechanismID               | smallint(6) | NO   | PRI  |         |                                              |
-| togSpeciationProfileID    | varchar(10) | NO   | PRI  | 0       |                                              |
-| integratedSpeciesSetID    | smallint(6) | NO   | PRI  |         |                                              |
-| pollutantID               | smallint(6) | NO   | PRI  |         |                                              |
-| lumpedSpeciesName         | varchar(20) | NO   | PRI  |         |                                              |
-| TOGSpeciationDivisor      | double      | YES  |      |         | molecular weight of each lumped species      |
-| TOGSpeciationMassFraction | double      | YES  |      |         | fraction of TOG mass for each lumped species |
-
 ### togSpeciationProfileName
 
-togSpeciationProfileName maps each speciation profile ID to its name.
+togSpeciationProfileName describes some mobile-source speciation profiles.
 
 | Field                    | Type         | Null | Key | Default | Comment |
 | ------------------------ | ------------ | ---- | --- | ------- | ------- |
@@ -3004,24 +3001,23 @@ zone defines the default zones used in MOVES, which are the same as counties. It
 | zoneID           | int(11) | NO   | PRI  | 0       |                                                              |
 | countyID         | int(11) | NO   | MUL  | 0       |                                                              |
 | startAllocFactor | double  | YES  |      |         | used to allocate national start activity                     |
-| idleAllocFactor  | double  | YES  |      |         | used to allocate national extended idle activity             |
+| idleAllocFactor  | double  | YES  |      |         | deprecated                                                   |
 | SHPAllocFactor   | double  | YES  |      |         | used to allocate allocate activity used in evaporative emissions |
 
 ### zoneMonthHour
 
 zoneMonthHour defines the meteorological conditions used in MOVES for every county/zone.
 
-| Field              | Type        | Null | Key  | Default | Comment  |
-| ------------------ | ----------- | ---- | ---- | ------- | -------- |
-| monthID            | smallint(6) | NO   | PRI  | 0       |          |
-| zoneID             | int(11)     | NO   | PRI  | 0       |          |
-| hourID             | smallint(6) | NO   | PRI  | 0       |          |
-| temperature        | float       | YES  |      |         |          |
-| temperatureCV      | float       | YES  |      |         | not used |
-| relHumidity        | float       | YES  |      |         |          |
-| heatIndex          | float       | YES  |      |         |          |
-| specificHumidity   | float       | YES  |      |         |          |
-| relativeHumidityCV | float       | YES  |      |         | not used |
+| Field            | Type        | Null | Key | Default | Comment                                                                   |
+|------------------|-------------|------|-----|---------|---------------------------------------------------------------------------|
+| monthID          | smallint(6) | NO   | PRI | 0       |                                                                           |
+| zoneID           | int(11)     | NO   | PRI | 0       |                                                                           |
+| hourID           | smallint(6) | NO   | PRI | 0       |                                                                           |
+| temperature      | double      | YES  |     |         | average temperature for the month and hour in Farenheit                   |
+| relHumidity      | double      | YES  |     |         |                                                                           |
+| heatIndex        | double      | YES  |     |         | used during MOVES runtime only, in Farenheit                              |
+| specificHumidity | double      | YES  |     |         | used during MOVES rumtime only, in grams of water per kilogram of dry air |
+| molWaterFraction | double      | YES  |     |         | used during MOVES runtime only, in moles of water per mole of ambient air |
 
 ### zoneRoadType
 
@@ -3034,16 +3030,6 @@ zoneRoadType is used to allocate national onroad activity (SHO) on each road typ
 | SHOAllocFactor | double      | YES  |      |         | fraction of national SHO for a given road type which takes place in each county |
 
 ## MOVES Output Database
-
-### activityType
-
-activityType defines the MOVES output activity types, mapping IDs to their physical interpretation.
-
-| Field            | Type                 | Null | Key | Default | Comment |
-| ---------------- | -------------------- | ---- | --- | ------- | ------- |
-| activityTypeID   | smallint(5) unsigned | NO   | PRI |         |         |
-| activityType     | char(20)             | NO   |     |         |         |
-| activityTypeDesc | char(50)             | YES  |     |         |         |
 
 ### baseRateOutput
 
@@ -3231,7 +3217,7 @@ movesRun defines all the MOVES runs which write to the output database, with som
 | masterVersion        | varchar(100)         | YES  |          |         |                                                              |
 | masterComputerID     | varchar(255)         | YES  |          |         |                                                              |
 | masterIDNumber       | varchar(255)         | YES  |          |         |                                                              |
-| domain               | char(10)             | YES  | NATIONAL |         |                                                              |
+| domain               | char(10)             | YES  | DEFAULT |         |                                                              |
 | domainCountyID       | int(10) unsigned     | YES  |          |         |                                                              |
 | domainCountyName     | varchar(50)          | YES  |          |         |                                                              |
 | domainDatabaseServer | varchar(100)         | YES  |          |         |                                                              |
@@ -3408,3 +3394,157 @@ startsPerVehicle contains data for a MOVES rates run, defining the number of sta
 | fuelTypeID       | smallint(5) unsigned | YES  |     |         |         |
 | modelYearID      | smallint(5) unsigned | YES  |     |         |         |
 | startsPerVehicle | float                | YES  |     |         |         |
+
+### translate_ActivityType
+
+translate_ActivityType is a convenience copy of the definitions contained in the activityType table from the default database.
+
+| Field            | Type                 | Null | Key | Default | Comment |
+| ---------------- | -------------------- | ---- | --- | ------- | ------- |
+| activityTypeID   | smallint(5) unsigned | NO   | PRI |         |         |
+| activityTypeName | varchar(20)          | NO   |     |         |         |
+| activityTypeDesc | varchar(50)          | YES  |     |         |         |
+
+### translate_AvgSpeedBin
+
+translate_AvgSpeedBin is a convenience copy of the definitions contained in the avgSpeedBin table from the default database.
+
+| Field            | Type        | Null | Key | Default | Comment                                                                            |
+| ---------------- | ----------- | ---- | --- | ------- | ---------------------------------------------------------------------------------- |
+| avgSpeedBinID    | smallint(6) | NO   | PRI | 0       |                                                                                    |
+| avgSpeedBinName  | varchar(50) | YES  |     |         |                                                                                    |
+| avgBinSpeed      | float       | YES  |     |         |                                                                                    |
+
+### translate_County
+
+translate_County is a convenience copy of the definitions contained in the county table from the default database. It only includes the county records that appear in the output database.
+
+| Field                | Type        | Null | Key  | Default | Comment                                                      |
+| -------------------- | ----------- | ---- | ---- | ------- | ------------------------------------------------------------ |
+| countyID             | int(11)     | NO   | PRI  | 0       |                                                              |
+| stateID              | smallint(6) | NO   | PRI  | 0       |                                                              |
+| countyName           | varchar(50) | YES  |      |         |                                                              |
+
+### translate_Day
+
+translate_Day is a convenience copy of the definitions contained in the dayOfAnyWeek table from the default database.
+
+| Field        | Type        | Null | Key | Default | Comment                                               |
+| ------------ | ----------- | ---- | --- | ------- | ----------------------------------------------------- |
+| dayID        | smallint(6) | NO   | PRI | 0       |                                                       |
+| dayName      | varchar(10) | YES  |     |         |                                                       |
+
+### translate_EngTech
+
+translate_EngTech is a convenience copy of the definitions contained in the engineTech table from the default database.
+
+| Field       | Type        | Null | Key  | Default | Comment |
+| ----------- | ----------- | ---- | ---- | ------- | ------- |
+| engTechID   | smallint(6) | NO   | PRI  | 0       |         |
+| engTechName | varchar(50) | YES  |      |         |         |
+| engTechDesc | varchar(80) | YES  |      |         |         |
+
+### translate_FuelSubtype
+
+translate_FuelSubtype is a convenience copy of the definitions contained in the fuelSubtype and nrFuelSubtype tables from the default database.
+
+| Field                          | Type        | Null | Key  | Default | Comment                                                      |
+| ------------------------------ | ----------- | ---- | ---- | ------- | ------------------------------------------------------------ |
+| fuelSubtypeID                  | smallint(6) | NO   | PRI  | 0       |                                                              |
+| fuelTypeID                     | smallint(6) | NO   | MUL  | 0       |                                                              |
+| fuelSubtypeName                | varchar(50) | YES  |      |         | a short description of what the fuel subtype represents      |
+
+### translate_FuelType
+
+translate_FuelType is a convenience copy of the definitions contained in the fuelType and nrFuelType tables from the default database.
+
+| Field                     | Type        | Null | Key  | Default | Comment                                                      |
+| ------------------------- | ----------- | ---- | ---- | ------- | ------------------------------------------------------------ |
+| fuelTypeID                | smallint(6) | NO   | PRI  | 0       |                                                              |
+| fuelTypeName              | varchar(50) | YES  |      |         | a general description of what the given fuel type represents |
+
+### translate_NRSCC
+
+translate_NRSCC is a convenience copy of the definitions contained in the nrSCC table from the default database.
+
+| Field          | Type        | Null | Key  | Default | Comment                                                      |
+| -------------- | ----------- | ---- | ---- | ------- | ------------------------------------------------------------ |
+| scc            | char(10)    | NO   | PRI  |         |                                                              |
+| sccName        | varchar(40) | YES  |      |         |                                                              |
+
+### translate_HP
+
+translate_HP is a convenience copy of the definitions contained in the nrHPRangeBin table from the default database.
+
+| Field          | Type        | Null | Key  | Default | Comment                                                      |
+| -------------- | ----------- | ---- | ---- | ------- | ------------------------------------------------------------ |
+| hpID           | smallint(6) | NO   | PRI  |         |                                                              |
+| hpName         | varchar(20) | YES  |      |         |                                                              |
+
+### translate_Pollutant
+
+translate_Pollutant is a convenience copy of the definitions contained in the pollutant table from the default database.
+
+| Field                   | Type        | Null | Key | Default | Comment                                                                                                                                                                                            |
+| ----------------------- | ----------- | ---- | --- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| pollutantID             | smallint(6) | NO   | PRI | 0       |                                                                                                                                                                                                    |
+| pollutantName           | varchar(50) | YES  |     |         |                                                                                                                                                                                                    |
+| pollutantShortName      | varchar(50) | YES  |     |         |                                                                                                                                                                                                    |
+
+### translate_Process
+
+translate_Process is a convenience copy of the definitions contained in the emissionProcess table from the default database.
+
+| Field                 | Type                 | Null | Key | Default | Comment                                             |
+| --------------------- | -------------------- | ---- | --- | ------- | --------------------------------------------------- |
+| processID             | smallint(6)          | NO   | PRI | 0       |                                                     |
+| processName           | varchar(50)          | YES  |     |         |                                                     |
+| processShortName      | varchar(50)          | YES  |     |         |                                                     |
+
+### translate_RegClass
+
+translate_RegClass is a convenience copy of the definitions contained in the regulatoryClass table from the default database.
+
+| Field        | Type         | Null | Key | Default | Comment |
+| ------------ | ------------ | ---- | --- | ------- | ------- |
+| regClassID   | smallint(6)  | NO   | PRI | 0       |         |
+| regClassName | varchar(25)  | YES  |     |         |         |
+| regClassDesc | varchar(100) | YES  |     |         |         |
+
+### translate_RoadType
+
+translate_RoadType is a convenience copy of the definitions contained in the roadType table from the default database.
+
+| Field               | Type        | Null | Key | Default | Comment            |
+| ------------------- | ----------- | ---- | --- | ------- | ------------------ |
+| roadTypeID          | smallint(6) | NO   | PRI | 0       |                    |
+| roadTypeName        | varchar(50) | YES  |     |         |                    |
+
+### translate_Sector
+
+translate_Sector is a convenience copy of the definitions contained in the sector table from the default database.
+
+| Field       | Type        | Null | Key | Default | Comment |
+| ----------- | ----------- | ---- | --- | ------- | ------- |
+| sectorID    | smallint(6) | NO   | PRI |         |         |
+| sectorName  | varchar(40) | YES  |     |         |         |
+
+### translate_SourceType
+
+translate_SourceType is a convenience copy of the definitions contained in the sourceusetype table from the default database.
+
+| Field          | Type        | Null | Key | Default | Comment |
+| -------------- | ----------- | ---- | --- | ------- | ------- |
+| sourceTypeID   | smallint(6) | NO   | PRI | 0       |         |
+| HPMSVtypeID    | smallint(6) | NO   | MUL | 0       |         |
+| sourceTypeName | varchar(50) | YES  |     |         |         |
+
+### translate_State
+
+translate_State is a convenience copy of the definitions contained in the state table from the default database.
+
+| Field        | Type        | Null | Key | Default | Comment |
+| ------------ | ----------- | ---- | --- | ------- | ------- |
+| stateID      | smallint(6) | NO   | PRI | 0       |         |
+| stateName    | varchar(25) | YES  |     |         |         |
+| stateAbbr    | char(2)     | YES  |     |         |         |

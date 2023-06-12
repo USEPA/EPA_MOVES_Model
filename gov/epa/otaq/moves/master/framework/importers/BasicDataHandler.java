@@ -106,7 +106,6 @@ public class BasicDataHandler implements IDataHandler {
 		+ " fuelSubtypePetroleumFraction,"
 		+ " fuelSubtypeFossilFraction,"
 		+ " carbonContent, oxidationFraction,"
-		+ " humidityCorrectionCoeff,"
 		+ " energyContent, fuelDensity"
 		+ " from FuelFormulation ff"
 		+ " inner join FuelSubType fs using (fuelSubTypeID)"
@@ -119,7 +118,6 @@ public class BasicDataHandler implements IDataHandler {
 		+ " fuelSubtypePetroleumFraction,"
 		+ " fuelSubtypeFossilFraction,"
 		+ " carbonContent, oxidationFraction,"
-		+ " humidityCorrectionCoeff,"
 		+ " energyContent, fuelDensity"
 		+ " from FuelSubType fs"
 		+ " inner join FuelType ft using (fuelTypeID)"
@@ -127,9 +125,9 @@ public class BasicDataHandler implements IDataHandler {
 
 		"FuelType",
 		"select fuelTypeID, fuelTypeDesc,"
-		+ " humidityCorrectionCoeff,"
 		+ " fuelDensity"
 		+ " from FuelType ft"
+        + " where ft.fuelTypeID <> 40"
 		+ " order by ft.fuelTypeID",
 
 		"nrFuelSubtype",
@@ -138,7 +136,6 @@ public class BasicDataHandler implements IDataHandler {
 		+ " fuelSubtypePetroleumFraction,"
 		+ " fuelSubtypeFossilFraction,"
 		+ " carbonContent, oxidationFraction,"
-		+ " humidityCorrectionCoeff,"
 		+ " energyContent, fuelDensity"
 		+ " from nrFuelSubType fs"
 		+ " inner join nrFuelType ft using (fuelTypeID)"
@@ -146,7 +143,6 @@ public class BasicDataHandler implements IDataHandler {
 
 		"nrFuelType",
 		"select fuelTypeID, fuelTypeDesc,"
-		+ " humidityCorrectionCoeff,"
 		+ " fuelDensity"
 		+ " from nrFuelType ft"
 		+ " order by ft.fuelTypeID",

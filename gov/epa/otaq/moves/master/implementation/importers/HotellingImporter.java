@@ -42,6 +42,7 @@ public class HotellingImporter extends ImporterBase {
 	static String[] dataTableDescriptorProject = {
 		BasicDataHandler.BEGIN_TABLE, "hotellingActivityDistribution",
 		"zoneID", "Zone", ImporterManager.FILTER_ZONE,
+		"fuelTypeID", "", ImporterManager.FILTER_HOTELLING_FUELTYPES,
 		"beginModelYearID", "", ImporterManager.FILTER_MODELYEARID,
 		"endModelYearID", "", ImporterManager.FILTER_MODELYEARID,
 		"opModeID", "OperatingModeAux", ImporterManager.FILTER_OPMODEID_AUX,
@@ -50,10 +51,10 @@ public class HotellingImporter extends ImporterBase {
 
 	/**
 	 * Descriptor of the table(s) imported, exported, and cleared by this importer
-	 * when applied to anything except a project domain.
+	 * when applied to a county domain.
 	 * The format is compatible with BasicDataHandler.
 	**/
-	static String[] dataTableDescriptorNotProject = {
+	static String[] dataTableDescriptorCounty = {
 		BasicDataHandler.BEGIN_TABLE, "hotellingHoursPerDay",
 		"yearID", "Year", ImporterManager.FILTER_YEAR,
 		"zoneID", "Zone", ImporterManager.FILTER_ZONE,
@@ -77,12 +78,52 @@ public class HotellingImporter extends ImporterBase {
 		"monthAdjustment", "", ImporterManager.FILTER_NON_NEGATIVE_DEFAULT_1,
 
 		BasicDataHandler.BEGIN_TABLE, "hotellingActivityDistribution",
-		"zoneID", "Zone", "%%", // % wildcard is needed here so that the getAlternateExportSQL() results for this table are not filtered (default db has ZoneID 990000 and we want all of those rows)
+		"zoneID", "Zone", ImporterManager.FILTER_ZONE,
+		"fuelTypeID", "", ImporterManager.FILTER_HOTELLING_FUELTYPES,
 		"beginModelYearID", "", ImporterManager.FILTER_MODELYEARID,
 		"endModelYearID", "", ImporterManager.FILTER_MODELYEARID,
 		"opModeID", "OperatingModeAux", ImporterManager.FILTER_OPMODEID_AUX,
 		"opModeFraction", "", ImporterManager.FILTER_0_TO_1_FRACTION
 	};
+
+    
+	/**
+	 * Descriptor of the table(s) imported, exported, and cleared by this importer
+	 * when applied to anything except a project or county domain.
+	 * The format is compatible with BasicDataHandler.
+	**/
+	static String[] dataTableDescriptorNotProjectCounty = {
+		BasicDataHandler.BEGIN_TABLE, "hotellingHoursPerDay",
+		"yearID", "Year", ImporterManager.FILTER_YEAR,
+		"zoneID", "Zone", ImporterManager.FILTER_ZONE,
+		"dayID", "DayOfAnyWeek", ImporterManager.FILTER_DAY,
+		"hotellingHoursPerDay", "", ImporterManager.FILTER_NON_NEGATIVE,
+
+		BasicDataHandler.BEGIN_TABLE, "hotellingHourFraction",
+		"zoneID", "Zone", ImporterManager.FILTER_ZONE,
+		"dayID", "DayOfAnyWeek", ImporterManager.FILTER_DAY,
+		"hourID", "HourOfAnyDay", ImporterManager.FILTER_HOUR,
+		"hourFraction", "", ImporterManager.FILTER_NON_NEGATIVE,
+
+		BasicDataHandler.BEGIN_TABLE, "hotellingAgeFraction",
+		"zoneID", "Zone", ImporterManager.FILTER_ZONE,
+		"ageID", "AgeCategory", ImporterManager.FILTER_AGE,
+		"ageFraction", "", ImporterManager.FILTER_NON_NEGATIVE,
+
+		BasicDataHandler.BEGIN_TABLE, "hotellingMonthAdjust",
+		"zoneID", "Zone", ImporterManager.FILTER_ZONE,
+		"monthID", "MonthOfAnyYear", ImporterManager.FILTER_MONTH,
+		"monthAdjustment", "", ImporterManager.FILTER_NON_NEGATIVE_DEFAULT_1,
+
+		BasicDataHandler.BEGIN_TABLE, "hotellingActivityDistribution",
+		"zoneID", "Zone", ImporterManager.FILTER_DEFAULT_HAD_ZONES,
+		"fuelTypeID", "", ImporterManager.FILTER_HOTELLING_FUELTYPES,
+		"beginModelYearID", "", ImporterManager.FILTER_MODELYEARID,
+		"endModelYearID", "", ImporterManager.FILTER_MODELYEARID,
+		"opModeID", "OperatingModeAux", ImporterManager.FILTER_OPMODEID_AUX,
+		"opModeFraction", "", ImporterManager.FILTER_0_TO_1_FRACTION
+	};
+
 
 	/** Class for editing the data source **/
 	class HotellingActivityDistributionPartProvider implements TableFileLinkagePart.IProvider {
@@ -263,8 +304,9 @@ public class HotellingImporter extends ImporterBase {
 						+ "	from zone cross join monthofanyyear";
 			}
 			if(tableName.equalsIgnoreCase("hotellingActivityDistribution")) {
-				return "SELECT '' as zoneID, beginModelYearID, endModelYearID, opModeID, opModeFraction "
-					   + "FROM hotellingactivitydistribution";
+				return "select z.zoneID, fuelTypeID, beginModelYearID, endModelYearID, opModeID, opModeFraction "
+					   + "FROM hotellingactivitydistribution had "
+					   + "JOIN zone z";
 			}
 			return null;
 		}
@@ -298,6 +340,18 @@ public class HotellingImporter extends ImporterBase {
 			hotellingActivityDistributionPart = new TableFileLinkagePart(this,new HotellingActivityDistributionPartProvider());
 			parts.add(hotellingActivityDistributionPart);
 			basicDataHandler = new BasicDataHandler(this,dataTableDescriptorProject,new BasicDataHandlerProvider());
+		} else if (ImporterInstantiator.activeManager.isCounty()) {
+			hotellingHoursPerDayPart = new TableFileLinkagePart(this,new HotellingHoursPerDayPartProvider());
+			parts.add(hotellingHoursPerDayPart);
+			hotellingHourFractionPart = new TableFileLinkagePart(this,new HotellingHourFractionPartProvider());
+			parts.add(hotellingHourFractionPart);
+			hotellingAgeFractionPart = new TableFileLinkagePart(this,new HotellingAgeFractionPartProvider());
+			parts.add(hotellingAgeFractionPart);
+			hotellingMonthAdjustPart = new TableFileLinkagePart(this,new HotellingMonthAdjustPartProvider());
+			parts.add(hotellingMonthAdjustPart);
+			hotellingActivityDistributionPart = new TableFileLinkagePart(this,new HotellingActivityDistributionPartProvider());
+			parts.add(hotellingActivityDistributionPart);
+			basicDataHandler = new BasicDataHandler(this,dataTableDescriptorCounty,new BasicDataHandlerProvider());
 		} else {
 			hotellingHoursPerDayPart = new TableFileLinkagePart(this,new HotellingHoursPerDayPartProvider());
 			parts.add(hotellingHoursPerDayPart);
@@ -307,11 +361,9 @@ public class HotellingImporter extends ImporterBase {
 			parts.add(hotellingAgeFractionPart);
 			hotellingMonthAdjustPart = new TableFileLinkagePart(this,new HotellingMonthAdjustPartProvider());
 			parts.add(hotellingMonthAdjustPart);
-
 			hotellingActivityDistributionPart = new TableFileLinkagePart(this,new HotellingActivityDistributionPartProvider());
 			parts.add(hotellingActivityDistributionPart);
-
-			basicDataHandler = new BasicDataHandler(this,dataTableDescriptorNotProject,new BasicDataHandlerProvider());
+			basicDataHandler = new BasicDataHandler(this,dataTableDescriptorNotProjectCounty,new BasicDataHandlerProvider());
 		}
 
 		dataHandler = basicDataHandler;
@@ -395,6 +447,13 @@ public class HotellingImporter extends ImporterBase {
 		if(SQLRunner.executeScalar(db,"select count(*) from hotellingActivityDistribution") > 0) {
 			if(!manager.tableHasZones(db,"select distinct zoneID from hotellingActivityDistribution",
 					this,"hotellingActivityDistribution is missing zoneID(s)")) {
+				return false;
+			}
+		}
+
+		if(SQLRunner.executeScalar(db,"select count(*) from hotellingActivityDistribution") > 0) {
+			if(!manager.tableHasHotellingFuelTypes(db,"select distinct fuelTypeID from hotellingActivityDistribution",
+					this,"hotellingActivityDistribution is missing fuelTypeID(s)")) {
 				return false;
 			}
 		}

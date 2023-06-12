@@ -1,6 +1,8 @@
-# MOVES3.1
+# MOVES4-ReleaseCandidate2
 
 EPA's MOtor Vehicle Emission Simulator (MOVES) is a state-of-the-science emission modeling system that estimates emissions for mobile sources at the national, county, and project level for criteria air pollutants, greenhouse gases, and air toxics, available under EPA's Open Source Software policy. 
+
+The MOVES4 Release Candidate is made available for testing purposes and for modelers to become familiar with functional changes between MOVES3 and MOVES4 before MOVES4.0.0 is released. Emission results of MOVES4.0.0 may differ from the results of this release candidate. Results from this version may not be used in work for state implementation plans, conformity determinations, or for any other regulatory purpose.
 
 MOVES3.1 (available at https://github.com/USEPA/EPA_MOVES_Model and https://www.epa.gov/moves/latest-version-motor-vehicle-emission-simulator-moves) is the latest version of MOVES available for regulatory purposes. For more information, see [Policy Guidance on the Use of MOVES3 for State Implementation Plan Development, Transportation Conformity, General Conformity, and Other Purposes (EPA-420-B-20-044)](https://www.epa.gov/moves/latest-version-motor-vehicle-emission-simulator-moves#sip). 
 
@@ -12,8 +14,8 @@ This repository contains all of the source code and data required to compile and
 
 MOVES uses MariaDB, Java, and Go. To run MOVES from the source code (i.e., without running the installer), you will need the following:
 
-* [MariaDB](https://mariadb.org/download/?t=mariadb&p=mariadb&r=10.4.23) (version 10.4 or later)
-* [Java JDK](https://docs.microsoft.com/en-us/java/openjdk/download#openjdk-11) (version 11 or version 17)
+* [MariaDB](https://mariadb.org/download/?t=mariadb&p=mariadb&r=10.11.2) (version 10.11 is recommended)
+* [Java JDK](https://learn.microsoft.com/en-us/java/openjdk/download#openjdk-17) (version 17 is recommended)
 * [Go](https://golang.org/dl) (version 1.13 or later)
 
 To get set up:
@@ -25,7 +27,7 @@ To get set up:
     *   `java.exe -version`
     *   `go.exe version`
 
-3. MOVES has some specific MariaDB configuration requirements. Locate the MariaDB configuration file (on Windows, this is my.ini located in your data directory--see #4 of [Quick Start Guide to Accessing MariaDB Data](docs/QuickStartGuideToAccessingMariaDBData.pdf) for help on finding your data directory), and ensure the following lines are saved in the file:
+3. MOVES has some specific MariaDB configuration requirements. Locate the MariaDB configuration file (on Windows, this is my.ini located in your data directory; see #4 of [Quick Start Guide to Accessing MariaDB Data](docs/QuickStartGuideToAccessingMariaDBData.pdf) for help on finding your data directory), and ensure the following lines are saved in the file:
 
     ```ini
     [mysqld]
@@ -37,7 +39,7 @@ To get set up:
     collation-server=utf8_unicode_ci
     init-connect='SET NAMES utf8'
     ```
-    Restart MariaDB after modifying this file.
+    Restart the MariaDB service after modifying this file.
 
 4. If MariaDB is running on a non-default port (i.e., any port other than 3306), create a file called `MySQL.txt` in the root MOVES directory, and save the port number to this text file. This file should contain no whitespace, just the port number.
 
@@ -61,7 +63,7 @@ To get set up:
 9. Hereafter to run MOVES, simply navigate to the MOVES directory and run:
 
     ```bash
-    MOVESMaster.bat
+    MOVESMain.bat
     ```
 
 ### Need help?
@@ -70,7 +72,7 @@ Documentation on the software components of MOVES, database structure, running M
 
 Additional resources listed below are available at the MOVES website:
 
-* [MOVES3 Technical Guidance](https://nepis.epa.gov/Exe/ZyPDF.cgi?Dockey=P1010LY2.pdf): Guidance on appropriate input assumptions and sources of data for the use of MOVES3 in SIP development and regional emissions analyses for transportation conformity determinations in states other than California. It also includes guidance on developing nonroad inventories with MOVES3.
+* [MOVES Technical Guidance](https://www.epa.gov/moves/latest-version-motor-vehicle-emission-simulator-moves#guidance): Guidance on appropriate input assumptions and sources of data for the use of MOVES in SIP development and regional emissions analyses for transportation conformity determinations in states other than California. It also includes guidance on developing nonroad inventories with MOVES.
 * [Onroad Technical Reports](https://www.epa.gov/moves/moves-onroad-technical-reports) and [Nonroad Technical Reports](https://www.epa.gov/moves/nonroad-technical-reports): Access peer-reviewed documentation on the default inputs and algorithms used in MOVES
 * [MOVES Training](https://www.epa.gov/moves/moves-training-sessions#training): Contains on-your-own training modules for using MOVES
 * [MOVES FAQ](https://www.epa.gov/moves/frequent-questions-about-moves-and-related-models): Frequent asked questions about MOVES and related models
@@ -79,7 +81,7 @@ If you have questions or feedback about MOVES, [email the MOVES inbox](mailto:mo
 
 ### Previous MOVES Versions
 
-Previous versions of MOVES3 as well the MOVES2014b December 2018 Technical Update can be accessed on GitHub at [MOVES Releases](https://github.com/USEPA/EPA_MOVES_Model/releases). Older versions of MOVES are available at the [MOVES website](https://www.epa.gov/moves/moves-versions-limited-current-use).
+Previous versions of MOVES going back to the MOVES2014b December 2018 Technical Update can be accessed on GitHub at [MOVES Releases](https://github.com/USEPA/EPA_MOVES_Model/releases). Older versions of MOVES are available at the [MOVES website](https://www.epa.gov/moves/moves-versions-limited-current-use).
 
 ### License
 

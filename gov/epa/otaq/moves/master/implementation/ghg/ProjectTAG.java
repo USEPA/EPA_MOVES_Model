@@ -265,7 +265,6 @@ public class ProjectTAG extends Generator {
 		boolean makeSHO = false;
 		boolean makeSHP = false;
 		boolean makeStarts = false;
-		boolean makeExtIdle = false;
 		boolean makeHotelling = false;
 		boolean makeSH = false;
 
@@ -303,7 +302,7 @@ public class ProjectTAG extends Generator {
 
 		if(extendedIdleProcess!=null &&
 				inContext.iterProcess.compareTo(extendedIdleProcess)==0) {
-			makeExtIdle = !hasGenerated("ExtIdle",zoneID);
+			makeHotelling = !hasGenerated("ExtIdle",zoneID);
 		}
 		if(CompilationFlags.ENABLE_AUXILIARY_POWER_EXHAUST && auxiliaryPowerProcess!=null &&
 				inContext.iterProcess.compareTo(auxiliaryPowerProcess)==0) {
@@ -441,9 +440,9 @@ public class ProjectTAG extends Generator {
 			//2010B: String fractionFragment = isRates? "" : "*onl.extendedIdleFraction";
 			String fractionFragment = "*onl.extendedIdleFraction";
 
-			sql = "insert ignore into hotellingHours (hourDayID, monthID, yearID, ageID, zoneID, sourceTypeID, hotellingHours)"
-					+ " select hd.hourDayID, rsm.monthID, stad.yearID, stad.ageID, " + zoneID + " as zoneID, stad.sourceTypeID, "
-					+ " 	(onl.vehiclePopulation" + fractionFragment + "*stad.ageFraction*dow.noOfRealDays) as hotellingHours"
+			sql = "insert ignore into hotellingHours (hourDayID, monthID, yearID, ageID, zoneID, sourceTypeID, fuelTypeID, hotellingHours)"
+					+ " select hd.hourDayID, rsm.monthID, stad.yearID, stad.ageID, " + zoneID + " as zoneID, stad.sourceTypeID, avft.fuelTypeID, "
+					+ " 	sum(onl.vehiclePopulation" + fractionFragment + "*stad.ageFraction*dow.noOfRealDays*avft.fuelEngFraction) as hotellingHours"
 					+ " from"
 					+ " 	offNetworkLink onl,"
 					+ " 	runSpecSourceType rsst,"
@@ -451,71 +450,21 @@ public class ProjectTAG extends Generator {
 					+ " 	runSpecMonth rsm,"
 					+ " 	dayOfAnyWeek dow,"
 					+ " 	sourceTypeAgeDistribution stad,"
-					+ " 	hourDay hd, runSpecHourDay rshd"
+					+ " 	hourDay hd, runSpecHourDay rshd,"
+					+ "     avft"
 					+ " where"
 					+ " 	hd.hourDayID = rshd.hourDayID"
 					+ " 	and dow.dayID = rsd.dayID"
 					+ " 	and hd.dayID = dow.dayID"
 					+ " 	and onl.sourceTypeID = rsst.sourceTypeID"
 					+ "     and onl.sourceTypeID=62"
+					+ "     and avft.sourceTypeID = onl.sourceTypeID"
+					+ "     and avft.modelYearID = stad.yearID - stad.ageID"
 					+ " 	and stad.sourceTypeID = onl.sourceTypeID"
 					+ " 	and stad.yearID = " + year
-					+ " 	and onl.zoneID = " + zoneID;
+					+ " 	and onl.zoneID = " + zoneID
+					+ " group by hd.hourDayID, rsm.monthID, stad.yearID, stad.ageID, onl.zoneID, stad.sourceTypeID, avft.fuelTypeID";
 			SQLRunner.executeSQL(db,sql);
-		}
-		if(makeExtIdle) {
-			//2010B: String fractionFragment = isRates? "" : "*onl.extendedIdleFraction";
-			String fractionFragment = "*onl.extendedIdleFraction";
-
-			if(CompilationFlags.ENABLE_AUXILIARY_POWER_EXHAUST) {
-				sql = "insert ignore into extendedIdleHours (hourDayID, monthID, yearID, ageID, zoneID, sourceTypeID, extendedIdleHours)"
-						+ " select hd.hourDayID, rsm.monthID, stad.yearID, stad.ageID, " + zoneID + " as zoneID, stad.sourceTypeID, "
-						+ " 	(onl.vehiclePopulation" + fractionFragment + "*stad.ageFraction*dow.noOfRealDays*hac.opModeFraction) as extendedIdleHours"
-						+ " from"
-						+ " 	offNetworkLink onl,"
-						+ " 	runSpecSourceType rsst,"
-						+ " 	runSpecDay rsd,"
-						+ " 	runSpecMonth rsm,"
-						+ " 	dayOfAnyWeek dow,"
-						+ " 	sourceTypeAgeDistribution stad,"
-						+ "		hotellingActivityDistribution hac,"
-						+ " 	hourDay hd, runSpecHourDay rshd"
-						+ " where"
-						+ " 	hd.hourDayID = rshd.hourDayID"
-						+ " 	and dow.dayID = rsd.dayID"
-						+ " 	and hd.dayID = dow.dayID"
-						+ " 	and onl.sourceTypeID = rsst.sourceTypeID"
-						+ " 	and stad.sourceTypeID = onl.sourceTypeID"
-						+ "     and onl.sourceTypeID=62"
-						+ "		and hac.opModeID = 200"
-						+ "		and hac.beginModelYearID <= stad.yearID - stad.ageID"
-						+ "		and hac.endModelYearID >= stad.yearID - stad.ageID"
-						+ " 	and stad.yearID = " + year
-						+ " 	and onl.zoneID = hac.zoneID and onl.zoneID = " + zoneID;
-				SQLRunner.executeSQL(db,sql);
-			} else {
-				sql = "insert ignore into extendedIdleHours (hourDayID, monthID, yearID, ageID, zoneID, sourceTypeID, extendedIdleHours)"
-						+ " select hd.hourDayID, rsm.monthID, stad.yearID, stad.ageID, " + zoneID + " as zoneID, stad.sourceTypeID, "
-						+ " 	(onl.vehiclePopulation" + fractionFragment + "*stad.ageFraction*dow.noOfRealDays) as extendedIdleHours"
-						+ " from"
-						+ " 	offNetworkLink onl,"
-						+ " 	runSpecSourceType rsst,"
-						+ " 	runSpecDay rsd,"
-						+ " 	runSpecMonth rsm,"
-						+ " 	dayOfAnyWeek dow,"
-						+ " 	sourceTypeAgeDistribution stad,"
-						+ " 	hourDay hd, runSpecHourDay rshd"
-						+ " where"
-						+ " 	hd.hourDayID = rshd.hourDayID"
-						+ " 	and dow.dayID = rsd.dayID"
-						+ " 	and hd.dayID = dow.dayID"
-						+ " 	and onl.sourceTypeID = rsst.sourceTypeID"
-						+ "     and onl.sourceTypeID=62"
-						+ " 	and stad.sourceTypeID = onl.sourceTypeID"
-						+ " 	and stad.yearID = " + year
-						+ " 	and onl.zoneID = " + zoneID;
-				SQLRunner.executeSQL(db,sql);
-			}
 		}
 		if(makeSH) {
 			if(inContext.iterLocation.roadTypeRecordID==1) {
