@@ -39,9 +39,16 @@ CREATE TABLE ATBaseEmissions
 	primary key (polProcessID, monthGroupID)
 );
 
+CREATE TABLE ActivityType (
+	activityTypeID       SMALLINT UNSIGNED NOT NULL,
+	activityType         CHAR(20) NOT NULL,
+	activityTypeDesc     CHAR(50) NULL DEFAULT NULL,
+	PRIMARY KEY (activityTypeID)
+);
+
 create table ATRatio (
 	fuelTypeID int not null,
-	fuelFormulationID int not null,
+	fuelFormulationID int(11) not null,
 	polProcessID int not null,
 	minModelYearID int not null,
 	maxModelYearID int not null,
@@ -165,7 +172,7 @@ create table BaseFuel
 	calculationEngine varchar(100) not null,
 	fuelTypeID smallint(6) not null,
 	modelYearGroupID int(11) not null default '0',
-	fuelFormulationID smallint(6) not null,
+	fuelFormulationID int(11) not null,
 	description varchar(255) not null default '',
 	dataSourceID smallint(6) not null,
 	primary key (calculationEngine, fuelTypeID, modelYearGroupID)
@@ -258,15 +265,16 @@ CREATE TABLE CrankcaseEmissionRatio (
 	minModelYearID			smallint(6) NOT NULL,
 	maxModelYearID			smallint(6) NOT NULL,
 	sourceTypeID			smallint(6) NOT NULL,
+	regClassID			    smallint(6) NOT NULL,
 	fuelTypeID				smallint(6) NOT NULL,	
 	crankcaseRatio			float NOT NULL,
 	crankcaseRatioCV		float NULL,
-	primary key (polProcessID, minModelYearID, maxModelYearID, sourceTypeID, fuelTypeID)
+	primary key (polProcessID, minModelYearID, maxModelYearID, sourceTypeID, regClassID, fuelTypeID)
 ); 
 
 create table criteriaRatio (
 	fuelTypeID int not null,
-	fuelFormulationID int not null,
+	fuelFormulationID int(11) not null,
 	polProcessID int not null,
 	pollutantID int not null,
 	processID int not null,
@@ -636,34 +644,18 @@ create table evapRVPTemperatureAdjustment (
 	key (RVP, fuelTypeID, processID)
 );
 
-CREATE TABLE ExtendedIdleHours (
-       sourceTypeID         SMALLINT NOT NULL,
-       hourDayID            SMALLINT NOT NULL,
-       monthID              SMALLINT NOT NULL,
-       yearID               SMALLINT NOT NULL,
-       ageID                SMALLINT NOT NULL,
-       zoneID               INTEGER NOT NULL,
-       extendedIdleHours    FLOAT NULL,
-       extendedIdleHoursCV  FLOAT NULL
-);
-
-ALTER TABLE ExtendedIdleHours ADD (
-        KEY (sourceTypeID),
-        KEY (hourDayID),
-        KEY (monthID),
-        KEY (yearID),
-        KEY (ageID),
-        KEY (zoneID)
-);
-
-CREATE UNIQUE INDEX XPKExtendedIdleHours ON ExtendedIdleHours
+CREATE TABLE evefficiency
 (
-       sourceTypeID                   ASC,
-       hourDayID                      ASC,
-       monthID                        ASC,
-       yearID                         ASC,
-       ageID                          ASC,
-       zoneID                         ASC
+	polProcessID			int(11)			not null,
+	sourceTypeID			smallint(6)		not null,
+	regClassID				smallint(6)		not null,
+	ageGroupID				smallint(6)		not null,
+	beginModelYearID		smallint(6)		not null,
+	endModelYearID			smallint(6)		not null,
+	batteryEfficiency       double null default NULL,
+	chargingEfficiency		double null default NULL,
+	primary key (polProcessID, sourceTypeID, ageGroupID, regClassID, beginModelYearID, endModelYearID),
+	key (polProcessID, beginModelYearID, endModelYearID)
 );
 
 CREATE TABLE FuelEngTechAssoc (
@@ -682,7 +674,7 @@ CREATE UNIQUE INDEX XPKFuelEngTechAssoc ON FuelEngTechAssoc
 );
   
 CREATE TABLE FuelFormulation (
-    fuelFormulationID SMALLINT NOT NULL PRIMARY KEY,
+    fuelFormulationID int(11) NOT NULL PRIMARY KEY,
     fuelSubtypeID SMALLINT NOT NULL,
     RVP FLOAT NULL,
     sulfurLevel FLOAT NULL,
@@ -756,7 +748,7 @@ CREATE TABLE FuelSupply (
        fuelRegionID         INTEGER NOT NULL,
        fuelYearID           INT NOT NULL,
        monthGroupID         SMALLINT NOT NULL,
-       fuelFormulationID    SMALLINT NOT NULL,
+       fuelFormulationID    int(11) NOT NULL,
        marketShare          FLOAT NULL,
        marketShareCV        FLOAT NULL
 );
@@ -784,8 +776,6 @@ CREATE TABLE FuelType (
        fuelTypeID           SMALLINT NOT NULL,
        defaultFormulationID SMALLINT NOT NULL,
        fuelTypeDesc         CHAR(50) NULL,
-       humidityCorrectionCoeff FLOAT NULL,
-       humidityCorrectionCoeffCV FLOAT NULL,
  	   fuelDensity				FLOAT	NULL,
  	   subjectToEvapCalculations CHAR(1) NOT NULL DEFAULT 'N'
 );
@@ -854,7 +844,7 @@ CREATE UNIQUE INDEX XPKFullACAdjustment ON FullACAdjustment
 
 create table generalFuelRatio (
 	fuelTypeID int not null,
-	fuelFormulationID int not null,
+	fuelFormulationID int(11) not null,
 	polProcessID int not null,
 	pollutantID int not null,
 	processID int not null,
@@ -977,12 +967,13 @@ CREATE TABLE HCSpeciation (
 
 create table hotellingActivityDistribution (
 	zoneID				int not null,
+	fuelTypeID          smallint not null,
 	beginModelYearID 	smallint not null,
 	endModelYearID 		smallint not null,
 	opModeID 			int not null,
 	opModeFraction 		double not null,
-	primary key 		(zoneID, beginModelYearID, endModelYearID, opModeID),
-	key					(zoneID, opModeID, beginModelYearID, endModelYearID)
+	primary key 		(zoneID, fuelTypeID, beginModelYearID, endModelYearID, opModeID),
+	key					(zoneID, fuelTypeID, opModeID, beginModelYearID, endModelYearID)
 );
 
 create table hotellingAgeFraction (
@@ -1001,6 +992,7 @@ create table hotellingCalendarYear (
 
 CREATE TABLE hotellingHours (
 	sourceTypeID         SMALLINT NOT NULL,
+	fuelTypeID			 SMALLINT NOT NULL,
 	hourDayID            SMALLINT NOT NULL,
 	monthID              SMALLINT NOT NULL,
 	yearID               SMALLINT NOT NULL,
@@ -1008,8 +1000,9 @@ CREATE TABLE hotellingHours (
 	zoneID               INTEGER NOT NULL,
 	hotellingHours       DOUBLE NULL,
 	isUserInput 		 CHAR(1) DEFAULT 'N' NOT NULL,
-	primary key 		(sourceTypeID, hourDayID, monthID, yearID, ageID, zoneID),
+	primary key 		(sourceTypeID, fuelTypeID, hourDayID, monthID, yearID, ageID, zoneID),
 	key (sourceTypeID),
+	KEY (fuelTypeID),
 	KEY (hourDayID),
 	KEY (monthID),
 	KEY (yearID),
@@ -1137,6 +1130,16 @@ CREATE UNIQUE INDEX XPKHPMSVtypeYear ON HPMSVtypeYear
 (
        HPMSVtypeID                    ASC,
        yearID                         ASC
+);
+
+CREATE TABLE evpopiceadjustld (
+	polProcessID int not null,
+	beginModelYearID smallint not null,
+	endModelYearID smallint not null,
+	adjustment double not null default 1.0,
+	adjustmentWeight double not null default 1.0,
+	primary key (polProcessID, beginModelYearID, endModelYearID),
+	key (beginModelYearID, endModelYearID, polProcessID)
 );
 
 create table idleDayAdjust (
@@ -1340,13 +1343,6 @@ create table linkSourceTypeHour (
 	sourceTypeHourFraction float null,
 	primary key (linkID, sourceTypeID),
 	key (sourceTypeID, linkID)
-);
-
-create table lumpedSpeciesName  (
-	lumpedSpeciesID				smallint(6)		not null,	
-	lumpedSpeciesName			varchar(20)		null,
-	primary key (lumpedSpeciesID),
-	key (lumpedSpeciesName)
 );
 
 create table M6SulfurCoeff (
@@ -1554,6 +1550,17 @@ CREATE UNIQUE INDEX XPKNONO2Ratio ON NONO2Ratio
        modelYearGroupID		ASC
 );
 
+CREATE TABLE noxhumidityadjust (
+	fuelTypeID 			SMALLINT(5) NOT NULL,
+    humidityNOxEq 		VARCHAR(10) NULL,
+    humidityTermA 		DOUBLE 		NULL,
+    humidityTermB 		DOUBLE 		NULL,
+    humidityLowBound 	DOUBLE 		NULL,
+    humidityUpBound 	DOUBLE 		NULL,
+    humidityUnits 		VARCHAR(25) NULL,
+    PRIMARY KEY (fuelTypeID)
+);
+
 CREATE TABLE nrAgeCategory(
   ageID SMALLINT(6) NOT NULL,
   ageCategoryName CHAR(50) DEFAULT NULL,
@@ -1679,7 +1686,7 @@ CREATE TABLE nrFuelSupply (
   fuelRegionID int(11) NOT NULL DEFAULT '0',
   fuelYearID int(11) NOT NULL DEFAULT '0',
   monthGroupID smallint(6) NOT NULL DEFAULT '0',
-  fuelFormulationID smallint(6) NOT NULL DEFAULT '0',
+  fuelFormulationID int(11) NOT NULL DEFAULT '0',
   marketShare float DEFAULT NULL,
   marketShareCV float DEFAULT NULL,
   PRIMARY KEY (fuelRegionID,fuelFormulationID,monthGroupID,fuelYearID),
@@ -1693,8 +1700,6 @@ CREATE TABLE nrFuelType(
   fuelTypeID SMALLINT(6) NOT NULL DEFAULT 0,
   defaultFormulationID SMALLINT(6) NOT NULL DEFAULT 0,
   fuelTypeDesc CHAR(50) DEFAULT NULL,
-  humidityCorrectionCoeff FLOAT DEFAULT NULL,
-  humidityCorrectionCoeffCV FLOAT DEFAULT NULL,
   fuelDensity FLOAT DEFAULT NULL,
   subjectToEvapCalculations CHAR(1) NOT NULL DEFAULT 'N',
   PRIMARY KEY (fuelTypeID)
@@ -2198,6 +2203,17 @@ CREATE TABLE processGroupID(
   processGroupID SMALLINT(6) NOT NULL,
   processGroupName CHAR(15) NOT NULL,
   PRIMARY KEY (processGroupID)
+);
+
+CREATE TABLE RefuelingControlTechnology (
+       processID               SMALLINT NOT NULL,
+       modelYearID             SMALLINT NOT NULL,
+       regClassID              SMALLINT NOT NULL,
+	   sourceTypeID            SMALLINT NOT NULL,
+       fuelTypeID         	   SMALLINT NOT NULL,
+       ageID                   SMALLINT NOT NULL,
+       refuelingTechAdjustment FLOAT NOT NULL DEFAULT 0.0,
+       controlledRefuelingRate FLOAT NOT NULL DEFAULT 0.0
 );
 
 CREATE TABLE RefuelingFactors (
@@ -2719,6 +2735,21 @@ CREATE UNIQUE INDEX XPKSourceTypeTechAdjustment ON SourceTypeTechAdjustment
        modelYearID  ASC
 );
 
+ALTER TABLE RefuelingControlTechnology ADD (
+       KEY (processID),
+       KEY (regClassID),
+       KEY (sourceTypeID),
+       KEY (modelYearID)
+);
+
+CREATE UNIQUE INDEX XPKSourceTypeTechAdjustment ON RefuelingControlTechnology
+(
+       processID    ASC,
+	   regClassID   ASC,
+       sourceTypeID ASC,
+       modelYearID  ASC
+);
+
 CREATE TABLE SourceTypeYear (
        yearID               SMALLINT NOT NULL,
        sourceTypeID         SMALLINT NOT NULL,
@@ -3037,43 +3068,12 @@ CREATE UNIQUE INDEX XPKTemperatureAdjustment ON TemperatureAdjustment
        maxModelYearID				  ASC
 );
 
-create table temperatureFactorExpression (
-	processID smallint not null,
-	pollutantID smallint not null,
-	fuelTypeID smallint not null,
-	sourceTypeID smallint not null,
-	minModelYearID smallint not null,
-	maxModelYearID smallint not null,
-	tempCorrectionExpression varchar(5000),
-	primary key (processID, pollutantID, fuelTypeID, sourceTypeID, minModelYearID, maxModelYearID)
-);
-
 CREATE TABLE TemperatureProfileID (
        temperatureProfileID BIGINT NOT NULL PRIMARY KEY,
        zoneID               INTEGER NOT NULL,
        monthID              SMALLINT NOT NULL,
        key (zoneID, monthID, temperatureProfileID),
        key (monthID, zoneID, temperatureProfileID)
-);
-
-create table togSpeciation  (
-	fuelSubtypeID			smallint(6)	not null,
-	regClassID				smallint(6)	not null,
-	processID				smallint(6)	not null,
-	modelYearGroupID		int			not null,
-	togSpeciationProfileID	varchar(10)	not null default '0',
-	primary key (fuelSubTypeID, regClassID, processID, modelYearGroupID)
-);
-
-create table TOGSpeciationProfile (
-	mechanismID						smallint(6)		not null,	
-	TOGSpeciationProfileID			varchar(10)		not null default '0',
-	integratedSpeciesSetID			smallint(6)		not null,
-	pollutantID						smallint(6)		not null,
-	lumpedSpeciesName				varchar(20)		not null,
-	TOGSpeciationDivisor			double			null,
-	TOGSpeciationMassFraction		double			null,
-	primary key (mechanismID, TOGspeciationProfileID, integratedSpeciesSetID, pollutantID, lumpedSpeciesName)
 );
 
 create table TOGSpeciationProfileName (
@@ -3147,12 +3147,11 @@ CREATE TABLE ZoneMonthHour (
        monthID              SMALLINT NOT NULL,
        zoneID               INTEGER NOT NULL,
        hourID               SMALLINT NOT NULL,
-       temperature          FLOAT NULL,
-       temperatureCV        FLOAT NULL,
-       relHumidity          FLOAT NULL,
-       heatIndex            FLOAT NULL,
-       specificHumidity     FLOAT NULL,
-       relativeHumidityCV   FLOAT NULL
+       temperature          DOUBLE NULL,
+       relHumidity          DOUBLE NULL,
+       heatIndex            DOUBLE NULL,
+       specificHumidity     DOUBLE NULL,
+       molWaterFraction     DOUBLE NULL
 );
 
 ALTER TABLE ZoneMonthHour ADD (

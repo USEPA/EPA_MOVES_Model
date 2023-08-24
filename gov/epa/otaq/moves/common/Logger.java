@@ -24,6 +24,8 @@ import java.text.SimpleDateFormat;
 public class Logger {
 	/** True if logging to a file is allowed **/
 	public static boolean shouldLogToFile = true;
+	/** True if log handlers should be bypassed (e.g., only want to log to file) **/
+	public static boolean skipHandlers = false;
 	/** Writer for the log file, unbuffered **/
 	private static PrintWriter logWriter = null;
 
@@ -105,10 +107,12 @@ public class Logger {
 			}
 
 			// dispatch message to any registered LogHandlers
-			for(;i.hasNext();) {
-				LogHandler handler = (LogHandler)i.next();
-				handler.handleLog(category, message);
-			}
+            if(!skipHandlers) {
+                for(;i.hasNext();) {
+                    LogHandler handler = (LogHandler)i.next();
+                    handler.handleLog(category, message);
+                }
+            }
 		}
 	}
 

@@ -375,6 +375,8 @@ public class MOVESNavigation extends JPanel implements ItemListener {
 
 			updateVehiclesEquipmentOptionIcon();
 
+		    clearSelection();
+			
 			hasDoneFileNew = true;
 			
 			parent.checkExecuteAction();
@@ -457,8 +459,8 @@ public class MOVESNavigation extends JPanel implements ItemListener {
 												      "can use the File > Print... feature.",
 						"Custom Domain Error Message",
 						JOptionPane.ERROR_MESSAGE);
-			} else if (!parent.runSpec.compareMajorVersion(parent.MOVES_VERSION)) {
-			JOptionPane.showMessageDialog(parent, "Warning: The loaded RunSpec was created with " + parent.runSpec.getMajorVersion() + ",\r\n" +
+			} else if (!parent.runSpec.isSameMajorVersion(parent.MOVES_VERSION)) {
+			JOptionPane.showMessageDialog(parent, "Warning: The loaded RunSpec was created with " + parent.runSpec.getMajorVersionString() + ",\r\n" +
 			                                      "which may not be compatible with this version of MOVES. To\r\n" +
 												  "avoid compatibility issues, you may need to recreate this\r\n" +
 												  "RunSpec using this version of MOVES. If you need a reference\r\n" +
@@ -619,6 +621,15 @@ public class MOVESNavigation extends JPanel implements ItemListener {
 		}
 		return activeSelection;
 	}
+
+	/**
+	 * Opens the Description Panel
+	 **/
+	public void selectDescriptionOption() {
+		commitActiveEditor();
+		group.setSelected(descriptionOption.getModel(), true);
+	}
+
 
 	/**
 	 * This method is used to add visual highlighting to the radio buttons on

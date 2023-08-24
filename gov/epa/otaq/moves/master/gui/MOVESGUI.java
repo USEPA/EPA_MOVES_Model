@@ -35,7 +35,7 @@ public class MOVESGUI {
 		} //moved up here to accomodate error messages
 		
 		if(MOVESAPI.hasMasterOnThisComputer()){
-			String message = "A MOVES instance is already running, or a firewall is blocking port(s) used by MOVES.\nStartup of this instance of the MOVES master cannot continue.";
+			String message = "A MOVES instance is already running, or a firewall is blocking port(s) used by MOVES.\nStartup of this instance of MOVES cannot continue.";
 			if(okToPopupMessages){
 				JOptionPane errorPane = new JOptionPane(message,
 				JOptionPane.ERROR_MESSAGE,

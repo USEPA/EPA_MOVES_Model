@@ -239,7 +239,7 @@ public class TankTemperatureGenerator extends Generator {
 			sql = "create table TempColdSoakTankTemperature (" +
 				  "monthID smallint(6) NOT NULL, " +
 				  "hourID smallint(6) NOT NULL, " +
-				  "coldSoakTankTemperature float NOT NULL," +
+				  "coldSoakTankTemperature DOUBLE NOT NULL," +
 				  "PRIMARY KEY (monthID,hourID), "+
 				  "index (hourID,monthID))";
 			SQLRunner.executeSQL(db, sql);
@@ -341,7 +341,7 @@ public class TankTemperatureGenerator extends Generator {
 						+ "monthID	SMALLINT NOT NULL, "
 						+ "hourID	SMALLINT NOT NULL, "
 						+ "timeStepID	SMALLINT NOT NULL, "
-						+ "quarterHourTemperature FLOAT)";
+						+ "quarterHourTemperature DOUBLE)";
 				SQLRunner.executeSQL(db, sql);
 	
 				sql = "CREATE UNIQUE INDEX XPKQuarterHourTemperature ON QuarterHourTemperature ("
@@ -379,8 +379,8 @@ public class TankTemperatureGenerator extends Generator {
 						+ "monthID	SMALLINT NOT NULL, "
 						+ "hourID	SMALLINT NOT NULL, "
 						+ "timeStepID	SMALLINT NOT NULL, "
-						+ "tempDelta FLOAT,"
-						+ "quarterHourTankTemperature FLOAT)";
+						+ "tempDelta DOUBLE,"
+						+ "quarterHourTankTemperature DOUBLE)";
 				SQLRunner.executeSQL(db, sql);
 	
 				sql = "CREATE UNIQUE INDEX XPKQuarterHourTankTemperature ON "
@@ -1348,11 +1348,11 @@ public class TankTemperatureGenerator extends Generator {
 					+ "tripID SMALLINT NOT NULL, "
 					+ "hourDayID SMALLINT NOT NULL, "
 					+ "hotSoakTime INTEGER NOT NULL, "
-					+ "initialTankTemp FLOAT, "
-					+ "soakTankTemp FLOAT, "
-					+ "temperature FLOAT, "
-					+ "tempDelta FLOAT,"
-					+ "coldSoakTemp FLOAT,"
+					+ "initialTankTemp DOUBLE, "
+					+ "soakTankTemp DOUBLE, "
+					+ "temperature DOUBLE, "
+					+ "tempDelta DOUBLE,"
+					+ "coldSoakTemp DOUBLE,"
 					+ "opModeID SMALLINT)";
 			SQLRunner.executeSQL(db, sql);
 	

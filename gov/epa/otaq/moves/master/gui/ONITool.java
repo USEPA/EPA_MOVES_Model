@@ -54,6 +54,8 @@ public class ONITool extends JDialog implements ActionListener {
 	JButton doneButton;
 	/** Button to open instructions **/
 	JButton openInstructionsButton;
+	/** Button to save messages **/
+	JButton saveMessagesButton;
 
 	/** Type of the control file, Text, XLS, etc **/
 	String saveFileType = "";
@@ -136,6 +138,7 @@ public class ONITool extends JDialog implements ActionListener {
 		runButton = new JButton();
 		doneButton = new JButton();
 		openInstructionsButton = new JButton();
+		saveMessagesButton = new JButton();
 		
 		messageListModel = new DefaultListModel<String>();
 		messagesList = new JListWithToolTips<String>(messageListModel);
@@ -149,6 +152,7 @@ public class ONITool extends JDialog implements ActionListener {
 		runButton.addActionListener(this);
 		doneButton.addActionListener(this);
 		openInstructionsButton.addActionListener(this);
+		saveMessagesButton.addActionListener(this);
 		
 		inputDatabaseCombo = new ExtendedComboBox<String>();
 		Dimension d = inputDatabaseCombo.getPreferredSize();
@@ -301,11 +305,20 @@ public class ONITool extends JDialog implements ActionListener {
 			//---- runButton ----
 			runButton.setText("Run ONI Tool");
 			ToolTipHelper.add(runButton,"Run the ONI Tool, creating the output file");
-			result.add(runButton, new GridBagConstraints(2, 12, 1, 1, 0.0, 0.0,
+			result.add(runButton, new GridBagConstraints(0, 12, 2, 1, 0.0, 0.0,
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				new Insets(0, 0, 5, 5), 0, 0));
 			runButton.setMnemonic('u');
 			runButton.setDisplayedMnemonicIndex(0);
+			
+			//---- saveMessagesButton ----
+			saveMessagesButton.setText("Save Messages");
+			ToolTipHelper.add(saveMessagesButton,"Save above messages as a text file.");
+            result.add(saveMessagesButton, new GridBagConstraints(2, 12, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 5), 0, 0));
+            saveMessagesButton.setMnemonic('S');
+            saveMessagesButton.setDisplayedMnemonicIndex(0);
 			
 			//---- openInstructionsButton ----
 			openInstructionsButton.setText("Open Instructions");
@@ -339,11 +352,13 @@ public class ONITool extends JDialog implements ActionListener {
 			handleBrowseSaveFileButton();
 		} else if(e.getSource() == runButton) {
 			handleRunButton();
-		} else if(e.getSource() == doneButton) {
-			handleDoneButton();
+		} else if(e.getSource() == saveMessagesButton) {
+			handleSaveMessagesButton();
 		} else if(e.getSource() == openInstructionsButton) {
 			handleOpenInstructionsButton();
-		}
+		} else if(e.getSource() == doneButton) {
+			handleDoneButton();
+		} 
 	}
 	
 	/** Handle the Refresh button for databases **/
@@ -472,6 +487,29 @@ public class ONITool extends JDialog implements ActionListener {
 			populateMessagesList();
 		}
 	}
+    
+	/** Handle the Save Messages button **/
+	void handleSaveMessagesButton() {
+        FileDialog fd = new FileDialog(frame, "Specify save file name (*.txt):", FileDialog.SAVE);
+        fd.setFile("*.txt");
+        fd.setVisible(true);
+
+        if ((fd.getDirectory() == null) || (fd.getFile() == null)) {
+            return;
+        }
+        String filePath = fd.getDirectory() + fd.getFile();
+        
+        try {
+            FileWriter writer = new FileWriter(filePath);
+            for(Iterator i=messages.iterator();i.hasNext();) {
+                writer.write((String)i.next() + "\r\n");
+            }                
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
 
 	/** Handle the Done button **/
 	void handleDoneButton() {
@@ -613,6 +651,7 @@ public class ONITool extends JDialog implements ActionListener {
 			String m = (String)i.next();
 			messageListModel.addElement(m);
 		}
+        saveMessagesButton.setEnabled(messageListModel.size() > 0);
 	}
 
 	void generateListOfInvalidDatabaseNames() {

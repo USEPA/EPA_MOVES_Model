@@ -1053,16 +1053,16 @@ public class NonroadOutputDataLoader {
 		double lbs = 0;
 		switch(fuelTypeID) {
 			case 1: // Gasoline
-				lbs = gallons * 6.17;
+				lbs = gallons * 6.237;
 				break;
 			case 2: // Diesel
-				lbs = gallons * 7.1;
+				lbs = gallons * 7.044;
 				break;
 			case 23: // Diesel
-				lbs = gallons * 7.1;
+				lbs = gallons * 7.044;
 				break;
 			case 24: // Diesel
-				lbs = gallons * 7.1;
+				lbs = gallons * 7.044;
 				break;
 			case 3: // CNG
 				lbs = gallons * 0.0061;

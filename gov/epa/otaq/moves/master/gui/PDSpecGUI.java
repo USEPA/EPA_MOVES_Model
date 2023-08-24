@@ -249,7 +249,8 @@ public class PDSpecGUI extends JDialog implements ActionListener, FocusListener 
 		dbSelection.databaseName = StringUtilities.safeGetString(newDatabaseName);
 		String status = MOVESEngine.isOutputDatabaseNameValid(dbSelection);
 		if(status == null) {
-			int createStatus = dbSelection.safeCreateDatabase("database/CreateOutput.sql");
+            String defaultDatabaseName = SystemConfiguration.getTheSystemConfiguration().databaseSelections[MOVESDatabaseType.DEFAULT.getIndex()].databaseName;
+			int createStatus = dbSelection.safeCreateOutputDatabase(defaultDatabaseName);
 			if(DatabaseSelection.CREATED == createStatus) {
 				// show a success message and add this item to the list,
 				// in case the user hits the droplist button

@@ -10,7 +10,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
- * Implements the basic functionality needed to manage the threads instantiated by a MOVES Master
+ * Implements the basic functionality needed to manage the threads instantiated by a MOVES Main
  * or Worker. A static member variable is used to keep track of all the threads started by an
  * application.
  * 

@@ -11,6 +11,7 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.xssf.usermodel.*;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  * Encapsulates writing to an XLSX, XLS, CSV, or tabbed text file under a unified API.
@@ -85,6 +86,18 @@ public class CellFileWriter {
 	 * @throws Exception if unable to open the file
 	**/
 	public CellFileWriter(File fileToUse, String firstTabName) throws Exception {
+        this(fileToUse, firstTabName, false);
+    }
+
+	/**
+	 * Constructor
+	 * @param fileToUse file to be written into
+	 * @param firstTabName if the file is an XLS file, the name of the first worksheet
+	 * otherwise ignored.
+     * @param append if the file already exists, should it be appended to (true) or deleted first and recreated (false)?
+	 * @throws Exception if unable to open the file
+	**/
+	public CellFileWriter(File fileToUse, String firstTabName, boolean append) throws Exception {
 		if(isMultipleWrite && fileToUse != multipleFile) {
 			//System.out.println("CellFileWriter.CellFileWriter stopping multiple write");
 			stopMultipleWrite();
@@ -100,7 +113,8 @@ public class CellFileWriter {
 			multipleWriter.startTab(firstTabName);
 			return;
 		}
-		if(file.exists()) {
+        // delete the file if it exists and we are not appending to it
+		if(file.exists() && !append) {
 			FileUtilities.deleteFileWithRetry(file);
 			if(file.exists()) {
 				throw new IOException("Unable to delete existing file: " + file.getName());
@@ -108,9 +122,17 @@ public class CellFileWriter {
 		}
 		if(fileType == CellFile.XLS || fileType == CellFile.XLSX) {
 			if(fileType == CellFile.XLS) {
-				workbook = new HSSFWorkbook();
+                if(file.exists() && append) {
+                    workbook = new HSSFWorkbook(new FileInputStream(file));
+                } else {
+                    workbook = new HSSFWorkbook();
+                }
 			} else if(fileType == CellFile.XLSX) {
-				workbook = new SXSSFWorkbook(100);
+                if(file.exists() && append) {
+                    workbook = new SXSSFWorkbook(new XSSFWorkbook(new FileInputStream(file)), 100);
+                } else {
+                    workbook = new SXSSFWorkbook(100);
+                }
 			}
 			xlsCreateHelper = workbook.getCreationHelper();
 			if(!existingTabNames.contains(firstTabName)) {
@@ -123,7 +145,7 @@ public class CellFileWriter {
 				allowWriteToTab = false;
 			}
 		} else {
-			writer = new PrintWriter(new BufferedWriter(new FileWriter(file)));
+			writer = new PrintWriter(new BufferedWriter(new FileWriter(file, append)));
 		}
 	}
 

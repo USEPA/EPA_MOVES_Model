@@ -176,7 +176,7 @@ public class SystemConfiguration {
 		} catch (IOException exception) {
 			/**
 			 * @explain An ID file could not be created to identify this computer
-			 * as a MOVES master.  Check the configuration file, ensuring that the
+			 * as a MOVES Main.  Check the configuration file, ensuring that the
 			 * shared work folder exists and you have rights to create, read, and
 			 * delete files within it.
 			**/

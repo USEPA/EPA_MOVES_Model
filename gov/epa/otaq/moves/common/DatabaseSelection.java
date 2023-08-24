@@ -181,41 +181,46 @@ public class DatabaseSelection implements Comparable {
 	}
 
 	/**
-	 * Safely create a database, including running a script if the database did not
+	 * Safely create a non-output database, including running a script if the database did not
 	 * already exist.
 	 * @param scriptFileName The name of a script file (of SQL commands) to execute.
 	 * May be null.
 	 * @return NOT_CREATED, EXISTS, or CREATED.
 	**/
 	public int safeCreateDatabase(String scriptFileName) {
-		int result = safeCreateDatabaseCore(scriptFileName);
-		if(scriptFileName != null) {
-			String lowercaseScriptFileName = scriptFileName.toLowerCase();
-			if(lowercaseScriptFileName.indexOf("createoutput.sql") >= 0) {
-				if(result == CREATED) {
-					Connection db = openConnectionOrNull();
-					if(db != null) {
-						if(!CompilationFlags.ALLOW_FUELSUBTYPE_OUTPUT) {
-							try {
-								SQLRunner.executeSQL(db,"alter table MOVESOutput drop fuelSubTypeID");
-							} catch(Exception e) {
-								// Nothing to do here.
-								// This exception will occur when MOVESOutput does not already contain
-								// the fuelSubTypeID column. The net result is the desired state of
-								// a MOVESOutput table without the column, so don't complain.
-							}
-						}
-						try {
-							DatabaseUtilities.executeScript(db,new File("database/CreateOutputRates.sql"));
-						} catch(Exception e) {
-							Logger.logError(e, "Create database, "+databaseName+", from script failed.");
-						} finally {
-							DatabaseUtilities.closeConnection(db);
-						}
-					}
-				}
-			}
-		}
+		return safeCreateDatabaseCore(scriptFileName, null);
+	}
+    
+	/**
+	 * Safely create an output database, including running a script if the database did not
+	 * already exist.
+	 * @param defaultDatabaseName The default database to use when creating the output database for the translate_* tables
+	 * @return NOT_CREATED, EXISTS, or CREATED.
+	**/
+	public int safeCreateOutputDatabase(String defaultDatabaseName) {
+		int result = safeCreateDatabaseCore("database/CreateOutput.sql", defaultDatabaseName);
+        if(result == CREATED) {
+            Connection db = openConnectionOrNull();
+            if(db != null) {
+                if(!CompilationFlags.ALLOW_FUELSUBTYPE_OUTPUT) {
+                    try {
+                        SQLRunner.executeSQL(db,"alter table MOVESOutput drop fuelSubTypeID");
+                    } catch(Exception e) {
+                        // Nothing to do here.
+                        // This exception will occur when MOVESOutput does not already contain
+                        // the fuelSubTypeID column. The net result is the desired state of
+                        // a MOVESOutput table without the column, so don't complain.
+                    }
+                }
+                try {
+                    DatabaseUtilities.executeScript(db,new File("database/CreateOutputRates.sql"));
+                } catch(Exception e) {
+                    Logger.logError(e, "Create database, "+databaseName+", from script failed.");
+                } finally {
+                    DatabaseUtilities.closeConnection(db);
+                }
+            }
+        }
 		return result;
 	}
 
@@ -226,7 +231,7 @@ public class DatabaseSelection implements Comparable {
 	 * May be null.
 	 * @return NOT_CREATED, EXISTS, or CREATED.
 	**/
-	int safeCreateDatabaseCore(String scriptFileName) {
+	int safeCreateDatabaseCore(String scriptFileName, String defaultDatabaseName) {
 		int result = NOT_CREATED;
 		if(databaseName == null || databaseName.length() == 0) {
 			return result;
@@ -247,9 +252,16 @@ public class DatabaseSelection implements Comparable {
 				SQLRunner.executeSQL(db,"CREATE DATABASE " + databaseName);
 				// Use the database
 				SQLRunner.executeSQL(db,"USE " + databaseName);
+                // Run the script
 				if(scriptFileName != null) {
-					// Run the script
-					DatabaseUtilities.executeScript(db,new File(scriptFileName));
+                    // replace ##defaultdb## with the actual default database name if one is specified
+                    if (defaultDatabaseName != null) {
+                        TreeMapIgnoreCase replacements = new TreeMapIgnoreCase();
+                        replacements.put("##defaultdb##", defaultDatabaseName);
+					    DatabaseUtilities.executeScript(db, new File(scriptFileName), replacements);
+                    } else {
+					    DatabaseUtilities.executeScript(db, new File(scriptFileName));
+                    }
 				}
 				result = CREATED;
 			} catch(Exception e) {

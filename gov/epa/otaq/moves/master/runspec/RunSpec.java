@@ -124,6 +124,10 @@ public class RunSpec {
 	 * the BaseRateOutput table.
 	**/
 	public boolean shouldTruncateBaseRateOutput = true;
+    /**
+     * Used to bypass the feature that prevents users from running if CreateInputDatabase has a red X 
+     */
+    public boolean skipDomainDatabaseValidation = false;
 	/**
 	 * Used by emission rate mode to provide separate rates for ramps.
 	 * Note: This feature has been removed, so if an old runspec is loaded with
@@ -326,26 +330,71 @@ public class RunSpec {
 	/**
 	 * internal function to parse MOVES version strings
 	**/
-	private String getMajorVersion(String v) {
+	private String getMajorVersionString(String v) {
 		try {
-			// Assume version numbers are MOVESX.Y.Z-DATE
-			String[] v1 = v.split("-");
-			String[] v2 = v1[0].split("\\.");
-			return v2[0];
+			// Assume version numbers are MOVESX.Y.Z-other
+			String[] hypenSplit = v.split("-");            // first element contains the MOVESX.Y.Z component, second (et al) element(s) contains the "other" info
+			String[] digits = hypenSplit[0].split("\\.");  // elements contain MOVESX, Y, Z, respectively
+			return digits[0];
 		} catch (Exception e){
 			// default to full version string
 			return v;
 		}
 	}
 	
-	public String getMajorVersion() {
-		return getMajorVersion(version);
+	public String getMajorVersionString() {
+		return getMajorVersionString(version);
 	}
 	
 	/**
 	 * returns true if the other string has the same "Major" component as this RunSpec
 	**/
-	public boolean compareMajorVersion(String other) {
-		return getMajorVersion(version).equalsIgnoreCase(getMajorVersion(other));
+	public boolean isSameMajorVersion(String other) {
+		return getMajorVersionString(version).equalsIgnoreCase(getMajorVersionString(other));
+	}
+	
+	/**
+	 * internal function to parse MOVES version strings
+	**/
+	private int getMajorVersionInt(String v) {
+		try {
+			// Assume version numbers are MOVESX.Y.Z-other
+			String[] hypenSplit = v.substring(5).split("-"); // first element contains the X.Y.Z component, second (et al) element(s) contains the "other" info
+			String[] digits = hypenSplit[0].split("\\.");    // elements contain X, Y, Z, respectively
+			return Integer.parseInt(digits[0]);
+		} catch (Exception e){
+			// default to 2014
+			return 2014;
+		}
+	}
+	
+	public int getMajorVersionInt() {
+		return getMajorVersionInt(version);
+	}
+	
+	/**
+	 * returns -1 if the passed version is older than the version of this runspec, 0 if they are the same, and 1 if the passed version is newer
+	**/
+	public int compareMajorVersion(String other) {
+		// get integer representations of the major versions
+		int otherInt = getMajorVersionInt(other);
+		int thisInt = getMajorVersionInt();
+		
+		// for comparison purposes, treat 2014 like 2 (since it is older than MOVES3)
+		if (otherInt == 2014) {
+			otherInt = 2;
+		}
+		if (thisInt == 2014) {
+			thisInt = 2;
+		}
+		
+		// perform comparison
+		if (otherInt == thisInt) {
+			return 0;
+		} else if (otherInt < thisInt) {
+			return -1;
+		} else {
+			return 1;
+		}
 	}
 }

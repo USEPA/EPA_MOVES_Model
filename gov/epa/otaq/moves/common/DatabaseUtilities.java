@@ -531,6 +531,75 @@ public class DatabaseUtilities {
 	}
 
 	/**
+	 * Copies a table from one database to another. It is an error if the table is not present
+	 * in the source database, but not an error if it is not present in the destination database.
+	 * This assumes the source and destination databases are on the same server.
+	 * @param source The database to get data from.
+	 * @param destination The database to write data to
+	 * @param sourceTableName The table name to copy over.
+	 * @param destinationTableName The new table name in the destination database
+	 * @return true if any data was copied, may be false if there were no errors but no data was
+	 * copied from the source.
+	 * @throws SQLException If an SQL error occurs.
+	**/
+	public static boolean copyDefaultTableWithRename(Connection source, Connection destination,
+			String sourceTableName, String destinationTableName)
+			throws SQLException {
+		String sourceDatabaseName = source.getCatalog();
+		String destinationDatabaseName = destination.getCatalog();
+		SQLRunner.Query query = new SQLRunner.Query();
+		String sql = "";
+		String columns="";
+		
+		// create destination table if it doesn't exist	
+		try {
+			sql = "CREATE TABLE IF NOT EXISTS " + destinationDatabaseName + "." + destinationTableName + " " +
+				  "LIKE " + sourceDatabaseName + "." + sourceTableName;
+			SQLRunner.executeSQL(source,sql);
+		} catch(SQLException e) {
+			Logger.logSqlError(e, "Copy table with rename, "+destinationTableName+", to destination database failed.", sql);
+			throw e;
+		} finally {
+			query.onFinally();
+		}
+		
+		sql = "SELECT * FROM " + sourceTableName + " LIMIT 0";
+		try {
+			query.open(destination,sql);
+			ResultSetMetaData metaData = query.rs.getMetaData();
+			int columnCount = metaData.getColumnCount();
+			for(int i=1; i<= columnCount; i++) {
+				if(i == 1) {
+					columns = metaData.getColumnName(1);
+				} else {
+					columns += "," + metaData.getColumnName(i);
+				}
+			}
+			query.close();
+
+			sql = "select count(*) from " + sourceTableName;
+			int sourceCount = (int)SQLRunner.executeScalar(source,sql);
+			// If we're here, it means the source table does exist.
+			if(sourceCount > 0) {
+				sql = "INSERT IGNORE INTO " + destinationDatabaseName + "." + destinationTableName
+						+ "(" + columns + ") SELECT " + columns + " FROM "
+						+ sourceTableName;
+				int rowsAffected = SQLRunner.executeSQL(source,sql);
+				return rowsAffected > 0;
+			}
+
+		} catch(SQLException e) {
+			Logger.logSqlError(e, "Copy table with rename, "+sourceTableName+", from source database failed.",
+					sql);
+			throw e;			
+		} finally {
+			query.onFinally();
+		}
+		return false;
+	}
+
+
+	/**
 	 * Copies a table from one database to another. It <i>is</i> an error if the table is not
 	 * present in the destination database. It is an optional error if the table is not present
 	 * in the source database. This allows partial databases to be imported easier.
@@ -1007,10 +1076,159 @@ public class DatabaseUtilities {
 	}
 	
 	/**
-	 * Execute a script that is designed to build a LEV database.  This involves two databases:
-	 * the output database being created, and a
-	 * default database that supplies missing data.  The script is run in the context of the output
-	 * database.  The default database should be given the name ##defaultdb## in the script.
+	 * Execute a script that creates the stored procedures used by the AVFT tool. It creates a temporary
+     * database that the stored procedures can work in. If the default database is needed in the stored
+     * procedures, it can be accessed using ##defaultdb## in the script.
+	 * @param scriptFile script to be executed
+	 * @param outputDatabase output database to be created, may already exist
+	 * @param inputDatabase database to be converted
+	 * @param defaultDatabase database providing missing data
+	 * @param messages feedback, if any, from the script are added to the end of this list.
+     * @return a temporary database selection, to be used when running the AVFT stored procedure
+	 * @throws FileNotFoundException when the script file cannot be found
+	 * @throws IOException when the script file cannot be read
+	 * @throws SQLException when a database cannot be accessed or created
+	**/
+	public static DatabaseSelection buildAVFTProcedure(File scriptFile, DatabaseSelection defaultDatabase, ArrayList<String> messages)
+			throws FileNotFoundException, IOException, SQLException {
+		Connection avftDB = null;
+		Connection tempDB = null;
+        DatabaseSelection avftDatabase = null;
+		SQLRunner.Query query = new SQLRunner.Query();
+
+		try {
+            // create temp database
+			avftDatabase = new DatabaseSelection();
+			avftDatabase.serverName = defaultDatabase.serverName;
+			avftDatabase.databaseName = "avfttool";
+			if(avftDatabase.safeCreateDatabase(null) == DatabaseSelection.NOT_CREATED) {
+				throw new SQLException("Unable to create or find the temporary runtime AVFT Tool database " + avftDatabase.databaseName);
+			}
+
+			tempDB = defaultDatabase.openConnectionOrNull();
+			if(tempDB == null) {
+				throw new SQLException("Unable to connect to default database " + defaultDatabase.databaseName);
+			}
+			closeConnection(tempDB);
+			tempDB = null;
+
+            avftDB = avftDatabase.openConnectionOrNull();
+			if(avftDB == null) {
+				throw new SQLException("Unable to connect to the temporary runtime AVFT Tool database " + avftDatabase.databaseName);
+			}
+			
+			// create messages table so script can display messages to user
+			String sql = "create table if not exists messages ( message varchar(1000) not null )";
+			SQLRunner.executeSQL(avftDB,sql);
+			sql = "truncate table messages";
+			SQLRunner.executeSQL(avftDB,sql);
+
+			TreeMapIgnoreCase replacements = new TreeMapIgnoreCase();
+			replacements.put("##defaultdb##",defaultDatabase.databaseName);
+			executeScript(avftDB,scriptFile,replacements,true);
+
+			if(messages != null) {
+				// Retrieve the results from messages
+				sql = "select message from messages";
+				query.open(avftDB,sql);
+				TreeSetIgnoreCase messagesAlreadySeen = new TreeSetIgnoreCase();
+				while(query.rs.next()) {
+					String m = query.rs.getString(1);
+					if(m != null && m.length() > 0) {
+						if(!messagesAlreadySeen.contains(m)) {
+							messagesAlreadySeen.add(m);
+							messages.add(m);
+						}
+					}
+				}
+				query.close();
+			}	
+		} catch(FileNotFoundException e) {
+			throw e;
+		} catch(IOException e) {
+			throw e;
+		} catch(SQLException e) {
+			throw e;
+		} finally {
+			query.onFinally();
+			if(avftDB != null) {
+				closeConnection(avftDB);
+				avftDB = null;
+			}
+			if(tempDB != null) {
+				closeConnection(tempDB);
+				tempDB = null;
+			}
+		}
+
+        return avftDatabase;
+	}
+
+    /**
+	 * Helper function to run a single SQL statement and return unique values inserted into the `messages` table by the 
+     * statement as entries in the passed ArrayList. This function creates the messages table if it does not already 
+     * exist. Intended to be used by calling stored procedures that use the `messages` table, but can work with any kind
+     * of SQL statement.
+	 * @param sql the SQL command to run 
+	 * @param database the database to run the command against
+	 * @param messages feedback, if any, from the SQL command is added to the end of this list.
+	 * @throws SQLException if the stored procedure has a syntax error
+	**/
+	public static void executeSqlStmtWithMessages(String sql, DatabaseSelection database, ArrayList<String> messages)
+			throws SQLException {
+		Connection conn = null;
+		SQLRunner.Query query = new SQLRunner.Query();
+
+		try {
+            conn = database.openConnectionOrNull();
+			if(conn == null) {
+				throw new SQLException("Unable to connect to the database " + database.databaseName);
+			}
+			
+			// prepare messages table so that we only return new messages to the user
+            SQLRunner.executeSQL(conn, "create table if not exists messages ( message varchar(1000) not null )");
+			SQLRunner.executeSQL(conn, "truncate table messages");
+
+            // run the passed command
+			SQLRunner.executeSQL(conn, sql);
+
+			if(messages != null) {
+				// Retrieve the results from messages table
+				sql = "select message from messages";
+				query.open(conn,sql);
+				TreeSetIgnoreCase messagesAlreadySeen = new TreeSetIgnoreCase();
+				while(query.rs.next()) {
+					String m = query.rs.getString(1);
+					if(m != null && m.length() > 0) {
+						if(!messagesAlreadySeen.contains(m)) {
+							messagesAlreadySeen.add(m);
+							messages.add(m);
+						}
+					}
+				}
+				query.close();
+			}
+            
+			// truncate messages table for next time
+			SQLRunner.executeSQL(conn,"truncate table messages");
+		} catch(SQLException e) {
+			throw e;
+		} finally {
+			query.onFinally();
+			if(conn != null) {
+				closeConnection(conn);
+				conn = null;
+			}
+		}
+	}
+
+
+	/**
+	 * Execute a script that is designed to build an input database for a specific use case (e.g., 
+	 * the LEV builder tool's script).  This involves two databases: the output database being created, 
+	 * and a default database that supplies additional data.  The script is run in the context of the
+	 * output database.  The default database should be given the name ##defaultdb## in the script, 
+	 * and the output database should be given the name ##outputdb## if it needs to be specified.
 	 * @param scriptFile script to be executed
 	 * @param outputDatabase output database to be created, may already exist
 	 * @param defaultDatabase database providing missing data
@@ -1243,10 +1461,10 @@ public class DatabaseUtilities {
 	 * @throws SQLException when a database cannot be accessed or created
 	 * @throws Exception if there are errors accessing or creating the output file
 	**/
-	public static boolean executeProfileWeightScript(DatabaseSelection outputDatabase, DatabaseSelection newDatabase,
+	public static boolean executeProfileWeightScript(String scriptName, DatabaseSelection outputDatabase, DatabaseSelection newDatabase,
 			DatabaseSelection defaultDatabase, ArrayList<String> messages)
 			throws FileNotFoundException, IOException, SQLException, Exception {
-		File profileWeightScript = new File("./database/ProfileWeightScripts/onroadProfileWeights.sql");
+		File profileWeightScript = new File(scriptName);
 		Connection outputDB = null;
 		Connection defaultDB = null;
 		Connection newDB = null;
@@ -1313,91 +1531,6 @@ public class DatabaseUtilities {
 		return success;
 	}
 	
-	/**
-	 * Execute a script that calculates speciation profile weights for nonroad NonHAPTOG and PM. This involves three databases:
-	 * the MOVES output database, which has the MOVES output for runs with NonHAPTOG and PM output, a new database
-	 * which holds the profile weight tables produced by the script, and a MOVES default database.
-	 * ##defaultdb## is the name of the default database
-	 * ##outputdb## is the name of the MOVES output database
-	 * ##workingdb## is the name of the database for the profile weight tables
-	 * @param outputDatabase MOVES output database to be used
-	 * @param newDatabase new database to be used for profile weighting tables
-	 * @param defaultDatabase database providing fuels data
-	 * @param messages holds messages to be displayed to the user
-	 * @throws FileNotFoundException when the script file cannot be found
-	 * @throws IOException when the script file cannot be read
-	 * @throws SQLException when a database cannot be accessed or created
-	 * @throws Exception if there are errors accessing or creating the output file
-	**/
-	public static boolean executeProfileWeightScriptNR(DatabaseSelection outputDatabase, DatabaseSelection newDatabase,
-			DatabaseSelection defaultDatabase, ArrayList<String> messages)
-			throws FileNotFoundException, IOException, SQLException, Exception {
-		File nrProfileWeightScript = new File("./database/ProfileWeightScripts/nonroadProfileWeights.sql");
-		Connection outputDB = null;
-		Connection defaultDB = null;
-		Connection newDB = null;
-		SQLRunner.Query query = new SQLRunner.Query();
-		boolean success = false;
-		String sql;
-		
-		try {
-			// make connection to output db (this is the db the script will be run against)
-			outputDB = outputDatabase.openConnectionOrNull();
-			if(outputDB == null) {
-				throw new SQLException("Unable to connect to MOVES output database " + outputDatabase.databaseName);
-			}
-			
-			// make sure default database is accessible, but we don't need to keep the connection open
-			defaultDB = defaultDatabase.openConnectionOrNull();
-			if(defaultDB == null) {
-				throw new SQLException("Unable to connect to default database " + defaultDatabase.databaseName);
-			}
-			closeConnection(defaultDB);
-			defaultDB = null;
-			
-			// list all strings that need to be replaced in the script here
-			TreeMapIgnoreCase replacements = new TreeMapIgnoreCase();
-			replacements.put("##defDB##",defaultDatabase.databaseName);
-			replacements.put("##outputDB##",outputDatabase.databaseName);
-			replacements.put("##newDB##",newDatabase.databaseName);
-			
-			// run the script
-			executeScript(outputDB,nrProfileWeightScript,replacements,false);
-
-		} catch(FileNotFoundException e) {
-			messages.add(e.toString());
-			success = false;
-			throw e;
-		} catch(IOException e) {
-			messages.add(e.toString());
-			success = false;
-			throw e;
-		} catch(SQLException e) {
-			messages.add(e.toString());
-			success = false;
-			throw e;
-		} catch(Exception e) {
-			messages.add(e.toString());
-			success = false;
-			throw e;
-		} finally {
-			query.onFinally();
-			if(outputDB != null) {
-				closeConnection(outputDB);
-				outputDB = null;
-			}
-			if(defaultDB != null) {
-				closeConnection(defaultDB);
-				defaultDB = null;
-			}
-			if(newDB != null) {
-				closeConnection(newDB);
-				newDB = null;
-			}
-		}
-		
-		return success;
-	}
 	
 	// these private variables are used in executeNEIQA() and saveNEIQA()
 	/** save the script file name used in executeNEIQA() so that saveNEIQA() knows which script was used **/
@@ -1452,6 +1585,7 @@ public class DatabaseUtilities {
 			// list all strings that need to be replaced in the script here
 			TreeMapIgnoreCase replacements = new TreeMapIgnoreCase();
 			replacements.put("##defaultdb##",defaultDatabase.databaseName);
+			replacements.put("##inputdb##",inputDatabase.databaseName);
 			
 			// run it!
 			executeScript(inputDB,qaScript,replacements,false);

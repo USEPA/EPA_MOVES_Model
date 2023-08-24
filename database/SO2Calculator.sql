@@ -48,7 +48,7 @@ CREATE TABLE SO2CopyOfYear (
 
 DROP TABLE IF EXISTS SO2CopyOfFuelFormulation;
 CREATE TABLE SO2CopyOfFuelFormulation (
-       fuelFormulationID        SMALLINT(6),
+       fuelFormulationID        INT(11),
        fuelSubtypeID    		SMALLINT(6),
        sulfurLevel  			FLOAT,
        primary key (fuelFormulationID),
@@ -61,7 +61,7 @@ CREATE TABLE SO2CopyOfFuelSupply (
 	fuelRegionID			int(11),
 	fuelYearID				smallint(6),
 	monthGroupID			smallint(6),
-	fuelFormulationID		smallint(6),
+	fuelFormulationID		INT(11),
 	marketShare				float,
 	marketShareCV 			float
 );

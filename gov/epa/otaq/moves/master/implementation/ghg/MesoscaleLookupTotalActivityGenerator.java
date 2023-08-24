@@ -985,10 +985,6 @@ public class MesoscaleLookupTotalActivityGenerator extends Generator {
 					+ "AND linkID IN (" + linksInZone.substring(1) + ")";
 			SQLRunner.executeSQL(db, sql);
 
-			sql = "DELETE FROM ExtendedIdleHours WHERE isUserInput='N' "
-					+ "AND zoneID = " + currentZoneID;
-			SQLRunner.executeSQL(db, sql);
-
 			sql = "DELETE FROM Starts WHERE isUserInput='N' "
 					+ "AND zoneID = " + currentZoneID;
 			SQLRunner.executeSQL(db, sql);

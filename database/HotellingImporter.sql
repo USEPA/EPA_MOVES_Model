@@ -59,9 +59,23 @@ begin
 
 	-- Complain about invalid operating modes
 	insert into importTempMessages (message)
-	select distinct concat('ERROR: Unknown opModeID (',opModeID,'). Hotelling operating modes are 200-299.') as errorMessage
+	select distinct concat('ERROR: Unknown opModeID (',opModeID,'). Hotelling operating modes are 200, 201, 203, and 204.') as errorMessage
 	from hotellingActivityDistribution
-	where opModeID < 200 || opModeID > 299;
+	where opModeID not in (200, 201, 203, 204);
+	
+	-- Complain about invalid operating mode / fuel type combinations
+	insert into importTempMessages (message)
+	select distinct concat('ERROR: Cannot use a non-zero opModeFraction for electricity (fuelTypeID 9) and extended idle (opModeID 200)') as errorMessage
+	from hotellingActivityDistribution
+	where fuelTypeID = 9 and opModeID = 200 and opModeFraction <> 0;
+	insert into importTempMessages (message)
+	select distinct concat('ERROR: Cannot use a non-zero opModeFraction for electricity (fuelTypeID 9) and diesel APU usage (opModeID 201)') as errorMessage
+	from hotellingActivityDistribution
+	where fuelTypeID = 9 and opModeID = 201 and opModeFraction <> 0;
+	insert into importTempMessages (message)
+	select distinct concat('ERROR: Cannot use a non-zero opModeFraction for CNG (fuelTypeID 3) and diesel APU usage (opModeID 201)') as errorMessage
+	from hotellingActivityDistribution
+	where fuelTypeID = 3 and opModeID = 201 and opModeFraction <> 0;
 
 	-- Complain if any model year ranges are inverted
 	insert into importTempMessages (message)
@@ -81,12 +95,11 @@ begin
 	from hotellingActivityDistribution
 	where round(opModeFraction,4) > 1;
 
-	-- Expand to full set of model years
+	-- Expand to full set of zones / model years / fuel types
 	drop table if exists tempYear;
 	create table if not exists tempYear (
 		year int not null primary key
 	);
-	
 	insert into tempYear(year) values(1960),(1961),(1962),(1963),(1964),(1965),(1966),(1967)
 		,(1968),(1969),(1970),(1971),(1972),(1973),(1974),(1975),(1976),(1977)
 		,(1978),(1979),(1980),(1981),(1982),(1983),(1984),(1985),(1986),(1987)
@@ -99,36 +112,49 @@ begin
 		,(2048),(2049),(2050),(2051),(2052),(2053),(2054),(2055),(2056),(2057)
 		,(2058),(2059),(2060)
 	;
-
 	drop table if exists tempHotellingActivityDistribution;
 	create table if not exists tempHotellingActivityDistribution (
-		zoneID int not null,
-		modelYearID smallint(6) not null,
-		opModeID smallint(6) not null,
-		opModeFraction float not null,
-		key (zoneID, modelYearID, opModeID),
-		key (zoneID, opModeID, modelYearID)
+		zoneID int,
+		fuelTypeID  smallint(6),
+		modelYearID smallint(6),
+		opModeID smallint(6),
+		opModeFraction float,
+		key (zoneID, fuelTypeID, modelYearID, opModeID),
+		key (zoneID, fuelTypeID, opModeID, modelYearID)
 	);
 
-	insert into tempHotellingActivityDistribution (zoneID, modelYearID, opModeID, opModeFraction)
-	select zoneID, year, opModeID, opModeFraction
+	-- first, expand model year ranges
+	insert into tempHotellingActivityDistribution (zoneID, fuelTypeID, modelYearID, opModeID, opModeFraction)
+	select zoneID, fuelTypeID, year, opModeID, opModeFraction
 	from hotellingActivityDistribution, tempYear
 	where beginModelYearID <= year
 	and endModelYearID >= year;
+	
+	-- now, look for missing fuel type / model year combinations
+	insert into tempHotellingActivityDistribution (zoneID, fuelTypeID, modelYearID, opModeID, opModeFraction)
+	select z.zoneID, ft.fuelTypeID, year, opModeID, opModeFraction
+	from tempYear
+	join (select distinct fuelTypeID from hotellingactivitydistribution) AS ft
+	join (select distinct zoneID from hotellingactivitydistribution) AS z
+ 	left join tempHotellingActivityDistribution thad ON (modelYearID <= year and modelYearID >= year 
+	                                                     AND ft.fuelTypeID = thad.fuelTypeID
+														 AND z.zoneID = thad.zoneID)
+	where opModeFraction is null;
 
 	-- Complain about model years that appear more than once
 	insert into importTempMessages (message)
 	select distinct concat('ERROR: Model year ',modelYearID,' appears more than once (',count(*),') for zone ',zoneID) as errorMessage
 	from tempHotellingActivityDistribution
-	group by zoneID, modelYearID, opModeID
+	group by zoneID, fuelTypeID, modelYearID, opModeID
 	having count(*) > 1;
 
-	-- Complain about model years with distributions that don't sum to exactly 1.0000
-	insert into importTempMessages (message)
-	select concat('ERROR: total opModeFraction for zone ',zoneID,', model year ',modelYearID,' should be 1 but instead ',round(sum(opModeFraction),4)) as errorMessage
+	-- Complain about model years with distributions that don't sum to exactly 1.0000 or are missing
+    insert into importTempMessages (message)
+	select concat('ERROR: total opModeFraction for zone ',zoneID,', model year ',modelYearID,', and fuel type ', fuelTypeID,
+	              ' should be 1 but instead is ',coalesce(round(sum(opModeFraction),4), 'NULL')) as errorMessage
 	from tempHotellingActivityDistribution
-	group by zoneID, modelYearID
-	having round(sum(opModeFraction),4) <> 1.0000;
+	group by zoneID, fuelTypeID, modelYearID
+	having round(sum(opModeFraction),4) <> 1.0000 OR SUM(opModeFraction) IS null;
 
 	-- Cleanup
 	drop table if exists tempYear;

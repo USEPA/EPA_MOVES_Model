@@ -12,11 +12,13 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.lang.Integer;
 import java.lang.StringBuffer;
+import java.sql.Connection;
 import javax.xml.parsers.*;
 import org.xml.sax.*;
 import org.xml.sax.helpers.*;
 import org.w3c.dom.*;
 import gov.epa.otaq.moves.common.*;
+import gov.epa.otaq.moves.master.gui.MOVESWindow;
 import gov.epa.otaq.moves.master.framework.*;
 
 /**
@@ -228,7 +230,9 @@ public class RunSpecXML {
 			runSpec.doNotPerformFinalAggregation = getBooleanAttribute(node, "selected");
 		} else if(nodeName.equalsIgnoreCase("lookuptableflags")) {
 			processLookupTableFlags(node);
-		}
+		} else if(nodeName.equalsIgnoreCase("skipdomaindatabasevalidation")) {
+			runSpec.skipDomainDatabaseValidation = getBooleanAttribute(node, "selected");
+        }
 	}
 	
 	private void processVersion(Node node) {
@@ -582,6 +586,10 @@ public class RunSpecXML {
 		if ( !node.hasChildNodes()) { // 0 child nodes
 			return;
 		}
+        
+        // track source type and fuel type selections to ensure no fuel type combinations are missing
+        TreeMap<Integer, TreeSet<Integer>> stftSelections = new TreeMap<Integer, TreeSet<Integer>>();
+
 		for(Node subNode = node.getFirstChild(); subNode != null;
 				subNode = subNode.getNextSibling()) {
 			if(subNode.getNodeName().equalsIgnoreCase("#text")) {
@@ -613,14 +621,79 @@ public class RunSpecXML {
 					parsedOnRoadVehicleSelection.sourceTypeName = "Other Buses";
 					runSpec.hadIntercityBuses = true;
 				}
+
+                // only add if selection is valid
 				if(parsedOnRoadVehicleSelection.isValid()) {
 					runSpec.onRoadVehicleSelections.add(parsedOnRoadVehicleSelection);
+
+                    // also, track source type and fuel type selections
+                    Integer sourceTypeID = Integer.valueOf(parsedOnRoadVehicleSelection.sourceTypeID);
+                    Integer fuelTypeID = Integer.valueOf(parsedOnRoadVehicleSelection.fuelTypeID);
+                    TreeSet<Integer> newFuelTypesSet = new TreeSet<Integer>();
+                    newFuelTypesSet.add(fuelTypeID);
+                    TreeSet<Integer> existingFuelTypesSet = stftSelections.putIfAbsent(sourceTypeID, newFuelTypesSet);
+                    if (existingFuelTypesSet != null) {
+                        existingFuelTypesSet.add(fuelTypeID);
+                        stftSelections.put(sourceTypeID, existingFuelTypesSet);
+                    }
 				} else {
 					/** @explain The RunSpec file is corrupt, likely due to a typo. **/
 					Logger.log(LogMessageCategory.WARNING, "Invalid OnRoadVehicleSelection");
 				}
 			}
 		}
+
+        // load valid source type / fuel type combinations (query is from loadValidFuelSourceCombinations() of OnRoadVehicleEquipment.java)
+        TreeMap<Integer, ArrayList<OnRoadVehicleSelection>> validSelectionsByST = new TreeMap<Integer, ArrayList<OnRoadVehicleSelection>>();
+		String sql = "SELECT DISTINCT ft.fuelTypeID, ft.fuelTypeDesc, sut.sourceTypeID, "
+                    +"sut.sourceTypeName FROM FuelType ft, SourceUseType sut, FuelEngTechAssoc "
+                    +"feta WHERE ft.fuelTypeID = feta.fuelTypeID AND sut.sourceTypeID = "
+                    +"feta.sourceTypeID ORDER BY ft.fuelTypeDesc, sut.sourceTypeName";
+		SQLRunner.Query query = new SQLRunner.Query();
+		try {
+            Connection db = DatabaseConnectionManager.checkOutConnection(MOVESDatabaseType.DEFAULT);
+			query.open(db,sql);
+			while(query.rs.next()) {
+                OnRoadVehicleSelection vehicle = new OnRoadVehicleSelection();
+				vehicle.fuelTypeID = Integer.valueOf(query.rs.getInt(1));
+				vehicle.fuelTypeDesc = query.rs.getString(2);
+				vehicle.sourceTypeID = Integer.valueOf(query.rs.getInt(3));
+				vehicle.sourceTypeName = query.rs.getString(4);
+                ArrayList<OnRoadVehicleSelection> newEntry = new ArrayList<OnRoadVehicleSelection>();
+                newEntry.add(vehicle);
+                ArrayList<OnRoadVehicleSelection> existingEntry = validSelectionsByST.putIfAbsent(vehicle.sourceTypeID, newEntry);
+                if (existingEntry != null) {
+                    existingEntry.add(vehicle);
+                    validSelectionsByST.put(vehicle.sourceTypeID, existingEntry);
+                }
+			}
+		} catch(Exception e) {
+			Logger.logError(e,"Unable to load the list of source type and fuel type combinations.");
+		} finally {
+			query.onFinally();
+		}
+
+        // ensure all fuel types are selected for each source type. If something is missing, add it
+        for (Map.Entry<Integer, TreeSet<Integer>> entry : stftSelections.entrySet()) {
+            Integer sourceTypeID = entry.getKey();
+            TreeSet<Integer> runspecFuels = entry.getValue();
+            for (OnRoadVehicleSelection selection : validSelectionsByST.get(sourceTypeID)) {
+                boolean foundFuel = false;
+                for (Integer runspecFuel : runspecFuels) {
+                    if (runspecFuel == Integer.valueOf(selection.fuelTypeID)) {
+                        foundFuel = true;
+                        break;
+                    }
+                }
+                if (!foundFuel) {
+                    runSpec.onRoadVehicleSelections.add(selection);
+                    Logger.skipHandlers = true;
+                    Logger.log(LogMessageCategory.WARNING, "Added missing vehicle selection: " + 
+                                                            selection.sourceTypeName + " - " + selection.fuelTypeDesc);
+                    Logger.skipHandlers = false;
+                }
+            }
+        }
 	}
 
 	/**
@@ -1779,7 +1852,7 @@ public class RunSpecXML {
 					+ " servername=\"" + serverName + "\""
 					+ " databasename=\"" + databaseName + "\""
 					+ " description=\"" + databaseDescription + "\"/>");
-			printWriter.println("\t\t<donotperformfinalaggregation selected=\""
+			printWriter.println("\t<donotperformfinalaggregation selected=\""
 					+ runSpec.doNotPerformFinalAggregation + "\"/>");
 
 			printWriter.println("\t<lookuptableflags"
@@ -1788,6 +1861,9 @@ public class RunSpecXML {
 					+ " truncateactivity=\"" + runSpec.shouldTruncateMOVESActivityOutput + "\""
 					+ " truncatebaserates=\"" + runSpec.shouldTruncateBaseRateOutput + "\""
 					+ "/>");
+            
+            printWriter.println("\t<skipdomaindatabasevalidation selected=\""
+                            + runSpec.skipDomainDatabaseValidation + "\"/>");
 
 			printWriter.println("</runspec>");
 		} catch(Exception e) {

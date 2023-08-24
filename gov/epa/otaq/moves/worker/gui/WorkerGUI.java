@@ -276,7 +276,7 @@ public class WorkerGUI {
 				Logger.log(LogMessageCategory.INFO,"Setting worker flag for " + WorkerConfiguration.theWorkerConfiguration.distributedWorkerId + 
 												   " on port " + WORKER_FLAG_PORT);
 			} catch(Exception e) {
-				if(e.toString().toLowerCase().contains("jvm_bind") || e.toString().toLowerCase().contains("net_bind")) {
+				if(e.toString().toLowerCase().contains("bind")) {
 					Logger.log(LogMessageCategory.INFO,"Not setting worker flag for " + WorkerConfiguration.theWorkerConfiguration.distributedWorkerId + 
 													   " because port " + WORKER_FLAG_PORT + " is already bound by another worker.");
 				} else {

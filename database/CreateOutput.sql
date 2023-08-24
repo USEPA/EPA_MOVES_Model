@@ -19,7 +19,6 @@ DROP TABLE IF EXISTS MOVESError;
 DROP TABLE IF EXISTS MOVESEventLog;
 DROP TABLE IF EXISTS MOVESWorkersUsed;
 DROP TABLE IF EXISTS bundleTracking;
-DROP TABLE IF EXISTS ActivityType;
 DROP TABLE IF EXISTS MOVESTablesUsed;
 DROP TABLE IF EXISTS RatePerDistance;
 DROP TABLE IF EXISTS RatePerVehicle;
@@ -131,9 +130,9 @@ CREATE TABLE MOVESRun (
 	masterComputerID     VARCHAR(255) NULL DEFAULT NULL,
 	masterIDNumber       VARCHAR(255) NULL DEFAULT NULL,
 -- ******************************************************
--- domain has values 'NATIONAL', 'SINGLE', 'PROJECT'
+-- domain has values 'DEFAULT', 'SINGLE', 'PROJECT'
 -- ******************************************************
-	domain               CHAR(10) NULL DEFAULT 'NATIONAL',
+	domain               CHAR(10) NULL DEFAULT 'DEFAULT',
 	domainCountyID		 INTEGER UNSIGNED NULL DEFAULT NULL,
 	domainCountyName     VARCHAR(50) NULL DEFAULT NULL,
 	domainDatabaseServer VARCHAR(100) NULL DEFAULT NULL,
@@ -218,46 +217,6 @@ CREATE TABLE MOVESActivityOutput (
 	activityMean         FLOAT NULL DEFAULT NULL,
 	activitySigma        FLOAT NULL DEFAULT NULL 
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
-
-CREATE TABLE ActivityType (
-	activityTypeID       SMALLINT UNSIGNED NOT NULL,
-	activityType         CHAR(20) NOT NULL,
-	activityTypeDesc     CHAR(50) NULL DEFAULT NULL,
-	PRIMARY KEY (activityTypeID)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
-
--- add records
-INSERT IGNORE INTO ActivityType (activityTypeID, activityType, activityTypeDesc)
-VALUES (1, "distance", "Distance traveled");
-INSERT IGNORE INTO ActivityType (activityTypeID, activityType, activityTypeDesc)
-VALUES (2, "sourcehours", "Source Hours");
-INSERT IGNORE INTO ActivityType (activityTypeID, activityType, activityTypeDesc)
-VALUES (3, "extidle", "Extended Idle Hours");
-INSERT IGNORE INTO ActivityType (activityTypeID, activityType, activityTypeDesc)
-VALUES (4, "sho", "Source Hours Operating");
-INSERT IGNORE INTO ActivityType (activityTypeID, activityType, activityTypeDesc)
-VALUES (5, "shp", "Source Hours Parked");
-INSERT IGNORE INTO ActivityType (activityTypeID, activityType, activityTypeDesc)
-VALUES (6, "population", "Population");
-INSERT IGNORE INTO ActivityType (activityTypeID, activityType, activityTypeDesc)
-VALUES (7, "starts", "Starts");
--- INSERT IGNORE INTO ActivityType (activityTypeID, activityType, activityTypeDesc)
--- VALUES (8, "hotelling", "Hotelling Hours")
-INSERT IGNORE INTO ActivityType (activityTypeID, activityType, activityTypeDesc)
-VALUES (9, "avghp", "Average Horsepower");
-INSERT IGNORE INTO ActivityType (activityTypeID, activityType, activityTypeDesc)
-VALUES (10, "retrofrac", "Fraction Retrofitted");
-INSERT IGNORE INTO ActivityType (activityTypeID, activityType, activityTypeDesc)
-VALUES (11, "retrocnt", "Number Units Retrofitted");
-INSERT IGNORE INTO ActivityType (activityTypeID, activityType, activityTypeDesc)
-VALUES (12, "loadfactor", "Load Factor");
-INSERT IGNORE INTO ActivityType (activityTypeID, activityType, activityTypeDesc)
-VALUES (13, "hotellingAux", "Hotelling Diesel Aux");
-INSERT IGNORE INTO ActivityType (activityTypeID, activityType, activityTypeDesc)
-VALUES (14, "hotellingElectric", "Hotelling Battery or AC");
-INSERT IGNORE INTO ActivityType (activityTypeID, activityType, activityTypeDesc)
-VALUES (15, "hotellingOff", "Hotelling All Engines Off");
-
 
 CREATE TABLE MOVESWorkersUsed (
 	MOVESRunID           SMALLINT UNSIGNED NOT NULL,
@@ -476,3 +435,155 @@ CREATE TABLE RatePerHour (
 	relHumidity          FLOAT NULL DEFAULT NULL,
 	ratePerHour          FLOAT NULL DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+
+
+-- ***********************************************************************************
+-- Translate tables
+-- Includes definition tables for all ID fields defined in the default database
+-- ***********************************************************************************
+CREATE TABLE translate_activitytype (
+	activityTypeID       SMALLINT UNSIGNED NOT NULL PRIMARY KEY,
+	activityTypeName     VARCHAR(20) NOT NULL,
+	activityTypeDesc     VARCHAR(50) NULL DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+INSERT INTO translate_activitytype
+SELECT activityTypeID, activityType, activityTypeDesc
+FROM ##defaultdb##.activitytype;
+
+CREATE TABLE translate_avgspeedbin (
+       avgSpeedBinID        SMALLINT NOT NULL PRIMARY KEY,
+       avgSpeedBinName      VARCHAR(50) NULL,
+       avgBinSpeed          FLOAT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+INSERT INTO translate_avgspeedbin
+SELECT avgSpeedBinID, avgSpeedBinDesc, avgBinSpeed
+FROM ##defaultdb##.AvgSpeedBin;
+
+CREATE TABLE translate_county (
+       countyID             INTEGER NOT NULL PRIMARY KEY,
+       stateID              SMALLINT NOT NULL,
+       countyName           VARCHAR(50) NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+-- INSERT INTO translate_county
+-- SELECT countyID, stateID, countyName
+-- FROM ##defaultdb##.county;
+
+CREATE TABLE translate_day (
+       dayID                SMALLINT NOT NULL PRIMARY KEY,
+       dayName              VARCHAR(10) NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+INSERT INTO translate_day
+SELECT dayID, dayName
+FROM ##defaultdb##.DayOfAnyWeek;
+
+CREATE TABLE translate_engtech (
+  engTechID smallint(6) NOT NULL DEFAULT '0' PRIMARY KEY,
+  engTechName varchar(50) DEFAULT NULL,
+  engTechDesc varchar(80) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+INSERT INTO translate_engtech
+SELECT engTechID, engTechName, engTechDesc
+FROM ##defaultdb##.enginetech
+WHERE engTechID <> -1;
+
+CREATE TABLE translate_fuelsubtype (
+       fuelSubtypeID        SMALLINT NOT NULL PRIMARY KEY,
+       fuelTypeID           SMALLINT NOT NULL,
+       fuelSubtypeName      VARCHAR(50) NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+INSERT INTO translate_fuelsubtype
+SELECT fuelSubtypeID, fuelTypeID, fuelSubtypeDesc
+FROM ##defaultdb##.FuelSubtype;
+INSERT IGNORE INTO translate_fuelsubtype
+SELECT fuelSubtypeID, fuelTypeID, fuelSubtypeDesc
+FROM ##defaultdb##.NRFuelSubtype;
+
+CREATE TABLE translate_fueltype (
+       fuelTypeID           SMALLINT NOT NULL PRIMARY KEY,
+       fuelTypeName         VARCHAR(50) NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+INSERT INTO translate_fueltype
+SELECT fuelTypeID, fuelTypeDesc
+FROM ##defaultdb##.fueltype;
+INSERT IGNORE INTO translate_fueltype
+SELECT fuelTypeID, fuelTypeDesc
+FROM ##defaultdb##.NRFuelType;
+
+CREATE TABLE translate_hp (
+  hpID SMALLINT(6) NOT NULL PRIMARY KEY,
+  hpName VARCHAR(20) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+INSERT INTO translate_hp
+SELECT NRHPRangeBinID, binName
+FROM ##defaultdb##.nrHPRangeBin;
+
+CREATE TABLE translate_nrscc (
+       scc                CHAR(10) NOT NULL PRIMARY KEY,
+       sccName            VARCHAR(40) NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+INSERT INTO translate_nrscc
+SELECT scc, description
+FROM ##defaultdb##.nrSCC;
+
+CREATE TABLE translate_pollutant (
+       pollutantID          SMALLINT NOT NULL PRIMARY KEY,
+       pollutantName        VARCHAR(50) NULL,
+       pollutantShortName	VARCHAR(50) NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+INSERT INTO translate_pollutant
+SELECT pollutantID, pollutantName, shortName
+FROM ##defaultdb##.pollutant
+WHERE pollutantID < 1000;
+
+CREATE TABLE translate_process (
+       processID            SMALLINT NOT NULL PRIMARY KEY,
+       processName          VARCHAR(50) NULL,
+       processShortName		VARCHAR(50) NULL 
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+INSERT INTO translate_process
+SELECT processID, processName, shortName
+FROM ##defaultdb##.emissionprocess;
+
+CREATE TABLE translate_regclass (
+    regClassID SMALLINT NOT NULL PRIMARY KEY,
+    regClassName VARCHAR(25) NULL ,
+    regClassDesc VARCHAR(100) NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+INSERT INTO translate_regclass
+SELECT regClassID, regClassName, regClassDesc
+FROM ##defaultdb##.RegulatoryClass
+WHERE regClassID <> 0;
+
+CREATE TABLE translate_roadtype (
+       roadTypeID           SMALLINT NOT NULL PRIMARY KEY,
+       roadTypeName         VARCHAR(50) NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+INSERT INTO translate_roadtype
+SELECT roadTypeID, roadDesc
+FROM ##defaultdb##.RoadType;
+
+CREATE TABLE translate_sector (
+  sectorID smallint(6) NOT NULL PRIMARY KEY,
+  sectorName varchar(40) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+INSERT INTO translate_sector
+SELECT sectorID, description
+FROM ##defaultdb##.sector;
+
+CREATE TABLE translate_sourcetype (
+       sourceTypeID         SMALLINT NOT NULL PRIMARY KEY,
+       HPMSVtypeID          SMALLINT NOT NULL,
+       sourceTypeName       VARCHAR(50) NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+INSERT INTO translate_sourcetype
+SELECT sourceTypeID, HPMSVtypeID, sourceTypeName
+FROM ##defaultdb##.sourceusetype;
+
+CREATE TABLE translate_state (
+       stateID              SMALLINT NOT NULL PRIMARY KEY,
+       stateName            VARCHAR(25) NULL,
+       stateAbbr            CHAR(2) NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+INSERT INTO translate_state
+SELECT stateID, stateName, stateAbbr
+FROM ##defaultdb##.state;

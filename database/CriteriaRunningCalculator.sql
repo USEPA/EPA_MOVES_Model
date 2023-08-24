@@ -376,7 +376,7 @@ CREATE TABLE CountyFuelAdjustment (
        polProcessID int NOT NULL,
        modelYearID INTEGER NOT NULL,
        sourceTypeID SMALLINT NOT NULL,
-       fuelFormulationID SMALLINT NOT NULL,
+       fuelFormulationID int(11) NOT NULL,
        fuelAdjustment FLOAT
 );
 
@@ -405,7 +405,7 @@ CREATE TABLE FuelSupplyWithFuelType (
 	countyID INTEGER NOT NULL,
 	yearID SMALLINT NOT NULL,
 	monthID SMALLINT NOT NULL,
-	fuelFormulationID SMALLINT NOT NULL,
+	fuelFormulationID INT(11) NOT NULL,
 	fuelTypeID SMALLINT NOT NULL,
 	marketShare FLOAT
 );
@@ -921,8 +921,8 @@ ANALYZE TABLE FuelType;
 INSERT INTO WeightedAndAdjustedEmissionRate2_TEMP1
 SELECT l.linkID, yearID, polProcessID, sourceTypeID, waer.fuelTypeID, modelYearID, waer.monthID, dayID, 
 	waer.hourID,
-	(1.0 - (GREATEST(21.0,LEAST(specificHumidity,124.0))-75.0)*humidityCorrectionCoeff)*meanBaseRate,
-	(1.0 - (GREATEST(21.0,LEAST(specificHumidity,124.0))-75.0)*humidityCorrectionCoeff)*meanBaseRateIM
+	meanBaseRate,
+	meanBaseRateIM
 FROM WeightedAndAdjustedEmissionRate waer 
 INNER JOIN Link l ON (l.linkID=waer.linkID)
 INNER JOIN ZoneMonthHour zmh ON (

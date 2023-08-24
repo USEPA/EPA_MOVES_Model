@@ -59,6 +59,14 @@ public class ProfileWeightScript extends JDialog implements ActionListener {
 	JButton doneButton;
 	/** Button to open help **/
 	JButton openHelpButton;
+	/** add combo boxes for profile selections **/
+	JComboBox<String> profileModelCombo;
+	JComboBox<String> profileSetCombo;
+	
+	static final String MODEL_ONROAD = "Onroad";
+	static final String MODEL_NONROAD = "Nonroad";
+	static final String PROFILES_ROC = "Reactive Organic Carbon";
+	static final String PROFILES_CB6 = "Non-volatility Resolved";
 
 	/** DefaultListModel for messageList **/
 	DefaultListModel<String> messageListModel;
@@ -87,7 +95,7 @@ public class ProfileWeightScript extends JDialog implements ActionListener {
 	 * @param modeToUse Default conversion mode
 	**/
 	public ProfileWeightScript(JFrame parent) {
-		super(parent, "Onroad Speciation Profile Weighting Script");
+		super(parent, "Speciation Profile Scripts");
 		frame = parent;
 
 		getContentPane().setLayout(new BorderLayout());
@@ -121,7 +129,7 @@ public class ProfileWeightScript extends JDialog implements ActionListener {
 	 * @return the container as JPanel of the controls
 	**/
 	public JPanel createAndArrangeControls() {
-		JPanel result = new JPanel();
+		JPanel panel = new JPanel();
 		instructionsTextPane = new JTextPane();
 		JLabel label1 = new JLabel();
 		controlFileText = new JLabel("",JLabel.RIGHT);
@@ -132,6 +140,8 @@ public class ProfileWeightScript extends JDialog implements ActionListener {
 		outputDirectoryText = new JLabel("",JLabel.RIGHT);
 		JLabel label4 = new JLabel();
 		JLabel label5 = new JLabel();
+		JLabel modelLabel = new JLabel();
+		JLabel profileSetLabel = new JLabel();
 		JScrollPane scrollPane2 = new JScrollPane();
 		createRunSpecsButton = new JButton();
 		doneButton = new JButton();
@@ -148,6 +158,18 @@ public class ProfileWeightScript extends JDialog implements ActionListener {
 		createRunSpecsButton.addActionListener(this);
 		doneButton.addActionListener(this);
 		openHelpButton.addActionListener(this);
+		
+		profileModelCombo = new JComboBox<String>(new String[] {MODEL_ONROAD,MODEL_NONROAD});
+		profileModelCombo.setEditable(false);
+		profileModelCombo.setSelectedItem(MODEL_ONROAD);
+		ToolTipHelper.add(profileModelCombo,"Select the name of the output database for the MOVES run(s) to be speciated.");
+		profileModelCombo.addActionListener(this);
+		
+		profileSetCombo = new JComboBox<String>(new String[] {PROFILES_CB6,PROFILES_ROC});
+		profileSetCombo.setEditable(false);
+		profileSetCombo.setSelectedItem(PROFILES_CB6);
+		ToolTipHelper.add(profileSetCombo,"Select the name of the output database for the MOVES run(s) to be speciated.");
+		profileSetCombo.addActionListener(this);
 
 		outputDatabaseCombo = new ExtendedComboBox<String>();
 		Dimension d = outputDatabaseCombo.getPreferredSize();
@@ -185,103 +207,157 @@ public class ProfileWeightScript extends JDialog implements ActionListener {
 		SimpleAttributeSet bold = new SimpleAttributeSet(normal);
         StyleConstants.setBold(bold, true);
 		
-		//======== result ========
-		try {
-			result.setLayout(new GridBagLayout());
-			((GridBagLayout)result.getLayout()).columnWidths = new int[] {106, 0, 0, 0, 0, 0};
-			((GridBagLayout)result.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-			((GridBagLayout)result.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4, 0.0, 0.0 };
-			((GridBagLayout)result.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4, 0.0};
+		//======== panel ========
+		panel.setLayout(new GridBagLayout());
+		((GridBagLayout)panel.getLayout()).columnWidths = new int[] {106, 0, 0, 0, 0, 0};
+		((GridBagLayout)panel.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		((GridBagLayout)panel.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4, 0.0, 0.0 };
+		((GridBagLayout)panel.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4, 0.0};
 
-			//---- instructionsTextPane ----
+		//---- instructionsTextPane ----
+		try {
 			doc.insertString(doc.getLength(),
-				"This script calculates speciation profile weights used to speciate onroad emissions"
-				+ " for residual total organic gases (NonHAPTOG), total organic matter (TOM), and"
+				"These scripts calculate speciation profile weights used to speciate MOVES onroad and nonroad emissions"
+				+ " for residual total organic gases (NonHAPTOG), particulate matter (PM), total organic matter (TOM), and"
 				+ " residual particulate matter (NonECNonSO4NonOM PM). This tool is designed for users"
 				+ " who are interested in air quality modeling or applying chemical mechanisms."
 				+ "\r\n\r\n"
-				+ "The script runs against a MOVES output database with output for the three pollutants"
-				+ " for a single calendar year and a single county. The MOVES runs must have output by"
-				+ " SCC, source type, fuel type, model year, emission process, regulatory class and road type. It will"
-				+ " write the profile weights to a different database which can be selected below."
-				+ " For more detail on how to perform the MOVES runs and how the profile weighting tables"
-				+ " are defined, click the \"Open Help\" button."
+				+ "The scripts run against a MOVES output database with output for the required pollutants and output dimensions"
+				+ " for a single calendar year. Multiple counties are allowed. The scripts will write the profile assignments and" 
+				+ " weights to a different database which can be selected below. For more detail on how to perform"
+				+ " the MOVES runs and how the profile weighting tables are defined, click the \"Open Help\" button."
 				+ "\r\n\r\n"
-				+ "To use this tool, select the MOVES output you wish to speciate from the"
-				+ " \"Output Database\" drop-down list below. Then select the database which will hold"
-				+ " profile weighting tables as the \"New Database\". If the database does not exist, it will"
-				+ " be created. Use the \"Run Profile Weighting Script\" button to execute the script file."
+				+ "Onroad runs must have output by SCC, source type, fuel type, model year, emission process," 
+				+ " regulatory class and road type. Nonroad runs must have output by SCC, fuel type, fuel subtype,"
+				+ " engine tech, and emission process."
+				+ "\r\n\r\n"
+				+ "To use this tool, select model used to generate your output and the profile set you wish to use. Then" 
+				+ " select the MOVES output you wish to speciate from the \"Output Database\" drop-down list below. "
+				+ " Then select the database which will hold profile weighting tables as the \"New Database\"."
+				+ " If the database does not exist, it will be created. Use the \"Run Profile Weighting Script\""
+				+ " button to execute the script file."
 				+ "\r\n\r\n",
 				normal);
-					
-			instructionsTextPane.setEditable(false);
-			instructionsTextPane.setBackground(UIManager.getColor("Panel.background"));
-			JPanel p = new JPanel();
-			p.setBorder(BorderFactory.createTitledBorder("Instructions"));
-			p.setLayout(new GridBagLayout());
-			((GridBagLayout)p.getLayout()).columnWidths = new int[] {106, 0, 0, 0, 0, 0};
-			((GridBagLayout)p.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-			((GridBagLayout)p.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4, 0.0, 0.0 };
-			((GridBagLayout)p.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4, 0.0};
-			p.add(instructionsTextPane, new GridBagConstraints(0, 0, 5, 2, 0.0, 0.0,
+		} catch (BadLocationException ex) {
+			ex.printStackTrace(System.err);
+		}
+				
+		instructionsTextPane.setEditable(false);
+		instructionsTextPane.setBackground(UIManager.getColor("Panel.background"));
+		
+		// instructions box within GUI
+		{
+			JPanel instructionInset = new JPanel();
+			instructionInset.setBorder(BorderFactory.createTitledBorder("Instructions"));
+			instructionInset.setLayout(new GridBagLayout());
+			((GridBagLayout)instructionInset.getLayout()).columnWidths = new int[] {106, 0, 0, 0, 0, 0};
+			((GridBagLayout)instructionInset.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+			((GridBagLayout)instructionInset.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4, 0.0, 0.0 };
+			((GridBagLayout)instructionInset.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4, 0.0};
+			instructionInset.add(instructionsTextPane, new GridBagConstraints(0, 0, 5, 2, 0.0, 0.0,
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				new Insets(0, 0, 5, 0), 0, 0));
 
-			result.add(p, new GridBagConstraints(0, 0, 5, 2, 0.0, 0.0,
+			panel.add(instructionInset, new GridBagConstraints(0, 0, 5, 2, 0.0, 0.0,
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				new Insets(0, 0, 5, 0), 0, 0));
+		}
+		
+		// script specification box within GUI
+		{
+			JPanel profileSelectInset = new JPanel();
+			profileSelectInset.setBorder(BorderFactory.createTitledBorder("Profile Specification"));
+			profileSelectInset.setLayout(new GridBagLayout());
+			((GridBagLayout)profileSelectInset.getLayout()).columnWidths = new int[] {106, 0, 0, 0, 0, 0};
+			((GridBagLayout)profileSelectInset.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+			((GridBagLayout)profileSelectInset.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4, 0.0, 0.0, 0.0 };
+			((GridBagLayout)profileSelectInset.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4, 0.0};
 
-			//---- label2 ----
-			p = new JPanel();
-			p.setBorder(BorderFactory.createTitledBorder("Databases"));
-			p.setLayout(new GridBagLayout());
-			((GridBagLayout)p.getLayout()).columnWidths = new int[] {106, 0, 0, 0, 0, 0};
-			((GridBagLayout)p.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-			((GridBagLayout)p.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4, 0.0, 0.0, 0.0 };
-			((GridBagLayout)p.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4, 0.0};
+			modelLabel.setText("Model:");
+			modelLabel.setDisplayedMnemonic('d');
+			modelLabel.setLabelFor(profileModelCombo);
+			
+			profileSelectInset.add(modelLabel, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+				GridBagConstraints.EAST, GridBagConstraints.NONE,
+				new Insets(0, 0, 5, 5), 0, 0));
+
+			profileSelectInset.add(profileModelCombo, new GridBagConstraints(1, 0, 3, 1, 0.0, 0.0,
+				GridBagConstraints.WEST, GridBagConstraints.NONE,
+				new Insets(0, 0, 5, 5), 0, 0));
+			
+
+			profileSetLabel.setText("Profile Set:");
+			profileSetLabel.setDisplayedMnemonic('P');
+			profileSetLabel.setLabelFor(profileSetCombo);
+			
+			profileSelectInset.add(profileSetLabel, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+				GridBagConstraints.EAST, GridBagConstraints.NONE,
+				new Insets(0, 0, 5, 5), 0, 0));
+
+			profileSelectInset.add(profileSetCombo, new GridBagConstraints(1, 1, 3, 1, 0.0, 0.0,
+				GridBagConstraints.WEST, GridBagConstraints.NONE,
+				new Insets(0, 0, 5, 5), 0, 0));
+
+			panel.add(profileSelectInset, new GridBagConstraints(0, 3, 5, 1, 0.0, 0.0,
+				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+				new Insets(0, 0, 5, 5), 0, 0));
+			
+		}
+
+		//---- database box within the GUI ----
+		{
+			JPanel dbInset = new JPanel();
+			dbInset.setBorder(BorderFactory.createTitledBorder("Databases"));
+			dbInset.setLayout(new GridBagLayout());
+			((GridBagLayout)dbInset.getLayout()).columnWidths = new int[] {106, 0, 0, 0, 0, 0};
+			((GridBagLayout)dbInset.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+			((GridBagLayout)dbInset.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4, 0.0, 0.0, 0.0 };
+			((GridBagLayout)dbInset.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4, 0.0};
 
 			label2.setText("Server:");
-			p.add(label2, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+			dbInset.add(label2, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				new Insets(0, 0, 5, 5), 0, 0));
 
-			p.add(serverLabel, new GridBagConstraints(1, 0, 2, 1, 0.0, 0.0,
+			dbInset.add(serverLabel, new GridBagConstraints(1, 0, 2, 1, 0.0, 0.0,
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				new Insets(0, 0, 5, 5), 0, 0));
 
-			p.add(refreshButton, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0,
+			dbInset.add(refreshButton, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0,
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				new Insets(0, 0, 5, 5), 0, 0));
 
 			label3.setText("Output Database:");
-			p.add(label3, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+			dbInset.add(label3, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				new Insets(0, 0, 5, 5), 0, 0));
 
-			p.add(outputDatabaseCombo, new GridBagConstraints(1, 1, 3, 1, 0.0, 0.0,
+			dbInset.add(outputDatabaseCombo, new GridBagConstraints(1, 1, 3, 1, 0.0, 0.0,
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				new Insets(0, 0, 5, 5), 0, 0));
 			label3.setDisplayedMnemonic('O');
 			label3.setLabelFor(outputDatabaseCombo);
 
 			label5.setText("New Database:");
-			p.add(label5, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
+			dbInset.add(label5, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				new Insets(0, 0, 5, 5), 0, 0));
 
-			p.add(newDatabaseCombo, new GridBagConstraints(1, 2, 3, 1, 0.0, 0.0,
+			dbInset.add(newDatabaseCombo, new GridBagConstraints(1, 2, 3, 1, 0.0, 0.0,
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				new Insets(0, 0, 5, 5), 0, 0));
 
-			result.add(p, new GridBagConstraints(0, 4, 5, 1, 0.0, 0.0,
+			panel.add(dbInset, new GridBagConstraints(0, 4, 5, 1, 0.0, 0.0,
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				new Insets(0, 0, 5, 5), 0, 0));
 			label5.setDisplayedMnemonic('N');
 			label5.setLabelFor(newDatabaseCombo);
+		}
 
-			//---- label4 ----
+		//---- label4 ----
+		{
 			label4.setText("Messages:");
-			result.add(label4, new GridBagConstraints(0, 7, 1, 1, 0.0, 0.0,
+			panel.add(label4, new GridBagConstraints(0, 7, 1, 1, 0.0, 0.0,
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				new Insets(0, 0, 5, 5), 0, 0));
 
@@ -290,16 +366,18 @@ public class ProfileWeightScript extends JDialog implements ActionListener {
 				scrollPane2.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 				scrollPane2.setViewportView(messagesList);
 			}
-			result.add(scrollPane2, new GridBagConstraints(0, 8, 5, 2, 0.0, 0.0,
+			panel.add(scrollPane2, new GridBagConstraints(0, 8, 5, 2, 0.0, 0.0,
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				new Insets(0, 0, 5, 0), 0, 0));
 			label4.setDisplayedMnemonic('M');
 			label4.setLabelFor(scrollPane2);
+		}
 
-			//---- createRunSpecsButton ----
+		//---- group the action buttons together ----
+		{
 			createRunSpecsButton.setText("Run Profile Weighting Script");
 			ToolTipHelper.add(createRunSpecsButton,"Apply the script file to the output database, creating the new database");
-			result.add(createRunSpecsButton, new GridBagConstraints(2, 10, 1, 1, 0.0, 0.0,
+			panel.add(createRunSpecsButton, new GridBagConstraints(2, 10, 1, 1, 0.0, 0.0,
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				new Insets(0, 0, 5, 5), 0, 0));
 			createRunSpecsButton.setMnemonic('S');
@@ -307,7 +385,7 @@ public class ProfileWeightScript extends JDialog implements ActionListener {
 			//---- openHelpButton ----
 			openHelpButton.setText("Open Help");
 			ToolTipHelper.add(openHelpButton,"Open the help document (.pdf)");
-			result.add(openHelpButton, new GridBagConstraints(3, 10, 1, 1, 0.0, 0.0,
+			panel.add(openHelpButton, new GridBagConstraints(3, 10, 1, 1, 0.0, 0.0,
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				new Insets(0, 0, 5, 5), 0, 0));
 			openHelpButton.setMnemonic('H');
@@ -315,16 +393,14 @@ public class ProfileWeightScript extends JDialog implements ActionListener {
 			//---- doneButton ----
 			doneButton.setText("Done");
 			ToolTipHelper.add(doneButton,"Close this window");
-			result.add(doneButton, new GridBagConstraints(4, 10, 1, 1, 0.0, 0.0,
+			panel.add(doneButton, new GridBagConstraints(4, 10, 1, 1, 0.0, 0.0,
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				new Insets(0, 0, 5, 0), 0, 0));
 			doneButton.setMnemonic('D');
 			doneButton.setDisplayedMnemonicIndex(0);
-		} catch (BadLocationException ex) {
-            ex.printStackTrace(System.err);
 		}
 
-		return result;
+		return panel;
 	}
 
 	/**
@@ -335,7 +411,7 @@ public class ProfileWeightScript extends JDialog implements ActionListener {
 		if(e.getSource() == refreshButton) {
 			handleRefreshButton();
 		} else if(e.getSource() == createRunSpecsButton) {
-			handleConvertButton();
+			handleRunButton();
 		} else if(e.getSource() == doneButton) {
 			handleDoneButton();
 		} else if(e.getSource() == openHelpButton) {
@@ -348,11 +424,22 @@ public class ProfileWeightScript extends JDialog implements ActionListener {
 		loadDatabases();
 	}
 
-	/** Handle the Create RunSpecs button **/
-	void handleConvertButton() {
+	/** Handle the Run Profile Weight Script button **/
+	void handleRunButton() {
 		try {
 			resetMessages();
-
+			
+			String profileModelSelection = profileModelCombo.getSelectedItem().toString();
+			String profileSetSelection = profileSetCombo.getSelectedItem().toString();
+			
+			String scriptName = "database/profileWeightScripts/profileWeights_" + profileModelSelection + "_";
+			if (profileSetSelection == PROFILES_CB6) {
+				scriptName += "cb6.sql";
+			} else {
+				scriptName += "roc.sql";
+			}
+			
+			
 			String outputDatabaseName = outputDatabaseCombo.getSelectedItem().toString();
 			if(outputDatabaseName != null) {
 				outputDatabaseName = outputDatabaseName.trim();
@@ -394,7 +481,7 @@ public class ProfileWeightScript extends JDialog implements ActionListener {
 			newDatabase.databaseName = newDatabaseName;
 
 			try {
-				DatabaseUtilities.executeProfileWeightScript(outputDatabase,newDatabase,defaultDatabase,messages);
+				DatabaseUtilities.executeProfileWeightScript(scriptName, outputDatabase,newDatabase,defaultDatabase,messages);
 				messages.add("Script successful.");
 			} catch(Exception e) {
 				messages.add("Script failed: " + e.getMessage());
@@ -430,7 +517,7 @@ public class ProfileWeightScript extends JDialog implements ActionListener {
 	/** Handle the open button for the help file **/
 	void handleOpenHelpButton() {
 		try {
-			File file = new File("database/ProfileWeightScripts/OnroadSpeciationInstructions.pdf");
+			File file = new File("database/ProfileWeightScripts/profileScriptHelp.pdf");
 			if(!file.exists()) {
 				Logger.log(LogMessageCategory.ERROR, "Could not find the help file at: " + file.getAbsolutePath());
 				return;

@@ -95,6 +95,11 @@ public class AdvancedPerformanceFeatures extends JPanel
 	JCheckBox truncateMOVESActivityOutputCheckbox;
 	/** Tied to RunSpec.shouldTruncateBaseRateOutput **/
 	JCheckBox truncateBaseRateOutputCheckbox;
+    /** Tied to RunSpec.skipDomainDatabaseValidation */
+    JCheckBox skipDomainDatabaseValidationCheckbox;
+    
+	/** Panel showing warning about using skipDomainDatabaseValidationCheckbox **/
+	JPanel skipValidationWarningPanel = null;
 
 	/** Create Input Database button **/
 	JButton inputCreateButton;
@@ -555,6 +560,26 @@ public class AdvancedPerformanceFeatures extends JPanel
 		ToolTipHelper.add(truncateBaseRateOutputCheckbox,
 				"Check this box to remove data from BaseRateOutput once rates have been calculated.");
 		truncateBaseRateOutputCheckbox.setMnemonic('7');
+        
+		skipDomainDatabaseValidationCheckbox = new JCheckBox("Do Not Perform Domain Database Validation (Alt+8)");
+		ToolTipHelper.add(skipDomainDatabaseValidationCheckbox,
+				"Check this box to bypass domain database data validation,"
+				+ " which can be useful when debugging.");
+        skipDomainDatabaseValidationCheckbox.setMnemonic('8');
+		skipDomainDatabaseValidationCheckbox.addActionListener(this);
+
+        ImageIcon warningImage = new ImageIcon("gov/epa/otaq/moves/master/gui/images/dataExists.gif");
+		JLabel warningLabel = new JLabel(
+				"<html><body>"
+				+ "Caution: Bypassing Domain Database Validation<br>"
+                + "can easily lead to invalid results. Do not use<br>"
+                + "this setting for SIP or conformity analyses."
+				+ "</body></html>",
+				warningImage, JLabel.LEFT);
+		skipValidationWarningPanel = new JPanel();
+		skipValidationWarningPanel.setLayout(new BoxLayout(skipValidationWarningPanel, BoxLayout.X_AXIS));
+		skipValidationWarningPanel.add(warningLabel);
+		skipValidationWarningPanel.add(Box.createHorizontalGlue());
 
 		inputCreateButton = new JButton("Create Database (Alt+J)");
 		inputCreateButton.setMnemonic('J');
@@ -704,8 +729,18 @@ public class AdvancedPerformanceFeatures extends JPanel
 			dataPanel.add(p);
 		}
 
-		LayoutUtility.setPositionOnGrid(gbc,0, 3, "WEST", 2, 1);
+        p = new JPanel();
+		p.setLayout(new BoxLayout(p,BoxLayout.X_AXIS));
+		p.add(skipDomainDatabaseValidationCheckbox);
+		p.add(Box.createHorizontalGlue());
+		dataPanel.add(p);
+
+		LayoutUtility.setPositionOnGrid(gbc,0, 3, "WEST", 1, 1);
 		add(dataPanel, gbc);
+
+		skipValidationWarningPanel.setVisible(false);
+		LayoutUtility.setPositionOnGrid(gbc, 1, 3, "WEST", 1, 1);
+		add(skipValidationWarningPanel, gbc);
 
 		// input database and server panel
 		bottomPanel = new JPanel();
@@ -790,6 +825,7 @@ public class AdvancedPerformanceFeatures extends JPanel
 			runspec.shouldTruncateMOVESActivityOutput = true;
 			runspec.shouldTruncateBaseRateOutput = true;
 		}
+        runspec.skipDomainDatabaseValidation = skipDomainDatabaseValidationCheckbox.isSelected();
 		MacroscaleGeographicBounds.singleton.saveToRunSpec(runspec);
 		// Custom input database ("default database")
 		runspec.inputDatabase.serverName = inputServer.getText();
@@ -878,6 +914,8 @@ public class AdvancedPerformanceFeatures extends JPanel
 				truncateBaseRateOutputCheckbox.setEnabled(false);
 			}
 		}
+        skipDomainDatabaseValidationCheckbox.setSelected(runspec.skipDomainDatabaseValidation);
+        skipValidationWarningPanel.setVisible(skipDomainDatabaseValidationCheckbox.isSelected());
 
 		// Custom input database ("default database")
 		inputServer.setText(runspec.inputDatabase.serverName);
@@ -965,9 +1003,12 @@ public class AdvancedPerformanceFeatures extends JPanel
 		runspec.inputDatabase.serverName = "";
 		runspec.inputDatabase.databaseName = "";
 		runspec.inputDatabase.description = "";
+        runspec.doNotPerformFinalAggregation = false;
 		runspec.shouldTruncateMOVESOutput = true;
 		runspec.shouldTruncateMOVESActivityOutput = true;
 		runspec.shouldTruncateBaseRateOutput = true;
+        runspec.skipDomainDatabaseValidation = false;
+        skipValidationWarningPanel.setVisible(runspec.skipDomainDatabaseValidation);
 		
 		// Preaggregation block
 		MacroscaleGeographicBounds.singleton.saveDefaultsToRunSpec(runspec, sections);
@@ -1396,6 +1437,12 @@ public class AdvancedPerformanceFeatures extends JPanel
 		}
 	}
 
+	/** Handles whenever the skipDomainDatabaseValidationCheckbox is toggled. **/
+	public void processSkipDomainDatabaseValidationChange() {
+		skipValidationWarningPanel.setVisible(skipDomainDatabaseValidationCheckbox.isSelected());
+        MOVESNavigation.singleton.updateRunSpecSectionStatus();
+    }
+
 	/**
 	 * Validate the Alternate Input Database Name
 	 * @param  dbSelection the database selection.
@@ -1497,7 +1544,9 @@ public class AdvancedPerformanceFeatures extends JPanel
 			MOVESNavigation.singleton.updateRunSpecSectionStatus();
 		} else if(e.getSource() == inputDatabaseCombo) {
 			processInputDatabaseComboChange();
-		}
+		} else if(e.getSource() == skipDomainDatabaseValidationCheckbox) {
+            processSkipDomainDatabaseValidationChange();
+        }
 	}
 
 	/**

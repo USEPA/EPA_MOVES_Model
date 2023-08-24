@@ -226,7 +226,7 @@ public class Section508Test extends TestCase {
 				boolean okToPopupMessages = false; 
 				
 				if(MOVESAPI.hasMasterOnThisComputer()){
-					String message = "A MOVES instance is already running, or a firewall is blocking port(s) used by MOVES.\nStartup of this instance of the MOVES master cannot continue.";
+					String message = "A MOVES instance is already running, or a firewall is blocking port(s) used by MOVES.\nStartup of this instance of MOVES cannot continue.";
 					Logger.log(LogMessageCategory.ERROR, message);
 					System.exit(0);
 					return;

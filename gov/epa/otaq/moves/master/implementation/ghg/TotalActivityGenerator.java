@@ -1084,7 +1084,7 @@ public class TotalActivityGenerator extends Generator {
 					"stap.yearID,"+
 					"stap.sourceTypeID,"+
 					"stap.ageID,"+
-					"stap.population / hvtp.population "+
+					"COALESCE(stap.population / hvtp.population, 0) "+
 				"FROM "+
 					"SourceTypeAgePopulation stap,"+
 					"SourceUseType sut,"+
@@ -1092,8 +1092,7 @@ public class TotalActivityGenerator extends Generator {
 				"WHERE "+
 					"stap.sourceTypeID = sut.sourceTypeID AND "+
 					"sut.HPMSVTypeID = hvtp.HPMSVTypeID AND "+
-					"stap.yearID = hvtp.yearID AND "+
-					"hvtp.population <> 0";
+					"stap.yearID = hvtp.yearID";
 		SQLRunner.executeSQL(db,sql);
 									//
 									// Since this table is joined with HPMSVTypePopulation
@@ -1154,7 +1153,7 @@ public class TotalActivityGenerator extends Generator {
 					"fwhvt.yearID,"+
 					"fwhvt.sourceTypeID,"+
 					"fwhvt.ageID,"+
-					"(fwhvt.fraction*sta.relativeMAR)/hpmstf.fraction "+
+					"COALESCE((fwhvt.fraction*sta.relativeMAR)/hpmstf.fraction, 0) "+
 				"FROM "+
 					"FractionWithinHPMSVType fwhvt,"+
 					"SourceUseType sut,"+
@@ -1165,8 +1164,7 @@ public class TotalActivityGenerator extends Generator {
 					"sta.ageID = fwhvt.ageID AND "+
 					"fwhvt.sourceTypeID = sut.sourceTypeID AND "+
 					"hpmstf.yearID = fwhvt.yearID AND "+
-					"hpmstf.HPMSVTypeID = sut.HPMSVTypeID AND "+
-					"hpmstf.fraction <> 0";
+					"hpmstf.HPMSVTypeID = sut.HPMSVTypeID";
 		SQLRunner.executeSQL(db,sql);
 
 		// If VMT by source type has been provided, instead of by HPMSVType, then
@@ -1999,7 +1997,7 @@ public class TotalActivityGenerator extends Generator {
 	}
 
 	/**
-	 * Remove records from SHO, ExtendedIdleHours, hotellingHours, and Starts based upon the
+	 * Remove records from SHO, hotellingHours, and Starts based upon the
 	 * currentZoneID, and currentLinkID member variables.  This is done anytime new data is
 	 * generated for these activity output tables (which is currently whenever a new year or
 	 * new zone or new process is requested).
@@ -2025,11 +2023,6 @@ public class TotalActivityGenerator extends Generator {
 			SQLRunner.executeSQL(db, sql);
 			clearFlags("SourceHours");
 			*/
-
-			sql = "DELETE FROM ExtendedIdleHours WHERE isUserInput='N' "
-					+ "AND zoneID = " + currentZoneID;
-			SQLRunner.executeSQL(db, sql);
-			clearFlags("ExtendedIdleHours");
 
 			if(CompilationFlags.ENABLE_AUXILIARY_POWER_EXHAUST) {
 				sql = "DELETE FROM hotellingHours WHERE isUserInput='N' "
@@ -2371,70 +2364,34 @@ public class TotalActivityGenerator extends Generator {
 //				SQLRunner.executeSQL(db,sql);
 			} else if((extendedIdleProcess!=null && inContext.iterProcess.compareTo(extendedIdleProcess)==0)
 					|| (CompilationFlags.ENABLE_AUXILIARY_POWER_EXHAUST && auxiliaryPowerProcess!=null && inContext.iterProcess.compareTo(auxiliaryPowerProcess)==0)) {
-				if(extendedIdleProcess!=null && inContext.iterProcess.compareTo(extendedIdleProcess)==0
-						&& !checkAndMark("ExtendedIdleHours",zoneID,analysisYear)) {
-					if(CompilationFlags.ENABLE_AUXILIARY_POWER_EXHAUST) {
-						int hotellingActivityZoneID = findHotellingActivityDistributionZoneIDToUse(db,stateID,zoneID);
-						/*
-						 *The TotalActivityGenerator class performs inserts into the ExtendedIdleHours 
-						 *and hotellingHours tables within its allocateTotalActivityBasis() function. 
-						 *These inserts should be filtered to just sourceTypeID 62 as only that type of 
-						 *vehicle idles overnight.
-						 */
+				if(!checkAndMark("HotellingHours",zoneID,analysisYear)) {
+					int hotellingActivityZoneID = findHotellingActivityDistributionZoneIDToUse(db,stateID,zoneID);
+					/*
+					 *The TotalActivityGenerator class performs inserts into the HotellingHours 
+					 *table within its allocateTotalActivityBasis() function. 
+					 *These inserts should be filtered to just sourceTypeID 62 as only that type of 
+					 *vehicle idles overnight.
+					 */
 
-						// Apply user-supplied hotelling hours to extendedIdleHours.
-						
-						/**
-						 * @step 190
-						 * @algorithm extendedIdleHours = hotellingHours * opModeFraction[opModeID=200 extended idling].
-						 * @output extendedIdleHours
-						 * @input hotellingHours
-						 * @input hotellingActivityDistribution
-						 * @condition HotellingHours contains user-supplied hotelling information
-						**/
-						DatabaseUtilities.insertSelect(false,db,"extendedIdleHours",
-								"hourDayID,"+
-								"monthID,"+
-								"yearID,"+
-								"ageID,"+
-								"zoneID,"+
-								"sourceTypeID,"+
-								"extendedIdleHours",
-							"SELECT"
-								+ " 	hourDayID,"
-								+ " 	monthID,"
-								+ " 	yearID,"
-								+ " 	ageID,"
-								+ " 	h.zoneID,"
-								+ " 	sourceTypeID,"
-								+ " 	hotellingHours*opModeFraction as extendedIdleHours"
-								+ " FROM hotellingHours h"
-								+ " inner join hotellingActivityDistribution a"
-								+ " where a.zoneID=" + hotellingActivityZoneID + " and h.zoneID=" + zoneID
-								+ " and h.yearID=" + analysisYear
-								+ " and a.beginModelYearID <= h.yearID - h.ageID"
-								+ " and a.endModelYearID >= h.yearID - h.ageID"
-								+ " and opModeID=200");
-
-						/**
-						 * @step 190
-						 * @algorithm extendedIdleHours = idleHours * SHOAllocFactor * opModeFraction[opModeID=200 extended idling].
-						 * @output extendedIdleHours
-						 * @input IdleHoursByAgeHour
-						 * @input runSpecHourDay
-						 * @input ZoneRoadType
-						 * @input HourDay
-						 * @input hotellingActivityDistribution
-						 * take out the shoallocfactor
-						**/
-						DatabaseUtilities.insertSelect(false,db,"extendedIdleHours",
+					/**
+					 * @step 190
+					 * @algorithm hotellingHours = idleHours * SHOAllocFactor
+					 * @output hotellingHours
+					 * @input IdleHoursByAgeHour
+					 * @input runSpecHourDay
+					 * @input ZoneRoadType
+					 * @input HourDay
+					 * take out the shoallocfactor
+					**/
+					DatabaseUtilities.insertSelect(false,db,"hotellingHours",
 							"hourDayID,"+
 							"monthID,"+
 							"yearID,"+
 							"ageID,"+
 							"zoneID,"+
 							"sourceTypeID,"+
-							"extendedIdleHours",
+							"fuelTypeID,"+
+							"hotellingHours",
 						"SELECT "+
 							"hd.hourDayID,"+
 							"ihah.monthID,"+
@@ -2442,126 +2399,41 @@ public class TotalActivityGenerator extends Generator {
 							"ihah.ageID,"+
 							"z.zoneID,"+
 							"ihah.sourceTypeID,"+
-							"sum(ihah.idleHours*hac.opModeFraction) "+
+							"svp.fuelTypeID,"+
+							"sum(ihah.idleHours*svp.stmyFraction) "+ // This must be total hotelling hours, including extended idle
 						"FROM "+
 							"IdleHoursByAgeHour ihah,"+
 							"Zone z,"+
 							"HourDay hd, "+
-							"hotellingActivityDistribution hac "+
+							"samplevehiclepopulation svp "+
 						"WHERE "+
 							"hd.hourID = ihah.hourID AND "+
 							"hd.dayID = ihah.dayID AND "+
-							"hac.opModeID = 200 AND "+
-							"hac.beginModelYearID <= ihah.yearID - ihah.ageID AND "+
-							"hac.endModelYearID >= ihah.yearID - ihah.ageID AND "+
 							"ihah.yearID = " + analysisYear + " AND "+
-							"hac.zoneID = " + hotellingActivityZoneID + " AND z.zoneID = " + zoneID  + " AND "+
-							"ihah.sourceTypeID = 62 "+
+							"z.zoneID = " + zoneID  + " AND "+
+							"ihah.sourceTypeID = 62 AND "+
+							"svp.sourceTypeID = 62 AND "+
+							"svp.modelYearID = ihah.yearID - ihah.ageID " +
 						"GROUP BY "+
-							"hd.hourDayID,"+
-							"ihah.monthID,"+
-							"ihah.yearID,"+
-							"ihah.ageID,"+
-							"z.zoneID,"+
-							"ihah.sourceTypeID"
-						);
-						adjustExtendedIdle(zoneID,analysisYear,hotellingActivityZoneID);
-						// Remove ExtendedIdleHours entries that are for hours outside of the user's selections.
-						// Filter to analysisYear and zoneID.
-						// Don't do this before adjusting the hours though as HotellingHoursPerDay requires
-						// a full 24-hour distribution.
-						sql = "delete from ExtendedIdleHours"
-								+ " where hourDayID not in (select hourDayID from runSpecHourDay)"
-								+ " and zoneID=" + zoneID
-								+ " and yearID=" + analysisYear;
-						SQLRunner.executeSQL(db,sql);
-					} else {
-						DatabaseUtilities.insertSelect(false,db,"extendedIdleHours",
-							"hourDayID,"+
-							"monthID,"+
-							"yearID,"+
-							"ageID,"+
-							"zoneID,"+
-							"sourceTypeID,"+
-							"extendedIdleHours",
-						"SELECT "+
 							"hd.hourDayID,"+
 							"ihah.monthID,"+
 							"ihah.yearID,"+
 							"ihah.ageID,"+
 							"z.zoneID,"+
 							"ihah.sourceTypeID,"+
-							"sum(ihah.idleHours) "+
-						"FROM "+
-							"IdleHoursByAgeHour ihah,"+
-							"runSpecHourDay rshd,"+
-							"Zone z,"+
-							"HourDay hd "+
-						"WHERE "+
-							"hd.hourDayID = rshd.hourDayID AND "+
-							"hd.hourID = ihah.hourID AND "+
-							"hd.dayID = ihah.dayID AND "+
-							"ihah.yearID = " + analysisYear + " AND "+
-							"z.zoneID = " + zoneID  + " AND "+
-							"ihah.sourceTypeID = 62 "+
-						"GROUP BY "+
-							"hd.hourDayID,"+
-							"ihah.monthID,"+
-							"ihah.yearID,"+
-							"ihah.ageID,"+
-							"z.zoneID,"+
-							"ihah.sourceTypeID"
+							"svp.fuelTypeID"
 						);
-					}
-				} else if(CompilationFlags.ENABLE_AUXILIARY_POWER_EXHAUST
-						&& auxiliaryPowerProcess!=null && inContext.iterProcess.compareTo(auxiliaryPowerProcess)==0) {
-					if(!checkAndMark("hotellingHours",zoneID,analysisYear)) {
-						DatabaseUtilities.insertSelect(false,db,"hotellingHours",
-									"hourDayID,"+
-									"monthID,"+
-									"yearID,"+
-									"ageID,"+
-									"zoneID,"+
-									"sourceTypeID,"+
-									"hotellingHours",
-								"SELECT "+
-									"hd.hourDayID,"+
-									"ihah.monthID,"+
-									"ihah.yearID,"+
-									"ihah.ageID,"+
-									"z.zoneID,"+
-									"ihah.sourceTypeID,"+
-									"sum(ihah.idleHours) "+ // This must be total hotelling hours, including extended idle
-								"FROM "+
-									"IdleHoursByAgeHour ihah,"+
-									"Zone z,"+
-									"HourDay hd "+
-								"WHERE "+
-									"hd.hourID = ihah.hourID AND "+
-									"hd.dayID = ihah.dayID AND "+
-									"ihah.yearID = " + analysisYear + " AND "+
-									"z.zoneID = " + zoneID  + " AND "+
-									"ihah.sourceTypeID = 62 "+
-								"GROUP BY "+
-									"hd.hourDayID,"+
-									"ihah.monthID,"+
-									"ihah.yearID,"+
-									"ihah.ageID,"+
-									"z.zoneID,"+
-									"ihah.sourceTypeID"
-								);
-						int hotellingActivityZoneID = findHotellingActivityDistributionZoneIDToUse(db,stateID,zoneID);
-						adjustHotelling(zoneID,analysisYear,hotellingActivityZoneID);
-						// Remove HotellingHours entries that are for hours outside of the user's selections.
-						// Filter to analysisYear and zoneID.
-						// Don't do this before adjusting the hours though as HotellingHoursPerDay requires
-						// a full 24-hour distribution.
-						sql = "delete from HotellingHours"
-								+ " where hourDayID not in (select hourDayID from runSpecHourDay)"
-								+ " and zoneID=" + zoneID
-								+ " and yearID=" + analysisYear;
-						SQLRunner.executeSQL(db,sql);
-					}
+							
+					adjustHotelling(zoneID,analysisYear,hotellingActivityZoneID);
+					// Remove HotellingHours entries that are for hours outside of the user's selections.
+					// Filter to analysisYear and zoneID.
+					// Don't do this before adjusting the hours though as HotellingHoursPerDay requires
+					// a full 24-hour distribution.
+					sql = "delete from HotellingHours"
+							+ " where hourDayID not in (select hourDayID from runSpecHourDay)"
+							+ " and zoneID=" + zoneID
+							+ " and yearID=" + analysisYear;
+					SQLRunner.executeSQL(db,sql);
 				}
 			}
 		}
@@ -2869,24 +2741,6 @@ public class TotalActivityGenerator extends Generator {
 	}
 
 	/**
-	 * Apply user-supplied adjustments to ExtendedIdleHours.
-	 * @param zoneID affected zone
-	 * @param yearID affected calendar year
-	 * @param hotellingActivityZoneID zoneID to be used for hotellingActivityDistribution.zoneID
-	**/	
-	void adjustExtendedIdle(int zoneID, int yearID, int hotellingActivityZoneID) {
-		TreeMapIgnoreCase replacements = new TreeMapIgnoreCase();
-		replacements.put("##zoneID##","" + zoneID);
-		replacements.put("##yearID##","" + yearID);
-		replacements.put("##activityZoneID##","" + hotellingActivityZoneID);
-		try {
-			DatabaseUtilities.executeScript(db,new File("database/AdjustExtendedIdle.sql"),replacements,false);
-		} catch(Exception e) {
-			Logger.logError(e,"Unable to adjust ExtendedIdleHours");
-		}
-	}
-
-	/**
 	 * Using the wildcard system for zoneIDs within the hotellingActivityDistribution table,
 	 * select the value for hotellingActivityDistribution.zoneID that should be used for a
 	 * given real state and zone.
@@ -2896,7 +2750,7 @@ public class TotalActivityGenerator extends Generator {
 	 * @return zoneID to be used for hotellingActivityDistribution.zoneID
 	 * @throws SQLException if something goes wrong finding the zone
 	**/	
-	public static int findHotellingActivityDistributionZoneIDToUse(Connection db, int stateID, int zoneID) throws SQLException {
+	public static int findHotellingActivityDistributionZoneIDToUse(Connection db, int stateID, int zoneID) {
 		String sql = "select zoneID"
 				+ " from ("
 				+ " select distinct zoneID,"

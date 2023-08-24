@@ -18,7 +18,7 @@ import org.w3c.dom.*;
 import gov.epa.otaq.moves.master.runspec.*;
 import gov.epa.otaq.moves.master.gui.RunSpecSectionStatus;
 import gov.epa.otaq.moves.common.*;
-import gov.epa.otaq.moves.master.framework.SystemConfiguration;
+import gov.epa.otaq.moves.master.framework.*;
 
 /**
  * MOVES Fuels Importer.
@@ -39,8 +39,8 @@ public class FuelImporter extends ImporterBase {
 	/** Part object for the FuelUsageFraction table **/
 	TableFileLinkagePart fuelUsageFractionPart;
 
-	/** Part object for the AVFT table **/
-	TableFileLinkagePart avftPart;
+	/** Part object for the AVFT table. Public so the AVFTTool can access it **/
+	public TableFileLinkagePart avftPart;
 
 	/**
 	 * Descriptor of the table(s) imported, exported, and cleared by this importer.
@@ -87,8 +87,8 @@ public class FuelImporter extends ImporterBase {
 		BasicDataHandler.BEGIN_TABLE, "avft",
 		"sourceTypeID", "SourceUseType", ImporterManager.FILTER_SOURCE,
 		"modelYearID", "", ImporterManager.FILTER_MODELYEARID,
-		"fuelTypeID", "FuelType", "", // ImporterManager.FILTER_FUEL,
-		"engTechID", "EngineTech", "",
+		"fuelTypeID", "FuelType", ImporterManager.FILTER_FUEL,
+		"engTechID", "EngineTech", ImporterManager.FILTER_ONROAD_ENGTECHID,
 		"fuelEngFraction", "", ImporterManager.FILTER_NON_NEGATIVE
 	};
 
@@ -130,8 +130,8 @@ public class FuelImporter extends ImporterBase {
 		BasicDataHandler.BEGIN_TABLE, "avft",
 		"sourceTypeID", "SourceUseType", ImporterManager.FILTER_SOURCE,
 		"modelYearID", "", ImporterManager.FILTER_MODELYEARID,
-		"fuelTypeID", "FuelType", "", // ImporterManager.FILTER_FUEL,
-		"engTechID", "EngineTech", "",
+		"fuelTypeID", "FuelType", ImporterManager.FILTER_FUEL,
+		"engTechID", "EngineTech", ImporterManager.FILTER_ONROAD_ENGTECHID,
 		"fuelEngFraction", "", ImporterManager.FILTER_NON_NEGATIVE
 	};
 
@@ -443,6 +443,8 @@ public class FuelImporter extends ImporterBase {
 	}
 
 	class CustomBasicDataHandler extends BasicDataHandler {
+		TreeSet<String> templateKeys = new TreeSet<String>();
+
 		/**
 		 * Constructor
 		 * @param importerToUse importer for this data handler
@@ -452,6 +454,9 @@ public class FuelImporter extends ImporterBase {
 		public CustomBasicDataHandler(IImporter importerToUse, String[] descriptorToUse,
 				IProvider importDataProviderToUse) {
 			super(importerToUse,descriptorToUse,importDataProviderToUse);
+
+            // override the default decode table for engine tech with one that only contains onroad engine techs
+            this.addDecodeTable("EngineTech", "select engTechID, engTechName from engineTech where engTechID between 1 and 99 order by engTechID");
 		}
 
 		/**
@@ -463,18 +468,24 @@ public class FuelImporter extends ImporterBase {
 		 * @return the name of the ImporterManager filter to be used.  Never null, never blank.
 		**/
 		public String adjustTemplateFilterName(String tableName, String filterName) {
+            // only adjust for the AVFT table 
 			if(!tableName.equalsIgnoreCase("AVFT")) {
 				return filterName;
 			}
 
-			if(filterName.equalsIgnoreCase(ImporterManager.FILTER_SOURCE)
-					|| filterName.equalsIgnoreCase(ImporterManager.FILTER_FUEL)) {
-				// If the runspec has no fuel or source type listed, then use all
-				// fuels or sources instead of nothing.
-				if(getImporterManager().getFilterValues(filterName).size() <= 0) {
+            // If the runspec has no source types selected, then use all source types
+			if(filterName.equalsIgnoreCase(ImporterManager.FILTER_SOURCE)) {
+				if(getImporterManager().getFilterValues(filterName) == null || 
+                   getImporterManager().getFilterValues(filterName).size() <= 0) {
 					return "ALL_" + filterName;
 				}
 			}
+
+            // always select all fuel types for the AVFT table
+            if(filterName.equalsIgnoreCase(ImporterManager.FILTER_FUEL)) {
+                return "ALL_" + filterName;
+            }
+
 			return filterName;
 		}
 
@@ -496,6 +507,49 @@ public class FuelImporter extends ImporterBase {
 			}
 			return true;
 		}
+
+		/** Event called when a template is being initiated **/
+		public void onBeginTemplate() {
+			templateKeys.clear();
+
+			Connection db = DatabaseConnectionManager.getGUIConnection(MOVESDatabaseType.DEFAULT);
+			SQLRunner.Query query = new SQLRunner.Query();
+			String sql = "SELECT DISTINCT sourceTypeID, fuelTypeID, engTechID FROM samplevehiclepopulation";
+			try {
+				query.open(db,sql);
+				while(query.rs.next()) {
+					int s = query.rs.getInt(1);
+					int f = query.rs.getInt(2);
+					int e = query.rs.getInt(3);
+					String key = "" + s + "|" + f + "|" + e;
+					templateKeys.add(key);
+				}
+				query.close();
+			} catch(SQLException e) {
+				Logger.logSqlError(e,"Unable to get template keys",sql);
+			} finally {
+				query.onFinally();
+			}
+		}
+
+		/**
+		 * Called for each row in a template to accept or reject the combination.
+		 * @param value array of objects for each column in the template
+		 * @return true if the row should be written
+		**/
+		public boolean shouldWriteTemplateRow(Object[] values) {
+            // only filter for the AVFT table (only table with 5 columns)
+			if(values.length != 5) {
+				return true;
+			}
+			Object s = values[0];
+			Object f = values[2];
+			Object e = values[3];
+			String key = s.toString() + "|" + f.toString() + "|" + e.toString();
+			
+			// templateKeys contains all valid source type / fuel type / engtech combinations
+			return templateKeys.contains(key);
+        }
 	}
 
 	/** Tables needed by the Onroad model **/
@@ -511,8 +565,12 @@ public class FuelImporter extends ImporterBase {
 				ImporterInstantiator.activeManager.isNonroad()? nonroadRequiredTables : onroadRequiredTables
 				);
 		boolean isNonroad = false;
+        boolean avftOnly = false;
 		if(ImporterInstantiator.activeManager.isNonroad()) {
 			isNonroad = true;
+		}
+        if(ImporterInstantiator.activeManager.isAVFTTool()) {
+			avftOnly = true;
 		}
 		if(!isNonroad && !CompilationFlags.USE_FUELUSAGEFRACTION) {
 			requiredTables = new String[] { "FuelSupply", "FuelFormulation", "AVFT" };
@@ -525,21 +583,32 @@ public class FuelImporter extends ImporterBase {
 		shouldDoCustomDefaultDataExport = false;
 		subjectToExportRestrictions = false;
 
+        // fuel supply
 		if(isNonroad) {
 			fuelSupplyPart = new TableFileLinkagePart(this,new NonroadFuelSupplyProvider());
 		} else {
 			fuelSupplyPart = new TableFileLinkagePart(this,new FuelSupplyProvider());
 		}
-		parts.add(fuelSupplyPart);
+        if(!avftOnly) {
+            parts.add(fuelSupplyPart);
+        }
+
+        // fuel formulation
 		fuelFormulationPart = new TableFileLinkagePart(this,new FuelFormulationProvider());
-		parts.add(fuelFormulationPart);
+        if(!avftOnly) {
+            parts.add(fuelFormulationPart);
+        }
 
 		if(!isNonroad) {
+            // fuel usage fraction
 			if(CompilationFlags.USE_FUELUSAGEFRACTION) {
 				fuelUsageFractionPart = new TableFileLinkagePart(this,new FuelUsageFractionProvider());
-				parts.add(fuelUsageFractionPart);
+                if(!avftOnly) {
+				    parts.add(fuelUsageFractionPart);
+                }
 			}
 			
+            // avft
 			avftPart = new TableFileLinkagePart(this, new AVFTProvider());
 			parts.add(avftPart);
 		}
@@ -682,7 +751,7 @@ public class FuelImporter extends ImporterBase {
 			if(CompilationFlags.USE_FUELUSAGEFRACTION) {
 				// Check fuelUsageFraction.  Earlier versions of MOVES accepted the table if it does not exist or if it is empty.
 				// (otherwise, it must have all required counties, fuel years, and fuel types just as fuelSupply must).
-				// For MOVES3, you must import the FuelUsageFraction table, and it must have all required counties, fuel years, and fuel types.
+				// For MOVES3+, you must import the FuelUsageFraction table, and it must have all required counties, fuel years, and fuel types.
 				boolean hasNonEmptyFuelUsageFractionTable = false;
 				try {
 					int count = (int)SQLRunner.executeScalar(db,"select count(*) from fuelUsageFraction");
@@ -730,7 +799,7 @@ public class FuelImporter extends ImporterBase {
 
 			// Check AVFT.  Earlier versions of MOVES accepted the table if it does not exist or if it is empty.
 			// (otherwise, it must have all fuel types, regardless if they are in the runspec).
-			// For MOVES3, you must import the AVFT table, and it must have all fuel types.
+			// For MOVES3+, you must import the AVFT table, and it must have all fuel types.
 			boolean hasNonEmptyAVFTTable = false;
 			try {
 				int count = (int)SQLRunner.executeScalar(db,"select count(*) from avft");

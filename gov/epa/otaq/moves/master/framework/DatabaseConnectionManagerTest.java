@@ -146,7 +146,10 @@ public class DatabaseConnectionManagerTest extends TestCase {
 		try {
 			db = dbSelection.openConnectionOrNull();
 			assertNotNull(db);
-			DatabaseUtilities.executeScript(db,new File("database/CreateOutput.sql"));
+            String defaultDatabaseName = SystemConfiguration.getTheSystemConfiguration().databaseSelections[MOVESDatabaseType.DEFAULT.getIndex()].databaseName;
+            TreeMapIgnoreCase replacements = new TreeMapIgnoreCase();
+            replacements.put("##defaultdb##", defaultDatabaseName);
+            DatabaseUtilities.executeScript(db,new File("database/CreateOutput.sql"), replacements);
 		} catch(Exception e) {
 			Logger.logError(e,"Creating sample output database failed.");
 			DatabaseUtilities.closeConnection(db);

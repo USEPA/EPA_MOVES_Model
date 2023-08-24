@@ -23,7 +23,6 @@ DROP TABLE IF EXISTS OldSourceTypeHour;
 DROP TABLE IF EXISTS OldSHO;
 DROP TABLE IF EXISTS OldSourceHours;
 DROP TABLE IF EXISTS OldStarts;
-DROP TABLE IF EXISTS OldExtendedIdleHours;
 DROP TABLE IF EXISTS OldHotellingHourFraction;
 DROP TABLE IF EXISTS AggZoneMonthHour;
 DROP TABLE IF EXISTS AggMonthGroupHour;
@@ -235,23 +234,7 @@ INSERT INTO Starts (hourDayID, monthID, yearID, ageID, zoneID,
   FROM OldStarts
   GROUP BY dayID, monthID, yearID, ageID, zoneID, sourceTypeID;
 FLUSH TABLE Starts;
-  
---
---  ExtendedIdleHours
---
--- SELECT "Making ExtendedIdleHours" AS MARKER_POINT;
-CREATE TABLE OldExtendedIdleHours
-  SELECT ExtendedIdleHours.*, dayID, hourID
-  FROM ExtendedIdleHours INNER JOIN OldHourDay USING(hourDayID);
-CREATE INDEX index12 ON OldExtendedIdleHours (sourceTypeID, dayID, monthID, yearID, ageID, zoneID);
-TRUNCATE ExtendedIdleHours;
-INSERT INTO ExtendedIdleHours (sourceTypeID, hourDayID, monthID, yearID, ageID, zoneID, 
-    extendedIdleHours, extendedIdleHoursCV, isUserInput)
-  SELECT sourceTypeID, dayID AS hourDayID, monthID, yearID, ageID, zoneID,  
-    sum(extendedIdleHours) AS extendedIdleHours, NULL AS extendedIdleHoursCV, "Y" AS isUserInput
-  FROM OldExtendedIdleHours
-  GROUP BY sourceTypeID, dayID, monthID, yearID, ageID, zoneID;
-FLUSH TABLE ExtendedIdleHours;
+ 
 
 -- HotellingHourFraction
 -- 
@@ -273,8 +256,8 @@ FLUSH TABLE HotellingHourFraction;
 CREATE TABLE  AggZoneMonthHour (
 	monthID SMALLINT,
 	zoneID INTEGER,
-	temperature FLOAT,
-	relHumidity FLOAT);
+	temperature DOUBLE,
+	relHumidity DOUBLE);
 INSERT INTO AggZoneMonthHour (monthID,zoneID,temperature,relHumidity)
   SELECT monthID, zoneID, 
     (sum(temperature*actFract)/sum(actFract)) AS temperature,
@@ -282,10 +265,10 @@ INSERT INTO AggZoneMonthHour (monthID,zoneID,temperature,relHumidity)
   FROM ZoneMonthHour INNER JOIN HourWeighting3 USING (hourID)
   GROUP BY monthID, zoneID;
 TRUNCATE ZoneMonthHour;
-REPLACE INTO ZoneMonthHour (monthID, zoneID, hourID, temperature, temperatureCV,
-    relHumidity, relativeHumidityCV, heatIndex, specificHumidity)
+REPLACE INTO ZoneMonthHour (monthID, zoneID, hourID, temperature,
+    relHumidity, molWaterFraction, heatIndex, specificHumidity)
   SELECT monthID, zoneID, 0 AS hourID, temperature,
-    NULL AS temperatureCV, relHumidity, NULL AS relativeHumidityCV,
+    relHumidity, 0.0 AS molWaterFraction,
     0.0 as heatIndex, 0.0 as specificHumidity 
   FROM AggZoneMonthHour;
 FLUSH TABLE ZoneMonthHour;
@@ -437,7 +420,6 @@ DROP TABLE IF EXISTS OldSourceTypeHour;
 DROP TABLE IF EXISTS OldSHO;
 DROP TABLE IF EXISTS OldSourceHours;
 DROP TABLE IF EXISTS OldStarts;
-DROP TABLE IF EXISTS OldExtendedIdleHours;
 DROP TABLE IF EXISTS OldHotellingHourFraction;
 DROP TABLE IF EXISTS AggZoneMonthHour;
 DROP TABLE IF EXISTS AggMonthGroupHour;

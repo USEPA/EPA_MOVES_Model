@@ -248,28 +248,46 @@ public class BaseRateCalculator extends EmissionCalculator
 			}
 		}
 
-		// Get the first Pollutant/Process for the context process that is in the
-		// SourceBinDistribution and runspec.
+		// Get an appropriate Pollutant/Process for the context process that is in the
+		// SourceBinDistribution and runspec. 
+        // First look for a polProcessID that varies by regClassID so that smfrsbdsummary
+        // weighting works in the Go BaseRateCalculator
 		String sql = "SELECT sbd.polProcessID FROM SourceBinDistribution sbd"
 				+ " INNER JOIN PollutantProcessAssoc ppa ON ppa.polProcessID = sbd.polProcessID"
 				+ " INNER JOIN RunspecPollutantProcess rpp ON rpp.polProcessID = sbd.polProcessID"
-				+ " WHERE ppa.processID = " + context.iterProcess.databaseKey + " LIMIT 1";
+                + " INNER JOIN SourceBin sb ON sbd.sourceBinID = sb.sourceBinID"
+				+ " WHERE ppa.processID = " + context.iterProcess.databaseKey
+                + "   AND sb.regClassID <> 0"
+                + " LIMIT 1";
 		SQLRunner.Query query = new SQLRunner.Query();
 		try {
 			query.open(executionDatabase,sql);
 			if(query.rs.next()) {
 				sbdPolProcessID = query.rs.getString(1);
-			}
-			if(91 == context.iterProcess.databaseKey) {
-				int hotellingActivityZoneID = TotalActivityGenerator.findHotellingActivityDistributionZoneIDToUse(executionDatabase,context.iterLocation.stateRecordID,context.iterLocation.zoneRecordID);
-				replacements.put("##hotellingActivityZoneID##",""+hotellingActivityZoneID);
-			}
+			} else { // could not find a polProcessID that varied by regClassID, so now just look for the first one
+                query.close();
+                sql = "SELECT sbd.polProcessID FROM SourceBinDistribution sbd"
+                    + " INNER JOIN PollutantProcessAssoc ppa ON ppa.polProcessID = sbd.polProcessID"
+                    + " INNER JOIN RunspecPollutantProcess rpp ON rpp.polProcessID = sbd.polProcessID"
+                    + " WHERE ppa.processID = " + context.iterProcess.databaseKey
+                    + " LIMIT 1";
+                query.open(executionDatabase,sql);
+                if(query.rs.next()) {
+				    sbdPolProcessID = query.rs.getString(1);
+			    }
+            }
 		} catch(Exception e) {
 			Logger.logError(e,"Unable to get a Pollutant/Process needed for SBD aggregation.");
 		} finally {
 			query.onFinally();
 		}
 		replacements.put("##sbdPolProcessID##",sbdPolProcessID);
+
+        // Look up the correct zoneID to use for the hotellingactivitydistribution
+        if(90 == context.iterProcess.databaseKey || 91 == context.iterProcess.databaseKey) {
+            int hotellingActivityZoneID = TotalActivityGenerator.findHotellingActivityDistributionZoneIDToUse(executionDatabase,context.iterLocation.stateRecordID,context.iterLocation.zoneRecordID);
+            replacements.put("##hotellingActivityZoneID##",""+hotellingActivityZoneID);
+        }
 
 		if(executionDatabase != null) {
 			DatabaseConnectionManager.checkInConnection(MOVESDatabaseType.EXECUTION, executionDatabase);
@@ -389,8 +407,13 @@ public class BaseRateCalculator extends EmissionCalculator
 
 		// EM- we no longer only want the operating mode adjustment to happen in inventory once we add ONI to the model.
 		//if(ExecutionRunSpec.theExecutionRunSpec.getModelScale() != ModelScale.MESOSCALE_LOOKUP) {
-			// For inventory, APU rates need to be multiplied by zone-specific operating mode fraction
-			// spent using a diesel APU (opModeID 201).
+			// Extended Idle rates need to be multiplied by zone-specific operating mode fraction
+			// spent using extended idling (opModeID 200).
+			if(90 == context.iterProcess.databaseKey) {
+				enabledSectionNames.add("AdjustExtendedIdleEmissionRate");
+			}
+			// APU and shorepower rates need to be multiplied by zone-specific operating mode fraction
+			// spent using a diesel APU or in shorepower mode (opModeIDs 201 and 203).
 			if(91 == context.iterProcess.databaseKey) {
 				enabledSectionNames.add("AdjustAPUEmissionRate");
 			}
@@ -417,6 +440,9 @@ public class BaseRateCalculator extends EmissionCalculator
 		if(CompilationFlags.USE_EMISSIONRATEADJUSTMENT_FACTOR) {
 			enabledSectionNames.add("EmissionRateAdjustment");
 		}
+
+        // always run evefficiency section
+        enabledSectionNames.add("evefficiency");
 
 		// Pass section names as flags to the external calculator
 		for(String s : enabledSectionNames) {

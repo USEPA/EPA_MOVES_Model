@@ -311,7 +311,7 @@ CREATE TABLE CountyFuelAdjustment (
 	polProcessID int NOT NULL,
 	modelYearID INTEGER NOT NULL,
 	sourceTypeID SMALLINT NOT NULL,
-	fuelFormulationID SMALLINT NOT NULL,
+	fuelFormulationID int(11) NOT NULL,
 	fuelAdjustment FLOAT
 );
 
@@ -368,7 +368,7 @@ CREATE TABLE CountyFuelAdjustmentWithFuelType (
 	polProcessID int NOT NULL,
 	modelYearID SMALLINT NOT NULL,
 	sourceTypeID SMALLINT NOT NULL,
-	fuelFormulationID SMALLINT NOT NULL,
+	fuelFormulationID INT(11) NOT NULL,
 	fuelTypeID SMALLINT NOT NULL,
 	fuelAdjustment FLOAT
 );

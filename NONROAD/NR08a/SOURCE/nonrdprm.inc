@@ -178,10 +178,10 @@ c
       real*4 DENLPG
       real*4 DENDSL
 c
-      parameter( DENGAS = 6.17   )
+      parameter( DENGAS = 6.237 )
       parameter( DENCNG = 0.0061 )
       parameter( DENLPG = 4.507 )
-      parameter( DENDSL = 7.1   )
+      parameter( DENDSL = 7.044 )
 c
 c-----------------------------------------------------------------------
 c   Parameter for fuel carbon mass fraction:

@@ -8,6 +8,7 @@ package gov.epa.otaq.moves.master.framework;
 
 import gov.epa.otaq.moves.master.runspec.*;
 import gov.epa.otaq.moves.common.*;
+import gov.epa.otaq.moves.master.framework.importers.ImporterInstantiator;
 import gov.epa.otaq.moves.master.framework.importers.ImporterManager;
 import java.io.*;
 import java.text.SimpleDateFormat;
@@ -204,9 +205,9 @@ public class MOVESAPI implements MOVESEngineListener, MOVESEngine.CompletedListe
 				masterSocket = new ServerSocket(MASTER_FLAG_PORT);
 			} catch(Exception e) {
 				/**
-				 * @explain The MOVES master program uses a TCP/IP socket to signal the fact that
+				 * @explain The MOVES main program uses a TCP/IP socket to signal the fact that
 				 * it is running, thus working to prevent duplicate executions on a single computer.
-				 * MOVES was unable to create this socket, either because another MOVES Master is already running
+				 * MOVES was unable to create this socket, either because another MOVES Main is already running
 				 * or due to an operating system firewall rule that does not trust the MOVES application.
 				**/
 				if(e.toString().toLowerCase().contains("jvm_bind") || e.toString().toLowerCase().contains("net_bind")) {
@@ -780,7 +781,7 @@ public class MOVESAPI implements MOVESEngineListener, MOVESEngine.CompletedListe
 	**/
 	private boolean startMOVESEngineNonroad() {
 		if(runSpec.domain != ModelDomain.NATIONAL_ALLOCATION) {
-			Logger.log(LogMessageCategory.ERROR,"NONROAD only supports NATIONAL domain/scale.");
+			Logger.log(LogMessageCategory.ERROR,"NONROAD only supports DEFAULT domain/scale.");
 			return false;
 		}
 
@@ -834,16 +835,44 @@ public class MOVESAPI implements MOVESEngineListener, MOVESEngine.CompletedListe
 					return false;
 				}
 				try {
+                    // first, run the QA that would provide pop-up error messages when loading a runspec
+					Logger.log(LogMessageCategory.INFO, "Performing compatibility checks between RunSpec and domain database...");
 					messages.clear();
 					result = ImporterManager.isCountyDomainDatabase(runSpec,messages,db,true);
 					if(result < 0) {
 						// Log the error messages
-						for(Iterator i=messages.iterator();i.hasNext();) {
-							/** @nonissue **/
-							Logger.log(LogMessageCategory.ERROR,(String)i.next());
+						for(Iterator<String> i = messages.iterator(); i.hasNext(); ) {
+							Logger.log(LogMessageCategory.ERROR, i.next());
 						}
 						return false;
 					}
+					Logger.log(LogMessageCategory.INFO, "Done performing compatibility checks between RunSpec and domain database.");
+
+                    // then, run the QA that would result in a red X for the scale input database (preventing a GUI run)
+                    if(!runSpec.skipDomainDatabaseValidation) {
+                        Logger.log(LogMessageCategory.INFO, "Performing domain database validation...");
+                        messages.clear();
+                        // create the manager, setting the domain (since some checks rely on knowing that info) and instantiating
+                        ImporterManager manager = new ImporterManager(runSpec);
+                        if(runSpec.domain == ModelDomain.SINGLE_COUNTY) {
+                            manager.setAsCountyDomain();
+                        } else if (runSpec.domain == ModelDomain.PROJECT) {
+                            manager.setAsProjectDomain();
+                        }
+                        manager.instantiate(null);
+                        // ready to run the checks
+                        result = manager.performAllImporterChecks(runSpec,messages,db);
+                        if(result < 0) {
+                            // Log the error messages
+                            for(Iterator<String> i = messages.iterator(); i.hasNext(); ) {
+                                Logger.log(LogMessageCategory.ERROR, i.next());
+                            }
+                            return false;
+                        }
+                        Logger.log(LogMessageCategory.INFO, "Done performing domain database validation.");
+                    } else {
+                        Logger.log(LogMessageCategory.WARNING, "Skipping domain database validation.");
+                    }
 				} finally {
 					DatabaseUtilities.closeConnection(db);
 					db = null;

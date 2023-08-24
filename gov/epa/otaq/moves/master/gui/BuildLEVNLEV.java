@@ -1,5 +1,5 @@
 /**************************************************************************************************
- * @(#)Converter.java
+ * @(#)BuildLEVNLEV.java
  *
  *
  *
@@ -23,18 +23,18 @@ import gov.epa.otaq.moves.master.runspec.*;
  * database and a new database to be created.
  * @author		Design Team
  * @author		Mike Kender (Task 2003)
- * @version 	2020-08-13
+ * @version 	2022-11-16
 **/
 public class BuildLEVNLEV extends JDialog implements ActionListener {
 	/** Mode building a LEV input database **/
-	public static final int MOVES3_MyLEVs = 0;
+	public static final int MOVES4_MyLEVs = 0;
 	/** Mode building an NLEV input database **/
-	public static final int MOVES3_MyNLEVs = 1;
+	public static final int MOVES4_MyNLEVs = 1;
 
 	/** The parent JFrame which invokes this dialog. **/
 	JFrame frame;
 	/** keeps track of the current mode (and sets default conversion mode) **/
-	int mode = MOVES3_MyNLEVs;
+	int mode = MOVES4_MyNLEVs;
 	/** Textual display of the current mode **/
 	String modeText = "NLEV";
 
@@ -90,14 +90,14 @@ public class BuildLEVNLEV extends JDialog implements ActionListener {
 	 * @param modeToUse Default mode to use
 	**/
 	public BuildLEVNLEV(JFrame parent, int modeToUse) {
-		super(parent, modeToUse == MOVES3_MyLEVs ? "Build LEV Database" : "Build NLEV Database");
+		super(parent, modeToUse == MOVES4_MyLEVs ? "Build LEV Database" : "Build NLEV Database");
 		frame = parent;
 		mode = modeToUse;
 		switch(mode) {
-			case MOVES3_MyLEVs:
+			case MOVES4_MyLEVs:
 				modeText = "LEV";
 				break;
-			case MOVES3_MyNLEVs:
+			case MOVES4_MyNLEVs:
 				modeText = "NLEV";
 				break;			
 		}
@@ -182,7 +182,7 @@ public class BuildLEVNLEV extends JDialog implements ActionListener {
 
 			//---- instructionsTextPane ----
 			switch(mode) {
-				case MOVES3_MyLEVs:
+				case MOVES4_MyLEVs:
 					instructionsTextPane.setText(
 						"This tool builds an input database to be used by states that chose to adopt California"
 						+ " LEV standards in place of federal standards. This tool creates a special input"
@@ -205,7 +205,7 @@ public class BuildLEVNLEV extends JDialog implements ActionListener {
 						+ " database created using this tool. If you don't see the database, press the \"Refresh\""
 						+ " button on that panel to refresh the list.");
 					break;
-				case MOVES3_MyNLEVs:
+				case MOVES4_MyNLEVs:
 					instructionsTextPane.setText(
 						"This tool builds an input database to be used by Ozone Transport Commission (OTC) states"
 						+ " to model the early introduction of NLEV standards in those states. This tool creates a"
@@ -281,10 +281,10 @@ public class BuildLEVNLEV extends JDialog implements ActionListener {
 			
 			// only display template block if in LEV mode
 			switch(mode) {
-				case MOVES3_MyLEVs:
+				case MOVES4_MyLEVs:
 					p.setVisible(true);
 					break;
-				case MOVES3_MyNLEVs:
+				case MOVES4_MyNLEVs:
 					p.setVisible(false);
 			}
 
@@ -416,11 +416,11 @@ public class BuildLEVNLEV extends JDialog implements ActionListener {
 		try {
 			File file = null;
 			switch(mode) {
-				case MOVES3_MyLEVs:
-					file = new File("database/LEV_NLEVScripts/MOVES3_MyLEVs_Template.sql");
+				case MOVES4_MyLEVs:
+					file = new File("database/LEV_NLEVScripts/MOVES4_MyLEVs_Template.sql");
 					break;
 				default:
-					file = new File("database/LEV_NLEVScripts/MOVES3_MyNLEVs.sql");
+					file = new File("database/LEV_NLEVScripts/MOVES4_MyNLEVs.sql");
 					break;
 			}
 			if(file == null || !file.exists()) {
@@ -436,7 +436,7 @@ public class BuildLEVNLEV extends JDialog implements ActionListener {
 			controlFileType = "Text";
 			
 			switch(mode) {
-				case MOVES3_MyLEVs:
+				case MOVES4_MyLEVs:
 					templateFileText.setText(file.getAbsolutePath());
 					break;
 				default:

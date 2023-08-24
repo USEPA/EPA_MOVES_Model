@@ -22,7 +22,7 @@ This folder contains many SQL scripts used by MOVES. Most of the scripts are cal
 
 ### database/ConversionScripts
 
-This folder contains conversion scripts to help users convert input databases for MOVES2014, MOVES2014a, and MOVES2014b to MOVES3 compatible input databases. These scripts can be accessed from the MOVES GUI under the Tools menu.
+This folder contains conversion scripts to help users convert input databases for MOVES3 to MOVES4 compatible input databases. These scripts can be accessed from the MOVES GUI under the Tools menu.
 
 ### database/LEV_NLEVScripts
 
@@ -78,7 +78,7 @@ This contains all of the code for the MOVES GUI.
 
 #### gov/epa/otaq/moves/master/implementation
 
-This folder contains the specific implementations of many of the classes found in framework. This is where most of the "MOVES code" actually is - the classes that handle pollutant or process specific calculations live here. As a general rule, it contains both calculators and generators. Most of the SQL executed by the Java code is found in these files. Like the database folder, some of the code in the implementation folder is no longer used due to the introduction of the Go code in either the generators or calculators.
+This folder contains the specific implementations of many of the classes found in framework. This is where most of the "MOVES code" actually is--the classes that handle pollutant or process specific calculations live here. As a general rule, it contains both calculators and generators. Most of the SQL executed by the Java code is found in these files. Like the database folder, some of the code in the implementation folder is no longer used due to the introduction of the Go code in either the generators or calculators.
 
 #### gov/epa/otaq/moves/master/nonroad
 
@@ -103,6 +103,10 @@ This contains Java code for basic tasks that aren't MOVES-specific but that MOVE
 ### gov/epa/otaq/moves/worker
 
 This contains the basic code for the MOVES worker. It includes the java files for the worker command that is executed through the command line via the Ant commands defined in build.xml. There is also a framework folder similar to the master/framework folder but quite a bit smaller. Finally there is gui folder for the GUI component that displays the worker status during a MOVES run.
+
+## installation
+
+This folder is created when MOVES is installed using the standalone installer and contains the installation troubleshooting guide and the installation log files. If MOVES was cloned from GitHub, this folder will not exist.
 
 ## jre
 
@@ -147,6 +151,10 @@ This contains jars and files used for testing some of the code components of MOV
 ## tests
 
 This folder contains XML files used to test some components of the MOVES GUI.
+
+## uninstaller
+
+This folder is created when MOVES is installed using the standalone installer and contains the uninstaller executable for MOVES. If MOVES was cloned from GitHub, this folder will not exist.
 
 ## WorkerFolder
 

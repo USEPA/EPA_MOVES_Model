@@ -29,7 +29,6 @@ DROP TABLE IF EXISTS OldSHO;
 DROP TABLE IF EXISTS OldSourceHours;
 DROP TABLE IF EXISTS OldStarts;
 DROP TABLE IF EXISTS OldStartsMonthAdjust;
-DROP TABLE IF EXISTS OldExtendedIdleHours;
 DROP TABLE IF EXISTS OldHotellingMonthAdjust;
 DROP TABLE IF EXISTS AggZoneMonthHour;
 DROP TABLE IF EXISTS AggMonthGroupHour;
@@ -210,25 +209,22 @@ INSERT INTO StartsMonthAdjust (monthID, sourceTypeID, monthAdjustment)
 FLUSH TABLE StartsMonthAdjust;
 
 
-/* PLEASE READ COMMENT:
-
-Year pre-agg doesn't work like normal pre-agg for hotelling, becuase none of the hotelling 
+/* 
+Year pre-agg doesn't work like normal pre-agg for hotelling, because none of the hotelling 
 input tables (hotellinghourfraction, hotellingagefraction, hotellinghoursperday) vary
-by month. So there's nothing to do. However, MOVES automatically multiplies activity by 
-12 for year input/output which MUST be the case when this year pre-agg script runs. The 
-only mechanism we have to re-scale hotelling activty to look like a typical month is
-to use the hotellingmonthadjust table, even though the value should, in theory, always be 1.
+by month. Furthermore, the one that does, hotellingmonthadjust, is the ratio between the 
+month's average hours and the average across all months (aka the full year).
+When running with annual preagg, we want the average across all months, so hotellingmonthadjust
+is not applicable.
 */
 
 -- HotellingMonthAdjust
 -- 
 -- SELECT "Making HotellingMonthAdjust" AS MARKER_POINT;
-CREATE TABLE OldHotellingMonthAdjust
-  SELECT * FROM HotellingMonthAdjust;
 TRUNCATE HotellingMonthAdjust;
 INSERT INTO HotellingMonthAdjust (zoneID, monthID, monthAdjustment)
-  SELECT zoneID, 0 as monthID, 1/12 as monthAdjustment
-  FROM OldHotellingMonthAdjust
+  SELECT zoneID, 0 as monthID, 1.0000000000000000 as monthAdjustment
+  FROM Zone
   GROUP BY zoneID;
 FLUSH TABLE HotellingMonthAdjust;
   
@@ -239,8 +235,8 @@ FLUSH TABLE HotellingMonthAdjust;
 -- Explicit Creation of Intermediate File Found necessary to avoid significance problems
 CREATE TABLE AggZoneMonthHour (
 	zoneID INTEGER,
-	temperature FLOAT,
-	relHumidity FLOAT);
+	temperature DOUBLE,
+	relHumidity DOUBLE);
 INSERT INTO AggZoneMonthHour (zoneID,temperature,relHumidity)
   SELECT zoneID, 
     (sum(temperature*actFract)/sum(actFract)) AS temperature,
@@ -248,10 +244,10 @@ INSERT INTO AggZoneMonthHour (zoneID,temperature,relHumidity)
   FROM ZoneMonthHour INNER JOIN MonthWeighting USING (monthID)
   GROUP BY zoneID;
 TRUNCATE ZoneMonthHour;
-REPLACE INTO ZoneMonthHour (monthID, zoneID, hourID, temperature, temperatureCV,
-    relHumidity, relativeHumidityCV, heatIndex, specificHumidity)
+REPLACE INTO ZoneMonthHour (monthID, zoneID, hourID, temperature, 
+    relHumidity, molWaterFraction, heatIndex, specificHumidity)
   SELECT 0 AS monthID, zoneID, 0 AS hourID, temperature,
-    NULL AS temperatureCV, relHumidity, NULL AS relativeHumidityCV,
+    relHumidity, 0.0 AS molWaterFraction,
     0.0 AS heatIndex, 0.0 AS specificHumidity 
   FROM AggZoneMonthHour;
 
@@ -288,7 +284,7 @@ FLUSH TABLE MonthGroupHour;
 
 create table AggATRatio (
 	fuelTypeID int not null,
-	fuelFormulationID int not null,
+	fuelFormulationID int(11) not null,
 	polProcessID int not null,
 	minModelYearID int not null,
 	maxModelYearID int not null,
@@ -334,7 +330,7 @@ from AggATBaseEmissions;
 CREATE TABLE AggFuelSupply (
 	fuelRegionID INTEGER,
 	fuelYearID SMALLINT,
-	fuelFormulationID SMALLINT,
+	fuelFormulationID INT(11),
 	haveFract FLOAT,
 	fractDontHave FLOAT);
 INSERT INTO AggFuelSupply
@@ -465,7 +461,6 @@ DROP TABLE IF EXISTS OldSHO;
 DROP TABLE IF EXISTS OldSourceHours;
 DROP TABLE IF EXISTS OldStarts;
 DROP TABLE IF EXISTS OldStartsMonthAdjust;
-DROP TABLE IF EXISTS OldExtendedIdleHours;
 DROP TABLE IF EXISTS OldHotellingMonthAdjust;
 DROP TABLE IF EXISTS AggZoneMonthHour;
 DROP TABLE IF EXISTS AggMonthGroupHour;

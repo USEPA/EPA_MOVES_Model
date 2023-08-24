@@ -6,11 +6,11 @@ MOVES is a model with many interdependent components. Sometimes a given set of i
 
 The first step to diagnose a potential bug, is to identify the conditions that cause it to occur. In general this process involves confirming that the model inputs are valid, and then defining the scope of the potential issue.
 
-### Check the runspec and input data
+### Check the RunSpec and input data
 
-The vast majority of unexpected outputs from MOVES arise from inconsistencies in the runspec, the input dataset(s), or in the post-processing of the MOVES output. It is generally a good practice to review the [MOVES training](https://www.epa.gov/moves/moves-training-sessions) materials to avoid making simple mistakes during runspec and input database creation.
+The vast majority of unexpected outputs from MOVES arise from inconsistencies in the RunSpec, the input dataset(s), or in the post-processing of the MOVES output. It is generally a good practice to review the [MOVES training](https://www.epa.gov/moves/moves-training-sessions) materials to avoid making simple mistakes during RunSpec and input database creation.
 
-The most common mistakes in input databases have to do with allocation tables - which are generally those that end in `fraction` or `distribution`. MOVES importers will check to make sure values in these tables sum to 1 as they should, so that total activity is conserved. However,  values that are set to 0 *must be included*. For example, the two examples of *roadtypedistribution* imply the same activity allocation:
+The most common mistakes in input databases have to do with allocation tables, which are generally those that end in `fraction` or `distribution`. MOVES importers will check to make sure values in these tables sum to 1 as they should, so that total activity is conserved. However, values that are set to 0 *must be included*. For example, the two examples of *roadtypedistribution* imply the same activity allocation:
 
 | sourceTypeID | roadTypeID | roadTypeVMTFraction |
 | ------------ | ---------- | ------------------- |
@@ -25,7 +25,7 @@ The most common mistakes in input databases have to do with allocation tables - 
 | 21           | 4          | 0.3                 |
 | 21           | 5          | 0.0                 |
 
-But MOVES prefers the second one, with an explicit 0 where the user does not want any activity. 
+However, MOVES requires the second one, with an explicit 0 where the user does not want any activity. 
 
 Another common mistake in input databases is using the incorrect units, or incorrect interpretation of the tables definitions. For example, MOVES has two types of "daily" inputs that can be confusing. The first is a true daily input, which corresponds to an average day for a given dayID - for dayID 5, that would be an average weekday. However, MOVES can also interpret an input for dayID 5 as total activity across all weekdays, which it refers to as "portion of week" inputs. Consider the following *startsperday* table:
 
@@ -34,15 +34,15 @@ Another common mistake in input databases is using the incorrect units, or incor
 | 5     | 21           | 40           |
 | 2     | 21           | 10           |
 
-If the units are *per average day*, then MOVES will calculate 220 total starts in a week. However, if the units are *portion of week*, MOVES will only calculate 50 total starts in a week. **All MOVES input tables use units of *per average day***. However, either of these units can be selected for a MOVES output database in the runspec. If MOVES outputs by day look inconsistent, double check the units selected in the runspec make sure it matches how you are using the data in the output database.
+If the units are *per average day*, then MOVES will calculate 220 total starts in a week. However, if the units are *portion of week*, MOVES will only calculate 50 total starts in a week. **All MOVES input tables use units of *per average day***. However, either of these units can be selected for a MOVES output database in the RunSpec. If MOVES outputs by day look inconsistent, double check the units selected in the RunSpec make sure it matches how you are using the data in the output database.
 
 ### Create the smallest set of runs that demonstrate the issue
 
-Testing MOVES is typically an iterative process. If a potential bug occurs in a large run, testing small changes in inputs could potentially take hours or days. Large input databases can be complicated to tweak without making mistakes, and large output datasets can be tricky to process and interpret. For these reasons it is extremely helpful to try to find the most minimal runspec and set of inputs that will reproduce the issue. Ideally, a test run in MOVES should only take a few minutes to complete, and the outputs should provide enough diagnostic information to demonstrate the scope of the issue. Below are some suggestions for how to reduce the scope of a MOVES run.
+Testing MOVES is typically an iterative process. If a potential bug occurs in a large run, testing small changes in inputs could potentially take hours or days. Large input databases can be complicated to tweak without making mistakes, and large output datasets can be tricky to process and interpret. For these reasons it is extremely helpful to try to find the most minimal RunSpec and set of inputs that will reproduce the issue. Ideally, a test run in MOVES should only take a few minutes to complete, and the outputs should provide enough diagnostic information to demonstrate the scope of the issue. Below are some suggestions for how to reduce the scope of a MOVES run.
 
-#### Limit timespan
+#### Limit time span
 
-Select the smallest timespan that captures the unexpected output. Ideally this is one year, one month, one day type, and one hour. Some issues however may require an expanded scope. For example, calculating evaporative emissions require all hours. Likewise, capturing temperature effects often requires multiple months. In that case it is best to select months that would show the largest difference in temperature effects like January and July.
+Select the smallest time span that captures the unexpected output. Ideally this is one year, one month, one day type, and one hour. Some issues however may require an expanded scope. For example, calculating evaporative emissions require all hours. Likewise, capturing temperature effects often requires multiple months. In that case it is best to select months that would show the largest difference in temperature effects like January and July.
 
 #### Limit source types
 
@@ -54,7 +54,7 @@ Try to select the most limited set of pollutants and processes that generate the
 
 ### Create a simple test to confirm suspect behavior
 
-Once you have a minimal runspec that produces unexpected results, create a simple test to let you identify the suspected bug in your MOVES output. Typically, the easiest way to do this is to write a SQL query to demonstrate the issue.  The goal is for this test to be fast, easy to apply, and clear in its results so that you can demonstrate the issue to others, and enable them to reproduce the issue.
+Once you have a minimal RunSpec that produces unexpected results, create a simple test to let you identify the suspected bug in your MOVES output. Typically, the easiest way to do this is to write a SQL query to demonstrate the issue.  The goal is for this test to be fast, easy to apply, and clear in its results so that you can demonstrate the issue to others, and enable them to reproduce the issue.
 
 ## Saving MOVES intermediate outputs
 
@@ -70,7 +70,7 @@ gov\epa\otaq\moves\master\framework\OutputProcessor.java
  keepDebugData = true;
 ```
 
-This will keep the execution database from getting cleared. Note that it will only have the latest information in it though. You may have to limit your runspecs to make sure it contains what you need.
+This will keep the execution database from getting cleared. Note that it will only have the latest information in it though. You may have to limit your RunSpecs to make sure it contains what you need.
 
 ### Save the worker bundles
 

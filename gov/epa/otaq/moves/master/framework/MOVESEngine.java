@@ -9,7 +9,7 @@ package gov.epa.otaq.moves.master.framework;
 import gov.epa.otaq.moves.common.*;
 import gov.epa.otaq.moves.master.framework.MasterLoop;
 import gov.epa.otaq.moves.master.framework.MOVESEngineListener;
-import gov.epa.otaq.moves.master.runspec.RunSpec;
+import gov.epa.otaq.moves.master.runspec.*;
 import gov.epa.otaq.moves.master.gui.MOVESWindow;
 import java.sql.*;
 import java.util.*;
@@ -343,6 +343,16 @@ public class MOVESEngine implements LogHandler {
 						"RunSpec includes data for Retrofits created with an older version of MOVES.  This data must be converted to the new format or deleted from the RunSpec before MOVES will run successfully." );
 				return false;
 			}
+			
+			if (runSpec.onRoadVehicleSelections.size() == 0 && runSpec.offRoadVehicleSelections.size() == 0 && pdEntry == null) {
+				/**
+				 * @issue RunSpec does not contain any vehicle selections. Normally, a user cannot launch a run without these; however, if they created the RunSpec 
+                 * with an older version of MOVES and are running on the command line, they will bypass this check and have this issue. However, ignore it if we are only processing done files (i.e., pdEntry is not null)
+				 * @explain Fix your RunSpec
+				**/
+				Logger.log(LogMessageCategory.ERROR, "RunSpec does not include any vehicle selections. Note: You may receive this error message if you are running a RunSpec created with an older version of MOVES. Please open your RunSpec in the MOVES GUI and add the appropriate vehicle selections.");
+				return false;
+			}
 
 			// Check databases, ensuring they exist
 			DatabaseSelection domainInputDatabase = runSpec.scaleInputDatabase;
@@ -456,7 +466,7 @@ public class MOVESEngine implements LogHandler {
 				return false;
 			}
 
-			dbStatus = createOutputDatabase(DatabaseConnectionManager.outputDatabaseSelection);
+			dbStatus = createOutputDatabase(DatabaseConnectionManager.outputDatabaseSelection, runSpec);
 			if(dbStatus != null) {
 				/** @nonissue **/
 				Logger.log(LogMessageCategory.ERROR,dbStatus);
@@ -561,7 +571,7 @@ public class MOVESEngine implements LogHandler {
 			"hotellingHoursPerDay", "select count(distinct yearID, zoneID, dayID) from hotellingHoursPerDay",
 			"hotellingHourFraction", "select count(distinct zoneID, dayID, hourID)+ifnull(sum(hourFraction),0) from hotellingHourFraction",
 			"hotellingAgeFraction", "select count(distinct zoneID, ageID) from hotellingAgeFraction",
-			"hotellingActivityDistribution", "select count(distinct zoneID, beginModelYearID, endModelYearID, opModeID) from hotellingActivityDistribution",
+			"hotellingActivityDistribution", "select count(distinct zoneID, fuelTypeID, beginModelYearID, endModelYearID, opModeID) from hotellingActivityDistribution",
 			"hotellingMonthAdjust", "select count(distinct zoneID, monthID) from hotellingMonthAdjust"
 		};
 		String tableName = "";
@@ -644,19 +654,45 @@ public class MOVESEngine implements LogHandler {
 
 	/**
 	 * Create the output database.
-	 * @param  dbSelection the database selection.
+	 * @param  outputDatabase the output database selection.
+	 * @param  runSpec the runspec
 	 * @return String null if valid, a message if not valid.
 	 **/
-	public String createOutputDatabase(DatabaseSelection dbSelection) {
+	public String createOutputDatabase(DatabaseSelection outputDatabase, RunSpec runSpec) {
 	 	String message = null;
-		if(dbSelection.safeCreateDatabase("database/CreateOutput.sql") == DatabaseSelection.NOT_CREATED) {
+        DatabaseSelection defaultDatabase = SystemConfiguration.getTheSystemConfiguration().databaseSelections[MOVESDatabaseType.DEFAULT.getIndex()];
+		if(outputDatabase.safeCreateOutputDatabase(defaultDatabase.databaseName) == DatabaseSelection.NOT_CREATED) {
 			/**
 			 * @issue Could not create the Output Database.
 			 * @explain An error occurred while creating an output database using the
 			 * database/CreateOutput.sql script.
 			**/
 			message = "Could not create the Output Database.";
-		}
+		} else {
+            Connection outputConnection = null;
+            try {
+                // add this runspec's countyID to the output database's translate_county table
+                outputConnection = DatabaseConnectionManager.checkOutConnection(MOVESDatabaseType.OUTPUT);
+                for(Iterator<GeographicSelection> i = runSpec.geographicSelections.iterator(); i.hasNext(); ) {
+                    GeographicSelection geography = i.next();
+                    if (geography.type == GeographicSelectionType.COUNTY) {
+                        String sql = "INSERT IGNORE INTO translate_county (countyID, stateID, countyName) " + 
+                                     "SELECT countyID, stateID, countyName FROM " +
+                                     defaultDatabase.databaseName + ".county " + 
+                                     "WHERE countyID = " + geography.databaseKey;
+                        SQLRunner.executeSQL(outputConnection, sql);
+                    }                   
+                }
+            } catch (Exception e) {
+                Logger.log(LogMessageCategory.DEBUG, "Issue adding selected county to the output database's translate_county database. " + e.toString());
+            } finally {
+                try {
+                    DatabaseConnectionManager.checkInConnection(MOVESDatabaseType.OUTPUT, outputConnection);
+                } catch (Exception e) {
+                    // nothing to do here
+                }
+            }
+        }
 		return message;
 	}
 

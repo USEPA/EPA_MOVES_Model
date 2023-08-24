@@ -111,30 +111,28 @@ func readSupportTables() {
 func readFuelTables() {
 	if _, err := os.Stat("extfueltype"); err == nil {
 		parse.ReadAndParseFile("extfueltype", func(parts []string) {
-			// fuelTypeID, humidityCorrectionCoeff, fuelDensity, subjectToEvapCalculations
-			if len(parts) < 4 {
+			// fuelTypeID, fuelDensity, subjectToEvapCalculations
+			if len(parts) < 3 {
 				return
 			}
 			e := new(FuelType)
 			e.FuelTypeID = parse.GetInt(parts[0])
-			e.HumidityCorrectionCoeff = parse.GetFloat(parts[1])
-			e.FuelDensity = parse.GetFloat(parts[2])
-			e.SubjectToEvapCalculations = parse.GetBool(parts[3])
+			e.FuelDensity = parse.GetFloat(parts[1])
+			e.SubjectToEvapCalculations = parse.GetBool(parts[2])
 			FuelTypes[e.FuelTypeID] = e
 		})
 	}
 
 	if _, err := os.Stat("extnrfueltype"); err == nil {
 		parse.ReadAndParseFile("extnrfueltype", func(parts []string) {
-			// fuelTypeID, humidityCorrectionCoeff, fuelDensity, subjectToEvapCalculations
-			if len(parts) < 4 {
+			// fuelTypeID, fuelDensity, subjectToEvapCalculations
+			if len(parts) < 3 {
 				return
 			}
 			e := new(FuelType)
 			e.FuelTypeID = parse.GetInt(parts[0])
-			e.HumidityCorrectionCoeff = parse.GetFloat(parts[1])
-			e.FuelDensity = parse.GetFloat(parts[2])
-			e.SubjectToEvapCalculations = parse.GetBool(parts[3])
+			e.FuelDensity = parse.GetFloat(parts[1])
+			e.SubjectToEvapCalculations = parse.GetBool(parts[2])
 			NRFuelTypes[e.FuelTypeID] = e
 		})
 	}

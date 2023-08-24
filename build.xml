@@ -58,13 +58,13 @@
 		<echo message="startmysql   - start a local copy of MySQL (DEPRECATED)" />
 		<echo message="stopmysql    - stop the local copy of MySQL (DEPRECATED)" />
 		<echo message="-------------------------------------------------------------------------------"/>
-		<echo message="rungui       - display the MOVES Master user interface"/>
+		<echo message="rungui       - display the main MOVES user interface"/>
 		<echo message="runworker    - display the MOVES Worker user interface"/>
-		<echo message="crungui      - compile and run the MOVES Master user interface"/>
+		<echo message="crungui      - compile and run the main MOVES user interface"/>
 		<echo message="crunworker   - compile and run the MOVES Worker user interface"/>
 		<echo message="-------------------------------------------------------------------------------"/>
 		<echo message="1worker      - start 1 local worker using the manyworkers.txt configuration " />
-		<echo message="               file. If running on the same computer as MOVES Master, this" />
+		<echo message="               file. If running on the same computer as main MOVES, this" />
 		<echo message="               should be run in a separate command window. The worker will" />
 		<echo message="               shutdown after there have been no TODO or InProgress files " />
 		<echo message="               present for 2 minutes. Before using, edit manyworkers.txt to use" />
@@ -91,11 +91,12 @@
 		<echo message="               using, edit maketodo.txt to use your system's " />
 		<echo message="               sharedDistributedFolderPath." />
 		<echo message="    ant maketodo -Drunspec=c:\myrunspecs\runspec1.mrs" />
-		<echo message="master1worker -start MOVES with a single worker and wait for its DONE files." />
+		<echo message="main1worker  - start MOVES with a single worker and wait for its DONE files." />
 		<echo message="               Like maketodo, use -Drunspec= to specify the runspec. Before " />
 		<echo message="               using, edit both maketodo.txt and manyworkers.txt for your " />
-		<echo message="               system's master and worker path settings." />
-		<echo message="    ant master1worker -Drunspec=c:\myrunspecs\runspec1.mrs" />
+		<echo message="               system's masterFolderPath and workFolderPath settings, " />
+		<echo message="               respectively." />
+		<echo message="    ant main1worker -Drunspec=c:\myrunspecs\runspec1.mrs" />
 		<echo message="pickup       - start MOVES to only pickup DONE files. Use -Dpdspec= to name the" />
 		<echo message="               PDSpec XML file that will be used. Before using, edit " />
 		<echo message="               maketodo.txt to use your system's sharedDistributedFolderPath." />
@@ -112,16 +113,11 @@
 		<echo message="setlogin     - store database user and password if the defaults have changed" />
 		<echo message="    ant setlogin -Duser=moves -Dpassword=secret" />
 		<echo message="-------------------------------------------------------------------------------"/>
-		<echo message="convert2014_3   - convert a MOVES2014 database for use with MOVES3. Specify" />
-		<echo message="                  the name of the starting database with -Dinput= and name the" />
-		<echo message="                  resulting database with -Doutput= argument. IMPORTANT: see" />
-		<echo message="                  database\ConversionScripts\InputDatabaseConverstionHelp.pdf" />
-		<echo message="    ant convert2014_3 -Dinput=m2014_in -Doutput=m3_in" />
-		<echo message="convert2014ab_3 - convert a MOVES2014a/b database for use with MOVES3. Specify" />
-		<echo message="                  the name of the starting database with -Dinput= and name the" />
-		<echo message="                  resulting database with -Doutput= argument. IMPORTANT: see" />
-		<echo message="                  database\ConversionScripts\InputDatabaseConverstionHelp.pdf" />
-		<echo message="    ant convert2014ab_3 -Dinput=m2014b_in -Doutput=m3_in" />
+		<echo message="convert3_db_to_4 - convert a MOVES3 database for use with MOVES4. Specify" />
+		<echo message="                   the name of the starting database with -Dinput= and name the" />
+		<echo message="                   resulting database with -Doutput= argument. IMPORTANT: see" />
+		<echo message="                   database\ConversionScripts\InputDatabaseConverstionHelp.pdf" />
+		<echo message="    ant convert3_db_to_4 -Dinput=m3_in -Doutput=m4_in" />
 		<echo message="-------------------------------------------------------------------------------"/>
 		<echo message="dbimporter      - run the MOVES Data Importers. IMPORTANT: Generate XML " />
 		<echo message="                  file from the Tools tab of the County or Project Data " />
@@ -156,7 +152,8 @@
 		<echo message="-------------------------------------------------------------------------------"/>
 		<echo message="run             - Execute a runspec. " />
 		<echo message="                  Use -Drunspec= to name the one runspec that will be used." />
-		<echo message="    ant run -Drunspec=c:\myrunspecs\runspec1.mrs" />		
+		<echo message="    ant run -Drunspec=c:\myrunspecs\runspec1.mrs" />
+		
 	</target>
 
 	<path id="classpath">
@@ -899,7 +896,7 @@
 						<var name="didstartmysql" value="1" />
 					</else>
 				</if>
-				<echo>Launching the master...</echo>
+				<echo>Launching MOVES...</echo>
 				<java classname="gov.epa.otaq.moves.master.commandline.MOVESCommandLine" fork="yes" maxmemory="512m" spawn="false">
 					<sysproperty key="MOVES_CONFIGURATION_FILE_NAME" value="maketodo.txt" />
 					<classpath refid="classpath" />
@@ -907,7 +904,7 @@
 					<arg value="-r" />
 					<arg value="${runspec}" />
 				</java>
-				<echo>Master finished.</echo>
+				<echo>MOVES finished.</echo>
 				<if>
 					<equals arg1="${didstartmysql}" arg2="1" />
 					<then>
@@ -918,10 +915,10 @@
 							<arg value="--shutdown_timeout=30" />
 							<arg value="shutdown" />
 						</exec>
-						<echo>Master and mysql have been shutdown.</echo>
+						<echo>MOVES and mysql have been shutdown.</echo>
 					</then>
 					<else>
-						<echo>Master has been shutdown, but not MySQL since it was already running.</echo>
+						<echo>MOVES has been shutdown, but not MySQL since it was already running.</echo>
 					</else>
 				</if>
 			</then>
@@ -931,7 +928,7 @@
 		</if>
 	</target>
 
-	<target name="master1worker" depends="">
+	<target name="main1worker" depends="">
 		<delete dir="manyworkers" />
 		<mkdir dir="manyworkers" />
 		<mkdir dir="manyworkers/workerfolder" />
@@ -968,7 +965,7 @@
 						<var name="didstartmysql" value="1" />
 					</else>
 				</if>
-				<echo>Launching the master, which will launch a worker...</echo>
+				<echo>Launching MOVES, which will launch a worker...</echo>
 				<java classname="gov.epa.otaq.moves.master.commandline.MOVESCommandLine" fork="yes" maxmemory="512m" spawn="false">
 					<sysproperty key="MOVES_CONFIGURATION_FILE_NAME" value="maketodo.txt" />
 					<classpath refid="classpath" />
@@ -976,7 +973,7 @@
 					<arg value="-r" />
 					<arg value="${runspec}" />
 				</java>
-				<echo>Master and 1 worker finished.</echo>
+				<echo>MOVES and 1 worker finished.</echo>
 				<if>
 					<equals arg1="${didstartmysql}" arg2="1" />
 					<then>
@@ -987,10 +984,10 @@
 							<arg value="--shutdown_timeout=30" />
 							<arg value="shutdown" />
 						</exec>
-						<echo>Master and mysql have been shutdown.</echo>
+						<echo>MOVES and mysql have been shutdown.</echo>
 					</then>
 					<else>
-						<echo>Master has been shutdown, but not MySQL since it was already running.</echo>
+						<echo>MOVES has been shutdown, but not MySQL since it was already running.</echo>
 					</else>
 				</if>
 			</then>
@@ -1034,14 +1031,14 @@
 						<var name="didstartmysql" value="1" />
 					</else>
 				</if>
-				<echo>Launching the master...</echo>
+				<echo>Launching MOVES...</echo>
 				<java classname="gov.epa.otaq.moves.master.commandline.MOVESCommandLine" fork="yes" maxmemory="512m" spawn="false">
 					<sysproperty key="MOVES_CONFIGURATION_FILE_NAME" value="maketodo.txt" />
 					<classpath refid="classpath" />
 					<arg value="-p" />
 					<arg value="${pdspec}" />
 				</java>
-				<echo>Master finished.</echo>
+				<echo>MOVES finished.</echo>
 				<if>
 					<equals arg1="${didstartmysql}" arg2="1" />
 					<then>
@@ -1052,10 +1049,10 @@
 							<arg value="--shutdown_timeout=30" />
 							<arg value="shutdown" />
 						</exec>
-						<echo>Master and mysql have been shutdown.</echo>
+						<echo>MOVES and mysql have been shutdown.</echo>
 					</then>
 					<else>
-						<echo>Master has been shutdown, but not MySQL since it was already running.</echo>
+						<echo>MOVES has been shutdown, but not MySQL since it was already running.</echo>
 					</else>
 				</if>
 			</then>
@@ -1105,7 +1102,7 @@
 		</jar>
 	</target>
 
-	<target name="convert2014_3" depends="">
+	<target name="convert3_db_to_4" depends="">
 		<java classname="gov.epa.otaq.moves.master.commandline.DatabaseConverter" fork="yes" maxmemory="512m">
 			<classpath>
 				<pathelement path="${java.class.path}" />
@@ -1113,19 +1110,7 @@
 			<classpath refid="classpath" />
 			<arg value="-input=${input}" />
 			<arg value="-output=${output}" />
-			<arg value="-script=database\ConversionScripts\Convert_MOVES2014_input_to_MOVES3.sql" />
-		</java>
-	</target>
-
-	<target name="convert2014ab_3" depends="">
-		<java classname="gov.epa.otaq.moves.master.commandline.DatabaseConverter" fork="yes" maxmemory="512m">
-			<classpath>
-				<pathelement path="${java.class.path}" />
-			</classpath>
-			<classpath refid="classpath" />
-			<arg value="-input=${input}" />
-			<arg value="-output=${output}" />
-			<arg value="-script=database\ConversionScripts\Convert_MOVES2014ab_input_to_MOVES3.sql" />
+			<arg value="-script=database\ConversionScripts\Convert_MOVES3_input_to_MOVES4.sql" />
 		</java>
 	</target>
 
@@ -1159,7 +1144,7 @@
 					<classpath refid="classpath" />
 					<arg value="-input=${input}" />
 					<arg value="-output=${output}" />
-					<arg value="-script=database\NEIQA\M3onroadCDBchecks.sql" />
+					<arg value="-script=database\NEIQA\onroadCDBchecks.sql" />
 				</java>
 			</else>
 		</if>		
@@ -1195,7 +1180,7 @@
 					<classpath refid="classpath" />
 					<arg value="-input=${input}" />
 					<arg value="-output=${output}" />
-					<arg value="-script=database\NEIQA\M3nonroadCDBchecks.sql" />
+					<arg value="-script=database\NEIQA\nonroadCDBchecks.sql" />
 				</java>
 			</else>
 		</if>

@@ -40,7 +40,7 @@ import gov.epa.otaq.moves.common.*;
 * @author	M. Kender (508 compliance changes - task 1810)
 * @author  	Mike Kender (Task 1903)
 * @author   J. Covey (Task 2003)
-* @version  2020-08-14
+* @version  2023-08-24
 **/
 
 public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
@@ -103,16 +103,14 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 	BuildLEVAction buildLEVAction;
 	/** Build NLEV Database Action **/
 	BuildNLEVAction buildNLEVAction;
-	/** Convert 2014->3 Database Action **/
-	Convert2014To3Action convert2014To3Action;
-	/** Convert 2014a/b->3 Database Action **/
-	Convert2014aTo3Action convert2014aTo3Action;
+	/** Convert 3->4 Database Action **/
+	Convert3To4Action convert3To4Action;
+	/** AVFT Tool Action **/
+	AVFTToolAction avftToolAction;
 	/** Run ONI Tool Action **/
 	ONIToolAction oniToolAction;
 	/** Run Speciation Profile Weight Action **/
 	ProfileWeightScriptAction profileWeightScriptAction;	
-	/** Run Nonroad Speciation Profile Weight Action **/
-	ProfileWeightScriptActionNR profileWeightScriptActionNR;
 	/** Run MySQL Script Action **/
 	SummaryReportAction summaryReportAction;
 	/** Open Website menu action. **/
@@ -139,6 +137,13 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 	JLabel status;
 	/** File menu. **/
 	JMenu fileMenu;
+    JMenu editMenu;
+    JMenu actionMenu;
+    JMenu postProcessingMenu;
+    JMenu toolsMenu;
+    JMenu settingsMenu;
+    JMenu helpMenu;
+
 	/** Item in the Post Processing menue for onroad**/
 	JMenuItem onRoadPostProcessingMenuItem;
 	/** Item in the Post Processing menue for nonroad**/
@@ -209,15 +214,6 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 	public RunSpec runSpec;
 	/** The name of the current RunSpec. **/
 	String runSpecFilePath = "";
-	/** EPA copyright notice for MOVES **/
-	public static final String COPYRIGHT_NOTICE =
-			"Copyright U.S. Environmental Protection Agency ";
-	/** GNU license Notice **/
-	public static final String LICENSE_NOTICE =
-			"Licensed for use pursuant to the GNU General Public License (GPL) ";
-	/** GNU website link **/
-	public static final String GNU_WEBSITE =
-			"For information about the GPL see http://www.gnu.org/licenses/ ";
 	/** Value for the maximum number of items to maintain in the MRU File list **/
 	public static final int MAX_MRU_SIZE = 4;
 	/** Value for the first menu position of the MRU items **/
@@ -227,7 +223,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 	/** Name of output file that performance profiles are written to **/
 	static final String PERFORMANCE_PROFILER_FILE_NAME = "guiprofile.txt";
 	/** Date of the Current Release **/
-	public static final String MOVES_VERSION = "MOVES3.1.0";
+	public static final String MOVES_VERSION = "MOVES4.0.0";
 	/** directory where output db processing scripts are located **/
 	static final String DB_SCRIPTS_DIR = "database" + File.separator + "OutputProcessingScripts";
 	static final String DB_NONROAD_SCRIPTS_DIR = "database" + File.separator + "NonroadProcessingScripts";
@@ -260,31 +256,12 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		createControls();
 		arrangeControls();
 		if(okToPopupMessages) {
-			handleAboutAction(true);
+			handleAboutAction();
 		}
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);//prevents window from closing when exit canceled
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent evt) {
 				handleExitAction(); // all windowClosing code done in exitAction
-		/*		saveMRUList();
-				DatabaseConnectionManager.flushTables();
-				PerformanceProfiler.writeProfiles(PERFORMANCE_PROFILER_FILE_NAME);
-				Logger.log(LogMessageCategory.DEBUG, "Exiting... Calling MOVESEngine.stop");
-				try {
-					MOVESAPI.getTheAPI().stopMOVESEngine();
-				} catch(Exception e) {
-					//Logger.logException(e);
-					Logger.logError(e, "Failed to stop MOVES engine");
-				}
-				try {
-					SystemConfiguration.getTheSystemConfiguration().saveConfigurationData();
-				} catch(Exception e) {
-					//Logger.logException(e);
-					Logger.logError(e, "Failed to save configuration data");
-				}
-				MOVESThread.signalAllToTerminate();
-				MOVESAPI.shutdownFlagForMaster();
-				System.exit(0); */
 			}
 		});
 		loadMRUList();
@@ -327,6 +304,8 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		if(engineDidComplete) {
 			progressPanel.handleEngineIsCompleting();
 			engineDidComplete = false;
+            fileMenu.setEnabled(true);
+            editMenu.setEnabled(true);
 			executeAction.setEnabled(true);
 			stopAction.setEnabled(false);
 			pauseAction.setEnabled(false);
@@ -334,6 +313,9 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 			if(pdSpecGUIAction != null) {
 				pdSpecGUIAction.setEnabled(true);
 			}
+            postProcessingMenu.setEnabled(true);
+            toolsMenu.setEnabled(true);
+            settingsMenu.setEnabled(true);
 			progressPanel.setProgressBarVisible(false);
 			setProgressOnlyMode(false);
 			navigationPanel.clearSelection();
@@ -522,16 +504,14 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		buildLEVAction.addActionListener(this);
 		buildNLEVAction = new BuildNLEVAction();
 		buildNLEVAction.addActionListener(this);
-		convert2014To3Action = new Convert2014To3Action();
-		convert2014To3Action.addActionListener(this);
-		convert2014aTo3Action = new Convert2014aTo3Action();
-		convert2014aTo3Action.addActionListener(this);
+		convert3To4Action = new Convert3To4Action();
+		convert3To4Action.addActionListener(this);
+		avftToolAction = new AVFTToolAction();
+		avftToolAction.addActionListener(this);
 		oniToolAction = new ONIToolAction();
 		oniToolAction.addActionListener(this);
 		profileWeightScriptAction = new ProfileWeightScriptAction();
 		profileWeightScriptAction.addActionListener(this);
-		profileWeightScriptActionNR = new ProfileWeightScriptActionNR();
-		profileWeightScriptActionNR.addActionListener(this);
 		summaryReportAction = new SummaryReportAction();
 		summaryReportAction.addActionListener(this);
 		openWebsiteAction = new OpenWebsiteAction();
@@ -586,7 +566,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		fileMenu.addSeparator();
 		menuItem = fileMenu.add(exitAction);
 		menuItem.addMouseListener(mouseHandler);
-		JMenu editMenu = new JMenu("Edit");
+		editMenu = new JMenu("Edit");
 		editMenu.setMnemonic('E');
 		/** Cut action has been disabled **/
 		cutAction.setEnabled(true);
@@ -606,7 +586,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		/** Copy action has been disabled **/
 		clearAction.setEnabled(true);
 
-		JMenu actionMenu = new JMenu("Action");
+		actionMenu = new JMenu("Action");
 		actionMenu.setMnemonic('A');
 		menuItem = actionMenu.add(executeAction);
 		menuItem.addMouseListener(mouseHandler);
@@ -618,7 +598,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		menuItem.addMouseListener(mouseHandler);
 		menuItem = actionMenu.add(MOVESRunErrorLogAction);
 		menuItem.addMouseListener(mouseHandler);
-		JMenu postProcessingMenu = new JMenu("Post Processing");
+		postProcessingMenu = new JMenu("Post Processing");
 		postProcessingMenu.setMnemonic('P');
 		onRoadPostProcessingMenuItem = postProcessingMenu.add(runScriptAction);
 		onRoadPostProcessingMenuItem.addMouseListener(mouseHandler);
@@ -672,33 +652,34 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 			public void menuCanceled(MenuEvent e) {}
 		});
 
-		JMenu toolsMenu = new JMenu("Tools");
+		toolsMenu = new JMenu("Tools");
 		toolsMenu.setMnemonic('T');
 		menuItem = toolsMenu.add(loopingToolAction);
 		menuItem.addMouseListener(mouseHandler);
 		menuItem = toolsMenu.add(pdSpecGUIAction);
 		menuItem.addMouseListener(mouseHandler);
-		menuItem = toolsMenu.add(convert2014aTo3Action);
+		toolsMenu.addSeparator();
+		menuItem = toolsMenu.add(convert3To4Action);
 		menuItem.addMouseListener(mouseHandler);
-		menuItem = toolsMenu.add(convert2014To3Action);
+		menuItem = toolsMenu.add(avftToolAction);
 		menuItem.addMouseListener(mouseHandler);
 		menuItem = toolsMenu.add(buildNLEVAction);
 		menuItem.addMouseListener(mouseHandler);
 		menuItem = toolsMenu.add(buildLEVAction);
 		menuItem.addMouseListener(mouseHandler);
+		toolsMenu.addSeparator();
 		menuItem = toolsMenu.add(oniToolAction);
 		menuItem.addMouseListener(mouseHandler);
+		toolsMenu.addSeparator();
 		menuItem = toolsMenu.add(profileWeightScriptAction);
 		menuItem.addMouseListener(mouseHandler);
-		menuItem = toolsMenu.add(profileWeightScriptActionNR);
-		menuItem.addMouseListener(mouseHandler);
-		JMenu settingsMenu = new JMenu("Settings");
+		settingsMenu = new JMenu("Settings");
 		settingsMenu.setMnemonic('S');
 		settingsMenu.setName("settingsMenu");
 		menuItem = settingsMenu.add(configureAction);
 		menuItem.addMouseListener(mouseHandler);
 		menuItem.setName("configureMenuItem");
-		JMenu helpMenu = new JMenu("Help");
+		helpMenu = new JMenu("Help");
 		helpMenu.setMnemonic('H');
 		menuItem = helpMenu.add(openWebsiteAction);
 		menuItem.addMouseListener(mouseHandler);
@@ -795,19 +776,17 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		} else if (command.equals(runNonroadScriptAction.getActionCommand())) {
 			handleRunNonroadScriptAction();
 		} else if (command.equals(buildLEVAction.getActionCommand())) {
-			handleBuilderAction(BuildLEVNLEV.MOVES3_MyLEVs);
+			handleBuilderAction(BuildLEVNLEV.MOVES4_MyLEVs);
 		} else if (command.equals(buildNLEVAction.getActionCommand())) {
-			handleBuilderAction(BuildLEVNLEV.MOVES3_MyNLEVs);
-		} else if (command.equals(convert2014To3Action.getActionCommand())) {
-			handleConverterAction(Converter.MODE_2014_TO_3);
-		} else if (command.equals(convert2014aTo3Action.getActionCommand())) {
-			handleConverterAction(Converter.MODE_2014A_TO_3);
+			handleBuilderAction(BuildLEVNLEV.MOVES4_MyNLEVs);
+		} else if (command.equals(convert3To4Action.getActionCommand())) {
+			handleConverterAction(Converter.MODE_3_TO_4);
+		} else if (command.equals(avftToolAction.getActionCommand())) {
+			handleAVFTAction();
 		} else if (command.equals(oniToolAction.getActionCommand())) {
 			handleONIToolAction();
 		} else if (command.equals(profileWeightScriptAction.getActionCommand())) {
 			handleProfileWeightScriptAction();
-		} else if (command.equals(profileWeightScriptActionNR.getActionCommand())) {
-			handleProfileWeightScriptActionNR();
 		} else if (command.equals(summaryReportAction.getActionCommand())) {
 			handleSummaryReportAction();
 		} else if (command.equals(openWebsiteAction.getActionCommand())) {
@@ -819,7 +798,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		} else if (command.equals(openNonroadCheatSheetAction.getActionCommand())) {
 			handleOpenNonroadCheatSheetAction();
 		} else if (command.equals(aboutAction.getActionCommand())) {
-			handleAboutAction(false);
+			handleAboutAction();
 		} else if (command.equals(configureAction.getActionCommand())) {
 			handleConfigureAction();
 		} else if (command.equals(MOVESRunErrorLogAction.getActionCommand())) {
@@ -851,8 +830,11 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 	 * connection.
 	**/
 	void loadAppDefaults() {
-		ButtonModel preservedModel = navigationPanel.setNavigationSelection(null);
-		navigationPanel.setNavigationSelection(preservedModel);
+		// go back to the beginning of the runspec
+		navigationPanel.selectDescriptionOption();
+		// show MOVES logo
+		setView(progressPanel);
+		
 		runSpec = MOVESAPI.getTheAPI().getRunSpec();
 		MOVESAPI.getTheAPI().setRunSpecFilePath(null);
 		// get the default gui connection
@@ -861,7 +843,6 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 			// will not work, but will let the app continue with a "safe" error message
 			// from the call to getGUIConnection()
 		}
-		navigationPanel.setNavigationSelection(preservedModel);
 		setupTitle(null);
 		navigationPanel.onFileNew();
 	}
@@ -892,6 +873,9 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 	 * @param filePath the file name and path as String to open.
 	**/
 	void openFile(String filePath) {
+		// reset everything first
+		loadAppDefaults();
+		
 		ButtonModel preservedModel = navigationPanel.setNavigationSelection(null);
 		File fileObject = new File(filePath);
 		if(!MOVESAPI.getTheAPI().loadRunSpec(fileObject, true)) {
@@ -1222,6 +1206,8 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		if(!MOVESAPI.getTheAPI().startMOVESEngine()) {
 			return;
 		}
+        fileMenu.setEnabled(false);
+        editMenu.setEnabled(false);
 		executeAction.setEnabled(false);
 		stopAction.setEnabled(true);
 		pauseAction.setEnabled(true);
@@ -1229,6 +1215,9 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		if(pdSpecGUIAction != null) {
 			pdSpecGUIAction.setEnabled(false);
 		}
+        postProcessingMenu.setEnabled(false);
+        toolsMenu.setEnabled(false);
+        settingsMenu.setEnabled(false);
 		progressPanel.setProgressBarVisible(true);
 		setProgressOnlyMode(true);
 	}
@@ -1494,10 +1483,20 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		c.setLocation(getLocationOnScreen().x + 100, getLocationOnScreen().y + 100);
 		c.showModal();
 	}
+
+    /**
+	 * Handles the AVFT menu action.
+	**/
+	void handleAVFTAction() {
+		AVFTTool a = new AVFTTool(this);
+		// simple offset from main window origin
+		a.setLocation(getLocationOnScreen().x + 100, getLocationOnScreen().y + 100);
+		a.showModal();
+	}
 	
 	/**
 	 * Handles the Build LEV/NLEV Database menu action.
-	 * @param mode one of the BuildLEVNLEV.MOVES3_* constants.
+	 * @param mode one of the BuildLEVNLEV.MOVES4_* constants.
 	**/
 	void handleBuilderAction(int mode) {
 		BuildLEVNLEV b = new BuildLEVNLEV(this,mode);
@@ -1525,16 +1524,6 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		pws.setLocation(getLocationOnScreen().x + 100, getLocationOnScreen().y + 100);
 		pws.showModal();
 	}
-	
-	/**
-	 * Handles the Run Nonroad Speciation Profile Weighting Script menu action.
-	**/
-	void handleProfileWeightScriptActionNR() {
-		ProfileWeightScriptNR pws = new ProfileWeightScriptNR(this);
-		// simple offset from main window origin
-		pws.setLocation(getLocationOnScreen().x + 100, getLocationOnScreen().y + 100);
-		pws.showModal();
-	}
 
 	/** Handles the Configure menu action. **/
 	void handleConfigureAction() {
@@ -1544,7 +1533,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		c.showModal();
 	}
 
-	/** Handles the open website menu action. **/
+	/** Handles the Open Website menu action. **/
 	void handleOpenWebsiteAction() {
 		showURL("https://www.epa.gov/moves");
 	}
@@ -1557,7 +1546,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 	/** Handles the Open Onroad CheatSheet menu action. **/
 	void handleOpenOnroadCheatSheetAction() {
 		try {
-			File file = new File("docs/MOVES3CheatsheetOnroad.pdf");
+			File file = new File("docs/MOVES4CheatsheetOnroad.pdf");
 			if(!file.exists()) {
 				Logger.log(LogMessageCategory.ERROR, "Could not find the onroad cheatsheet file at: " + file.getAbsolutePath());
 				return;
@@ -1574,7 +1563,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 	/** Handles the Open Website menu action. **/
 	void handleOpenNonroadCheatSheetAction() {
 		try {
-			File file = new File("docs/MOVES3CheatsheetNonroad.pdf");
+			File file = new File("docs/MOVES4CheatsheetNonroad.pdf");
 			if(!file.exists()) {
 				Logger.log(LogMessageCategory.ERROR, "Could not find the nonroad cheatsheet file at: " + file.getAbsolutePath());
 				return;
@@ -1641,19 +1630,23 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 
 	/**
 	 * Handles the About menu action.
-	 * @param shouldTimeout true if the dialog should be removed after a short time
 	**/
-	void handleAboutAction(boolean shouldTimeout) {
-		// TODO Expire the about message box after a short time
-		JOptionPane aboutPane = new JOptionPane(aboutAction.getLongDescription()
-				+ "\n" + "This version : " + MOVES_VERSION
-				+ "\n" + "Computer ID : "
-				+ SystemConfiguration.getTheSystemConfiguration().computerID
-				+ "\n" + COPYRIGHT_NOTICE
-				+ "\n" + LICENSE_NOTICE
-				+ "\n" + GNU_WEBSITE,
-				JOptionPane.INFORMATION_MESSAGE,
-				JOptionPane.DEFAULT_OPTION);
+	void handleAboutAction() {
+        String message = aboutAction.getLongDescription()
+                        + "\n" + "This version: " + MOVES_VERSION
+                        + "\n" + "Computer ID: " + SystemConfiguration.getTheSystemConfiguration().computerID
+                        + "\n";
+        try {
+			ArrayList<String> lines = FileUtilities.readLines(new File("License.txt"));
+			if(lines != null) {
+                for(Iterator<String> i=lines.iterator();i.hasNext();) {
+                    message += "\n" + i.next();
+                }
+			}
+		} catch(Exception e) {
+			// Nothing to do here
+		}
+		JOptionPane aboutPane = new JOptionPane(message, JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION);
 		JDialog aboutDialog = aboutPane.createDialog(this, aboutAction.getShortDescription());
 		aboutDialog.setAlwaysOnTop(true);
 		aboutDialog.setVisible(true);
@@ -1857,27 +1850,35 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 	**/
 	boolean isRunSpecReady() {
 		boolean allReady = true;
-		// Walk the list of option statuses (excluding vehicle statuses)
-		boolean onRoadReady = true;
-		boolean offRoadReady = true;
-		Iterator keyIterator = navigationPanel.optionStatuses.keySet().iterator();
+		// Walk the list of option statuses
+		Iterator<String> keyIterator = navigationPanel.optionStatuses.keySet().iterator();
 		while(keyIterator.hasNext()) {
-			String nextEditorName = keyIterator.next().toString();
-			RunSpecSectionStatus iterStatus =
-					(RunSpecSectionStatus)navigationPanel.optionStatuses.get(
-					nextEditorName);
+			String panelName = keyIterator.next();
+			RunSpecSectionStatus iterStatus = (RunSpecSectionStatus)navigationPanel.optionStatuses.get(panelName);
 			if(iterStatus.status == RunSpecSectionStatus.NOT_READY) {
-				if(nextEditorName.equalsIgnoreCase("onRoadVehicleEquipmentPanel")) {
-					onRoadReady = false;
-				} else if(nextEditorName.equalsIgnoreCase("offRoadVehicleEquipmentPanel")) {
-					offRoadReady = false;
+                // special cases: 
+                // onRoadVehicleEquipmentPanel needs to be ready only when running onroad
+                // offRoadVehicleEquipmentPanel needs to be ready only when running nonroad
+                // createInputDatabase needs to be ready only if skipDomainDatabaseValidation setting is false
+				if(panelName.equalsIgnoreCase("onRoadVehicleEquipmentPanel")) {
+                    if(runSpec.models.contains(Model.ONROAD)) {
+                        allReady = false;
+                    }
+				} else if(panelName.equalsIgnoreCase("offRoadVehicleEquipmentPanel")) {
+                    if(runSpec.models.contains(Model.NONROAD)) {
+                        allReady = false;
+                    }
+				} else if(panelName.equalsIgnoreCase("createInputDatabase")) { 
+                    if(!runSpec.skipDomainDatabaseValidation) {
+                        allReady = false;
+                    }
 				} else {
 					allReady = false;
 					break;
 				}
 			}
 		}
-		return allReady && (onRoadReady || offRoadReady);
+		return allReady;
 	}
 	
 	/**
@@ -2001,11 +2002,16 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		if(!MOVESAPI.getTheAPI().runPDSpecAsync(pdSpec)) {
 			return;
 		}
+        fileMenu.setEnabled(false);
+        editMenu.setEnabled(false);
 		executeAction.setEnabled(false);
 		pdSpecGUIAction.setEnabled(false);
 		stopAction.setEnabled(true);
 		pauseAction.setEnabled(true);
 		resumeAction.setEnabled(false);
+        postProcessingMenu.setEnabled(false);
+        toolsMenu.setEnabled(false);
+        settingsMenu.setEnabled(false);
 		progressPanel.setProgressBarVisible(true);
 		setProgressOnlyMode(true);
 	}

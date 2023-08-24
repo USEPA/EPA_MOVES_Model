@@ -69,7 +69,7 @@ type FuelSupplyDetail struct {
 // Fuel tyupe
 type FuelType struct {
 	FuelTypeID int
-	HumidityCorrectionCoeff, FuelDensity float64
+	FuelDensity float64
 	SubjectToEvapCalculations bool
 }
 

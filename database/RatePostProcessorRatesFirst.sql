@@ -164,7 +164,7 @@ begin
 		and z.hourID=floor(o.hourDayID/10)
 	)
 	where MOVESRunID=##runID##
-	and processID in (17,90,91);
+	and processID in (17,90,91,93);
 
 	-- Populate RatePerStart
 	-- Skip for Project mode.
@@ -272,7 +272,7 @@ begin
 		and z.hourID=o.hourID
 	)
 	where o.MOVESRunID=##runID##
-	and (o.processID in (2,16,17,90,91)
+	and (o.processID in (2,16,17,90,91,93)
 	or (o.processID in (11,13,18,19) and o.roadTypeID=1));
 
 	-- Populate StartsPerVehicle.

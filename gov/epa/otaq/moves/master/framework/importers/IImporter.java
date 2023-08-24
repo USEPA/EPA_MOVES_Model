@@ -5,6 +5,8 @@
 package gov.epa.otaq.moves.master.framework.importers;
 
 import java.sql.*;
+import java.util.ArrayList;
+
 import javax.xml.parsers.*;
 import org.xml.sax.*;
 import org.xml.sax.helpers.*;
@@ -96,4 +98,10 @@ public interface IImporter {
 	 * Remove all messages about data quality, without disturbing other messages.
 	**/
 	void removeQualityMessages();
+
+	/** 
+     * Get the list of messages about the imported data
+     * @return an ArrayList holding String objects
+    **/
+    ArrayList<String> getMessages();
 }

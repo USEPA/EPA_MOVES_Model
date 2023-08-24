@@ -2,7 +2,7 @@
 
 # MOVES ONI Tool Command Line Interface
 
-The MOVES off-network idle (ONI) Tool was added to MOVES3 to assist MOVES users who generate inventories by running MOVES at the County Scale in Emission Rates mode and multiply those rates by activity outside of MOVES. For more detail about what ONI is, how MOVES uses it, and how to use it in generating inventories, see the [instructions for using the ONI Tool in the MOVES GUI](https://github.com/USEPA/EPA_MOVES_Model/blob/master/database/ONITool/InstructionsForONITool.pdf). 
+The MOVES off-network idle (ONI) Tool can assist MOVES users who generate inventories by running MOVES at the County Scale in Emission Rates mode and multiply those rates by activity outside of MOVES. For more detail about what ONI is, how MOVES uses it, and how to use it in generating inventories, see the [instructions for using the ONI Tool in the MOVES GUI](https://github.com/USEPA/EPA_MOVES_Model/blob/master/database/ONITool/InstructionsForONITool.pdf). 
 
 The ONI Tool has been added to Ant, the MOVES dependency manager and command line interface tool. This document includes specific examples on how to use the ONI Tool through the command line. For general information on MOVES' command line tools, see [CommandLineMOVES.md](https://github.com/USEPA/EPA_MOVES_Model/blob/master/docs/CommandLineMOVES.md).
 

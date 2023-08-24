@@ -44,12 +44,18 @@ begin
 		
 		
 		-- we use the ratio between the defaults and user input to calculate the new HotellingHours
-		insert into newHotellingHours_hhpd (sourceTypeID,yearID,monthID,dayID,hourID,hourDayID,zoneID,ageID,hotellingHours)
-		-- units of hotellingHours : hours per portion of week
-		-- units of (hotellinghoursperday / defaultHotellingHours): hours per typical day / hours per typical day, month combination (implictly day*month)
-		-- expression below becomes hours per potion of week * (1/ typical month) * months
-		select sourceTypeID,yearID,monthID,dayID,hourID,hourID*10+dayID as hourDayID,zoneID,ageID,
-			(hotellingHoursPerDay / defaultHotellingHours) * hotellingHours * 12 as hotellingHours
+		insert into newHotellingHours_hhpd (sourceTypeID,fuelTypeID,yearID,monthID,dayID,hourID,hourDayID,zoneID,ageID,hotellingHours)
+		-- units of hotellingHours: hours per portion of week
+		-- units of (hotellinghoursperday / defaultHotellingHours): hours per typical day / hours per typical day, month combination 
+        --     When at annual preagg, the expression below becomes hours per portion of week since month is already aggregated away
+        --         In this case, we do not need to multiply by 12
+        --     When no preagg or preagg less than year, defaultHotellingHoursPerDay contains the sum over all months, and then we are 
+        --     dividing by that sum over all months in our ratio, so we need to multiply by 12 in the end.
+		--         Essentially, the expression below becomes hours per potion of week * (1/ typical month) * months
+		select sourceTypeID,fuelTypeID,yearID,monthID,dayID,hourID,hourID*10+dayID as hourDayID,zoneID,ageID,
+			   case when monthID = 0 then (hotellingHoursPerDay / defaultHotellingHours) * hotellingHours
+                    else                  (hotellingHoursPerDay / defaultHotellingHours) * hotellingHours * 12 
+               end as hotellingHours
 		from hotellingHours
 		join defaultHotellingHoursPerDay using (yearID,zoneID,dayID)
 		join hotellinghoursperday using (yearID,zoneID,dayID)
@@ -100,10 +106,10 @@ begin
 		group by zoneID,dayID,hourID;
 		
 		-- we use the ratio between the defaults and user input to calculate the new HotellingHours
-		insert into newHotellingHours_hhf (sourceTypeID,yearID,monthID,dayID,hourID,hourDayID,zoneID,ageID,hotellingHours)
+		insert into newHotellingHours_hhf (sourceTypeID,fuelTypeID,yearID,monthID,dayID,hourID,hourDayID,zoneID,ageID,hotellingHours)
 		-- because we are just scaling by new fractions, the hotellinghours units are preserved
 		-- (hourFraction / defaultHourFraction) is unitless
-		select sourceTypeID,yearID,monthID,dayID,hourID,hourID*10+dayID as hourDayID,zoneID,ageID, 
+		select sourceTypeID,fuelTypeID,yearID,monthID,dayID,hourID,hourID*10+dayID as hourDayID,zoneID,ageID, 
 			hotellingHours * (hourFraction / defaultHourFraction) as hotellingHours
 		from hotellingHours
 		join defaultHotellingHourFraction using (zoneID,dayID,hourID)
@@ -150,10 +156,10 @@ begin
 		group by zoneID,ageID;
 		
 		-- use the ratio of the new age fractions to the defaults to scale the hotelling horus
-		insert into newHotellingHours_had (sourceTypeID,yearID,monthID,dayID,hourID,hourDayID,zoneID,ageID,hotellingHours)
+		insert into newHotellingHours_had (sourceTypeID,fuelTypeID,yearID,monthID,dayID,hourID,hourDayID,zoneID,ageID,hotellingHours)
 		-- because we are just scaling by new fractions, the hotellinghours units are preserved
 		-- (ageFraction / defaultAgeFraction) is unitless
-		select sourceTypeID,yearID,monthID,dayID,hourID,hourID*10+dayID as hourDayID,zoneID,ageID, 
+		select sourceTypeID,fuelTypeID,yearID,monthID,dayID,hourID,hourID*10+dayID as hourDayID,zoneID,ageID, 
 			hotellingHours * (ageFraction / defaultAgeFraction) as hotellingHours
 		from hotellingHours
 		join defaultHotellingAgeFraction using (zoneID,ageID)
@@ -204,10 +210,10 @@ begin
 		group by zoneID,monthID;
 		
 		-- use the ratio of the new month adjustments to the old ones to calculate the new hotelling hours
-		insert into newHotellingHours_hma (sourceTypeID,yearID,monthID,dayID,hourID,hourDayID,zoneID,ageID,hotellingHours)
+		insert into newHotellingHours_hma (sourceTypeID,fuelTypeID,yearID,monthID,dayID,hourID,hourDayID,zoneID,ageID,hotellingHours)
 		-- because we are just scaling by new fractions, the hotellinghours units are preserved
 		-- (monthAdjustment / defaultMonthAdjustment) is unitless
-		select sourceTypeID,yearID,monthID,dayID,hourID,hourID*10+dayID as hourDayID,zoneID,ageID, 
+		select sourceTypeID,fuelTypeID,yearID,monthID,dayID,hourID,hourID*10+dayID as hourDayID,zoneID,ageID, 
 			hotellingHours * (monthAdjustment / defaultMonthAdjustment) as hotellingHours
 		from hotellingHours
 		join defaultHotellingMonthAdjust using (zoneID,monthid)

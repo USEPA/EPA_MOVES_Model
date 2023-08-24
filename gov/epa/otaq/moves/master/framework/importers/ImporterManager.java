@@ -9,6 +9,7 @@ import gov.epa.otaq.moves.master.framework.*;
 import gov.epa.otaq.moves.master.gui.CreateInputDatabase;
 import gov.epa.otaq.moves.common.*;
 import gov.epa.otaq.moves.master.implementation.importers.GenericImporter;
+import gov.epa.otaq.moves.master.gui.RunSpecSectionStatus;
 import java.util.*;
 import java.sql.*;
 import java.io.*;
@@ -89,6 +90,9 @@ public class ImporterManager {
 	public static final String FILTER_MODEL_YEAR_RANGE = "modelYearRange"; // 2 model years, low to high, both >= 1960 to <= 2060
 	public static final String FILTER_COUNTYTYPE = "countyTypeID";
 	public static final String FILTER_IDLEREGION = "idleRegionID";
+	public static final String FILTER_HOTELLING_FUELTYPES = "hotellingFuelTypes";
+	public static final String FILTER_DEFAULT_HAD_ZONES = "hadZones";
+    public static final String FILTER_ONROAD_ENGTECHID = "onroadEngTechID";
 	public static final String LOG_TABLES_SCRIPT = "database/CreateAuditLogTables.sql";
 
 	/**
@@ -172,6 +176,8 @@ public class ImporterManager {
 	boolean isProjectDomain = false;
 	/** True when being used for Nonroad **/
 	boolean isNonroad = false;
+    /** True when being used for the AVFT Tool */
+    boolean isAVFTTool = false;
 	/** one of the ImporterManager.*_MODE constants **/
 	int mode = STANDARD_MODE;
 
@@ -230,6 +236,14 @@ public class ImporterManager {
 	}
 
 	/**
+	 * Returns true if this manager is being used for the AVFT tool
+	 * @return true if the RunSpec is using a custom geographic domain
+	**/
+	public boolean isAVFTTool() {
+		return isAVFTTool;
+	}
+
+	/**
 	 * Change the mode that sets that available tabs.
 	 * @param modeToUse one of the ImporterManager.*_MODE constants
 	**/
@@ -267,6 +281,12 @@ public class ImporterManager {
 	/** Setup to require only one county, one calendar year, etc per project domain requirements **/
 	public void setAsNonroad() {
 		isNonroad = true;
+	}
+
+	/** Set as being used for the AVFT tool **/
+	public void setAsAVFTTool() {
+        setAsCountyDomain(); // AVFT tool uses also require this to be set
+		isAVFTTool = true;
 	}
 
 	/**
@@ -1524,6 +1544,8 @@ public class ImporterManager {
 			loadOpModeIDs();
 			loadTestStandardsIDs();
 			loadIsLeapYear();
+			loadHotellingFuelTypes();
+            loadOnroadEngTechs();
 
 			filterDataTypes.put(FILTER_YN,"YesNo");
 			filterDataTypes.put(FILTER_MODELYEARID,"ModelYear");
@@ -1576,7 +1598,69 @@ public class ImporterManager {
 
 		isLeapYearValues.add(isLeapYear()? "Y":"N");
 	}
+	
+	/**
+	 * Populate FILTER_HOTELLING_FUELTYPES values.
+	**/
+	private void loadHotellingFuelTypes() throws Exception {
+		TreeSet<Object> hotellingFuelTypes = new TreeSet<Object>();
+		filterValueSets.put(FILTER_HOTELLING_FUELTYPES,hotellingFuelTypes);
+		filterDataTypes.put(FILTER_HOTELLING_FUELTYPES,"Integer");
 
+		Connection db = DatabaseConnectionManager.checkOutConnection(MOVESDatabaseType.DEFAULT);
+		String sql = "";
+		try {
+			sql = "SELECT DISTINCT fuelTypeID FROM hotellingactivitydistribution";
+			addIntegers(db,sql,hotellingFuelTypes,null);
+		} finally {
+			if(db != null) {
+				DatabaseConnectionManager.checkInConnection(MOVESDatabaseType.DEFAULT,db);
+				db = null;
+			}
+		}
+	}
+
+	/**
+	 * Populate FILTER_ONROAD_ENGTECHID values.
+	**/
+	private void loadOnroadEngTechs() throws Exception {
+		TreeSet<Object> onroadEngTechs = new TreeSet<Object>();
+		filterValueSets.put(FILTER_ONROAD_ENGTECHID,onroadEngTechs);
+		filterDataTypes.put(FILTER_ONROAD_ENGTECHID,"Integer");
+
+		Connection db = DatabaseConnectionManager.checkOutConnection(MOVESDatabaseType.DEFAULT);
+		String sql = "";
+		try {
+			sql = "SELECT DISTINCT engTechID FROM enginetech WHERE engTechID BETWEEN 1 AND 99";
+			addIntegers(db,sql,onroadEngTechs,null);
+		} finally {
+			if(db != null) {
+				DatabaseConnectionManager.checkInConnection(MOVESDatabaseType.DEFAULT,db);
+				db = null;
+			}
+		}
+	}
+
+    /**
+	 * Populate FILTER_DEFAULT_HAD_ZONES values.
+	**/
+	private void loadHotellingActivityDistZones() throws Exception {
+        // create our filter set
+        TreeSet<Object> hadZones = new TreeSet<Object>();
+		filterValueSets.put(FILTER_DEFAULT_HAD_ZONES,hadZones);
+		filterDataTypes.put(FILTER_DEFAULT_HAD_ZONES,"Integer");
+
+        // populate it first with a copy of the regular zones
+        TreeSet zones = (TreeSet) filterValueSets.get(FILTER_ZONE);
+        for (Object zone : zones) {
+            hadZones.add(zone);
+        }
+
+        // add the national zone
+        hadZones.add(Integer.valueOf(990000));
+	}
+
+    
 	/**
 	 * Populate FILTER_TESTSTANDARDSID values.
 	 * @throws Exception if anything goes wrong
@@ -2655,6 +2739,43 @@ public class ImporterManager {
 		}
 		return tableHasIntegers(db,sql,fuelTypes,importer,qualityMessagePrefix);
 	}
+	
+
+	/**
+	 * Check a table for presence of all needed values.
+	 * @param db database holding the table to be scanned
+	 * @param sql query returning all values in the database
+	 * @param importer optional object to receive quality messages
+	 * @param qualityMessagePrefix optional prefix to use for quality messages, never null if importer is provided
+	 * @return true if all neededValues are present, even if other values are present
+	 * in the database.
+	 * @throws Exception if anything goes wrong
+	**/
+	public boolean tableHasHotellingFuelTypes(Connection db, String sql, IImporter importer, String qualityMessagePrefix)
+			throws Exception {
+		// TreeSet<Object> hotellingFuelTypes = getFilterValuesSet(FILTER_HOTELLING_FUELTYPES);
+
+		TreeSet<Object> hotellingFuelTypes = new TreeSet<Object>();
+		Connection defaultDb = DatabaseConnectionManager.checkOutConnection(MOVESDatabaseType.DEFAULT);
+		String queryHotellingFuelTypes = "";
+		try {
+			queryHotellingFuelTypes = "SELECT DISTINCT fuelTypeID FROM hotellingactivitydistribution";
+			addIntegers(defaultDb,queryHotellingFuelTypes,hotellingFuelTypes,null);
+		} finally {
+			if(defaultDb != null) {
+				DatabaseConnectionManager.checkInConnection(MOVESDatabaseType.DEFAULT,defaultDb);
+				defaultDb = null;
+			}
+		}
+        
+        // this will raise an exception if the database doesn't have the correct schema
+        try {
+            return tableHasIntegers(db,sql,hotellingFuelTypes,importer,qualityMessagePrefix);
+        } catch (SQLException e) {
+            importer.addQualityMessage("ERROR: hotellingactivitydistribution has incorrect schema. This database will either need to be converted or recreated.");
+            return false;
+        }
+	}
 
 	/**
 	 * Check a table for presence of all needed values.
@@ -3079,6 +3200,65 @@ public class ImporterManager {
 			return -1;
 		}
 	}
+
+	/**
+	 * Perform the full set of importer database checks
+	 * @param runSpec the target RunSpec for which compatibility is desired
+	 * @param messages receiver object for error and warning messages from this action. Can be null if such responses are not needed.
+	 * @param db Connection to the database to be examined
+	 * @return -1 if the database is not ready. 0 if the database is acceptable but
+	 * relying on defaults. +1 if the database is acceptable and complete.
+	**/
+	public int performAllImporterChecks(RunSpec runSpec, ArrayList<String> messages, Connection db) {
+        RunSpecSectionStatus netStatus = null; // used to determine if all tabs are green checks or not
+        for(int i = 0; i < this.importers.size(); i++) {
+            IImporter importer = (IImporter)this.importers.get(i);
+            // determine importer's status
+            RunSpecSectionStatus status = null;
+            if(db != null) {
+                try {
+                    importer.refreshFromAuditLog(db);
+                    if(runSpec.domain == ModelDomain.SINGLE_COUNTY && (importer instanceof ICountyDataImporter)) {
+                        //Logger.log(LogMessageCategory.DEBUG, importer.getName() + ".getCountyDataStatus()");
+                        status = ((ICountyDataImporter)importer).getCountyDataStatus(db);
+                    } else if(runSpec.domain == ModelDomain.PROJECT && (importer instanceof IProjectDataImporter)) {
+                        //Logger.log(LogMessageCategory.DEBUG, importer.getName() + ".getProjectDataStatus()");
+                        status = ((IProjectDataImporter)importer).getProjectDataStatus(db);
+                    } else if(importer instanceof IDataStatus) {
+                        //Logger.log(LogMessageCategory.DEBUG, importer.getName() + ".getImporterDataStatus()");
+						status = ((IDataStatus)importer).getImporterDataStatus(db);
+                    } else {
+                        //Logger.log(LogMessageCategory.DEBUG, importer.getName() + " did not call any .get_X_DataStatus()");
+                        continue;
+                    }
+                    messages.addAll(importer.getMessages()); // added getMessages to IImporter; should resolve to ImporterBase's getMessages
+
+                } catch(Exception e) {
+                    Logger.logError(e,"Unable to validate input database Data Status");
+                }
+            }
+            
+            // calculate net status of all importers
+            if(status != null) {
+                if(netStatus == null) {
+                    netStatus = status;
+                } else {
+                    netStatus.makeWorstOfTwo(status);
+                }
+                //Logger.log(LogMessageCategory.DEBUG,"After evaluating status of " + importer.getName() + ", netStatus is " + String.valueOf(netStatus.status));
+            } else {
+                //Logger.log(LogMessageCategory.DEBUG,"After evaluating status of " + importer.getName() + ", netStatus has no change (status was null)");
+            }
+        }
+        
+        if(netStatus.status == RunSpecSectionStatus.NOT_READY) {
+            return -1;
+        } else if(netStatus.status == RunSpecSectionStatus.DEFAULTS) {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
 
 	/**
 	 * Inform a reader of wildcard possibilities, if they exist for a given column.

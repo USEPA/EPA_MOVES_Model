@@ -428,28 +428,24 @@ begin
 				and modelYearID <= yearID
 			)
 			order by t1.sourceTypeID, t1.modelYearID, t1.fuelTypeID;
-			
+						
 			insert into importTempMessages (message)
-			select distinct concat('Warning: No emission rates exist for AVFT source type ',sourceTypeID, ', model year ',modelYearID,', fuel ',fuelTypeID) as message
-			from avft
-			left outer join (
-				select distinct sourceTypeID, modelYearID, fuelTypeID
-				from ##defaultDatabase##.sampleVehiclePopulation
-				where sourceTypeID in (##sourceTypeIDs##)
-			) t1 using (sourceTypeID, modelYearID, fuelTypeID)
-			where t1.sourceTypeID is null 
-				and t1.modelYearID is null 
-				and t1.fuelTypeID is null
-				and avft.sourceTypeID in (##sourceTypeIDs##)
-			and avft.modelYearID in (
-				select distinct modelYearID
-				from ##defaultDatabase##.modelYear,
-				##defaultDatabase##.year
-				where yearID in (##yearIDs##)
-				and modelYearID >= yearID - 30
-				and modelYearID <= yearID
-			)
-			order by avft.sourceTypeID, avft.modelYearID, avft.fuelTypeID;
+			SELECT concat('ERROR: No emission rates for source type ',sourceTypeID,', MY',modelYearID,', fuel type ',fuelTypeID,', engTech ',engTechID,'. Reassign this AVFT fuelEngFraction to a valid fuel/engTech combination.   ')
+			FROM ( SELECT sourceTypeID, modelYearID, fuelTypeID, engTechID, sum(fuelEngFraction * COALESCE(stmyFuelEngFraction, 0)) AS effectiveFraction
+				FROM avft
+				LEFT JOIN ##defaultDatabase##.samplevehiclepopulation USING (sourceTypeID, modelYearID, fuelTypeID, engTechID)
+				WHERE fuelEngFraction <> 0 AND sourceTypeID IN (##sourceTypeIDs##)
+				  and avft.modelYearID in (select distinct modelYearID
+										   from ##defaultDatabase##.modelYear,
+											    ##defaultDatabase##.year
+				                           where yearID in (##yearIDs##)
+				                             and modelYearID >= yearID - 30
+				                             and modelYearID <= yearID)
+				GROUP BY sourceTypeID, modelYearID, fuelTypeID, engTechID
+				HAVING effectiveFraction = 0
+			    ORDER BY avft.sourceTypeID, avft.modelYearID, avft.fuelTypeID, avft.engTechID
+			) as t1;
+	
 		end if;
 	end if;
 

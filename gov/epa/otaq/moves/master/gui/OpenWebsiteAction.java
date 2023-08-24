@@ -9,14 +9,14 @@ package gov.epa.otaq.moves.master.gui;
 import javax.swing.Action;
 
 /**
- * Class for MOVES Open Website menu option.
+ * Class for Open Website menu option.
  *
  * @author		Wesley Faler
  * @version		2014-07-27
 **/
 public class OpenWebsiteAction extends JLFAbstractAction {
 	/** Constant command key text. **/
-	static final String ACTION_COMMAND_KEY_USER_GUIDE = "open-website-command";
+	static final String ACTION_COMMAND_KEY_USER_GUIDE = "user-guide-command";
 	/** Constant action name. **/
 	static final String NAME_USER_GUIDE = "MOVES Website and Documents";
 	/** Constant small icon file and path. **/

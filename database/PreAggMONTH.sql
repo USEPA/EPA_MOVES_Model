@@ -36,9 +36,7 @@ DROP TABLE IF EXISTS OldSourceTypeHour;
 DROP TABLE IF EXISTS OldSHO;
 DROP TABLE IF EXISTS OldSourceHours;
 DROP TABLE IF EXISTS OldStarts;
-DROP TABLE IF EXISTS OldExtendedIdleHours;
 DROP TABLE IF EXISTS OldHotellingHourFraction;
-DROP TABLE IF EXISTS OldHotellingHoursPerDay;
 DROP TABLE IF EXISTS OldSampleVehicleSoakingDay;
 DROP TABLE IF EXISTS OldSampleVehicleTrip;
 DROP TABLE IF EXISTS OldSampleVehicleDay;
@@ -340,23 +338,6 @@ REPLACE INTO Starts (hourDayID, monthID, yearID, ageID, zoneID,
   FROM OldStarts
   GROUP BY monthID, yearID, ageID, zoneID, sourceTypeID;
 FLUSH TABLE Starts;
-  
---
---  ExtendedIdleHours
---
--- SELECT "Making ExtendedIdleHours" AS MARKER_POINT;
-CREATE TABLE OldExtendedIdleHours
-  SELECT ExtendedIdleHours.*, dayID
-  FROM ExtendedIdleHours INNER JOIN OldHourDay USING(hourDayID);
-CREATE INDEX index1 ON OldExtendedIdleHours (sourceTypeID, monthID, yearID, ageID, zoneID);
-TRUNCATE ExtendedIdleHours;
-REPLACE INTO ExtendedIdleHours (sourceTypeID, hourDayID, monthID, yearID, ageID, zoneID, 
-    extendedIdleHours, extendedIdleHoursCV, isUserInput)
-  SELECT sourceTypeID, 0 AS hourDayID, monthID, yearID, ageID, zoneID,  
-    sum(extendedIdleHours) AS extendedIdleHours, NULL AS extendedIdleHoursCV, "Y" AS isUserInput
-  FROM OldExtendedIdleHours
-  GROUP BY sourceTypeID, monthID, yearID, ageID, zoneID;
-FLUSH TABLE ExtendedIdleHours;
 
 -- HotellingHourFraction
 --
@@ -593,7 +574,6 @@ DROP TABLE IF EXISTS OldSourceTypeHour;
 DROP TABLE IF EXISTS OldSHO;
 DROP TABLE IF EXISTS OldSourceHours;
 DROP TABLE IF EXISTS OldStarts;
-DROP TABLE IF EXISTS OldExtendedIdleHours;
 DROP TABLE IF EXISTS OldHotellingHourFraction;
 DROP TABLE IF EXISTS OldHotellingHoursPerDay;
 DROP TABLE IF EXISTS OldSampleVehicleSoakingDay;

@@ -1408,9 +1408,9 @@ public class OutputProcessor {
 		Logger.log(LogMessageCategory.INFO,"Saving CMITs...");
 		String[] sqlStatements = {
 			"gov.epa.otaq.moves.master.implementation.ghg.TotalActivityGenerator",
-				"SHO", "SourceHours", "ExtendedIdleHours", "Starts", "StartsPerVehicle", "",
+				"SHO", "SourceHours", "HotellingHours", "Starts", "StartsPerVehicle", "",
 			"gov.epa.otaq.moves.master.implementation.ghg.ProjectTAG",
-				"SHO", "SourceHours", "ExtendedIdleHours", "Starts", "StartsPerVehicle", "",
+				"SHO", "SourceHours", "HotellingHours", "Starts", "StartsPerVehicle", "",
 			"gov.epa.otaq.moves.master.implementation.ghg.OperatingModeDistributionGenerator",
 				"OpModeDistribution", "",
 			"gov.epa.otaq.moves.master.implementation.ghg.LinkOperatingModeDistributionGenerator",

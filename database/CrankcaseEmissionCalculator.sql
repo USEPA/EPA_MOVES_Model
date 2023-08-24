@@ -11,10 +11,11 @@ CREATE TABLE IF NOT EXISTS ##prefix##CrankcaseEmissionRatio (
   minModelYearID smallint(6) NOT NULL,
   maxModelYearID smallint(6) NOT NULL,
   sourceTypeID smallint(6) NOT NULL,
+  regClassID smallint(6) NOT NULL,
   fuelTypeID smallint(6) NOT NULL,
   crankcaseRatio float NOT NULL,
   crankcaseRatioCV float DEFAULT NULL,
-  primary key (polProcessID, minModelYearID, maxModelYearID, sourceTypeID, fuelTypeID)
+  primary key (polProcessID, minModelYearID, maxModelYearID, sourceTypeID, regClassID, fuelTypeID)
 );
 TRUNCATE TABLE ##prefix##CrankcaseEmissionRatio;
 
@@ -39,6 +40,7 @@ cache select c.polProcessID,
 	MYRMAP(c.minModelYearID) as minModelYearID,
 	MYRMAP(c.maxModelYearID) as maxModelYearID,
 	c.sourceTypeID,
+	c.regClassID,
 	c.fuelTypeID,
 	c.crankcaseRatio,
 	c.crankcaseRatioCV
@@ -77,6 +79,7 @@ cache select c.polProcessID,
 	MYRMAP(c.minModelYearID) as minModelYearID,
 	MYRMAP(c.maxModelYearID) as maxModelYearID,
 	c.sourceTypeID,
+	c.regClassID,
 	c.fuelTypeID,
 	c.crankcaseRatio,
 	c.crankcaseRatioCV
@@ -137,6 +140,7 @@ create table if not exists ##prefix##CrankcaseMOVESWorkerOutputTemp (
 	
 	index (fuelTypeID),
 	index (sourceTypeID),
+	index (regClasSID),
 	index (roadTypeID),
 	index (zoneID)
 );
@@ -144,6 +148,7 @@ create table if not exists ##prefix##CrankcaseMOVESWorkerOutputTemp (
 CREATE INDEX ##prefix##MOVESWorkerOutput_New2 ON MOVESWorkerOutput (
 	pollutantID ASC,
 	sourceTypeID ASC,
+	regClassID ASC,
 	fuelTypeID ASC,
 	modelYearID ASC,
 	processID ASC
@@ -156,13 +161,14 @@ CREATE INDEX ##prefix##CrankcasePollutantProcessAssoc_New1 ON ##prefix##Crankcas
 CREATE INDEX ##prefix##CrankcaseEmissionRatio_New1 ON ##prefix##CrankcaseEmissionRatio (
 	polProcessID ASC,
 	sourceTypeID ASC,
+	regClassID ASC,
 	fuelTypeID ASC,
 	minModelYearID ASC,
 	maxModelYearID ASC
 );
 
--- @algorithm crankcase emissions[output pollutantID,processID,modelYearID,sourceTypeID,fuelTypeID] = emissions[input pollutantID,processID,modelYearID,sourceTypeID,fuelTypeID] *
--- crankcaseRatio[output pollutantID,input polluantID,processID,modelYearID,sourceTypeID,fuelTypeID]
+-- @algorithm crankcase emissions[output pollutantID,processID,modelYearID,sourceTypeID,regClassID,fuelTypeID] = emissions[input pollutantID,processID,modelYearID,sourceTypeID,regClassID,fuelTypeID] *
+-- crankcaseRatio[output pollutantID,input polluantID,processID,modelYearID,sourceTypeID,regClassID,fuelTypeID]
 insert into ##prefix##CrankcaseMOVESWorkerOutputTemp (
     yearID,
     monthID,
@@ -194,7 +200,7 @@ select
     ppa.pollutantID,
     ppa.processID,
     r.sourceTypeID,
-    mwo.regClassID,
+    r.regClassID,
     r.fuelTypeID,
     mwo.modelYearID,
     roadTypeID,
@@ -206,6 +212,7 @@ inner join ##prefix##CrankcasePollutantProcessAssoc ppa on (ppa.pollutantID=mwo.
 inner join ##prefix##CrankcaseEmissionRatio r on (
 	r.polProcessID=ppa.polProcessID
 	and r.sourceTypeID=mwo.sourceTypeID
+	and r.regClassID=mwo.regClassID
 	and r.fuelTypeID=mwo.fuelTypeID
 	and r.minModelYearID <= mwo.modelYearID
 	and r.maxModelYearID >= mwo.modelYearID

@@ -211,7 +211,7 @@ public class TankFuelGenerator extends Generator {
 			"drop table if exists TFGUsedFuelFormulation",
 			
 			"create table TFGUsedFuelFormulation ("
-			+ "	fuelFormulationID smallint not null primary key,"
+			+ "	fuelFormulationID int(11) not null primary key,"
 			+ "	fuelSubtypeID smallint not null,"
 			+ "	fuelTypeID smallint not null,"
 			+ "	kGasoline float,"

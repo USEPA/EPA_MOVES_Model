@@ -113,6 +113,9 @@ public class TableFileLinkagePart extends JPanel implements IImporterPart, Actio
 	/** Text to be used for noDataNeededCheckBox **/
 	String noDataNeededText = "Data is not needed";
 
+    /** Save a pointer to the parent if automatic detection fails (e.g., importing a file not via standard importer GUI) **/
+    JFrame myParent;
+
 	/**
 	 * Constructor
 	 * @param importerToUse IImporter for this object
@@ -177,6 +180,13 @@ public class TableFileLinkagePart extends JPanel implements IImporterPart, Actio
 	**/
 	public JPanel getPanel() {
 		return this;
+	}
+
+	/**
+	 * Set the parent manually
+	**/
+	public void setParent(JFrame parent) {
+		myParent = parent;
 	}
 
 	/**
@@ -397,7 +407,7 @@ public class TableFileLinkagePart extends JPanel implements IImporterPart, Actio
 	}
 
 	/** Handle the Browse button action **/
-	void handleBrowseButton() {
+	public void handleBrowseButton() {
 		boolean keepOriginal = true;
 		String originalFileName = fileName;
 		String originalFileType = fileType;
@@ -405,6 +415,9 @@ public class TableFileLinkagePart extends JPanel implements IImporterPart, Actio
 
 		try {
 			Component parent = getParent();
+            if (parent == null && myParent != null) {
+                parent = myParent;
+            }
 			while(parent != null && !(parent instanceof JFrame)) {
 				parent = parent.getParent();
 			}
@@ -501,8 +514,12 @@ public class TableFileLinkagePart extends JPanel implements IImporterPart, Actio
 							// strategy.dataSourceWorksheetName.  If the user cancels the worksheet
 							// selection, stop the import operation
 							WorksheetChooserDialog dlg = new WorksheetChooserDialog((JFrame)parent,worksheets);
-							// simple offset from main window origin
-							dlg.setLocation(getLocationOnScreen().x + 50, getLocationOnScreen().y + 50);
+							// simple offset from main window origin. This fails if the importer manager is not showing.
+                            try {
+                                dlg.setLocation(getLocationOnScreen().x + 50, getLocationOnScreen().y + 50);
+                            } catch (java.awt.IllegalComponentStateException e) {
+                                dlg.setLocationRelativeTo(parent);
+                            } 
 							dlg.showModal();
 							if(dlg.selectedWorksheetName != null
 									&& dlg.selectedWorksheetName.length() > 0) {
@@ -534,8 +551,11 @@ public class TableFileLinkagePart extends JPanel implements IImporterPart, Actio
 	}
 
 	/** Handle the Create Template button action **/
-	void handleCreateTemplateButton() {
+	public void handleCreateTemplateButton() {
 		Component parent = getParent();
+        if (parent == null && myParent != null) {
+            parent = myParent;
+        }
 		while(parent != null && !(parent instanceof Frame)) {
 			parent = parent.getParent();
 		}
@@ -892,15 +912,21 @@ public class TableFileLinkagePart extends JPanel implements IImporterPart, Actio
 	
 	/** Sets the wait cursor (don't have access to MOVESWindow, so it needs to be redefined here) **/
 	public void setWaitCursor() {
-		RootPaneContainer root = (RootPaneContainer) this.getRootPane().getTopLevelAncestor();
-		root.getGlassPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		root.getGlassPane().setVisible(true);
+        JRootPane rootPane = this.getRootPane();
+        if(rootPane != null) {
+            RootPaneContainer root = (RootPaneContainer) rootPane.getTopLevelAncestor();
+            root.getGlassPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            root.getGlassPane().setVisible(true);
+        }
 	}
 	
 	/** Sets the default cursor (don't have access to MOVESWindow, so it needs to be redefined here) **/
 	public void setDefaultCursor() {
-		RootPaneContainer root = (RootPaneContainer) this.getRootPane().getTopLevelAncestor();
-		root.getGlassPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-		root.getGlassPane().setVisible(true);
+        JRootPane rootPane = this.getRootPane();
+        if(rootPane != null) {
+            RootPaneContainer root = (RootPaneContainer) rootPane.getTopLevelAncestor();
+            root.getGlassPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+            root.getGlassPane().setVisible(true);
+        }
 	}
 }

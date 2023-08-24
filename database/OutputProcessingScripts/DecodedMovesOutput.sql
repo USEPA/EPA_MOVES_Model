@@ -1,20 +1,9 @@
--- MOVES Post-Processing MySQL Script
--- Decodes most key fields of MOVESOutput and MOVESActivityOutput Tables
--- Creating tables DecodedMOVESOutput and DecodedMOVESActivityOutput
---   that contain the additional descriptive character fields.
--- This version written 9/22/2005
--- This version rewritten 2/12/2015 to include additional fields.
--- Updated 5/20/2015 to restore output for activity.
--- Updated 9/10/2015 to add fuelsubtype.
-
---
---
--- uses text replacement of MOVES where ##defaultdb## is replaced with the Current Default Database,
--- to serve as a source of the relevant category tables listing legal values.  updated 6/20/2014
-
---
---
--- decodeMOVESoutput.sql
+-- Decoded MOVES Output Post-Processing Script
+-- 
+-- Decodes the key fields of MOVESOutput and MOVESActivityOutput tables
+-- and creates tables decodedMOVESOutput and decodedMOVESActivityOutput
+-- that contain the additional descriptive character fields. These
+-- tables get saved to the same output database.
 
 FLUSH TABLES;
 SELECT CURRENT_TIME;
@@ -25,86 +14,73 @@ SELECT CURRENT_TIME;
 
 drop table if exists       decodedmovesactivityoutput;
 CREATE TABLE IF NOT EXISTS decodedMOVESActivityOutput
-select MovesRunId,
-       iterationId,
-       yearId,
-       monthId,
-       dayId,
-       cast(' ' as char( 10)) as dayName,
-       hourId,
-       stateId,
+select MovesRunID,
+       iterationID,
+       yearID,
+       monthID,
+       dayID,
+       cast(' ' as varchar( 10)) as dayName,
+       hourID,
+       stateID,
        cast(' ' as char(  2)) as stateAbbr,
-       countyId,
-       cast(' ' as char( 45)) as countyName,
-       zoneId,
-       linkId,
-       sourceTypeId,
-       cast(' ' as char( 30)) as sourceTypeName,
-       regClassId,
-       cast(' ' as char(100)) as regClassName,
-       fuelTypeId,
-       cast(' ' as char( 30)) as fuelTypeDesc,
-       modelYearId,
-       roadTypeId,
-       cast(' ' as char( 25)) as roadDesc,
+       countyID,
+       cast(' ' as varchar( 45)) as countyName,
+       zoneID,
+       linkID,
+       sourceTypeID,
+       cast(' ' as varchar( 30)) as sourceTypeName,
+       regClassID,
+       cast(' ' as varchar(100)) as regClassName,
+       fuelTypeID,
+       cast(' ' as varchar( 30)) as fuelTypeName,
+       modelYearID,
+       roadTypeID,
+       cast(' ' as varchar( 25)) as roadTypeName,
        SCC,
-       engTechId,
-       cast(' ' as char( 50)) as engTechName,
-       sectorId,
-       cast(' ' as char( 40)) as sectorDesc,
-       hpId,
-       activityTypeId,
-       cast(' ' as char( 50)) as activityTypeDesc,
-       activity,
-       activityMean,
-       activitySigma
+       activityTypeID,
+       cast(' ' as varchar( 50)) as activityTypeDesc,
+       activity
 from   movesActivityOutput;
+create index dayindex on decodedMOVESActivityOutput (dayID);
+create index stateindex on decodedMOVESActivityOutput (stateID);
+create index countyindex on decodedMOVESActivityOutput (countyID);
+create index sourcetypeindex on decodedMOVESActivityOutput (sourceTypeID);
+create index regclassindex on decodedMOVESActivityOutput (regClassID);
+create index fueltypeindex on decodedMOVESActivityOutput (fuelTypeID);
+create index roadtypeindex on decodedMOVESActivityOutput (roadTypeID);
+create index activityindex on decodedMOVESActivityOutput (activityTypeID);
 
-update DecodedMOVESActivityOutput as a set dayName        = (select b.dayName
-                                                             from   ##defaultdb##.dayOfAnyWeek as b
-                                                             where  a.dayId = b.dayId);
+update decodedmovesactivityoutput a, translate_day b
+SET a.dayName = b.dayName
+WHERE a.dayID = b.dayID;
+                                                             
+update decodedmovesactivityoutput a, translate_state b
+SET a.stateAbbr = b.stateAbbr
+WHERE a.stateID = b.stateID;
+  
+update decodedmovesactivityoutput a, translate_county b
+SET a.countyName = b.countyName
+WHERE a.countyID = b.countyID;
 
-update DecodedMOVESActivityOutput as a set stateABBR      = (select b.stateAbbr
-                                                             from   ##defaultdb##.state as b
-                                                             where  a.stateId = b.stateId);
-
-update DecodedMOVESActivityOutput as a set countyName     = (select b.countyName
-                                                             from   ##defaultdb##.county as b
-                                                             where  a.countyId = b.countyId);
-
-update DecodedMOVESActivityOutput as a set sourceTypeName = (select b.sourceTypeName
-                                                             from   ##defaultdb##.sourceUseType as b
-                                                             where  a.sourceTypeId = b.sourceTypeId);
-
-update DecodedMOVESActivityOutput as a set regClassName   = (select b.regClassName
-                                                              from  ##defaultdb##.regulatoryClass as b
-                                                              where a.regClassId = b.regClassId);
-
-update DecodedMOVESActivityOutput as a set fuelTypeDesc   = (select b.fuelTypeDesc
-                                                             from   ##defaultdb##.fuelType as b
-                                                             where  a.fuelTypeId = b.fuelTypeId);
-
-
-update DecodedMOVESActivityOutput as a set roadDesc       = (select b.roadDesc
-                                                             from   ##defaultdb##.roadType as b
-                                                             where  a.roadTypeId = b.roadTypeId);
-
-update DecodedMOVESActivityOutput as a set engTechName    = (select b.engTechName
-                                                             from   ##defaultdb##.engineTech as b
-                                                             where  a.engTechId = b.engTechId);
-
-update DecodedMOVESActivityOutput as a set sectorDesc     = (select b.description
-                                                             from   ##defaultdb##.sector as b
-                                                             where  a.sectorId = b.sectorId);
-
-update DecodedMOVESActivityOutput as a set activityTypeDesc
-                                                          = (select b.activityTypeDesc
-                                                             from   .activityType as b
-                                                             where  a.activityTypeId = b.activityTypeId);
-
--- select * from DecodedMOVESActivityOutput;
-
-
+update decodedmovesactivityoutput a, translate_sourcetype b
+SET a.sourceTypeName = b.sourceTypeName
+WHERE a.sourceTypeID = b.sourceTypeID;
+  
+update decodedmovesactivityoutput a, translate_regclass b
+SET a.regClassName = b.regClassName
+WHERE a.regClassID = b.regClassID;
+  
+update decodedmovesactivityoutput a, translate_fueltype b
+SET a.fuelTypeName = b.fuelTypeName
+WHERE a.fuelTypeID = b.fuelTypeID;
+  
+update decodedmovesactivityoutput a, translate_roadtype b
+SET a.roadTypeName = b.roadTypeName
+WHERE a.roadTypeID = b.roadTypeID;
+  
+update decodedmovesactivityoutput a, translate_activitytype b
+SET a.activityTypeDesc = b.activityTypeDesc
+WHERE a.activityTypeID = b.activityTypeID;
 
 --
 -- Make DecodedMOVESOutput table
@@ -117,90 +93,74 @@ select MOVESRunID,
 	     yearID,
 	     monthID,
 	     dayID,
-       cast(' ' as char(10))  as dayName,
+       cast(' ' as varchar(10))  as dayName,
 	     hourID,
 	     stateID,
        cast(' ' as char(  2)) as stateABBR,
 	     countyID,
-       cast(' ' as char( 45)) as countyName,
+       cast(' ' as varchar( 45)) as countyName,
 	     zoneID,
 	     linkID,
 	     pollutantID,
-       cast(' ' as char( 50)) as pollutantName,
+       cast(' ' as varchar( 50)) as pollutantName,
 	     processID,
-       cast(' ' as char( 50)) as processName,
+       cast(' ' as varchar( 50)) as processName,
 	     sourceTypeID,
-       cast(' ' as char( 30)) as sourceTypeName,
-       regClassId,
-       cast(' ' as char(100)) as regClassName,
+       cast(' ' as varchar( 30)) as sourceTypeName,
+       regClassID,
+       cast(' ' as varchar(100)) as regClassName,
 	     fuelTypeID,
-       cast(' ' as char( 30)) as fuelTypeDesc,
-       fuelSubTypeId,
-       cast(' ' as char(50))  as fuelSubTypeDesc,
+       cast(' ' as varchar( 30)) as fuelTypeName,
 	     modelYearID,
 	     roadTypeID,
-       cast(' ' as char( 25)) as roadDesc,
+       cast(' ' as varchar( 25)) as roadTypeName,
 	     SCC,
-       engTechId,
-       cast(' ' as char( 50)) as engTechName,
-       sectorId,
-       cast(' ' as char( 40)) as sectorDesc,
-       hpId,
-	     emissionQuant,
-	     emissionQuantMean,
-	     emissionQuantSigma
+	     emissionQuant
 from   movesOutput;
+create index dayindex on decodedMOVESOutput (dayID);
+create index stateindex on decodedMOVESOutput (stateID);
+create index countyindex on decodedMOVESOutput (countyID);
+create index pollutantindex on decodedMOVESOutput (pollutantID);
+create index processindex on decodedMOVESOutput (processID);
+create index sourcetypeindex on decodedMOVESOutput (sourceTypeID);
+create index regclassindex on decodedMOVESOutput (regClassID);
+create index fueltypeindex on decodedMOVESOutput (fuelTypeID);
+create index roadtypeindex on decodedMOVESOutput (roadTypeID);
 
-update DecodedMOVESOutput as a set dayName        = (select b.dayName
-                                                     from   ##defaultdb##.dayOfAnyWeek as b
-                                                     where  a.dayId = b.dayId);
+update decodedMOVESOutput a, translate_day b
+SET a.dayName = b.dayName
+WHERE a.dayID = b.dayID;
+                                                             
+update decodedMOVESOutput a, translate_state b
+SET a.stateAbbr = b.stateAbbr
+WHERE a.stateID = b.stateID;
+  
+update decodedMOVESOutput a, translate_county b
+SET a.countyName = b.countyName
+WHERE a.countyID = b.countyID;
 
-update DecodedMOVESOutput as a set stateABBR      = (select b.stateAbbr
-                                                     from   ##defaultdb##.state as b
-                                                             where  a.stateId = b.stateId);
+update decodedMOVESOutput a, translate_pollutant b
+SET a.pollutantName = b.pollutantName
+WHERE a.pollutantID = b.pollutantID;
 
-update DecodedMOVESOutput as a set countyName     = (select b.countyName
-                                                     from   ##defaultdb##.county as b
-                                                     where  a.countyId = b.countyId);
+update decodedMOVESOutput a, translate_process b
+SET a.processName = b.processName
+WHERE a.processID = b.processID;
 
-update DecodedMOVESOutput as a set pollutantName  = (select b.pollutantName
-                                                     from   ##defaultdb##.pollutant as b
-                                                     where  a.pollutantId = b.pollutantId);
-
-update DecodedMOVESOutput as a set processName    = (select b.processName
-                                                     from   ##defaultdb##.emissionProcess as b
-                                                     where  a.processId = b.processId);
-
-update DecodedMOVESOutput as a set sourceTypeName = (select b.sourceTypeName
-                                                     from   ##defaultdb##.sourceUseType as b
-                                                     where  a.sourceTypeId = b.sourceTypeId);
-
-update DecodedMOVESOutput as a set regClassName   = (select b.regClassName
-                                                     from  ##defaultdb##.regulatoryClass as b
-                                                     where a.regClassId = b.regClassId);
-
-update DecodedMOVESOutput as a set fuelTypeDesc   = (select b.fuelTypeDesc
-                                                     from   ##defaultdb##.fuelType as b
-                                                     where  a.fuelTypeId = b.fuelTypeId);
-
-update DecodedMOVESOutput as a set fuelSubtypeDesc =(select b.fuelSubTypeDesc
-                                                     from   ##defaultdb##.fuelsubtype as b
-                                                     where  a.fuelSubtypeId = b.fuelSubTypeId);
-
-update DecodedMOVESOutput as a set roadDesc       = (select b.roadDesc
-                                                     from   ##defaultdb##.roadType as b
-                                                     where  a.roadTypeId = b.roadTypeId);
-
-update DecodedMOVESOutput as a set engTechName    = (select b.engTechName
-                                                     from   ##defaultdb##.engineTech as b
-                                                     where  a.engTechId = b.engTechId);
-
-update DecodedMOVESOutput as a set sectorDesc     = (select b.description
-                                                     from   ##defaultdb##.sector as b
-                                                     where  a.sectorId = b.sectorId);
-
-
-
--- select * from DecodedMOVESOutput;
+update decodedMOVESOutput a, translate_sourcetype b
+SET a.sourceTypeName = b.sourceTypeName
+WHERE a.sourceTypeID = b.sourceTypeID;
+  
+update decodedMOVESOutput a, translate_regclass b
+SET a.regClassName = b.regClassName
+WHERE a.regClassID = b.regClassID;
+  
+update decodedMOVESOutput a, translate_fueltype b
+SET a.fuelTypeName = b.fuelTypeName
+WHERE a.fuelTypeID = b.fuelTypeID;
+  
+update decodedMOVESOutput a, translate_roadtype b
+SET a.roadTypeName = b.roadTypeName
+WHERE a.roadTypeID = b.roadTypeID;
 
 FLUSH TABLES;

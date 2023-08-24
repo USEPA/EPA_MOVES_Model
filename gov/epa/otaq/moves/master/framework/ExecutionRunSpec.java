@@ -700,15 +700,6 @@ public class ExecutionRunSpec {
 						targetPollutants.add(nonhapTOG);
 					}
 				}
-				// Add lumped species
-				ArrayList<PollutantProcessAssociation> lumpedSpecies = TOGSpeciationCalculator.getMechanismLumpedSpecies(db,ppa);
-				for(PollutantProcessAssociation r : lumpedSpecies) {
-					if(!ExecutionRunSpec.theExecutionRunSpec.doesHavePollutantAndProcess(r.pollutant,r.emissionProcess)) {
-						targetPollutantProcesses.add(Integer.valueOf(r.getDatabaseKey()));
-						pollutantProcessAssociations.add(r);
-						targetPollutants.add(r.pollutant);
-					}
-				}
 			}
 		} catch(Exception e) {
 			Logger.logError(e,"Unable to add lumped species to the internal set of pollutants");

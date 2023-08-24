@@ -13,11 +13,12 @@ create table if not exists crankcaseSplit (
 	processID smallint not null,
 	pollutantID smallint not null,
 	sourceTypeID smallint not null,
+	regClassID smallint not null,
 	fuelTypeID smallint not null,
 	minModelYearID smallint not null,
 	maxModelYearID smallint not null,
 	crankcaseRatio double not null,
-	primary key (pollutantID, sourceTypeID, fuelTypeID, minModelYearID, maxModelYearID, processID)
+	primary key (pollutantID, sourceTypeID, regClassID, fuelTypeID, minModelYearID, maxModelYearID, processID)
 );
 truncate table crankcaseSplit;
 
@@ -49,22 +50,6 @@ create table if not exists oneCountyYearSulfateFractions (
 	primary key (processID, fuelTypeID, sourceTypeID, monthID, modelYearID)
 );
 truncate table oneCountyYearSulfateFractions;
-
-drop table if exists oneZoneYearTemperatureFactor;
-create table if not exists oneZoneYearTemperatureFactor (
-	zoneID int not null,
-	monthID smallint not null,
-	hourID smallint not null,
-	processID smallint not null,
-	pollutantID smallint not null,
-	fuelTypeID smallint not null,
-	sourceTypeID smallint not null,
-	minModelYearID smallint not null,
-	maxModelYearID smallint not null,
-	correctionFactor double not null,
-	primary key (zoneID, monthID, hourID, processID, pollutantID, fuelTypeID, sourceTypeID, minModelYearID, maxModelYearID)
-);
-truncate table oneZoneYearTemperatureFactor;
 
 ##create.PMSpeciation##;
 TRUNCATE TABLE PMSpeciation;
@@ -145,21 +130,9 @@ from PMSpeciation
 where processID in (##primaryAndCrankcaseProcessIDs##)
 and (outputPollutantID*100+processID) in (##polProcessIDs##);
 
--- @algorithm Create temperature effects for Sulfate (115), H2O (aersol) (119), and NonECNonSO4PM (120).
-cache select zoneID, monthID, hourID, processID, pollutantID, fuelTypeID, sourceTypeID, minModelYearID, maxModelYearID,
-	##context.temperatureFactorExpression##
-	as correctionFactor
-	INTO OUTFILE '##oneZoneYearTemperatureFactor##'
-from zoneMonthHour zmh, temperatureFactorExpression tfe
-where zmh.zoneID = ##context.iterLocation.zoneRecordID##
-and tfe.minModelYearID <= ##context.year##
-and tfe.maxModelYearID >= ##context.year## - 30
-and tfe.processID = ##context.iterProcess.databaseKey##
-and tfe.pollutantID in (115, 119, 120);
-
 -- @algorithm Create crankcase split fractions for EC (112), Sulfate (115), H2O (aersol) (119), and NonECNonSO4PM (120).
 -- The query must account for the lack of NonECNonSO4PM in the Pollutant table.
-cache select processID, floor(r.polProcessID/100) as pollutantID, sourceTypeID, fuelTypeID,
+cache select processID, floor(r.polProcessID/100) as pollutantID, sourceTypeID, regClassID, fuelTypeID,
 	minModelYearID, maxModelYearID, crankcaseRatio
 	INTO OUTFILE '##crankcaseSplit##'
 from crankcaseEmissionRatio r, emissionProcess ep
@@ -270,20 +243,6 @@ and sPMOneCountyYearGeneralFuelRatio.processID = spmOutput.processID
 and sPMOneCountyYearGeneralFuelRatio.modelYearID = spmOutput.modelYearID
 and sPMOneCountyYearGeneralFuelRatio.yearID = spmOutput.yearID;
 
--- @algorithm Apply temperature effects to Sulfate, H2O (aersol), and NonECNonSO4PM.
-update spmOutput, oneZoneYearTemperatureFactor set 
-	emissionQuant=emissionQuant*correctionFactor,
-	emissionRate =emissionRate *correctionFactor
-where spmOutput.zoneID = oneZoneYearTemperatureFactor.zoneID
-and spmOutput.monthID = oneZoneYearTemperatureFactor.monthID
-and spmOutput.hourID = oneZoneYearTemperatureFactor.hourID
-and spmOutput.processID = oneZoneYearTemperatureFactor.processID
-and spmOutput.pollutantID = oneZoneYearTemperatureFactor.pollutantID
-and spmOutput.fuelTypeID = oneZoneYearTemperatureFactor.fuelTypeID
-and spmOutput.sourceTypeID = oneZoneYearTemperatureFactor.sourceTypeID
-and spmOutput.modelYearID >= oneZoneYearTemperatureFactor.minModelYearID
-and spmOutput.modelYearID <= oneZoneYearTemperatureFactor.maxModelYearID;
-
 -- @algorithm
 drop table if exists spmOutput2;
 create table spmOutput2 like spmOutput;
@@ -313,6 +272,7 @@ inner join crankcaseSplit s on (
 	s.pollutantID = mwo.pollutantID
 	and s.fuelTypeID = mwo.fuelTypeID
 	and s.sourceTypeID = mwo.sourceTypeID
+	and s.regClassID = mwo.regClassID
 	and s.minModelYearID <= mwo.modelYearID
 	and s.maxModelYearID >= mwo.modelYearID);
 

@@ -26,6 +26,9 @@ import gov.epa.otaq.moves.master.nonroad.NonroadEmissionCalculator;
 public class PollutantProcessLoader {
 	/** Flags that the pollutant processes have been loaded from the database. **/
 	static boolean isLoaded = false;
+	
+	/** A comma-separate string list of processIDs to hide in the GUI **/
+	static String hiddenProcesses = "99,93";
 
 	/** 
 	 * Returns whether the pollutant processes have been loaded. 
@@ -51,6 +54,7 @@ public class PollutantProcessLoader {
 		sb.append(" when 90 then " + x++);
 		sb.append(" when 17 then " + x++);
 		sb.append(" when 91 then " + x++);
+		sb.append(" when 93 then " + x++);
 		sb.append(" when 11 then " + x++);
 		sb.append(" when 12 then " + x++);
 		sb.append(" when 13 then " + x++);
@@ -95,7 +99,7 @@ public class PollutantProcessLoader {
 			}
 		}
 
-		String sql = "SELECT processID,processName,occursOnRealRoads,isAffectedByOnroad,isAffectedByNonroad FROM emissionprocess where processId not in (99) " + addEmissionProcessOrderBy();
+		String sql = "SELECT processID,processName,occursOnRealRoads,isAffectedByOnroad,isAffectedByNonroad FROM emissionprocess where processId not in (" + hiddenProcesses + ") " + addEmissionProcessOrderBy();
 		try {
 			db = DatabaseConnectionManager.checkOutConnection(MOVESDatabaseType.DEFAULT);
 
@@ -146,7 +150,7 @@ public class PollutantProcessLoader {
 		
 			// "Load" the pollutants required if this one is run.
 			sql = "SELECT processID,pollutantID,polProcessID,chainedto1,chainedto2,nrChainedTo1,nrChainedTo2"
-					+ " FROM pollutantprocessassoc";
+					+ " FROM pollutantprocessassoc WHERE processID not in (" + hiddenProcesses + ")";
 			statement = db.prepareStatement(sql);
 			results = SQLRunner.executeQuery(statement,sql);
 			if(results != null) {

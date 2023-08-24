@@ -1,14 +1,14 @@
 # MOVES Database Glossary
 
-Below is a list of the column names used in the MOVES default database followed by brief definitions. Also see the [MOVES Database Tables](MOVESDatabaseTables.md) document for schema descriptions for each table in the MOVES default database.
+Below is a list of the column names used in the MOVES default database followed by brief definitions. Also see the [MOVES Database Tables](MOVESDatabaseTables.md) document for schema descriptions for each table in the MOVES default database
 
-**ageCategory**    A source age classification.
+**ageCategory**    A source age classification
 
 **ageGroup**    A group of vehicle ages grouped together for the purposes of modeling their emission rates as a unit
 
-**ageGroupID**    an integer indicator of an age group. Typically, the ageGroupID is the concatenation of the beginning and ending ages of the group. For example, ageGroupID 607 includes ages 6 and 7.
+**ageGroupID**    an integer indicator of an age group. Typically, the ageGroupID is the concatenation of the beginning and ending ages of the group. For example, ageGroupID 607 includes ages 6 and 7
 
-**ageID**    a single integer value indicating the age of a vehicle, defined as the current calendar year minus the model year. In MOVES, ages from 0 to 30 are used.
+**ageID**    a single integer value indicating the age of a vehicle, defined as the current calendar year minus the model year. In MOVES, ages from 0 to 30 are used
 
 **altitude**    either "H" or "L" for high altitude or low altitude
 
@@ -22,7 +22,7 @@ Below is a list of the column names used in the MOVES default database followed 
 
 **avgSpeedBinID**    an integer ID for an average speed bin
 
-**beginModelYearID**    always paired with endModelYearID. Together, they define a model year grouping for calculation purposes. They are inclusive.
+**beginModelYearID**    always paired with endModelYearID. Together, they define a model year grouping for calculation purposes. They are inclusive
 
 **cmpID**    an integer ID given to a particular component of the Complex Model
 
@@ -32,17 +32,17 @@ Below is a list of the column names used in the MOVES default database followed 
 
 **countyYear**    One year in one county
 
-**dataSourceID**    an ID indicating the data source for the values in a given table. These IDs are matched to rows in the table.
+**dataSourceID**    an ID indicating the data source for the values in a given table. These IDs are matched to rows in the table
 
 **dayID**    an ID indicating type of day. It is either 5 (weekday) or 2 (weekend)
 
-**defaultFormulationID**    see fuelFormulationID. The default fuel formulation used by MOVES. 
+**defaultFormulationID**    see fuelFormulationID. The default fuel formulation used by MOVES.
 
-**driveSchedule**    Also often referred to as a drive cycle. A speed vs time function indicating second-by-second vehicle speed vs time.
+**driveSchedule**    Also often referred to as a drive cycle. A speed vs time function indicating second-by-second vehicle speed vs time
 
 **driveScheduleID**    An ID integer used to refer to a specific pre-defined drive cycle used in MOVES
 
-**emissionProcess**    A unique emission pathway. Some examples are: Running Exhaust, Start Exhaust, Extended Idle, Crankcase, Evaporative Vapor Venting, Brake Wear, Tire Wear. The set of processes in the model is defined by this table.
+**emissionProcess**    A unique emission pathway. Some examples are: Running Exhaust, Start Exhaust, Extended Idle, Crankcase, Evaporative Vapor Venting, Brake Wear, Tire Wear. The set of processes in the model is defined by this table
 
 **endModelYearID**    Always paired with beginModelYearID. Together, they define a model year grouping for calculation purposes. They are inclusive.
 
@@ -57,6 +57,7 @@ Below is a list of the column names used in the MOVES default database followed 
 **ethanolLevelID**    an integer ID associated with an ethanol level or category of levels
 
 **etohThreshID**    an integer ID associated with an ethanol threshold or category of thresholds, which can be mapped to thresholds with the etohbin table
+
 **etohThreshID**    ID associated with an ethanol threshold or category of thresholds, which can be mapped to thresholds with the etohbin table
 
 **fractionLifeused**    the fraction of a vehicle useful life that has passed. It can be greater than 1
@@ -83,7 +84,7 @@ Below is a list of the column names used in the MOVES default database followed 
 
 **fuelSupplyFuelTypeID**    an integer fuel type ID associated with a particular fuel supply, as distinguished from sourceBinFuelTypeID in FuelUsageFraction table
 
-**fuelSupplyYear**    A year for which fuel supply data has been entered in the fuelSupply table. May be used for multiple calendar years.
+**fuelSupplyYear**    A year for which fuel supply data has been entered in the fuelSupply table. May be used for multiple calendar years
 
 **fuelType**    A general type of fuel. Since fuelType is used as a source bin discriminator, distinctions must be avoided which would cause the source bin distributions to vary by time or location or which would cause different activity patterns. Therefore this will be a rather gross-level categorization based on what sourceTypes are made to consume, e.g., Gasoline, Diesel Fuel, LPG, Hydrogen, and Electricity. For E-85/gasoline flexible-fueled vehicles (FFVs), the input fueltype refers to the E-85 fuel the vehicle is capable of using, while the output fueltype refers to the fuel actually used. (See **usageFraction**)
 
@@ -91,11 +92,11 @@ Below is a list of the column names used in the MOVES default database followed 
 
 **fuelYearID**    an ID mapping from calendar years with unique fuels to all calendar years
 
-**grid**    A user-defined portion of a zone. Intended to represent a grid cell. Not used .
+**grid**    A user-defined portion of a zone. Intended to represent a grid cell. Not used 
 
-**gridID**    integer ID referring to a specific grid cell. Not used.
+**gridID**    integer ID referring to a specific grid cell. Not used
 
-**gridZoneAssoc**    The association of one grid with one zone. Not used.
+**gridZoneAssoc**    The association of one grid with one zone. Not used
 
 **growthPatternID**    an integer ID referring to a specific growth pattern, which can be mapped in nrgrowthpattern
 
@@ -111,7 +112,7 @@ Below is a list of the column names used in the MOVES default database followed 
 
 **idleRegionID**    an integer ID used to refer to one of 5 idle regions, used for the purposes of calculating off-network idle (ONI). Each ID can be mapped to a specific region using the idleregion table
 
-**imCoverage**    This table contains the information about the existence and effectiveness of vehicle I/M programs at specific times and places.
+**imCoverage**    This table contains the information about the existence and effectiveness of vehicle I/M programs at specific times and places
 
 **imModelYearGroup**    a group of model years which are grouped for the purposes of categorization in regards to IM programs
 
@@ -119,9 +120,9 @@ Below is a list of the column names used in the MOVES default database followed 
 
 **imProgramID**    an integer ID referring to a specific IM program
 
-**inspectFreq**    frequency of inspections for an I/M program. Can be annual, biennial, or continous/monthly.
+**inspectFreq**    frequency of inspections for an I/M program. Can be annual, biennial, or continuous/monthly.
 
-**integratedspeciesset**    real chemical molecules for which MOVES produces emissions and are individually speciated into chemical mechanism species. 
+**integratedspeciesset**    real chemical molecules for which MOVES produces emissions and are individually speciated into chemical mechanism species
 
 **integratedSpeciesSetID**   an ID referring to a specific set of integrated species, which can be mapped using the integratedspeciesset table
 
@@ -135,7 +136,7 @@ Below is a list of the column names used in the MOVES default database followed 
 
 **iterationID**    an user-specified ID field used to identify MOVES outputs separate from the movesRunID
 
-**Link**    At the project scale, Links are user-defined roadway segments. They are also used to represent off-network activity.
+**Link**    At the project scale, Links are user-defined roadway segments. They are also used to represent off-network activity
 
 **linkID**    an integer ID referring to a specific link
 
@@ -143,7 +144,7 @@ Below is a list of the column names used in the MOVES default database followed 
 
 **lumpedSpeciesName**    a name for a lumped species, used in chemical mechanism speciation
 
-**m6EmitterID**    an integer ID corresponding to an emitter level used in the M6 Sulfur Model.  1 corresponds to a normal emitter, while 2 corresponds to a high emitter.
+**m6EmitterID**    an integer ID corresponding to an emitter level used in the M6 Sulfur Model.  1 corresponds to a normal emitter, while 2 corresponds to a high emitter
 
 **maxAgeID**    paired with a minAgeID. Together, they define a range of ages which are grouped together. They are inclusive
 
@@ -163,7 +164,7 @@ Below is a list of the column names used in the MOVES default database followed 
 
 **minModelYearID**    synonym of beginModelYearID
 
-**modelYearGroup**    A group of model years, which may be specific to particular pollutant-processes. The idea is that different vintages of Source Types have emissions rate differences which are not fully captured by other source bin discriminators.
+**modelYearGroup**    A group of model years, which may be specific to particular pollutant-processes. The idea is that different vintages of Source Types have emissions rate differences which are not fully captured by other source bin discriminators
 
 **modelYearGroupID**    an integer ID referring to a group of model years, which can be mapped using the modelyeargroup table
 
@@ -173,21 +174,21 @@ Below is a list of the column names used in the MOVES default database followed 
 
 **monthID**    an integer ID for each month, corresponding to their position in the year (for example, January is 1 and October is 10)
 
-**movesRunID**    an integer ID used by MOVES to refer to specific runs in the output database. MOVES increments this automatically and it should not be set by users.
+**movesRunID**    an integer ID used by MOVES to refer to specific runs in the output database. MOVES increments this automatically and it should not be set by users
 
-**nrAgeCategory**    nonroad equivalent ageCategory
+**nrAgeCategory**    nonroad equivalent of ageCategory
 
-**nratratio**    see atRatio
+**nratratio**    nonroad equivalent of atRatio
 
-**nrEquipmentType**    A specific type of nonroad equipment, such as "snowmobile" or "forklift".
+**nrEquipmentType**    A specific type of nonroad equipment, such as "snowmobile" or "forklift"
 
-**nrEquipTypeID**    an ID number for a specific nonroad equipment type. 
+**nrEquipTypeID**    an ID number for a specific nonroad equipment type
 
-**nrFuelSubtype**    A synonym for fuelSubType, used only for the nonroad model
+**nrFuelSubtype**    nonroad equivalent of fuelSubType
 
-**nrFuelSupply**    synonym of fuel supply, used only for the nonroad model
+**nrFuelSupply**    nonroad equivalent of fuelSupply
 
-**nrFuelType**    synonym of fueltype, used only for the nonroad model
+**nrFuelType**    nonroad equivalent of fuelType
 
 **nrGrowthPatternFinder**    Associates an appropriate growthPattern with each nonroad SCC and state.
 
@@ -197,13 +198,13 @@ Below is a list of the column names used in the MOVES default database followed 
 
 **nrPollutantProcessModelYear**    the nonroad equivalent to pollutantProcessModelYear
 
-**nrScrappageCurve**    A set of fraction of median life used values with corresponding percent scrapped values for nonroad equipment. Only needed for equipment types that do not use defaultScrappage.
+**nrScrappageCurve**    A set of fraction of median life used values with corresponding percent scrapped values for nonroad equipment. Only needed for equipment types that do not use defaultScrappage
 
-**nrSourceUseType**    Nonroad equipment descriptor including SCC (fuel type, equipment type) and Hp bin.
+**nrSourceUseType**    Nonroad equipment descriptor including SCC (fuel type, equipment type) and Hp bin
 
-**operatingMode**    A category of Total Activity (for one or more pollutants and emission processes) having distinct emission rates.
+**operatingMode**    A category of Total Activity (for one or more pollutants and emission processes) having distinct emission rates
 
-**opModeDistribution**    A distribution of Total Activity of a sourceUseType into operatingModes (for a particular pollutant and process).  Operating Modes Distributions are also allowed to vary by pollutant, e.g. exhaust running CO2 may necessitate fewer VHO categories than exhaust running NOx. These distributions may depend on time (Day Group and Hour Group) and location (Link). 
+**opModeDistribution**    A distribution of Total Activity of a sourceUseType into operatingModes (for a particular pollutant and process).  Operating Modes Distributions are also allowed to vary by pollutant, e.g. exhaust running CO2 may necessitate fewer VHO categories than exhaust running NOx. These distributions may depend on time (Day Group and Hour Group) and location (Link) 
 
 **opModeID**    an ID integer referring to a specific operating mode, defined in the operatingMode table
 
@@ -239,7 +240,7 @@ Below is a list of the column names used in the MOVES default database followed 
 
 **soakDayID**    an integer corresponding to the number of days a vehicle has been soaking
 
-**sourceBin**    sourceBin is an abstraction used to differentiate emission levels within source use types by discriminating characteristics such as weight class, fuel type, emission standard, etc. The categories are independent of the source use types to which they may apply (so a single source bin can represent parts of multiple source use types). 
+**sourceBin**    sourceBin is an abstraction used to differentiate emission levels within source use types by discriminating characteristics such as weight class, fuel type, emission standard, etc. The categories are independent of the source use types to which they may apply (so a single source bin can represent parts of multiple source use types)
 
 **sourceBinDistribution**    The distribution of the total activity within a source use type to source bins used to calculate emissions
 
@@ -259,7 +260,7 @@ Below is a list of the column names used in the MOVES default database followed 
 
 **sourceTypePolProcessID**    a concatenation of a sourceTypeID, pollutantID, and processID
 
-**sourceUseType**    a specific class of on-road vehicles or off-road equipment having distinct activity patterns. The on-road vehicle SourceUseTypes used in MOVES are elaborated from six HPMS vehicle classes. SourceUseTypes may be referred to more briefly as either SourceTypes or (rarely) UseTypes.
+**sourceUseType**    a specific class of on-road vehicles or off-road equipment having distinct activity patterns. The on-road vehicle SourceUseTypes used in MOVES are elaborated from six HPMS vehicle classes. SourceUseTypes may be referred to more briefly as either SourceTypes or (rarely) UseTypes
 
 **stateID**    an integer ID referring to a specific state, based on its FIPS code
 
@@ -291,6 +292,6 @@ Below is a list of the column names used in the MOVES default database followed 
 
 **yearID**    equivalent to calendar year to be modeled and selected in the Run Spec 
 
-**Zone**    An area within a County. At the default (national) scale there will be one Zone for each County, so at that scale Zones are equivalent to Counties. 
+**zone**    An area within a County. At the default (national) scale there will be one Zone for each County, so at that scale Zones are equivalent to Counties
 
 **zoneID**    an integer ID referring to a specific zone
