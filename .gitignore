@@ -3,34 +3,42 @@
 *.psp
 *.doc
 *.docx
-*.pdf
 *.tmp
 *.bak
 *.o
 *.code-workspace
 
+jre/*
+jre32/*
+
+!database/Setup/movesdb*.zip
+
+# compiled Go executables
 calc/*.exe
 generators/*.exe
 calc/externalcalculatorgo
 generators/externalgenerator
 
+# old content, no longer relevant
 **/cvs
-
 artwork/*
 bin/*
-jre/*
-jre32/*
-installer/*
 izpack/*
 javadocs/*
 junitreports/*
 mysqldocs/*
+
+# folders created by the installer
+installer/*
 uninstaller/*
+
+# folders that get populated at runtime
 MOVESTemporary/*
 SharedWork/*
 WorkerFolder/*
 manyworkers/*
 
+# files that get created by running ant commands or by running the GUI
 install.xml
 go*output.txt
 PriorMasterID.txt
@@ -42,6 +50,7 @@ moveslog_old.txt
 MOVESWindows.txt
 mrulist.tmp
 
+# OS-specific files
 .DS_Store
 .DS_Store?
 ._*
