@@ -18,6 +18,7 @@
 --   Modified by Gwo Shyu, March 26, 2008 to fix the errors of duplicate entry and table existing
    *********************************************************************************************************************** */
 
+DROP TABLE IF EXISTS SourceTypeOrdering;
 DROP TABLE IF EXISTS DayWeighting1;
 DROP TABLE IF EXISTS DayWeighting1Sum;
 DROP TABLE IF EXISTS DayWeighting1Normalized;
@@ -49,6 +50,19 @@ DROP TABLE IF EXISTS OldAverageTankTemperature;
 DROP TABLE IF EXISTS OldSoakActivityFraction;
 DROP TABLE IF EXISTS OldTotalIdleFraction;
 DROP TABLE IF EXISTS OldIdleDayAdjust;
+
+-- 
+-- SourceTypeOrdering sets the preference order for what source type should be used as a surrogate for weighting,
+-- based on their populations in the default database with the following exceptions: 21s are always preferred if 
+-- present for consistency with previous versions of MOVES, and 11s are always preferred last because they typically
+-- have the most different temporal distributions compared to all other source types
+-- 
+CREATE TABLE SourceTypeOrdering (
+    sourceTypeID SMALLINT,
+    orderPreference SMALLINT
+);
+INSERT INTO SourceTypeOrdering VALUES (21,1),(31,2),(32,3),(52,4),(61,5),(54,6),(62,7),(43,8),(53,9),(41,10),(42, 1),(51, 2),(11,13);
+
 
 --
 -- Create DayWeighting1 to be used to weight daily activity 
@@ -145,7 +159,9 @@ CREATE TABLE DayWeighting3 (
 	dayID SMALLINT,
 	actFract FLOAT);
 INSERT INTO DayWeighting3
-  SELECT dayID, actFract FROM DayWeighting2 WHERE sourceTypeID=21;
+  SELECT dayID, actFract 
+  FROM DayWeighting2 
+  WHERE sourceTypeID = (SELECT sourceTypeID FROM DayWeighting2 JOIN SourceTypeOrdering USING (sourceTypeID) GROUP BY sourceTypeID HAVING SUM(actFract) > 0 ORDER BY orderPreference LIMIT 1);
 CREATE UNIQUE INDEX index1 ON DayWeighting3 (dayID);
 
 --
@@ -158,7 +174,9 @@ CREATE TABLE DayWeighting3Normalized (
 	dayID SMALLINT,
 	actFract FLOAT);
 INSERT INTO DayWeighting3Normalized
-  SELECT dayID, actFract FROM DayWeighting2Normalized WHERE sourceTypeID=21;
+  SELECT dayID, actFract 
+  FROM DayWeighting2Normalized
+  WHERE sourceTypeID = (SELECT sourceTypeID FROM DayWeighting2Normalized JOIN SourceTypeOrdering USING (sourceTypeID) GROUP BY sourceTypeID HAVING SUM(actFract) > 0 ORDER BY orderPreference LIMIT 1);
 CREATE UNIQUE INDEX index1 ON DayWeighting3Normalized (dayID);
 
   
@@ -556,6 +574,7 @@ FLUSH TABLE DayOfAnyWeek;
 
 -- FLUSH TABLES;
 
+DROP TABLE IF EXISTS SourceTypeOrdering;
 DROP TABLE IF EXISTS DayWeighting1;
 DROP TABLE IF EXISTS DayWeighting1Sum;
 DROP TABLE IF EXISTS DayWeighting1Normalized;

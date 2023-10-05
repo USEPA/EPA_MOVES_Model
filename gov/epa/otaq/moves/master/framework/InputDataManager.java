@@ -3212,12 +3212,10 @@ public class InputDataManager {
 			// HourOfAnyDay cannot be filtered by hourID because TotalActivityGenerator requires all hours
 			new TableToCopy("HourOfAnyDay",null,null,null,null,null,null,null,null,
 					null,null/*"hourID"*/,null,null,null,null,null,null,null,null),
-			/* HourVMTFraction cannot be filtered by sourceTypeID because info for
-			 * type 21 is needed by PreAggDay.sql */
 			// HourVMTFraction cannot filter by roadTypeID or hourID because TotalActivityGenerator will
 			// not be able to calculate SourceHours properly.
 			new TableToCopy("HourVMTFraction",null,null,null,null,null,null,null,null,
-					"dayID",null/*"hourID"*/,null,null/*"roadTypeID"*/,null,null,null,null,null,null),
+					"dayID",null/*"hourID"*/,null,null/*"roadTypeID"*/,null,"sourceTypeID",null,null,null,null),
 			new TableToCopy("HPMSVtype",null,null,null,null,null,null,null,null,
 					null,null,null,null,null,null,null,null,null,null),
 			new TableToCopy("HPMSVtypeDay","yearID","monthID",null,null,null,null,null,null,
@@ -3297,10 +3295,8 @@ public class InputDataManager {
 			/* AggregationSQLGenerator needs MonthOfAnyYear to have all 12 months */
 			new TableToCopy("MonthofAnyYear",null,null /*"monthID"*/,null,null,null,null,null,null,
 					null,null,null,null,null,null,null,null,null,null),
-			/* MonthVMTFraction cannot be filtered by sourceTypeID because info for
-			 * type 21 is needed by PreAggYear.sql */
 			new TableToCopy("MonthVMTFraction",null,"monthID",null,null,null,null,null,null,
-					null,null,null,null,null,null,null,null,null,null),
+					null,null,null,null,null,"sourceTypeID",null,null,null,null),
 			new TableToCopy("NONO2Ratio",null,null,null,null,null,null,null,null,
 					null,null,null,null,"polProcessID","sourceTypeID","fuelTypeID",null,null,null),
 			new TableToCopy("NOxHumidityAdjust",null,null,null,null,null,null,null,null,
@@ -3367,14 +3363,12 @@ public class InputDataManager {
 			// not be able to calculate SourceHours properly.
 			new TableToCopy("RoadType",null,null,null,null,null,null,null,null,
 					null,null,null,null/*"roadTypeID"*/,null,null,null,null,null,null),
-			/* RoadTypeDistribution cannot be filtered by sourceTypeID because info for
-			 * type 21 is needed by PreAggDay.sql */
 			// RoadTypeDistribution cannot filter by roadTypeID or TotalActivityGenerator will
 			// not be able to calculate SourceHours properly.
 			// RoadTypeDistribution cannot filter by roadTypeID or ActivityCalculator will
 			// not be able to calculate population properly.
 			new TableToCopy("RoadTypeDistribution",null,null,null,null,null,null,null,null,
-					null,null,null,null/*"roadTypeID"*/,null,null,null,null,null,null),
+					null,null,null,null/*"roadTypeID"*/,null,"sourceTypeID",null,null,null,null),
 			new TableToCopy("SampleVehicleDay",null,null,null,null,null,null,null,null,
 					"dayID",null,null,null,null,"sourceTypeID",null,null,null,null),
 			new TableToCopy("SampleVehicleSoaking",null,null,null,null,null,null,null,null,

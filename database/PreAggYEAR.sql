@@ -19,7 +19,9 @@
 --   Modified by Wes Faler, June 15, 2009 for Task 912 Fuel Adjustments
 -- *********************************************************************************************************************** */
 
+DROP TABLE IF EXISTS SourceTypeOrdering;
 DROP TABLE IF EXISTS MonthWeighting;
+DROP TABLE IF EXISTS MonthWeightingBySourceType;
 DROP TABLE IF EXISTS MonthGroupWeighting;
 DROP TABLE IF EXISTS AggDayVMTFraction;
 DROP TABLE IF EXISTS AggMonthVMTFraction;
@@ -39,8 +41,17 @@ drop table if exists AggATBaseEmissions;
 drop table if exists AggATRatio;
 drop table if exists OldTotalIdleFraction;
 
---TODO: MonthWeighting only uses sourceType 21; there should probably be a MonthWeightingBySourceType for 
---      pre-agg tables that need it by source type (like SourceTypeVMT and TotalIdleFraction)
+-- SourceTypeOrdering sets the preference order for what source type should be used as a surrogate for weighting,
+-- based on their populations in the default database with the following exceptions: 21s are always preferred if 
+-- present for consistency with previous versions of MOVES, and 11s are always preferred last because they typically
+-- have the most different temporal distributions compared to all other source types
+-- 
+CREATE TABLE SourceTypeOrdering (
+    sourceTypeID SMALLINT,
+    orderPreference SMALLINT
+);
+INSERT INTO SourceTypeOrdering VALUES (21,1),(31,2),(32,3),(52,4),(61,5),(54,6),(62,7),(43,8),(53,9),(41,10),(42, 1),(51, 2),(11,13);
+
 
 --
 -- Create MonthWeightings to be used to weight monthly activity 
@@ -54,8 +65,17 @@ CREATE TABLE MonthWeighting (
 INSERT INTO MonthWeighting
   SELECT monthID, monthVMTFraction AS actFract
     FROM MonthVMTFraction 
-  WHERE sourceTypeID=21;
+  WHERE sourceTypeID = (SELECT sourceTypeID FROM monthvmtfraction GROUP BY sourceTypeID HAVING SUM(monthvmtfraction) > 0 ORDER BY sourceTypeID DESC LIMIT 1);
 CREATE UNIQUE INDEX index1 ON MonthWeighting (monthID);
+
+CREATE TABLE MonthWeightingBySourceType (
+	monthID SMALLINT,
+    sourceTypeID SMALLINT,
+	actFract FLOAT);
+INSERT INTO MonthWeightingBySourceType
+  SELECT monthID, sourceTypeID, monthVMTFraction AS actFract
+    FROM MonthVMTFraction;
+CREATE UNIQUE INDEX index1 ON MonthWeightingBySourceType (monthID, sourceTypeID);
 
 -- SELECT "Making MonthGroupWeighting" AS MARKER_POINT;
 -- Create table explicitly to control column types and avoid significance problems
@@ -65,7 +85,7 @@ CREATE TABLE MonthGroupWeighting (
 INSERT INTO MonthGroupWeighting
   SELECT monthGroupID, SUM(monthVMTFraction) AS actFract
     FROM MonthVMTFraction INNER JOIN MonthOfAnyYear USING (monthID)
-  WHERE sourceTypeID=21
+  WHERE sourceTypeID = (SELECT sourceTypeID FROM monthvmtfraction JOIN SourceTypeOrdering USING (sourceTypeID) GROUP BY sourceTypeID HAVING SUM(monthvmtfraction) > 0 ORDER BY orderPreference LIMIT 1)
   GROUP BY monthGroupID;
 CREATE UNIQUE INDEX index1 ON MonthGroupWeighting (monthGroupID);
 
@@ -122,7 +142,7 @@ FLUSH TABLE MonthVMTFraction;
 CREATE TABLE AggSourceTypeDayVMT 
   SELECT yearID, 0 as monthID, 0 as dayID, sourceTypeID, sum(VMT*actFract) as VMT
     FROM SourceTypeDayVMT
-    INNER JOIN MonthWeighting USING (monthID)
+    INNER JOIN MonthWeightingBySourceType USING (monthID, sourceTypeID)
     GROUP BY yearID, sourceTypeID;
 TRUNCATE SourceTypeDayVMT;
 REPLACE INTO SourceTypeDayVMT (yearID, monthID, dayID, sourceTypeID, VMT)
@@ -429,7 +449,7 @@ SELECT idleRegionID, countyTypeID, sourceTypeID, 0 as monthID,
 	minModelYearID, maxModelYearID,
 	sum(totalIdleFraction*actFract) as totalIdleFraction
 FROM OldTotalIdleFraction
-INNER JOIN monthWeighting USING (monthID)
+INNER JOIN MonthWeightingBySourceType USING (monthID, sourceTypeID)
 GROUP BY idleRegionID, countyTypeID, sourceTypeID, minModelYearID, maxModelYearID;
 FLUSH TABLE TotalIdleFraction;
   
@@ -451,7 +471,9 @@ FLUSH TABLE IdleMonthAdjust;
 --
 -- FLUSH TABLES;
 
+DROP TABLE IF EXISTS SourceTypeOrdering;
 DROP TABLE IF EXISTS MonthWeighting;
+DROP TABLE IF EXISTS MonthWeightingBySourceType;
 DROP TABLE IF EXISTS MonthGroupWeighting;
 DROP TABLE IF EXISTS AggDayVMTFraction;
 DROP TABLE IF EXISTS AggMonthVMTFraction;

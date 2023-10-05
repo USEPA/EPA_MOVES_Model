@@ -11,6 +11,7 @@
 -- Change history:
 --   Modified by Gwo Shyu, March 26, 2008 to fix the errors of duplicate entry and table existing
    *********************************************************************************************************************** */
+DROP TABLE IF EXISTS SourceTypeOrdering;
 DROP TABLE IF EXISTS HourWeighting1;
 DROP TABLE IF EXISTS HourWeighting2;
 DROP TABLE IF EXISTS HourWeighting3;
@@ -32,6 +33,19 @@ DROP TABLE IF EXISTS OldStartsOpModeDistribution;
 DROP TABLE IF EXISTS OldStartsHourFraction;
 DROP TABLE IF EXISTS OldSoakActivityFraction;
 DROP TABLE IF EXISTS OldAverageTankTemperature;
+
+-- 
+-- SourceTypeOrdering sets the preference order for what source type should be used as a surrogate for weighting,
+-- based on their populations in the default database with the following exceptions: 21s are always preferred if 
+-- present for consistency with previous versions of MOVES, and 11s are always preferred last because they typically
+-- have the most different temporal distributions compared to all other source types
+-- 
+CREATE TABLE SourceTypeOrdering (
+    sourceTypeID SMALLINT,
+    orderPreference SMALLINT
+);
+INSERT INTO SourceTypeOrdering VALUES (21,1),(31,2),(32,3),(52,4),(61,5),(54,6),(62,7),(43,8),(53,9),(41,10),(42, 1),(51, 2),(11,13);
+
 
 --
 -- Create HourWeighting1 to be used to weight hourly activity 
@@ -74,7 +88,7 @@ CREATE Table  HourWeighting3 (
 INSERT INTO HourWeighting3
   SELECT hourID, avg(actFract) as actFract 
     FROM HourWeighting2
-    WHERE sourceTypeID=21 
+    WHERE sourceTypeID = (SELECT sourceTypeID FROM HourWeighting2 JOIN SourceTypeOrdering USING (sourceTypeID) GROUP BY sourceTypeID HAVING SUM(actFract) > 0 ORDER BY orderPreference LIMIT 1)
     GROUP BY hourID;
 CREATE UNIQUE INDEX index1 ON HourWeighting3 (hourID);
 
@@ -88,7 +102,8 @@ CREATE Table HourWeighting4 (
 	actFract FLOAT);
 INSERT INTO HourWeighting4
   SELECT dayID, hourID, actFract 
-  FROM HourWeighting2 WHERE sourceTypeID=21;
+  FROM HourWeighting2 
+  WHERE sourceTypeID = (SELECT sourceTypeID FROM HourWeighting2 JOIN SourceTypeOrdering USING (sourceTypeID) GROUP BY sourceTypeID HAVING SUM(actFract) > 0 ORDER BY orderPreference LIMIT 1);
 CREATE UNIQUE INDEX index1 ON HourWeighting4 (dayID, hourID);
 
 --
@@ -408,6 +423,7 @@ FLUSH TABLE SoakActivityFraction;
 
 -- FLUSH TABLES;
 
+DROP TABLE IF EXISTS SourceTypeOrdering;
 DROP TABLE IF EXISTS HourWeighting1;
 DROP TABLE IF EXISTS HourWeighting2;
 DROP TABLE IF EXISTS HourWeighting3;
