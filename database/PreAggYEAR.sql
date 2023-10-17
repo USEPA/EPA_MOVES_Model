@@ -50,7 +50,7 @@ CREATE TABLE SourceTypeOrdering (
     sourceTypeID SMALLINT,
     orderPreference SMALLINT
 );
-INSERT INTO SourceTypeOrdering VALUES (21,1),(31,2),(32,3),(52,4),(61,5),(54,6),(62,7),(43,8),(53,9),(41,10),(42, 1),(51, 2),(11,13);
+INSERT INTO SourceTypeOrdering VALUES (21,1),(31,2),(32,3),(52,4),(61,5),(54,6),(62,7),(43,8),(53,9),(41,10),(42,11),(51,12),(11,13);
 
 
 --
