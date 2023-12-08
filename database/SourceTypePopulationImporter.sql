@@ -62,3 +62,10 @@ insert into importTempMessages (message)
 select distinct concat('ERROR: Year ',yearID,' is outside the range of 1990-2060 and cannot be used') as errorMessage
 from SourceTypeYear
 where yearID < 1990 or yearID > 2060;
+
+-- Complain about any null VPOP values
+insert into importTempMessages (message)
+SELECT concat('ERROR: Missing sourceTypePopulation value for sourceTypeID: ', sourceTypeID)
+from SourceTypeYear
+where sourceTypePopulation IS NULL
+LIMIT 1;

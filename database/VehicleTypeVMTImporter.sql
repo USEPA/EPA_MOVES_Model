@@ -71,6 +71,31 @@ select distinct concat('ERROR: Year ',yearID,' in SourceTypeDayVMT is outside th
 from SourceTypeDayVMT
 where yearID < 1990 or yearID > 2060;
 
+-- complain about any null VMT values
+insert into importTempMessages (message)
+SELECT concat('ERROR: HPMSVTypeYear has a NULL HPMSBaseYearVMT value for HPMSVtypeID: ', HPMSVtypeID)
+from HPMSVTypeYear
+where HPMSBaseYearVMT IS NULL
+LIMIT 1;
+
+insert into importTempMessages (message)
+SELECT concat('ERROR: HPMSVTypeDay has a NULL VMT value for HPMSVtypeID: ', HPMSVtypeID)
+from HPMSVTypeDay
+where VMT IS NULL
+LIMIT 1;
+
+insert into importTempMessages (message)
+SELECT concat('ERROR: SourceTypeYearVMT has a NULL VMT value for sourceTypeID: ', sourceTypeID)
+from SourceTypeYearVMT
+where VMT IS NULL
+LIMIT 1;
+
+insert into importTempMessages (message)
+SELECT concat('ERROR: SourceTypeDayVMT has a NULL VMT value for sourceTypeID: ', sourceTypeID)
+from SourceTypeDayVMT
+where VMT IS NULL
+LIMIT 1;
+
 -- MonthVMTFraction
 -- Fill with 0's for entries that were not imported
 insert ignore into monthVMTFraction (sourceTypeID, monthID, monthVMTFraction)
@@ -91,6 +116,13 @@ select distinct concat('Warning: Source type ',sourceTypeID,' monthVMTFraction i
 from monthVMTFraction
 group by sourceTypeID
 having round(sum(monthVMTFraction),4)<1.0000 and sum(monthVMTFraction)>0.0000;
+
+-- Complain about any null values
+insert into importTempMessages (message)
+SELECT concat('ERROR: Found a NULL monthVMTFraction value for sourceTypeID: ', sourceTypeID)
+from monthVMTFraction
+where monthVMTFraction IS NULL
+LIMIT 1;
 
 
 -- DayVMTFraction
@@ -115,6 +147,13 @@ from dayVMTFraction
 group by sourceTypeID, monthID, roadTypeID
 having round(sum(dayVMTFraction),4)<1.0000 and sum(dayVMTFraction)>0.0000;
 
+-- Complain about any null values
+insert into importTempMessages (message)
+SELECT concat('ERROR: Found a NULL dayVMTFraction value for sourceTypeID: ', sourceTypeID)
+from dayVMTFraction
+where dayVMTFraction IS NULL
+LIMIT 1;
+
 
 -- HourVMTFraction
 -- Fill with 0's for entries that were not imported
@@ -136,3 +175,10 @@ select distinct concat('Warning: Source type ',sourceTypeID,', day ',dayID,', ro
 from hourVMTFraction
 group by sourceTypeID, dayID, roadTypeID
 having round(sum(hourVMTFraction),4)<1.0000 and sum(hourVMTFraction)>0.0000;
+
+-- Complain about any null values
+insert into importTempMessages (message)
+SELECT concat('ERROR: Found a NULL hourVMTFraction value for sourceTypeID: ', sourceTypeID)
+from hourVMTFraction
+where hourVMTFraction IS NULL
+LIMIT 1;

@@ -191,6 +191,20 @@ public class MeteorologyImporter extends ImporterBase {
         } finally {
             query.close();
         }
+
+        // check for NULL values
+		sql = "SELECT monthID, hourID FROM zonemonthhour WHERE temperature IS NULL or relHumidity IS NULL LIMIT 1";
+		try {
+			query.open(db,sql);
+			while(query.rs.next()) {
+				int monthID = query.rs.getInt(1);
+				int hourID = query.rs.getInt(2);
+				addQualityMessage("ERROR: NULL temperature and/or relHumidity value for monthID " + monthID + " and hourID " + hourID); 
+				hasError = true;
+			}
+		} finally {
+			query.close();
+		}
 				
 		if(hasMonths && hasHours && hasZones && !hasError) {
 			return new RunSpecSectionStatus(RunSpecSectionStatus.OK);
