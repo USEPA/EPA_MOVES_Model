@@ -6,7 +6,7 @@ The QA Tool is run in MOVES via the command line, using Ant, the MOVES dependenc
 
 ## Prerequisites
 
-The QA Tool requires that the CDB has already been built using the MOVES County Data Manager or otherwise and is ready to be checked. The tool *will not* aid in creating or populating an NEI CDB.
+The QA Tool requires that the CDB has already been built using the MOVES County Data Manager and is ready to be checked. The tool *will not* aid in creating or populating an NEI CDB. The database must be loaded into MariaDB's data folder for the tool to find it.
 
 ### County Database Naming Convention
 
@@ -14,59 +14,47 @@ To keep track of the thousands of CDBs used in the NEI calculations, EPA has est
 
 The naming convention for each CDB folder has 20 characters. The first 6 characters identify the county, the next 5 indicate the calendar year of the county database, and the last characters indicate the date on which the database was created. 
 
-The first 6 characters consist of the letter `c` followed by the 5-digit Federal Information Processing Standard (FIPS) code for the county, including a leading zero when necessary. The next 5 characters are the letter `y`, followed by a 4-digit calendar year. This calendar year indicates the calendar year of the data contained in the database. A CDB can only contain data from a single calendar year. The last 8 digits, following an underscore character, are the date on which the database was created in a `YYYYMMDD` format. 
+The first 6 characters consist of the letter `c` followed by the 5-digit Federal Information Processing Standard (FIPS) code for the county, including a leading zero when necessary. The next 5 characters are the letter `y`, followed by a 4-digit calendar year. This calendar year indicates the calendar year of the data contained in the database. A CDB can only contain data from a single calendar year. The last 8 digits, following an underscore character, represent the date on which the database was created in the `YYYYMMDD` format. 
 
-An example of a CDB name is `c26161y2020_20210601` where this CDB names indicates `c26161` refers to the county FIPS code (in this case Washtenaw County, Michigan). `y2020` refers to the calendar year for the county database and `20210601` identifies the database modification date of June 1, 2021, in `YYYYMMDD` format. 
+An example of a CDB name is `c26161y2023_20240601` where this CDB names indicates `c26161` refers to the county FIPS code (in this case Washtenaw County, Michigan). `y2023` refers to the calendar year for the county database and `20240601` identifies the database modification date of June 1, 2024, in `YYYYMMDD` format. 
 
 ## Command Line Interface
 
 To use MOVES' command line tools, first open the Windows command prompt and navigate to the MOVES directory. Then, run the command `setenv`. For more information on using MOVES' command line tools, see [CommandLineMOVES.md](https://github.com/USEPA/EPA_MOVES_Model/blob/master/docs/CommandLineMOVES.md).
 
-The Ant command to run the NEI QA script is `onroadNEIQA`, and the Ant command to run the nonroad NEI QA script is `nonroadNEIQA`. Inputs to the commands are specified by the following flags:
+The Ant command to run the NEI QA script is `onroadNEIQA`, and the Ant command to run the nonroad NEI QA script is `nonroadNEIQA`. Note that Ant commands are case sensitive. Inputs to these commands are specified by the following flags:
 
 | Flag       | Behavior                                                     | Examples                                                     |
 | ---------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| `-Dinput`  | There are three types of input allowed:<br />1. A single input database<br />2. A comma-separated list of databases, wrapped in quotes<br />3. A .txt file with a list of databases, one on each line | 1.`-Dinput=c12345y2020_20210314`<br />2.`-Dinput="c12345y2020_20210314,c23456y2020_20210314"`<br />3.`-Dinput=db_list.txt` |
-| `-Doutput` | A file to write the QA results to. Accepted formats are:<br />* `.xlsx` or `.xls` for spreadsheet output<br />* `.csv` for comma-separated output<br />* `.txt` or `.tab` for tab-separated output<br /><br />This input does not need to be wrapped in quotes unless there are spaces or commas in the filename. | 1. `-Doutput=PSC_QA_Report.xlsx`<br />2. `-Doutput="PSC QA Report.csv"`<br />3. `-Doutput=PSC_QA_Report.txt` |
+| `-Dinput`  | There are three types of input allowed:<br />1. A single input database<br />2. A comma-separated list of databases, wrapped in quotes<br />3. A .txt file with a list of databases, one on each line | 1.`-Dinput=c99001y2023_20240601`<br />2.`-Dinput="c99001y2023_20240601,c99002y2023_20240601"`<br />3.`-Dinput=db_list.txt` |
+| `-Doutput` | A file to write the QA results to. Accepted formats are:<br />* `.xlsx` or `.xls` for spreadsheet output<br />* `.csv` for comma-separated output<br />* `.txt` or `.tab` for tab-separated output<br /><br />This input does not need to be wrapped in quotes unless there are spaces or commas in the filename. | 1. `-Doutput=QA_Report.xlsx`<br />2. `-Doutput="QA Report.csv"`<br />3. `-Doutput=QA_Report.txt` |
 
 For input option #3 above, databases need to be separated by a new line. The following would be a valid `db_list.txt` file:
 
 ```
-c12345y2020_20210314
-c23456y2020_20210314
+c99001y2023_20240601
+c99002y2023_20240601
 ```
 
 Putting everything together, the following are all valid ways of calling the QA scripts:
 
 ```batch
 setenv
-ant onroadNEIQA -Dinput=c12345y2020_20210314 -Doutput=PSC_QA_Report.xlsx
-ant onroadNEIQA -Dinput="c12345y2020_20210314,c23456y2020_20210314" -Doutput=PSC_QA_Report.csv
-ant onroadNEIQA -Dinput=db_list.txt -Doutput=PSC_QA_Report.txt
-ant nonroadNEIQA -Dinput=c12345y2020_20210314 -Doutput=PSC_QA_Report.xlsx
-ant nonroadNEIQA -Dinput="c12345y2020_20210314,c23456y2020_20210314" -Doutput=PSC_QA_Report.csv
-ant nonroadNEIQA -Dinput=db_list.txt -Doutput="PSC QA Report.txt"
+ant onroadNEIQA -Dinput=c99001y2023_20240601 -Doutput=QA_Report.xlsx
+ant onroadNEIQA -Dinput="c99001y2023_20240601,c99002y2023_20240601" -Doutput=QA_Report.csv
+ant onroadNEIQA -Dinput=db_list.txt -Doutput=QA_Report.txt
+ant nonroadNEIQA -Dinput=c99001y2023_20240601 -Doutput=QA_Report.xlsx
+ant nonroadNEIQA -Dinput="c99001y2023_20240601,c99002y2023_20240601" -Doutput=QA_Report.csv
+ant nonroadNEIQA -Dinput=db_list.txt -Doutput="QA Report.txt"
 ```
 
 ## Output
 
-The QA scripts create two new tables in the input database, `cdb_checks` and `qa_checks_log`. The contents of `cdb_checks` are copied to the output file. If multiple databases are run using the tool, they are all combined into one output file. `qa_checks_log` is used to log the checks that have been performed, so that users can tell how far the script got if something goes wrong. There are a few additional tables that are only created if the tool detects overlaps and/or gaps in model year ranges in select tables, as described below.
+The QA Tool saves its results to the specified output file. If multiple databases are run using the tool, they are all combined into one output file. These results are also saved in a database created by the tool called `All_CDB_Checks`. If the tool runs into a problem it can't resolve, it creates a table called `qa_checks_log`, so that users can tell how far the script got before the error occurred. There are a few additional tables that are only created if the tool detects overlaps and/or gaps in model year ranges in select tables, as described below.
 
-### qa_checks_log
+### All_CDB_Checks
 
-`qa_checks_log` has the following structure:
-
-| Field   | Type     | Description                                                |
-| ------- | -------- | ---------------------------------------------------------- |
-| checkNo | int(11)  | check number, which can be mapped to specific checks below |
-| status  | char(20) | Status of the check - OK or otherwise                      |
-| version | char(8)  | version  of the MOVES default database used as a reference |
-| msgDate | date     | date of  execution                                         |
-| msgTime | time     | time of  execution, to the second                          |
-
-### cdb_checks
-
-`cdb_checks` and the output file have the following structure:
+`All_CDB_Checks` and the output file have the following structure:
 
 | Field             | Type        | Description                                                  |
 | ----------------- | ----------- | ------------------------------------------------------------ |
@@ -99,6 +87,18 @@ The QA scripts create two new tables in the input database, `cdb_checks` and `qa
 | version           | char(8)     | version of the MOVES default database used as a reference    |
 | sumKeyID          | int(11)     |                                                              |
 | sumKeyDescription | char(50)    |                                                              |
+
+### qa_checks_log
+
+`qa_checks_log` remains in the input database if the QA Tool ran into a problem. It has the following structure:
+
+| Field   | Type     | Description                                                |
+| ------- | -------- | ---------------------------------------------------------- |
+| checkNo | int(11)  | check number, which can be mapped to specific checks below |
+| status  | char(20) | Status of the check - OK or otherwise                      |
+| version | char(8)  | version  of the MOVES default database used as a reference |
+| msgDate | date     | date of  execution                                         |
+| msgTime | time     | time of  execution, to the second                          |
 
 ### qa_checks_im
 
@@ -174,7 +174,7 @@ The QA scripts create two new tables in the input database, `cdb_checks` and `qa
 |         | 1101    | year                                                         | checks that isBaseYear is either Y or N                      | Error   |                                                              |
 |         | 1102    | year                                                         | makes sure fuelYearID is the same as yearID                  | Error   |                                                              |
 |         | 1103    | year                                                         | checks for unknown yearID                                    | Error   |                                                              |
-|         | 1104    | year                                                         | Checks that the yearID matches the year noted in the CDB name  (for example the year ‘2020’ of the CDB `c13121y2020_YYYYMMDD`) | Error   |                                                              |
+|         | 1104    | year                                                         | Checks that the yearID matches the year noted in the CDB name  (for example the year ‘2023’ of the CDB `c13121y2023_YYYYMMDD`) | Error   |                                                              |
 |         | 1105    | year                                                         | checks each column's schema definition for mismatches with the default database's data type, null/not null, and key status | Error   |                                                              |
 | 12      | 1200    | state                                                        | table check (indicates that the checks associated with this table have  started) | Info    |                                                              |
 |         | 1201    | state                                                        | checks for unknown stateID                                   | Error   |                                                              |
@@ -183,7 +183,7 @@ The QA scripts create two new tables in the input database, `cdb_checks` and `qa
 |         | 1204    | state                                                        | checks each column's schema definition for mismatches with the default database's data type, null/not null, and key status | Error    |                                                              |
 | 13      | 1300    | county                                                       | table check (indicates that the checks associated with this table have  started) | Info    |                                                              |
 |         | 1301    | county                                                       | checks for unknown countyIDs, referencing the default db     | Error   |                                                              |
-|         | 1302    | county                                                       | Checks that the countyID matches the county noted in the CDB  name (for example the county ‘13121’ of the CDB `c13121y2020_YYYYMMDD`) | Error   |                                                              |
+|         | 1302    | county                                                       | Checks that the countyID matches the county noted in the CDB  name (for example the county ‘13121’ of the CDB `c13121y2023_YYYYMMDD`) | Error   |                                                              |
 |         | 1303    | county                                                       | makes sure altitude column is either L or H                  | Error   |                                                              |
 |         | 1304    | county                                                       | makes sure the GPAFract is between 0 and 1                   | Error   |                                                              |
 |         | 1305    | county                                                       | makes sure the barometric pressure is between 20 and 33      | Error   |                                                              |
@@ -206,7 +206,7 @@ The QA scripts create two new tables in the input database, `cdb_checks` and `qa
 |         | 1504    | avft                                                         | checks for unknown engTechID                                 | Error   |                                                              |
 |         | 1505    | avft                                                         | makes sure all fuelEngFraction values are between 0 and 1    | Error   |                                                              |
 |         | 1506    | avft                                                         | checks that fuelengfraction sums to 1 by source type and model year | Error   |                                                              |
-|         | 1507    | avft                                                         | checks for missing combinations of sourceTypeID, modelYearID,  fuelTypeID, and engTechID | Error   | This returns only the first missing combination, not all of them |
+|         | 1507    | avft                                                         | checks for missing combinations of sourceTypeID, modelYearID,  fuelTypeID, and engTechID | Error or Warning  | This returns only the first missing combination, not all of them. It will be a Warning if the table is empty, or an Error if the table is supplied with missing combinations |
 |         | 1508    | avft                                                         | checks each column's schema definition for mismatches with the default database's data type, null/not null, and key status | Error    |                                                              |
 | 16      | 1600    | avgspeeddistribution                                         | table check (indicates that the checks associated with this table have  started) | Info    |                                                              |
 |         | 1601    | avgspeeddistribution                                         | checks for unknown avgSpeedBinID                             | Error   |                                                              |
@@ -233,7 +233,7 @@ The QA scripts create two new tables in the input database, `cdb_checks` and `qa
 |         | 1803    | dayvmtfraction                                               | checks for unknown monthID                                   | Error   |                                                              |
 |         | 1804    | dayvmtfraction                                               | checks for unknown roadTypeID                                 | Error   |                                                              |
 |         | 1805    | dayvmtfraction                                               | checks for unknown sourceTypeID                              | Error   |                                                              |
-|         | 1806    | dayvmtfraction                                               | make sure no dayVMTFraction values are greater than or equal  to 1 | Error   |                                                              |
+|         | 1806    | dayvmtfraction                                               | make sure no dayVMTFraction values are greater than or equal  to 1 | Warning   |                                                              |
 |         | 1807    | dayvmtfraction                                               | makes sure allocations between weekend and weekday are not  identical | Warning |                                                              |
 |         | 1808    | dayvmtfraction                                               | if populated, makes sure there are no missing combinations of  monthID, roadTypeID, sourceTypeID, and dayID | Error   | This returns only the first missing combination, not all of them |
 |         | 1809    | dayvmtfraction                                               | checks each column's schema definition for mismatches with the default database's data type, null/not null, and key status | Error    |                                                              |
@@ -242,6 +242,7 @@ The QA scripts create two new tables in the input database, `cdb_checks` and `qa
 |         | 1902    | emissionratebyage                                            | checks for unknown opModeID                                  | Error   |                                                              |
 |         | 1903    | emissionratebyage                                            | checks for unknown ageGroupID                                | Error   |                                                              |
 |         | 1904    | emissionratebyage                                            | checks each column's schema definition for mismatches with the default database's data type, null/not null, and key status | Error    |                                                              |
+|         | 1905    | emissionratebyage                                            | if populated, warn that this table may be overwritten        | Warning | This table is not expected to be submitted, so it might not be used |
 | 20      | 2000    | fuelformulation                                              | table check (indicates that the checks associated with this table have  started) | Info    |                                                              |
 |         | 2001    | fuelformulation                                              | checks for unknown fuelSubtypeID                              | Warning |                                                              |
 |         | 2002    | fuelformulation                                              | checks for valid RVP (>=5 && <=20) for all gasoline  fuelSubTypeIDs, not including E85 | Warning |                                                              |
@@ -257,12 +258,14 @@ The QA scripts create two new tables in the input database, `cdb_checks` and `qa
 |         | 2012    | fuelformulation                                              | checks for valid e300 values (0-100) for user-supplied gasoline  fuelSubTypeIDs (fuelFormulationID > 100) | Warning |                                                              |
 |         | 2013    | fuelformulation                                              | makes sure the T50 and T90 columns exist                     | Error   |                                                              |
 |         | 2014    | fuelformulation                                              | checks each column's schema definition for mismatches with the default database's data type, null/not null, and key status | Error    |                                                              |
+|         | 2015    | fuelformulation                                              | if populated, warn that this table may be overwritten        | Warning | This table is not expected to be submitted, so it might not be used. |
 | 21      | 2100    | fuelsupply                                                   | table check (indicates that the checks associated with this table have  started) | Info    |                                                              |
 |         | 2101    | fuelsupply                                                   | checks for unknown fuelFormulationIDs, referencing the CDB  fuelforumulation table | Warning |                                                              |
 |         | 2102    | fuelsupply                                                   | checks fuelYearID against the year table                     | Warning |                                                              |
 |         | 2103    | fuelsupply                                                   | checks for unknown monthGroupID                              | Warning |                                                              |
 |         | 2104    | fuelsupply                                                   | checks for multiple fuelRegionIDs                            | Warning |                                                              |
 |         | 2105    | fuelsupply                                                   | checks each column's schema definition for mismatches with the default database's data type, null/not null, and key status | Error    |                                                              |
+|         | 2106    | fuelsupply                                                   | if populated, warn that this table may be overwritten        | Warning | This table is not expected to be submitted, so it might not be used. |
 | 22      | 2200    | fuelusagefraction                                            | table check (indicates that the checks associated with this table have  started) | Info    |                                                              |
 |         | 2201    | fuelusagefraction                                            | checks fuelYearID against the year table                     | Error   |                                                              |
 |         | 2202    | fuelusagefraction                                            | checks countyID against the county table                     | Error   |                                                              |
@@ -485,6 +488,7 @@ The QA scripts create two new tables in the input database, `cdb_checks` and `qa
 |         | 5005    | zonemonthhour                                                | makes sure relative humidity is between 0 and 100            | Warning |                                                              |
 |         | 5006    | zonemonthhour                                                | if populated, make sure all combinations of zoneID, monthID,  and hourID are populated | Warning | This returns only the first missing combination, not all of them |
 |         | 5007    | zonemonthhour                                                | checks each column's schema definition for mismatches with the default database's data type, null/not null, and key status | Error    |                                                              |
+|         | 5008    | zonemonthhour                                                | if populated, warn that this table may be overwritten        | Warning | This table is not expected to be submitted, so it might not be used. |
 | 51      | 5100    | zoneroadtype                                                 | table check (indicates that the checks associated with this table have  started) | Info    |                                                              |
 |         | 5101    | zoneroadtype                                                 | checks for unknown roadTypeID                                | Error   |                                                              |
 |         | 5102    | zoneroadtype                                                 | checks zoneID against zone table                             | Error   |                                                              |

@@ -132,8 +132,8 @@
 		<echo message="                  to this file in -Dinput. Use -Doutput= to specify the output" />
         <echo message="                  file path; file types can be .xls(x), .txt, or .csv. For help," />
 		<echo message="                  see database\NEIQA\NEIQAInstructions.pdf" />
-		<echo message="    ant onroadNEIQA -Dinput=&quot;cXXXXXyYYYY_in,cZZZZZyYYYY_in&quot; -Doutput=PSC_QA_Report.xlsx" />
-		<echo message="    ant onroadNEIQA -Dinput=db_list.txt -Doutput=PSC_QA_Report.xlsx" />
+		<echo message="    ant onroadNEIQA -Dinput=&quot;cXXXXXyYYYY_ZZZZZZZZ,cAAAAAyYYYY_ZZZZZZZZ&quot; -Doutput=QA_Report.xlsx" />
+		<echo message="    ant onroadNEIQA -Dinput=db_list.txt -Doutput=QA_Report.xlsx" />
 		<echo message="nonroadNEIQA    - run the nonroad NEI QA scripts. Usage has the same arguments" />
 		<echo message="                  as the onroadNEIQA command. " />
 		<echo message="-------------------------------------------------------------------------------"/>
