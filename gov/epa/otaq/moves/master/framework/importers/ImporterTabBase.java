@@ -62,8 +62,8 @@ public class ImporterTabBase implements IImporterPanel, FocusListener, ActionLis
 	JList<String> messagesList;
 	/** Description before updates **/
 	String previousDescription = "";
-	/** Optional custom button **/
-	JButton customButton = null;
+	/** Optional custom button(s) **/
+	JButton[] customButtons = null;
 	/** keep track of if data has been imported already **/
 	boolean alreadyImported = false;
 
@@ -136,11 +136,16 @@ public class ImporterTabBase implements IImporterPanel, FocusListener, ActionLis
 //		clearDataButton = new JButton();
 //		ToolTipHelper.add(clearDataButton,"Remove previously imported data");
 
-		String customButtonName = importerDataSource.getCustomButtonName();
-		if(customButtonName != null) {
-			customButton = new JButton(customButtonName);
-			ToolTipHelper.add(customButton,customButtonName);
-			customButton.addActionListener(this);
+		String[] customButtonNames = importerDataSource.getCustomButtonNames();
+		if(customButtonNames != null) {
+            customButtons = new JButton[customButtonNames.length];
+            int i = 0;
+            for (String customButtonName : customButtonNames) {
+                customButtons[i] = new JButton(customButtonName);
+                ToolTipHelper.add(customButtons[i],customButtonName);
+                customButtons[i].addActionListener(this);
+                i++;
+            }
 		}
 
 		label2 = new JLabel();
@@ -176,14 +181,18 @@ public class ImporterTabBase implements IImporterPanel, FocusListener, ActionLis
 				descriptionTextArea.setWrapStyleWord(true);
 				descriptionScrollPane.setViewportView(descriptionTextArea);
 			}
-			if(customButton != null) {
-				panel.add(descriptionScrollPane, new GridBagConstraints(0, 1, 5, 1, 0.0, 0.0,
+			if(customButtons != null) {
+				panel.add(descriptionScrollPane, new GridBagConstraints(0, 1, 6-customButtons.length, 1, 0.0, 0.0,
 					GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 					new Insets(0, 0, 5, 0), 0, 0));
 
-				panel.add(customButton, new GridBagConstraints(5, 1, 1, 1, 0.0, 0.0,
-					GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-					new Insets(0, 0, 5, 0), 0, 0));
+                int i = customButtons.length;
+                for (JButton customButton : customButtons) {
+                    panel.add(customButton, new GridBagConstraints(6-i, 1, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 0), 0, 0));
+                    i--;
+                }
 			} else {
 				panel.add(descriptionScrollPane, new GridBagConstraints(0, 1, 6, 1, 0.0, 0.0,
 					GridBagConstraints.CENTER, GridBagConstraints.BOTH,
@@ -383,8 +392,12 @@ public class ImporterTabBase implements IImporterPanel, FocusListener, ActionLis
 			handleExportExecutionDataButton();
 //		} else if(e.getSource() == clearDataButton) {
 //			handleClearDataButton();
-		} else if(customButton != null && e.getSource() == customButton) {
-			importerDataSource.onCustomButton(customButton.getText(),panel);
+		} else if(customButtons != null) {
+            for (JButton customButton : customButtons) {
+                if (e.getSource() == customButton) {
+			        importerDataSource.onCustomButton(customButton.getText(),panel);
+                }
+            }
 		}
 	}
 

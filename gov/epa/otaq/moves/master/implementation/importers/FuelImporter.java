@@ -16,6 +16,7 @@ import org.xml.sax.*;
 import org.xml.sax.helpers.*;
 import org.w3c.dom.*;
 import gov.epa.otaq.moves.master.runspec.*;
+import gov.epa.otaq.moves.master.gui.AVFTTool;
 import gov.epa.otaq.moves.master.gui.RunSpecSectionStatus;
 import gov.epa.otaq.moves.common.*;
 import gov.epa.otaq.moves.master.framework.*;
@@ -576,7 +577,7 @@ public class FuelImporter extends ImporterBase {
 			requiredTables = new String[] { "FuelSupply", "FuelFormulation", "AVFT" };
 		}
 
-		customButtonName = "Fuels Wizard";
+		customButtonNames = new String[]{"AVFT Tool", "Fuels Wizard"};
 
 		shouldDoExecutionDataExport = false;
 		shouldDoDefaultDataExport = true;
@@ -906,20 +907,21 @@ public class FuelImporter extends ImporterBase {
 		if(frame == null) {
 			return;
 		}
-		Connection db = manager.openDatabase(false);
-		if(db == null) {
-			/*
-			JOptionPane.showMessageDialog(null,
-					"Please create a database first.",
-					"Database Needed", JOptionPane.ERROR_MESSAGE);
-			*/
-			return;
-		}
-		FuelWizard w = new FuelWizard(frame, db, manager.isNonroad());
-		// simple offset from main window origin
-		w.setLocation(guiOwner.getLocationOnScreen().x + 200, guiOwner.getLocationOnScreen().y - 50);
-		w.showModal();
-		DatabaseUtilities.closeConnection(db);
-		db = null;
+        if (name == "Fuels Wizard") {
+            Connection db = manager.openDatabase(false);
+            if(db == null) {
+                return;
+            }
+            FuelWizard w = new FuelWizard(frame, db, manager.isNonroad());
+            w.setLocation(guiOwner.getLocationOnScreen().x + 200, guiOwner.getLocationOnScreen().y - 50);
+            w.showModal();
+            DatabaseUtilities.closeConnection(db);
+            db = null;
+        } else if (name == "AVFT Tool") {
+            AVFTTool t = new AVFTTool(frame);
+            t.setLocation(guiOwner.getLocationOnScreen().x, guiOwner.getLocationOnScreen().y);
+            t.showModal();
+        }
+        
 	}
 }

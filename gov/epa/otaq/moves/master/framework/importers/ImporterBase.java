@@ -72,8 +72,8 @@ public class ImporterBase implements IImporter, ICountyDataImporter, IProjectDat
 	/** True if data can be exported from the default database **/
 	public boolean shouldDoCustomDefaultDataExport = false;
 
-	/** Name, if any, of a custom button to be shown to the user **/
-	public String customButtonName = null;
+	/** Names, if any, of custom buttons to be shown to the user **/
+	public String[] customButtonNames = null;
 
 	class ImporterTabBaseProvider implements IImporterTabBaseProvider {
 		/**
@@ -157,11 +157,11 @@ public class ImporterBase implements IImporter, ICountyDataImporter, IProjectDat
 		}
 
 		/**
-		 * Obtain the name, if any, of a custom button on the GUI.
-		 * @return non-null if a custom button is to be offered.
+		 * Obtain the names, if any, of custom buttons on the GUI.
+		 * @return a string array of length 1 or longer if any custom buttons are to be offered.
 		**/
-		public String getCustomButtonName() {
-			return customButtonName;
+		public String[] getCustomButtonNames() {
+			return customButtonNames;
 		}
 	
 		/**
