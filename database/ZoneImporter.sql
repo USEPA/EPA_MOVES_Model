@@ -25,25 +25,18 @@ begin
 	declare desiredAllocFactor double default 1;
 	declare howManyZones int default 0;
 
-	-- Build links for imported zones but not for the Project domain (scale=2)
-	if(scale <> 2) then
-		delete from Link;
-
-		insert ignore into Link (linkID, countyID, zoneID, roadTypeID)
-		select (z.zoneID*10 + roadTypeID) as linkID, z.countyID, z.zoneID, roadTypeID
-		from ##defaultDatabase##.roadType, Zone z;
-	end if;
-
-	-- Complain if alloc factors are not 1.0.
-	set howManyZones=0;
-	select count(*) into howManyZones from Zone z inner join County c on c.countyID=z.countyID;
-	set howManyZones=ifnull(howManyZones,0);
-	if(howManyZones > 0) then
-		set desiredAllocFactor = 1.0;
-	else
-		insert into importTempMessages (message)
-		select concat('ERROR: No Zones imported for County ',countyID) as errorMessage
-		from County;
+	-- Complain if alloc factors are not 1.0 for county or project scale
+	if(scale >= 1) then
+		set howManyZones=0;
+		select count(*) into howManyZones from Zone z inner join County c on c.countyID=z.countyID;
+		set howManyZones=ifnull(howManyZones,0);
+		if(howManyZones > 0) then
+			set desiredAllocFactor = 1.0;
+		else
+			insert into importTempMessages (message)
+			select concat('ERROR: No Zones imported for County ',countyID) as errorMessage
+			from County;
+		end if;
 	end if;
 
 	insert into importTempMessages (message)
