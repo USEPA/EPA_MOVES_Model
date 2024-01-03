@@ -39,6 +39,37 @@ public class RunNonroadScriptActionHelper {
 	private static boolean hasErrors = false;
 	
 	/**
+	 * This RunNonroadScriptActionHelper can only process script output from certain scripts. Use this function
+     * to determine if the script in question is one of those. (For example, only offer to save the output from
+     * a script if this function returns true)
+	 * @param scriptName The SQL script to be run
+	**/
+    public static boolean canProcessScriptOutput(String scriptName) {
+        switch (scriptName) {
+            case "EmissionFactors_per_hphr_by_Equipment.sql":
+            case "EmissionFactors_per_hphr_by_Equipment_and_Horsepower.sql":
+            case "EmissionFactors_per_hphr_by_SCC.sql":
+            case "EmissionFactors_per_hphr_by_SCC_and_ModelYear.sql":
+            case "EmissionFactors_per_OperatingHour_by_Equipment.sql":
+            case "EmissionFactors_per_OperatingHour_by_Equipment_and_Horsepower.sql":
+            case "EmissionFactors_per_OperatingHour_by_SCC.sql":
+            case "EmissionFactors_per_OperatingHour_by_SCC_and_ModelYear.sql":
+            case "EmissionFactors_per_Vehicle_by_Equipment.sql":
+            case "EmissionFactors_per_Vehicle_by_Equipment_and_Horsepower.sql":
+            case "EmissionFactors_per_Vehicle_by_SCC.sql":
+            case "Inventory_by_County_and_Pollutant.sql":
+            case "Inventory_by_County_FuelType_Pollutant.sql":
+            case "Inventory_by_Equipment_Horsepower_Pollutant.sql":
+            case "Inventory_by_EquipmentType_Pollutant.sql":
+            case "Inventory_by_Sector_Horsepower_Pollutant.sql":
+            case "Inventory_by_Sector_SCC_Pollutant.sql":
+            case "Population_by_Sector_and_SCC.sql":
+                return true;
+        }
+        return false;
+    }
+
+	/**
 	 * Generates a report from the Nonroad post processing script output 
 	 * @param scriptName The SQL script that was run and whose output needs to be put in the report
 	 * @param saveFileName Where the report should be saved. Can accept .xls, .xlsx, and .txt
@@ -67,7 +98,7 @@ public class RunNonroadScriptActionHelper {
 				EmissionFactors_by_SCC("EmissionFactors_per_hphr_by_SCC", 
 						"hp-hr", writer, oConn);
 			} else if (scriptName.equalsIgnoreCase("EmissionFactors_per_hphr_by_SCC_and_ModelYear.sql")) {
-				EmissionFactors_by_SCC_and_ModelYear("EmissionFactors_per_hphr_by_SCC_and_ModelYear", 
+				EmissionFactors_by_SCC_HP_and_ModelYear("EmissionFactors_per_hphr_by_SCC_and_ModelYear", 
 						"hp-hr", writer, oConn);
 			} else if (scriptName.equalsIgnoreCase("EmissionFactors_per_OperatingHour_by_Equipment.sql")) {
 				EmissionFactors_by_Equipment("EmissionFactors_per_OperatingHour_by_Equipment", 
@@ -77,6 +108,9 @@ public class RunNonroadScriptActionHelper {
 						"operating hour", writer, oConn);
 			} else if (scriptName.equalsIgnoreCase("EmissionFactors_per_OperatingHour_by_SCC.sql")) {
 				EmissionFactors_by_SCC("EmissionFactors_per_OperatingHour_by_SCC", 
+						"operating hour", writer, oConn);
+			} else if (scriptName.equalsIgnoreCase("EmissionFactors_per_OperatingHour_by_SCC_and_ModelYear.sql")) {
+				EmissionFactors_by_SCC_and_ModelYear("EmissionFactors_per_OperatingHour_by_SCC_and_ModelYear", 
 						"operating hour", writer, oConn);
 			} else if (scriptName.equalsIgnoreCase("EmissionFactors_per_Vehicle_by_Equipment.sql")) {
 				EmissionFactors_by_Equipment("EmissionFactors_per_Vehicle_by_Equipment", 
@@ -472,6 +506,123 @@ public class RunNonroadScriptActionHelper {
 	 * @throws Exception if there is an error writing to file
 	**/
 	private static void EmissionFactors_by_SCC_and_ModelYear(String tableName, String units, Object writer, Connection oConn) throws Exception {
+		if (writer instanceof CellFileWriter) {
+			String sql = "SELECT MOVESRunID, yearID, monthID, dayID, stateID, countyID, SCC, sccDescription, fuelTypeID, " +
+			             "       pollutantID, processID, modelYearID, emissionRate, emissionRateUnits " +
+					     "FROM " + tableName + " ORDER BY countyID, yearID, monthID";
+			((CellFileWriter)writer).writeSQLResults(oConn, sql, null);
+		} else if (writer instanceof PrintWriter) {
+			SQLRunner.Query query = new SQLRunner.Query();
+			String sql = "";
+			String result = "";
+			String header = "";
+			header += StringUtilities.rightSpacePad("MOVESRunID", 11);
+			header += StringUtilities.rightSpacePad("Year", 6);
+			header += StringUtilities.rightSpacePad("Month", 7);
+			header += StringUtilities.rightSpacePad("Day", 5);
+			header += StringUtilities.rightSpacePad("State", 7);
+			header += StringUtilities.rightSpacePad("County", 12);
+			header += StringUtilities.rightSpacePad("SCC", 12);
+			header += StringUtilities.rightSpacePad("Description", 40);
+			header += StringUtilities.rightSpacePad("Fuel", 6);
+			header += StringUtilities.rightSpacePad("Pollutant", 11);
+			header += StringUtilities.rightSpacePad("Process", 10);
+			header += StringUtilities.rightSpacePad("Model Year", 12);
+			header += StringUtilities.rightSpacePad("Emission Rate", 30);
+			
+			// Print header
+			((PrintWriter)writer).println("Emission Factors in g/" + units + " listed by SCC and Model Year");
+			DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+			((PrintWriter)writer).println("Generated on " + dateFormat.format(new Date()));
+			((PrintWriter)writer).println();
+			
+			// Get counties, calendar years, time periods -- spaces must be generated between each in the report
+			ArrayList<Integer> counties =  getCounties(oConn, tableName);
+			ArrayList<Integer> calendarYears = getCalendarYears(oConn, tableName);
+			ArrayList<Integer> months = getMonths(oConn, tableName);
+			ArrayList<Integer> days = getDays(oConn, tableName);
+						
+			for(Integer county : counties) {
+                for (Integer calendarYear : calendarYears) {
+                    for (Integer month : months) {
+                        for (Integer day : days) {
+                            sql = "SELECT MOVESRunID, yearID, monthID, dayID, stateID, countyID, SCC, sccDescription, " +
+                                    "       fuelTypeID, pollutantID, processID, modelYearID, emissionRate " +
+                                    "FROM " + tableName + " WHERE 1";
+                            if (county > 0)
+                                sql += " AND countyID = " + county.toString();
+                            if (calendarYear > 0)
+                                sql += " AND yearID = " + calendarYear.toString();
+                            if (month > 0)
+                                sql += " AND monthID = " + month.toString();
+                            if (day > 0)
+                                sql += " AND dayID = " + day.toString();
+                            
+                            ((PrintWriter)writer).println("______________________________________________________________________________________________________________________________________________________________________________");
+                            ((PrintWriter)writer).println();
+                            ((PrintWriter)writer).println();
+                            ((PrintWriter)writer).println();
+                            ((PrintWriter)writer).println("Report for:");
+                            ((PrintWriter)writer).println("     County " + county.toString());
+                            ((PrintWriter)writer).println("     Year " + calendarYear.toString());
+                            ((PrintWriter)writer).println("     Month " + month.toString());
+                            ((PrintWriter)writer).println("     Day " + day.toString());
+                            ((PrintWriter)writer).println();							
+                            ((PrintWriter)writer).println(header);
+                            
+                            try {
+                                result = "";
+                                query.open(oConn, sql);
+                            
+                                while(query.rs.next()) {
+                                    result = "";
+                                    result += StringUtilities.rightSpacePad(StringUtilities.safeGetString(query.rs.getString("MOVESRunID")), 11);
+                                    result += StringUtilities.rightSpacePad(StringUtilities.safeGetString(query.rs.getString("yearID")), 6);
+                                    result += StringUtilities.rightSpacePad(StringUtilities.safeGetString(query.rs.getString("monthID")), 7);
+                                    result += StringUtilities.rightSpacePad(StringUtilities.safeGetString(query.rs.getString("dayID")), 5);
+                                    result += StringUtilities.rightSpacePad(StringUtilities.safeGetString(query.rs.getString("stateID")), 7);
+                                    result += StringUtilities.rightSpacePad(StringUtilities.safeGetString(query.rs.getString("countyID")), 12);
+                                    result += StringUtilities.rightSpacePad(StringUtilities.safeGetString(query.rs.getString("SCC")), 12);
+                                    result += StringUtilities.rightSpacePad(StringUtilities.safeGetString(query.rs.getString("sccDescription")), 40);
+                                    result += StringUtilities.rightSpacePad(StringUtilities.safeGetString(query.rs.getString("fuelTypeID")), 6);
+                                    result += StringUtilities.rightSpacePad(StringUtilities.safeGetString(query.rs.getString("pollutantID")), 11);
+                                    result += StringUtilities.rightSpacePad(StringUtilities.safeGetString(query.rs.getString("processID")), 10);
+                                    result += StringUtilities.rightSpacePad(StringUtilities.safeGetString(query.rs.getString("modelYearID")), 12);
+                                    result += StringUtilities.rightSpacePad(StringUtilities.safeGetString(query.rs.getString("emissionRate")), 30);
+                                    ((PrintWriter)writer).println(result);
+                                }
+    
+                                ((PrintWriter)writer).println();
+                                ((PrintWriter)writer).println();
+                                ((PrintWriter)writer).println();
+                                
+                                query.close();
+                            } catch(SQLException e) {
+                                query.onException(e,"Unable to ...",sql);
+                                hasErrors = true;
+                            } finally {
+                                query.onFinally();
+                            }
+                            
+                            if (hasErrors) {
+                                return;
+                            }
+                        }
+                    }
+                }
+			}
+		}
+	}
+	
+	/**
+	 * Queries the database and generates a report of emission factors by equipment type and horsepower
+	 * @param tableName The SQL table name that contains the output of the post processing script
+	 * @param units The denominator units of the emission rate
+	 * @param writer The output file writer (either a PrintWriter or a CellFileWriter)
+	 * @param oConn An open connection to the database
+	 * @throws Exception if there is an error writing to file
+	**/
+	private static void EmissionFactors_by_SCC_HP_and_ModelYear(String tableName, String units, Object writer, Connection oConn) throws Exception {
 		if (writer instanceof CellFileWriter) {
 			String sql = "SELECT MOVESRunID, yearID, monthID, dayID, stateID, countyID, SCC, sccDescription, fuelTypeID, hpID, " +
 			             "       hpBin, pollutantID, processID, modelYearID, engTechID, engTechDesc, emissionRate, emissionRateUnits " +

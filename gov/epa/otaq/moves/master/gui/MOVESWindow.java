@@ -1378,7 +1378,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		
 		// Ask where to save output (bypass for the Decoded script, which works the same as the onroad version (i.e., it creates two tables in the database)
 		String saveFileName = "";
-		if (!scriptName.equalsIgnoreCase("DecodedNonroadOutput.sql")) {
+		if (RunNonroadScriptActionHelper.canProcessScriptOutput(scriptName)) {
 			navigationPanel.commitActiveEditor();
 			FileDialog fd = new FileDialog(this,
 					"Save Nonroad Post Processing Script Output As...", FileDialog.SAVE);
@@ -1399,7 +1399,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 			DatabaseUtilities.executeScript(oConn,scriptFile,replacements);
 			
 			// save the output (again, except for the Decoded script)
-			if (!scriptName.equalsIgnoreCase("DecodedNonroadOutput.sql")) {
+			if (RunNonroadScriptActionHelper.canProcessScriptOutput(scriptName)) {
 				hasErrors = RunNonroadScriptActionHelper.processScriptOutput(scriptName, saveFileName, oConn);
 			}				
 		} catch (Exception e) {
