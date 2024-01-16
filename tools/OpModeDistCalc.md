@@ -22,7 +22,7 @@ There are several notes about OpModeDistCalc which are important to know when ru
 
 To use MOVES' command line tools, first open the Windows command prompt and navigate to the MOVES directory. Then, run the command `setenv`. Afterwards, OpModeDistCalc can be used by running `OpModeDistCalc <arguments>`. Arguments are provided as command line flags and are explained in more detail below.
 
-For more information on using MOVES' command line tools, see [CommandLineMOVES.md](https://github.com/USEPA/EPA_MOVES_Model/blob/master/docs/CommandLineMOVES.md).
+For more information on using MOVES' command line tools, see [CommandLineMOVES.md](../docs/CommandLineMOVES.md).
 
 ### Input Flags
 

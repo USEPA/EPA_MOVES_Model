@@ -10,7 +10,7 @@ If you want to run MOVES at County Scale for 10 calendar years, the typical appr
 
 To use MOVES' command line tools, first open the Windows command prompt and navigate to the MOVES directory. Then, run the command `setenv`. Afterwards, the MOVES Output Grouper tool can be used by running `MOVESOutputGrouper <--dbs, --dir, or --rsearch> <arguments> [switches]`. Each parameter is explained in more detail below.
 
-For more information on using MOVES' command line tools, see [CommandLineMOVES.md](https://github.com/USEPA/EPA_MOVES_Model/blob/master/docs/CommandLineMOVES.md).
+For more information on using MOVES' command line tools, see [CommandLineMOVES.md](../docs/CommandLineMOVES.md).
 
 ### Input Flags
 
