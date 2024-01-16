@@ -188,6 +188,10 @@ The following commands can be used when compiling Go:
 
 For instructions on how to compile the Fortran code, see [Readme.md](..\NONROAD\NR08a\SOURCE\readme.md) in the Nonroad source code directory.
 
+## Other MOVES command line tools
+
+MOVES also includes other command line tools available outside of Ant. These are found in the [Tools](..\tools) directory, along with their documentation on how and why to use them.
+
 ## Additional remarks
 
 The above examples demonstrate a simple way of running MOVES from the Windows command prompt. The example scripts should be considered just examples. Different MOVES install configurations may change some of the details needed to run the scripts. Likewise, the Windows command prompt offers a rich scripting environment that can be used to expand these examples to do things such as: 
