@@ -14,3 +14,10 @@ select concat('ERROR: Source ',sourceTypeID,', road ',roadTypeID,', hour/day ',h
 from tempNotUnity;
 
 drop table if exists tempNotUnity;
+
+-- Complain about any null values
+insert into importTempMessages (message)
+SELECT concat('ERROR: Found a NULL avgSpeedFraction value for sourceTypeID: ', sourceTypeID)
+from avgSpeedDistribution
+where avgSpeedFraction IS NULL
+LIMIT 1;

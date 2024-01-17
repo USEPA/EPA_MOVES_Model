@@ -15,3 +15,10 @@ select concat('ERROR: Source ',sourceTypeID,' roadTypeVMTFraction sum is not 1.0
 from tempNotUnity;
 
 drop table if exists tempNotUnity;
+
+-- Complain about any null values
+insert into importTempMessages (message)
+SELECT concat('ERROR: Found a NULL roadTypeVMTFraction value for sourceTypeID: ', sourceTypeID)
+from roadTypeDistribution
+where roadTypeVMTFraction IS NULL
+LIMIT 1;

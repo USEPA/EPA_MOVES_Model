@@ -304,7 +304,7 @@ public class ImporterManager {
 	**/
 	public void instantiate(String[] importerNames) {
 		TreeSetIgnoreCase unwantedImporters = new TreeSetIgnoreCase();
-		if(!runSpec.isCustomDomain()) {
+		if(isCountyDomain || isProjectDomain || isNonroad) {
 			unwantedImporters.add("Zone Road Activity");
 			unwantedImporters.add("zoneroadtype");
 			unwantedImporters.add("gov.epa.otaq.moves.master.implementation.importers.ZoneRoadTypeImporter");

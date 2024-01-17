@@ -1,5 +1,5 @@
 defaultServerName = localhost
-defaultDatabaseName = movesdb20230615
+defaultDatabaseName = movesdb20240104
 executionServerName = localhost
 executionDatabaseName = MOVESExecution
 outputServerName = 127.0.0.1

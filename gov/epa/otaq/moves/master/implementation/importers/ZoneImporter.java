@@ -53,7 +53,7 @@ public class ZoneImporter extends ImporterBase {
 		"SHPAllocFactor", "", ImporterManager.FILTER_NON_NEGATIVE,
 
 		BasicDataHandler.BEGIN_TABLE, "zoneroadtype",
-		"zoneID", "", "",
+		"zoneID", "", ImporterManager.FILTER_ZONE,
 		"roadTypeID", "RoadType", "",
 		"SHOAllocFactor", "", ImporterManager.FILTER_NON_NEGATIVE
 	};
@@ -185,9 +185,6 @@ public class ZoneImporter extends ImporterBase {
 	**/
 	public void setImporterManager(ImporterManager managerToUse) {
 		super.setImporterManager(managerToUse);
-		if(!manager.isProject()) {
-			zonePart.otherManagedTables.add("Link");
-		}
 	}
 
 	/**

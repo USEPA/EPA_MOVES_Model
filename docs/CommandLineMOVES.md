@@ -156,7 +156,7 @@ ant dbimporter -Dimport="c:\mydbimporter.xml"
 
 ## Converting input databases on the command line
 
-MOVES includes an Ant command to convert input databases from previous versions of MOVES to the current version, which can save time if you need to do this for many databases. Please see the help file at [database\ConversionScripts\InputDatabaseConversionHelp.pdf](..\database\ConversionScripts\InputDatabaseConversionHelp.pdf) for more information on the uses and limitations of this feature. Note that more work is needed after running this command before the converted database can be used with MOVES.
+MOVES includes an Ant command to convert input databases from previous versions of MOVES to the current version, which can save time if you need to do this for many databases. Please see the help file at [database\ConversionScripts\InputDatabaseConversionHelp.pdf](../database/ConversionScripts/InputDatabaseConversionHelp.pdf) for more information on the uses and limitations of this feature. Note that more work is needed after running this command before the converted database can be used with MOVES.
 
 The following command can be used to convert a MOVES3 input database to the MOVES4 format:
 ```cmd
@@ -186,7 +186,11 @@ The following commands can be used when compiling Go:
 * `ant go32local`: Compiles 32-bit versions of the Go runtime using a version of the Go compiler installed in the `.\go32` subdirectory of MOVES. This option is useful if you want to compile the 32-bit executable using a different version of Go than what is installed system-wide. It only works if you have created a `.\go32` subdirectory and copied an entire Go installation to this location.
 * `ant go`: Compiles all of the above (i.e., 64-bit, 32-bit, and 32-bit local), as well as Linux versions of the two Go runtime executables. If any step fails (e.g., `go32local`), you'll see an error message, but the compiler will continue to the next step in the sequence. 
 
-For instructions on how to compile the Fortran code, see [Readme.md](..\NONROAD\NR08a\SOURCE\readme.md) in the Nonroad source code directory.
+For instructions on how to compile the Fortran code, see [Readme.md](../NONROAD/NR08a/SOURCE/readme.md) in the Nonroad source code directory.
+
+## Other MOVES command line tools
+
+MOVES also includes other command line tools available outside of Ant. These are found in the [Tools](../tools) directory, along with their documentation on how and why to use them.
 
 ## Additional remarks
 

@@ -123,15 +123,17 @@ SET @calendarYear = (SELECT DISTINCT yearID FROM ##outputDB##.movesoutput LIMIT 
 CREATE TABLE ##newDB##.countylist SELECT DISTINCT countyID AS countyID FROM ##outputDB##.movesoutput; 
 	
 /* -------------------------------------- GET REQUIRED DATA FROM DEFAULT DB ------------------------------------------------ */
+
 DROP TABLE IF EXISTS ##newDB##.fuelsByCounty;
 CREATE TABLE ##newDB##.fuelsByCounty
-	SELECT countyID, rc.fuelYearID as yearID, fuelRegionID, monthGroupID as monthID, 
+	SELECT cl.countyID, rc.fuelYearID as yearID, fuelRegionID, monthGroupID as monthID, 
 		fuelTypeID, fst.fuelSubtypeID, ff.fuelFormulationID, marketShare
 	FROM ##defDB##.fuelsupply fs
 	JOIN ##defDB##.regioncounty rc on (regionID = fuelRegionID and rc.fuelYearID = fs.fuelYearID)
 	JOIN ##defDB##.fuelformulation ff on (ff.fuelFormulationID = fs.fuelFormulationID)
 	JOIN ##defDB##.fuelsubtype fst on (ff.fuelSubtypeID = fst.fuelSubtypeID)
-	WHERE rc.countyID = @ctyID and rc.fuelYearID = @calendarYear and regionCodeID = 1 and marketShare > 0;
+	JOIN ##newDB##.countylist cl on (cl.countyID = rc.countyID)
+	WHERE rc.fuelYearID = @calendarYear and regionCodeID = 1 and marketShare > 0;
 
 DROP TABLE IF EXISTS ##newDB##.togspeciation;
 CREATE TABLE ##newDB##.togspeciation

@@ -68,10 +68,10 @@ public interface IImporterTabBaseProvider {
 	boolean allowCustomDomainDefaultDataExport();
 
 	/**
-	 * Obtain the name, if any, of a custom button on the GUI.
-	 * @return non-null if a custom button is to be offered.
+     * Obtain the names, if any, of custom buttons on the GUI.
+     * @return a string array of length 1 or longer if any custom buttons are to be offered.
 	**/
-	String getCustomButtonName();
+	String[] getCustomButtonNames();
 
 	/**
 	 * Process a click on a custom button.

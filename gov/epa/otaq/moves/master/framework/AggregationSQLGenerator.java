@@ -582,14 +582,15 @@ public class AggregationSQLGenerator {
 							runSpecRoadTypeCount++;
 						}
 					}
-					if(runSpecRoadTypeCount != dbRoadTypeCount && !didReportIssues) {
+					if(runSpecRoadTypeCount != dbRoadTypeCount && !didReportIssues && 
+                       ExecutionRunSpec.theExecutionRunSpec.getModelDomain() != ModelDomain.PROJECT) {
 						/**
 						 * @explain RoadType is not a desired output dimension yet aggregation is
 						 * called for.  When reporting results, be sure to include the fact that the
 						 * totals do not include all road types.
 						**/
 						Logger.log(LogMessageCategory.WARNING,
-								"Warning: RunSpec doesn't have all the RoadTypes.");
+								"Warning: Road types will be aggregated away, but RunSpec doesn't have all the RoadTypes.");
 					}
 				}
 			} catch(Exception e) {

@@ -55,7 +55,7 @@ public class ImporterInstantiator {
 			"gov.epa.otaq.moves.master.implementation.importers.StartsImporter",
 		"Vehicle Type VMT", "vehicletypevmt", "|general|county|",
 			"gov.epa.otaq.moves.master.implementation.importers.VehicleTypeVMTImporter",
-		"Zone", "zone", "|county|project|",
+		"Zone", "zone", "|county|project|general|",
 			"gov.epa.otaq.moves.master.implementation.importers.ZoneImporter",
 		"Hotelling", "hotelling", "|general|county|project|",
 			"gov.epa.otaq.moves.master.implementation.importers.HotellingImporter",

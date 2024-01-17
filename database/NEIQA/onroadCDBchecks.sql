@@ -602,11 +602,6 @@ Update CDB_Checks as a, tempb as b set a.count = b.table_rows Where a.tableName 
 
 -- Present tables
 Update CDB_Checks set testDescription = 'Present'       where `count` is not null;
-																	
-Update CDB_Checks set testDescription = 'Table likely to be overwritten',
-					  `status` = 'Warning'
-														where `count` > 0
-														and tableName in ('emissionratebyage', 'fuelsupply', 'fuelformulation', 'zonemonthhour');
                                                         
 Update CDB_Checks set testDescription = 'Table no longer used as user input',
 					  `status` = 'Error'
@@ -1623,6 +1618,7 @@ Drop table if exists tempA;
 -- 		 source type, fuel type, and model year are valid (i.e., no diesel motorcycles).
 -- 		 So this table checks for completeness vs. samplevehiclepopulation, which contains this definition
 --       Also, only check for the existence of modelyearids that will appear in the run (according to the year table)
+--       Also, insert a different message if the entire table is empty, so that it can be flagged as a warning instead
 INSERT INTO QA_Checks_Log values ( 1507, 'OK', @hVersion, curDate(), curTime() );
   Insert into CDB_Checks
        ( tableName,
@@ -1639,7 +1635,25 @@ INSERT INTO QA_Checks_Log values ( 1507, 'OK', @hVersion, curDate(), curTime() )
         join `year`
         where modelYearID between yearID-30 and yearID) as t1
   left join avft using (sourceTypeID, fuelTypeID, modelYearID)
-	where fuelEngFraction is NULL 
+  join (select count(*) as n from avft) as t2
+	where fuelEngFraction is NULL and n > 0
+	ORDER BY sourceTypeID, fuelTypeID, modelYearID LIMIT 1;
+
+  Insert into CDB_Checks
+       ( tableName,
+         checkNumber,
+         testDescription
+       )
+  Select 'avft'                 as tableName,
+          1507                  as checkNumber,
+         'Table is empty'       as testDescription
+  from (select distinct sourceTypeID, fuelTypeID, modelYearID
+		from ##defaultdb##.samplevehiclepopulation
+        join `year`
+        where modelYearID between yearID-30 and yearID) as t1
+  left join avft using (sourceTypeID, fuelTypeID, modelYearID)
+  join (select count(*) as n from avft) as t2
+	where fuelEngFraction is NULL and n = 0
 	ORDER BY sourceTypeID, fuelTypeID, modelYearID LIMIT 1;
 	
 --       check no. 1508: check column type definitions for input db mismatches with default db
@@ -2445,6 +2459,18 @@ join (select column_name, column_type, is_nullable, column_key from information_
 		where table_schema = '##defaultdb##' and table_name = 'emissionratebyage') t2 using (column_name)
 where t1.column_type <> t2.column_type or t1.is_nullable <> t2.is_nullable or t1.column_key <> t2.column_key;
 
+--       check no. 1905: warn that any user-supplied emissionRateByAge table is likely to be overwritten
+INSERT INTO QA_Checks_Log values ( 1905, 'OK', @hVersion, curDate(), curTime() );
+Insert into CDB_Checks
+       ( TableName,
+         CheckNumber,
+         TestDescription )
+Select   "emissionRateByAge" as tableName,
+         1905,
+         'Table likely to be overwritten' as testDescription
+from emissionRateByAge
+having count(*) > 0;
+
 -- Checks for fuelformulation
 Insert into CDB_Checks (CheckNumber, TableName, TestDescription) values (2000, "fuelFormulation", "Table Check:");
 
@@ -2836,6 +2862,18 @@ join (select column_name, column_type, is_nullable, column_key from information_
 		where table_schema = '##defaultdb##' and table_name = 'fuelformulation') t2 using (column_name)
 where t1.column_type <> t2.column_type or t1.is_nullable <> t2.is_nullable or t1.column_key <> t2.column_key;
 
+--       check no. 2015: warn that any user-supplied fuelformulation table is likely to be overwritten
+INSERT INTO QA_Checks_Log values ( 2015, 'OK', @hVersion, curDate(), curTime() );
+Insert into CDB_Checks
+       ( TableName,
+         CheckNumber,
+         TestDescription )
+Select   "fuelFormulation" as tableName,
+         2015,
+         'Table likely to be overwritten' as testDescription
+from fuelFormulation
+having count(*) > 0;
+
 -- fuelsupply checks
 Insert into CDB_Checks (CheckNumber, TableName, TestDescription) values (2100, "fuelSupply", "Table Check:");
 
@@ -2961,6 +2999,17 @@ join (select column_name, column_type, is_nullable, column_key from information_
 		where table_schema = '##defaultdb##' and table_name = 'fuelsupply') t2 using (column_name)
 where t1.column_type <> t2.column_type or t1.is_nullable <> t2.is_nullable or t1.column_key <> t2.column_key;
 
+--       check no. 2106: warn that any user-supplied fuelSupply table is likely to be overwritten
+INSERT INTO QA_Checks_Log values ( 2106, 'OK', @hVersion, curDate(), curTime() );
+Insert into CDB_Checks
+       ( TableName,
+         CheckNumber,
+         TestDescription )
+Select   "fuelSupply" as tableName,
+         2106,
+         'Table likely to be overwritten' as testDescription
+from fuelSupply
+having count(*) > 0;
 
 -- fuelusagefraction
 Insert into CDB_Checks (CheckNumber, TableName, TestDescription) values (2200, "fuelUsageFraction", "Table Check:");
@@ -8040,6 +8089,17 @@ join (select column_name, column_type, is_nullable, column_key from information_
 		where table_schema = '##defaultdb##' and table_name = 'zonemonthhour') t2 using (column_name)
 where t1.column_type <> t2.column_type or t1.is_nullable <> t2.is_nullable or t1.column_key <> t2.column_key;
 
+--       check no. 5008: warn that any user-supplied zoneMonthHour table is likely to be overwritten
+INSERT INTO QA_Checks_Log values ( 5008, 'OK', @hVersion, curDate(), curTime() );
+Insert into CDB_Checks
+       ( TableName,
+         CheckNumber,
+         TestDescription )
+Select   "zoneMonthHour" as tableName,
+         5008,
+         'Table likely to be overwritten' as testDescription
+from zoneMonthHour
+having count(*) > 0;
 
 -- zoneRoadType
 Insert into CDB_Checks (CheckNumber, TableName, TestDescription) values (5100, "zoneRoadType", "Table Check:");
@@ -8192,9 +8252,10 @@ Update        CDB_Checks set status = 'Error'   where checkNumber is not null an
 -- set Status to 'Warning' for select checks (these are typically distribution checks, as well as tables that give warnings
 --                                            if you supply them: fuelformulation, fuelsupply, and zonemonthhour)
 Update        CDB_Checks set status = 'Warning' where checkNumber in 
-			  (1608,1609,1610,1611,1807,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2101,
-			   2102,2103,2104,2406,2507,2508,2808,2809,3605,3804,3805,3906,4506,5001,5002,5003,5004,5005,
-			   5006);
+			  (1608,1609,1610,1611,1806,1807,1905,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,
+			   2012,2015,2101,2102,2103,2104,2106,2406,2507,2508,2808,2809,3605,3804,3805,3906,4506,5001,
+			   5002,5003,5004,5005,5006,5008);
+Update CDB_Checks set status = 'Warning' where checkNumber = 1507 and testDescription = 'Table is empty';
 
 -- special cases for VMT/starts checks --
 -- mark all VMT row count checks as 'complete' regardless of results

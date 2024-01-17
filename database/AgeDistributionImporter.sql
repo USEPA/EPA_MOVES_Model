@@ -67,3 +67,10 @@ select concat('ERROR: Source ',sourceTypeID,', year ',yearID,' ageFraction sum i
 from tempNotUnity;
 
 drop table if exists tempNotUnity;
+
+-- Complain about any null values
+insert into importTempMessages (message)
+SELECT concat('ERROR: Found a NULL ageFraction value for sourceTypeID: ', sourceTypeID)
+from SourceTypeAgeDistribution
+where ageFraction IS NULL
+LIMIT 1;

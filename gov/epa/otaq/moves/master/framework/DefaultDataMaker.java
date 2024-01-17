@@ -142,7 +142,7 @@ public class DefaultDataMaker {
 				SQLRunner.executeSQL(executionDatabase,sql);
 	
 				sql = "CREATE TABLE NeededFuelSupply " +
-					"SELECT mrsfr.fuelRegionID, mrsfy.fuelYearID, mrsmg.monthGroupID, " +
+					"SELECT DISTINCT mrsfr.fuelRegionID, mrsfy.fuelYearID, mrsmg.monthGroupID, " +
 						"ft.fuelTypeID, defaultFormulationID " +
 					" FROM RunSpecFuelRegion mrsfr" +
 					" CROSS JOIN RunSpecFuelYear mrsfy" +
