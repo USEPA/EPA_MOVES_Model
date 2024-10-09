@@ -56,7 +56,7 @@ To get set up:
     ant crungui
     ```
 
-    For additional information about compiling MOVES, see [CommandLineMOVES.md](docs\CommandLineMOVES.md#compiling-moves).
+    For additional information about compiling MOVES, see [CommandLineMOVES.md](docs/CommandLineMOVES.md#compiling-moves).
 
 9. Hereafter to run MOVES, simply navigate to the MOVES directory and run:
 
