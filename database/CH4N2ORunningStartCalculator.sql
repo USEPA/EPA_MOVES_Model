@@ -14,7 +14,7 @@ create table AdjustFuelSupply (
 	key (fuelTypeID, monthID, fuelFormulationID),
 	key (fuelFormulationID, monthID, fuelTypeID),
 	key (fuelFormulationID, fuelTypeID, monthID)
-) Engine=MEMORY;
+) Engine=MEMORY DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 truncate table AdjustFuelSupply;
 
 ##memory.create.County##;
@@ -107,7 +107,7 @@ FROM Pollutant;
 -- WHERE polProcessID IN (??pollutantProcessIDs??)
 -- AND SourceBinDistribution.sourceTypeModelYearID = SourceTypeModelYear.sourceTypeModelYearID
 -- AND SourceTypeModelYear.modelYearID <= ??context.year??
--- AND SourceTypeModelYear.modelYearID >= ??context.year?? - 30
+-- AND SourceTypeModelYear.modelYearID >= ??context.year?? - 40
 -- AND SourceTypeModelYear.sourceTypeID = RunSpecSourceFuelType.sourceTypeID
 -- AND SourceBinDistribution.SourceBinID = SourceBin.SourceBinID
 -- AND SourceBin.fuelTypeID = RunSpecSourceFuelType.fuelTypeID;
@@ -118,7 +118,7 @@ SourceTypeModelYear
 WHERE polProcessID IN (##pollutantProcessIDs##)
 AND SourceBinDistribution.sourceTypeModelYearID = SourceTypeModelYear.sourceTypeModelYearID
 AND SourceTypeModelYear.modelYearID <= ##context.year##
-AND SourceTypeModelYear.modelYearID >= ##context.year## - 30;
+AND SourceTypeModelYear.modelYearID >= ##context.year## - 40;
 
 -- SELECT DISTINCT SourceBin.* 
 -- INTO OUTFILE '??SourceBin??'
@@ -136,7 +136,7 @@ WHERE polProcessID IN (##pollutantProcessIDs##)
 AND SourceBinDistribution.sourceTypeModelYearID = SourceTypeModelYear.sourceTypeModelYearID
 AND SourceBinDistribution.SourceBinID = SourceBin.SourceBinID
 AND SourceTypeModelYear.modelYearID <= ##context.year##
-AND SourceTypeModelYear.modelYearID >= ##context.year## - 30;
+AND SourceTypeModelYear.modelYearID >= ##context.year## - 40;
 
 -- SELECT DISTINCT EmissionRate.* 
 -- INTO OUTFILE '??EmissionRate??'
@@ -159,7 +159,7 @@ cache SELECT SourceTypeModelYear.* INTO OUTFILE '##SourceTypeModelYear##'
 FROM SourceTypeModelYear
 WHERE SourceTypeModelYear.sourceTypeID in (##macro.csv.all.sourceTypeID##)
 AND modelYearID <= ##context.year##
-AND modelYearID >= ##context.year## - 30;
+AND modelYearID >= ##context.year## - 40;
 
 cache SELECT HourDay.* INTO OUTFILE '##HourDay##'
 FROM HourDay
@@ -213,7 +213,7 @@ create table if not exists MOVESWorkerOutputTemp (
 	roadTypeID           SMALLINT UNSIGNED NULL,
 	SCC                  CHAR(10) NULL,
 	emissionQuant        FLOAT NULL
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 
 --
@@ -240,7 +240,8 @@ CREATE TABLE SHO2 (
 	linkID INTEGER,
 	sourceTypeID SMALLINT,
 	modelYearID SMALLINT,
-	SHO FLOAT) ;
+	SHO FLOAT
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 INSERT INTO SHO2 
 	SELECT sho.yearID, sho.monthID, hd.hourID, hd.dayID, sho.linkID, 
 		sho.sourceTypeID, (sho.yearID - sho.ageID), sho.SHO
@@ -250,7 +251,8 @@ CREATE TABLE Link2 (
 	countyID INTEGER,
 	zoneID INTEGER,
 	linkID INTEGER,
-	roadTypeID SMALLINT) Engine=MEMORY;
+	roadTypeID SMALLINT
+) Engine=MEMORY DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 INSERT INTO Link2
 	SELECT	c.stateID, l.countyID, l.zoneID, l.linkID, l.roadTypeID 
 	FROM County AS c INNER JOIN Link AS l USING (countyID);
@@ -278,7 +280,8 @@ CREATE TABLE EmissionRate3 (
 	sourceTypeModelYearID INTEGER,
 	pollutantID SMALLINT,
 	processID SMALLINT,
-	sbafXmbr FLOAT );
+	sbafXmbr FLOAT
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 INSERT INTO EmissionRate3
 	SELECT sbd.sourceTypeID, sbd.fuelTypeID, sbd.modelYearID, sbd.sourceTypeModelYearID,
 		er.pollutantID, er.processID, 

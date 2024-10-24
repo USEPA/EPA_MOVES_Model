@@ -564,7 +564,7 @@ public class SQLRunner {
 	}
 
 	/**
-	 * Add "ENGINE=MyISAM" (or "ENGINE=InnoDB"), "DELAY_KEY_WRITE=1", and "CHARSET=latin1" clauses to
+	 * Add "ENGINE=MyISAM" (or "ENGINE=InnoDB"), "DELAY_KEY_WRITE=1", and "CHARSET=uft8" clauses to
 	 * a CREATE TABLE statement	of the form "create table (xxx) ENGINE=MyISAM DELAY_KEY_WRITE=1".
 	 * @param sql sql to be examined, natural case.
 	 * @param sqlLowerCase lowercase version of SQL, used to improve performance.
@@ -600,7 +600,11 @@ public class SQLRunner {
 			madeChanges = true;
 		}
 		if(sqlLowerCase.indexOf("charset=") < 0) {
-			sql += " CHARSET=latin1";
+			sql += " CHARSET='utf8mb4'";
+			madeChanges = true;
+		}
+		if(sqlLowerCase.indexOf("collate") < 0) {
+			sql += " COLLATE 'utf8mb4_unicode_ci'";
 			madeChanges = true;
 		}
 		if(!madeChanges) {

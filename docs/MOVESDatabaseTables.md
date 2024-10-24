@@ -463,7 +463,7 @@ emissionProcess lists all the processes in MOVES and contains information on whi
 
 ### emissionRate
 
-emissionRate contains emission rates for most exhaust-based pollutants which are same regardless of the vehicle age.
+emissionRate contains emission rates for exhaust-based pollutants that do not vary by vehicle age.
 
 | Field            | Type        | Null | Key | Default | Comment                                                          |
 | ---------------- | ----------- | ---- | --- | ------- | ---------------------------------------------------------------- |
@@ -588,15 +588,12 @@ evEfficiency contains battery and charging efficiency values, which increase the
 | batteryEfficiency  | double      | YES  |      |         | accounts for energy losses that occur when the battery is charging and discharging (i.e., charger-to-drivetrain losses) |
 | chargingEfficiency | double      | YES  |      |         | accounts for energy losses that occur in the charger (i.e., wall-to-charger losses)                                     |
 
-### evPopICEAdjustLD
+### fleetAvgAdjustment
 
-evPopICEAdjustLD is used to adjust emission rates for Tier 3 internal combustion engine (ICE) vehicles based on sales of electric vehicles (EV), due to regulatory fleet averaging of emission rates for total hydrocarbons and NOx emissions. For these pollutants, the multiplicative adjustment is calculated as:
+fleetAvgAdjustment is used to adjust emission rates for internal combustion engine (ICE) vehicles based on sales of electric vehicles (EV) due to regulatory fleet averaging of emission rates for various rules, including Tier 3 and Heavy-Duty Greenhouse Gas Phase 2. Note that the evMultiplier increases the apparent total number of vehicles for the purposes of this calculation. The multiplicative adjustment is calculated as:
+
 $$
-adjustment/(1-evFraction*adjustmentWeight)
-$$
-This table is also used to adjust energy consumption rates. In this use case, the adjustmentWeight is actually a multiplier, so it increases the apparent total number of vehicles, and the multiplicative adjustment is calculated as:
-$$
-adjustment/(1 - (evFraction*adjustmentWeight)/((1-evFraction) + (evFraction*adjustmentWeight)))
+1/(1 - (evFraction \times evMultiplier)/((1-evFraction) + (evFraction \times evMultiplier)))
 $$
 
 | Field            | Type        | Null | Key  | Default | Comment                                                      |
@@ -604,8 +601,24 @@ $$
 | polProcessID     | int         | NO   | PRI  |         |                                                              |
 | beginModelYearID | smallint(6) | NO   | PRI  |         |                                                              |
 | endModelYearID   | smallint(6) | NO   | PRI  |         |                                                              |
-| adjustment       | double      | NO   |      | 1       | A scalar adjustment applied to the base emission rate regardless of the EV fraction. |
-| adjustmentWeight | double      | NO   |      | 1       | Relative weight EVs get in fleet averaging, compared to ICE vehicles. A weight of 1 indicates equal weighting, and a weight of 0 turns off the adjustment. |
+| fleetAvgGroupID  | smallint(6) | NO   | PRI  |         |                                                              |
+| evMultiplier     | double      | NO   |      | 1       | The multiplier applied to the EV fraction, which varies by regulation. |
+| adjustmentCap    | double      | YES  |      | NULL    | The maximum adjustment factor allowed, if applicable.        |
+
+### fleetAvgGroup
+
+fleetAvgGroup describes the fleetAvgGroupIDs, which are used when calculating the EV fractions used in the FleetAvgAdjustment algorithm described above.
+
+$$
+evFraction = sum(sourceTypePopulation \times age 0 fraction \times EV stmyFraction)/sum(sourceTypePopulation \times age 0 fraction \times total stmyFraction)
+$$
+
+The evFraction is calculated for each model year and fleetAvgGroupID. FleetAvgGroupIDs are currently assigned based on regClassID (see the RegulatoryClass table for more information).
+
+| Field             | Type        | Null | Key  | Default | Comment                                                      |
+| ----------------- | ----------- | ---- | ---- | ------- | ------------------------------------------------------------ |
+| fleetAvgGroupID   | smallint(6) | NO   | PRI  |         |                                                              |
+| fleetAvgGroupDesc | char(50)    | YES  |      |         |                                                              |
 
 ### fuelAdjustment
 
@@ -832,10 +845,10 @@ generalFuelRatio defines numeric fuel adjustment ratios that apply emission adju
 | polProcessID       | int(11)              | NO   | PRI  |         |                                                              |
 | pollutantID        | smallint(6)          | NO   | PRI  |         |                                                              |
 | processID          | smallint(6)          | NO   | PRI  |         |                                                              |
-| minModelYearID     | smallint(6)          | NO   | PRI  | 1960    | minimum vehicle model year where fuelEffectRatioExpression  equation will be applied |
-| maxModelYearID     | smallint(6)          | NO   | PRI  | 2050    | maximum vehicle model year where fuelEffectRatioExpression  equation will be applied |
+| minModelYearID     | smallint(6)          | NO   | PRI  | 1950    | minimum vehicle model year where fuelEffectRatioExpression  equation will be applied |
+| maxModelYearID     | smallint(6)          | NO   | PRI  | 2060    | maximum vehicle model year where fuelEffectRatioExpression  equation will be applied |
 | minAgeID           | smallint(6)          | NO   | PRI  | 0       | minimum vehicle age where fuelEffectRatioExpression equation  will be applied |
-| maxAgeID           | smallint(6)          | NO   | PRI  | 30      | maximum vehicle age where fuelEffectRatioExpression equation  will be applied |
+| maxAgeID           | smallint(6)          | NO   | PRI  | 40      | maximum vehicle age where fuelEffectRatioExpression equation  will be applied |
 | sourceTypeID       | smallint(6) unsigned | NO   | PRI  |         |                                                              |
 | fuelEffectRatio    | double               | NO   |      | 0       | numeric ratio to apply for a given pollutant, process, MY,  age, and sourceType combination |
 | fuelEffectRatioGPA | double               | NO   |      | 0       | same effect as fuelEffectRatio, applied in regions falling  under the Geographic Phase-in Area regulations |
@@ -848,13 +861,13 @@ generalfuelratioexpression defines fuel adjustment equations that apply emission
 | ---------------------------- | -------------- | ---- | ---- | ------- | ------------------------------------------------------------ |
 | fuelTypeID                   | smallint(6)    | NO   | PRI  |         |                                                              |
 | polProcessID                 | int(11)        | NO   | PRI  |         |                                                              |
-| minModelYearID               | int(11)        | NO   | PRI  | 1960    | minimum vehicle model year where fuelEffectRatioExpression  equation will be applied |
-| maxModelYearID               | int(11)        | NO   | PRI  | 2050    | maximum vehicle model year where fuelEffectRatioExpression  equation will be applied |
+| minModelYearID               | int(11)        | NO   | PRI  | 1950    | minimum vehicle model year where fuelEffectRatioExpression  equation will be applied |
+| maxModelYearID               | int(11)        | NO   | PRI  | 2060    | maximum vehicle model year where fuelEffectRatioExpression  equation will be applied |
 | minAgeID                     | int(11)        | NO   | PRI  | 0       | minimum vehicle age where fuelEffectRatioExpression equation  will be applied |
-| maxAgeID                     | int(11)        | NO   | PRI  | 30      | maximum vehicle age where fuelEffectRatioExpression equation  will be applied |
+| maxAgeID                     | int(11)        | NO   | PRI  | 40      | maximum vehicle age where fuelEffectRatioExpression equation  will be applied |
 | sourceTypeID                 | smallint(6)    | NO   | PRI  | 0       |                                                              |
-| fuelEffectRatioExpression    | varchar(32000) | NO   |      |         | specific equation generating fuel effect ratios for a given  pollutant, process, MY, age, and sourceType combination. Regular SQL math can  be used, along with variable matching column names from the fuelFormulation  table |
-| fuelEffectRatioGPAExpression | varchar(32000) | NO   |      |         | same effect as fuelEffectRatioExpression, applied in regions  falling under the Geographic Phase-in Area regulations |
+| fuelEffectRatioExpression    | varchar(8183)  | NO   |      |         | specific equation generating fuel effect ratios for a given  pollutant, process, MY, age, and sourceType combination. Regular SQL math can  be used, along with variable matching column names from the fuelFormulation  table |
+| fuelEffectRatioGPAExpression | varchar(8183)  | NO   |      |         | same effect as fuelEffectRatioExpression, applied in regions  falling under the Geographic Phase-in Area regulations |
 
 ### greetManfAndDisposal
 
@@ -1378,7 +1391,7 @@ modelYearGroup is used to get the member model years of every model year group (
 
 ### modelYearMapping
 
-modelYearMapping maps model years from user-defined model year ranges to standard model year ranges used by effects tables. This table is intended to be used for MOVES international, but is not actively supported.
+modelYearMapping maps model years from user-defined model year ranges to standard model year ranges used by effects tables. This table is intended to be used for international uses of MOVES, but is not actively supported.
 
 | Field                  | Type        | Null | Key | Default | Comment |
 | ---------------------- | ----------- | ---- | --- | ------- | ------- |
@@ -2089,7 +2102,7 @@ pm10EmissionRatio is used to calculate PM10 from PM2.5 emissions.
 | PM10PM25Ratio   | float       | NO   |      |         | The mass ratio of PM10 emissions to PM2.5 emissions. A value of 1 is 1 gram of PM10 per gram of PM2.5. |
 | PM10PM25RatioCV | float       | YES  |      |         | not used                                                     |
 | minModelYearID  | smallint(6) | NO   | PRI  | 1940    |                                                              |
-| maxModelYearID  | smallint(6) | NO   | PRI  | 2050    |                                                              |
+| maxModelYearID  | smallint(6) | NO   | PRI  | 2060    |                                                              |
 
 ### pmSpeciation
 
@@ -2266,13 +2279,14 @@ regionCounty defines the fuels used in each county by mapping them to a fuel reg
 
 ### regulatoryClass
 
-regulatoryClass defines the regulatory classes used in MOVES for the purposes of looking up emission rates. 
+regulatoryClass defines the regulatory classes used in MOVES for the purposes of looking up emission rates. It also relates FleetAvgGroupIDs to individual or combinations of regulatory classes.
 
-| Field        | Type        | Null | Key | Default | Comment |
-| ------------ | ----------- | ---- | --- | ------- | ------- |
-| regClassID   | smallint(6) | NO   | PRI | 0       |         |
-| regClassName | char(25)    | YES  |     |         |         |
-| regClassDesc | char(100)   | YES  |     |         |         |
+| Field           | Type        | Null | Key | Default | Comment |
+| --------------- | ----------- | ---- | --- | ------- | ------- |
+| regClassID      | smallint(6) | NO   | PRI | 0       |         |
+| regClassName    | char(25)    | YES  |     |         |         |
+| regClassDesc    | char(100)   | YES  |     |         |         |
+| fleetAvgGroupID | smallint(6) | NO   |     | 0       |         |
 
 ### retrofitInputAssociations
 
@@ -2523,7 +2537,6 @@ sourceBinDistribution is used during MOVES runtime to define the source bins in 
 | sourceBinActivityFraction   | float      | YES  |     |         | sums to 1 for each source type, model year, pollutant, and process combination |
 | sourceBinActivityFractionCV | float      | YES  |     |         | not used                                                                       |
 | isUserInput                 | char(1)    | NO   |     | N       |                                                                                |
-| ### sourcehours             |            |      |     |         |                                                                                |
 
 ### sourceHours
 
@@ -2917,20 +2930,18 @@ tankVaporGenCoeffs contains the coefficients used in the Tank Vapor Generator to
 
 ### temperatureAdjustment
 
-temperatureAdjustment contains the temperature adjustment applied to permeation and start energy consumption  rates. These adjustments are multiplicative relative to the base rate. The  adjustments are based on the polynomial equation outlined in the startTempAdjustment table, and added to 1 to convert from an additive  adjustment to a multiplicative one.
+temperatureAdjustment contains the temperature adjustment applied to running, permeation, and some start rates. These adjustments are multiplicative relative to the base rate. The adjustments are based on the polynomial equation outlined in the startTempAdjustment table, and added to 1 to convert from an additive adjustment to a multiplicative one.
 
 | Field             | Type        | Null | Key  | Default | Comment  |
 | ----------------- | ----------- | ---- | ---- | ------- | -------- |
 | polProcessID      | int(11)     | NO   | PRI  | 0       |          |
 | fuelTypeID        | smallint(6) | NO   | PRI  | 0       |          |
+| regClassID        | smallint(6) | NO   | PRI  | 0       |          |
+| minModelYearID    | smallint(6) | NO   | PRI  | 1950    |          |
+| maxModelYearID    | smallint(6) | NO   | PRI  | 2060    |          |
 | tempAdjustTermA   | float       | YES  |      |         |          |
-| tempAdjustTermACV | float       | YES  |      |         | not used |
 | tempAdjustTermB   | float       | YES  |      |         |          |
-| tempAdjustTermBCV | float       | YES  |      |         | not used |
 | tempAdjustTermC   | float       | YES  |      |         |          |
-| tempAdjustTermCCV | float       | YES  |      |         | not used |
-| minModelYearID    | smallint(6) | NO   | PRI  | 1960    |          |
-| maxModelYearID    | smallint(6) | NO   | PRI  | 2050    |          |
 
 ### temperatureProfileID
 
@@ -2995,9 +3006,9 @@ zone defines the default zones used in MOVES, which are the same as counties. It
 | ---------------- | ------- | ---- | ---- | ------- | ------------------------------------------------------------ |
 | zoneID           | int(11) | NO   | PRI  | 0       |                                                              |
 | countyID         | int(11) | NO   | MUL  | 0       |                                                              |
-| startAllocFactor | double  | YES  |      |         | used to allocate national start activity                     |
+| startAllocFactor | double  | YES  |      |         | used to allocate activity in Default Scale runs and to weight values that vary by geography when running with geographic pre-aggregation. |
 | idleAllocFactor  | double  | YES  |      |         | deprecated                                                   |
-| SHPAllocFactor   | double  | YES  |      |         | used to allocate allocate activity used in evaporative emissions |
+| SHPAllocFactor   | double  | YES  |      |         | used to allocate source hours parked activity                |
 
 ### zoneMonthHour
 

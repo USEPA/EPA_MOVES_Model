@@ -110,7 +110,7 @@ create table if not exists stmyTVVCoeffs (
   tankSize double DEFAULT NULL,
   tankFillFraction double DEFAULT NULL,
   PRIMARY KEY (sourceTypeID,modelYearID,fuelTypeID,polProcessID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 truncate stmyTVVCoeffs;
 
 create table if not exists stmyTVVEquations (
@@ -129,7 +129,7 @@ create table if not exists stmyTVVEquations (
   tankSize double DEFAULT NULL,
   tankFillFraction double DEFAULT NULL,
   PRIMARY KEY (sourceTypeID,modelYearID,fuelTypeID,polProcessID,regClassID,tvvEquation,leakEquation)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 truncate stmyTVVEquations;
 
 ##create.TankVaporGenCoeffs##;
@@ -188,7 +188,7 @@ WHERE SourceBinDistribution.polProcessID IN (##pollutantProcessIDs##)
 AND CumTVVCoeffs.polProcessID IN (##pollutantProcessIDs##)
 AND SourceBinDistribution.sourceTypeModelYearID = SourceTypeModelYear.sourceTypeModelYearID
 AND SourceTypeModelYear.modelYearID <= ##context.year##
-AND SourceTypeModelYear.modelYearID >= ##context.year## - 30
+AND SourceTypeModelYear.modelYearID >= ##context.year## - 40
 AND SourceTypeModelYear.sourceTypeID = RunSpecSourceFuelType.sourceTypeID
 AND SourceBinDistribution.SourceBinID = SourceBin.SourceBinID
 AND SourceBin.fuelTypeID = RunSpecSourceFuelType.fuelTypeID
@@ -204,7 +204,7 @@ AND SourceBin.sourceBinID = SourceBinDistribution.sourceBinID
 AND RunSpecSourceFuelType.sourceTypeID = SourceTypeModelYear.sourceTypeID
 AND SourceBinDistribution.sourceTypeModelYearID = SourceTypeModelYear.sourceTypeModelYearID
 AND SourceTypeModelYear.modelYearID <= ##context.year##
-AND SourceTypeModelYear.modelYearID >= ##context.year## - 30
+AND SourceTypeModelYear.modelYearID >= ##context.year## - 40
 AND EmissionRateByAge.polProcessID IN (##pollutantProcessIDs##)
 AND EmissionRateByAge.opModeID IN (150, 300);
 
@@ -262,13 +262,13 @@ WHERE processID=##context.iterProcess.databaseKey##;
 cache SELECT * INTO OUTFILE '##PollutantProcessModelYear##'
 FROM PollutantProcessModelYear
 WHERE modelYearID <= ##context.year##
-AND modelYearID >= ##context.year## - 30
+AND modelYearID >= ##context.year## - 40
 AND polProcessID IN (##pollutantProcessIDs##);
 
 cache SELECT * INTO OUTFILE '##PollutantProcessMappedModelYear##'
 FROM PollutantProcessMappedModelYear
 WHERE modelYearID <= ##context.year##
-AND modelYearID >= ##context.year## - 30
+AND modelYearID >= ##context.year## - 40
 AND polProcessID IN (##pollutantProcessIDs##);
 
 cache SELECT * INTO OUTFILE '##RunSpecMonth##'
@@ -289,7 +289,7 @@ FROM SourceBinDistribution, SourceTypeModelYear, SourceBin, RunSpecSourceFuelTyp
 WHERE polProcessID IN (##pollutantProcessIDs##)
 AND SourceBinDistribution.sourceTypeModelYearID = SourceTypeModelYear.sourceTypeModelYearID
 AND SourceTypeModelYear.modelYearID <= ##context.year##
-AND SourceTypeModelYear.modelYearID >= ##context.year## - 30
+AND SourceTypeModelYear.modelYearID >= ##context.year## - 40
 AND SourceTypeModelYear.sourceTypeID = RunSpecSourceFuelType.sourceTypeID
 AND SourceBinDistribution.SourceBinID = SourceBin.SourceBinID
 AND SourceBin.fuelTypeID = RunSpecSourceFuelType.fuelTypeID;
@@ -300,7 +300,7 @@ SourceTypeModelYear, SourceBin, RunSpecSourceFuelType
 WHERE polProcessID IN (##pollutantProcessIDs##)
 AND SourceBinDistribution.sourceTypeModelYearID = SourceTypeModelYear.sourceTypeModelYearID
 AND SourceTypeModelYear.modelYearID <= ##context.year##
-AND SourceTypeModelYear.modelYearID >= ##context.year## - 30
+AND SourceTypeModelYear.modelYearID >= ##context.year## - 40
 AND SourceTypeModelYear.sourceTypeID = RunSpecSourceFuelType.sourceTypeID
 AND SourceBinDistribution.SourceBinID = SourceBin.SourceBinID
 AND SourceBin.fuelTypeID = RunSpecSourceFuelType.fuelTypeID;
@@ -314,7 +314,7 @@ cache SELECT SourceTypeModelYear.* INTO OUTFILE '##SourceTypeModelYear##'
 FROM SourceTypeModelYear,RunSpecSourceType
 WHERE SourceTypeModelYear.sourceTypeID = RunSpecSourceType.sourceTypeID
 AND modelYearID <= ##context.year##
-AND modelYearID >= ##context.year## - 30;
+AND modelYearID >= ##context.year## - 40;
 
 cache SELECT SourceTypeModelYearGroup.* INTO OUTFILE '##SourceTypeModelYearGroup##'
 FROM SourceTypeModelYearGroup,RunSpecSourceType
@@ -342,7 +342,7 @@ create table regClassFractionOfSTMY##context.year## (
 	regClassID smallint not null,
 	regClassFractionOfSourceTypeModelYearFuel double not null,
 	primary key (sourceTypeID, modelYearID, fuelTypeID, regClassID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 insert into regClassFractionOfSTMY##context.year## (sourceTypeID, modelYearID, fuelTypeID, regClassID, regClassFractionOfSourceTypeModelYearFuel)
 select sourceTypeID, modelYearID, fuelTypeID, regClassID, sum(stmyFraction) as regClassFractionOfSourceTypeModelYearFuel
@@ -370,7 +370,7 @@ create table stmyTVVEquations##context.year## (
   tankSize double DEFAULT NULL,
   tankFillFraction double DEFAULT NULL,
   PRIMARY KEY (sourceTypeID,modelYearID,fuelTypeID,polProcessID,regClassID,tvvEquation,leakEquation)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 insert into stmyTVVEquations##context.year## (sourceTypeID, modelYearID, fuelTypeID, polProcessID, regClassID,
 	backPurgeFactor, averageCanisterCapacity, regClassFractionOfSourceTypeModelYearFuel,
@@ -416,7 +416,7 @@ create table stmyTVVCoeffs##context.year## (
   tankSize double DEFAULT NULL,
   tankFillFraction double DEFAULT NULL,
   PRIMARY KEY (sourceTypeID,modelYearID,fuelTypeID,polProcessID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 insert into stmyTVVCoeffs##context.year## (sourceTypeID, modelYearID, fuelTypeID, polProcessID,
 	backPurgeFactor, averageCanisterCapacity, leakFraction, leakFractionIM, tankSize, tankFillFraction)
@@ -450,7 +450,7 @@ create table sampleVehicleCount (
 	totalVehicles int not null,
 	primary key (dayID, sourceTypeID),
 	unique key (sourceTypeID, dayID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 -- @algorithm totalVehicles = count(dayID, sourceTypeID) from sampleVehicleDay.
 -- @condition First bundle only.
@@ -470,7 +470,7 @@ create table sampleVehicleNeverStarted (
 	fractionNeverStarted double,
 	primary key (dayID, sourceTypeID),
 	unique key (sourceTypeID, dayID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 -- @algorithm vehiclesNeverStarted = count(dayID, sourceTypeID) from sampleVehicleDay without any corresponding entry in sampleVehicleTrip.
 -- @condition First bundle only.
@@ -499,7 +499,7 @@ create table sampleVehicleFirstStart (
 	hourID smallint not null,
 	primary key (dayID, sourceTypeID, hourID, vehID),
 	unique key (sourceTypeID, dayID, hourID, vehID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 -- @algorithm hour of first start[vehID,dayID,sourceTypeID] = min(SampleVehicleTrip.hourID).
 -- @condition First bundle only.
@@ -520,7 +520,7 @@ create table sampleVehicleSoakTemp (
 	vehiclesFirstStarted int not null,
 	primary key (dayID, sourceTypeID, hourID),
 	unique key (sourceTypeID, dayID, hourID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 -- @algorithm In each day and hour, count the number of vehicles that start for the first time.
 -- vehiclesFirstStarted[dayID,sourceTypeID,hourID] = count(dayID,sourceTypeID,hourID) by hour of first start.
@@ -540,7 +540,7 @@ create table sampleVehicleSoakTemp2 (
 	totalVehiclesStarted int not null,
 	primary key (dayID, sourceTypeID, hourID),
 	unique key (sourceTypeID, dayID, hourID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 -- @algorithm In each day and hour, sum the number of vehicles that have started up to then.
 -- totalVehiclesStarted[dayID,sourceTypeID,hourID]=sum(vehiclesFirstStarted) for all hours up to hourID.
@@ -583,7 +583,7 @@ create table if not exists sampleVehicleSoakingF (
 	P1 double,
 	P24 double,
 	primary key (soakDayID, sourceTypeID, dayID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 -- SampleVehicleSoaking Day 1
 
@@ -713,7 +713,7 @@ create table if not exists sampleVehicleSoakingF2 (
 	dayID smallint not null,
 	F double,
 	primary key (soakDayID, sourceTypeID, dayID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 insert into sampleVehicleSoakingF2 (soakDayID, sourceTypeID, dayID, F)
 select soakDayID, sourceTypeID, dayID, F
@@ -737,7 +737,7 @@ create table sampleVehicleSoakingProportion (
 	hourID smallint not null,
 	P double,
 	primary key (soakDayID, sourceTypeID, dayID, hourID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 -- @algorithm P[n,1] = 1 for each soaking day
 -- @condition First bundle only.
@@ -802,7 +802,7 @@ create table sampleVehicleSoakingDH (
 	hourID smallint not null,
 	DFraction double,
 	primary key (sourceTypeID, dayID, hourID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 -- @algorithm Precalc[h] = (D[0,h]-D[0,24]) / (D[0,1]-D[0,24]) because it is used in P[n,1 < h < 24]
 -- @condition First bundle only.
@@ -867,7 +867,7 @@ cache select *
 into outfile '##RegClassSourceTypeFraction##'
 from RegClassSourceTypeFraction
 where modelYearID <= ##context.year##
-and modelYearID >= ##context.year## - 30;
+and modelYearID >= ##context.year## - 40;
 -- End Section WithRegClassID
 
 -- End Section Extract Data
@@ -900,7 +900,7 @@ CREATE TABLE IMCoverageMergedUngrouped (
        fuelTypeID SMALLINT NOT NULL,
        sourceTypeID SMALLINT NOT NULL,
        IMAdjustFract FLOAT
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE INDEX XPKIMCoverageMergedUngrouped ON IMCoverageMergedUngrouped
 (
@@ -954,11 +954,11 @@ drop table if exists PeakHourOfColdSoak;
 
 --zoneID int not null,  NOTE: since calc is at year level, there is only 1 zone
 create table PeakHourOfColdSoak (
-monthID smallint(6) not null,
-peakHourID smallint(6) not null,
-primary key (monthID),
-index (peakHourID)
-);
+    monthID smallint(6) not null,
+    peakHourID smallint(6) not null,
+    primary key (monthID),
+    index (peakHourID)
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 -- @algorithm Compute peakHourID by monthID. The maximum value of the expression <coldSoakTankTemperature*
 -- 100000 + (999-hourID)> is found. This finds the maximum temperature and the earliest time of day
@@ -996,7 +996,7 @@ create table DebugTankVaporGenerated (
 	leakFraction double DEFAULT NULL,
 	leakFractionIM double DEFAULT NULL,
 	primary key (hourDayID, initialHourDayID, ethanolLevelID, monthID, sourceTypeID, fuelTypeID, modelYearID, polProcessID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 insert into DebugTankVaporGenerated (hourDayID, initialHourDayID, ethanolLevelID,
 	monthID, sourceTypeID, fuelTypeID, 
@@ -1052,7 +1052,7 @@ create table TankVaporGeneratedHighAndLow (
 	leakFraction double DEFAULT NULL,
 	leakFractionIM double DEFAULT NULL,
 	primary key (altitudeFlag, hourDayID, initialHourDayID, ethanolLevelID, monthID, sourceTypeID, fuelTypeID, modelYearID, polProcessID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 -- @algorithm Calculate tankVaporGenerated for high and low altitudes.
 -- The time spans t1 (based upon ColdSoakInitialHourFraction.initialHourDayID) to t2 (based upon ColdSoakInitialHourFraction.hourDayID).
@@ -1106,7 +1106,7 @@ create table TankVaporGenerated (
 	leakFraction double DEFAULT NULL,
 	leakFractionIM double DEFAULT NULL,
 	primary key (hourDayID, initialHourDayID, ethanolLevelID, monthID, sourceTypeID, fuelTypeID, modelYearID, polProcessID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 -- @algorithm Interpolate tankVaporGenerated based upon the county's barometric pressure.
 -- Don't allow negative values.
@@ -1155,7 +1155,7 @@ create table EthanolWeightedTVGTemp (
 	leakFractionIM double DEFAULT NULL,
 	primary key (hourDayID, initialHourDayID, monthID, sourceTypeID, fuelTypeID, modelYearID, polProcessID),
 	key (hourID, dayID, initialHourDayID, monthID, sourceTypeID, fuelTypeID, modelYearID, polProcessID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 -- @algorithm Calculated the ethanol weighted TVG using tankVaporGenerated for E10 fuel (t10) and that of E0 fuel (t0).
 -- ethanolWeightedTVG=(t10.tankVaporGenerated*(least(10.0,ETOHVolume)/10.0)+t0.tankVaporGenerated*(1.0-least(10.0,ETOHVolume)/10.0)).
@@ -1196,7 +1196,7 @@ create table EthanolWeightedTVG (
 	leakFraction double DEFAULT NULL,
 	leakFractionIM double DEFAULT NULL,
 	primary key (hourDayID, initialHourDayID, monthID, sourceTypeID, fuelTypeID, modelYearID, polProcessID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 -- @algorithm Until now, ethanolWeightedTVG has been a cummulative total.
 -- Convert it to an hourly increment by subtracting the total of the previous hour.
@@ -1243,7 +1243,7 @@ create table TVG (
 	tvgSum1H double default null,
 	tvgSumH24 double default null,
 	primary key (sourceTypeID, modelYearID, fuelTypeID, polProcessID, soakDayID, hourDayID, initialHourDayID, monthID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 drop table if exists tvgSumIH;
 drop table if exists tvgSumI24;
@@ -1261,7 +1261,7 @@ create table tvgSumIH (
 	polProcessID int not null default '0',
 	tvgSum double,
 	primary key (hourDayID, initialHourDayID, monthID, sourceTypeID, fuelTypeID, modelYearID, polProcessID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 -- Sum of TVG hourly from initial hour I to the last hour of the day
 create table tvgSumI24 like tvgSumIH;
@@ -1438,7 +1438,7 @@ create table CummulativeTankVaporVented (
 	priorHourID smallint(6) not null,
 	primary key (soakDayID, regClassID, ageID, polProcessID, dayID, hourID, initialHourDayID, monthID, sourceTypeID, fuelTypeID),
 	index (priorHourID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 -- @algorithm Include leaking using database-driven TVV and Leak equations.
 -- tankVaporVented = (1-leakFraction)*(TVV equation) + leakFraction*(Leak equation).
@@ -1490,7 +1490,7 @@ create table UnweightedHourlyTVV (
 	unweightedHourlyTVVIM float null,
 	index (sourceTypeID, zoneID, monthID, hourDayID, initialHourDayID, fuelTypeID, soakDayID),
 	index (soakDayID, sourceTypeID, zoneID, monthID, hourDayID, initialHourDayID, fuelTypeID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 -- @algorithm unweightedHourlyTVV = tankVaporVented[hourID] - tankVaporVented[hourID-1].
 -- unweightedHourlyTVVIM = tankVaporVentedIM[hourID] - tankVaporVentedIM[hourID-1].
@@ -1559,7 +1559,7 @@ create table HourlyTVV (
 	hourlyTVV float null,
 	hourlyTVVIM float null,
 	primary key (regClassID, ageID, polProcessID, hourDayID, monthID, sourceTypeID, fuelTypeID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 -- Handle hourDayIDs <= the peak hour
 drop table if exists HourlyTVVTemp;
@@ -1576,7 +1576,7 @@ create table HourlyTVVTemp (
 	hourlyTVV float null,
 	hourlyTVVIM float null,
 	index (regClassID, ageID, polProcessID, hourDayID, monthID, sourceTypeID, fuelTypeID, soakDayID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 -- @algorithm hourlyTVV = unweightedHourlyTVV * coldSoakInitialHourFraction.
 -- hourlyTVVIM = unweightedHourlyTVVIM * coldSoakInitialHourFraction.
@@ -1616,7 +1616,7 @@ create table CopyOfHourlyTVV (
 	hourlyTVV float null,
 	hourlyTVVIM float null,
 	primary key (regClassID, ageID, polProcessID, dayID, hourID, monthID, sourceTypeID, fuelTypeID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 insert into CopyOfHourlyTVV (regClassID, ageID, polProcessID, dayID, hourID, 
 	monthID, sourceTypeID, fuelTypeID, hourlyTVV, hourlyTVVIM)
 select regClassID, ageID, polProcessID, dayID, hourID,
@@ -1673,7 +1673,7 @@ create table WeightedMeanBaseRate (
 	rvpAdjustment float null,
 	unadjustedWeightedMeanBaseRate float null,
 	primary key (polProcessID, sourceTypeID, regClassID, fuelTypeID, monthID, hourDayID, modelYearID, opModeID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 -- For cold soak mode (opModeID=151)
 -- Section WithRegClassID

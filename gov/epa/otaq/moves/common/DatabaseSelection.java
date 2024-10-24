@@ -139,9 +139,16 @@ public class DatabaseSelection implements Comparable {
 			} else {
 				connectionString += "/";
 			}
+            connectionString += "?characterEncoding=UTF-8";
 
 			Connection result = DriverManager.getConnection(connectionString, userName, password);
 			DatabaseUtilities.isLocal(result);
+            Statement stmt = result.createStatement();
+            try {
+                stmt.executeQuery("SET NAMES utf8mb4");
+            } catch (SQLException e) {
+                Logger.logError(e, "Error trying to set the encoding for MariaDB connection to utf8mb4");
+            }
 			return result;
 		} catch (ClassNotFoundException exception) {
 			// Could not find the database driver

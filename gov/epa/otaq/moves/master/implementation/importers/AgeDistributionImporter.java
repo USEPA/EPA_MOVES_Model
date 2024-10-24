@@ -212,7 +212,10 @@ public class AgeDistributionImporter extends ImporterBase {
 		boolean hasSourceTypes = manager.tableHasSourceTypes(db,
 				"select distinct sourceTypeID from " + primaryTableName,
 				this,primaryTableName + " is missing sourceTypeID(s)");
-		if(hasYears && hasSourceTypes) {
+        boolean hasAges = manager.tableHasAges(db,
+                "select distinct ageID from " + primaryTableName,
+                this,primaryTableName + " is missing ageID(s)");
+		if(hasYears && hasSourceTypes && hasAges) {
 			return getImporterDataStatusCore(db);
 		}
 		return new RunSpecSectionStatus(RunSpecSectionStatus.NOT_READY);

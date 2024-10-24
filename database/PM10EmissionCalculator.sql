@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS PM10PollutantProcessAssoc (
        PRIMARY KEY (polProcessID, processID, pollutantID),
        KEY (processID, pollutantID, polProcessID),
        KEY (pollutantID, processID, polProcessID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 TRUNCATE TABLE PM10PollutantProcessAssoc;
 
 -- End Section Create Remote Tables for Extracted Data
@@ -68,7 +68,7 @@ create table if not exists PM10MOVESWorkerOutputTemp (
 	index (sourceTypeID),
 	index (roadTypeID),
 	index (zoneID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 -- @algorithm PM10 Total = PM2.5 Total * PM10PM25Ratio.
 insert into PM10MOVESWorkerOutputTemp (

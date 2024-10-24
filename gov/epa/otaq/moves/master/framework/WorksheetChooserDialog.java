@@ -47,7 +47,7 @@ public class WorksheetChooserDialog extends JDialog implements ActionListener, L
 	 * within the workbook
 	**/
 	public WorksheetChooserDialog(JFrame parent, ArrayList worksheetsToUse) {
-		super(parent, "Choose XLS Worksheet");
+		super(parent, MOVESWindow.MOVES_VERSION + " - Choose XLS Worksheet");
 		frame = parent;
 		worksheets = worksheetsToUse;
 

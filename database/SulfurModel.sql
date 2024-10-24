@@ -57,7 +57,7 @@ create table if not exists tempSulfurCalcs1 (
 	sulfShortTarget double, 
 	sulfShort30 double,
 	lowSulfurCoeff double
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 drop table if exists tempSulfurCalcs2;
 create table if not exists tempSulfurCalcs2 (
@@ -85,7 +85,7 @@ create table if not exists tempSulfurCalcs2 (
 	sulfurLongCoeff double,
 	minSulfAdjust double,
 	lowSulfurCoeff double
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 drop table if exists tempSulfurCalcs3;
 create table if not exists tempSulfurCalcs3 (
@@ -119,7 +119,7 @@ create table if not exists tempSulfurCalcs3 (
 	GPASulfadj double,
 	minSulfAdjust double,
 	lowSulfurCoeff double
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 drop table if exists tempSulfurCalcs3High;
 create table if not exists tempSulfurCalcs3High (
@@ -152,7 +152,7 @@ create table if not exists tempSulfurCalcs3High (
 	GPASulfadj double,
 	minSulfAdjust double,
 	lowSulfurCoeff double
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 drop table if exists tempSulfurCalcs3Normal;
 create table if not exists tempSulfurCalcs3Normal (
@@ -185,7 +185,7 @@ create table if not exists tempSulfurCalcs3Normal (
 	GPASulfadj double,
 	minSulfAdjust double,
 	lowSulfurCoeff double
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 drop table if exists tempSulfurCalcs4;
 create table if not exists tempSulfurCalcs4 (
@@ -209,7 +209,7 @@ create table if not exists tempSulfurCalcs4 (
 	sulfurLevel double,
 	lowSulfurCoeff double,
 	sulfurBasis double
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 -- LEFT JOINs should be used with M6SulfurCoeff, using a default value of 1.0 for sulfurLongCoeff
 -- if a record is not found.
@@ -217,9 +217,10 @@ create table if not exists tempSulfurCalcs4 (
 drop table if exists tempYear;
 create table if not exists tempYear (
 	year int not null primary key
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
-insert into tempYear(year) values(1960),(1961),(1962),(1963),(1964),(1965),(1966),(1967)
+insert into tempYear(year) values(1950),(1951),(1952),(1953),(1954),(1955),(1956),(1957)
+	,(1958),(1959),(1960),(1961),(1962),(1963),(1964),(1965),(1966),(1967)
 	,(1968),(1969),(1970),(1971),(1972),(1973),(1974),(1975),(1976),(1977)
 	,(1978),(1979),(1980),(1981),(1982),(1983),(1984),(1985),(1986),(1987)
 	,(1988),(1989),(1990),(1991),(1992),(1993),(1994),(1995),(1996),(1997)
@@ -238,7 +239,7 @@ create table if not exists tempSulfurBaseLookup (
 	modelYearID int not null,
 	sulfurGPAMax float,
 	sulfurBase float
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 drop table if exists tempSulfurCoeffLookup;
 create table if not exists tempSulfurCoeffLookup (
@@ -251,13 +252,13 @@ create table if not exists tempSulfurCoeffLookup (
 	sulfurFunctionName char(10),
 	sulfurFunctionID smallint,
 	lowSulfurCoeff double
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 insert into tempSulfurBaseLookup (sulfurBasis, modelYearID, sulfurGPAMax, sulfurBase)
 select distinct sulfurBasis, Year, sulfurGPAMax, sulfurBase
 from tempYear
 inner join sulfurBase on tempYear.year >= 
-	CASE round(sulfurBase.modelYearGroupID / 10000,0) WHEN 0 THEN 1960 ELSE round(sulfurBase.modelYearGroupID / 10000,0) END
+	CASE round(sulfurBase.modelYearGroupID / 10000,0) WHEN 0 THEN 1950 ELSE round(sulfurBase.modelYearGroupID / 10000,0) END
 	and tempYear.year <= mod(sulfurBase.modelYearGroupID,10000)
 inner join RunSpecModelYear on RunSpecModelYear.modelYearID = tempYear.year
 ;
@@ -272,7 +273,7 @@ select sulfurCoeff, processID, pollutantID, sulfurModelCoeff.M6EmitterID,
 	sulfurModelCoeff.sourceTypeID, year, sulfurFunctionName, sulfurModelCoeff.sulfurFunctionID, sulfurModelCoeff.lowSulfurCoeff
 from tempYear
 inner join sulfurModelCoeff on tempYear.year >= 
-	CASE round(sulfurModelCoeff.fuelMyGroupID / 10000,0) WHEN 0 THEN 1960 ELSE round(sulfurModelCoeff.fuelMyGroupID / 10000,0) END 
+	CASE round(sulfurModelCoeff.fuelMyGroupID / 10000,0) WHEN 0 THEN 1950 ELSE round(sulfurModelCoeff.fuelMyGroupID / 10000,0) END 
 	and tempYear.year <= mod(sulfurModelCoeff.fuelMyGroupID,10000)
 inner join RunSpecModelYear on RunSpecModelYear.modelYearID = tempYear.year
 inner join sulfurModelname on sulfurModelCoeff.M6EmitterID = sulfurModelname.M6EmitterID

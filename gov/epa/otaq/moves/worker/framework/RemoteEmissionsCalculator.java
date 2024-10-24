@@ -980,7 +980,7 @@ public class RemoteEmissionsCalculator extends MOVESThread {
 			int start, int end, TreeMapIgnoreCase replacements, File errorFile,
 			File workingPath, File optFilePath, BundleManifest manifest)
 			throws IOException {
-		ExternalCalculator externalCalc = new ExternalCalculator(this,database,workingPath,isTest);
+		ExternalCalculator externalCalc = new ExternalCalculator(this,database,workingPath,isTest,manifest);
 		String sql = "";
 		
 		try {

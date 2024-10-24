@@ -109,7 +109,7 @@ public class OnRoadVehicleEquipment extends JPanel implements ListSelectionListe
 		 * @return The String representation of this object.
 		**/
 		public String toString() {
-			return fuelTypeDesc;
+			return String.format("%d - %s", fuelTypeID, fuelTypeDesc);
 		}
 	}
 
@@ -139,7 +139,7 @@ public class OnRoadVehicleEquipment extends JPanel implements ListSelectionListe
 		 * @return The String representation of this object.
 		**/
 		public String toString() {
-			return sourceTypeName;
+			return String.format("%d - %s", sourceTypeID, sourceTypeName);
 		}
 	}
 
@@ -327,7 +327,7 @@ public class OnRoadVehicleEquipment extends JPanel implements ListSelectionListe
 		selectionDelete.setMnemonic('D');
 		selectionDelete.setDisplayedMnemonicIndex(0);
 		ToolTipHelper.add(selectionDelete,"Delete the selected Fuel and Source Use Type combinations");
-		addFuelSourceUseTypeCombinations = new JButton("Add Fuel/Type Combinations");
+		addFuelSourceUseTypeCombinations = new JButton("Add Selected Source Type(s)");
 		addFuelSourceUseTypeCombinations.setName("addFuelSourceUseTypeCombinations");
 		addFuelSourceUseTypeCombinations.setEnabled(false); // disabled until item in list
 		addFuelSourceUseTypeCombinations.setMnemonic('m');
@@ -357,9 +357,7 @@ public class OnRoadVehicleEquipment extends JPanel implements ListSelectionListe
 		hadDeprecatedIntercityBusesLabel = new JLabel(
 				"<html><body>WARNING: RunSpec originally had SourceTypeID 41 \"Intercity Buses\" selected. In this version<br>" + 
 				            "of MOVES, SourceTypeID 41 represents \"Other Buses\", which includes all buses that are not<br>" +
-							"owned or operated by a transit agency or school. Additionally, not all available Fuel Types<br>" + 
-							"have been added for the selected Source Types. Please delete all selected Source Type/Fuel Type<br>" +
-							"combinations and reselect them to ensure compatibility with this version of MOVES.<br>" +
+							"owned or operated by a transit agency or school.<br>" +
 							"Note: Saving to a new RunSpec and opening it will remove this message.</body></html>",
 				warningImage, JLabel.LEFT);
 		hadDeprecatedIntercityBusesLabel.setName("hadDeprecatedIntercityBusesLabel");
@@ -370,53 +368,57 @@ public class OnRoadVehicleEquipment extends JPanel implements ListSelectionListe
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.NONE;
 		gbc.insets = new Insets(2,2,2,2);
-		gbc.gridwidth = 3;
+		gbc.gridwidth = 6;
 		gbc.gridheight = 6;
 		gbc.weightx = 0;
 		gbc.weighty = 0;
 		setLayout(new GridBagLayout());
 
-		LayoutUtility.setPositionOnGrid(gbc,0, 3, "CENTER", 2, 1);
-		add(addFuelSourceUseTypeCombinations, gbc);
-		LayoutUtility.setPositionOnGrid(gbc,0, 0, "WEST", 1, 1);
+        // column 1: Fuels (deprecated)
+		gbc.fill = GridBagConstraints.NONE;
+		LayoutUtility.setPositionOnGrid(gbc,0, 0, "WEST", 2, 1);
 		add(fuelLabel, gbc);
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.weightx = 1;
 		gbc.weighty = 1;
-		LayoutUtility.setPositionOnGrid(gbc,0, 1, "WEST", 1, 1);
+		LayoutUtility.setPositionOnGrid(gbc,0, 1, "WEST", 2, 1);
 		add(fuelScrollPane, gbc);
+		// LayoutUtility.setPositionOnGrid(gbc,0, 2, "EAST", 2, 1);
+		// add(fuelSelectAll, gbc);
+
+        // column 2: Source Types
 		gbc.fill = GridBagConstraints.NONE;
 		gbc.weightx = 0;
 		gbc.weighty = 0;
-
-		LayoutUtility.setPositionOnGrid(gbc,0, 2, "EAST", 1, 1);
-		add(fuelSelectAll, gbc);
-
-		LayoutUtility.setPositionOnGrid(gbc,1, 0, "WEST", 1, 1);
+		LayoutUtility.setPositionOnGrid(gbc,2, 0, "WEST", 2, 1);
 		add(sourceUseTypeLabel, gbc);
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.weightx = 1;
 		gbc.weighty = 1;
-		LayoutUtility.setPositionOnGrid(gbc,1, 1, "WEST", 1, 1);
+		LayoutUtility.setPositionOnGrid(gbc,2, 1, "WEST", 2, 1);
 		add(sourceUseTypeScrollPane, gbc);
-		gbc.fill = GridBagConstraints.NONE;
 		gbc.weightx = 0;
 		gbc.weighty = 0;
-		LayoutUtility.setPositionOnGrid(gbc,1, 2, "EAST", 1, 1);
+		gbc.fill = GridBagConstraints.NONE;
+        LayoutUtility.setPositionOnGrid(gbc,2, 2, "WEST", 1, 1);
+		add(addFuelSourceUseTypeCombinations, gbc);
+		gbc.fill = GridBagConstraints.NONE;
+		LayoutUtility.setPositionOnGrid(gbc,3, 2, "EAST", 1, 1);
 		add(sourceUseTypeSelectAll, gbc);
 
-		LayoutUtility.setPositionOnGrid(gbc,2, 0, "WEST", 1, 1);
+        // column 3: Selections
+		gbc.fill = GridBagConstraints.NONE;
+		LayoutUtility.setPositionOnGrid(gbc,4, 0, "WEST", 2, 1);
 		add(selectionLabel, gbc);
-
 		gbc.fill = GridBagConstraints.BOTH;
-		gbc.weightx = 1;
+		gbc.weightx = 2;
 		gbc.weighty = 1;
-		LayoutUtility.setPositionOnGrid(gbc,2, 1, "WEST", 1, 1);
+		LayoutUtility.setPositionOnGrid(gbc,4, 1, "WEST", 2, 1);
 		add(selectionScrollPane, gbc);
 		gbc.fill = GridBagConstraints.NONE;
 		gbc.weightx = 0;
 		gbc.weighty = 0;
-		LayoutUtility.setPositionOnGrid(gbc,2, 2, "EAST", 1, 1);
+		LayoutUtility.setPositionOnGrid(gbc,4, 2, "EAST", 2, 1);
 		add(selectionDelete, gbc);
 
 		messageLogPanel.setLayout(new BoxLayout(messageLogPanel, BoxLayout.Y_AXIS));
@@ -424,10 +426,10 @@ public class OnRoadVehicleEquipment extends JPanel implements ListSelectionListe
 		messageLogPanel.add(messageLogPane);
 
 		gbc.fill = GridBagConstraints.HORIZONTAL;
-		LayoutUtility.setPositionOnGrid(gbc, 0, 4, "WEST", 3, 1);
+		LayoutUtility.setPositionOnGrid(gbc, 0, 4, "WEST", 6, 1);
 		add(messageLogPanel, gbc);
 
-		LayoutUtility.setPositionOnGrid(gbc,0, 5, "WEST", 3, 2);
+		LayoutUtility.setPositionOnGrid(gbc,0, 5, "WEST", 6, 2);
 		add(hadDeprecatedIntercityBusesLabel, gbc);
 	}
 
@@ -593,8 +595,7 @@ public class OnRoadVehicleEquipment extends JPanel implements ListSelectionListe
 		if(selectionList.getModel().getSize() == 0) {
 			messageLogModel.clear();
 			messageLogPanel.setVisible(true);
-			messageLogModel.addElement(new String("Please select a Fuel and Source Use Type "
-					+"combination."));
+			messageLogModel.addElement(new String("Please select Source Use Types to include in the run."));
 		} else {
 			messageLogModel.clear();
 			//boolean didWarnAboutMotorcycles = false;
@@ -724,15 +725,10 @@ public class OnRoadVehicleEquipment extends JPanel implements ListSelectionListe
 	/** load all fuels from the database into the fuelList listbox **/
 	public void loadFuels() {
 		Connection db = DatabaseConnectionManager.getGUIConnection(MOVESDatabaseType.DEFAULT);
-		if(null == db) {
-			fuelListModel.addElement(new FuelEntry(10000,"Diesel"));
-			fuelListModel.addElement(new FuelEntry(10001,"Gasoline"));
-			return;
-		}
 		String sql = "SELECT DISTINCT ft.fuelTypeID, ft.fuelTypeDesc"
 				+" FROM FuelType ft, FuelEngTechAssoc feta"
 				+" WHERE ft.fuelTypeID = feta.fuelTypeID"
-				+" ORDER BY ft.fuelTypeDesc";
+				+" ORDER BY ft.fuelTypeID";
 		SQLRunner.Query query = new SQLRunner.Query();
 		try {
 			query.open(db,sql);
@@ -742,7 +738,7 @@ public class OnRoadVehicleEquipment extends JPanel implements ListSelectionListe
 				fuelListModel.addElement(new FuelEntry(ftID,fDesc));
 			}
 		} catch(Exception e) {
-			Logger.logError(e,"Unable to load a list of fuels for On Road Vehicles.");
+			Logger.logError(e,"Unable to load list of fuels for Onroad Vehicles.");
 		} finally {
 			query.onFinally();
 		}
@@ -751,12 +747,7 @@ public class OnRoadVehicleEquipment extends JPanel implements ListSelectionListe
 	/** load all sourceUseTypes from the database into the sourceUseTypeList listbox **/
 	public void loadSourceUseTypes() {
 		Connection db = DatabaseConnectionManager.getGUIConnection(MOVESDatabaseType.DEFAULT);
-		if(null == db) {
-			sourceUseTypeListModel.addElement(new SourceTypeEntry(5000,"Garbage Trucks"));
-			sourceUseTypeListModel.addElement(new SourceTypeEntry(5001,"Pizza Delivery Cars"));
-			return;
-		}
-		String sql="SELECT sourceTypeID,sourceTypeName FROM SourceUseType ORDER BY SourceTypeName";
+		String sql="SELECT sourceTypeID,sourceTypeName FROM SourceUseType ORDER BY sourceTypeID";
 		SQLRunner.Query query = new SQLRunner.Query();
 		try {
 			query.open(db,sql);
@@ -765,7 +756,7 @@ public class OnRoadVehicleEquipment extends JPanel implements ListSelectionListe
 						new SourceTypeEntry(query.rs.getInt(1),query.rs.getString(2)));
 			}
 		} catch(Exception e) {
-			Logger.logError(e,"Unable to load a list of On Road Vehicle Eqiupment.");
+			Logger.logError(e,"Unable to load list of Onroad Vehicles.");
 		} finally {
 			query.onFinally();
 		}
@@ -775,13 +766,10 @@ public class OnRoadVehicleEquipment extends JPanel implements ListSelectionListe
 	public void loadValidFuelSourceCombinations() {
 		validFuelSourceCombinations.clear();
 		Connection db = DatabaseConnectionManager.getGUIConnection(MOVESDatabaseType.DEFAULT);
-		if(null == db) {
-			return;
-		}
 		String sql = "SELECT DISTINCT ft.fuelTypeID, ft.fuelTypeDesc, sut.sourceTypeID, "
 				+"sut.sourceTypeName FROM FuelType ft, SourceUseType sut, FuelEngTechAssoc "
 				+"feta WHERE ft.fuelTypeID = feta.fuelTypeID AND sut.sourceTypeID = "
-				+"feta.sourceTypeID ORDER BY ft.fuelTypeDesc, sut.sourceTypeName";
+				+"feta.sourceTypeID ORDER BY sut.sourceTypeID, ft.fuelTypeID";
 		SQLRunner.Query query = new SQLRunner.Query();
 		try {
 			query.open(db,sql);

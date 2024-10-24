@@ -36,7 +36,7 @@ CREATE TABLE dioxinemissionrate (
   modelYearID smallint(6) NOT NULL,
   meanBaseRate double DEFAULT NULL,
   PRIMARY KEY (fuelTypeID,modelYearID,processID,pollutantID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 truncate table dioxinEmissionRate;
 -- End Section UseDioxinEmissionRate
@@ -50,7 +50,7 @@ CREATE TABLE metalemissionrate (
   modelYearID smallint(6) NOT NULL,
   meanBaseRate double DEFAULT NULL,
   PRIMARY KEY (sourceTypeID,fuelTypeID,modelYearID,processID,pollutantID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 truncate table metalEmissionRate;
 -- End Section UseMetalEmissionRate
@@ -79,7 +79,7 @@ SourceTypeModelYear, SourceBin, RunSpecSourceFuelType
 WHERE polProcessID IN (##pollutantProcessIDs##)
 AND SourceBinDistribution.sourceTypeModelYearID = SourceTypeModelYear.sourceTypeModelYearID
 AND SourceTypeModelYear.modelYearID <= ##context.year##
-AND SourceTypeModelYear.modelYearID >= ##context.year## - 30
+AND SourceTypeModelYear.modelYearID >= ##context.year## - 40
 AND SourceTypeModelYear.sourceTypeID = RunSpecSourceFuelType.sourceTypeID
 AND SourceBinDistribution.SourceBinID = SourceBin.SourceBinID
 AND SourceBin.fuelTypeID = RunSpecSourceFuelType.fuelTypeID;
@@ -90,7 +90,7 @@ FROM SourceBinDistribution, SourceTypeModelYear, SourceBin, RunSpecSourceFuelTyp
 WHERE polProcessID IN (##pollutantProcessIDs##)
 AND SourceBinDistribution.sourceTypeModelYearID = SourceTypeModelYear.sourceTypeModelYearID
 AND SourceTypeModelYear.modelYearID <= ##context.year##
-AND SourceTypeModelYear.modelYearID >= ##context.year## - 30
+AND SourceTypeModelYear.modelYearID >= ##context.year## - 40
 AND SourceTypeModelYear.sourceTypeID = RunSpecSourceFuelType.sourceTypeID
 AND SourceBinDistribution.SourceBinID = SourceBin.SourceBinID
 AND SourceBin.fuelTypeID = RunSpecSourceFuelType.fuelTypeID;
@@ -110,7 +110,7 @@ INTO OUTFILE '##SourceTypeModelYear##'
 FROM SourceTypeModelYear,RunSpecSourceType
 WHERE SourceTypeModelYear.sourceTypeID = RunSpecSourceType.sourceTypeID
 AND modelYearID <= ##context.year##
-AND modelYearID >= ##context.year## - 30;
+AND modelYearID >= ##context.year## - 40;
 
 SELECT DISTINCT HourDay.* 
 INTO OUTFILE '##HourDay##'
@@ -140,7 +140,7 @@ inner join modelYear my on (
 	MYMAP(modelYearID) >= round(modelYearGroupID/10000,0)
 	and MYMAP(modelYearID) <= mod(modelYearGroupID,10000)
 	and modelYearID <= ##context.year##
-	and modelYearID >= ##context.year## - 30
+	and modelYearID >= ##context.year## - 40
 )
 where polProcessID in (##outputDioxinEmissionRate##);
 -- End Section UseDioxinEmissionRate
@@ -170,7 +170,7 @@ inner join modelYear my on (
 	MYMAP(modelYearID) >= round(modelYearGroupID/10000,0)
 	and MYMAP(modelYearID) <= mod(modelYearGroupID,10000)
 	and modelYearID <= ##context.year##
-	and modelYearID >= ##context.year## - 30
+	and modelYearID >= ##context.year## - 40
 )
 where polProcessID in (##outputMetalEmissionRate##);
 -- End Section UseMetalEmissionRate
@@ -197,7 +197,8 @@ DROP TABLE IF EXISTS SHO3;
 CREATE TABLE SBD2 (
 	sourceTypeModelYearID INTEGER,
 	fuelTypeID SMALLINT,
-	fuelTypeActivityFraction FLOAT);
+	fuelTypeActivityFraction FLOAT
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 INSERT INTO SBD2 (
 	sourceTypeModelYearID,fuelTypeID,fuelTypeActivityFraction )
 	SELECT sbd.sourceTypeModelYearID,sb.fuelTypeID,
@@ -220,7 +221,8 @@ CREATE TABLE SHO2 (
 	modelYearID SMALLINT,
 	linkID INTEGER,
 	sourceTypeID SMALLINT,
-	distance FLOAT);
+	distance FLOAT
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 INSERT INTO SHO2
 	SELECT sho.yearID, sho.monthID, hd.dayID, hd.hourID, (sho.yearID - sho.ageID), 
 		sho.linkID, sho.sourceTypeID, sho.distance

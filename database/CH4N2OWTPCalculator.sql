@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS WTPMonthofAnyYearCH4N2O (
        monthGroupID         SMALLINT NOT NULL,
 	UNIQUE INDEX XPKWTPMonthofAnyYear (
        monthID                        ASC)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 TRUNCATE TABLE WTPMonthofAnyYearCH4N2O;
 
 DROP TABLE IF EXISTS WTPFactorByFuelTypeCH4N2O;
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS WTPFactorByFuelTypeCH4N2O (
     WTPFactorCV              FLOAT, 
 	UNIQUE INDEX XPKWTPFactor ( 
 		countyID, yearID, monthGroupID, pollutantID, fuelTypeID ) 
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 TRUNCATE TABLE WTPFactorByFuelTypeCH4N2O;
 -- End Section Create Remote Tables for Extracted Data
 
@@ -34,21 +34,21 @@ CREATE TABLE IF NOT EXISTS GREETWellToPumpBoundsCH4N2O (
 	maxYearID		SMALLINT, 
 	UNIQUE INDEX XPKGREETWellToPumpBoundsCH4N2O ( 
 		pollutantID, fuelSubTypeID ) 
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 CREATE TABLE IF NOT EXISTS GREETWellToPumpLoCH4N2O ( 
 	pollutantID		SMALLINT, 
 	fuelSubTypeID	SMALLINT, 
 	yearID			SMALLINT, 
 	UNIQUE INDEX XPKGREETWellToPumpLoCH4N2O ( 
 		pollutantID, fuelSubTypeID ) 
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 CREATE TABLE IF NOT EXISTS GREETWellToPumpHiCH4N2O ( 
 	pollutantID		SMALLINT, 
 	fuelSubTypeID	SMALLINT, 
 	yearID			SMALLINT, 
 	UNIQUE INDEX XPKGREETWellToPumpHiCH4N2O ( 
 		pollutantID, fuelSubTypeID ) 
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 DROP TABLE IF EXISTS WTPFactorCH4N2O;
 CREATE TABLE IF NOT EXISTS WTPFactorCH4N2O ( 
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS WTPFactorCH4N2O (
     WTPFactorV      FLOAT,
 	UNIQUE INDEX XPKWTPFactorCH4N2O ( 
 		pollutantID, fuelSubTypeID, yearID ) 
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 DROP TABLE IF EXISTS WTPFactorByFuelTypeCH4N2O;
 CREATE TABLE IF NOT EXISTS WTPFactorByFuelTypeCH4N2O ( 
@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS WTPFactorByFuelTypeCH4N2O (
     WTPFactorCV              FLOAT, 
 	UNIQUE INDEX XPKWTPFactorCH4N2O ( 
 		countyID, yearID, monthGroupID, pollutantID, fuelTypeID ) 
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 TRUNCATE GREETWellToPumpBoundsCH4N2O;
 

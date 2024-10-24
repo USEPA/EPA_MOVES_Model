@@ -294,7 +294,12 @@ public class BasicDataHandler implements IDataHandler {
 		"IdleRegion",
 		"select idleRegionID, idleRegionDescription"
 		+ " from idleRegion"
-		+ " order by idleRegionID"
+		+ " order by idleRegionID",
+
+		"FleetAvgGroup",
+		"select fleetAvgGroupID, fleetAvgGroupDesc"
+		+ " from fleetavggroup"
+		+ " order by fleetAvgGroupID"
 
 		/* TODO reinstate once NRDB use is mandatory
 		"NRAgeCategory",
@@ -460,7 +465,7 @@ public class BasicDataHandler implements IDataHandler {
 	 * @param value array of objects for each column in the template
 	 * @return true if the row should be written
 	**/
-	public boolean shouldWriteTemplateRow(Object[] values) {
+	public boolean shouldWriteTemplateRow(String tableName, Object[] values) {
 		return true;
 	}
 
@@ -540,7 +545,7 @@ public class BasicDataHandler implements IDataHandler {
 			writer.endRow();
 			// Write records for all key combinations present in the filter.
 			// Just write the filter keys, leaving other columns empty.
-			writeFilterValues(writer,filterValues);
+			writeFilterValues(writer,tableName,filterValues);
 			// For each decode table to create, either create it as a new file or add it
 			// as a new tab to the primary destination file if the file type is XLS.
 			CommonNamesFilter filter = new CommonNamesFilter(importer.getImporterManager(),true);
@@ -568,11 +573,12 @@ public class BasicDataHandler implements IDataHandler {
 	 * Write all combinations of the filterValues (the non-null entries that is)
 	 * into a template file.  Columns without filter values are left empty.
 	 * @param writer file to be written
+     * @param tableName name of the table that we are writing values for
 	 * @param filterValues array of ArrayList objects, each holding any type of object
 	 * that can be written with CellFileWriter.writeCell(Object).
 	 * @throws Exception if anything goes wrong
 	**/
-	private void writeFilterValues(CellFileWriter writer, ArrayList[] filterValues)
+	private void writeFilterValues(CellFileWriter writer, String tableName, ArrayList[] filterValues)
 			throws Exception {
 		int[] cursors = new int[filterValues.length]; // default to 0's
 		Object[] currentValues = new Object[filterValues.length]; // default to null's
@@ -584,7 +590,7 @@ public class BasicDataHandler implements IDataHandler {
 		}
 		// Loop until done
 		while(true) {
-			if(shouldWriteTemplateRow(currentValues)) {
+			if(shouldWriteTemplateRow(tableName, currentValues)) {
 				// Write the current values
 				for(int i=0;i<currentValues.length;i++) {
 					writer.writeCell(currentValues[i]); // ok if null

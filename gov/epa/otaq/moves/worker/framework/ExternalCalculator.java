@@ -7,6 +7,8 @@
 package gov.epa.otaq.moves.worker.framework;
 
 import gov.epa.otaq.moves.common.*;
+import gov.epa.otaq.moves.master.framework.ExecutionRunSpec;
+import gov.epa.otaq.moves.master.framework.SystemConfiguration;
 import gov.epa.otaq.moves.worker.gui.*;
 import gov.epa.otaq.moves.utils.ApplicationRunner;
 import gov.epa.otaq.moves.utils.FileUtil;
@@ -35,6 +37,8 @@ public class ExternalCalculator {
 	boolean shouldDebug;
 	/** Owner used for tracking timing **/
 	RemoteEmissionsCalculator owner;
+	/** true when the bundle manifest says that we are in the project domain **/
+	boolean isProject;
 
 	/**
 	 * Constructor.
@@ -42,11 +46,13 @@ public class ExternalCalculator {
 	 * @param databaseToUse database connection.
 	 * @param workingFolderPathToUse folder to hold all intermediate files and results.
 	**/
-	public ExternalCalculator(RemoteEmissionsCalculator ownerToUse, Connection databaseToUse, File workingFolderPathToUse, boolean shouldDebugToUse) {
+	public ExternalCalculator(RemoteEmissionsCalculator ownerToUse, Connection databaseToUse, 
+                              File workingFolderPathToUse, boolean shouldDebugToUse, BundleManifest manifest) {
 		owner = ownerToUse;
 		database = databaseToUse;
 		workingFolderPath = workingFolderPathToUse;
 		shouldDebug = shouldDebugToUse;
+        isProject = ModelDomain.getByName(manifest.masterFragment.domain) == ModelDomain.PROJECT;
 	}
 
 	/** Clear any accumulated context. **/
@@ -274,7 +280,7 @@ public class ExternalCalculator {
 			double elapsedTimeSec;
 
 			File targetApplicationPath = new File(WorkerConfiguration.theWorkerConfiguration.calculatorApplicationPath);
-			String[] arguments = new String[0];
+			String[] arguments = {"-isproject=" + (isProject?1:0)};
 			boolean runInCmd = false;
 			String[] environment = { "GOMAXPROCS", "4" };
 			File targetFolderPath = workingFolderPath;

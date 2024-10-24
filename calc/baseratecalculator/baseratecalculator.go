@@ -12,6 +12,7 @@ import (
 	"sync"
 	"sync/atomic"
 
+	"calc/configuration"
 	"calc/globalevents"
 	"calc/mwo"
 	"calc/parse"
@@ -133,7 +134,7 @@ var AltCriteriaRatio map[CriteriaRatioKey]*CriteriaRatioDetail
 
 // Key for temperature adjustments
 type TemperatureAdjustmentKey struct {
-	polProcessID, fuelTypeID, modelYearID int
+	polProcessID, fuelTypeID, regClassID, modelYearID int
 }
 
 // Detail for temperature adjustments
@@ -502,23 +503,21 @@ func StartSetup() {
 	}
 	if _, err := os.Stat("temperatureadjustment"); err == nil {
 		parse.ReadAndParseFile("temperatureadjustment", func(parts []string) {
-			/*  polProcessID, fuelTypeID,
-			tempAdjustTermA, tempAdjustTermACV,
-			tempAdjustTermB, tempAdjustTermBCV,
-			tempAdjustTermC, tempAdjustTermCCV,
-			minModelYearID, maxModelYearID*/
-			if len(parts) < 10 {
+			/*  polProcessID, fuelTypeID, regClassID, minModelYearID, maxModelYearID,
+			    tempAdjustTermA, tempAdjustTermB, tempAdjustTermC */
+			if len(parts) < 8 {
 				return
 			}
 			polProcessID := parse.GetInt(parts[0])
 			fuelTypeID := parse.GetInt(parts[1])
-			minModelYearID := maxInt(1960, parse.GetInt(parts[8]))
-			maxModelYearID := minInt(2060, parse.GetInt(parts[9]))
-			tempAdjustTermA := parse.GetFloat(parts[2])
-			tempAdjustTermB := parse.GetFloat(parts[4])
-			tempAdjustTermC := parse.GetFloat(parts[6])
+			regClassID := parse.GetInt(parts[2])
+			minModelYearID := maxInt(1950, parse.GetInt(parts[3]))
+			maxModelYearID := minInt(2060, parse.GetInt(parts[4]))
+			tempAdjustTermA := parse.GetFloat(parts[5])
+			tempAdjustTermB := parse.GetFloat(parts[6])
+			tempAdjustTermC := parse.GetFloat(parts[7])
 			for modelYearID := minModelYearID; modelYearID <= maxModelYearID; modelYearID++ {
-				k := TemperatureAdjustmentKey{polProcessID, fuelTypeID, modelYearID}
+				k := TemperatureAdjustmentKey{polProcessID, fuelTypeID, regClassID, modelYearID}
 				v := new(TemperatureAdjustmentDetail)
 				v.tempAdjustTermA = tempAdjustTermA
 				v.tempAdjustTermB = tempAdjustTermB
@@ -606,7 +605,7 @@ func StartSetup() {
 			polProcessID := parse.GetInt(parts[0])
 			sourceTypeID := parse.GetInt(parts[4])
 			fuelTypeID := parse.GetInt(parts[5])
-			begModelYearID := maxInt(1960, parse.GetInt(parts[7]))
+			begModelYearID := maxInt(1950, parse.GetInt(parts[7]))
 			endModelYearID := minInt(2060, parse.GetInt(parts[8]))
 			inspectFreq := parse.GetInt(parts[9])
 			testStandardsID := parse.GetInt(parts[10])
@@ -963,7 +962,7 @@ func streamBaseRate(outputBlocks chan *mwo.MWOBlock) {
 
 		fsDetail := mwo.FuelSupply[mwo.FuelSupplyKey{fb.Key.CountyID, fb.Key.YearID, fb.Key.MonthID, fb.Key.FuelTypeID}]
 		if fsDetail == nil {
-			return
+			panic(fmt.Sprintf("Could not load fuel supply detail for county %v in %v/%v for fuel type %v", fb.Key.CountyID, fb.Key.MonthID, fb.Key.YearID, fb.Key.FuelTypeID))
 		}
 		for _, fsd := range fsDetail {
 			br := new(mwo.MWOBaseRate)
@@ -1135,20 +1134,25 @@ func calculateAndAccumulate(inputBlocks chan *mwo.MWOBlock) {
 					}
 				}
 			}
+
+			// Look up temperature adjustment detail for use in the humidity and temperature adjustments
+			var ta *TemperatureAdjustmentDetail
+			if len(TemperatureAdjustment) > 0 {
+				// try using full key (i.e., polProcessID, fuelTypeID, regClassID, modelYearID)
+				ta = TemperatureAdjustment[TemperatureAdjustmentKey{fb.Key.PolProcessID, fb.Key.FuelTypeID, fb.Key.RegClassID, fb.Key.ModelYearID}]
+				if ta == nil {
+					// didn't find anything, so check to see if there's a value associated with a wildcarded regClassID (i.e., regClassID = 0)
+					ta = TemperatureAdjustment[TemperatureAdjustmentKey{fb.Key.PolProcessID, fb.Key.FuelTypeID, 0, fb.Key.ModelYearID}]
+				}
+			}
+			if ta == nil {
+				ta = &defaultTemperatureAdjustment
+			}
+
 			// @algorithm Calculate humidity adjustment factor K and apply temperature adjustment.
 			// For processes (1,2) and pollutants (118,112): rate=rate*exp((case when temperature <= 72.0 then tempAdjustTermA*(72.0-temperature) else 0 end)).
 			// For all others: rate=rate*((1.0 + (temperature-75)*(tempAdjustTermA + (temperature-75)*tempAdjustTermB))*if(BaseRateOutputWithFuel.processID in (1,90,91),if(BaseRateOutputWithFuel.pollutantID=3,K,1.0),1.0)).
 			// @input TemperatureAdjustment
-			var ta *TemperatureAdjustmentDetail
-			var taUsingDefault bool
-			if len(TemperatureAdjustment) > 0 {
-				ta = TemperatureAdjustment[TemperatureAdjustmentKey{fb.Key.PolProcessID, fb.Key.FuelTypeID, fb.Key.ModelYearID}]
-			}
-			if ta == nil {
-				ta = &defaultTemperatureAdjustment
-				taUsingDefault = true
-			}
-
 			if zmh != nil && ft != nil && ta != nil {
 				// if we check for the nox adjustment being nil in the line above with the other objects,
 				// we will skip the temp adjustment for EVs
@@ -1157,7 +1161,7 @@ func calculateAndAccumulate(inputBlocks chan *mwo.MWOBlock) {
 					k = calculateNOxK(zmh, nha)
 				}
 				for _, br := range fb.OpMode.BaseRates {
-					factor := ta.generalTempAdjust(fb.Key.ProcessID, fb.Key.PollutantID, fb.Key.FuelTypeID, fb.Key.SourceTypeID, fb.Key.RegClassID, fb.Key.ModelYearID, k, zmh.temperature, zmh.heatIndex, br.MeanBaseRate, taUsingDefault)
+					factor := ta.generalTempAdjust(fb.Key.ProcessID, fb.Key.PollutantID, fb.Key.FuelTypeID, fb.Key.SourceTypeID, k, zmh.temperature, zmh.heatIndex, br.MeanBaseRate)
 					br.MeanBaseRate *= factor
 					br.MeanBaseRateIM *= factor
 					br.EmissionRate *= factor
@@ -1181,10 +1185,24 @@ func calculateAndAccumulate(inputBlocks chan *mwo.MWOBlock) {
 				factor, found := ZoneACFactor[ZoneACFactorKey{fb.Key.HourID, fb.Key.SourceTypeID, fb.Key.ModelYearID}]
 				if found && factor > 0 {
 					for _, br := range fb.OpMode.BaseRates {
-						br.MeanBaseRate += factor * br.MeanBaseRateACAdj
-						br.MeanBaseRateIM += factor * br.MeanBaseRateIMACAdj
-						br.EmissionRate += factor * br.EmissionRateACAdj
-						br.EmissionRateIM += factor * br.EmissionRateIMACAdj
+						// Most common case, AC adjustment increases MeanBaseRate
+						if br.MeanBaseRate >= 0 || !configuration.Singleton.IsProject {
+							br.MeanBaseRate += factor * br.MeanBaseRateACAdj
+							br.MeanBaseRateIM += factor * br.MeanBaseRateIMACAdj
+							br.EmissionRate += factor * br.EmissionRateACAdj
+							br.EmissionRateIM += factor * br.EmissionRateIMACAdj
+						} else {
+							// if the MeanBaseRate is negative, the MeanBaseRateACAdj is also negative, so we need to subtract the adjustment
+							// to result in a more positive MeanBaseRate.
+							// But only do this at project scale, because it will break the rates-inventory reconciliation for County/Default
+							// scale. This happens because inventory mode aggregates speed bins together very early in the calculation process,
+							// so the baserate is never < 0. Rates mode runs at the speed bin level, so in practice it can be less than 0.
+							// Because the modes run this block at different levels of aggregation, the rates and inventories don't match.
+							br.MeanBaseRate -= factor * br.MeanBaseRateACAdj
+							br.MeanBaseRateIM -= factor * br.MeanBaseRateIMACAdj
+							br.EmissionRate -= factor * br.EmissionRateACAdj
+							br.EmissionRateIM -= factor * br.EmissionRateIMACAdj
+						}
 					}
 				}
 			}
@@ -1358,8 +1376,8 @@ func (this *StartTempAdjustmentDetail) startTempAdjust(baseValue float64,
 }
 
 // Apply general temperature adjustment equations.
-func (this *TemperatureAdjustmentDetail) generalTempAdjust(processID, pollutantID, fuelTypeID, sourceTypeID, regClassID, modelYearID int,
-	k, temperature, heatIndex, baserate float64, taUsingDefault bool) float64 {
+func (this *TemperatureAdjustmentDetail) generalTempAdjust(processID, pollutantID, fuelTypeID, sourceTypeID int,
+	k, temperature, heatIndex, baserate float64) float64 {
 	// This block does PM
 	if (processID == 1 || processID == 2) && (pollutantID == 118 || pollutantID == 112) {
 		if temperature <= 72.0 {
@@ -1371,43 +1389,30 @@ func (this *TemperatureAdjustmentDetail) generalTempAdjust(processID, pollutantI
 
 	// This block adjusts running EV energy consumption for temperature
 	if processID == 1 && fuelTypeID == 9 && pollutantID == 91 {
-		// only apply a temperature adjustment for light duty for cold temperatures
-		// AC usage is defined by the coefficients in monthgrouphour and the heat index
-		// we only apply the cold adjustment if the AC usage is "less than 0", meaning it's cold outside
-		if sourceTypeID < 40 {
-			var adj float64
-			// this is the light duty adjustment, which we only apply if the temperature is low
-			if heatIndex > 67 {
-				adj = 0
-			} else {
-				adj = (temperature - 72.0) * (this.tempAdjustTermA + this.tempAdjustTermB*(temperature-72.0))
-			}
-			if adj < 0 {
-				adj = 0
-			}
-			// This is commented out because it breaks the rates-inventory reconciliation. Because inventory mode aggregates
-			// speed bins together very early in the calculation process, in practice the baserate is never < 0. Rates
-			// mode runs at the speed bin level, so in practice baserate can be less than 0 (and often is). Because the
-			// modes run this block at different levels of aggregation, the rates and inventories don't match.
-			// The original intent of this block is to make sure MOVES doesn't implicitly assume regen braking is more
-			// effective in cold temperatures. At project scale, this adjustment can be important to make sure realistic
-			// rates are returned for links with high amounts of braking. In the future, we would like to activate this
-			// code for project scale, but not county or default scale.
-			// If we do put this in for project scale, the code needs to be activated here and in the heavy-duty block
-			// about 10 below.
-			/* if baserate < 0 {
-				return 1.0 - adj
-			} */
-			return 1.0 + adj
-		}
-		// this is the heavy-duty adjustment, which is applied at all temperatures
-		adj := (temperature - 72.0) * (this.tempAdjustTermA + this.tempAdjustTermC*(temperature-72.0))
+		adj := (temperature - 72.0) * (this.tempAdjustTermA + this.tempAdjustTermB*(temperature-72.0))
+
 		if adj < 0 {
 			adj = 0
 		}
-		/* if baserate < 0 {
+
+		// only apply a temperature adjustment for light duty for cold temperatures
+		// AC usage for LD is defined by the coefficients in monthgrouphour and the heat index
+		// we only apply the cold adjustment if the AC usage is "less than 0", meaning it's cold outside
+		if sourceTypeID < 40 && heatIndex > 67 {
+			adj = 0
+		}
+
+		// The intent of this block is to make sure MOVES doesn't implicitly assume regen braking is more
+		// effective in cold temperatures. At project scale, this adjustment can be important to make sure realistic
+		// rates are returned for links with high amounts of braking.
+		// However, this breaks the rates-inventory reconciliation for County/Default scale. Because inventory mode aggregates
+		// speed bins together very early in the calculation process, in practice the baserate is never < 0. Rates
+		// mode runs at the speed bin level, so in practice baserate can be less than 0 (and often is). Because the
+		// modes run this block at different levels of aggregation, the rates and inventories don't match.
+		if configuration.Singleton.IsProject && baserate < 0 {
 			return 1.0 - adj
-		} */
+		}
+
 		return 1.0 + adj
 	}
 
@@ -1415,36 +1420,9 @@ func (this *TemperatureAdjustmentDetail) generalTempAdjust(processID, pollutantI
 	if (processID == 1 || processID == 90 || processID == 91) && pollutantID == 3 {
 		var tempAdjust float64
 
-		// diesel temperature adjustment is based on reg class
-		// note: no adjustment for HD above 25C; no adjustment at all for LD
 		if fuelTypeID == 2 {
-			switch regClassID {
-			case 42:
-				tempAdjust = (77.0 - temperature) * (this.tempAdjustTermA)
-				if temperature > 77.0 {
-					tempAdjust = 0
-				}
-			case 46:
-				tempAdjust = (77.0 - temperature) * (this.tempAdjustTermB)
-				if temperature > 77.0 {
-					tempAdjust = 0
-				}
-			case 47:
-				tempAdjust = (77.0 - temperature) * (this.tempAdjustTermC)
-				if temperature > 77.0 {
-					tempAdjust = 0
-				}
-			case 48:
-				// hardcoded because we don't have a tempAdjustTermD column in temperatureadjustment to use
-				if modelYearID >= 2027 && !taUsingDefault {
-					tempAdjust = (77.0 - temperature) * (0.008396619)
-					if temperature > 77.0 {
-						tempAdjust = 0
-					}
-				} else {
-					tempAdjust = 0
-				}
-			default:
+			tempAdjust = (77.0 - temperature) * (this.tempAdjustTermA)
+			if temperature > 77.0 { // no diesel adjustment above 25C
 				tempAdjust = 0
 			}
 		} else { // adjustments for all fuels other than diesel

@@ -6,6 +6,7 @@ The following versions of MOVES are currently supported and will receive securit
 
 | Version | Supported          |
 | ------- | ------------------ |
+| 5.0.x   | :white_check_mark: |
 | 4.0.x   | :white_check_mark: |
 | 3.1.x   | :white_check_mark: |
 | 3.0.x   | :x:                |

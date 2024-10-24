@@ -91,7 +91,7 @@ public class LoginDialog extends JDialog implements ActionListener {
 	 * @param parent the parent frame to use for the panel.
 	**/
 	public LoginDialog(JFrame parent) {
-		super(parent, "Set Database Login");
+		super(parent, MOVESWindow.MOVES_VERSION + " - Set Database Login");
 		frame = parent;
 
 		getContentPane().setLayout(new BorderLayout());
@@ -168,10 +168,10 @@ public class LoginDialog extends JDialog implements ActionListener {
 		labelPassword.setLabelFor(password);
 		
 		
-		ImageIcon movesLogo100 = new ImageIcon("gov/epa/otaq/moves/master/gui/images/MOVES4-logo-480.png");
-		ImageIcon movesLogo125 = new ImageIcon("gov/epa/otaq/moves/master/gui/images/MOVES4-logo-600.png");
-		ImageIcon movesLogo150 = new ImageIcon("gov/epa/otaq/moves/master/gui/images/MOVES4-logo-720.png");
-		ImageIcon movesLogo175 = new ImageIcon("gov/epa/otaq/moves/master/gui/images/MOVES4-logo-840.png");
+		ImageIcon movesLogo100 = new ImageIcon("gov/epa/otaq/moves/master/gui/images/MOVES5-logo-480.png");
+		ImageIcon movesLogo125 = new ImageIcon("gov/epa/otaq/moves/master/gui/images/MOVES5-logo-600.png");
+		ImageIcon movesLogo150 = new ImageIcon("gov/epa/otaq/moves/master/gui/images/MOVES5-logo-720.png");
+		ImageIcon movesLogo175 = new ImageIcon("gov/epa/otaq/moves/master/gui/images/MOVES5-logo-840.png");
 		BaseMultiResolutionImage bmri = new BaseMultiResolutionImage(movesLogo100.getImage(), movesLogo125.getImage(), movesLogo150.getImage(), movesLogo175.getImage());
 		image = new ImageIcon(bmri);
 		imageLabel = new JLabel(image);

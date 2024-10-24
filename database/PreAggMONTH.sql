@@ -60,7 +60,7 @@ DROP TABLE IF EXISTS OldIdleDayAdjust;
 CREATE TABLE SourceTypeOrdering (
     sourceTypeID SMALLINT,
     orderPreference SMALLINT
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 INSERT INTO SourceTypeOrdering VALUES (21,1),(31,2),(32,3),(52,4),(61,5),(54,6),(62,7),(43,8),(53,9),(41,10),(42,11),(51,12),(11,13);
 
 
@@ -75,7 +75,8 @@ CREATE TABLE DayWeighting1 (
 	sourceTypeID SMALLINT,
 	roadTypeID SMALLINT,
 	dayID SMALLINT,
-	actFract FLOAT);
+	actFract FLOAT
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 INSERT INTO DayWeighting1
 SELECT day.sourceTypeID, roadTypeID, day.dayID, 
 ((sum(dayVMTFraction*noOfRealDays*monthVMTFraction))/sum(monthVMTFraction)) as actFract 
@@ -94,7 +95,7 @@ create table DayWeighting1Sum (
 	actFractSum double,
 	primary key (sourceTypeID, roadTypeID),
 	key (roadTypeID, sourceTypeID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 insert into DayWeighting1Sum (sourceTypeID, roadTypeID, actFractSum)
 select sourceTypeID, roadTypeID, sum(actFract) as actFractSum
@@ -107,7 +108,7 @@ create table DayWeighting1Normalized (
 	dayID smallint not null,
 	actFract double,
 	primary key (sourceTypeID, roadTypeID, dayID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 insert into DayWeighting1Normalized (sourceTypeID, roadTypeID, dayID, actFract)
 select dw.sourceTypeID, dw.roadTypeID, dw.dayID, 
@@ -124,7 +125,8 @@ inner join DayWeighting1Sum ds using (sourceTypeID, roadTypeID);
 CREATE TABLE DayWeighting2 (
 	sourceTypeID SMALLINT,
 	dayID SMALLINT,
-	actFract FLOAT);
+	actFract FLOAT
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 INSERT INTO DayWeighting2
   SELECT dw.sourceTypeID, dayID, 
     (sum(actFract*roadTypeVMTFraction)/sum(roadTypeVMTFraction)) as actFract 
@@ -157,7 +159,8 @@ SELECT "Making DayWeighting3" AS MARKER_POINT;
 -- Create table explicitly to control column types and avoid significance problems
 CREATE TABLE DayWeighting3 (
 	dayID SMALLINT,
-	actFract FLOAT);
+	actFract FLOAT
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 INSERT INTO DayWeighting3
   SELECT dayID, actFract 
   FROM DayWeighting2 
@@ -172,7 +175,8 @@ SELECT "Making DayWeighting3Normalized" AS MARKER_POINT;
 -- Create table explicitly to control column types and avoid significance problems
 CREATE TABLE DayWeighting3Normalized (
 	dayID SMALLINT,
-	actFract FLOAT);
+	actFract FLOAT
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 INSERT INTO DayWeighting3Normalized
   SELECT dayID, actFract 
   FROM DayWeighting2Normalized

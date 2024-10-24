@@ -315,7 +315,7 @@ public class AVFTControlStrategy extends InternalControlStrategy
 					return false;
 				}
 				int modelYearID = ti.intValue();
-				if(modelYearID < 1960 || modelYearID > 2060) {
+				if(modelYearID < 1950 || modelYearID > 2060) {
 					result = false;
 					ts = "Warning: Invalid modelYearID " + modelYearID;
 					if(!messageDuplicates.contains(ts)) {

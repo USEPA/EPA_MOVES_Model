@@ -25,8 +25,8 @@ begin
 		insert into importTempMessages (message)	
 		select distinct
 			case
-			  when ac.ageID is null then  concat('ERROR: startsAgeAdjustment with ageID ',s.ageID,' is unknown')
-			  when sut.sourceTypeID is null then  concat('ERROR: startsAgeAdjustment with sourceTypeID ',s.sourceTypeID,' is unknown')
+			  when ac.ageID is null then  concat('ERROR: startsAgeAdjustment value provided for unknown ageID ',s.ageID)
+			  when sut.sourceTypeID is null then  concat('ERROR: startsAgeAdjustment value provided for unknown sourceTypeID ',s.sourceTypeID)
 		    else null end as message
 		from startsAgeAdjustment s
 		left join ##defaultDatabase##.agecategory ac
@@ -34,6 +34,16 @@ begin
 		left join ##defaultDatabase##.sourceusetype sut
 		  on s.sourceTypeID = sut.sourceTypeID
 		  where ac.ageID is null or sut.sourceTypeID is null;
+          
+		insert into importTempMessages (message)
+        SELECT concat('ERROR: startsAgeAdjustment missing value for Age ', ageID, ' and Source Type ', sourceTypeID) as message
+        FROM startsageadjustment
+        RIGHT JOIN (
+            SELECT sourceTypeID, ageID
+            FROM ##defaultDatabase##.sourceusetype, ##defaultDatabase##.agecategory
+            WHERE sourceTypeID IN (##sourceTypeIDs##)
+        ) AS t1 USING (sourceTypeID, ageID)
+        WHERE ageAdjustment IS NULL ;
 
 		insert into importTempMessages (message)
 		select concat('ERROR: startsAgeAdjustment with Age ',ageID,', Source Type ',sourceTypeID,' has ageAdjustment < 0') as message
@@ -241,6 +251,17 @@ begin
 		from startsOpModeDistribution
 		where opModeFraction is null;		
 
+        -- if this is provided, ensure full coverage for each source type and age combination
+		insert into importTempMessages (message)
+        SELECT concat('ERROR: StartsOpModeDistribution missing value(s) for Age ', ageID, ' and Source Type ', sourceTypeID) as message
+        FROM StartsOpModeDistribution
+        RIGHT JOIN (
+            SELECT sourceTypeID, ageID
+            FROM ##defaultDatabase##.sourceusetype, ##defaultDatabase##.agecategory
+            WHERE sourceTypeID IN (##sourceTypeIDs##)
+        ) AS t1 USING (sourceTypeID, ageID)
+        WHERE opModeFraction IS NULL LIMIT 50;
+
 		select count(*) into howMany from ##defaultDatabase##.operatingmode
 		where minSoakTime is not null or maxSoakTime is not null;
 
@@ -292,6 +313,22 @@ begin
 		              ', Zone ',zoneID,', Source Type ',sourceTypeID,' has null Starts') as message
 		from Starts
 		where Starts is null;
+
+        -- if this is provided, ensure full coverage
+		insert into importTempMessages (message)
+        SELECT concat('ERROR: Starts missing HourDay ',hourDayID,', Month ',monthID,', Year ',yearID,', Age ',ageID,
+		              ', Zone ',zoneID,', Source Type ',sourceTypeID) as message
+        FROM Starts
+        RIGHT JOIN (
+            SELECT hourDayID, monthID, yearID, ageID, zoneID, sourceTypeID
+            FROM ##defaultDatabase##.hourDay, ##defaultDatabase##.monthofanyyear, ##defaultDatabase##.year, ##defaultDatabase##.agecategory,
+                 zone, ##defaultDatabase##.sourceusetype
+            WHERE hourDayID in (##hourDayIDs##)
+              AND monthID in (##monthIDs##)
+              AND yearID in (##yearIDs##)
+              AND sourceTypeID IN (##sourceTypeIDs##)
+        ) AS t1 USING (hourDayID, monthID, yearID, ageID, zoneID, sourceTypeID)
+        WHERE starts IS NULL LIMIT 50;
 	end if;
 	
 	select count(*) into startsCnt from starts where isUserInput = 'Y';

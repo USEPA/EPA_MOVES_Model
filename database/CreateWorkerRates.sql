@@ -31,4 +31,4 @@ CREATE TABLE IF NOT EXISTS BaseRateOutput (
 	-- as distance, start, and idle hour.
 	-- Reflects mixture of I/M and non-I/M vehicles.
 	emissionRate		 FLOAT NULL
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';

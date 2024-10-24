@@ -67,6 +67,7 @@ import gov.epa.otaq.moves.common.Constants;
 import gov.epa.otaq.moves.common.JListWithToolTips;
 import gov.epa.otaq.moves.common.Logger;
 import gov.epa.otaq.moves.common.MOVESDatabaseType;
+import gov.epa.otaq.moves.common.ModelDomain;
 import gov.epa.otaq.moves.common.ModelScale;
 import gov.epa.otaq.moves.common.Models;
 import gov.epa.otaq.moves.common.ToolTipHelper;
@@ -1427,6 +1428,7 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 		boolean shouldAddOffNetworkRoadType = false;
 		boolean hasRefuelingLoss = false;
 		boolean hasMesoscaleEvap = false;
+        boolean hasRunning = false;
 		runspec.pollutantProcessAssociations.clear();
 
 		Models.ModelCombination mc = runspec.getModelCombination();
@@ -1479,12 +1481,14 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 							shouldAddOffNetworkRoadType = true;
 						} else if(process.databaseKey == 18 || process.databaseKey == 19) {
 							hasRefuelingLoss = true;
-						} else if(process.databaseKey == 11 || process.databaseKey == 12
-								|| process.databaseKey == 13) {
-							if(runspec.scale == ModelScale.MESOSCALE_LOOKUP) {
-								hasMesoscaleEvap = true;
-							}
-						}
+						} else if((process.databaseKey == 11 || process.databaseKey == 12 || process.databaseKey == 13) &&
+                                  (runspec.scale == ModelScale.MESOSCALE_LOOKUP)) {
+                            hasMesoscaleEvap = true;
+                        } else if(process.databaseKey == 12) {
+                            shouldAddOffNetworkRoadType = true;
+                        } else if(process.databaseKey == 1) {
+                            hasRunning = true;
+                        } 
 					}
 				}
 			}
@@ -1523,8 +1527,26 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 			runspec.roadTypes.add(rt);
 		}
 
-		if(hasRefuelingLoss) { // || hasMesoscaleEvap) {
-			//RoadTypeScreen.setAllRoadTypes(runspec);
+		if(hasRefuelingLoss || hasRunning) { // || hasMesoscaleEvap) {
+            // if not project scale, we need all road types due to ONI
+            if (runspec.domain != ModelDomain.PROJECT) {
+                RoadTypeScreen.setAllRoadTypes(runspec);
+            } else {
+                // at project scale, make sure at least one on-network road type is selected. if none are selected, select all by default
+                boolean hasOnNetworkRoadType = false;
+                Iterator<RoadType> runspecRoadTypes = runspec.roadTypes.iterator();
+                while (runspecRoadTypes.hasNext()) {
+                    RoadType rt = runspecRoadTypes.next();
+                    if (rt.roadTypeID >= 2 && rt.roadTypeID <= 5) {
+                        hasOnNetworkRoadType = true;
+                        break;
+                    }
+                } 
+                if (!hasOnNetworkRoadType) {
+                    RoadTypeScreen.setAllRoadTypes(runspec);
+                }
+
+            }
 		}
 	}
 
@@ -1945,17 +1967,17 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 					}
 					if(!found) {
 						if(hasRunning) {
-							String messageLine = "Running Exhaust requires a non-offnetwork road to be selected";
+							String messageLine = "Running Exhaust requires a non-offnetwork road to be selected (see Road Type panel)";
 							messages.add(messageLine);
 							isOk = false;
 						}
 						if(hasBrake) {
-							String messageLine = "Brakewear requires a non-offnetwork road to be selected";
+							String messageLine = "Brakewear requires a non-offnetwork road to be selected (see Road Type panel)";
 							messages.add(messageLine);
 							isOk = false;
 						}
 						if(hasTire) {
-							String messageLine = "Tirewear requires a non-offnetwork road to be selected";
+							String messageLine = "Tirewear requires a non-offnetwork road to be selected (see Road Type panel)";
 							messages.add(messageLine);
 							isOk = false;
 						}

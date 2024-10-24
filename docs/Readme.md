@@ -12,13 +12,13 @@ This readme contains a table of contents of MOVES help files, notes, and code do
 
 These PDF cheat sheets summarize common tables and values used to create MOVES runs and interpret their outputs. 
 
-* [Onroad Cheat Sheet](MOVES4CheatsheetOnroad.pdf)
-* [Nonroad Cheat Sheet](MOVES4CheatsheetNonroad.pdf)
+* [Onroad Cheat Sheet](MOVES5CheatsheetOnroad.pdf)
+* [Nonroad Cheat Sheet](MOVES5CheatsheetNonroad.pdf)
 * [SQL Tip Sheet](SQLTipSheet.pdf): Cheat sheet for SQL syntax
 
 ## Help for MOVES Tools:
 
-* [Converting MOVES3 input databases to MOVES4](../database/ConversionScripts/InputDatabaseConversionHelp.pdf): Information on steps needed to convert MOVES3 input databases to the MOVES4 format
+* [Converting MOVES4 input databases to MOVES5](../database/ConversionScripts/InputDatabaseConversionHelp.pdf): Information on steps needed to convert MOVES4 input databases to the MOVES5 format (as well as converting MOVES3 input databases to MOVES5)
 * [AVFT Tool](../database/AVFTTool/AVFTToolHelp.pdf): Instructions on how to use the AVFT Tool for building the AVFT input table
 * [Building LEV and NLEV input databases](../database/LEV_NLEVScripts/InstructionsForLEV_NLEV_Tool.pdf): Instructions on how to use the LEV/NLEV Tool in the MOVES GUI
 * [National Emissions Inventory Submissions QA Tool](NEIQAInstructions.md): Instructions and documentation for the NEI Submissions QA Tool

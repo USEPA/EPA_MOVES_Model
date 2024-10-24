@@ -164,6 +164,13 @@ public class SystemConfiguration {
 			//e.printStackTrace();
 		}
 
+        // ensure the sharedDistributedFolderPath exists
+        try {
+            sharedDistributedFolderPath.mkdirs();
+        } catch (SecurityException exception) {
+            // nothing to do here
+        }
+
 		try {
 			Logger.log(LogMessageCategory.INFO,"System configuration acquiring distributed master ID...");
 			distributedMasterID = DistributedIDBroker.acquireID(

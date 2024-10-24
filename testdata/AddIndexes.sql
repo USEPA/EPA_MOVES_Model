@@ -222,7 +222,8 @@ ALTER TABLE Starts ADD (
 ALTER TABLE TemperatureAdjustment ADD (
 		KEY (sourceTypeID),
 		KEY (polProcessID),
-		KEY (fuelTypeID)
+		KEY (fuelTypeID),
+        KEY (regClassID)
 );
 ALTER TABLE Year ADD (
 		KEY (isBaseYear)

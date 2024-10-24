@@ -3,4 +3,4 @@ CREATE TABLE InputData3 (
 	PollutantID INTEGER UNSIGNED NOT NULL,
 	ProcessID INTEGER UNSIGNED NOT NULL,
 	AmountPerActivity FLOAT
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';

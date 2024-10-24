@@ -354,6 +354,23 @@ public class RunSpec {
 	}
 	
 	/**
+	 * returns true if the other string has a compatible "Major" component as this RunSpec
+	**/
+	public boolean isCompatibleVersion(String other) {
+        // always compatible if we are the same major version
+        if (isSameMajorVersion(other)) {
+            return true;
+        }
+
+        // go through list of compatible major versions
+        // Note: "version" is RunSpec version, "other" is current model version
+        if (getMajorVersionString(version).equalsIgnoreCase("MOVES4") && getMajorVersionString(other).equalsIgnoreCase("MOVES5")) {
+            return true;
+        }
+		return false;
+	}
+	
+	/**
 	 * internal function to parse MOVES version strings
 	**/
 	private int getMajorVersionInt(String v) {

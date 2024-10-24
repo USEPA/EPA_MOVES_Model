@@ -201,7 +201,7 @@ public class InputDataManager {
 			if(hasData) {
 				sql += " or ";
 			}
-			sql += "(" + columnName + "<=" + year + " and " + columnName + ">=" + (year.intValue()-30) + ")";
+			sql += "(" + columnName + "<=" + year + " and " + columnName + ">=" + (year.intValue() - 40) + ")";
 			hasData = true;
 		}
 		if(hasData) {
@@ -3117,7 +3117,7 @@ public class InputDataManager {
 					null,null,null,null,null,null,"fuelTypeID",null,null,null),
             new TableToCopy("evefficiency",null,null,null,null,null,null,null,null,
                     null,null,null,null,"polProcessID","sourceTypeID",null,null,null,null),
-			new TableToCopy("evpopiceadjustld",null,null,null,null,null,null,null,null,
+			new TableToCopy("FleetAvgAdjustment",null,null,null,null,null,null,null,null,
 					null,null,null,null,"polProcessID",null,null,null,null,null),
 //			new TableToCopy("FuelAdjustment",null,null,null,null,null,null,null,null,null,
 //					null,null,null,"polProcessID","sourceTypeID",null,/*"fuelSubTypeID"*/ null,null,null),
@@ -3384,10 +3384,10 @@ public class InputDataManager {
 			new TableToCopy("SampleVehicleTrip",null,null,null,null,null,null,null,null,
 					"dayID",null,null,null,null,null,null,null,null,null),
 					
-			// Do not filter SampleVehiclePopulation by fuel type. Doing so breaks features that
-			// require this distribution even when not selected in the runspec.
+			// Do not filter SampleVehiclePopulation by fuel type or source type. Doing so breaks features that
+			// require full distributions even when not selected in the runspec.
 			new TableToCopy("SampleVehiclePopulation",null,null,null,null,null,null,null,null,
-					null,null,null,null,null,"sourceTypeID",null/*"fuelTypeID"*/,null,null,null,null,null,"modelYearID"),
+					null,null,null,null,null,null,null/*"fuelTypeID"*/,null,null,null,null,null,"modelYearID"),
 
 			new TableToCopy("SCC",null,null,null,null,null,null,null,null,
 					null,null,null,null,null,null,null,null,null,null),
@@ -4470,7 +4470,7 @@ if(shouldLog) System.out.println("IDM No clause sets for " + t.tableName);
 			}
 			updateStatement.close();
 			boolean sourceHadCopiedData =
-					DatabaseUtilities.copyTable(source,destination,tableName,whereClause,false);
+					DatabaseUtilities.copyTable(source,destination,tableName,whereClause,false,isDefaultDatabase);
 			if(mergeSession != null && sourceHadCopiedData) {
 				mergeSession.add(source,tableName);
 			}

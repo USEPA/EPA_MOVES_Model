@@ -83,11 +83,11 @@ public class ImporterManager {
 	public static final String FILTER_IMPROGRAMID = "IMProgramID"; //int >=1
 	public static final String FILTER_INSPECTFREQ = "inspectFreq";
 	public static final String FILTER_TESTSTANDARDSID = "testStandardsID";
-	public static final String FILTER_MODELYEARID = "modelYearID"; // int  between  >=1960 to <=2060
+	public static final String FILTER_MODELYEARID = "modelYearID"; // int  between  >=1950 to <=2060
 	public static final String FILTER_YN = "yn";
 	public static final String FILTER_SOURCEFUELTYPE = "sourceFuelTypeID"; // sourceTypeID*100 + fuelTypeID
 	public static final String FILTER_IS_LEAP_YEAR = "isLeapYear";
-	public static final String FILTER_MODEL_YEAR_RANGE = "modelYearRange"; // 2 model years, low to high, both >= 1960 to <= 2060
+	public static final String FILTER_MODEL_YEAR_RANGE = "modelYearRange"; // 2 model years, low to high, both >= 1950 to <= 2060
 	public static final String FILTER_COUNTYTYPE = "countyTypeID";
 	public static final String FILTER_IDLEREGION = "idleRegionID";
 	public static final String FILTER_HOTELLING_FUELTYPES = "hotellingFuelTypes";
@@ -1256,7 +1256,7 @@ public class ImporterManager {
 					return false;
 				}
 			}
-			return modelYear>=1960 && modelYear<=2060;
+			return modelYear>=1950 && modelYear<=2060;
 		} else if(dataType.equalsIgnoreCase("ModelYearRange")) {
 			int modelYearRange = 0; // format: <low><high>, such as "19802010" for 1980 through 2010, inclusive.  0 is also accepted as a wildcard.
 			if(value instanceof Integer) {
@@ -1273,8 +1273,8 @@ public class ImporterManager {
 			int lowModelYear = modelYearRange / 10000;
 			int highModelYear = modelYearRange % 10000;
 			return modelYearRange == 0 ||
-				(lowModelYear>=1960 && lowModelYear<=2060
-				&& highModelYear>=1960 && highModelYear<=2060
+				(lowModelYear>=1950 && lowModelYear<=2060
+				&& highModelYear>=1950 && highModelYear<=2060
 				&& lowModelYear <= highModelYear);
 		}
 		return true;
@@ -1411,7 +1411,7 @@ public class ImporterManager {
 
 	/**
 	 * Test Model Year column in a ResultSet.  The value is accepted if
-	 * it is between >=1960 to <=2060
+	 * it is between >=1950 to <=2060
 	 * @param rs data record to be examined
 	 * @param columnIndex1 1-based column index within the row
 	 * @param filterType one of the ImporterManager.FILTER_XXXX constants
@@ -1422,12 +1422,12 @@ public class ImporterManager {
 	private boolean doesIncludeModelYear(ResultSet rs, int columnIndex1,
 			String filterType) throws SQLException {
 		int value = rs.getInt(columnIndex1);
-		return value>=1960 && value<=2060;
+		return value>=1950 && value<=2060;
 	}
 
 	/**
 	 * Test Model Year range column in a ResultSet.  The value is accepted if
-	 * it is 0 or if both model years are between >=1960 to <=2060 and the low model year is less
+	 * it is 0 or if both model years are between >=1950 to <=2060 and the low model year is less
 	 * than or equal to the high model year.
 	 * @param rs data record to be examined
 	 * @param columnIndex1 1-based column index within the row
@@ -1442,8 +1442,8 @@ public class ImporterManager {
 		int lowModelYear = modelYearRange / 10000;
 		int highModelYear = modelYearRange % 10000;
 		return modelYearRange == 0 ||
-			(lowModelYear>=1960 && lowModelYear<=2060
-			&& highModelYear>=1960 && highModelYear<=2060
+			(lowModelYear>=1950 && lowModelYear<=2060
+			&& highModelYear>=1950 && highModelYear<=2060
 			&& lowModelYear <= highModelYear);
 	}
 
@@ -2023,13 +2023,13 @@ public class ImporterManager {
 				years.add(year);
 				sql = "select fuelYearID from year where yearID=" + year;
 				addIntegers(db,sql,fuelYears,null);
-				// Add model years and calendar years within the 30 year age range of the simulated calendar year
-				for(int ai=0;ai<=30;ai++) {
+				// Add model years and calendar years within the 40 year age range of the simulated calendar year
+				for(int ai=0;ai<=40;ai++) {
 					int agedYear = year.intValue() - ai;
-					if(agedYear >= 1960 && agedYear <= 2060) {
+					if(agedYear >= 1950 && agedYear <= 2060) {
 						agedModelYears.add(Integer.valueOf(agedYear));
 					}
-					if(agedYear >= 1960 && agedYear <= 2060) {
+					if(agedYear >= 1950 && agedYear <= 2060) {
 						agedYears.add(Integer.valueOf(agedYear));
 					}
 				}
@@ -2619,7 +2619,7 @@ public class ImporterManager {
 		}
 
 		ages = new TreeSet<Object>();
-		for(int i=0;i<=30;i++) {
+		for(int i=0;i<=40;i++) {
 			ages.add(Integer.valueOf(i));
 		}
 

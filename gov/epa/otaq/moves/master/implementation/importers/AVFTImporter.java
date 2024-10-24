@@ -272,7 +272,7 @@ public class AVFTImporter extends ImporterBase {
 			Object yo = i.next();
 			if( yo instanceof Integer ){
 				int year = ((Integer)yo).intValue();
-				for( int age=0; age<=30; age++){
+				for( int age=0; age<=40; age++){
 					modelYears.add(Integer.valueOf(year-age));
 				}
 			}

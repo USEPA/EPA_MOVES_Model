@@ -19,7 +19,7 @@ create table if not exists crankcaseSplit (
 	maxModelYearID smallint not null,
 	crankcaseRatio double not null,
 	primary key (pollutantID, sourceTypeID, regClassID, fuelTypeID, minModelYearID, maxModelYearID, processID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 truncate table crankcaseSplit;
 
 drop table if exists sPMOneCountyYearGeneralFuelRatio;
@@ -33,7 +33,7 @@ create table if not exists sPMOneCountyYearGeneralFuelRatio (
 	yearID int not null,
 	fuelEffectRatio double not null default '0',
 	primary key (fuelTypeID, sourceTypeID, monthID, pollutantID, modelYearID, yearID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 truncate table sPMOneCountyYearGeneralFuelRatio;
 
 drop table if exists oneCountyYearSulfateFractions;
@@ -48,7 +48,7 @@ create table if not exists oneCountyYearSulfateFractions (
 	UnadjustedSulfatenonECPMFraction double not null default '0',
 	UnadjustedH2ONonECPMFraction double not null default '0',
 	primary key (processID, fuelTypeID, sourceTypeID, monthID, modelYearID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 truncate table oneCountyYearSulfateFractions;
 
 ##create.PMSpeciation##;
@@ -184,7 +184,7 @@ create table spmSplit1 (
 	outputPollutantID smallint,
 	conversionFraction double not null,
 	primary key (processID, fuelTypeID, sourceTypeID, monthID, modelYearID, outputPollutantID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 -- @algorithm Specify the split to make sulfate (115) from NonECPM (118). Sulfate = NonECPM * SulfateNonECPMFraction.
 insert into spmSplit1 (processID, fuelTypeID, sourceTypeID, monthID, modelYearID, outputPollutantID, conversionFraction)

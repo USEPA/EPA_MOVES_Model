@@ -4,7 +4,7 @@ The MOVES Default Scale Operating Mode Calculator (called OpModeDistCalc) calcul
 
 When running MOVES at default scale, there is no way to access the underlying operating mode distributions, in full, that are used to calculate emissions from activity. The primary use case for this tool, therefore, is to support calculations and emission rate analysis outside of MOVES where users may want to manually map an operating mode distribution to emission rates in a way that MOVES doesn't support by default. 
 
-More specifically, OpModeDistCalc replicates the MOVES activity calculations for calculating vehicle miles traveled (VMT) and source hours operating (SHO) at the level of detail needed to calculate emissions, which is by speed bin and operating mode. It then saves this output to a csv file, while MOVES continues its calculations and doesn't save the operating mode distribution anywhere that is accessible to the user. More detail on the calculation of activity and operating mode distributions can be found in the MOVES4 Vehicle Population and Activity Technical Report.
+More specifically, OpModeDistCalc replicates the MOVES activity calculations for calculating vehicle miles traveled (VMT) and source hours operating (SHO) at the level of detail needed to calculate emissions, which is by speed bin and operating mode. It then saves this output to a csv file, while MOVES continues its calculations and doesn't save the operating mode distribution anywhere that is accessible to the user. More detail on the calculation of activity and operating mode distributions can be found in the MOVES Vehicle Population and Activity Technical Report.
 
 **This tool is currently in Beta development. This is not to be used for regulatory purposes. If you have any difficulties using this tool, or have any related feedback, please open an issue on GitHub or email us at mobile@epa.gov.**
 
@@ -64,7 +64,7 @@ Users may specify any database using the `dbname` flag. For example, the followi
 OpModeDistCalc --runspec="./tools/example/examplerunspec.mrs" --outputFolder="./tools/example/" --dbname="movesdb20230615"
 ```
 
-Users may also specify a custom MariaDB server in case they are not using the MOVES4 default installation. That can be done using the flags for a username, password, and port. OpModeCalc is designed only to use databases that are local to the machine its running on.
+Users may also specify a custom MariaDB server in case they are not using the default installation. That can be done using the flags for a username, password, and port. OpModeCalc is designed only to use databases that are local to the machine its running on.
 
 ```
 OpModeDistCalc --runspec="./tools/example/examplerunspec.mrs" --outputFolder="./tools/example/" --dbname="movesdb20230615" --mariaUname="customUser" --mariaUpass="customPassword" --mariaPort=3307

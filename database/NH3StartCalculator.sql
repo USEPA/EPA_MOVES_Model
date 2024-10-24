@@ -118,7 +118,7 @@ AND SourceBin.sourceBinID = SourceBinDistribution.sourceBinID
 AND RunSpecSourceFuelType.sourceTypeID = SourceTypeModelYear.sourceTypeID
 AND SourceBinDistribution.sourceTypeModelYearID = SourceTypeModelYear.sourceTypeModelYearID
 AND SourceTypeModelYear.modelYearID <= ##context.year##
-AND SourceTypeModelYear.modelYearID >= ##context.year## - 30
+AND SourceTypeModelYear.modelYearID >= ##context.year## - 40
 AND EmissionRateByAge.polProcessID IN (##pollutantProcessIDs##);
 
 cache SELECT ff.* INTO OUTFILE '##FuelFormulation##'
@@ -181,13 +181,13 @@ WHERE processID=##context.iterProcess.databaseKey##;
 cache SELECT * INTO OUTFILE '##PollutantProcessModelYear##'
 FROM PollutantProcessModelYear
 WHERE modelYearID <= ##context.year##
-AND modelYearID >= ##context.year## - 30
+AND modelYearID >= ##context.year## - 40
 AND polProcessID IN (##pollutantProcessIDs##);
 
 cache SELECT * INTO OUTFILE '##PollutantProcessMappedModelYear##'
 FROM PollutantProcessMappedModelYear
 WHERE modelYearID <= ##context.year##
-AND modelYearID >= ##context.year## - 30
+AND modelYearID >= ##context.year## - 40
 AND polProcessID IN (##pollutantProcessIDs##);
 
 cache SELECT * INTO OUTFILE '##RunspecHour##' FROM RunspecHour;
@@ -199,7 +199,7 @@ FROM SourceBinDistribution, SourceTypeModelYear, SourceBin, RunSpecSourceFuelTyp
 WHERE polProcessID IN (##pollutantProcessIDs##)
 AND SourceBinDistribution.sourceTypeModelYearID = SourceTypeModelYear.sourceTypeModelYearID
 AND SourceTypeModelYear.modelYearID <= ##context.year##
-AND SourceTypeModelYear.modelYearID >= ##context.year## - 30
+AND SourceTypeModelYear.modelYearID >= ##context.year## - 40
 AND SourceTypeModelYear.sourceTypeID = RunSpecSourceFuelType.sourceTypeID
 AND SourceBinDistribution.SourceBinID = SourceBin.SourceBinID
 AND SourceBin.fuelTypeID = RunSpecSourceFuelType.fuelTypeID;
@@ -210,7 +210,7 @@ SourceTypeModelYear, SourceBin, RunSpecSourceFuelType
 WHERE polProcessID IN (##pollutantProcessIDs##)
 AND SourceBinDistribution.sourceTypeModelYearID = SourceTypeModelYear.sourceTypeModelYearID
 AND SourceTypeModelYear.modelYearID <= ##context.year##
-AND SourceTypeModelYear.modelYearID >= ##context.year## - 30
+AND SourceTypeModelYear.modelYearID >= ##context.year## - 40
 AND SourceTypeModelYear.sourceTypeID = RunSpecSourceFuelType.sourceTypeID
 AND SourceBinDistribution.SourceBinID = SourceBin.SourceBinID
 AND SourceBin.fuelTypeID = RunSpecSourceFuelType.fuelTypeID;
@@ -219,7 +219,7 @@ cache SELECT SourceTypeModelYear.* INTO OUTFILE '##SourceTypeModelYear##'
 FROM SourceTypeModelYear,RunSpecSourceType
 WHERE SourceTypeModelYear.sourceTypeID = RunSpecSourceType.sourceTypeID
 AND modelYearID <= ##context.year##
-AND modelYearID >= ##context.year## - 30;
+AND modelYearID >= ##context.year## - 40;
 
 cache SELECT Starts.* INTO OUTFILE '##Starts##'
 FROM Starts
@@ -261,7 +261,7 @@ CREATE TABLE IMCoverageMergedUngrouped (
        sourceTypeID SMALLINT NOT NULL,
        IMAdjustFract FLOAT,
        weightFactor FLOAT
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 
 INSERT INTO IMCoverageMergedUngrouped (
@@ -332,7 +332,7 @@ CREATE TABLE SourceBinEmissionRates0 (
 	opModeID SMALLINT NOT NULL,
 	meanBaseRate FLOAT,
 	meanBaseRateIM FLOAT
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ALTER TABLE SourceBinEmissionRates0 ADD INDEX SourceBinEmissionRates0 (
 	zoneID, yearID, polProcessID, sourceTypeID, modelYearID, fuelTypeID, opModeID);
@@ -371,7 +371,7 @@ CREATE TABLE SourceBinEmissionRates (
 	opModeID SMALLINT NOT NULL,
 	meanBaseRate FLOAT,
 	meanBaseRateIM FLOAT
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ALTER TABLE SourceBinEmissionRates ADD INDEX SourceBinEmissionRates1 (
 	zoneID, monthID, hourID, yearID, polProcessID, sourceTypeID, modelYearID, fuelTypeID, opModeID);
@@ -412,7 +412,7 @@ CREATE TABLE ActivityWeightedEmissionRate (
 	fuelTypeID SMALLINT NOT NULL,
 	meanBaseRate FLOAT,
 	meanBaseRateIM FLOAT
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE UNIQUE INDEX XPKActivityWeightedEmissionRate ON ActivityWeightedEmissionRate (
 	zoneID ASC,
@@ -459,7 +459,7 @@ CREATE TABLE Starts2 (
 	sourceTypeID SMALLINT NOT NULL,
 	modelYearID SMALLINT NOT NULL,
 	starts FLOAT
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE UNIQUE INDEX XPKStarts2 ON Starts2 (
       zoneID ASC,

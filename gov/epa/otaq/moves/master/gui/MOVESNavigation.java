@@ -327,8 +327,8 @@ public class MOVESNavigation extends JPanel implements ItemListener {
 		if (CompilationFlags.USE_NONROAD) {
 			add(offRoadVehicleEquipmentOption);
 		}
-		add(roadTypeOption);
 		add(pollutantsAndProcessesOption);
+		add(roadTypeOption);
 		add(generalOutputOption);
 		add(outputEmissionsBreakdownOption);
 		add(createInputDatabaseOption);
@@ -459,7 +459,7 @@ public class MOVESNavigation extends JPanel implements ItemListener {
 												      "can use the File > Print... feature.",
 						"Custom Domain Error Message",
 						JOptionPane.ERROR_MESSAGE);
-			} else if (!parent.runSpec.isSameMajorVersion(parent.MOVES_VERSION)) {
+			} else if (!parent.runSpec.isCompatibleVersion(MOVESWindow.MOVES_VERSION)) {
 			JOptionPane.showMessageDialog(parent, "Warning: The loaded RunSpec was created with " + parent.runSpec.getMajorVersionString() + ",\r\n" +
 			                                      "which may not be compatible with this version of MOVES. To\r\n" +
 												  "avoid compatibility issues, you may need to recreate this\r\n" +
@@ -589,6 +589,11 @@ public class MOVESNavigation extends JPanel implements ItemListener {
 			parent.setDefaultCursor();
 		}
 	}
+
+	/** Allows the Pollutants and Processes section status to be updated from other panels (such as Road Type) **/
+    public void updatePollutantProcessRunSpecSectionStatus() {
+        updateRunSpecSectionStatus(pollutantsAndProcessesOption, null, false);
+    }
 
 	/** Commits any changes in the active panel to the current RunSpec **/
 	public void commitActiveEditor() {

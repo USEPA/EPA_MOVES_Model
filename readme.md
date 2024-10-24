@@ -1,6 +1,8 @@
-# MOVES4
+# MOVES5-ReleaseCandidate2
 
 EPA's MOtor Vehicle Emission Simulator (MOVES) is a state-of-the-science emission modeling system that estimates emissions for mobile sources at the national, county, and project level for criteria air pollutants, greenhouse gases, and air toxics, available under EPA's Open Source Software policy. 
+
+The MOVES5 Release Candidate is made available for testing purposes and for modelers to become familiar with functional changes between MOVES4 and MOVES5 before MOVES5.0.0 is released. Emission results of MOVES5.0.0 may differ from the results of this release candidate. Results from this version may not be used in work for state implementation plans, conformity determinations, or for any other regulatory purpose.
 
 MOVES4 (available at https://github.com/USEPA/EPA_MOVES_Model and https://www.epa.gov/moves/latest-version-motor-vehicle-emission-simulator-moves) is the latest version of MOVES available for regulatory purposes. For more information, see [MOVES4 Policy Guidance: Use of MOVES for State Implementation Plan Development, Transportation Conformity, General Conformity and Other Purposes (EPA-420-B-23-009)](https://www.epa.gov/moves/latest-version-motor-vehicle-emission-simulator-moves#guidance). 
 
@@ -33,9 +35,9 @@ To get set up:
     secure-file-priv=''
     sql_mode=STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
     lower_case_table_names=1
-    character-set-server=utf8
-    collation-server=utf8_unicode_ci
-    init-connect='SET NAMES utf8'
+    character-set-server=utf8mb4
+    collation-server=utf8mb4_unicode_ci
+    init-connect='SET NAMES utf8mb4'
     ```
     Restart the MariaDB service after modifying this file.
 

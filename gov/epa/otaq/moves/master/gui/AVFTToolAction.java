@@ -9,7 +9,7 @@ package gov.epa.otaq.moves.master.gui;
 import javax.swing.Action;
 
 /**
- * Class for MOVES "Convert MOVES3 Input Database to MOVES4" menu option.
+ * Class for MOVES "AVFT Tool" menu option.
  *
  * @author		Daniel Bizer-Cox
  * @version		2022-11-16

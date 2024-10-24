@@ -32,21 +32,15 @@ import gov.epa.otaq.moves.master.runspec.*;
  * @version 	2022-11-16
 **/
 public class Converter extends JDialog implements ActionListener {
-	/** Mode for conversion of a 2010A CDM/PDM database into a 2010B database **/
-	private static final int MODE_2010A_TO_2010B = 0; // deprecated
-	/** Mode for conversion of a 2010B CDM/PDM database into a 2014 database **/
-	private static final int MODE_2010B_TO_2014 = 1; // deprecated
-	/** Mode for conversion of a 2014 CDM/PDM database into a 2014A database **/
-	public static final int MODE_2014_TO_3 = 2; // deprecated
-	/** Mode for conversion of a 2014A CDM/PDM database into a 3 database **/
-	public static final int MODE_2014A_TO_3 = 3; // deprecated
-	/** Mode for conversion of a MOVES3 CDM/PDM database into a MOVES4 database **/
-	public static final int MODE_3_TO_4 = 4;
+	/** Mode for conversion of a MOVES3 CDM/PDM database into a MOVES5 database **/
+	public static final int MODE_3_TO_5 = 1;
+	/** Mode for conversion of a MOVES4 CDM/PDM database into a MOVES5 database **/
+	public static final int MODE_4_TO_5 = 2;
 
 	/** The parent JFrame which invokes this dialog. **/
 	JFrame frame;
 	/** Default conversion mode **/
-	int mode = MODE_3_TO_4;
+	int mode = MODE_4_TO_5;
 
 	/** Instructions display **/
 	JTextPane instructionsTextPane;
@@ -93,7 +87,7 @@ public class Converter extends JDialog implements ActionListener {
 	/** Database containing old data to be converted. **/
 	ExtendedComboBox<String> inputDatabaseCombo;
 	/** Database to be created to hold the converted data. **/
-	ExtendedComboBox<String> newDatabaseCombo;
+	JTextField newDatabaseField;
 
 	/**
 	 * Browser dialog for selecting an output directory.  Retained as a member
@@ -107,7 +101,7 @@ public class Converter extends JDialog implements ActionListener {
 	 * @param modeToUse Default conversion mode
 	**/
 	public Converter(JFrame parent, int modeToUse) {
-		super(parent, "Convert Database");
+		super(parent, MOVESWindow.MOVES_VERSION + " - Convert Database");
 		frame = parent;
 		mode = modeToUse;
 
@@ -183,15 +177,13 @@ public class Converter extends JDialog implements ActionListener {
 		ToolTipHelper.add(inputDatabaseCombo,"Edit or select the name of the database that holds the existing data to be converted");
 		inputDatabaseCombo.addActionListener(this);
 
-		newDatabaseCombo = new ExtendedComboBox<String>();
-		d = newDatabaseCombo.getPreferredSize();
-		newDatabaseCombo.setPreferredSize(new Dimension(250, d.height));
-		newDatabaseCombo.setPopupWidth(newDatabaseCombo.getPreferredSize().width);
-		newDatabaseCombo.setName("newDatabaseCombo");
-		newDatabaseCombo.setEditable(true);
-		newDatabaseCombo.setSelectedIndex(-1);
-		ToolTipHelper.add(newDatabaseCombo,"Edit or select the name of the database to hold the converted data");
-		newDatabaseCombo.addActionListener(this);
+		newDatabaseField = new JTextField();
+		d = newDatabaseField.getPreferredSize();
+		newDatabaseField.setPreferredSize(new Dimension(250, d.height));
+		newDatabaseField.setName("newDatabaseField");
+		newDatabaseField.setEditable(true);
+		ToolTipHelper.add(newDatabaseField,"Enter the name of the database to hold the converted data");
+		newDatabaseField.addActionListener(this);
 
 		refreshButton = new JButton("Refresh");
 		ToolTipHelper.add(refreshButton,"Refresh the list of available databases");
@@ -218,39 +210,41 @@ public class Converter extends JDialog implements ActionListener {
 			((GridBagLayout)result.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4, 0.0};
 
 			//---- instructionsTextPane ----
+            String movesVersion = "";
 			switch(mode) {
-				case MODE_3_TO_4:
-					doc.insertString(doc.getLength(),
-						"This tool converts MOVES3 input databases for County, Project,"
-						+ " and Nonroad runs into the MOVES4 format. "
-						+ "\r\n\r\n"
-						+ "Use the default conversion script listed below unless you have a customized"
-						+ " conversion script to use instead. In this advanced use case, use the \"Browse\""
-						+ " button below to select your customized script."
-						+ "\r\n\r\n"
-						+ "To use this tool, select a MOVES3 input database from the"
-						+ " \"Input Database\" drop-down list below. Then enter the name of a new database"
-						+ " to receive the converted data as the \"New Database\". Use the \"Convert Database\""
-						+ " button to execute the script file.  When you've converted all the databases needed," 
-						+ " click \"Done\"."
-						+ "\r\n\r\n"
-						+ "To use a converted database with this RunSpec, select your new database from the"
-						+ " drop-down list on the Create Input Database Panel. If it does not automatically" 
-						+ " appear in the list, you may need to click the \"Refresh\" button on that panel" 
-						+ " first."
-						+ "\r\n\r\n",
-						normal);
-					doc.insertString(doc.getLength(),
-						"Note that additional work is needed before using the converted input databases"
-						+ " with MOVES4. Click the \"Open Help\" button for more information.",
-						bold);
+				case MODE_3_TO_5:
+                    movesVersion = "MOVES3";
 					break;
+                case MODE_4_TO_5:
+                    movesVersion = "MOVES4";
+                    break;
 				default:
-					instructionsTextPane.setText(
-								"An error occurred and the instructions could not be loaded."
-							);
-					break;
+                    movesVersion = "MOVES";
 			}
+            doc.insertString(doc.getLength(),
+                "This tool converts " + movesVersion + " input databases for County, Project,"
+                + " and Nonroad runs into the MOVES5 format. "
+                + "\r\n\r\n"
+                + "Use the default conversion script listed below unless you have a customized"
+                + " conversion script to use instead. In this advanced use case, use the \"Browse\""
+                + " button below to select your customized script."
+                + "\r\n\r\n"
+                + "To use this tool, select a " + movesVersion + " input database from the"
+                + " \"Input Database\" drop-down list below. Then enter the name of a new database"
+                + " to receive the converted data as the \"New Database\". Use the \"Convert Database\""
+                + " button to execute the script file.  When you've converted all the databases needed," 
+                + " click \"Done\"."
+                + "\r\n\r\n"
+                + "To use a converted database with this RunSpec, select your new database from the"
+                + " drop-down list on the Create Input Database Panel. If it does not automatically" 
+                + " appear in the list, you may need to click the \"Refresh\" button on that panel" 
+                + " first."
+                + "\r\n\r\n",
+            normal);
+            doc.insertString(doc.getLength(),
+                "Note that additional work is needed before using the converted input databases"
+                + " with MOVES5. Click the \"Open Help\" button for more information.",
+                bold);
 			instructionsTextPane.setEditable(false);
 			instructionsTextPane.setBackground(UIManager.getColor("Panel.background"));
 			JPanel p = new JPanel();
@@ -336,7 +330,7 @@ public class Converter extends JDialog implements ActionListener {
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				new Insets(0, 0, 5, 5), 0, 0));
 
-			p.add(newDatabaseCombo, new GridBagConstraints(1, 2, 3, 1, 0.0, 0.0,
+			p.add(newDatabaseField, new GridBagConstraints(1, 2, 3, 1, 0.0, 0.0,
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				new Insets(0, 0, 5, 5), 0, 0));
 
@@ -344,7 +338,7 @@ public class Converter extends JDialog implements ActionListener {
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				new Insets(0, 0, 5, 5), 0, 0));
 			label5.setDisplayedMnemonic('N');
-			label5.setLabelFor(newDatabaseCombo);
+			label5.setLabelFor(newDatabaseField);
 
 			//---- label4 ----
 			label4.setText("Messages:");
@@ -434,9 +428,12 @@ public class Converter extends JDialog implements ActionListener {
 		try {
 			File file = null;
 			switch(mode) {
-				case MODE_3_TO_4:
-					file = new File("database/ConversionScripts/Convert_MOVES3_input_to_MOVES4.sql");
+				case MODE_3_TO_5:
+					file = new File("database/ConversionScripts/Convert_MOVES3_input_to_MOVES5.sql");
 					break;
+                case MODE_4_TO_5:
+                    file = new File("database/ConversionScripts/Convert_MOVES4_input_to_MOVES5.sql");
+                    break;
 			}
 			if(file == null || !file.exists()) {
 				return;
@@ -514,7 +511,7 @@ public class Converter extends JDialog implements ActionListener {
 				messagesHasError = true;
 			}
 
-			String newDatabaseName = newDatabaseCombo.getSelectedItem().toString();
+			String newDatabaseName = newDatabaseField.getText();
 			if(newDatabaseName != null) {
 				newDatabaseName = newDatabaseName.trim();
 			}
@@ -529,6 +526,15 @@ public class Converter extends JDialog implements ActionListener {
 					messagesHasError = true;
 				}
 			}
+            
+			if(!messagesHasError) {
+                // if newDatabaseName exists, don't create it!
+                TreeSet<String> databases = getCurrentDatabases(true);
+                if (databases.contains(newDatabaseName)) {
+                    messages.add(newDatabaseName + " already exists. You must specify a new database name that does not already exist.");
+                    messagesHasError = true;
+                }
+            }
 
 			if(messagesHasError) {
 				return;
@@ -642,26 +648,6 @@ public class Converter extends JDialog implements ActionListener {
 	}
 
 	/**
-	 * Add a database name to inputDatabaseCombo and newDatabaseCombo but only if it isn't already in the
-	 * the lists.
-	 * @param newDatabaseName name of the database to attempt to place into the database combo boxes.
-	 * @return the object either added to or already in the list.  This will be the object
-	 * the should be selected.
-	**/
-	private String addIfNotInComboBox(String newDatabaseName) {
-		String a = addIfNotInComboBox(newDatabaseName,inputDatabaseCombo);
-		String b = addIfNotInComboBox(newDatabaseName,newDatabaseCombo);
-		if(a == null) {
-			if(b == null) {
-				return null;
-			}
-			return b;
-		} else {
-			return a;
-		}
-	}
-
-	/**
 	 * Add a database name to a combobox but only if it isn't already in the the lists.
 	 * @param newDatabaseName name of the database to attempt to place into the database combo box.
 	 * @param combobox a listing of database names on screen
@@ -688,39 +674,14 @@ public class Converter extends JDialog implements ActionListener {
 	**/
 	public void loadDatabases() {
 		inputDatabaseCombo.removeAllItems();
-		newDatabaseCombo.removeAllItems();
 		// add the default item (no selection)
 		inputDatabaseCombo.addItem(new String(""));
-		newDatabaseCombo.addItem(new String(""));
 
-		TreeSet<String> databases = new TreeSet<String>();
-		// get the available databases from the current server selection
-		Connection db = DatabaseConnectionManager.getGUIConnection(MOVESDatabaseType.DEFAULT);
-		if(null == db) {
-			Logger.log(LogMessageCategory.ERROR,"Could not connect to the default database");
-			return;
-		}
-		String sql = "SELECT schema_name FROM information_schema.schemata order by schema_name";
-		PreparedStatement statement;
-		ResultSet results;
-		try {
-			statement = db.prepareStatement(sql);
-			results = SQLRunner.executeQuery(statement,sql);
-			if(results != null) {
-				while(results.next()) {
-					String nextDB = results.getString(1);
-					databases.add(nextDB);
-				}
-				results.close();
-			}
-			statement.close();
-		} catch(Exception e) {
-			Logger.logError(e, "Failed to show databases (load databases) in Converter.");
-			DatabaseUtilities.closeConnection(db);
-			return;
-		}
-		// second pass through the returned list of database names, must now
-		// remove any databases that are an output database
+		TreeSet<String> databases = getCurrentDatabases(false);
+
+		// pass through the returned list of database names, removing any databases that are a default database
+        // or an output database
+        Connection db = DatabaseConnectionManager.getGUIConnection(MOVESDatabaseType.DEFAULT);
 		ArrayList<String> stringsToRemove = new ArrayList<String>();
 		try {
 			boolean foundOutputTable = false;
@@ -732,10 +693,10 @@ public class Converter extends JDialog implements ActionListener {
 				}
 				// look at all tables from the next databaseName, compare the table
 				// names to one output table name (and agecategory, a default database table)
-				sql = "SHOW TABLES FROM " + nextDatabase;
+				String sql = "SHOW TABLES FROM " + nextDatabase;
 				try {
-					statement = db.prepareStatement(sql);
-					results = SQLRunner.executeQuery(statement,sql);
+					PreparedStatement statement = db.prepareStatement(sql);
+					ResultSet results = SQLRunner.executeQuery(statement,sql);
 					if(results != null) {
 						while(results.next()) {
 							String nextTable = results.getString(1);
@@ -762,7 +723,6 @@ public class Converter extends JDialog implements ActionListener {
 			for(Iterator<String> i=databases.iterator();i.hasNext();) {
 				String nextDB = (String)i.next();
 				inputDatabaseCombo.addItem(nextDB);
-				newDatabaseCombo.addItem(nextDB);
 			}
 
 			Vector<String> toolTipVector = new Vector<String>();
@@ -772,20 +732,49 @@ public class Converter extends JDialog implements ActionListener {
 			String[] toolTipStringArray = new String[toolTipVector.size()];
 			toolTipVector.copyInto(toolTipStringArray);
 			inputDatabaseCombo.setRenderer(new TooltipComboBoxRenderer<String>(toolTipStringArray));
-
-			toolTipVector = new Vector<String>();
-			for(int i=0; i<newDatabaseCombo.getItemCount(); i++) {
-				toolTipVector.add((String) newDatabaseCombo.getItemAt(i));
-			}
-			toolTipStringArray = new String[toolTipVector.size()];
-			toolTipVector.copyInto(toolTipStringArray);
-			newDatabaseCombo.setRenderer(new TooltipComboBoxRenderer<String>(toolTipStringArray));
 		} catch(Exception e) {
 			//Logger.logException(e);
 			Logger.logError(e, "Failed to show tables from database in Converter.");
 		}
 		// set the default selection
 		inputDatabaseCombo.setSelectedItem("");
-		newDatabaseCombo.setSelectedItem("");
 	}
+
+    // Returns a TreeSet of all currently existing databases. Pass true if you want this list to include
+    // system databases, like "sys" and "mysql" (useful when looking for databases that don't exist yet,
+    // not useful when looking for valid MOVES CDBs)
+    private TreeSet<String> getCurrentDatabases(boolean includeSystemDBs) {
+        TreeSet<String> databases = new TreeSet<String>();
+		// get the available databases from the current server selection, excluding system databases
+		Connection db = DatabaseConnectionManager.getGUIConnection(MOVESDatabaseType.DEFAULT);
+		if(null == db) {
+			Logger.log(LogMessageCategory.ERROR,"Could not connect to the default database");
+			return databases;
+		}
+		String sql = "SELECT schema_name FROM information_schema.schemata ";
+        if (!includeSystemDBs) {
+            sql += "WHERE schema_name NOT IN ('sys', 'mysql', 'information_schema', 'performance_schema') ";
+        }
+        sql += "order by schema_name";
+		PreparedStatement statement;
+		ResultSet results;
+		try {
+			statement = db.prepareStatement(sql);
+			results = SQLRunner.executeQuery(statement,sql);
+			if(results != null) {
+				while(results.next()) {
+					String nextDB = results.getString(1);
+					databases.add(nextDB);
+				}
+				results.close();
+			}
+			statement.close();
+		} catch(Exception e) {
+			Logger.logError(e, "Failed to load databases in Converter.");
+			DatabaseUtilities.closeConnection(db);
+			return databases;
+		}
+
+        return databases;
+    }
 }

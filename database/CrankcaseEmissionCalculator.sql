@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS ##prefix##CrankcaseEmissionRatio (
   crankcaseRatio float NOT NULL,
   crankcaseRatioCV float DEFAULT NULL,
   primary key (polProcessID, minModelYearID, maxModelYearID, sourceTypeID, regClassID, fuelTypeID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 TRUNCATE TABLE ##prefix##CrankcaseEmissionRatio;
 
 CREATE TABLE IF NOT EXISTS ##prefix##CrankcasePollutantProcessAssoc (
@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS ##prefix##CrankcasePollutantProcessAssoc (
        PRIMARY KEY (polProcessID),
        KEY (processID),
        KEY (pollutantID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 TRUNCATE TABLE ##prefix##CrankcasePollutantProcessAssoc;
 
 -- End Section Create Remote Tables for Extracted Data
@@ -51,11 +51,11 @@ inner join RunSpecSourceFuelType r on (r.sourceTypeID=c.sourceTypeID and r.fuelT
 where ppa.pollutantID in (##pollutantIDs##)
 and ppa.processID = ##outputProcessID##
 and (
-	(c.minModelYearID >= MYMAP(##context.year## - 30) and c.minModelYearID <= MYMAP(##context.year##))
+	(c.minModelYearID >= MYMAP(##context.year## - 40) and c.minModelYearID <= MYMAP(##context.year##))
 	or
-	(c.maxModelYearID >= MYMAP(##context.year## - 30) and c.maxModelYearID <= MYMAP(##context.year##))
+	(c.maxModelYearID >= MYMAP(##context.year## - 40) and c.maxModelYearID <= MYMAP(##context.year##))
 	or
-	(c.minModelYearID < MYMAP(##context.year## - 30) and c.maxModelYearID > MYMAP(##context.year##))
+	(c.minModelYearID < MYMAP(##context.year## - 40) and c.maxModelYearID > MYMAP(##context.year##))
 );
 
 cache select distinct ppa.polProcessID, ppa.processID, ppa.pollutantID, ppa.isAffectedByExhaustIM, ppa.isAffectedByEvapIM
@@ -66,11 +66,11 @@ inner join RunSpecSourceFuelType r on (r.sourceTypeID=c.sourceTypeID and r.fuelT
 where ppa.pollutantID in (##pollutantIDs##)
 and ppa.processID = ##outputProcessID##
 and (
-	(c.minModelYearID >= MYMAP(##context.year## - 30) and c.minModelYearID <= MYMAP(##context.year##))
+	(c.minModelYearID >= MYMAP(##context.year## - 40) and c.minModelYearID <= MYMAP(##context.year##))
 	or
-	(c.maxModelYearID >= MYMAP(##context.year## - 30) and c.maxModelYearID <= MYMAP(##context.year##))
+	(c.maxModelYearID >= MYMAP(##context.year## - 40) and c.maxModelYearID <= MYMAP(##context.year##))
 	or
-	(c.minModelYearID < MYMAP(##context.year## - 30) and c.maxModelYearID > MYMAP(##context.year##))
+	(c.minModelYearID < MYMAP(##context.year## - 40) and c.maxModelYearID > MYMAP(##context.year##))
 );
 -- End Section PM
 
@@ -90,11 +90,11 @@ inner join RunSpecSourceFuelType r on (r.sourceTypeID=c.sourceTypeID and r.fuelT
 where ppa.pollutantID in (##pollutantIDs##)
 and ppa.processID = ##outputProcessID##
 and (
-	(c.minModelYearID >= MYMAP(##context.year## - 30) and c.minModelYearID <= MYMAP(##context.year##))
+	(c.minModelYearID >= MYMAP(##context.year## - 40) and c.minModelYearID <= MYMAP(##context.year##))
 	or
-	(c.maxModelYearID >= MYMAP(##context.year## - 30) and c.maxModelYearID <= MYMAP(##context.year##))
+	(c.maxModelYearID >= MYMAP(##context.year## - 40) and c.maxModelYearID <= MYMAP(##context.year##))
 	or
-	(c.minModelYearID < MYMAP(##context.year## - 30) and c.maxModelYearID > MYMAP(##context.year##))
+	(c.minModelYearID < MYMAP(##context.year## - 40) and c.maxModelYearID > MYMAP(##context.year##))
 );
 
 cache select distinct ppa.polProcessID, ppa.processID, ppa.pollutantID, ppa.isAffectedByExhaustIM, ppa.isAffectedByEvapIM
@@ -105,11 +105,11 @@ inner join RunSpecSourceFuelType r on (r.sourceTypeID=c.sourceTypeID and r.fuelT
 where ppa.pollutantID in (##pollutantIDs##)
 and ppa.processID = ##outputProcessID##
 and (
-	(c.minModelYearID >= MYMAP(##context.year## - 30) and c.minModelYearID <= MYMAP(##context.year##))
+	(c.minModelYearID >= MYMAP(##context.year## - 40) and c.minModelYearID <= MYMAP(##context.year##))
 	or
-	(c.maxModelYearID >= MYMAP(##context.year## - 30) and c.maxModelYearID <= MYMAP(##context.year##))
+	(c.maxModelYearID >= MYMAP(##context.year## - 40) and c.maxModelYearID <= MYMAP(##context.year##))
 	or
-	(c.minModelYearID < MYMAP(##context.year## - 30) and c.maxModelYearID > MYMAP(##context.year##))
+	(c.minModelYearID < MYMAP(##context.year## - 40) and c.maxModelYearID > MYMAP(##context.year##))
 );
 -- End Section NonPM
 
@@ -143,7 +143,7 @@ create table if not exists ##prefix##CrankcaseMOVESWorkerOutputTemp (
 	index (regClasSID),
 	index (roadTypeID),
 	index (zoneID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE INDEX ##prefix##MOVESWorkerOutput_New2 ON MOVESWorkerOutput (
 	pollutantID ASC,

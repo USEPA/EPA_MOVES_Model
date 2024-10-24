@@ -90,7 +90,7 @@ create table if not exists oneCountyYearGeneralFuelRatio (
 	yearID int not null,
 	fuelEffectRatio double not null default '0',
 	primary key (fuelTypeID, sourceTypeID, monthID, pollutantID, modelYearID, yearID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 truncate oneCountyYearGeneralFuelRatio;
 
 -- End Section Create Remote Tables for Extracted Data
@@ -138,7 +138,7 @@ SourceTypeModelYear, SourceBin, RunSpecSourceFuelType
 WHERE polProcessID IN (##pollutantProcessIDs##)
 AND SourceBinDistribution.sourceTypeModelYearID = SourceTypeModelYear.sourceTypeModelYearID
 AND SourceTypeModelYear.modelYearID <= ##context.year##
-AND SourceTypeModelYear.modelYearID >= ##context.year## - 30
+AND SourceTypeModelYear.modelYearID >= ##context.year## - 40
 AND SourceTypeModelYear.sourceTypeID = RunSpecSourceFuelType.sourceTypeID
 AND SourceBinDistribution.SourceBinID = SourceBin.SourceBinID
 AND SourceBin.fuelTypeID = RunSpecSourceFuelType.fuelTypeID;
@@ -149,7 +149,7 @@ FROM SourceBinDistribution, SourceTypeModelYear, SourceBin, RunSpecSourceFuelTyp
 WHERE polProcessID IN (##pollutantProcessIDs##)
 AND SourceBinDistribution.sourceTypeModelYearID = SourceTypeModelYear.sourceTypeModelYearID
 AND SourceTypeModelYear.modelYearID <= ##context.year##
-AND SourceTypeModelYear.modelYearID >= ##context.year## - 30
+AND SourceTypeModelYear.modelYearID >= ##context.year## - 40
 AND SourceTypeModelYear.sourceTypeID = RunSpecSourceFuelType.sourceTypeID
 AND SourceBinDistribution.SourceBinID = SourceBin.SourceBinID
 AND SourceBin.fuelTypeID = RunSpecSourceFuelType.fuelTypeID;
@@ -163,7 +163,7 @@ AND EmissionRateByAge.polProcessID = SourceBinDistribution.polProcessID
 AND EmissionRateByAge.SourceBinID = SourceBinDistribution.SourceBinID
 AND SourceBinDistribution.sourceTypeModelYearID = SourceTypeModelYear.sourceTypeModelYearID
 AND SourceTypeModelYear.modelYearID <= ##context.year##
-AND SourceTypeModelYear.modelYearID >= ##context.year## - 30
+AND SourceTypeModelYear.modelYearID >= ##context.year## - 40
 AND SourceTypeModelYear.sourceTypeID = RunSpecSourceFuelType.sourceTypeID
 AND SourceBinDistribution.SourceBinID = SourceBin.SourceBinID
 AND SourceBin.fuelTypeID = RunSpecSourceFuelType.fuelTypeID;
@@ -174,7 +174,7 @@ INTO OUTFILE '##SourceTypeModelYear##'
 FROM SourceTypeModelYear,RunSpecSourceType
 WHERE SourceTypeModelYear.sourceTypeID = RunSpecSourceType.sourceTypeID
 AND modelYearID <= ##context.year##
-AND modelYearID >= ##context.year## - 30;
+AND modelYearID >= ##context.year## - 40;
 
 cache SELECT DISTINCT HourDay.* 
 INTO OUTFILE '##HourDay##'
@@ -192,12 +192,12 @@ INTO OUTFILE '##PollutantProcessModelYear##'
 FROM PollutantProcessModelYear
 WHERE polProcessID IN (##pollutantProcessIDs##)
 AND modelYearID <= ##context.year##
-AND modelYearID >= ##context.year## - 30;
+AND modelYearID >= ##context.year## - 40;
 
 cache SELECT * INTO OUTFILE '##PollutantProcessMappedModelYear##'
 FROM PollutantProcessMappedModelYear
 WHERE modelYearID <= ##context.year##
-AND modelYearID >= ##context.year## - 30
+AND modelYearID >= ##context.year## - 40
 AND polProcessID IN (##pollutantProcessIDs##);
 
 -- Section StartsActivity
@@ -275,7 +275,7 @@ create table OpModeWeightedEmissionRateTemp (
 	polProcessID int not null,
 	opModeID smallint(6) not null,
 	opModeWeightedMeanBaseRate float
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 -- Section EmissionRateByAgeRates
 
@@ -310,7 +310,7 @@ create table OpModeWeightedEmissionRate (
 	index (ageGroupID),
 	index (polProcessID),
 	index (opModeID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 insert into OpModeWeightedEmissionRate (hourDayID, sourceTypeID, sourceBinID, ageGroupID, polProcessID, opModeID, opModeWeightedMeanBaseRate)
 select hourDayID, sourceTypeID, sourceBinID, ageGroupID, polProcessID, opModeID, sum(opModeWeightedMeanBaseRate)
@@ -341,7 +341,7 @@ create table FullyWeightedEmissionRate (
 	index (polProcessID),
 	index (ageID),
 	index (opModeID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 insert into FullyWeightedEmissionRate (yearID, hourDayID, sourceTypeID, fuelTypeID, modelYearID, polProcessID, fullyWeightedMeanBaseRate, ageID, opModeID)
 select ##context.year## as yearID, omer.hourDayID, omer.sourceTypeID, sb.fuelTypeID, stmy.modelYearID, omer.polProcessID,
@@ -380,7 +380,7 @@ create table UnadjustedEmissionResults (
 	index (modelYearID),
 	index (polProcessID),
 	index (opModeID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 -- Section StartsActivity
 insert into UnadjustedEmissionResults (yearID, monthID, hourDayID, sourceTypeID, fuelTypeID, modelYearID, polProcessID, opModeID, unadjustedEmissionQuant)
@@ -413,7 +413,7 @@ create table AdjustedEmissionResults (
 	index (fuelTypeID),
 	index (modelYearID),
 	index (polProcessID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 -- Section ApplyTemperatureAdjustment
 insert into AdjustedEmissionResults (yearID, monthID, dayID, hourID, sourceTypeID, fuelTypeID, modelYearID, polProcessID, emissionQuant)

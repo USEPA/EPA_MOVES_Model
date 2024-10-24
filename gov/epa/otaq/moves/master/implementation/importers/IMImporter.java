@@ -232,7 +232,7 @@ public class IMImporter extends ImporterBase {
 		 * @param value array of objects for each column in the template
 		 * @return true if the row should be written
 		**/
-		public boolean shouldWriteTemplateRow(Object[] values) {
+		public boolean shouldWriteTemplateRow(String tableName, Object[] values) {
 			// Only approve the row if it contains a polProcessID combination present in imFactor,
 			// as read during onBeginTemplate.
 			// According to the layout above, polProcessID is values[0]

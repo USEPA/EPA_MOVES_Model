@@ -13,7 +13,7 @@ CREATE TABLE AgeCategory (
        ageCategoryName      CHAR(50) NULL,
        key (ageGroupID, ageID),
        key (ageID, ageGroupID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE UNIQUE INDEX XPKAgeCategory ON AgeCategory
 (
@@ -23,7 +23,7 @@ CREATE UNIQUE INDEX XPKAgeCategory ON AgeCategory
 CREATE TABLE AgeGroup (
 	ageGroupID   SMALLINT NOT NULL,
 	ageGroupName CHAR(50)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE UNIQUE INDEX XPKAgeGroup ON AgeGroup
 (
@@ -37,14 +37,14 @@ CREATE TABLE ATBaseEmissions
 	atBaseEmissions			float			NOT NULL	default '0',
 	dataSourceID			smallint(6)		NULL		default NULL,
 	primary key (polProcessID, monthGroupID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE ActivityType (
 	activityTypeID       SMALLINT UNSIGNED NOT NULL,
 	activityType         CHAR(20) NOT NULL,
 	activityTypeDesc     CHAR(50) NULL DEFAULT NULL,
 	PRIMARY KEY (activityTypeID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 create table ATRatio (
 	fuelTypeID int not null,
@@ -58,7 +58,7 @@ create table ATRatio (
   PRIMARY KEY (fuelTypeID, fuelFormulationID, polProcessID, minModelYearID, maxModelYearID, ageID, monthGroupID),
 	key atratio_key1 (fuelFormulationID, polProcessID, minModelYearID),
 	key atratio_key2 (polProcessID, fuelTypeID, monthGroupID, minModelYearID, ageID, maxModelYearID, fuelFormulationID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE ATRatioGas2
 (
@@ -67,7 +67,7 @@ CREATE TABLE ATRatioGas2
   fuelSubtypeID smallint(6) default NULL,
   ATRatio float default NULL,
   ATRatioCV float default NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE UNIQUE INDEX XPKATRatioGas2 ON ATRatioGas2
 (
@@ -86,7 +86,7 @@ CREATE TABLE ATRatioNonGas
   ATRatioCV double DEFAULT NULL,
   dataSourceId smallint(6) DEFAULT NULL,
   PRIMARY KEY (polProcessID,sourceTypeID,fuelSubtypeID,modelYearGroupID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE AverageTankGasoline (
 	zoneID int(11) NOT NULL,
@@ -98,7 +98,7 @@ CREATE TABLE AverageTankGasoline (
 	isUserInput char(1) NOT NULL default 'N',
 	PRIMARY KEY  (zoneID,fuelTypeID,fuelYearID,monthGroupID),
 	index(isUserInput)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE AverageTankTemperature (
 	tankTemperatureGroupID SMALLINT NOT NULL,
@@ -108,7 +108,7 @@ CREATE TABLE AverageTankTemperature (
 	opModeID SMALLINT NOT NULL,
 	averageTankTemperature FLOAT,
 	averageTankTemperatureCV FLOAT
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE UNIQUE INDEX XPKAverageTankTemperature ON AverageTankTemperature (
 	tankTemperatureGroupID ASC,
@@ -129,7 +129,7 @@ create table avft (
 	key (modelYearID),
 	key (fuelTypeID),
 	key (engTechID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE AvgSpeedBin (
        avgSpeedBinID        SMALLINT NOT NULL,
@@ -137,7 +137,7 @@ CREATE TABLE AvgSpeedBin (
        avgSpeedBinDesc      CHAR(50) NULL,
        opModeIDTirewear		SMALLINT(6) NULL default NULL,
        opModeIDRunning		SMALLINT(6) NULL default NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE UNIQUE INDEX XPKAvgSpeedBin ON AvgSpeedBin
 (
@@ -150,7 +150,7 @@ CREATE TABLE AvgSpeedDistribution (
        hourDayID            SMALLINT NOT NULL,
        avgSpeedBinID        SMALLINT NOT NULL,
        avgSpeedFraction     FLOAT NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ALTER TABLE AvgSpeedDistribution ADD (
        KEY (sourceTypeID),
@@ -176,7 +176,7 @@ create table BaseFuel
 	description varchar(255) not null default '',
 	dataSourceID smallint(6) not null,
 	primary key (calculationEngine, fuelTypeID, modelYearGroupID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE ColdSoakInitialHourFraction (
 	sourceTypeID smallint(6) NOT NULL,
@@ -188,7 +188,7 @@ CREATE TABLE ColdSoakInitialHourFraction (
 	isUserInput char(1) NOT NULL default 'N',
 	PRIMARY KEY  (sourceTypeID,zoneID,monthID,hourDayID,initialHourDayID),
 	index (isUserInput)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE ColdSoakTankTemperature (
   zoneID int(11) NOT NULL,
@@ -196,14 +196,14 @@ CREATE TABLE ColdSoakTankTemperature (
   hourID smallint(6) NOT NULL,
   coldSoakTankTemperature float NOT NULL,
   PRIMARY KEY  (zoneID,monthID,hourID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE ComplexModelParameterName 
 (
 	cmpID   		smallint(6)  	NOT NULL   	default '0' primary key,
 	cmpName			char(25),
 	cmpExpression   varchar(500) not null
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE ComplexModelParameters 
 (
@@ -215,7 +215,7 @@ CREATE TABLE ComplexModelParameters
 	coeff3					float			NULL		default NULL,
 	dataSourceID			smallint(6)		NULL		default NULL,
 	primary key (polProcessID, fuelModelID, cmpID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE County (
        countyID             INTEGER NOT NULL,
@@ -229,7 +229,7 @@ CREATE TABLE County (
        msa 					CHAR(255),
        key (countyID, stateID),
        key (stateID, countyID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE UNIQUE INDEX XPKCounty ON County
 (
@@ -239,7 +239,7 @@ CREATE UNIQUE INDEX XPKCounty ON County
 create table countyType (
 	countyTypeID int not null primary key,
 	countyTypeDescription varchar(255) not null default ''
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE CountyYear (
        countyID             INTEGER NOT NULL,
@@ -247,7 +247,7 @@ CREATE TABLE CountyYear (
 	   refuelingVaporProgramAdjust FLOAT NOT NULL DEFAULT 0.0,
 	   refuelingSpillProgramAdjust FLOAT NOT NULL DEFAULT 0.0,
 	   key (yearID, countyID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ALTER TABLE CountyYear ADD (
        KEY (countyID),
@@ -270,7 +270,7 @@ CREATE TABLE CrankcaseEmissionRatio (
 	crankcaseRatio			float NOT NULL,
 	crankcaseRatioCV		float NULL,
 	primary key (polProcessID, minModelYearID, maxModelYearID, sourceTypeID, regClassID, fuelTypeID)
-); 
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci'; 
 
 create table criteriaRatio (
 	fuelTypeID int not null,
@@ -286,7 +286,7 @@ create table criteriaRatio (
 	ratioNoSulfur double null,
 	key crFuelFormulation (polProcessID, fuelFormulationID),
 	key crCommon (polProcessID, modelYearID, ageID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE CumTVVCoeffs (
 	regClassID smallint(6) NOT NULL,
@@ -314,7 +314,7 @@ CREATE TABLE CumTVVCoeffs (
 	tankFillFraction double,
 	leakFractionIM double,
 	PRIMARY KEY  (regClassID,modelYearGroupID,ageGroupID,polProcessID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE DataSource (
        dataSourceId         SMALLINT NOT NULL,
@@ -323,7 +323,7 @@ CREATE TABLE DataSource (
        Sponsor              CHAR(30) NULL,
        DocumentId           CHAR(150) NULL,
        QualityLevel         CHAR(1) NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE UNIQUE INDEX XPKDataSou ON DataSource
 (
@@ -335,7 +335,7 @@ CREATE TABLE DayOfAnyWeek (
        dayID                SMALLINT NOT NULL,
        dayName              CHAR(10) NULL,
        noOfRealDays         FLOAT NOT NULL DEFAULT 1.0
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE UNIQUE INDEX XPKDayOfAnyWeek ON DayOfAnyWeek
 (
@@ -349,7 +349,7 @@ CREATE TABLE DayVMTFraction (
        roadTypeID           SMALLINT NOT NULL,
        dayID                SMALLINT NOT NULL,
        dayVMTFraction       FLOAT NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ALTER TABLE DayVMTFraction ADD (
        KEY (sourceTypeID),
@@ -376,13 +376,13 @@ CREATE TABLE dioxinemissionrate (
   dataSourceId smallint(6) DEFAULT NULL,
   PRIMARY KEY (polProcessID,fuelTypeID,modelYearGroupID),
   UNIQUE KEY XPKDioxinEmissionRate (polProcessID,fuelTypeID,modelYearGroupID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE DriveSchedule (
        driveScheduleID      SMALLINT NOT NULL,
        averageSpeed         FLOAT NOT NULL,
        driveScheduleName    CHARACTER(50) NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE UNIQUE INDEX XPKDriveSchedule ON DriveSchedule
 (
@@ -394,7 +394,7 @@ CREATE TABLE DriveScheduleAssoc (
        sourceTypeID         SMALLINT NOT NULL,
        roadTypeID           SMALLINT NOT NULL,
        driveScheduleID      SMALLINT NOT NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ALTER TABLE DriveScheduleAssoc ADD (
         KEY (sourceTypeID),
@@ -414,7 +414,7 @@ CREATE TABLE DriveScheduleSecond (
        driveScheduleID      SMALLINT NOT NULL,
        second               SMALLINT NOT NULL,
        speed                FLOAT NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ALTER TABLE DriveScheduleSecond ADD (
         KEY (driveScheduleID),
@@ -434,7 +434,7 @@ create table driveScheduleSecondLink (
 	grade float not null default 0.0,
 	primary key (linkID, secondID),
 	key (secondID, linkID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 create table e10FuelProperties (
 	fuelRegionID int not null,
@@ -457,7 +457,7 @@ create table e10FuelProperties (
 	T50 double null,
 	T90 double null,
 	primary key (fuelRegionID, fuelYearID, monthGroupID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE EmissionProcess (
        processID            SMALLINT NOT NULL,
@@ -468,7 +468,7 @@ CREATE TABLE EmissionProcess (
        processDisplayGroupID smallint(6) unsigned DEFAULT NULL,
        isAffectedByOnroad tinyint(1) DEFAULT '1',
        isAffectedByNonroad tinyint(1) DEFAULT '0'
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE UNIQUE INDEX XPKEmissionProcess ON EmissionProcess
 (
@@ -485,7 +485,7 @@ CREATE TABLE EmissionRate (
        meanBaseRateIM   	FLOAT NULL,
        meanBaseRateIMCV     FLOAT NULL,
        dataSourceId         SMALLINT NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ALTER TABLE EmissionRate ADD (
         KEY (sourceBinID),
@@ -512,7 +512,7 @@ CREATE TABLE EmissionRateAdjustment
 	dataSourceID			smallint(6) NULL default NULL,
 	primary key (polProcessID, sourceTypeID, fuelTypeID, regClassID, beginModelYearID, endModelYearID),
 	key (polProcessID, beginModelYearID, endModelYearID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE EmissionRateByAge (
        sourceBinID          BIGINT NOT NULL,
@@ -524,7 +524,7 @@ CREATE TABLE EmissionRateByAge (
        meanBaseRateIM       FLOAT NULL,
        meanBaseRateIMCV     FLOAT NULL,
        dataSourceId         SMALLINT NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ALTER TABLE EmissionRateByAge ADD (
         KEY (sourceBinID),
@@ -551,7 +551,7 @@ CREATE TABLE EmissionRateByAgeLEV (
        meanBaseRateIM       FLOAT NULL,
        meanBaseRateIMCV     FLOAT NULL,
        dataSourceId         SMALLINT NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ALTER TABLE EmissionRateByAgeLEV ADD (
         KEY (sourceBinID),
@@ -578,7 +578,7 @@ CREATE TABLE EmissionRateByAgeNLEV (
        meanBaseRateIM       FLOAT NULL,
        meanBaseRateIMCV     FLOAT NULL,
        dataSourceId         SMALLINT NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ALTER TABLE EmissionRateByAgeNLEV ADD (
         KEY (sourceBinID),
@@ -598,7 +598,7 @@ CREATE UNIQUE INDEX XPKEmissionRateByAgeNLEV ON EmissionRateByAgeNLEV
 CREATE TABLE EngineSize (
        engSizeID            SMALLINT NOT NULL,
        engSizeName          CHARACTER(50) NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE UNIQUE INDEX XPKEngineSize ON EngineSize
 (
@@ -612,7 +612,7 @@ CREATE TABLE enginetech (
   engTechName char(50) DEFAULT NULL,
   engTechDesc char(80) DEFAULT NULL,
   PRIMARY KEY (engTechID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE ETOHBin 
 (
@@ -620,7 +620,7 @@ CREATE TABLE ETOHBin
 	etohThreshLow			float			NULL		default NULL,
 	etohThreshHigh			float			NULL		default NULL,
 	etohNominalValue		float			NULL		default NULL	
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 create table evapTemperatureAdjustment (
 	processID smallint(6) not null,
@@ -629,7 +629,7 @@ create table evapTemperatureAdjustment (
 	tempAdjustTerm1 double not null default 0,
 	tempAdjustConstant double not null default 0,
 	primary key (processID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 create table evapRVPTemperatureAdjustment (
 	processID smallint(6) not null,
@@ -642,7 +642,7 @@ create table evapRVPTemperatureAdjustment (
 	primary key (processID, fuelTypeID, RVP),
 	key (RVP, processID, fuelTypeID),
 	key (RVP, fuelTypeID, processID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE evefficiency
 (
@@ -656,7 +656,24 @@ CREATE TABLE evefficiency
 	chargingEfficiency		double null default NULL,
 	primary key (polProcessID, sourceTypeID, ageGroupID, regClassID, beginModelYearID, endModelYearID),
 	key (polProcessID, beginModelYearID, endModelYearID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
+
+CREATE TABLE FleetAvgAdjustment (
+	polProcessID INT(11) NOT NULL,
+	beginModelYearID SMALLINT(6) NOT NULL,
+	endModelYearID SMALLINT(6) NOT NULL,
+	fleetAvgGroupID SMALLINT(6) NOT NULL,
+	evMultiplier DOUBLE NOT NULL DEFAULT '1',
+	adjustmentCap DOUBLE NULL DEFAULT NULL,
+	PRIMARY KEY (polProcessID, beginModelYearID, endModelYearID, fleetAvgGroupID),
+	KEY (beginModelYearID, endModelYearID, polProcessID, fleetAvgGroupID)
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
+
+CREATE TABLE FleetAvgGroup (
+       fleetAvgGroupID   SMALLINT NOT NULL,
+       fleetAvgGroupDesc CHAR(50) DEFAULT '',		
+       primary key (fleetAvgGroupID)
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE FuelEngTechAssoc (
        sourceTypeID         SMALLINT NOT NULL,
@@ -664,7 +681,7 @@ CREATE TABLE FuelEngTechAssoc (
        engTechID            SMALLINT NOT NULL,
        category             CHAR(50) NOT NULL,
        categoryDisplayOrder SMALLINT NOT NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE UNIQUE INDEX XPKFuelEngTechAssoc ON FuelEngTechAssoc
 (
@@ -694,7 +711,7 @@ CREATE TABLE FuelFormulation (
 	T50 float DEFAULT NULL,
 	T90 float DEFAULT NULL,
 	key (fuelSubTypeID, fuelFormulationID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE FuelModelName 
 (
@@ -702,7 +719,7 @@ CREATE TABLE FuelModelName
 	fuelModelName			varchar(50) not null,
 	fuelModelAbbreviation	varchar(10) not null,
 	calculationEngines      varchar(200) not null default ''
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE FuelModelWtFactor 
 (
@@ -712,7 +729,7 @@ CREATE TABLE FuelModelWtFactor
 	fuelModelWtFactor		float			NULL		default NULL,
 	dataSourceID			smallint(6)		NULL		default NULL,
 	primary key (fuelModelID, modelYearGroupID, ageID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE FuelParameterName 
 (
@@ -720,7 +737,7 @@ CREATE TABLE FuelParameterName
 	fuelParameterName		varchar(25)		NOT NULL    default '',
 	fuelParameterUnits      varchar(20)     NOT NULL    default '',
 	fuelParameterExpression varchar(500)    NOT NULL    default ''
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE FuelSubtype (
        fuelSubtypeID        SMALLINT NOT NULL,
@@ -736,7 +753,7 @@ CREATE TABLE FuelSubtype (
        oxidationFractionCV  FLOAT NULL,
 	   energyContent		FLOAT NULL,
        key (fuelTypeID, fuelSubtypeID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE UNIQUE INDEX XPKFuelSubtype ON FuelSubtype
 (
@@ -751,7 +768,7 @@ CREATE TABLE FuelSupply (
        fuelFormulationID    int(11) NOT NULL,
        marketShare          FLOAT NULL,
        marketShareCV        FLOAT NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ALTER TABLE FuelSupply ADD (
         KEY (fuelRegionID),
@@ -770,7 +787,7 @@ CREATE UNIQUE INDEX XPKFuelSupply ON FuelSupply
 
 CREATE TABLE FuelSupplyYear (
     fuelYearID INT NOT NULL PRIMARY KEY
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE FuelType (
        fuelTypeID           SMALLINT NOT NULL,
@@ -778,7 +795,7 @@ CREATE TABLE FuelType (
        fuelTypeDesc         CHAR(50) NULL,
  	   fuelDensity				FLOAT	NULL,
  	   subjectToEvapCalculations CHAR(1) NOT NULL DEFAULT 'N'
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE UNIQUE INDEX XPKFuelType ON FuelType
 (
@@ -797,7 +814,7 @@ create table fuelUsageFraction (
 	fuelSupplyFuelTypeID smallint(6) not null,
 	usageFraction double,
 	primary key (countyID, fuelYearID, modelYearGroupID, sourceBinFuelTypeID, fuelSupplyFuelTypeID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 create table fuelWizardFactors (
 	adjustedParameter		varchar(4)		not null,
@@ -819,7 +836,7 @@ create table fuelWizardFactors (
 	units				varchar(6)		null,
 	dataSourceId		smallint(6)		null,
 	primary key	(fuelTypeID, monthGroupID, adjustedParameter, minLevel, maxLevel, functionType)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE FullACAdjustment (
        sourceTypeID         SMALLINT NOT NULL,
@@ -827,7 +844,7 @@ CREATE TABLE FullACAdjustment (
        opModeID             SMALLINT NOT NULL,
        fullACAdjustment     FLOAT NULL,
        fullACAdjustmentCV   FLOAT NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ALTER TABLE FullACAdjustment ADD (
         KEY (sourceTypeID),
@@ -848,26 +865,26 @@ create table generalFuelRatio (
 	polProcessID int not null,
 	pollutantID int not null,
 	processID int not null,
-	minModelYearID int not null default '1960',
+	minModelYearID int not null default '1950',
 	maxModelYearID int not null default '2060',
 	minAgeID int not null default '0',
-	maxAgeID int not null default '30',
+	maxAgeID int not null default '40',
 	sourceTypeID int not null,
 	fuelEffectRatio double not null default '0',
 	fuelEffectRatioGPA double not null default '0'
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 create table generalFuelRatioExpression (
 	fuelTypeID int not null,
 	polProcessID int not null,
-	minModelYearID int not null default '1960',
+	minModelYearID int not null default '1950',
 	maxModelYearID int not null default '2060',
 	minAgeID int not null default '0',
-	maxAgeID int not null default '30',
+	maxAgeID int not null default '40',
 	sourceTypeID int not null default '0',
-	fuelEffectRatioExpression varchar(32000) not null default '',
-	fuelEffectRatioGPAExpression varchar(32000) not null default ''
-);
+	fuelEffectRatioExpression VARCHAR(8183) not null default '',
+	fuelEffectRatioGPAExpression VARCHAR(8183) not null default ''
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE GREETManfAndDisposal (
        GREETVehicleType     SMALLINT NOT NULL,
@@ -875,7 +892,7 @@ CREATE TABLE GREETManfAndDisposal (
        pollutantID          SMALLINT NOT NULL,
        EmissionStage        CHAR(4) NOT NULL,
        emissionPerVehicle   FLOAT NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ALTER TABLE GREETManfAndDisposal ADD (
         KEY (GREETVehicleType),
@@ -899,7 +916,7 @@ CREATE TABLE GREETWellToPump (
        fuelSubtypeID        SMALLINT NOT NULL,
        emissionRate         FLOAT NULL,
        emissionRateUncertainty FLOAT NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ALTER TABLE GREETWellToPump ADD (
         KEY (yearID),
@@ -917,7 +934,7 @@ CREATE UNIQUE INDEX XPKGREETWellToPump ON GREETWellToPump
 
 CREATE TABLE Grid (
        gridID               INTEGER NOT NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE UNIQUE INDEX XPKGrid ON Grid
 (
@@ -929,7 +946,7 @@ CREATE TABLE GridZoneAssoc (
        zoneID               INTEGER NOT NULL,
        gridID               INTEGER NOT NULL,
        gridAllocFactor      FLOAT NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ALTER TABLE GridZoneAssoc ADD (
         KEY (zoneID),
@@ -951,7 +968,7 @@ CREATE TABLE HCPermeationCoeff
 	fuelAdjustmentGPA		float			NULL		default NULL,
 	dataSourceID			smallint(6)		NULL		default NULL,
 	primary key (polProcessID, etohThreshID, fuelMYGroupID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE HCSpeciation (
   polProcessID int NOT NULL DEFAULT '0',
@@ -963,7 +980,7 @@ CREATE TABLE HCSpeciation (
   oxySpeciation double NOT NULL DEFAULT '0',
   dataSourceID smallint(6) NOT NULL DEFAULT '0',
   PRIMARY KEY (polProcessID,fuelSubtypeID,regClassID,beginModelYearID,endModelYearID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 create table hotellingActivityDistribution (
 	zoneID				int not null,
@@ -974,7 +991,7 @@ create table hotellingActivityDistribution (
 	opModeFraction 		double not null,
 	primary key 		(zoneID, fuelTypeID, beginModelYearID, endModelYearID, opModeID),
 	key					(zoneID, fuelTypeID, opModeID, beginModelYearID, endModelYearID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 create table hotellingAgeFraction (
 	zoneID int not null,
@@ -982,13 +999,13 @@ create table hotellingAgeFraction (
 	ageFraction double not null,
 	primary key (zoneID, ageID),
 	key (ageID, zoneID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 create table hotellingCalendarYear (
 	yearID smallint not null,
 	hotellingRate double not null,
 	primary key (yearID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE hotellingHours (
 	sourceTypeID         SMALLINT NOT NULL,
@@ -1008,7 +1025,7 @@ CREATE TABLE hotellingHours (
 	KEY (yearID),
 	KEY (ageID),
 	KEY (zoneID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 create table hotellingHourFraction (
 	zoneID int not null,
@@ -1017,7 +1034,7 @@ create table hotellingHourFraction (
 	hourFraction double not null,
 	primary key (zoneID, dayID, hourID),
 	key (hourID, dayID, zoneID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 create table hotellingHoursPerDay (
 	yearID smallint not null,
@@ -1027,7 +1044,7 @@ create table hotellingHoursPerDay (
 	primary key (yearID, zoneID, dayID),
 	key (zoneID, yearID, dayID),
 	key (dayID, yearID, zoneID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 create table hotellingMonthAdjust (
 	zoneID int not null,
@@ -1035,7 +1052,7 @@ create table hotellingMonthAdjust (
 	monthAdjustment double not null,
 	primary key (zoneID, monthID),
 	key (monthID, zoneID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE HourDay (
        hourDayID            SMALLINT NOT NULL,
@@ -1045,7 +1062,7 @@ CREATE TABLE HourDay (
        key (hourID, dayID, hourDayID),
        key (hourDayID, dayID, hourID),
        key (hourDayID, hourID, dayID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ALTER TABLE HourDay ADD (
         KEY (dayID),
@@ -1061,7 +1078,7 @@ CREATE UNIQUE INDEX XPKHourDay ON HourDay
 CREATE TABLE HourOfAnyDay (
        hourID               SMALLINT NOT NULL,
        hourName             CHAR(50) NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE UNIQUE INDEX XPKHourOfAnyDay ON HourOfAnyDay
 (
@@ -1075,7 +1092,7 @@ CREATE TABLE HourVMTFraction (
        dayID                SMALLINT NOT NULL,
        hourID               SMALLINT NOT NULL,
        hourVMTFraction      FLOAT NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ALTER TABLE HourVMTFraction ADD (
         KEY (sourceTypeID),
@@ -1096,7 +1113,7 @@ CREATE UNIQUE INDEX XPKHourVMTFraction ON HourVMTFraction
 CREATE TABLE HPMSVtype (
        HPMSVtypeID          SMALLINT NOT NULL,
        HPMSVtypeName        CHARACTER(50) NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE UNIQUE INDEX XPKHPMSVtype ON HPMSVtype
 (
@@ -1111,7 +1128,7 @@ create table HPMSVtypeDay (
 	VMT double not null,
 	primary key (yearID, monthID, dayID, HPMSVtypeID),
 	key (HPMSVtypeID, yearID, monthID, dayID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE HPMSVtypeYear (
        HPMSVtypeID          SMALLINT NOT NULL,
@@ -1119,7 +1136,7 @@ CREATE TABLE HPMSVtypeYear (
        VMTGrowthFactor      FLOAT NULL,
        HPMSBaseYearVMT      FLOAT NULL,
        key (yearID, HPMSVtypeID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ALTER TABLE HPMSVtypeYear ADD (
         KEY (HPMSVtypeID),
@@ -1132,22 +1149,12 @@ CREATE UNIQUE INDEX XPKHPMSVtypeYear ON HPMSVtypeYear
        yearID                         ASC
 );
 
-CREATE TABLE evpopiceadjustld (
-	polProcessID int not null,
-	beginModelYearID smallint not null,
-	endModelYearID smallint not null,
-	adjustment double not null default 1.0,
-	adjustmentWeight double not null default 1.0,
-	primary key (polProcessID, beginModelYearID, endModelYearID),
-	key (beginModelYearID, endModelYearID, polProcessID)
-);
-
 create table idleDayAdjust (
 	sourceTypeID smallint not null,
 	dayID smallint not null,
 	idleDayAdjust double not null,
 	primary key (sourceTypeID, dayID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 create table idleModelYearGrouping (
 	sourceTypeID smallint not null,
@@ -1155,19 +1162,19 @@ create table idleModelYearGrouping (
 	maxModelYearID smallint not null,
 	totalIdleFraction double not null,
 	primary key (sourceTypeID, minModelYearID, maxModelYearID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 create table idleMonthAdjust (
 	sourceTypeID smallint not null,
 	monthID smallint not null,
 	idleMonthAdjust double not null,
 	primary key (sourceTypeID, monthID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 create table idleRegion (
 	idleRegionID int not null primary key,
 	idleRegionDescription varchar(255) not null default ''
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE IMCoverage (
        polProcessID int NOT NULL,
@@ -1183,7 +1190,7 @@ CREATE TABLE IMCoverage (
        endModelYearID SMALLINT,
        useIMyn CHAR(1) NOT NULL DEFAULT 'Y',
        complianceFactor FLOAT DEFAULT NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE UNIQUE INDEX XPKIMCoverage ON IMCoverage
 (
@@ -1205,7 +1212,7 @@ CREATE TABLE IMFactor
 	IMModelYearGroupID int(8) NOT NULL,
 	ageGroupID smallint(6) NOT NULL,
 	IMFactor float NOT NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE UNIQUE INDEX XPKIMFactor ON IMFactor
 (
@@ -1222,12 +1229,12 @@ CREATE TABLE imInspectFreq
 (
   inspectFreq smallint(6) NOT NULL primary key,
   inspectFreqDesc char(50) DEFAULT NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE IMModelYearGroup (
   IMModelYearGroupID int(8) NOT NULL,
   IMModelYearGroupDesc char(40) NOT NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE UNIQUE INDEX XPKIMModelYearGroup ON IMModelYearGroup
 (
@@ -1239,7 +1246,7 @@ CREATE TABLE IMTestStandards
   testStandardsID smallint(6) NOT NULL,
   testStandardsDesc char(50) NOT NULL,
   shortName varchar(50) default NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE UNIQUE INDEX XPKIMTestStandards ON IMTestStandards
 (
@@ -1259,7 +1266,7 @@ CREATE TABLE startsOpModeDistribution (
   KEY hourid (hourID),
   KEY sourceTypeID (sourceTypeID),
   KEY ageID (ageID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 create table integratedSpeciesSet  (
 	mechanismID					smallint(6)		not null,
@@ -1267,14 +1274,14 @@ create table integratedSpeciesSet  (
 	pollutantID					smallint(6)		not null,
 	useISSyn					varchar(2)		null,
 	primary key (mechanismID, integratedSpeciesSetID, pollutantID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 create table integratedSpeciesSetName  (
 	integratedSpeciesSetID				smallint(6)		not null,	
 	integratedSpeciesSetName			varchar(40)		null,
 	primary key (integratedSpeciesSetID),
 	key (integratedSpeciesSetName)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE Link (
        linkID               INTEGER NOT NULL,
@@ -1286,7 +1293,7 @@ CREATE TABLE Link (
        linkAvgSpeed			float null,
        linkDescription		varchar(50) null,
        linkAvgGrade			float null
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ALTER TABLE Link ADD (
         KEY (countyID),
@@ -1303,7 +1310,7 @@ CREATE UNIQUE INDEX XPKLink ON Link
 CREATE TABLE LinkAverageSpeed (
        linkID               INTEGER NOT NULL,
        averageSpeed         FLOAT NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE UNIQUE INDEX XPKLinkAverageSpeed ON LinkAverageSpeed
 (
@@ -1318,7 +1325,7 @@ CREATE TABLE LinkHourVMTFraction (
        dayID                SMALLINT NOT NULL,
        hourID               SMALLINT NOT NULL,
        VMTFraction          FLOAT NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ALTER TABLE LinkHourVMTFraction ADD (
         KEY (linkID),
@@ -1343,7 +1350,7 @@ create table linkSourceTypeHour (
 	sourceTypeHourFraction float null,
 	primary key (linkID, sourceTypeID),
 	key (sourceTypeID, linkID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 create table M6SulfurCoeff (
 	pollutantID int not null,
@@ -1354,7 +1361,7 @@ create table M6SulfurCoeff (
 	sulfurIRFactor double,
 	maxIRFactorSulfur double,
 	key(pollutantID, minModelYearID, maxModelYearID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE MeanFuelParameters 
 (
@@ -1367,14 +1374,14 @@ CREATE TABLE MeanFuelParameters
 	stdDevValue				float			NULL		default NULL,
 	dataSourceID			smallint(6)		NULL		default NULL,
 	primary key (polProcessID, fuelTypeID, modelYearGroupID, fuelParameterID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 create table mechanismName  (
 	mechanismID				smallint(6)		not null,	
 	mechanismName			varchar(40)		null,
 	primary key (mechanismID),
 	key (mechanismName)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE metalemissionrate (
   polProcessID int NOT NULL DEFAULT '0',
@@ -1387,7 +1394,7 @@ CREATE TABLE metalemissionrate (
   dataSourceId smallint(6) DEFAULT NULL,
   PRIMARY KEY (polProcessID,fuelTypeID,sourceTypeID,modelYearGroupID),
   UNIQUE KEY XPKMetalEmissionRate (polProcessID,fuelTypeID,sourceTypeID,modelYearGroupID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE methaneTHCRatio (
   processID smallint(6) NOT NULL DEFAULT '0',
@@ -1398,7 +1405,7 @@ CREATE TABLE methaneTHCRatio (
   CH4THCRatio double DEFAULT NULL,
   dataSourceID smallint(6) NOT NULL DEFAULT '0',
   PRIMARY KEY (processID,fuelSubtypeID,regClassID,beginModelYearID,endModelYearID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE minorhapratio (
   polProcessID int NOT NULL DEFAULT '0',
@@ -1410,11 +1417,11 @@ CREATE TABLE minorhapratio (
   dataSourceId smallint(6) DEFAULT NULL,
   PRIMARY KEY (fuelTypeID,fuelSubtypeID,polProcessID,modelYearGroupID),
   UNIQUE KEY XPKMinorHAPRatio (fuelTypeID,fuelSubtypeID,polProcessID,modelYearGroupID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE ModelYear (
        modelYearID          SMALLINT NOT NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE UNIQUE INDEX XPKModelYear ON ModelYear
 (
@@ -1428,7 +1435,7 @@ CREATE TABLE ModelYearGroup (
        modelYearGroupStartYear SMALLINT(6) DEFAULT NULL,
        modelYearGroupEndYear SMALLINT(6) DEFAULT NULL,
        PRIMARY KEY (modelYearGroupID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE FuelModelYearGroup (
        fuelMYGroupID        INT NOT NULL,
@@ -1438,7 +1445,7 @@ CREATE TABLE FuelModelYearGroup (
        maxSulfurLevelCV		FLOAT NULL,
        maxSulfurLevelGPA	FLOAT NULL,
        maxSulfurLevelGPACV	FLOAT NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE UNIQUE INDEX XPKFuelModelYearGroup ON FuelModelYearGroup
 (
@@ -1450,7 +1457,7 @@ create table modelYearCutPoints (
 	cutPointName varchar(100) not null,
 	modelYearID smallint(6) not null,
 	primary key (cutPointName)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 create table modelYearMapping (
 	startUserModelYear smallint(6) not null,
@@ -1458,7 +1465,7 @@ create table modelYearMapping (
 	startStandardModelYear smallint(6) not null,
 	endStandardModelYear smallint(6) not null,
 	primary key (startUserModelYear, endUserModelYear)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE MonthGroupHour (
        monthGroupID         SMALLINT NOT NULL,
@@ -1470,7 +1477,7 @@ CREATE TABLE MonthGroupHour (
        ACActivityTermC      FLOAT NULL,
        ACActivityTermCCV    FLOAT NULL,
        key (hourID, monthGroupID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ALTER TABLE MonthGroupHour ADD (
         KEY (monthGroupID),
@@ -1487,7 +1494,7 @@ CREATE UNIQUE INDEX XPKMonthGroupHour ON MonthGroupHour
 CREATE TABLE MonthGroupOfAnyYear (
        monthGroupID         SMALLINT NOT NULL,
        monthGroupName       CHAR(50) NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE UNIQUE INDEX XPKMonthGroupOfAnyYear ON MonthGroupOfAnyYear
 (
@@ -1502,7 +1509,7 @@ CREATE TABLE MonthofAnyYear (
        monthGroupID         SMALLINT NOT NULL,
        key (monthGroupID, monthID),
        key (monthID, monthGroupID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ALTER TABLE MonthofAnyYear ADD (
         KEY (monthGroupID)
@@ -1518,7 +1525,7 @@ CREATE TABLE MonthVMTFraction (
        sourceTypeID         SMALLINT NOT NULL,
        monthID              SMALLINT NOT NULL,
        monthVMTFraction     FLOAT NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ALTER TABLE MonthVMTFraction ADD (
         KEY (sourceTypeID),
@@ -1540,7 +1547,7 @@ CREATE TABLE NONO2Ratio  (
 	NOxRatioCV				float			NULL,
 	dataSourceId			smallint(6)		NULL,
 	PRIMARY KEY 			(polProcessID, sourceTypeID, fueltypeID, modelYearGroupID)								
-); 
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci'; 
 
 CREATE UNIQUE INDEX XPKNONO2Ratio ON NONO2Ratio  
 (
@@ -1559,14 +1566,14 @@ CREATE TABLE noxhumidityadjust (
     humidityUpBound 	DOUBLE 		NULL,
     humidityUnits 		VARCHAR(25) NULL,
     PRIMARY KEY (fuelTypeID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE nrAgeCategory(
   ageID SMALLINT(6) NOT NULL,
   ageCategoryName CHAR(50) DEFAULT NULL,
   PRIMARY KEY (ageID),
   UNIQUE INDEX XPKNRAgeCategory (ageID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE nratratio (
   pollutantID smallint(6) NOT NULL,
@@ -1578,7 +1585,7 @@ CREATE TABLE nratratio (
   atRatioCV double DEFAULT NULL,
   dataSourceId smallint(6) DEFAULT NULL,
   PRIMARY KEY (pollutantID,processID,engTechID,fuelSubtypeID,nrHPCategory)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE nrBaseYearEquipPopulation(
   sourceTypeID SMALLINT(6) NOT NULL,
@@ -1587,7 +1594,7 @@ CREATE TABLE nrBaseYearEquipPopulation(
   NRBaseYearID SMALLINT(6) NOT NULL,
   PRIMARY KEY (sourceTypeID, stateID),
   UNIQUE INDEX XPKNRBaseYearEquipPopulation (sourceTypeID, stateID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE nrCrankcaseEmissionRate (
   polProcessID int NOT NULL,
@@ -1603,14 +1610,14 @@ CREATE TABLE nrCrankcaseEmissionRate (
   INDEX INDEX1 (polProcessID),
   INDEX XPFnrCrankCaseEmissionRatio (polProcessID),
   UNIQUE INDEX XPKNRProcessEmissionRate (polProcessID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE nrDayAllocation(
   scc CHAR(10) NOT NULL,
   dayID SMALLINT(6) NOT NULL,
   dayFraction FLOAT NOT NULL,
   PRIMARY KEY (scc, dayID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE nrDeterioration(
   polProcessID int NOT NULL,
@@ -1620,7 +1627,7 @@ CREATE TABLE nrDeterioration(
   emissionCap SMALLINT(6) NOT NULL,
   PRIMARY KEY (polProcessID, engTechID),
   UNIQUE INDEX XPKNRDeterioration (polProcessID, engTechID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE nrdioxinemissionrate (
   pollutantID smallint(6) NOT NULL,
@@ -1633,7 +1640,7 @@ CREATE TABLE nrdioxinemissionrate (
   meanBaseRateCV double DEFAULT NULL,
   dataSourceID smallint(6) DEFAULT NULL,
   PRIMARY KEY (pollutantID,processID,fuelTypeID,engtechID,nrHPCategory)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE  nrEmissionRate (
   polProcessID int NOT NULL,
@@ -1646,7 +1653,7 @@ CREATE TABLE  nrEmissionRate (
   units varchar(12) DEFAULT NULL,
   dataSourceID smallint(6) NOT NULL,
   PRIMARY KEY (polProcessID,SCC,hpMin,hpMax,modelYearID,engTechID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE  nrEngtechFraction (
   SCC char(10) NOT NULL,
@@ -1657,7 +1664,7 @@ CREATE TABLE  nrEngtechFraction (
   engTechID smallint(6) NOT NULL,
   NREngTechFraction float DEFAULT NULL,
   PRIMARY KEY (SCC,hpMin,hpMax,modelYearID,processGroupID,engTechID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE nrEquipmentType(
   NREquipTypeID SMALLINT(6) NOT NULL,
@@ -1667,7 +1674,7 @@ CREATE TABLE nrEquipmentType(
   surrogateID SMALLINT(6) DEFAULT NULL,
   PRIMARY KEY (NREquipTypeID),
   UNIQUE INDEX XPKNREquipmentType (NREquipTypeID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE  nrEvapEmissionRate (
   polProcessID int NOT NULL,
@@ -1680,7 +1687,7 @@ CREATE TABLE  nrEvapEmissionRate (
   units varchar(12) DEFAULT NULL,
   dataSourceID smallint(6) NOT NULL,
   PRIMARY KEY (polProcessID,SCC,hpMin,hpMax,modelYearID,engTechID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE nrFuelSupply (
   fuelRegionID int(11) NOT NULL DEFAULT '0',
@@ -1694,7 +1701,7 @@ CREATE TABLE nrFuelSupply (
   KEY yearID (fuelYearID),
   KEY monthGroupID (monthGroupID),
   KEY fuelSubtypeID (fuelFormulationID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE nrFuelType(
   fuelTypeID SMALLINT(6) NOT NULL DEFAULT 0,
@@ -1703,7 +1710,7 @@ CREATE TABLE nrFuelType(
   fuelDensity FLOAT DEFAULT NULL,
   subjectToEvapCalculations CHAR(1) NOT NULL DEFAULT 'N',
   PRIMARY KEY (fuelTypeID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE  nrFuelSubtype (
   fuelSubtypeID smallint(6) NOT NULL DEFAULT '0',
@@ -1720,7 +1727,7 @@ CREATE TABLE  nrFuelSubtype (
   energyContent float DEFAULT NULL,
   PRIMARY KEY (fuelSubtypeID),
   KEY fuelTypeID (fuelTypeID,fuelSubtypeID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE nrGrowthIndex(
   growthPatternID SMALLINT(6) NOT NULL,
@@ -1728,14 +1735,14 @@ CREATE TABLE nrGrowthIndex(
   growthIndex SMALLINT(6) DEFAULT NULL,
   PRIMARY KEY (growthPatternID, yearID),
   UNIQUE INDEX XPKNRGrowthIndex (growthPatternID, yearID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE nrGrowthPattern(
   growthPatternID SMALLINT(6) NOT NULL,
   description CHAR(80) DEFAULT NULL,
   PRIMARY KEY (growthPatternID),
   UNIQUE INDEX XPKNRGrowthPattern (growthPatternID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE nrGrowthPatternFinder(
   SCC CHAR(10) NOT NULL,
@@ -1743,7 +1750,7 @@ CREATE TABLE nrGrowthPatternFinder(
   growthPatternID SMALLINT(6) NOT NULL,
   PRIMARY KEY (SCC, stateID),
   UNIQUE INDEX XPKNRGrowthPatternFinder (SCC, stateID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE nrhcspeciation (
   pollutantID smallint(6) NOT NULL,
@@ -1755,7 +1762,7 @@ CREATE TABLE nrhcspeciation (
   speciationConstantCV double DEFAULT NULL,
   dataSourceId smallint(6) DEFAULT NULL,
   PRIMARY KEY (pollutantID,processID,engTechID,fuelSubtypeID,nrHPCategory)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE nrHourAllocation(
   NRHourAllocPatternID SMALLINT(6) NOT NULL,
@@ -1763,28 +1770,28 @@ CREATE TABLE nrHourAllocation(
   hourFraction FLOAT NOT NULL,
   PRIMARY KEY (NRHourAllocPatternID, hourID),
   UNIQUE INDEX XPKNRHourAllocation (NRHourAllocPatternID, hourID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE nrHourAllocPattern(
   NRHourAllocPatternID SMALLINT(6) NOT NULL,
   description CHAR(255) NOT NULL,
   PRIMARY KEY (NRHourAllocPatternID),
   UNIQUE INDEX XPKNRHourAllocPattern (NRHourAllocPatternID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE nrHourPatternFinder(
   NREquipTypeID SMALLINT(6) NOT NULL,
   NRHourAllocPatternID SMALLINT(6) DEFAULT NULL,
   PRIMARY KEY (NREquipTypeID),
   UNIQUE INDEX XPKNRHourPatternFinder (NREquipTypeID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE nrhpcategory (
   nrhprangebinid smallint(6) NOT NULL,
   engtechid smallint(6) NOT NULL,
   nrhpcategory char(1) DEFAULT NULL,
   PRIMARY KEY (nrhprangebinid,engtechid)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE nrHPRangeBin(
   NRHPRangeBinID SMALLINT(6) NOT NULL,
@@ -1794,12 +1801,12 @@ CREATE TABLE nrHPRangeBin(
   engSizeID SMALLINT(6) NOT NULL,
   PRIMARY KEY (NRHPRangeBinID),
   UNIQUE INDEX XPKNRHPRangeBin (NRHPRangeBinID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE nrintegratedspecies (
   pollutantID smallint(6) NOT NULL,
   PRIMARY KEY (pollutantID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE nrmetalemissionrate (
   pollutantID smallint(6) NOT NULL,
@@ -1812,7 +1819,7 @@ CREATE TABLE nrmetalemissionrate (
   meanBaseRateCV double DEFAULT NULL,
   dataSourceId smallint(6) DEFAULT NULL,
   PRIMARY KEY (pollutantID,processID,fuelTypeID,engTechID,nrHPCategory)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE nrmethanethcratio (
   processID smallint(6) NOT NULL,
@@ -1823,7 +1830,7 @@ CREATE TABLE nrmethanethcratio (
   CH4THCRatioCV double DEFAULT NULL,
   dataSourceId smallint(6) DEFAULT NULL,
   PRIMARY KEY (processID,fuelSubtypeID,engTechID,nrHPCategory)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE nrMonthAllocation(
   SCC CHAR(10) NOT NULL,
@@ -1831,7 +1838,7 @@ CREATE TABLE nrMonthAllocation(
   monthID SMALLINT(6) NOT NULL,
   monthFraction FLOAT NOT NULL,
   PRIMARY KEY (SCC, stateID, monthID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE nrpahgasratio (
   pollutantID smallint(6) NOT NULL,
@@ -1843,7 +1850,7 @@ CREATE TABLE nrpahgasratio (
   atratioCV double DEFAULT NULL,
   dataSourceId smallint(6) DEFAULT NULL,
   PRIMARY KEY (pollutantID,processid,fuelTypeID,engTechID,nrHPCategory)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE nrpahparticleratio (
   pollutantID smallint(6) NOT NULL,
@@ -1855,7 +1862,7 @@ CREATE TABLE nrpahparticleratio (
   atratioCV double DEFAULT NULL,
   datasourceId smallint(6) DEFAULT NULL,
   PRIMARY KEY (pollutantID,processid,fuelTypeID,engTechID,nrHPCategory)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE  nrRetrofitFactors (
   retrofitStartYear smallint(6) NOT NULL,
@@ -1871,7 +1878,7 @@ CREATE TABLE  nrRetrofitFactors (
   annualFractionRetrofit float DEFAULT NULL,
   retrofitEffectiveFraction float DEFAULT NULL,
   PRIMARY KEY (SCC,engTechID,hpMin,hpMax,pollutantID,retrofitID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE nrrocspeciation (
   fuelSubtypeID smallint(6) NOT NULL,
@@ -1886,7 +1893,7 @@ CREATE TABLE nrrocspeciation (
   GROCCode varchar(10) DEFAULT NULL,
   GROCNMOGRatio double DEFAULT NULL,
   PRIMARY KEY (fuelSubtypeID,tierID,strokes,engTechID,processID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE nrSCC(
   SCC CHAR(10) NOT NULL,
@@ -1895,7 +1902,7 @@ CREATE TABLE nrSCC(
   fuelTypeID SMALLINT(6) NOT NULL,
   PRIMARY KEY (SCC),
   UNIQUE INDEX XPKNRSCC (SCC)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE nrScrappageCurve(
   NREquipTypeID SMALLINT(6) NOT NULL,
@@ -1903,7 +1910,7 @@ CREATE TABLE nrScrappageCurve(
   percentageScrapped FLOAT DEFAULT NULL,
   PRIMARY KEY (NREquipTypeID, fractionLifeused),
   UNIQUE INDEX XPKNRScrappageCurve (NREquipTypeID, fractionLifeused)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE nrSourceUseType (
   sourceTypeID smallint(6) NOT NULL,
@@ -1940,7 +1947,7 @@ CREATE TABLE nrSourceUseType (
   e10MarineVentHosePermAdjFac float DEFAULT NULL,
   PRIMARY KEY (sourceTypeID),
   UNIQUE KEY XPKNRSourceUseType (sourceTypeID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE nrStateSurrogate(
   surrogateID SMALLINT(6) NOT NULL DEFAULT 0,
@@ -1949,7 +1956,7 @@ CREATE TABLE nrStateSurrogate(
   surrogateQuant FLOAT NOT NULL DEFAULT 0,
   surrogateYearID SMALLINT(6) NOT NULL DEFAULT 2002,
   PRIMARY KEY (surrogateID, stateID, countyID, surrogateYearID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE nrSulfurAdjustment (
   fuelTypeID smallint(6) NOT NULL,
@@ -1958,7 +1965,7 @@ CREATE TABLE nrSulfurAdjustment (
   sulfatePMConversionFactor float NOT NULL,
   PRIMARY KEY (fuelTypeID,engTechID),
   UNIQUE KEY XPKNRSulfurAdjustment (fuelTypeID,engTechID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE nrSurrogate(
   surrogateID SMALLINT(6) NOT NULL,
@@ -1966,7 +1973,7 @@ CREATE TABLE nrSurrogate(
   surrogateAbbr CHAR(3) DEFAULT NULL,
   PRIMARY KEY (surrogateID),
   UNIQUE INDEX XPKNRSurrogate (surrogateID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE nrUSMonthAllocation(
   SCC CHAR(10) NOT NULL,
@@ -1974,7 +1981,7 @@ CREATE TABLE nrUSMonthAllocation(
   monthID SMALLINT(6) NOT NULL,
   monthFraction FLOAT NOT NULL,
   PRIMARY KEY (SCC, stateID, monthID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 create table offNetworkLink (
 	sourceTypeID smallint not null,
@@ -1985,14 +1992,14 @@ create table offNetworkLink (
     zoneID integer not null default '0',
 	primary key (zoneID, sourceTypeID),
 	key (sourceTypeID, zoneID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE OMDGPolProcessRepresented (
 	polProcessID int not null,
 	representingPolProcessID int not null,
 	primary key (polProcessID),
 	key (representingPolProcessID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 create table onRoadRetrofit (
   pollutantID               smallint(6) not null,
@@ -2006,7 +2013,7 @@ create table onRoadRetrofit (
   retrofitEffectiveFraction double not null default 0,
   primary key (pollutantID, processID, fuelTypeID, sourceTypeID, retrofitYearID, beginModelYearID, endModelYearID),
   key (retrofitYearID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE OperatingMode (
        opModeID             SMALLINT NOT NULL,
@@ -2019,7 +2026,7 @@ CREATE TABLE OperatingMode (
        brakeRate3Sec        FLOAT NULL,
        minSoakTime          SMALLINT NULL,
        maxSoakTime          SMALLINT NULL	
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE UNIQUE INDEX XPKOperatingMode ON OperatingMode
 (
@@ -2035,7 +2042,7 @@ CREATE TABLE OpModeDistribution (
        opModeID             SMALLINT NOT NULL,
        opModeFraction       FLOAT NULL,
        opModeFractionCV     FLOAT NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ALTER TABLE OpModeDistribution ADD (
         KEY (sourceTypeID),
@@ -2059,7 +2066,7 @@ CREATE TABLE OpModePolProcAssoc (
        polProcessID         int NOT NULL,
        opModeID             SMALLINT NOT NULL,
        key (opModeID, polProcessID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ALTER TABLE OpModePolProcAssoc ADD (
         KEY (polProcessID),
@@ -2076,7 +2083,7 @@ CREATE TABLE OxyThreshName
 (
 	oxyThreshID				smallint(6)		NOT NULL	default '0' primary key,
 	oxyThreshName			CHAR(100)		NULL		default NULL	
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE pahGasRatio (
   polProcessID int NOT NULL DEFAULT '0',
@@ -2087,7 +2094,7 @@ CREATE TABLE pahGasRatio (
   dataSourceId smallint(6) DEFAULT NULL,
   PRIMARY KEY (polProcessID,fuelTypeID,modelYearGroupID),
   UNIQUE KEY XPKPAHGasRatio (polProcessID,fuelTypeID,modelYearGroupID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE pahParticleRatio (
   polProcessID int NOT NULL DEFAULT '0',
@@ -2098,7 +2105,7 @@ CREATE TABLE pahParticleRatio (
   dataSourceId smallint(6) DEFAULT NULL,
   PRIMARY KEY (polProcessID,fuelTypeID,modelYearGroupID),
   UNIQUE KEY XPKPAParticleHRatio (polProcessID,fuelTypeID,modelYearGroupID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE PM10EmissionRatio (
 	polProcessID			int NOT NULL,
@@ -2108,7 +2115,7 @@ CREATE TABLE PM10EmissionRatio (
 	maxModelYearID			smallint(6) NOT NULL,
 	PM10PM25Ratio			float NOT NULL,
 	PM10PM25RatioCV			float NULL
-); 
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci'; 
 
 CREATE UNIQUE INDEX XPKPM10EmissionRatio ON PM10EmissionRatio
 (
@@ -2129,7 +2136,7 @@ create table PMSpeciation (
 	outputPollutantID smallint not null,
 	pmSpeciationFraction double not null,
 	primary key (processID, inputPollutantID, sourceTypeID, fuelTypeID, minModelYearID, maxModelYearID, outputPollutantID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE Pollutant (
        pollutantID          SMALLINT NOT NULL,
@@ -2142,7 +2149,7 @@ CREATE TABLE Pollutant (
        isAffectedByOnroad tinyint(1) DEFAULT '1',
        isAffectedByNonroad tinyint(1) DEFAULT '0',
        primary key (pollutantID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE PollutantProcessAssoc (
        polProcessID         int NOT NULL,
@@ -2160,7 +2167,7 @@ CREATE TABLE PollutantProcessAssoc (
        key (pollutantID, processID, polProcessID),
        key (polProcessID, processID, pollutantID),
        key (polProcessID, pollutantID, processID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ALTER TABLE PollutantProcessAssoc ADD (
         KEY (processID),
@@ -2179,12 +2186,13 @@ CREATE TABLE PollutantProcessModelYear (
     fuelMYGroupID INTEGER NULL,
     IMModelYearGroupID INTEGER NULL,
     key (modelYearID, polProcessID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ALTER TABLE PollutantProcessModelYear ADD (
         KEY (polProcessID),
         KEY (modelYearID)
 );
+
 CREATE UNIQUE INDEX XPKPollutantProcessModelYear ON PollutantProcessModelYear
 (
        polProcessID                   ASC,
@@ -2197,13 +2205,13 @@ CREATE TABLE processDisplayGroup(
   displayAsGroup CHAR(1) NOT NULL,
   PRIMARY KEY (processDisplayGroupID),
   UNIQUE INDEX XPKProcessDisplayGroup (processDisplayGroupID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE processGroupID(
   processGroupID SMALLINT(6) NOT NULL,
   processGroupName CHAR(15) NOT NULL,
   PRIMARY KEY (processGroupID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE RefuelingControlTechnology (
        processID               SMALLINT NOT NULL,
@@ -2214,7 +2222,7 @@ CREATE TABLE RefuelingControlTechnology (
        ageID                   SMALLINT NOT NULL,
        refuelingTechAdjustment FLOAT NOT NULL DEFAULT 0.0,
        controlledRefuelingRate FLOAT NOT NULL DEFAULT 0.0
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE RefuelingFactors (
        fuelTypeID           SMALLINT NOT NULL PRIMARY KEY,
@@ -2232,7 +2240,7 @@ CREATE TABLE RefuelingFactors (
        refuelingSpillRate   FLOAT NOT NULL DEFAULT 0,
        refuelingSpillRateCV FLOAT NOT NULL DEFAULT 0,
        displacedVaporRateCV FLOAT NOT NULL DEFAULT 0
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE UNIQUE INDEX XPKRefuelingFactors ON RefuelingFactors
 (
@@ -2242,8 +2250,11 @@ CREATE UNIQUE INDEX XPKRefuelingFactors ON RefuelingFactors
 CREATE TABLE RegulatoryClass (
     regClassID SMALLINT NOT NULL PRIMARY KEY,
     regClassName CHAR(25) NULL ,
-    regClassDesc CHAR(100) NULL 
-    );
+    regClassDesc CHAR(100) NULL ,
+    fleetAvgGroupID SMALLINT(6) NOT NULL DEFAULT '0',
+    key (fleetAvgGroupID)
+    ) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
+    
 CREATE UNIQUE INDEX XPKRegulatoryClass ON RegulatoryClass
 (
        regClassID                     ASC
@@ -2258,13 +2269,13 @@ create table region (
 	ZZ smallint(6),
 	description varchar(150),
 	primary key (regionID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 create table regionCode (
 	regionCodeID int not null,
 	regionCodeDescription varchar(200) not null default '',
 	primary key (regionCodeID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 create table regionCounty (
 	regionID int not null,
@@ -2273,14 +2284,14 @@ create table regionCounty (
 	fuelYearID int not null,
 	primary key (regionID, countyID, regionCodeID, fuelYearID),
 	key (countyID, fuelYearID, regionCodeID, regionID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE RetrofitInputAssociations (
 	listName varchar(20) not null,
 	commonName varchar(50) not null,
 	primary key (listName, commonName),
 	idealName varchar(50) not null
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE UNIQUE INDEX XPKRetrofitInputAssociations on RetrofitInputAssociations
 (
@@ -2295,7 +2306,7 @@ CREATE TABLE roadidlefraction (
     avgSpeedBinID int,
     roadidlefraction double,
     primary key (dayID,sourceTypeID,roadTypeID,avgSpeedBinID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE RoadType (
        roadTypeID           SMALLINT NOT NULL,
@@ -2304,14 +2315,14 @@ CREATE TABLE RoadType (
        isAffectedByNonroad TINYINT(1) DEFAULT 0,
        shouldDisplay TINYINT(1) DEFAULT 1,
        primary key (roadTypeID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE RoadTypeDistribution (
        sourceTypeID         SMALLINT NOT NULL,
        roadTypeID           SMALLINT NOT NULL,
        roadTypeVMTFraction  FLOAT NULL,
        key (roadTypeID, sourceTypeID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ALTER TABLE RoadTypeDistribution ADD (
         KEY (sourceTypeID),
@@ -2337,13 +2348,13 @@ create table rocspeciation (
     GROCCode varchar(10),
 	GROCNMOGRatio double,
     PRIMARY KEY (fuelSubtypeID,regClassID,processID,minModelYearID,maxModelYearID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE SampleVehicleDay (
        vehID         	    INTEGER NOT NULL,
        dayID				SMALLINT NOT NULL,
        sourceTypeID         SMALLINT NOT NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE UNIQUE INDEX XPKSampleVehicle ON SampleVehicleDay
 (
@@ -2358,7 +2369,7 @@ create table sampleVehicleSoaking (
 	hourID smallint not null,
 	soakFraction double,
 	primary key (soakDayID, sourceTypeID, dayID, hourID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 create table sampleVehicleSoakingDay (
 	soakDayID smallint not null,
@@ -2366,14 +2377,14 @@ create table sampleVehicleSoakingDay (
 	dayID smallint not null,
 	F double,
 	primary key (soakDayID, sourceTypeID, dayID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 create table sampleVehicleSoakingDayBasis (
 	soakDayID smallint not null,
 	dayID smallint not null,
 	F double,
 	primary key (soakDayID, dayID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 create table sampleVehicleSoakingDayUsed (
 	soakDayID smallint not null,
@@ -2381,14 +2392,14 @@ create table sampleVehicleSoakingDayUsed (
 	dayID smallint not null,
 	F double,
 	primary key (soakDayID, sourceTypeID, dayID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 create table sampleVehicleSoakingDayBasisUsed (
 	soakDayID smallint not null,
 	dayID smallint not null,
 	F double,
 	primary key (soakDayID, dayID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE SampleVehicleTrip (
       	vehID         	   	INTEGER NOT NULL,
@@ -2398,7 +2409,7 @@ CREATE TABLE SampleVehicleTrip (
       	priorTripID			SMALLINT NULL,
       	keyOnTime			INT NULL,
       	keyOffTime			INT NOT NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE UNIQUE INDEX XPKSampleVehicleTrip ON SampleVehicleTrip
 (
@@ -2424,7 +2435,7 @@ CREATE TABLE sampleVehiclePopulation (
 	stmyFraction double NOT NULL,
 	PRIMARY KEY (sourceTypeModelYearID,fuelTypeID,engTechID,regClassID),
 	key stmyft (sourceTypeID, modelYearID, fuelTypeID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE scc (
   SCC char(10) NOT NULL DEFAULT '',
@@ -2437,14 +2448,14 @@ CREATE TABLE scc (
   KEY sourceTypeID (sourceTypeID),
   KEY roadTypeID (roadTypeID),
   KEY processID (processID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE Sector (
   sectorID smallint(6) NOT NULL,
   description char(40) DEFAULT NULL,
   PRIMARY KEY (sectorID),
   UNIQUE KEY XPKSector (sectorID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE SHO (
        hourDayID            SMALLINT NOT NULL,
@@ -2457,7 +2468,7 @@ CREATE TABLE SHO (
        SHOCV                FLOAT NULL,
        distance             FLOAT NULL,
        key (linkID, yearID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ALTER TABLE SHO ADD (
         KEY (hourDayID),
@@ -2485,7 +2496,7 @@ CREATE TABLE SizeWeightFraction (
        engSizeID            SMALLINT NOT NULL,
        weightClassID        SMALLINT NOT NULL,
        sizeWeightFraction   FLOAT NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ALTER TABLE SizeWeightFraction ADD (
         KEY (sourceTypeModelyearID),
@@ -2512,7 +2523,7 @@ CREATE TABLE SoakActivityFraction (
 	opModeID SMALLINT NOT NULL,
 	soakActivityFraction FLOAT,
 	soakActivityFractionCV FLOAT
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE UNIQUE INDEX XPKSoakActivityFraction ON SoakActivityFraction (
 	sourceTypeID ASC,
@@ -2536,7 +2547,7 @@ CREATE TABLE SourceBin (
        key (fuelTypeID, sourceBinID, modelYearGroupID),
        key (modelYearGroupID, fuelTypeID, sourceBinID),
        key (modelYearGroupID, sourceBinID, fuelTypeID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ALTER TABLE SourceBin ADD (
         KEY (fuelTypeID),
@@ -2555,7 +2566,7 @@ CREATE TABLE SourceBinDistribution (
        sourceBinID          BIGINT NOT NULL,
        sourceBinActivityFraction FLOAT NULL,
        sourceBinActivityFractionCV FLOAT NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ALTER TABLE SourceBinDistribution ADD (
         KEY (sourceTypeModelYearID),
@@ -2579,7 +2590,7 @@ CREATE TABLE SourceHours (
        sourceTypeID         SMALLINT NOT NULL,
        sourceHours          FLOAT NULL,
        sourceHoursCV        FLOAT NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ALTER TABLE SourceHours ADD (
         KEY (hourDayID),
@@ -2608,7 +2619,7 @@ CREATE TABLE SourceTypeAge (
        functioningACFraction FLOAT NULL,
        functioningACFractionCV FLOAT NULL,
        key (sourceTypeID, ageID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ALTER TABLE SourceTypeAge ADD (
         KEY (ageID),
@@ -2627,7 +2638,7 @@ CREATE TABLE SourceTypeAgeDistribution (
        yearID               SMALLINT NOT NULL,
        ageID                SMALLINT NOT NULL,
        ageFraction          FLOAT NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ALTER TABLE SourceTypeAgeDistribution ADD (
         KEY (sourceTypeID),
@@ -2650,7 +2661,7 @@ create table SourceTypeDayVMT (
 	VMT double not null,
 	primary key (yearID, monthID, dayID, sourceTypeID),
 	key (sourceTypeID, yearID, monthID, dayID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE SourceTypeHour (
        sourceTypeID         SMALLINT NOT NULL,
@@ -2659,7 +2670,7 @@ CREATE TABLE SourceTypeHour (
        hotellingdist        DOUBLE DEFAULT NULL,
        primary key (sourceTypeID, hourDayID),
        key (hourDayID, sourceTypeID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 
 CREATE TABLE SourceTypeModelYear (
@@ -2672,7 +2683,7 @@ CREATE TABLE SourceTypeModelYear (
        key (sourceTypeModelYearID, sourceTypeID, modelYearID),
        key (sourceTypeID, modelYearID, sourceTypeModelYearID),
        key (modelYearID, sourceTypeID, sourceTypeModelYearID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ALTER TABLE SourceTypeModelYear ADD (
         KEY (modelYearID),
@@ -2688,7 +2699,7 @@ CREATE TABLE SourceTypeModelYearGroup (
 	sourceTypeID SMALLINT NOT NULL,
 	modelYearGroupID INTEGER NOT NULL,
 	tankTemperatureGroupID SMALLINT NOT NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE UNIQUE INDEX XPKSourceTypeModelYearGroup ON SourceTypeModelYearGroup (
 	sourceTypeID ASC,
@@ -2702,7 +2713,7 @@ CREATE TABLE SourceTypePolProcess (
        isRegClassReqd       CHAR(1) NULL,
        isMYGroupReqd        CHAR(1) NULL,
        key (polProcessId, sourceTypeID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ALTER TABLE SourceTypePolProcess ADD (
         KEY (sourceTypeID),
@@ -2720,7 +2731,7 @@ CREATE TABLE SourceTypeTechAdjustment (
        sourceTypeID         SMALLINT NOT NULL,
        modelYearID          SMALLINT NOT NULL,
        refuelingTechAdjustment FLOAT NOT NULL DEFAULT 0.0
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ALTER TABLE SourceTypeTechAdjustment ADD (
        KEY (processID),
@@ -2757,7 +2768,7 @@ CREATE TABLE SourceTypeYear (
        sourceTypePopulation FLOAT NULL,
        migrationRate        FLOAT NULL,
        key (sourceTypeID, yearID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ALTER TABLE SourceTypeYear ADD (
         KEY (yearID),
@@ -2776,7 +2787,7 @@ create table SourceTypeYearVMT (
 	VMT double not null,
 	primary key (yearID, sourceTypeID),
 	key (sourceTypeID, yearID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE SourceUseType (
        sourceTypeID         SMALLINT NOT NULL,
@@ -2785,7 +2796,7 @@ CREATE TABLE SourceUseType (
 
        key (sourceTypeID, HPMSVtypeID),
        key (HPMSVtypeID, sourceTypeID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ALTER TABLE SourceUseType ADD (
         KEY (HPMSVtypeID)
@@ -2810,7 +2821,7 @@ create table sourceUseTypePhysics (
 
 	primary key (sourceTypeID, regClassID, beginModelYearID, endModelYearID),
 	key (beginModelYearID, endModelYearID, sourceTypeID, regClassID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE Starts (
        hourDayID            SMALLINT NOT NULL,
@@ -2821,7 +2832,7 @@ CREATE TABLE Starts (
        sourceTypeID         SMALLINT NOT NULL,
        starts               FLOAT NULL,
        startsCV             FLOAT NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ALTER TABLE Starts ADD (
         KEY (hourDayID),
@@ -2849,7 +2860,7 @@ create table startsAgeAdjustment (
   PRIMARY KEY (sourceTypeID,ageID),
   KEY sourceTypeID (sourceTypeID),
   KEY ageID (ageID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 create table startsHourFraction (
   dayID smallint(6) NOT NULL,
@@ -2857,14 +2868,14 @@ create table startsHourFraction (
   sourceTypeID smallint(6) NOT NULL DEFAULT '0',
   allocationFraction double NOT NULL,
   PRIMARY KEY (dayID,hourID,sourceTypeID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 create table startsMonthAdjust (
     monthID smallint(6) NOT NULL,
     sourceTypeID smallint(6) NOT NULL DEFAULT '0',
     monthAdjustment double NOT NULL,
     PRIMARY KEY (monthID,sourceTypeID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 create table startsPerDay (
   dayID smallint(6) NOT NULL DEFAULT 0,
@@ -2873,7 +2884,7 @@ create table startsPerDay (
   PRIMARY KEY (sourceTypeID,dayID),
   KEY hourDayID (dayID),
   KEY sourceTypeID (sourceTypeID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE startsPerDayPerVehicle (
   dayID smallint(6) NOT NULL DEFAULT 0,
@@ -2882,7 +2893,7 @@ CREATE TABLE startsPerDayPerVehicle (
   PRIMARY KEY (sourceTypeID,dayID),
   KEY hourDayID (dayID),
   KEY sourceTypeID (sourceTypeID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE StartsPerVehicle (
        sourceTypeID    		SMALLINT NOT NULL,
@@ -2890,7 +2901,7 @@ CREATE TABLE StartsPerVehicle (
        startsPerVehicle		FLOAT NULL,
        startsPerVehicleCV	FLOAT NULL,
        key (hourDayID, sourceTypeID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE UNIQUE INDEX XPKStartsPerVehicle ON StartsPerVehicle
 (
@@ -2915,7 +2926,7 @@ CREATE TABLE StartTempAdjustment (
        tempAdjustTermBCV	FLOAT NULL,
        tempAdjustTermC		FLOAT NULL,
        tempAdjustTermCCV	FLOAT NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE UNIQUE INDEX XPKStartTempAdjustment ON StartTempAdjustment
 (
@@ -2937,7 +2948,7 @@ CREATE TABLE State (
        stateName            CHAR(25) NULL,
        stateAbbr            CHAR(2) NULL,
        idleRegionID 		INTEGER DEFAULT '0' NOT NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE UNIQUE INDEX XPKState ON State
 (
@@ -2952,7 +2963,7 @@ CREATE TABLE SulfateEmissionRate  (
 	meanBaseRateCV			float	NULL,
 	dataSourceId			SMALLINT(6),
 	PRIMARY KEY 			(polProcessID, fueltypeID, modelYearGroupID)								
-); 
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci'; 
 
 CREATE UNIQUE INDEX XPKSulfateEmissionRate ON SulfateEmissionRate 
 (
@@ -2976,19 +2987,19 @@ create table SulfateFractions (
 	key (processID, sourceTypeID, fuelTypeID, minModelYearID, maxModelYearID),
 	key (processID, minModelYearID, maxModelYearID, fuelTypeID, sourceTypeID),
 	key (processID, minModelYearID, maxModelYearID, sourceTypeID, fuelTypeID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE SulfurBase  (
 	modelYearGroupID	int(11)		NOT NULL	default '0' primary key,
 	sulfurBase			float		NULL		default	NULL,
 	sulfurBasis			float		NULL		default '30.0',
 	sulfurGPAMax		float		NULL		default '330.0'
-); 
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci'; 
 
 create table sulfurCapAmount (
 	fuelTypeID int not null primary key,
 	sulfurCap double
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE SulfurModelCoeff  (
 	processID				smallint(6),
@@ -3000,7 +3011,7 @@ CREATE TABLE SulfurModelCoeff  (
 	sulfurCoeff				float,
 	lowSulfurCoeff			double,
 	PRIMARY KEY 			(processID, pollutantID, M6emitterID, sourceTypeID, fuelMYGroupID)								
-); 
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci'; 
 
 CREATE TABLE SulfurModelName  (
 	M6EmitterID				smallint(6),
@@ -3008,7 +3019,7 @@ CREATE TABLE SulfurModelName  (
 	M6emitterName			CHAR(10),
 	sulfurFunctionName		CHAR(10),
 	PRIMARY KEY 			(M6EmitterID, sulfurFunctionID)
-); 
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci'; 
 
 CREATE TABLE TankVaporGenCoeffs (
 	ethanolLevelID smallint(6) NOT NULL,
@@ -3017,12 +3028,12 @@ CREATE TABLE TankVaporGenCoeffs (
 	tvgTermB float NULL,
 	tvgTermC float NULL,
 	PRIMARY KEY  (ethanolLevelID,altitude)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE TankTemperatureGroup (
 	tankTemperatureGroupID SMALLINT NOT NULL,
 	tankTemperatureGroupName CHAR(50)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE UNIQUE INDEX XPKTankTemperatureGroup ON TankTemperatureGroup (
 	tankTemperatureGroupID ASC
@@ -3034,7 +3045,7 @@ CREATE TABLE TankTemperatureRise (
 	tankTemperatureRiseTermACV FLOAT,
 	tankTemperatureRiseTermB FLOAT,
 	tankTemperatureRiseTermBCV FLOAT
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE UNIQUE INDEX XPKTankTemperatureRise ON TankTemperatureRise (
 	tankTemperatureGroupID ASC
@@ -3043,20 +3054,19 @@ CREATE UNIQUE INDEX XPKTankTemperatureRise ON TankTemperatureRise (
 CREATE TABLE TemperatureAdjustment (
        polProcessID         int NOT NULL,
        fuelTypeID           SMALLINT NOT NULL,
-       minModelYearID		SMALLINT NOT NULL DEFAULT '1960',
+       regClassID           SMALLINT NOT NULL DEFAULT '0',
+       minModelYearID		SMALLINT NOT NULL DEFAULT '1950',
        maxModelYearID		SMALLINT NOT NULL DEFAULT '2060',
        tempAdjustTermA      FLOAT NULL,
-       tempAdjustTermACV    FLOAT NULL,
        tempAdjustTermB      FLOAT NULL,
-       tempAdjustTermBCV    FLOAT NULL,
        tempAdjustTermC      FLOAT NULL,
-       tempAdjustTermCCV    FLOAT NULL,
-       key (fuelTypeID, polProcessID, minModelYearID, maxModelYearID)
-);
+       key (fuelTypeID, polProcessID, regClassID, minModelYearID, maxModelYearID)
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ALTER TABLE TemperatureAdjustment ADD (
         KEY (polProcessID),
         KEY (fuelTypeID),
+        KEY (regClassID),
         KEY (minModelYearID, maxModelYearID)
 );
 
@@ -3064,6 +3074,7 @@ CREATE UNIQUE INDEX XPKTemperatureAdjustment ON TemperatureAdjustment
 (
        polProcessID                   ASC,
        fuelTypeID                     ASC,
+       regClassID                     ASC,
        minModelYearID				  ASC,
        maxModelYearID				  ASC
 );
@@ -3074,7 +3085,7 @@ CREATE TABLE TemperatureProfileID (
        monthID              SMALLINT NOT NULL,
        key (zoneID, monthID, temperatureProfileID),
        key (monthID, zoneID, temperatureProfileID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 create table TOGSpeciationProfileName (
 	TOGSpeciationProfileID			varchar(10)		not null default '0',
@@ -3082,7 +3093,7 @@ create table TOGSpeciationProfileName (
 	dataSourceId					int				null,
 	primary key (TOGspeciationProfileID),
 	key (TOGSpeciationProfileName)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 create table totalIdleFraction (
 	idleRegionID int not null,
@@ -3094,13 +3105,13 @@ create table totalIdleFraction (
 	maxModelYearID smallint not null,
 	totalIdleFraction double not null,
 	primary key (idleRegionID, countyTypeID, sourceTypeID, monthID, dayID, minModelYearID, maxModelYearID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE WeightClass (
        weightClassID        SMALLINT NOT NULL,
        weightClassName      CHAR(50) NULL,
        midpointWeight       FLOAT NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE UNIQUE INDEX XPKWeightClass ON WeightClass
 (
@@ -3112,7 +3123,7 @@ CREATE TABLE Year (
        yearID               SMALLINT NOT NULL,
        isBaseYear           CHAR(1) NULL,
        fuelYearID           int NOT NULL DEFAULT '0'
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ALTER TABLE Year ADD (
         KEY (isBaseYear)
@@ -3132,7 +3143,7 @@ CREATE TABLE Zone (
        SHPAllocFactor        DOUBLE NULL,
        key (zoneID, countyID),
        key (countyID, zoneID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ALTER TABLE Zone ADD (
         KEY (countyID)
@@ -3152,7 +3163,7 @@ CREATE TABLE ZoneMonthHour (
        heatIndex            DOUBLE NULL,
        specificHumidity     DOUBLE NULL,
        molWaterFraction     DOUBLE NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ALTER TABLE ZoneMonthHour ADD (
         KEY (monthID),
@@ -3173,7 +3184,7 @@ CREATE TABLE ZoneRoadType (
        roadTypeID           SMALLINT NOT NULL,
        SHOAllocFactor       DOUBLE NULL,
        key (roadTypeID, zoneID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ALTER TABLE ZoneRoadType ADD (
         KEY (zoneID),

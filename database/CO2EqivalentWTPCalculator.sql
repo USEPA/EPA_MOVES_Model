@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS CO2EqWTPStep2Pollutant(
 	energyOrMass		CHAR(6) NULL,
 	globalWarmingPotential	SMALLINT NULL, 
 	PRIMARY KEY (pollutantID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 TRUNCATE TABLE CO2EqWTPStep2Pollutant;
 -- End Section Create Remote Tables for Extracted Data
 

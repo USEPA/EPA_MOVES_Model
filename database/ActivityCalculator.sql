@@ -104,7 +104,7 @@ create table if not exists sourceTypeFuelFraction (
 	primary key (sourceTypeID, modelYearID, fuelTypeID),
 	key (modelYearID, sourceTypeID, fuelTypeID),
 	key (modelYearID, fuelTypeID, sourceTypeID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 truncate table sourceTypeFuelFraction;
 
 -- Section WithRegClassID
@@ -160,7 +160,7 @@ into outfile '##hotellingActivityDistribution##'
 from hotellingActivityDistribution
 where opModeID = 200
 and beginModelYearID <= ##context.year##
-and endModelYearID >= ##context.year## - 30
+and endModelYearID >= ##context.year## - 40
 and zoneID = ##hotellingActivityZoneID##;
 -- End Section ExtendedIdleHours
 
@@ -176,7 +176,7 @@ into outfile '##hotellingActivityDistribution##'
 from hotellingActivityDistribution
 where opModeID <> 200
 and beginModelYearID <= ##context.year##
-and endModelYearID >= ##context.year## - 30
+and endModelYearID >= ##context.year## - 40
 and zoneID = ##hotellingActivityZoneID##;
 -- End Section hotellingHours
 
@@ -277,7 +277,7 @@ create table if not exists sourceTypeFuelFraction (
 	primary key (sourceTypeID, modelYearID, fuelTypeID),
 	key (modelYearID, sourceTypeID, fuelTypeID),
 	key (modelYearID, fuelTypeID, sourceTypeID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 create table sourceTypeFuelFractionTemp (
 	sourceTypeModelYearID int not null,
@@ -285,7 +285,7 @@ create table sourceTypeFuelFractionTemp (
 	tempFuelFraction double,
 	primary key (sourceTypeModelYearID, fuelTypeID),
 	key (fuelTypeID, sourceTypeModelYearID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 create table sourceTypeFuelFractionTotal (
 	sourceTypeModelYearID int not null,
@@ -293,7 +293,7 @@ create table sourceTypeFuelFractionTotal (
 	sourceTypeID smallint null,
 	modelYearID smallint null,
 	primary key (sourceTypeModelYearID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 -- Section UseSampleVehiclePopulation
 insert into sourceTypeFuelFractionTemp (sourceTypeModelYearID, fuelTypeID, tempFuelFraction)
@@ -357,7 +357,7 @@ cache select *
 into outfile '##RegClassSourceTypeFraction##'
 from RegClassSourceTypeFraction
 where modelYearID <= ##context.year##
-and modelYearID >= ##context.year## - 30;
+and modelYearID >= ##context.year## - 40;
 -- End Section WithRegClassID
 
 -- End Section Extract Data

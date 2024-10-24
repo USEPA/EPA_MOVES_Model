@@ -38,9 +38,10 @@ begin
 	drop table if exists tempModelYear;
 	create table if not exists tempModelYear (
 		modelYearID smallint not null primary key
-	);
+	) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
-	insert into tempModelYear(modelYearID) values(1960),(1961),(1962),(1963),(1964),(1965),(1966),(1967)
+	insert into tempModelYear(modelYearID) values(1950),(1951),(1952),(1953),(1954),(1955),(1956),(1957)
+		,(1958),(1959),(1960),(1961),(1962),(1963),(1964),(1965),(1966),(1967)
 		,(1968),(1969),(1970),(1971),(1972),(1973),(1974),(1975),(1976),(1977),(1978),(1979),(1980),(1981),(1982),(1983),(1984),(1985),(1986),(1987)
 		,(1988),(1989),(1990),(1991),(1992),(1993),(1994),(1995),(1996),(1997),(1998),(1999),(2000),(2001),(2002),(2003),(2004),(2005),(2006),(2007)
 		,(2008),(2009),(2010),(2011),(2012),(2013),(2014),(2015),(2016),(2017),(2018),(2019),(2020),(2021),(2022),(2023),(2024),(2025),(2026),(2027)
@@ -48,8 +49,8 @@ begin
 		,(2048),(2049),(2050),(2051),(2052),(2053),(2054),(2055),(2056),(2057),(2058),(2059),(2060);
 
 	-- Decode model year groups
-	-- single years represent single years, unless it is 1972 which represents 1960-1972
-	-- 0 represents 1960-2060
+	-- single years represent single years, unless it is 1972 which represents 1950-1972
+	-- 0 represents 1950-2060
 	drop table if exists tempModelYearGroupDecode;
 	create table tempModelYearGroupDecode (
 		modelYearGroupID int(11) not null primary key,
@@ -57,7 +58,7 @@ begin
 		minModelYearID smallint(6) default null,
 		maxModelYearID smallint(6) default null,
 		cutoffFlag smallint(6) default null
-	);
+	) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 	insert ignore into tempModelYearGroupDecode (modelYearGroupID, modelYearGroupName)
 	select modelYearGroupID, modelYearGroupName from modelYearGroup;
@@ -126,17 +127,17 @@ begin
 	select distinct modelYearGroupID, 'atrationongas' from atrationongas;
 
 
-	update tempModelYearGroupDecode set minModelYearID=1960, maxModelYearID=2060
+	update tempModelYearGroupDecode set minModelYearID=1950, maxModelYearID=2060
 	where minModelYearID is null and maxModelYearID is null
 	and modelYearGroupID=0;
 
-	update tempModelYearGroupDecode set minModelYearID=1960, maxModelYearID=1972
+	update tempModelYearGroupDecode set minModelYearID=1950, maxModelYearID=1972
 	where minModelYearID is null and maxModelYearID is null
 	and modelYearGroupID=1972;
 
 	update tempModelYearGroupDecode set minModelYearID=modelYearGroupID, maxModelYearID=modelYearGroupID
 	where minModelYearID is null and maxModelYearID is null
-	and modelYearGroupID < 9999 and modelYearGroupID > 1960;
+	and modelYearGroupID < 9999 and modelYearGroupID > 1950;
 
 	update tempModelYearGroupDecode set minModelYearID=round(modelYearGroupID/10000,0), maxModelYearID=mod(modelYearGroupID,10000)
 	where minModelYearID is null and maxModelYearID is null

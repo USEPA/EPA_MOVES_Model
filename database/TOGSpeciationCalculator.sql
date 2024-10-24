@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS TOGWorkerOutput (
 	hpID 				 SMALLINT UNSIGNED NULL,
 	emissionQuant        DOUBLE NULL,
 	emissionRate		 DOUBLE NULL
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 truncate table TOGWorkerOutput;
 
 -- @algorithm Add NMOG (80) to the set of chained input pollutants.

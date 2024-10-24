@@ -1,3 +1,11 @@
+The MOVES5 Release Candidate is made available for testing purposes 
+and for modelers to become familiar with functional changes between 
+MOVES4 and MOVES5 before MOVES5.0.0 is released. Emission results
+of MOVES5.0.0 may differ from the results of this release candidate. 
+Results from this version may not be used in work for state 
+implementation plans, conformity determinations, or for any other
+regulatory purpose.
+
 Copyright U.S. Environmental Protection Agency
 Licensed for use pursuant to the GNU General Public License (GPL)
 For information about the GPL see http://www.gnu.org/licenses/gpl.html

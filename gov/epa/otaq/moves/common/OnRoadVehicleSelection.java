@@ -49,11 +49,22 @@ public class OnRoadVehicleSelection implements Comparable<OnRoadVehicleSelection
 		if(other == null) {
 			return +1;
 		}
-		int result = StringUtilities.safeGetString(sourceTypeName).compareToIgnoreCase(StringUtilities.safeGetString(other.sourceTypeName));
-		if(result == 0) {
-			result = StringUtilities.safeGetString(fuelTypeDesc).compareToIgnoreCase(StringUtilities.safeGetString(other.fuelTypeDesc));
-		}
-		return result;
+        // first compare source types
+        if(sourceTypeID > other.sourceTypeID) {
+            return +1;
+        }
+        if(sourceTypeID < other.sourceTypeID) {
+            return -1;
+        }
+        // if the source type are the same, compare the fuel types
+        if(fuelTypeID > other.fuelTypeID) {
+            return +1;
+        }
+        if(fuelTypeID < other.fuelTypeID) {
+            return -1;
+        }
+        // if we get here, it is the same
+		return 0;
 	}
 
 	/**

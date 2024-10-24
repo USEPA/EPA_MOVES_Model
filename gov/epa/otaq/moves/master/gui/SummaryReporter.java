@@ -28,6 +28,8 @@ public class SummaryReporter {
 	JFrame win;
 	/** connection to the MOVESOutput database **/
 	Connection oConn;
+    /** the default database to use **/
+    String defaultDatabaseName;
 	/** the run specification which may be assumed was
 	 used to produce the MOVESOutput database **/
 	RunSpec runSpec;
@@ -144,7 +146,7 @@ public class SummaryReporter {
 		DefaultListModel<String> dataItemsSelectionModel;
 
 		public ReportParamGetter(JFrame win) {
-			super(win,"Specify Parameters for Summary Report");
+			super(win,MOVESWindow.MOVES_VERSION + " - Specify Parameters for Summary Report");
 			createControls();
 			arrangeControls();
 		}
@@ -839,7 +841,7 @@ public class SummaryReporter {
 		JButton closeButton;
 
 		public ScreenReport(JFrame win) {
-			super(win,"Screen Report");
+			super(win, MOVESWindow.MOVES_VERSION + " - Screen Report");
 			createControls();
 			arrangeControls();
 		}
@@ -1236,6 +1238,8 @@ public class SummaryReporter {
 		this.win = win;
 		this.oConn = oConn;
 		this.runSpec = runSpec;
+        this.defaultDatabaseName = SystemConfiguration.getTheSystemConfiguration().databaseSelections[MOVESDatabaseType.DEFAULT.getIndex()].databaseName;
+
 		// create list of all possible report classification columns
 		// order is significant
 		reportClassificationColumns = new ArrayList<ReportClassificationColumn>();
@@ -1268,44 +1272,23 @@ public class SummaryReporter {
 		reportClassificationColumns.add(new ReportClassificationColumn
 				("MOVESRunID", "Run", "SMALLINT(4)",6, null, null));
 
-		polColumnNames = new TreeMap<Integer,String>();
-		polColumnNames.put(Integer.valueOf(1),  "TotalHC");
-		polColumnNames.put(Integer.valueOf(2),  "CO");
-		polColumnNames.put(Integer.valueOf(3),  "NOx");
-		polColumnNames.put(Integer.valueOf(5),  "CH4");
-		polColumnNames.put(Integer.valueOf(6),  "N2O");
-		polColumnNames.put(Integer.valueOf(20), "Benzene");
-		polColumnNames.put(Integer.valueOf(21), "Ethanol");
-		polColumnNames.put(Integer.valueOf(22), "MTBE");
-		polColumnNames.put(Integer.valueOf(23), "Naphthalene");
-		polColumnNames.put(Integer.valueOf(24), "Butadiene");
-		polColumnNames.put(Integer.valueOf(25), "Formaldehyde");
-		polColumnNames.put(Integer.valueOf(26), "Acetaldehyde");
-		polColumnNames.put(Integer.valueOf(27), "Acrolein");
-		polColumnNames.put(Integer.valueOf(31), "SO2");
-		polColumnNames.put(Integer.valueOf(32), "NO");
-		polColumnNames.put(Integer.valueOf(33), "NO2");
-		polColumnNames.put(Integer.valueOf(30), "NH3");
-		polColumnNames.put(Integer.valueOf(79), "NMHC");
-		polColumnNames.put(Integer.valueOf(80), "NMOG");
-		polColumnNames.put(Integer.valueOf(86), "TOG");
-		polColumnNames.put(Integer.valueOf(87), "VOC");
-		polColumnNames.put(Integer.valueOf(90), "CO2");
-		polColumnNames.put(Integer.valueOf(91), "TotalEnergy");
-		polColumnNames.put(Integer.valueOf(98), "CO2_Equiv");
-		polColumnNames.put(Integer.valueOf(100),"Total_PM10");
-		polColumnNames.put(Integer.valueOf(101),"OrganicC_PM10");
-		polColumnNames.put(Integer.valueOf(102),"ElementC_PM10");
-		polColumnNames.put(Integer.valueOf(105),"Sulfate_PM10");
-		polColumnNames.put(Integer.valueOf(106),"Brake_PM10");
-		polColumnNames.put(Integer.valueOf(107),"Tire_PM10");
-		polColumnNames.put(Integer.valueOf(110),"Total_PM25");
-		polColumnNames.put(Integer.valueOf(111),"OrganicC_PM25");
-		polColumnNames.put(Integer.valueOf(112),"ElementC_PM25");
-		polColumnNames.put(Integer.valueOf(115),"Sulfate_PM25");
-		polColumnNames.put(Integer.valueOf(116),"Brake_PM25");
-		polColumnNames.put(Integer.valueOf(117),"Tire_PM25");
-		// System.out.println("contructor finished");
+        polColumnNames = new TreeMap<Integer,String>();
+        String SQL = "SELECT pollutantID, shortName FROM " + this.defaultDatabaseName + ".pollutant";
+        try {
+            PreparedStatement pstmt = oConn.prepareStatement(SQL);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                int pollutantID = rs.getInt(1);
+                String columnName = rs.getString(2);
+                polColumnNames.put(Integer.valueOf(pollutantID), columnName);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+			System.out.println(SQL);
+
+			JOptionPane.showMessageDialog(win, "Database error occurred initializing the Summary Reporter.",
+				"Database Error", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 	/**
@@ -1573,57 +1556,79 @@ public class SummaryReporter {
 		String runSpecDescription = null;
 		String runSpecFileDateTime = null;
 		String runDateTime = null;
+        String runVersion = null;
+        String SQL = "";
 
 		try {
 			PreparedStatement ps = oConn.prepareStatement("FLUSH TABLES");
 			ps.executeUpdate();
 			ps.close();
 			headerTableName = baseReportTableName + "Header";
-			String SQL = "DROP TABLE IF EXISTS " + headerTableName;
+			SQL = "DROP TABLE IF EXISTS " + headerTableName;
 			PreparedStatement pstmt = oConn.prepareStatement(SQL);
 			pstmt.executeUpdate();
 			pstmt.close();
 			SQL = "CREATE TABLE " + headerTableName +
-					" (MOVESRunID SMALLINT, HeaderItem CHAR(25), HeaderItemValue VARCHAR(255))";
+					" (MOVESRunID INT, HeaderItem TEXT, HeaderItemValue TEXT)";
 			pstmt = oConn.prepareStatement(SQL);
 			pstmt.executeUpdate();
 			pstmt.close();
 
 			SQL = "SELECT timeUnits, distanceUnits, massUnits, energyUnits, " +
-					"runSpecFileName, runSpecDescription, runSpecFileDateTime, runDateTime  " +
+					"runSpecFileName, runSpecDescription, runSpecFileDateTime, runDateTime, masterVersion  " +
 					"FROM MOVESRun WHERE MOVESRunID = ?";
-			pstmt = oConn.prepareStatement(SQL);
+            PreparedStatement movesRunQuery = oConn.prepareStatement(SQL);
 
-			String SQL2 = "INSERT INTO " + headerTableName + " VALUES (?, ?, ?)";
-			PreparedStatement pstmt2 = oConn.prepareStatement(SQL2);
+			String headerTableSql = "INSERT INTO " + headerTableName + " VALUES (?, ?, ?)";
+			PreparedStatement headerTableInsert = oConn.prepareStatement(headerTableSql);
 
-			pstmt2.setInt(1,0);
-			pstmt2.setString(2,"Report Description");
-			pstmt2.setString(3,reportDescription);
-			pstmt2.executeUpdate();
-			pstmt2.clearParameters();
-			pstmt2.setInt(1,0);
-			pstmt2.setString(2,"Report Date/Time");
-			pstmt2.setString(3,
+            String hasAllDaysSql = "SELECT DISTINCT COALESCE(dayID, 0) AS dayID FROM MOVESOutput WHERE MOVESRunID = ? ORDER BY dayID";
+			PreparedStatement hasAllDays = oConn.prepareStatement(hasAllDaysSql);
+
+            String hasAllMonthsSql = "SELECT DISTINCT COALESCE(monthID, 0) AS monthID FROM MOVESOutput WHERE MOVESRunID = ? ORDER BY monthID";
+			PreparedStatement hasAllMonths = oConn.prepareStatement(hasAllMonthsSql);
+
+			headerTableInsert.setInt(1,0);
+			headerTableInsert.setString(2,"Report Description");
+			headerTableInsert.setString(3,reportDescription);
+			headerTableInsert.executeUpdate();
+			headerTableInsert.clearParameters();
+			headerTableInsert.setInt(1,0);
+			headerTableInsert.setString(2,"Report Date/Time");
+			headerTableInsert.setString(3,
 					FileTimeUtility.convertFileTimeToString(System.currentTimeMillis()));
-			pstmt2.executeUpdate();
-			pstmt2.clearParameters();
-			pstmt2.setInt(1,0);
-			pstmt2.setString(2,"MOVES Output Database");
-			pstmt2.setString(3,runSpec.outputDatabase.databaseName);
-			pstmt2.executeUpdate();
-			pstmt2.clearParameters();
-			pstmt2.setInt(1,0);
-			pstmt2.setString(2,"Emission Process");
+			headerTableInsert.executeUpdate();
+			headerTableInsert.clearParameters();
+			headerTableInsert.setInt(1,0);
+			headerTableInsert.setString(2,"MOVES Output Database");
+			headerTableInsert.setString(3,runSpec.outputDatabase.databaseName);
+			headerTableInsert.executeUpdate();
+			headerTableInsert.clearParameters();
+			headerTableInsert.setInt(1,0);
+			headerTableInsert.setString(2,"Emission Process");
 			if (emissionProcess == null) {
-				pstmt2.setString(3, "All");
+				headerTableInsert.setString(3, "All");
 			} else {
-				pstmt2.setString(3,
+				headerTableInsert.setString(3,
 					(EmissionProcess.findByID(emissionProcess.intValue())).processName);
 			}
-			pstmt2.executeUpdate();
-			pstmt2.clearParameters();
+			headerTableInsert.executeUpdate();
+			headerTableInsert.clearParameters();
 
+            // see if dayID and/or monthID is included in the summary report columns. If it's not, we'll need to do
+            // extra checks to make sure we have all the information we need to provide correct monthly or annual summaries
+            boolean isDaySelected = false;
+            boolean isMonthSelected = false;
+            for (int i=1; i<categoryFieldSelections.size(); i++) {
+				if (((String) categoryFieldSelections.get(i)).equalsIgnoreCase("dayID")) {
+                    isDaySelected = true;
+                }
+				if (((String) categoryFieldSelections.get(i)).equalsIgnoreCase("monthID")) {
+                    isMonthSelected = true;
+                }
+			}
+
+            // provide the units and any warnings for each run
 			for (int i=0; i<runNumSelections.size(); i++) {
 				int selectedRunNum = 0;
 				try {
@@ -1631,9 +1636,51 @@ public class SummaryReporter {
 				} catch(Exception e) {
 					// Nothing to do
 				}
-				pstmt.clearParameters();
-				pstmt.setInt(1,selectedRunNum);
-				ResultSet rs = pstmt.executeQuery();
+
+                // if day is not selected in the columns to display, check to make sure we have output for both day types
+                // or check that dayID is null (has already been aggregated over). If not, include a warning in the header
+                if (!isDaySelected) {
+                    hasAllDays.setInt(1,selectedRunNum);
+                    ResultSet rs = hasAllDays.executeQuery();
+                    String observedDayIDs = "";
+                    while (rs.next()) {
+                        observedDayIDs += rs.getString("dayID") + ",";
+                    }
+                    rs.close();
+                    if (observedDayIDs.equals("2,") || observedDayIDs.equals("5,")) {
+                        headerTableInsert.clearParameters();
+                        headerTableInsert.setInt(1,selectedRunNum);
+                        headerTableInsert.setString(2,"WARNING");
+                        headerTableInsert.setString(3, "Run does not have both dayIDs selected.");
+                        headerTableInsert.executeUpdate();
+                        headerTableInsert.setString(3, "Therefore, the aggregated inventory may be incomplete.");
+                        headerTableInsert.executeUpdate();
+                    }
+                }
+                // if month is not selected in the columns to display, check to make sure we have output for all months
+                // or check that monthID is null (has already been aggregated over). If not, include a warning in the header
+                if (!isMonthSelected) {
+                    hasAllMonths.setInt(1,selectedRunNum);
+                    ResultSet rs = hasAllMonths.executeQuery();
+                    String observedMonthIDs = "";
+                    while (rs.next()) {
+                        observedMonthIDs += rs.getString("monthID") + ",";
+                    }
+                    rs.close();
+                    if (!(observedMonthIDs.equals("1,2,3,4,5,6,7,8,9,10,11,12") || observedMonthIDs.equals("0,"))) {
+                        headerTableInsert.clearParameters();
+                        headerTableInsert.setInt(1,selectedRunNum);
+                        headerTableInsert.setString(2,"WARNING");
+                        headerTableInsert.setString(3, "Run does not have all months selected.");
+                        headerTableInsert.executeUpdate();
+                        headerTableInsert.setString(3, "Therefore, the aggregated inventory may be incomplete.");
+                        headerTableInsert.executeUpdate();
+                    }
+                }
+
+				movesRunQuery.clearParameters();
+				movesRunQuery.setInt(1,selectedRunNum);
+				ResultSet rs = movesRunQuery.executeQuery();
 				if (rs.next()) {
 					timeUnits = rs.getString("timeUnits");
 					distanceUnits = rs.getString("distanceUnits");
@@ -1643,56 +1690,66 @@ public class SummaryReporter {
 					runSpecDescription = rs.getString("runSpecDescription");
 					runSpecFileDateTime = rs.getString("runSpecFileDateTime");
 					runDateTime = rs.getString("runDateTime");
+					runVersion = rs.getString("masterVersion");
 				}
 				rs.close();
 
-				pstmt2.setInt(1,selectedRunNum);
-				pstmt2.setString(2,"Run Date/Time");
-				pstmt2.setString(3,runDateTime);
-				pstmt2.executeUpdate();
-				pstmt2.clearParameters();
-				pstmt2.setInt(1,selectedRunNum);
-				pstmt2.setString(2,"Run Specification");
-				pstmt2.setString(3,runSpecFileName);
-				pstmt2.executeUpdate();
-				pstmt2.clearParameters();
-				pstmt2.setInt(1,selectedRunNum);
-				pstmt2.setString(2,"Run Spec File Date/Time");
-				pstmt2.setString(3,runSpecFileDateTime);
-				pstmt2.executeUpdate();
-				pstmt2.clearParameters();
-				pstmt2.setInt(1,selectedRunNum);
-				pstmt2.setString(2,"Run Spec Description");
-				pstmt2.setString(3,runSpecDescription);
-				pstmt2.executeUpdate();
-				pstmt2.clearParameters();
-				pstmt2.setInt(1,selectedRunNum);
-				pstmt2.setString(2,"Mass Units");
-				pstmt2.setString(3, massUnits);
-				pstmt2.executeUpdate();
-				pstmt2.clearParameters();
-				pstmt2.setInt(1,selectedRunNum);
-				pstmt2.setString(2,"Energy Units");
-				pstmt2.setString(3, energyUnits);
-				pstmt2.executeUpdate();
-				pstmt2.clearParameters();
-				pstmt2.setInt(1,selectedRunNum);
-				pstmt2.setString(2,"Distance Units");
-				pstmt2.setString(3, distanceUnits);
-				pstmt2.executeUpdate();
-				pstmt2.clearParameters();
-				pstmt2.setInt(1,selectedRunNum);
-				pstmt2.setString(2,"Time Units");
-				pstmt2.setString(3, timeUnits);
-				pstmt2.executeUpdate();
-				pstmt2.clearParameters();
+				headerTableInsert.setInt(1,selectedRunNum);
+				headerTableInsert.setString(2,"MOVES Version");
+				headerTableInsert.setString(3,runVersion);
+				headerTableInsert.executeUpdate();
+				headerTableInsert.clearParameters();
+				headerTableInsert.setInt(1,selectedRunNum);
+				headerTableInsert.setString(2,"Run Date/Time");
+				headerTableInsert.setString(3,runDateTime);
+				headerTableInsert.executeUpdate();
+				headerTableInsert.clearParameters();
+				headerTableInsert.setInt(1,selectedRunNum);
+				headerTableInsert.setString(2,"Run Specification");
+				headerTableInsert.setString(3,runSpecFileName);
+				headerTableInsert.executeUpdate();
+				headerTableInsert.clearParameters();
+				headerTableInsert.setInt(1,selectedRunNum);
+				headerTableInsert.setString(2,"Run Spec File Date/Time");
+				headerTableInsert.setString(3,runSpecFileDateTime);
+				headerTableInsert.executeUpdate();
+				headerTableInsert.clearParameters();
+				headerTableInsert.setInt(1,selectedRunNum);
+				headerTableInsert.setString(2,"Run Spec Description");
+				headerTableInsert.setString(3,runSpecDescription);
+				headerTableInsert.executeUpdate();
+				headerTableInsert.clearParameters();
+				headerTableInsert.setInt(1,selectedRunNum);
+				headerTableInsert.setString(2,"Mass Units");
+				headerTableInsert.setString(3, massUnits);
+				headerTableInsert.executeUpdate();
+				headerTableInsert.clearParameters();
+				headerTableInsert.setInt(1,selectedRunNum);
+				headerTableInsert.setString(2,"Energy Units");
+				headerTableInsert.setString(3, energyUnits);
+				headerTableInsert.executeUpdate();
+				headerTableInsert.clearParameters();
+				headerTableInsert.setInt(1,selectedRunNum);
+				headerTableInsert.setString(2,"Distance Units");
+				headerTableInsert.setString(3, distanceUnits);
+				headerTableInsert.executeUpdate();
+				headerTableInsert.clearParameters();
+				headerTableInsert.setInt(1,selectedRunNum);
+				headerTableInsert.setString(2,"Time Units");
+				headerTableInsert.setString(3, timeUnits);
+				headerTableInsert.executeUpdate();
+				headerTableInsert.clearParameters();
 			}  //end for
-			pstmt.close();
-			pstmt2.close();
+            movesRunQuery.close();
+			headerTableInsert.close();
+			hasAllDays.close();
 
 			return true;
 
 		} catch (SQLException e) {
+            e.printStackTrace();
+			System.out.println(SQL);
+
 			JOptionPane.showMessageDialog(win,
 				"Database error occurred trying to produce report header table.",
 				"Database Error",
@@ -1724,22 +1781,38 @@ public class SummaryReporter {
 			// construct text string listing category fields
 			// suitable for inclusion in MySQL statements
 			// we can assume there is at least one category field
-			String catFieldList = (String) categoryFieldSelections.get(0);
+            boolean isDaySelected = false;
+			String catFieldList = "`" + (String) categoryFieldSelections.get(0) + "`";
 			for (int i=1; i<categoryFieldSelections.size(); i++) {
-				catFieldList = catFieldList + ", " + ((String) categoryFieldSelections.get(i));
+				catFieldList = catFieldList + ", `" + ((String) categoryFieldSelections.get(i)) + "`";
+                if (((String) categoryFieldSelections.get(i)).toLowerCase().equals("dayid")) {
+                    isDaySelected = true;
+                }
 			}
             //System.out.println(catFieldList);
+            // if dayID is not selected, we are aggregating over it. If dayID is NULL in the output database,
+            // that means it has already been taken care of and we don't need to do anything. Otherwise:
+            //    If outputTimePeriod is (Hour, Day), also need to multiply emissionQuant by dayID to get to "Part of Week" level
+            //    Regardless of aggregation level, need to multiply the by # of weeks in the month to go from weekly to monthly
+            String aggDayClause = "";
+            String aggDayJoin = "";
+            if (!isDaySelected) {
+                aggDayClause = " * CASE WHEN dayID IS NOT NULL THEN COALESCE(noOfDays/7, 1) ELSE 1 END " +
+                               " * CASE WHEN timeUnits IN ('hour', 'day') THEN dayID ELSE 1 END ";
+                aggDayJoin = " JOIN movesrun USING (MOVESRunID) " +
+                             " LEFT JOIN " + this.defaultDatabaseName + ".monthofanyyear USING (monthID) ";
+            }
 			if (emissionProcess == null) {
 				SQL = "CREATE TABLE TempMOVESOutput SELECT " + catFieldList +
-						", pollutantID, SUM(emissionQuant) AS emissionQuant " +
-						"FROM MOVESOutput WHERE MOVESRunID IN(" + runIDList + ") GROUP BY " +
+						", `pollutantID`, SUM(emissionQuant" + aggDayClause + ") AS `emissionQuant` " +
+						"FROM MOVESOutput " + aggDayJoin + " WHERE MOVESRunID IN(" + runIDList + ") GROUP BY " +
 						catFieldList + ", pollutantID";
 				pstmt = oConn.prepareStatement(SQL);
 			} else {
 				SQL = "CREATE TABLE TempMOVESOutput SELECT " + catFieldList +
-						", pollutantID, SUM(emissionQuant) AS emissionQuant " +
-						"FROM MOVESOutput WHERE MOVESRunID IN(" + runIDList +
-						") AND processID = ? GROUP BY " + catFieldList + ", pollutantID";
+						", `pollutantID`, SUM(emissionQuant" + aggDayClause + ") AS `emissionQuant` " +
+						"FROM MOVESOutput " + aggDayJoin + " WHERE MOVESRunID IN(" + runIDList +
+						") AND `processID` = ? GROUP BY " + catFieldList + ", `pollutantID`"; 
 				pstmt = oConn.prepareStatement(SQL);
 				pstmt.setInt(1,emissionProcess.intValue());
 			}
@@ -1758,18 +1831,18 @@ public class SummaryReporter {
 				int polID = Pollutant.findByName(polName).databaseKey;
 				String colName = (String) polColumnNames.get(Integer.valueOf(polID));
 				//System.out.println("polID=" + polID + ", polName=" + polName + ", colName = " + colName);
-				SQL = "ALTER TABLE TempMOVESOutput ADD COLUMN " + colName + " FLOAT DEFAULT 0.0";
+				SQL = "ALTER TABLE TempMOVESOutput ADD COLUMN `" + colName + "` FLOAT DEFAULT 0.0";
 				pstmt = oConn.prepareStatement(SQL);
 				// System.out.println(SQL);
 				pstmt.executeUpdate();
 				pstmt.close();
-				SQL = "UPDATE TempMOVESOutput SET " + colName + " = emissionQuant WHERE pollutantID = ?";
+				SQL = "UPDATE TempMOVESOutput SET `" + colName + "` = emissionQuant WHERE pollutantID = ?";
 				pstmt = oConn.prepareStatement(SQL);
 				pstmt.setInt(1,polID);
 				pstmt.executeUpdate();
 				pstmt.close();
-				sqlForCreatePols = sqlForCreatePols + colName + " FLOAT(18,0)";
-				sqlForInsertPols = sqlForInsertPols + " SUM(" + colName + ") AS " + colName;
+				sqlForCreatePols = sqlForCreatePols + "`" + colName + "` FLOAT(18,0)";
+				sqlForInsertPols = sqlForInsertPols + " SUM(`" + colName + "`) AS `" + colName + "`";
 				if (i < pollutantSelections.size()-1) {
 					sqlForCreatePols = sqlForCreatePols + ",";
 					sqlForInsertPols = sqlForInsertPols + ",";
@@ -1828,7 +1901,8 @@ public class SummaryReporter {
 				pstmt.executeUpdate();
 				pstmt.close();
 				SQL = "CREATE TABLE TempMOVESActivityOutput SELECT " +
-						catFieldList + ", SUM(activity) AS Distance FROM MOVESActivityOutput " +
+						catFieldList + ", SUM(activity" + aggDayClause + ") AS Distance " + 
+                        "FROM MOVESActivityOutput " + aggDayJoin +
 						"WHERE MOVESRunID IN(" + runIDList + ") " +
 						"AND activityTypeID=1 " +
 						"GROUP BY " + catFieldList;
@@ -2070,7 +2144,7 @@ public class SummaryReporter {
 			}
 		}
 		// if not a classification column or activity, assume to be a pollutant column
-		return 20;
+		return Math.max(20, colName.length()+1);
 	}
 
 	/** inner class representing a classification column in the summary report **/

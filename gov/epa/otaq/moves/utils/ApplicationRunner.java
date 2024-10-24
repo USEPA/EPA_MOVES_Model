@@ -47,7 +47,6 @@ public class ApplicationRunner {
 				throws IOException, InterruptedException {
 		// Force reclaimation of memory immediately so that the application we launch has as
 		// much memory to do its work as possible
-		Runtime.getRuntime().runFinalization();
 		Runtime.getRuntime().gc();
 		try {
 

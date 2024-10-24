@@ -11,7 +11,7 @@
 drop procedure if exists spAdjustStarts;
 
 BeginBlock
-create procedure spAdjustStarts()
+create procedure spAdjustStarts(IN dayID int)
 begin
 	declare targetYearID int default ##yearID##;
 	declare targetZoneID int default ##zoneID##;
@@ -19,9 +19,9 @@ begin
 	declare startsCnt int default 0;
 	declare startsPerDayCnt int default 0;
 	declare startsPerDayPerVehicleCnt int default 0;
-	select count(*) into startsCnt from starts where isUserInput = 'Y';
-	select count(*) into startsPerDayCnt from startsPerDay;
-	select count(*) into startsPerDayPerVehicleCnt from startsPerDayPerVehicle;
+	select count(*) into startsCnt from starts where isUserInput = 'Y' and RIGHT(starts.hourDayID, 1) = dayID;
+	select count(*) into startsPerDayCnt from startsPerDay where startsPerDay.dayID = dayID;
+	select count(*) into startsPerDayPerVehicleCnt from startsPerDayPerVehicle where startsPerDayPerVehicle.dayID = dayID;
 	
 	if (startsCnt > 0 and startsPerDayPerVehicleCnt > 0) then
 		-- startsPerDayPerVehicleCnt is always >0 because it contains default data (which could be overwritten by user;
@@ -49,7 +49,7 @@ begin
 		  PRIMARY KEY (sourceTypeID,dayID),
 		  KEY hourDayID (dayID),
 		  KEY sourceTypeID (sourceTypeID)
-		);
+		) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 		
 		if (startsPerDayCnt > 0) then
 			-- This data was directly imported by the user; just need to transfer from user input table to temp table
@@ -58,7 +58,8 @@ begin
 			-- insert into tempMessages (message)
 			--   select 'WARNING : Detected that user has imported StartsPerDay. These values will be used instead of StartsPerDayPerVehicle.' from dual;					
 			insert into tempStartsPerDay (dayID, sourceTypeID, startsPerDay) 
-				select dayID, sourceTypeID, startsPerDay from startsPerDay;			
+				select dayID, sourceTypeID, startsPerDay from startsPerDay
+                where startsPerDay.dayID = dayID;			
 		else
 			-- Need to calculate startsPerDay from startsPerDayPerVehicle and vehicle populations
 			insert into tempStartsPerDay (dayID, sourceTypeID, startsPerDay)
@@ -68,7 +69,8 @@ begin
 				from StartsPerDayPerVehicle spdpv
 				inner join sourceTypeYear sty on
 					sty.sourceTypeID = spdpv.sourceTypeID
-				where sty.yearID = targetYearID;
+				where sty.yearID = targetYearID
+                  and spdpv.dayID = dayID;
 		
 		end if;
 		
@@ -82,7 +84,7 @@ begin
 		  PRIMARY KEY (sourceTypeID,ageID),
 		  KEY sourceTypeID (sourceTypeID),
 		  KEY ageID (ageID)
-		);
+		) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 		insert into tempStartsNormalizedAgeAdjust (sourceTypeID, ageID, normalizedAgeAdjustment)
 			select sourceTypeID, ageID, ageAdjustment/TotalAgeAdjustment as normalizedAgeAdjustment
 			from startsageadjustment saa
@@ -100,7 +102,7 @@ begin
 		  PRIMARY KEY (sourceTypeID,ageID),
 		  KEY sourceTypeID (sourceTypeID),
 		  KEY ageID (ageID)
-		);
+		) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 		insert into tempStartsCombinedAgeEffect (sourceTypeID, ageID, combinedAgeEffectFraction)
 			select stad.sourceTypeID, stad.ageID, ageFraction * normalizedAgeAdjustment / sumproduct
 			from sourceTypeAgeDistribution stad
@@ -133,7 +135,7 @@ begin
 			sma.sourceTypeID = tspd.sourceTypeID  
 		inner join StartsHourFraction shf on
 			shf.sourceTypeID = tspd.sourceTypeID
-			and shf.dayID = tspd.dayID
+			and shf.dayID = tspd.dayID and tspd.dayID = dayID
 		inner join tempStartsCombinedAgeEffect tscae on
 			tscae.sourceTypeID = tspd.sourceTypeID
 		left join zone z on
@@ -145,7 +147,8 @@ begin
 	update starts s
 		inner join HourDay hd on s.hourDayID = hd.hourDayID
 		inner join DayOfAnyWeek doa on hd.dayID = doa.dayID
-		set s.starts = s.starts * doa.noOfRealDays;
+		set s.starts = s.starts * doa.noOfRealDays
+        WHERE doa.dayID = dayID;
 	
 	drop table if exists tempStartsPerDay;
 	drop table if exists tempStartsNormalizedAgeAdjust;
@@ -153,5 +156,7 @@ begin
 end
 EndBlock
 
-call spAdjustStarts();
+call spAdjustStarts(0);
+call spAdjustStarts(2);
+call spAdjustStarts(5);
 drop procedure if exists spAdjustStarts;

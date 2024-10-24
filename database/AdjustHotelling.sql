@@ -12,6 +12,7 @@ begin
 	declare targetYearID int default ##yearID##;
 	declare activityZoneID int default ##activityZoneID##;
 	declare howMany int default 0;
+    declare numMonths int default 0;
 	
 	-- HotellingHoursPerDay
 	set howMany=0;
@@ -41,20 +42,23 @@ begin
 		from hotellinghours
 		join dayOfAnyWeek using (dayID)
 		group by yearID,zoneID,dayID;
-		
+
+        -- determine how many months are in the runspec
+        select count(DISTINCT monthID) into numMonths from hotellingHours;
 		
 		-- we use the ratio between the defaults and user input to calculate the new HotellingHours
 		insert into newHotellingHours_hhpd (sourceTypeID,fuelTypeID,yearID,monthID,dayID,hourID,hourDayID,zoneID,ageID,hotellingHours)
 		-- units of hotellingHours: hours per portion of week
 		-- units of (hotellinghoursperday / defaultHotellingHours): hours per typical day / hours per typical day, month combination 
         --     When at annual preagg, the expression below becomes hours per portion of week since month is already aggregated away
-        --         In this case, we do not need to multiply by 12
-        --     When no preagg or preagg less than year, defaultHotellingHoursPerDay contains the sum over all months, and then we are 
-        --     dividing by that sum over all months in our ratio, so we need to multiply by 12 in the end.
-		--         Essentially, the expression below becomes hours per potion of week * (1/ typical month) * months
+        --         In this case, we do not need to multiply by the number of months
+        --     When no preagg or preagg less than year, defaultHotellingHoursPerDay contains the sum over all months in the runspec,
+        --     and then we are dividing by that sum over all months in our ratio, so we need to multiply by the number of months in the
+        --     runspec in the end.
+		--         Essentially, the expression below becomes hours per potion of week * (1/typical month) * months
 		select sourceTypeID,fuelTypeID,yearID,monthID,dayID,hourID,hourID*10+dayID as hourDayID,zoneID,ageID,
 			   case when monthID = 0 then (hotellingHoursPerDay / defaultHotellingHours) * hotellingHours
-                    else                  (hotellingHoursPerDay / defaultHotellingHours) * hotellingHours * 12 
+                    else                  (hotellingHoursPerDay / defaultHotellingHours) * hotellingHours * numMonths 
                end as hotellingHours
 		from hotellingHours
 		join defaultHotellingHoursPerDay using (yearID,zoneID,dayID)

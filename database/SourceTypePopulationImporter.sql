@@ -8,7 +8,7 @@ drop table if exists tempNewYear;
 create table if not exists tempNewYear (
   yearID smallint(6) not null default '0',
   primary key  (yearID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 insert into tempNewYear (yearID)
 select distinct yearID
@@ -28,7 +28,7 @@ create table if not exists tempYear (
   fuelYearID smallint(6) not null default '0',
   primary key  (yearID),
   key isBaseYear (isBaseYear)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 create table if not exists year (
   yearID smallint(6) not null default '0',
@@ -36,7 +36,7 @@ create table if not exists year (
   fuelYearID smallint(6) not null default '0',
   primary key  (yearID),
   key isBaseYear (isBaseYear)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 insert into tempYear (yearID, isBaseYear, fuelYearID)
 select y.yearID, 'Y' as isBaseYear, y.fuelYearID

@@ -16,7 +16,7 @@ import org.xml.sax.*;
 import org.xml.sax.helpers.*;
 import org.w3c.dom.*;
 import gov.epa.otaq.moves.master.runspec.*;
-import gov.epa.otaq.moves.master.gui.AVFTTool;
+import gov.epa.otaq.moves.master.gui.avfttool.AVFTTool;
 import gov.epa.otaq.moves.master.gui.RunSpecSectionStatus;
 import gov.epa.otaq.moves.common.*;
 import gov.epa.otaq.moves.master.framework.*;
@@ -80,7 +80,7 @@ public class FuelImporter extends ImporterBase {
 		BasicDataHandler.BEGIN_TABLE, "FuelUsageFraction",
 		"countyID", "County", ImporterManager.FILTER_COUNTY,
 		"fuelYearID", "FuelSupplyYear", ImporterManager.FILTER_FUEL_YEAR,
-		"modelYearGroupID", "", ImporterManager.FILTER_MODEL_YEAR_RANGE,
+		"modelYearGroupID", "ModelYearGroup", ImporterManager.FILTER_MODEL_YEAR_RANGE,
 		"sourceBinFuelTypeID", "FuelType", ImporterManager.FILTER_FUEL,
 		"fuelSupplyFuelTypeID", "FuelType", ImporterManager.FILTER_FUEL,
 		"usageFraction", "", ImporterManager.FILTER_0_TO_1_FRACTION,
@@ -444,7 +444,8 @@ public class FuelImporter extends ImporterBase {
 	}
 
 	class CustomBasicDataHandler extends BasicDataHandler {
-		TreeSet<String> templateKeys = new TreeSet<String>();
+		TreeSet<String> templateKeysAVFT = new TreeSet<String>();
+		TreeSet<String> templateKeysFUF = new TreeSet<String>();
 
 		/**
 		 * Constructor
@@ -458,7 +459,14 @@ public class FuelImporter extends ImporterBase {
 
             // override the default decode table for engine tech with one that only contains onroad engine techs
             this.addDecodeTable("EngineTech", "select engTechID, engTechName from engineTech where engTechID between 1 and 99 order by engTechID");
-		}
+                    
+            // include model year group decode table for fuelusagefraction template
+            this.addDecodeTable("ModelYearGroup", 
+                                "SELECT modelYearGroupID, " +
+                                "CASE WHEN modelYearGroupID = 0 THEN 'Doesn\\\'t Matter (matches all model years)' ELSE modelYearGroupName END AS modelYearGroupName, " +
+                                "modelYearGroupStartYear, modelYearGroupEndYear " + 
+                                "FROM modelyeargroup ORDER BY modelYearGroupStartYear, modelYearGroupEndYear");
+        }
 
 		/**
 		 * Alter the name of a filter during template creation.  Used, for instance,
@@ -511,7 +519,8 @@ public class FuelImporter extends ImporterBase {
 
 		/** Event called when a template is being initiated **/
 		public void onBeginTemplate() {
-			templateKeys.clear();
+			templateKeysAVFT.clear();
+			templateKeysFUF.clear();
 
 			Connection db = DatabaseConnectionManager.getGUIConnection(MOVESDatabaseType.DEFAULT);
 			SQLRunner.Query query = new SQLRunner.Query();
@@ -523,7 +532,23 @@ public class FuelImporter extends ImporterBase {
 					int f = query.rs.getInt(2);
 					int e = query.rs.getInt(3);
 					String key = "" + s + "|" + f + "|" + e;
-					templateKeys.add(key);
+					templateKeysAVFT.add(key);
+				}
+				query.close();
+			} catch(SQLException e) {
+				Logger.logSqlError(e,"Unable to get template keys",sql);
+			} finally {
+				query.onFinally();
+			}
+            
+			sql = "SELECT DISTINCT sourceBinFuelTypeID, fuelSupplyFuelTypeID FROM fuelusagefraction";
+			try {
+				query.open(db,sql);
+				while(query.rs.next()) {
+					int sbft = query.rs.getInt(1);
+					int fsft = query.rs.getInt(2);
+					String key = "" + sbft + "|" + fsft;
+					templateKeysFUF.add(key);
 				}
 				query.close();
 			} catch(SQLException e) {
@@ -538,18 +563,26 @@ public class FuelImporter extends ImporterBase {
 		 * @param value array of objects for each column in the template
 		 * @return true if the row should be written
 		**/
-		public boolean shouldWriteTemplateRow(Object[] values) {
-            // only filter for the AVFT table (only table with 5 columns)
-			if(values.length != 5) {
-				return true;
-			}
-			Object s = values[0];
-			Object f = values[2];
-			Object e = values[3];
-			String key = s.toString() + "|" + f.toString() + "|" + e.toString();
-			
-			// templateKeys contains all valid source type / fuel type / engtech combinations
-			return templateKeys.contains(key);
+		public boolean shouldWriteTemplateRow(String tableName, Object[] values) {
+			if(tableName.equalsIgnoreCase("AVFT")) {
+                Object s = values[0];
+                Object f = values[2];
+                Object e = values[3];
+                String key = s.toString() + "|" + f.toString() + "|" + e.toString();
+                
+                // templateKeysAVFT contains all valid source type / fuel type / engtech combinations
+                return templateKeysAVFT.contains(key);
+            } else if (tableName.equalsIgnoreCase("FuelUsageFraction")) {
+                Object sbft = values[3];
+                Object fsft = values[4];
+                String key = sbft.toString() + "|" + fsft.toString();
+                
+                // templateKeysFUF contains all valid sourceBinFuelTypeID / fuelSupplyFuelTypeID combinations
+                return templateKeysFUF.contains(key);
+            }
+
+            // Other tables do not need to be filtered, so default to writing the given row
+            return true;
         }
 	}
 

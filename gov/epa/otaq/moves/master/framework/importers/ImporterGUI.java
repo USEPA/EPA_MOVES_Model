@@ -82,8 +82,8 @@ public class ImporterGUI extends JDialog implements ActionListener, FocusListene
 	**/
 	public ImporterGUI(JFrame parent, ImporterManager managerToUse) {
 		super(parent,
-				managerToUse.isCountyDomain? "MOVES County Data Manager" :
-				managerToUse.isProjectDomain? "MOVES Project Data Manager" : "MOVES Data Importer");
+				managerToUse.isCountyDomain? MOVESWindow.MOVES_VERSION + " - County Data Manager" :
+				managerToUse.isProjectDomain? MOVESWindow.MOVES_VERSION + " - Project Data Manager" : MOVESWindow.MOVES_VERSION + " - Data Importer");
 		frame = parent;
 		manager = managerToUse;
 

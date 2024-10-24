@@ -19,6 +19,8 @@ import javax.swing.Action;
 public class AboutAction extends JLFAbstractAction {
 	/** Constant command key text. **/
 	static final String ACTION_COMMAND_KEY_ABOUT = "about-command";
+	/** Titles are used when we want a different string to be used in a popup window title than the Name or Short Description **/
+	static final String TITLE = "Version and License Information";
 	/** Constant action name. **/
 	static final String NAME_ABOUT = "About MOVES...";
 	/** Constant small icon file and path. **/
@@ -28,7 +30,7 @@ public class AboutAction extends JLFAbstractAction {
 	/** Constant short description text. **/
 	static final String SHORT_DESCRIPTION_ABOUT = "About MOVES";
 	/** Constant long description text. **/
-	static final String LONG_DESCRIPTION_ABOUT = "MOVES4";
+	static final String LONG_DESCRIPTION_ABOUT = "MOVES5";
 	/** Constant mnemonic key. **/
 	static final int MNEMONIC_KEY_ABOUT = 'A';
 
@@ -38,6 +40,7 @@ public class AboutAction extends JLFAbstractAction {
 	**/
 	public AboutAction() {
 		putValue(Action.NAME, NAME_ABOUT);
+		putValue(JLFAbstractAction.TITLE, TITLE);
 		putValue(Action.SMALL_ICON, getIcon(SMALL_ICON_ABOUT));
 		putValue(LARGE_ICON, getIcon(LARGE_ICON_ABOUT));
 		putValue(Action.SHORT_DESCRIPTION, SHORT_DESCRIPTION_ABOUT);

@@ -648,7 +648,7 @@ public class RunSpecXML {
 		String sql = "SELECT DISTINCT ft.fuelTypeID, ft.fuelTypeDesc, sut.sourceTypeID, "
                     +"sut.sourceTypeName FROM FuelType ft, SourceUseType sut, FuelEngTechAssoc "
                     +"feta WHERE ft.fuelTypeID = feta.fuelTypeID AND sut.sourceTypeID = "
-                    +"feta.sourceTypeID ORDER BY ft.fuelTypeDesc, sut.sourceTypeName";
+                    +"feta.sourceTypeID ORDER BY sut.sourceTypeID, ft.fuelTypeID";
 		SQLRunner.Query query = new SQLRunner.Query();
 		try {
             Connection db = DatabaseConnectionManager.checkOutConnection(MOVESDatabaseType.DEFAULT);
@@ -1653,6 +1653,11 @@ public class RunSpecXML {
 	 * @param node The Node object to handle.
 	**/
 	void processScaleInputDatabase(Node node) {
+        // do not parse ScaleInputDatabase tag if this version is not compatible, to avoid getting error messages
+        if (!runSpec.isCompatibleVersion(MOVESWindow.MOVES_VERSION)) {
+            return;
+        }
+
 		// This node should have two attributes and no subnodes
 		NamedNodeMap attributes = node.getAttributes();
 		String parsedServerName = null;

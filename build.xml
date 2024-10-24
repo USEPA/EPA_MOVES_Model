@@ -113,11 +113,11 @@
 		<echo message="setlogin     - store database user and password if the defaults have changed" />
 		<echo message="    ant setlogin -Duser=moves -Dpassword=secret" />
 		<echo message="-------------------------------------------------------------------------------"/>
-		<echo message="convert3_db_to_4 - convert a MOVES3 database for use with MOVES4. Specify" />
+		<echo message="convert4_db_to_5 - convert a MOVES4 database for use with MOVES5. Specify" />
 		<echo message="                   the name of the starting database with -Dinput= and name the" />
 		<echo message="                   resulting database with -Doutput= argument. IMPORTANT: see" />
 		<echo message="                   database\ConversionScripts\InputDatabaseConverstionHelp.pdf" />
-		<echo message="    ant convert3_db_to_4 -Dinput=m3_in -Doutput=m4_in" />
+		<echo message="    ant convert4_db_to_5 -Dinput=m4_in -Doutput=m5_in" />
 		<echo message="-------------------------------------------------------------------------------"/>
 		<echo message="dbimporter      - run the MOVES Data Importers. IMPORTANT: Generate XML " />
 		<echo message="                  file from the Tools tab of the County or Project Data " />
@@ -149,6 +149,15 @@
 		<echo message="                  docs\ONIToolCommandLine.md" />
 		<echo message="    ant oniTool -Dinput=&quot;cXXXXXyYYYY_in,cZZZZZyYYYY_in&quot;" />
 		<echo message="    ant oniTool -Dinput=db_list.txt" />
+		<echo message="-------------------------------------------------------------------------------"/>
+		<echo message="avftTool        - run the AVFT Tool. Use -Dspec= argument to provide the path" />
+		<echo message="                  to the tool specification file. If you need help creating" />
+		<echo message="                  this file, make your intended tool selections in the AVFT Tool"/>
+        <echo message="                  GUI, then use the &quot;Save Settings&quot; button to create a" />
+		<echo message="                  specification file. For additional help, see" />
+		<echo message="                  .\gov\epa\otaq\moves\master\gui\avfttool\AVFTToolHelp.pdf" />
+		<echo message="    ant avftTool -Dspec=c:\avfttool_spec.xml" />
+		<echo message="    ant avftTool -Dspec=c:\avfttool_spec.xml -DinputAVFTdb=cXXXXXavftinput -DoutputAVFTdb=cXXXXX_in"  />
 		<echo message="-------------------------------------------------------------------------------"/>
 		<echo message="run             - Execute a runspec. " />
 		<echo message="                  Use -Drunspec= to name the one runspec that will be used." />
@@ -1211,6 +1220,47 @@
 		</if>
 	</target>
 	
+	<target name="avftTool" depends="">
+        <if>
+            <not>
+                <isset property="inputAVFTdb" />
+            </not>
+            <then>
+                <property name="inputAVFTdb" value=""/>
+            </then>
+        </if>
+        <if>
+            <not>
+                <isset property="outputAVFTdb" />
+            </not>
+            <then>
+                <property name="outputAVFTdb" value=""/>
+            </then>
+        </if>
+		<if>
+			<or>
+				<not>
+					<isset property="spec" />
+				</not>
+				<equals arg1="${spec}" arg2="" />
+			</or>
+			<then>
+				<echo>ERROR: The -Dspec= argument was not provided. Type ANT for more information.</echo>
+			</then>	
+			<else>
+				<java classname="gov.epa.otaq.moves.master.commandline.AVFTToolRunner" fork="yes" maxmemory="512m">
+					<classpath>
+						<pathelement path="${java.class.path}" />
+					</classpath>
+					<classpath refid="classpath" />
+					<arg value="-spec=${spec}" />
+					<arg value="-inputAVFTdb=${inputAVFTdb}" />
+					<arg value="-outputAVFTdb=${outputAVFTdb}" />
+				</java>
+			</else>
+		</if>
+	</target>
+
 	<target name="setlogin" depends="">
 		<java classname="gov.epa.otaq.moves.master.commandline.SetLogin" fork="yes" maxmemory="512m">
 			<classpath>

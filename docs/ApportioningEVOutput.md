@@ -1,6 +1,6 @@
 # Apportioning MOVES EV energy consumption, activity, and emissions between battery and fuel cell electric vehicles
 
-MOVES4 has the capability to model two different types of electric vehicles (EVs) for heavy-duty[^1] applications: battery electric vehicles (BEVs) and fuel cell electric vehicles (FCEVs). While they are modeled separately in MOVES and have their own sales fractions and emission rates, both engine technologies are always aggregated together under the electricity fuel type (fuelTypeID 9) in MOVES output.
+MOVES4 and later have the capability to model two different types of electric vehicles (EVs) for heavy-duty[^1] applications: battery electric vehicles (BEVs) and fuel cell electric vehicles (FCEVs). While they are modeled separately in MOVES and have their own sales fractions and emission rates, both engine technologies are always aggregated together under the electricity fuel type (fuelTypeID 9) in MOVES output.
 
 For some analyses, it may be helpful to have separate energy consumption, emissions, and activity estimates for heavy-duty electric vehicles by engine technology. This information is only available if the MOVES output is post-processed. This document explains how to perform that post-processing. 
 

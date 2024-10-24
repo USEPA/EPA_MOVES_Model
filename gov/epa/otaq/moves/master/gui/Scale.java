@@ -179,26 +179,26 @@ public class Scale extends JPanel implements ActionListener, RunSpecEditor {
 			modelPanel.add(onroadRadioButton, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
 					GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 					new Insets(0, 0, 5, 5), 0, 0));
-			JLabel onrdLable = new JLabel();
-			onrdLable.setText("<html><body>"
-					+ "Estimate emissions from motorcycles, cars, buses, and trucks <br>"
-					+ "that operate on roads."
+			JLabel onroadLabel = new JLabel();
+			onroadLabel.setText("<html><body>"
+					+ "Estimate emissions from cars, trucks, buses, and motorcycles that operate on roads."
 					+ "</html></body>");
 
-			modelPanel.add(onrdLable, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+			modelPanel.add(onroadLabel, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
 					GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 					new Insets(0, 0, 5, 0), 0, 0));
 
 			modelPanel.add(nonroadRadioButton, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
 					GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 					new Insets(0, 0, 5, 5), 0, 0));
-			JLabel nonrdLable = new JLabel();
-			nonrdLable.setText("<html><body>"
-					+ "Estimate emissions from nonroad equipment used in applications <br>"
-					+ "such as recreation, construction, lawn and garden, agriculture, mining, etc. <br>"
-					+ "Nonroad does not include aircraft, railroads, or commercial marine vessels.<br>"
+			JLabel nonroadLabel = new JLabel();
+			nonroadLabel.setText("<html><body>"
+                    + "Estimate emissions from nonroad equipment used in applications such as recreation, <br>"
+                    + "construction, lawn and garden, agriculture, mining, etc. Nonroad does not include <br>"
+                    + "aircraft, locomotives, or commercial marine vessels, but it does include airport <br>"
+                    + "ground support equipment, railroad support equipment, and recreational marine vessels."
 					+ "</html></body>");
-			modelPanel.add(nonrdLable, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
+			modelPanel.add(nonroadLabel, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
 					GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 					new Insets(0, 0, 5, 0), 0, 0));
 			

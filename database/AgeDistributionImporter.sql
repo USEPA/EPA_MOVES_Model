@@ -8,7 +8,7 @@ drop table if exists tempNewYear;
 create table if not exists tempNewYear (
   yearID smallint(6) not null default '0',
   primary key  (yearID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 insert into tempNewYear (yearID)
 select distinct yearID
@@ -22,7 +22,7 @@ create table if not exists tempYear (
   fuelYearID smallint(6) not null default '0',
   primary key  (yearID),
   key isBaseYear (isBaseYear)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 create table if not exists year (
   yearID smallint(6) not null default '0',
@@ -30,7 +30,7 @@ create table if not exists year (
   fuelYearID smallint(6) not null default '0',
   primary key  (yearID),
   key isBaseYear (isBaseYear)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 insert into tempYear (yearID, isBaseYear, fuelYearID)
 select y.yearID, 'Y' as isBaseYear, y.fuelYearID
@@ -52,6 +52,18 @@ insert into importTempMessages (message)
 select distinct concat('ERROR: Year ',yearID,' is outside the range of 1990-2060 and cannot be used') as errorMessage
 from SourceTypeAgeDistribution
 where yearID < 1990 or yearID > 2060;
+
+-- Complain about any ages outside of MOVES's range
+insert into importTempMessages (message)
+select 'ERROR: Negative AgeIDs are not allowed. Instead, include these vehicles in the ageID 0 fraction.' as errorMessage
+from SourceTypeAgeDistribution
+where ageID < 0
+LIMIT 1;
+insert into importTempMessages (message)
+select distinct concat('ERROR: AgeID > 40 are not allowed. Instead, include these vehicles in the ageID 40 fraction.') as errorMessage
+from SourceTypeAgeDistribution
+where ageID > 40
+LIMIT 1;
 
 -- Ensure distributions sum to 1.0 for all sourceTypeID, yearID combinations.
 drop table if exists tempNotUnity;

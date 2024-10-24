@@ -6,13 +6,15 @@ Read and hold configuration data for the program.
 package configuration
 
 import (
+	"flag"
 	"fmt"
 )
 
 // Holds the settings for all configurable options
 type Configuration struct {
-	isReady bool
+	isReady       bool
 	maximumMemory int64
+	IsProject     bool
 }
 
 // The one and only repository of configured values
@@ -27,9 +29,11 @@ func init() {
 func (c *Configuration) Setup() {
 	fmt.Println("Reading the global configuration values...")
 	c.isReady = false
-	c.maximumMemory = 1024*1024*1024 // 1GB
-	c.maximumMemory *= 4 // 4GB
+	c.maximumMemory = 1024 * 1024 * 1024 // 1GB
+	c.maximumMemory *= 4                 // 4GB
 
-	// TODO
+	flag.BoolVar(&c.IsProject, "isproject", false, "Optional project flag")
+	flag.Parse()
+
 	fmt.Println("Done reading the global configuration values.")
 }

@@ -1,10 +1,10 @@
 # Debugging MOVES
 
-MOVES is a model with many interdependent components. Sometimes a given set of inputs results in unexpected results from a MOVES run. When you encounter results that suggest a problem with the model, there are several things that you can do to isolate the potential bug. This document provides some suggestions for isolating potential bugs in MOVES, which will be helpful even if you are just trying to communicate with MOVES experts. It also notes some tools in the code that can aid code testers in identifying the source of a confirmed bug.
+MOVES is a model with many interdependent components. Sometimes a given set of inputs results in unexpected output from a MOVES run. When you encounter results that suggest a problem with the model, there are several things that you can do to isolate the potential bug. This document provides some suggestions for isolating potential bugs in MOVES, which will be helpful even if you are just trying to communicate with MOVES experts. It also notes some tools in the code that can aid code testers in identifying the source of a confirmed bug.
 
 ## Isolating MOVES bugs
 
-The first step to diagnose a potential bug, is to identify the conditions that cause it to occur. In general this process involves confirming that the model inputs are valid, and then defining the scope of the potential issue.
+The first step to diagnose a potential bug is to identify the conditions that cause it to occur. In general this process involves confirming that the model inputs are valid, and then defining the scope of the potential issue.
 
 ### Check the RunSpec and input data
 

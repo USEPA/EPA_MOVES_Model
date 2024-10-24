@@ -196,9 +196,9 @@ public class DefaultDataMaker {
 					String message = "WARNING: Using default formulation " + defaultFormulationID
 							+ " for " + fuelTypeDescription
 							+ " in region " + regionID
-							+ ", fuel year " + fuelYearID
-							+ ", month group " + monthGroupID
-							+ " in the " + fuelSupplyTables[i] + " table.";
+							+ ", year " + fuelYearID
+							+ ", month " + monthGroupID
+							+ ". Check your input " + fuelSupplyTables[i] + " table for errors.";
 					if(!defaultFuelMessages.contains(message)) {
 						defaultFuelMessages.add(message);
 						Logger.log(LogMessageCategory.WARNING,message);
@@ -541,60 +541,6 @@ public class DefaultDataMaker {
 			result.add(sql);
 
 			sql = "ANALYZE TABLE " + tableName + ";";
-			result.add(sql);
-		}
-
-		// use TempAdjustTermA, TempAdjustTermB and TempAdjustTermC values of 0.0 for a given
-		// pollutant/process and fueltype if no record is found in the TemperatureAdjustment
-		// table for a particular combination of these key values in the Temperature Adjustment
-		// table.
-		if(tablesExtractedByScript.contains("TemperatureAdjustment")) {
-
-// !!! Gwo Shyu - Start of Change, 04/09/2014
-
-			sql = "drop table if exists tmpsfppa;";
-			result.add(sql);
-			sql = "create table tmpsfppa select * from RunSpecSourceFuelType, PollutantProcessAssoc;";
-			result.add(sql);
-			sql = "alter table tmpsfppa add index NDXSTFTpolProcess (sourceTypeID,fuelTypeID, polProcessID);";
-			result.add(sql);
-			sql = "alter table tmpsfppa add index NDXfuelTypepolProcess (fuelTypeID, polProcessID);";
-			result.add(sql);
-			sql = "INSERT IGNORE INTO TemperatureAdjustment ( "
-					+	"polProcessID, fuelTypeID, "
-					+	"tempAdjustTermA, tempAdjustTermACV, "
-					+	"tempAdjustTermB, tempAdjustTermBCV, "
-					+	"tempAdjustTermC, tempAdjustTermCCV, "
-					+	"minModelYearID, maxModelYearID ) "
-					+"SELECT DISTINCT "
-					+	"polProcessID, fuelTypeID, "
-					+	"0, 0, 0, 0, 0, 0, 1960, 2060 "
-					+"FROM "
-					+	"tmpsfppa "
-					+	"left outer join TemperatureAdjustment using (fuelTypeID, polProcessID) "
-					+	"where TemperatureAdjustment.polProcessID is null;";
-
-/*
-			sql = "INSERT IGNORE INTO TemperatureAdjustment ( "
-					+	"polProcessID, fuelTypeID, "
-					+	"tempAdjustTermA, tempAdjustTermACV, "
-					+	"tempAdjustTermB, tempAdjustTermBCV, "
-					+	"tempAdjustTermC, tempAdjustTermCCV, "
-					+	"minModelYearID, maxModelYearID ) "
-					+"SELECT DISTINCT "
-					+	"polProcessID, fuelTypeID, "
-					+	"0, 0, 0, 0, 0, 0, 1960, 2060 "
-					+"FROM "
-					+	"RunSpecSourceFuelType "
-					+	"inner join PollutantProcessAssoc "
-					+	"left outer join TemperatureAdjustment using (fuelTypeID, polProcessID) "
-					+	"where TemperatureAdjustment.polProcessID is null;";
-*/
-// !!! End of change
-
-			result.add(sql);
-
-			sql = "ANALYZE TABLE TemperatureAdjustment;";
 			result.add(sql);
 		}
 

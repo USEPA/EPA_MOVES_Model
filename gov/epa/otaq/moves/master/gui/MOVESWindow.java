@@ -17,6 +17,7 @@ import javax.swing.text.*;
 import java.text.SimpleDateFormat;
 import gov.epa.otaq.moves.master.runspec.*;
 import gov.epa.otaq.moves.master.framework.*;
+import gov.epa.otaq.moves.master.gui.avfttool.AVFTTool;
 import gov.epa.otaq.moves.common.*;
 /**
 * Class for MOVES Main Frame. Constructs the MOVESWindow frame. Creates and sets
@@ -103,8 +104,10 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 	BuildLEVAction buildLEVAction;
 	/** Build NLEV Database Action **/
 	BuildNLEVAction buildNLEVAction;
-	/** Convert 3->4 Database Action **/
-	Convert3To4Action convert3To4Action;
+	/** Convert 3->5 Database Action **/
+	Convert3To5Action convert3To5Action;
+	/** Convert 4->5 Database Action **/
+	Convert4To5Action convert4To5Action;
 	/** AVFT Tool Action **/
 	AVFTToolAction avftToolAction;
 	/** Run ONI Tool Action **/
@@ -218,12 +221,10 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 	public static final int MAX_MRU_SIZE = 4;
 	/** Value for the first menu position of the MRU items **/
 	public static final int MRU_ITEM_OFFSET = 9;
-	/** Value for the application title **/
-	public static final String MOVES_APP_TITLE = new String("MOVES");
 	/** Name of output file that performance profiles are written to **/
 	static final String PERFORMANCE_PROFILER_FILE_NAME = "guiprofile.txt";
 	/** Date of the Current Release **/
-	public static final String MOVES_VERSION = "MOVES4.0.1";
+	public static final String MOVES_VERSION = "MOVES5-ReleaseCandidate2";
 	/** directory where output db processing scripts are located **/
 	static final String DB_SCRIPTS_DIR = "database" + File.separator + "OutputProcessingScripts";
 	static final String DB_NONROAD_SCRIPTS_DIR = "database" + File.separator + "NonroadProcessingScripts";
@@ -236,7 +237,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 	 * @param okToPopupMessages true if licensing messages can be shown immediately
 	**/
 	public MOVESWindow(boolean okToPopupMessages) {
-		super(MOVES_APP_TITLE);
+		super(MOVES_VERSION);
 		ArrayList<Image> iconList = new ArrayList<Image>();
 		iconList.add(new ImageIcon("gov/epa/otaq/moves/master/gui/images/moves_16x16.png").getImage());
 		iconList.add(new ImageIcon("gov/epa/otaq/moves/master/gui/images/moves_32x32.png").getImage());
@@ -322,7 +323,14 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 			if(MOVESEngine.theInstance.pdEntry == null) {
 				JOptionPane.showMessageDialog(this,
 						"Run has ended. Output database was: " +
-						MOVESAPI.getTheAPI().getRunSpec().outputDatabase.databaseName,
+						MOVESAPI.getTheAPI().getRunSpec().outputDatabase.databaseName + 
+                        "\n\nThe MOVES5 Release Candidate is made available for testing purposes " + 
+                        "\nand for modelers to become familiar with functional changes between " + 
+                        "\nMOVES4 and MOVES5 before MOVES5.0.0 is released. Emission results " + 
+                        "\nof MOVES5.0.0 may differ from the results of this release candidate. " + 
+                        "\nResults from this version may not be used in work for state " + 
+                        "\nimplementation plans, conformity determinations, or for any other " + 
+                        "\nregulatory purpose.",
 						"Run Completion",JOptionPane.INFORMATION_MESSAGE);
 			} else {
 				JOptionPane.showMessageDialog(this,
@@ -337,7 +345,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 	 * @param filePath the file name and path currently open.  May be null or empty.
 	**/
 	void setupTitle(String filePath) {
-		String title = MOVES_APP_TITLE;
+		String title = MOVES_VERSION;
 		if(filePath != null && filePath.length() > 0) {
 			title += " - " + filePath;
 		}
@@ -504,8 +512,10 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		buildLEVAction.addActionListener(this);
 		buildNLEVAction = new BuildNLEVAction();
 		buildNLEVAction.addActionListener(this);
-		convert3To4Action = new Convert3To4Action();
-		convert3To4Action.addActionListener(this);
+		convert3To5Action = new Convert3To5Action();
+		convert3To5Action.addActionListener(this);
+		convert4To5Action = new Convert4To5Action();
+		convert4To5Action.addActionListener(this);
 		avftToolAction = new AVFTToolAction();
 		avftToolAction.addActionListener(this);
 		oniToolAction = new ONIToolAction();
@@ -659,7 +669,9 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		menuItem = toolsMenu.add(pdSpecGUIAction);
 		menuItem.addMouseListener(mouseHandler);
 		toolsMenu.addSeparator();
-		menuItem = toolsMenu.add(convert3To4Action);
+		menuItem = toolsMenu.add(convert3To5Action);
+		menuItem.addMouseListener(mouseHandler);
+		menuItem = toolsMenu.add(convert4To5Action);
 		menuItem.addMouseListener(mouseHandler);
 		menuItem = toolsMenu.add(avftToolAction);
 		menuItem.addMouseListener(mouseHandler);
@@ -776,11 +788,13 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		} else if (command.equals(runNonroadScriptAction.getActionCommand())) {
 			handleRunNonroadScriptAction();
 		} else if (command.equals(buildLEVAction.getActionCommand())) {
-			handleBuilderAction(BuildLEVNLEV.MOVES4_MyLEVs);
+			handleBuilderAction(BuildLEVNLEV.LEV_MODE);
 		} else if (command.equals(buildNLEVAction.getActionCommand())) {
-			handleBuilderAction(BuildLEVNLEV.MOVES4_MyNLEVs);
-		} else if (command.equals(convert3To4Action.getActionCommand())) {
-			handleConverterAction(Converter.MODE_3_TO_4);
+			handleBuilderAction(BuildLEVNLEV.NLEV_MODE);
+		} else if (command.equals(convert3To5Action.getActionCommand())) {
+			handleConverterAction(Converter.MODE_3_TO_5);
+		} else if (command.equals(convert4To5Action.getActionCommand())) {
+			handleConverterAction(Converter.MODE_4_TO_5);
 		} else if (command.equals(avftToolAction.getActionCommand())) {
 			handleAVFTAction();
 		} else if (command.equals(oniToolAction.getActionCommand())) {
@@ -1070,7 +1084,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 	**/
 	void handleExecuteDataImporterAction(ActionEvent e) {
 		JOptionPane.showMessageDialog(this, executeDataImporterAction.getLongDescription(),
-				executeDataImporterAction.getShortDescription(),
+				executeDataImporterAction.getTitle(),
 				JOptionPane.INFORMATION_MESSAGE);
 	}
 
@@ -1252,7 +1266,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		if (runSpec.outputDatabase == null | runSpec.outputDatabase.databaseName.length() < 3) {
 			JOptionPane.showMessageDialog(this,
 				"Can't run script: No output DB specified in current RunSpec",
-				runScriptAction.getShortDescription(),
+				runScriptAction.getTitle(),
 				JOptionPane.ERROR_MESSAGE);
 			return;
 		}
@@ -1261,7 +1275,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		if (oConn == null) {
 			JOptionPane.showMessageDialog(this,
 				"Can't run script: Can't connect to output database",
-				runScriptAction.getShortDescription(),
+				runScriptAction.getTitle(),
 				JOptionPane.ERROR_MESSAGE);
 			return;
 		}
@@ -1275,7 +1289,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 			}
 			JOptionPane.showMessageDialog(this,
 				"No MySQL script selected",
-				runScriptAction.getShortDescription(),
+				runScriptAction.getTitle(),
 				JOptionPane.ERROR_MESSAGE);
 			return;
 		}
@@ -1316,12 +1330,12 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		if (scriptError) {
 			JOptionPane.showMessageDialog(this,
 			"Error occurred running post-processing script",
-			runScriptAction.getShortDescription(),
+			runScriptAction.getTitle(),
 			JOptionPane.ERROR_MESSAGE);
 		} else {
 			JOptionPane.showMessageDialog(this,
 			"Post processing script executed successfully",
-			runScriptAction.getShortDescription(),
+			runScriptAction.getTitle(),
 			JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
@@ -1332,7 +1346,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		if (runSpec.outputDatabase == null | runSpec.outputDatabase.databaseName.length() < 3) {
 			JOptionPane.showMessageDialog(this,
 				"Can't run script: No output DB specified in current RunSpec",
-				runScriptAction.getShortDescription(),
+				runScriptAction.getTitle(),
 				JOptionPane.ERROR_MESSAGE);
 			return;
 		}
@@ -1341,7 +1355,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		if (oConn == null) {
 			JOptionPane.showMessageDialog(this,
 				"Can't run script: Can't connect to output database",
-				runNonroadScriptAction.getShortDescription(),
+				runNonroadScriptAction.getTitle(),
 				JOptionPane.ERROR_MESSAGE);
 			return;
 		}
@@ -1355,7 +1369,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 			}
 			JOptionPane.showMessageDialog(this,
 				"No MySQL script selected",
-				runNonroadScriptAction.getShortDescription(),
+				runNonroadScriptAction.getTitle(),
 				JOptionPane.ERROR_MESSAGE);
 			return;
 		}
@@ -1411,12 +1425,12 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		if (hasErrors) {
 			JOptionPane.showMessageDialog(this,
 					"Error occurred running nonroad post-processing script",
-					runNonroadScriptAction.getShortDescription(),
+					runNonroadScriptAction.getTitle(),
 					JOptionPane.ERROR_MESSAGE);
 		} else {
 			JOptionPane.showMessageDialog(this,
 					"Nonroad post processing script executed successfully",
-					runNonroadScriptAction.getShortDescription(),
+					runNonroadScriptAction.getTitle(),
 					JOptionPane.INFORMATION_MESSAGE);
 		}
 		
@@ -1438,7 +1452,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		if (runSpec.outputDatabase == null || runSpec.outputDatabase.databaseName.length() < 3) {
 			JOptionPane.showMessageDialog(this,
 				"Can't produce summary report: No output DB specified in current RunSpec",
-				runScriptAction.getShortDescription(),
+				runScriptAction.getTitle(),
 				JOptionPane.ERROR_MESSAGE);
 			return;
 		}
@@ -1447,7 +1461,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		if (oConn == null) {
 			JOptionPane.showMessageDialog(this,
 				"Can't produce summary report: Can't connect to output database",
-				runScriptAction.getShortDescription(),
+				runScriptAction.getTitle(),
 				JOptionPane.ERROR_MESSAGE);
 			return;
 		}
@@ -1462,14 +1476,14 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		/*if (!reportStatus) {
 			JOptionPane.showMessageDialog(this,
 			"Some or all summary reports not generated",
-			runScriptAction.getShortDescription(),
+			runScriptAction.getTitle(),
 			JOptionPane.ERROR_MESSAGE);
 		} else {
 			String[] message = new String[2];
 			message[0] = "Summary Report(s) generated successfully";
 			message[1] = "Output Database is: " + runSpec.outputDatabase.databaseName;
 			JOptionPane.showMessageDialog(this, message,
-			runScriptAction.getShortDescription(), JOptionPane.INFORMATION_MESSAGE);
+			runScriptAction.getTitle(), JOptionPane.INFORMATION_MESSAGE);
 		}*/
 	}
 
@@ -1546,7 +1560,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 	/** Handles the Open Onroad CheatSheet menu action. **/
 	void handleOpenOnroadCheatSheetAction() {
 		try {
-			File file = new File("docs/MOVES4CheatsheetOnroad.pdf");
+			File file = new File("docs/MOVES5CheatsheetOnroad.pdf");
 			if(!file.exists()) {
 				Logger.log(LogMessageCategory.ERROR, "Could not find the onroad cheatsheet file at: " + file.getAbsolutePath());
 				return;
@@ -1563,7 +1577,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 	/** Handles the Open Website menu action. **/
 	void handleOpenNonroadCheatSheetAction() {
 		try {
-			File file = new File("docs/MOVES4CheatsheetNonroad.pdf");
+			File file = new File("docs/MOVES5CheatsheetNonroad.pdf");
 			if(!file.exists()) {
 				Logger.log(LogMessageCategory.ERROR, "Could not find the nonroad cheatsheet file at: " + file.getAbsolutePath());
 				return;
@@ -1595,37 +1609,20 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 	 * @param fileName name and relative path to the PDF file
 	**/
 	void showPDF(String purpose, String fileName) {
-		boolean success = false;
 		File pdfFile = new File(fileName);
-		Process process = null;
-		try {
-			if(pdfFile.exists()) {
-				process = Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler \""
-						+ pdfFile.getCanonicalPath() + "\"");
-				if(process != null) {
-					int exitValue = -314;
-					try {
-						exitValue = process.waitFor();
-					} catch(Exception e) {
-						// Nothing to do here
-					}
-					//System.out.println("exitValue=" + exitValue);
-					if(exitValue == 0) {
-						success = true;
-					}
-				}
-			}
-		} catch(Exception e) {
-			success = false;
-			Logger.logError(e,"Unable to open PDF file: " + fileName);
-		}
-		if(!success) {
-			JOptionPane.showMessageDialog(this,
-					"Unable to display " + purpose + " PDF file.\n"
-					+ "Check that Adobe Acrobat Reader or other software for\n"
-					+ "reading PDF files has been installed.",
-					"Error Opening PDF", JOptionPane.ERROR_MESSAGE);
-		}
+        if(pdfFile.exists()) {
+            boolean success = OpenFile.open(pdfFile);
+            if(!success) {
+                JOptionPane.showMessageDialog(this,
+                        "Unable to display " + purpose + " PDF file.\n"
+                        + "Check that Adobe Acrobat Reader or other software for\n"
+                        + "reading PDF files has been installed.",
+                        "Error Opening PDF", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Unable to find " + fileName, 
+                                    "Error Opening PDF", JOptionPane.ERROR_MESSAGE);
+        }
 	}
 
 	/**
@@ -1647,7 +1644,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 			// Nothing to do here
 		}
 		JOptionPane aboutPane = new JOptionPane(message, JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION);
-		JDialog aboutDialog = aboutPane.createDialog(this, aboutAction.getShortDescription());
+		JDialog aboutDialog = aboutPane.createDialog(this, aboutAction.getTitle());
 		aboutDialog.setAlwaysOnTop(true);
 		aboutDialog.setVisible(true);
 	}

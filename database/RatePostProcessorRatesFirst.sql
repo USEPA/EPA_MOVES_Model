@@ -84,7 +84,7 @@ begin
 			linkID,
 			sourceTypeID, regClassID, fuelTypeID, modelYearID,
 			roadTypeID)
-	) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+	) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci' DELAY_KEY_WRITE=1;
 
 	insert into TempActivityOutput (
 		yearID, monthID, dayID, hourID,
@@ -208,7 +208,7 @@ begin
 		key (zoneID,
 			yearID, 
 			sourceTypeID, regClassID, fuelTypeID, modelYearID)
-	) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+	) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci' DELAY_KEY_WRITE=1;
 
 	if(##isProjectDomain##>0) then
 		-- Project population is by link and needs to be aggregated to a single zone-level population.

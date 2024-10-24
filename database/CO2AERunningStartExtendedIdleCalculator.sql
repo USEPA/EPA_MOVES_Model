@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS CO2EqPollutant(
 	energyOrMass		CHAR(6) NULL,
 	globalWarmingPotential	SMALLINT NULL, 
 	PRIMARY KEY (pollutantID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 TRUNCATE TABLE CO2EqPollutant;
 
 DROP TABLE IF EXISTS CO2MonthofAnyYear;
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS CO2MonthofAnyYear (
        	noOfDays             SMALLINT NULL,
        	monthGroupID         SMALLINT NOT NULL,
 	PRIMARY KEY (monthID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 TRUNCATE TABLE CO2MonthofAnyYear;
 
 -- DROP TABLE IF EXISTS GWTPCO2FactorByFuelType;
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS CarbonOxidationByFuelType (
 	sumcarbonContent	FLOAT,
 	sumoxidationFraction	FLOAT,
 	PRIMARY KEY (countyID, yearID, monthGroupID, pollutantID, fuelTypeID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 TRUNCATE TABLE CarbonOxidationByFuelType;
 -- End Section Create Remote Tables for Extracted Data
 
