@@ -460,7 +460,6 @@ public class GREETInterface {
 				throws IOException, InterruptedException {
 		// Force reclaimation of memory immediately so that the application we launch has as
 		// much memory to do its work as possible
-		Runtime.getRuntime().runFinalization();
 		Runtime.getRuntime().gc();
 		try {
 			/** @nonissue **/
@@ -631,7 +630,7 @@ public class GREETInterface {
 		printWriter.println("\t<ManufactureAndDisposal uncertainty=\"" + 
 				doUncertaintyText + "\">");
 		// we have yearID above from runspec, write a loop to print <ModelYear id="2001">
-		// and go back 30 years
+		// and go back 40 years
 		printWriter.println("\t\t<Years>");
 		for(Iterator<Integer> i = runspec.timeSpan.years.iterator(); i.hasNext(); ) {
 			Integer y = (Integer)i.next();	

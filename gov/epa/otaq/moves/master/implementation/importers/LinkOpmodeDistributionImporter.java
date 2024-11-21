@@ -170,7 +170,7 @@ public class LinkOpmodeDistributionImporter extends ImporterBase {
 		 * @param value array of objects for each column in the template
 		 * @return true if the row should be written
 		**/
-		public boolean shouldWriteTemplateRow(Object[] values) {
+		public boolean shouldWriteTemplateRow(String tableName, Object[] values) {
 			/*
 			"sourceTypeID", "SourceUseType", ImporterManager.FILTER_SOURCE,
 			"hourDayID", "HourDay", ImporterManager.FILTER_HOURDAY,

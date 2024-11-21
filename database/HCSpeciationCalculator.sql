@@ -16,7 +16,7 @@ create table extagecategory (
   PRIMARY KEY (ageID),
   KEY ageGroupID (ageGroupID,ageID),
   KEY ageID (ageID,ageGroupID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 drop table if exists extfuelsupply;
 create table extfuelsupply (
@@ -27,14 +27,14 @@ create table extfuelsupply (
 	fuelSubTypeID smallint not null,
 	fuelFormulationID int(11) not null,
 	marketShare double not null
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 drop table if exists extfueltype;
 create table extfueltype (
        fuelTypeID           SMALLINT NOT NULL,
  	   fuelDensity				FLOAT	NULL,
  	   subjectToEvapCalculations CHAR(1) NOT NULL DEFAULT 'N'
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 drop table if exists extfuelsubtype;
 create table extfuelsubtype (
@@ -46,7 +46,7 @@ create table extfuelsubtype (
        oxidationFraction    FLOAT NULL,
 	   energyContent		FLOAT NULL,
        key (fuelTypeID, fuelSubtypeID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 drop table if exists extfuelformulation;
 create table extfuelformulation (
@@ -70,7 +70,7 @@ create table extfuelformulation (
 	T50 float DEFAULT NULL,
 	T90 float DEFAULT NULL,
 	key (fuelSubTypeID, fuelFormulationID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 -- End Section OldCode
 
@@ -82,7 +82,7 @@ CREATE TABLE HCAgeCategory (
   PRIMARY KEY (ageID),
   KEY ageGroupID (ageGroupID,ageID),
   KEY ageID (ageID,ageGroupID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 drop table if exists HCETOHBin;
 CREATE TABLE IF NOT EXISTS HCETOHBin (
@@ -92,7 +92,7 @@ CREATE TABLE IF NOT EXISTS HCETOHBin (
   etohNominalValue float DEFAULT NULL,
   PRIMARY KEY (etohThreshID),
   key (etohThreshLow, etohThreshHigh, etohThreshID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 drop table if exists HCFuelSupply;
 CREATE TABLE IF NOT EXISTS HCFuelSupply (
@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS HCFuelSupply (
   fuelTypeID smallint(6) NOT NULL,
   fuelSubtypeID smallint(6) NOT NULL,
   KEY (countyID,yearID,monthID,fuelTypeID,fuelSubtypeID,fuelFormulationID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 TRUNCATE TABLE HCFuelSupply;
 
 drop table if exists HCFuelFormulation;
@@ -131,14 +131,14 @@ CREATE TABLE IF NOT EXISTS HCFuelFormulation (
 	key (fuelSubtypeID, fuelFormulationID, oxyThreshID),
 	key (fuelSubtypeID, oxyThreshID, fuelFormulationID),
 	key (oxyThreshID, fuelSubtypeID, fuelFormulationID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 TRUNCATE TABLE HCFuelFormulation;
 
 drop table if exists HCOxyThreshName;
 CREATE TABLE IF NOT EXISTS HCOxyThreshName 
 (
 	oxyThreshID				smallint(6)		NOT NULL	default '0' primary key
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 TRUNCATE TABLE HCOxyThreshName;
 
 drop table if exists HCspeciation;
@@ -156,7 +156,7 @@ CREATE TABLE IF NOT EXISTS HCPollutantProcessModelYear (
     key (modelYearID),
     key (fuelMYGroupID),
     key (polProcessID, modelYearID, fuelMYGroupID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 truncate table HCPollutantProcessModelYear;
 
 drop table if exists HCPollutantProcessMappedModelYear;
@@ -170,7 +170,7 @@ CREATE TABLE IF NOT EXISTS HCPollutantProcessMappedModelYear (
     key (modelYearID),
     key (fuelMYGroupID),
     key (polProcessID, modelYearID, fuelMYGroupID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 truncate table HCPollutantProcessMappedModelYear;
 
 drop table if exists THCPollutantProcessModelYear;
@@ -184,7 +184,7 @@ CREATE TABLE IF NOT EXISTS THCPollutantProcessModelYear (
     key (modelYearID),
     key (fuelMYGroupID),
     key (polProcessID, modelYearID, fuelMYGroupID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 truncate table THCPollutantProcessModelYear;
 
 drop table if exists THCPollutantProcessMappedModelYear;
@@ -198,7 +198,7 @@ CREATE TABLE IF NOT EXISTS THCPollutantProcessMappedModelYear (
     key (modelYearID),
     key (fuelMYGroupID),
     key (polProcessID, modelYearID, fuelMYGroupID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 truncate table THCPollutantProcessMappedModelYear;
 
 drop table if exists HCPollutantProcessAssoc;
@@ -215,7 +215,7 @@ CREATE TABLE IF NOT EXISTS HCPollutantProcessAssoc (
        key (polProcessID),
        key (polProcessID, processID, pollutantID),
        key (pollutantID, processID, polProcessID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 truncate table HCPollutantProcessAssoc;
 
 ##create.methaneTHCRatio##;
@@ -317,14 +317,14 @@ cache SELECT polProcessID, modelYearID, modelYearGroupID, fuelMYGroupID, IMModel
 INTO OUTFILE '##HCPollutantProcessModelYear##'
 FROM PollutantProcessModelYear
 WHERE modelYearID <= ##context.year##
-AND modelYearID >= ##context.year## - 30
+AND modelYearID >= ##context.year## - 40
 AND polProcessID IN (##hcPolProcessIDs##);
 
 cache SELECT polProcessID, modelYearID, modelYearGroupID, fuelMYGroupID, IMModelYearGroupID
 INTO OUTFILE '##HCPollutantProcessMappedModelYear##'
 FROM PollutantProcessMappedModelYear
 WHERE modelYearID <= ##context.year##
-AND modelYearID >= ##context.year## - 30
+AND modelYearID >= ##context.year## - 40
 AND polProcessID IN (##hcPolProcessIDs##);
 
 cache SELECT ppmy.polProcessID, ppmy.modelYearID, ppmy.modelYearGroupID, ppmy.fuelMYGroupID, ppmy.IMModelYearGroupID
@@ -332,7 +332,7 @@ INTO OUTFILE '##THCPollutantProcessModelYear##'
 FROM PollutantProcessModelYear ppmy
 INNER JOIN PollutantProcessAssoc ppa using (polProcessID)
 WHERE modelYearID <= ##context.year##
-AND modelYearID >= ##context.year## - 30
+AND modelYearID >= ##context.year## - 40
 AND pollutantID = 1;
 
 cache SELECT ppmy.polProcessID, ppmy.modelYearID, ppmy.modelYearGroupID, ppmy.fuelMYGroupID, ppmy.IMModelYearGroupID
@@ -340,7 +340,7 @@ INTO OUTFILE '##THCPollutantProcessMappedModelYear##'
 FROM PollutantProcessMappedModelYear ppmy
 INNER JOIN PollutantProcessAssoc ppa using (polProcessID)
 WHERE modelYearID <= ##context.year##
-AND modelYearID >= ##context.year## - 30
+AND modelYearID >= ##context.year## - 40
 AND pollutantID = 1;
 
 cache select HCSpeciation.*
@@ -446,7 +446,7 @@ CREATE TABLE IF NOT EXISTS HCWorkerOutput (
 	
 	key (yearID,monthID,dayID,hourID,stateID,countyID,zoneID,linkID,pollutantID,
 			processID,sourceTypeID,fuelTypeID,modelYearID,roadTypeID,regClassID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 truncate table HCWorkerOutput;
 
 drop table if exists HCWorkerOutputAll;
@@ -488,7 +488,7 @@ CREATE TABLE IF NOT EXISTS HCWorkerOutputAll (
 		monthID asc,
 		modelYearID asc, 
 		processID asc)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 truncate table HCWorkerOutputAll;
 
 -- CREATE INDEX MOVESWorkerOutput_A2 ON MOVESWorkerOutput (

@@ -186,13 +186,13 @@ public class OnRoadRetrofitStrategy extends InternalControlStrategy
 			}
 
 			boolean modelYearsOK = true;
-			if(initialModelYear < 1990-30 || initialCalendarYear > 2060) {
+			if(initialModelYear < 1990 - 40 || initialCalendarYear > 2060) {
 				valid = false;
 				modelYearsOK = false;
 				messages.add("Error: Initial Model Year on line " + lineNumber +
 						" should be in the range of 1990-2060");
 			}
-			if(finalModelYear < 1990-30 || finalCalendarYear > 2060) {
+			if(finalModelYear < 1990 - 40 || finalCalendarYear > 2060) {
 				valid = false;
 				calendarYearsOK = false;
 				messages.add("Error: Final Model Year on line " + lineNumber +
@@ -216,7 +216,7 @@ public class OnRoadRetrofitStrategy extends InternalControlStrategy
 			}
 
 			if(modelYearsOK && calendarYearsOK) {
-				if(initialModelYear < initialCalendarYear-30) {
+				if(initialModelYear < initialCalendarYear - 40) {
 					valid = false;
 					messages.add("Error: Model year too old relative to calendar year on line " + lineNumber);
 				}
@@ -355,13 +355,13 @@ public class OnRoadRetrofitStrategy extends InternalControlStrategy
 			}
 
 			boolean modelYearsOK = true;
-			if(beginModelYearID < 1990-30 || beginModelYearID > 2060) {
+			if(beginModelYearID < 1990 - 40 || beginModelYearID > 2060) {
 				valid = false;
 				modelYearsOK = false;
 				messages.add("Retrofit Error: beginModelYearID (" + beginModelYearID +
 						") should be in the range of 1990-2060");
 			}
-			if(endModelYearID < 1990-30 || endModelYearID > 2060) {
+			if(endModelYearID < 1990 - 40 || endModelYearID > 2060) {
 				valid = false;
 				calendarYearsOK = false;
 				messages.add("Retrofit Error: endModelYearID (" + endModelYearID +
@@ -384,7 +384,7 @@ public class OnRoadRetrofitStrategy extends InternalControlStrategy
 			}
 
 			if(modelYearsOK && calendarYearsOK) {
-				if(beginModelYearID < retrofitYearID-30) {
+				if(beginModelYearID < retrofitYearID - 40) {
 					valid = false;
 					messages.add("Retrofit Error: Model year " + beginModelYearID + " too old relative to calendar year " + retrofitYearID);
 				}

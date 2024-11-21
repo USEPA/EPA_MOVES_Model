@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS PM10PollutantProcessAssoc (
        PRIMARY KEY (polProcessID, processID, pollutantID),
        KEY (processID, pollutantID, polProcessID),
        KEY (pollutantID, processID, polProcessID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 TRUNCATE TABLE PM10PollutantProcessAssoc;
 
 -- End Section Create Remote Tables for Extracted Data
@@ -66,7 +66,7 @@ create table if not exists PM10BrakeTireMOVESWorkerOutputTemp (
 	SCC                  CHAR(10) NULL,
 	emissionQuant        DOUBLE NULL,
 	emissionRate		 DOUBLE NULL
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 -- @algorithm PM10 Brakewear (106) = PM2.5 Brakewear (116) * PM10PM25Ratio.
 -- PM10 Tirewear (107) = PM2.5 Tirewear (117) * PM10PM25Ratio.

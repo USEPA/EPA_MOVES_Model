@@ -4,6 +4,16 @@ This document describes each element found in a MOVES run specification (RunSpec
 
 MOVES RunSpecs are formatted as xml and follow standard xml conventions.  Each heading in the rest of the document refers to a specific xml element in a RunSpec. Subelements are noted with subheadings, with element and subelement names indicated in **bold text**. Likewise, element attributes are indicated in *italic text*. Each element contains example text from a MOVES RunSpec. For better readability, attribute values are presented in plaintext, but all attribute values should be enclosed in quotation marks (eg. `id="1"`) in a MOVES RunSpec.
 
+## Runspec
+
+```xml
+<runspec version="MOVES5.0.0">
+    ...
+</runspec>
+```
+
+The RunSpec element is the parent element for everything in the RunSpec. That is, all other elements described in this document appear within the RunSpec element. This element contains the *version* attribute, which allows the MOVES GUI to handle RunSpecs created by older versions of MOVES. 
+
 ## Description
 
 ```xml
@@ -426,7 +436,7 @@ The **outputfactors** element sets the units presented in the model output. This
 
 ### timefactors
 
-The **timefactors** element indicates the output time units. and should match the setting in **outputtimestep**. The *selected* parameter should always equal `true.`
+The **timefactors** element indicates the output time units and should match the setting in **outputtimestep**. The *selected* parameter should always equal `true.`
 
 Valid entries for the *units* parameter are:
 

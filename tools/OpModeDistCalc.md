@@ -4,7 +4,7 @@ The MOVES Default Scale Operating Mode Calculator (called OpModeDistCalc) calcul
 
 When running MOVES at default scale, there is no way to access the underlying operating mode distributions, in full, that are used to calculate emissions from activity. The primary use case for this tool, therefore, is to support calculations and emission rate analysis outside of MOVES where users may want to manually map an operating mode distribution to emission rates in a way that MOVES doesn't support by default. 
 
-More specifically, OpModeDistCalc replicates the MOVES activity calculations for calculating vehicle miles traveled (VMT) and source hours operating (SHO) at the level of detail needed to calculate emissions, which is by speed bin and operating mode. It then saves this output to a csv file, while MOVES continues its calculations and doesn't save the operating mode distribution anywhere that is accessible to the user. More detail on the calculation of activity and operating mode distributions can be found in the MOVES4 Vehicle Population and Activity Technical Report.
+More specifically, OpModeDistCalc replicates the MOVES activity calculations for calculating vehicle miles traveled (VMT) and source hours operating (SHO) at the level of detail needed to calculate emissions, which is by speed bin and operating mode. The output for this tool may optionally include detail by engine technology or by MOVES drive cycle. Like operating modes, these fields are generally not written in MOVES output. It then saves this output to a csv file. More detail on the calculation of activity and operating mode distributions can be found in the MOVES Vehicle Population and Activity Technical Report.
 
 **This tool is currently in Beta development. This is not to be used for regulatory purposes. If you have any difficulties using this tool, or have any related feedback, please open an issue on GitHub or email us at mobile@epa.gov.**
 
@@ -32,15 +32,17 @@ Flags are passed using two dashes (`--`), the flag name, an equal sign, and then
 
 | Flag           | Description                                                  | Default Value                                             |
 | -------------- | ------------------------------------------------------------ | --------------------------------------------------------- |
-| `runspec`      | Path to MOVES runspec (full absolute path preferred)         | No default value - necessary for run        |
+| `runspec`      | Path to MOVES default scale runspec (full absolute path preferred)         | No default value - necessary for run        |
 | `outputFolder` | Path to folder for OpModeCalc to write the resulting data and log files (full absolute path preferred) | No default value - necessary for run. Folder must already exist.             |
-| `dbname`       | MOVES database to use                                        | `movesdb20240104` (this is the MOVES4.0.1 default database) |
+| `dbName`       | MOVES database to use                                        | `movesdb20241112` (this is the MOVES5.0.0 default database) |
 | `mariaUname`   | User MariaDB username                                        | `moves`                                                    |
 | `mariaUpass`   | User's MariaDB password                                      | `moves`                                                   |
 | `mariaPort`    | The port which is used to connect to the MariaDB server      | The port used by the MOVES installation. When this cannot be determined, the assumed fallback port is 3306.    |
+| `aggEngTechs`  | Boolean indicating whether to aggregate engine technology or keep it in the output. | `true` |
+| `aggCycles`    | Boolean indicating whether to aggregate drive cycles or keep them in the output. | `true` |
 | `aggSpeeds`    | Boolean indicating whether to aggregate speed bin or keep them in the output. | `true` |
 | `aggOpModes`   | Boolean indicating whether to aggregate operating modes or keep them in the output | `false` |
-
+| `includeONI`   | Boolean indicating whether to account for ONI in calculating SHO | `true` |
 
 ### Examples
 
@@ -58,24 +60,25 @@ Users can alter the aggregation behavior, or make them more explicit, using the 
 OpModeDistCalc --runspec="./tools/example/examplerunspec.mrs" --outputFolder="./tools/example/" --aggSpeeds="true" --aggOpModes="true"
 ```
 
-Users may specify any database using the `dbname` flag. For example, the following command will use the MOVES4.0.0 default database.
+Users may specify any database using the `dbName` flag. For example, the following command will use the MOVES4.0.0 default database.
 
 ```
-OpModeDistCalc --runspec="./tools/example/examplerunspec.mrs" --outputFolder="./tools/example/" --dbname="movesdb20230615"
+OpModeDistCalc --runspec="./tools/example/examplerunspec.mrs" --outputFolder="./tools/example/" --dbName="movesdb20241112"
 ```
 
-Users may also specify a custom MariaDB server in case they are not using the MOVES4 default installation. That can be done using the flags for a username, password, and port. OpModeCalc is designed only to use databases that are local to the machine its running on.
+Users may also specify a custom MariaDB server in case they are not using the default installation. That can be done using the flags for a username, password, and port. OpModeCalc is designed only to use databases that are local to the machine its running on.
 
 ```
-OpModeDistCalc --runspec="./tools/example/examplerunspec.mrs" --outputFolder="./tools/example/" --dbname="movesdb20230615" --mariaUname="customUser" --mariaUpass="customPassword" --mariaPort=3307
+OpModeDistCalc --runspec="./tools/example/examplerunspec.mrs" --outputFolder="./tools/example/" --dbName="movesdb20241112" --mariaUname="customUser" --mariaUpass="customPassword" --mariaPort=3307
 ```
 
 ## Output
 
-`OpModeDistCalc` writes two output files. The first is a log file that includes details about the run. The second is the data output file, which mirrors the *movesoutput* and *movesactivityoutput* tables in MOVES output databases, but is specific for calculating operating mode distributions. 
+`OpModeDistCalc` writes two output files. The first is a log file that includes details about the run. The second is the data output file, which mirrors the *movesactivityoutput* table in MOVES output databases, but is specific for calculating operating mode distributions. 
 
 | Column        | Comment                                                                      |
 |---------------|------------------------------------------------------------------------------|
+| FIPS          | synonymous with countyID or stateID. If the full nation is selected, FIPS is 0. |
 | yearID        | never aggregated                                                             |
 | monthID       | aggregation set by runspec                                                   |
 | dayID         | aggregation set by runspec                                                   |
@@ -84,9 +87,10 @@ OpModeDistCalc --runspec="./tools/example/examplerunspec.mrs" --outputFolder="./
 | regClassID    | aggregation set by runspec                                                   |
 | fuelTypeID    | aggregation set by runspec                                                   |
 | modelYearID   | aggregation set by runspec                                                   |
-| countyID      | synonymous with FIPS codes. If the full nation is selected, countyID is 0    |
+| engTechID     | aggregation set by command line flag                                         |
 | roadTypeID    | aggregation set by runspec                                                   |
 | avgSpeedBinID | aggregation set by command line flag                                         |
+| driveCycleID  | aggregation set by command line flag                                         |
 | opModeID      | aggregation set by command line flag                                         |
 | VMT           | Vehicle Miles Traveled, or MOVES activityTypeID 1                            |
 | SHO           | Source Hours Operating, or MOVES activityTypeID 4                            |

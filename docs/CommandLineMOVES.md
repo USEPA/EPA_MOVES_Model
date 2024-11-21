@@ -6,17 +6,17 @@ While the easiest way to interact with MOVES is via its graphical user interface
 
 ## Set up the command environment
 
-The first step to running MOVES from the command line is to set up the shell environment to point to all of the resources it needs to run MOVES. Open the Windows command prompt and navigate to the MOVES directory. By default, the path is `C:\Users\Public\EPA\MOVES\MOVES4`. The command to change directories is `cd`:
+The first step to running MOVES from the command line is to set up the shell environment to point to all of the resources it needs to run MOVES. Open the Windows command prompt and navigate to the MOVES directory. By default, the path is `C:\Users\Public\EPA\MOVES\MOVES5`. The command to change directories is `cd`:
 
 ```cmd
-C:\> cd C:\Users\Public\EPA\MOVES\MOVES4
+C:\> cd C:\Users\Public\EPA\MOVES\MOVES5
 
 ```
 
 Then, enter the name `setenv` to run the setenv.bat script, which will set up your environment for you:
 
 ```cmd
-C:\Users\Public\EPA\MOVES\MOVES4> setenv
+C:\Users\Public\EPA\MOVES\MOVES5> setenv
 ```
 
 This will execute the setenv.bat script without displaying anything to the command window. The script tells the Windows command shell where to find the Java Runtime Environment (JRE) bundled with MOVES and where to find the Ant utility.
@@ -77,14 +77,14 @@ The above Ant commands can be used in batch scripts written to be run in the Win
 
 ### Basic MOVES batch script
 
-Below is a simple MOVES batch script for running multiple RunSpecs sequentially. 
+Below is a sample MOVES batch script for running multiple RunSpecs sequentially. 
 
 ```batch
 :: Find current folder 
 set RunSpecDir=%CD%
 
 :: Set MOVES install location
-set MOVESDir=C:\Users\Public\EPA\MOVES\MOVES4
+set MOVESDir=C:\Users\Public\EPA\MOVES\MOVES5
 
 :: Set up MOVES environment
 cd /d %MOVESDir%
@@ -103,16 +103,16 @@ In this batch script, the  RunSpecs `BatchTest1.mrs` and `Batchtest2.mrs` are st
 
 ### MOVES batch script with extra workers
 
-For computers with multiple CPU cores, MOVES performance can sometimes be improved by launching additional workers. Note that as multiple workers begin to compete for access to the MOVES database, their performance can decrease. Therefore, there are diminishing and potentially negative returns for launching too many workers on a given computer. In general, starting more than 3 workers is unlikely to improve performance. See [Tips For Faster MOVES Runs](TipsForFasterMOVESRuns.md) for more information.
+MOVES performance can sometimes be improved by launching additional workers. Note that as multiple workers begin to compete for access to the MOVES database, their performance can decrease. Therefore, there are diminishing and potentially negative returns for launching too many workers on a given computer. In general, starting more than 3 workers is unlikely to improve performance. See [Tips For Faster MOVES Runs](TipsForFasterMOVESRuns.pdf) for more information.
 
-The script below is like the previous script, except that this script also launches three MOVES workers in a second command window. 
+The example script below is like the previous script, except that this script also launches three MOVES workers in a second command window. 
 
 ```batch
 :: Find current folder 
 set RunSpecDir=%CD%
 
 :: Set MOVES install location
-set MOVESDir=C:\Users\Public\EPA\MOVES\MOVES4
+set MOVESDir=C:\Users\Public\EPA\MOVES\MOVES5
 
 :: Set up MOVES environment
 cd /d %MOVESDir%
@@ -158,16 +158,16 @@ ant dbimporter -Dimport="c:\mydbimporter.xml"
 
 MOVES includes an Ant command to convert input databases from previous versions of MOVES to the current version, which can save time if you need to do this for many databases. Please see the help file at [database\ConversionScripts\InputDatabaseConversionHelp.pdf](../database/ConversionScripts/InputDatabaseConversionHelp.pdf) for more information on the uses and limitations of this feature. Note that more work is needed after running this command before the converted database can be used with MOVES.
 
-The following command can be used to convert a MOVES3 input database to the MOVES4 format:
+The following command can be used to convert a MOVES4 input database to the MOVES5 format:
 ```cmd
-ant convert3_db_to_4 -Dinput=m3_in -Doutput=m4_in
+ant convert4_db_to_5 -Dinput=m4_in -Doutput=m5_in
 ```
 
-`-Dinput` is used to specify the old input database name, and `-Doutput` is used to specify the name for the new, converted database. `convert3_db_to_4` tells Ant to use the conversion scripts for going from MOVES3 to MOVES4.
+`-Dinput` is used to specify the old input database name, and `-Doutput` is used to specify the name for the new, converted database. `convert4_db_to_5` tells Ant to use the conversion scripts for going from MOVES4 to MOVES5.
 
 ## Compiling MOVES
 
-MOVES uses three compiled languages during runtime: Java, Go, and Fortran (the last only used when running Nonroad). If you use the MOVES Installer, you will receive all the compiled code and can run the model directly without compiling. If you are cloning this repository, you will only receive the compiled Fortran, and will need to compile Java and Go before running the model.
+MOVES uses three compiled languages during runtime: Java, Go, and Fortran (Fortran is only used when running Nonroad). If you use the MOVES Installer, you will receive all the compiled code and can run the model directly without compiling. If you are cloning this repository, you will only receive the compiled Fortran, and will need to compile Java and Go before running the model.
 
 The following command can be used to compile both the Java and the Go, and then launch the GUI:
 

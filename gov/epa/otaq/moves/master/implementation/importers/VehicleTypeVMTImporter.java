@@ -613,13 +613,13 @@ public class VehicleTypeVMTImporter extends ImporterBase {
 		BasicDataHandler.BEGIN_TABLE, "DayVMTFraction",
 		"sourceTypeID", "SourceUseType", ImporterManager.FILTER_SOURCE,
 		"monthID", "MonthOfAnyYear", ImporterManager.FILTER_MONTH,
-		"roadTypeID", "RoadType", ImporterManager.FILTER_ROAD_TYPE,
+		"roadTypeID", "RoadType", ImporterManager.FILTER_ROAD_TYPE_NOT_OFFNETWORK,
 		"dayID", "DayOfAnyWeek", ImporterManager.FILTER_DAY,
 		"dayVMTFraction", "", ImporterManager.FILTER_NON_NEGATIVE,
 
 		BasicDataHandler.BEGIN_TABLE, "HourVMTFraction",
 		"sourceTypeID", "SourceUseType", ImporterManager.FILTER_SOURCE,
-		"roadTypeID", "RoadType", ImporterManager.FILTER_ROAD_TYPE,
+		"roadTypeID", "RoadType", ImporterManager.FILTER_ROAD_TYPE_NOT_OFFNETWORK,
 		"dayID", "DayOfAnyWeek", ImporterManager.FILTER_DAY,
 		"hourID", "HourOfAnyDay", ImporterManager.FILTER_HOUR,
 		"hourVMTFraction", "", ImporterManager.FILTER_NON_NEGATIVE
@@ -1121,7 +1121,7 @@ public class VehicleTypeVMTImporter extends ImporterBase {
 					this,"dayVMTFraction is missing monthID(s)")) {
 				return false;
 			}
-			if(!manager.tableHasRoadTypes(db,"select distinct roadTypeID from dayVMTFraction where dayVMTFraction > 0",
+			if(!manager.tableHasNonOffnetworkRoadTypes(db,"select distinct roadTypeID from dayVMTFraction where dayVMTFraction > 0",
 					this,"dayVMTFraction is missing roadTypeID(s)")) {
 				return false;
 			}
@@ -1137,7 +1137,7 @@ public class VehicleTypeVMTImporter extends ImporterBase {
 					this,"hourVMTFraction is missing sourceTypeID(s)")) {
 				return false;
 			}
-			if(!manager.tableHasRoadTypes(db,"select distinct roadTypeID from hourVMTFraction where hourVMTFraction > 0",
+			if(!manager.tableHasNonOffnetworkRoadTypes(db,"select distinct roadTypeID from hourVMTFraction where hourVMTFraction > 0",
 					this,"hourVMTFraction is missing roadTypeID(s)")) {
 				return false;
 			}

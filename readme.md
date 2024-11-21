@@ -1,8 +1,8 @@
-# MOVES4
+# MOVES5
 
 EPA's MOtor Vehicle Emission Simulator (MOVES) is a state-of-the-science emission modeling system that estimates emissions for mobile sources at the national, county, and project level for criteria air pollutants, greenhouse gases, and air toxics, available under EPA's Open Source Software policy. 
 
-MOVES4 (available at https://github.com/USEPA/EPA_MOVES_Model and https://www.epa.gov/moves/latest-version-motor-vehicle-emission-simulator-moves) is the latest version of MOVES available for regulatory purposes. For more information, see [MOVES4 Policy Guidance: Use of MOVES for State Implementation Plan Development, Transportation Conformity, General Conformity and Other Purposes (EPA-420-B-23-009)](https://www.epa.gov/moves/latest-version-motor-vehicle-emission-simulator-moves#guidance). 
+MOVES5 (available at https://github.com/USEPA/EPA_MOVES_Model and https://www.epa.gov/moves/latest-version-motor-vehicle-emission-simulator-moves) is the latest version of MOVES available for regulatory purposes. For more information, see [MOVES5 Policy Guidance: Use of MOVES for State Implementation Plan Development, Transportation Conformity, General Conformity, and Other Purposes (EPA-420-B-24-038)](https://www.epa.gov/moves/latest-version-motor-vehicle-emission-simulator-moves#guidance). 
 
 For additional information on MOVES, visit EPA's [MOVES website](https://www.epa.gov/moves). A standard installer for MOVES is available [here](https://www.epa.gov/moves/latest-version-motor-vehicle-emission-simulator-moves#download). Or, to compile and MOVES from source, follow the instructions below.
 
@@ -12,7 +12,7 @@ This repository contains all of the source code and data required to compile and
 
 MOVES uses MariaDB, Java, and Go. To run MOVES from the source code (i.e., without running the installer), you will need the following:
 
-* [MariaDB](https://mariadb.org/download/?t=mariadb&p=mariadb&r=10.11.5) (version 10.11 is recommended)
+* [MariaDB](https://mariadb.org/download/?t=mariadb&p=mariadb&r=10.11.10) (version 10.11 is recommended)
 * [Java JDK](https://learn.microsoft.com/en-us/java/openjdk/download#openjdk-17) (version 17 is recommended)
 * [Go](https://golang.org/dl) (version 1.13 or later)
 
@@ -33,9 +33,9 @@ To get set up:
     secure-file-priv=''
     sql_mode=STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
     lower_case_table_names=1
-    character-set-server=utf8
-    collation-server=utf8_unicode_ci
-    init-connect='SET NAMES utf8'
+    character-set-server=utf8mb4
+    collation-server=utf8mb4_unicode_ci
+    init-connect='SET NAMES utf8mb4'
     ```
     Restart the MariaDB service after modifying this file.
 

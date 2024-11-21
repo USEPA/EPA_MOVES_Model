@@ -95,8 +95,10 @@ public class TableFileLinkagePart extends JPanel implements IImporterPart, Actio
 
 	/** Full name and path of the file to be used **/
 	public String fileName = "";
-	/** Type of the file to be used, not stored in XML just used for display **/
-	public String fileType = "";
+	/** the input file type, not stored in XML just used for display **/
+	public String fileTypeString = "";
+	/** the input file type, as a CellFile code (e.g., CellFile.XLSX) to be used in logic based on different file types **/
+	public int fileTypeCode = 0;
 	/** Section of the file to be used **/
 	public String worksheetName = "";
 
@@ -201,9 +203,9 @@ public class TableFileLinkagePart extends JPanel implements IImporterPart, Actio
 			File f = new File(fileName);
 			fileNameLabel.setText(f.getName());
 			if(worksheetName.length() > 0) {
-				fileTypeAndTabLabel.setText(fileType + ", " + worksheetName);
+				fileTypeAndTabLabel.setText(fileTypeString + ", " + worksheetName);
 			} else {
-				fileTypeAndTabLabel.setText(fileType);
+				fileTypeAndTabLabel.setText(fileTypeString);
 			}
 		} else {
 			fileNameLabel.setText("(please select a file)");
@@ -410,7 +412,8 @@ public class TableFileLinkagePart extends JPanel implements IImporterPart, Actio
 	public void handleBrowseButton() {
 		boolean keepOriginal = true;
 		String originalFileName = fileName;
-		String originalFileType = fileType;
+		String originalFileTypeString = fileTypeString;
+        int originalFileTypeCode = fileTypeCode;
 		String originalWorksheetName = worksheetName;
 
 		try {
@@ -435,11 +438,11 @@ public class TableFileLinkagePart extends JPanel implements IImporterPart, Actio
 			worksheetName = "";
 			fileName = file.getCanonicalPath();
 			determineFileType();
-			// If an XLS is selected, prompt for the worksheet name within
-			if(fileType.equalsIgnoreCase("XLS")) {
-				// Microsoft Excel-format file, so prompt the user to select a worksheet
+			// If an XLS/XLSX is selected, either figure out or prompt for the worksheet name within
+			if(fileTypeCode == CellFile.XLS || fileTypeCode == CellFile.XLSX) {
 				XLSReader xls = new XLSReader();
 				try {
+                    // if there's one worksheet, just use it
 					ArrayList worksheets = xls.getSheets(file);
 					if(worksheets.size() == 1) {
 						worksheetName = (String)worksheets.get(0);
@@ -447,66 +450,80 @@ public class TableFileLinkagePart extends JPanel implements IImporterPart, Actio
 					} else {
 						boolean shouldPromptForWorksheetAssignment = true;
 
-						// Get list of table names used by all parts
-						ArrayList<String> allPartTableNames = new ArrayList<String>();
+                        // if there's many, try to see if we can automatically detect (requires us to use the importer panel's ImporterTabBase functionality)
 						IImporterPanel importerPanel = importer.getPanel();
 						if(importerPanel instanceof ImporterTabBase) {
+                            
+						    // Get list of table names used by all parts
 							ArrayList<IImporterPart> allParts = ((ImporterTabBase)importerPanel).importerDataSource.getParts();
-							if(allParts.size() > 1) { // Only bother if this part isn't the only one.
-								ArrayList<TableFileLinkagePart> linkageParts = new ArrayList<TableFileLinkagePart>();
-								for(IImporterPart ap : allParts) {
-									if(ap instanceof TableFileLinkagePart) {
-										if(((TableFileLinkagePart)ap).isSingleTable) {
-											linkageParts.add((TableFileLinkagePart)ap);
-										}
-									}
-								}
-								if(linkageParts.size() > 1) { // Only bother if this part isn't the only one.
-									ArrayList<String> worksheetNamesToUse = new ArrayList<String>();
-									int howManyMatchingSheetNames = 0;
-									// Find candidate matches.
-									for(TableFileLinkagePart lp : linkageParts) {
-										String nameToUse = "";
-										for(int i=0;i<worksheets.size();i++) {
-											String wsName = (String)worksheets.get(i);
-											if(wsName.equalsIgnoreCase(lp.tableName)) {
-												nameToUse = wsName;
-												howManyMatchingSheetNames++;
-												break;
-											}
-										}
-										worksheetNamesToUse.add(nameToUse);
-									}
-									if(linkageParts.size() == worksheetNamesToUse.size() && howManyMatchingSheetNames > 0) {
-										// Prompt the user, but not on the Starts or Idle tab
-										if(importerPanel.getImporter().getName() != "Starts" &&
-										   importerPanel.getImporter().getName() != "Idle" &&
-										   JOptionPane.showConfirmDialog((JFrame)parent, 
-												"Do you want to automatically assign " + howManyMatchingSheetNames
-												+ " worksheets to tables?", 
-												"Assign worksheets?",
-												JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-											shouldPromptForWorksheetAssignment = false;
-											for(int i=0;i<linkageParts.size();i++) {
-												TableFileLinkagePart lp = linkageParts.get(i);
-												String wsName = worksheetNamesToUse.get(i);
-												if(wsName.length() > 0) {
-													if(lp == this) {
-														worksheetName = wsName;
-														keepOriginal = false;
-													} else {
-														lp.fileName = fileName;
-														lp.fileType = fileType;
-														lp.worksheetName = wsName;
-														lp.determineFileType();
-														lp.populateControls();
-													}
-												}
-											}
-										}
-									}
-								}
-							}
+                            ArrayList<TableFileLinkagePart> linkageParts = new ArrayList<TableFileLinkagePart>();
+                            for(IImporterPart ap : allParts) {
+                                if(ap instanceof TableFileLinkagePart) {
+                                    if(((TableFileLinkagePart)ap).isSingleTable) {
+                                        linkageParts.add((TableFileLinkagePart)ap);
+                                    }
+                                }
+                            }
+                            
+                            // Find candidate matches
+                            int numCandidateMatches = 0;
+                            ArrayList<String> worksheetNamesToUse = new ArrayList<String>();
+                            for(TableFileLinkagePart lp : linkageParts) {
+                                String nameToUse = "";
+                                for(int i=0;i<worksheets.size();i++) {
+                                    String wsName = (String)worksheets.get(i);
+                                    if(wsName.equalsIgnoreCase(lp.tableName)) {
+                                        nameToUse = wsName;
+                                        numCandidateMatches++;
+                                        break;
+                                    }
+                                }
+                                worksheetNamesToUse.add(nameToUse);
+                            }
+                            if(linkageParts.size() > 0 && numCandidateMatches > 0) { // we found at least one sheet
+                                // build a coherent prompt to ask the user if they want us to automatically assign these sheets
+                                String prompt = "";
+                                for (String wsNameToUse : worksheetNamesToUse) {
+                                    if (!wsNameToUse.equals("")) {
+                                        if (!prompt.equals("")) {
+                                            prompt += ", ";
+                                        }
+                                        prompt += wsNameToUse;
+                                    }
+                                }
+                                if (numCandidateMatches == 1) {
+                                    prompt = "The following worksheet was detected:\n\n" + prompt + 
+                                                "\n\nDo you want to automatically assign it to its corresponding data source?";
+                                } else {
+                                    prompt = "The following worksheets were detected:\n\n" + prompt + 
+                                                "\n\nDo you want to automatically assign them to their corresponding data sources?";
+                                }
+
+                                // Prompt the user, but not on the Starts or Idle tab
+                                if(importerPanel.getImporter().getName() != "Starts" &&
+                                    importerPanel.getImporter().getName() != "Idle" &&
+                                    JOptionPane.showConfirmDialog((JFrame)parent, prompt, "Automatically assign worksheets?",
+                                        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                                    shouldPromptForWorksheetAssignment = false;
+                                    for(int i=0;i<linkageParts.size();i++) {
+                                        TableFileLinkagePart lp = linkageParts.get(i);
+                                        String wsName = worksheetNamesToUse.get(i);
+                                        if(wsName.length() > 0) {
+                                            if(lp == this) {
+                                                worksheetName = wsName;
+                                                keepOriginal = false;
+                                            } else {
+                                                lp.fileName = fileName;
+                                                lp.fileTypeString = fileTypeString;
+                                                lp.fileTypeCode = fileTypeCode;
+                                                lp.worksheetName = wsName;
+                                                lp.determineFileType();
+                                                lp.populateControls();
+                                            }
+                                        }
+                                    }
+                                }
+                            }
 						}
 
 						if(shouldPromptForWorksheetAssignment) {
@@ -540,7 +557,8 @@ public class TableFileLinkagePart extends JPanel implements IImporterPart, Actio
 		} finally {
 			if(keepOriginal) {
 				fileName = originalFileName;
-				fileType = originalFileType;
+				fileTypeString = originalFileTypeString;
+                fileTypeCode = originalFileTypeCode;
 				worksheetName = originalWorksheetName;
 			}
 			determineFileType();
@@ -645,7 +663,7 @@ public class TableFileLinkagePart extends JPanel implements IImporterPart, Actio
 		}
 		xml += prefix + "\t<filename>" + fileName + "</filename>\r\n";
 		if(worksheetName != null && worksheetName.length() > 0
-				&& fileType.equalsIgnoreCase("XLS")) {
+				&& (fileTypeCode == CellFile.XLS || fileTypeCode == CellFile.XLSX)) {
 			xml += prefix + "\t<section>" + worksheetName + "</section>\r\n";
 		}
 		if(isSingleTable) {
@@ -673,7 +691,8 @@ public class TableFileLinkagePart extends JPanel implements IImporterPart, Actio
 			}
 		}
 		fileName = "";
-		fileType = "";
+		fileTypeString = "";
+        fileTypeCode = 0;
 		worksheetName = "";
 		for(Node i=node.getFirstChild(); i != null; i = i.getNextSibling()) {
 			if(i.getNodeName().equalsIgnoreCase("filename")) {
@@ -718,19 +737,21 @@ public class TableFileLinkagePart extends JPanel implements IImporterPart, Actio
 	/** Setup fileType and worksheetName based on fileName. **/
 	void determineFileType() {
 		fileName = StringUtilities.safeGetString(fileName);
-		int typeCode = CellFile.getFileType(fileName);
-		switch(typeCode) {
+		fileTypeCode = CellFile.getFileType(fileName);
+		switch(fileTypeCode) {
 			case CellFile.XLS:
+                fileTypeString = "XLS";
+                break;
 			case CellFile.XLSX:
-				fileType = "XLS";
+				fileTypeString = "XLSX";
 				break;
 			case CellFile.CSV:
-				fileType = "CSV";
+				fileTypeString = "CSV";
 				worksheetName = "";
 				break;
 			default:
 			case CellFile.TABBED_TEXT:
-				fileType = "Tabbed Text";
+				fileTypeString = "Tabbed Text";
 				worksheetName = "";
 				break;
 		}

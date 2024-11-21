@@ -468,12 +468,12 @@ public class SourceTypePhysics {
 		};
 
 		TreeMap<Integer,TreeSet<Integer>> offsetsByPolProcess = new TreeMap<Integer,TreeSet<Integer>>();
-		char MYGroupYesOrNo;
-		if (processID == 9) {
-			MYGroupYesOrNo = 'N';
-		} else {
-			MYGroupYesOrNo = 'Y';
-		}
+
+        // DBC - Brakewear now varies by model year, so we want to do the offsets for all entries in 
+        // sourceTypePolProcess where isMYGroupReqd = 'Y'. Previously, we only wanted running pollutants
+        // that varied by model year (along with brakewear which didn't), so this was a complicated join before.
+        // Now, we can simply just look for all rows where isMYGroupReqd = 'Y'
+		char MYGroupYesOrNo = 'Y';
 
 		String sql = "select distinct stpm.opModeIDOffset, sbd.polProcessID, sbd.sourceBinID"
 				+ " from sourceTypePolProcess stpp"

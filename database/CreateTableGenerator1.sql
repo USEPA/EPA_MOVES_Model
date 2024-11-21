@@ -6,4 +6,4 @@ CREATE TABLE Generator1 (
 	Time DATETIME NOT NULL,
 	VType INTEGER UNSIGNED NOT NULL,
 	ActivityPerHour FLOAT
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';

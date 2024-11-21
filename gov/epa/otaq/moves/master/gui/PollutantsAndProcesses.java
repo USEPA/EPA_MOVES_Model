@@ -67,6 +67,7 @@ import gov.epa.otaq.moves.common.Constants;
 import gov.epa.otaq.moves.common.JListWithToolTips;
 import gov.epa.otaq.moves.common.Logger;
 import gov.epa.otaq.moves.common.MOVESDatabaseType;
+import gov.epa.otaq.moves.common.ModelDomain;
 import gov.epa.otaq.moves.common.ModelScale;
 import gov.epa.otaq.moves.common.Models;
 import gov.epa.otaq.moves.common.ToolTipHelper;
@@ -1427,6 +1428,7 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 		boolean shouldAddOffNetworkRoadType = false;
 		boolean hasRefuelingLoss = false;
 		boolean hasMesoscaleEvap = false;
+        boolean hasRunning = false;
 		runspec.pollutantProcessAssociations.clear();
 
 		Models.ModelCombination mc = runspec.getModelCombination();
@@ -1479,12 +1481,14 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 							shouldAddOffNetworkRoadType = true;
 						} else if(process.databaseKey == 18 || process.databaseKey == 19) {
 							hasRefuelingLoss = true;
-						} else if(process.databaseKey == 11 || process.databaseKey == 12
-								|| process.databaseKey == 13) {
-							if(runspec.scale == ModelScale.MESOSCALE_LOOKUP) {
-								hasMesoscaleEvap = true;
-							}
-						}
+						} else if((process.databaseKey == 11 || process.databaseKey == 12 || process.databaseKey == 13) &&
+                                  (runspec.scale == ModelScale.MESOSCALE_LOOKUP)) {
+                            hasMesoscaleEvap = true;
+                        } else if(process.databaseKey == 12) {
+                            shouldAddOffNetworkRoadType = true;
+                        } else if(process.databaseKey == 1) {
+                            hasRunning = true;
+                        } 
 					}
 				}
 			}
@@ -1523,8 +1527,26 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 			runspec.roadTypes.add(rt);
 		}
 
-		if(hasRefuelingLoss) { // || hasMesoscaleEvap) {
-			//RoadTypeScreen.setAllRoadTypes(runspec);
+		if(hasRefuelingLoss || hasRunning) { // || hasMesoscaleEvap) {
+            // if not project scale, we need all road types due to ONI
+            if (runspec.domain != ModelDomain.PROJECT) {
+                RoadTypeScreen.setAllRoadTypes(runspec);
+            } else {
+                // at project scale, make sure at least one on-network road type is selected. if none are selected, select all by default
+                boolean hasOnNetworkRoadType = false;
+                Iterator<RoadType> runspecRoadTypes = runspec.roadTypes.iterator();
+                while (runspecRoadTypes.hasNext()) {
+                    RoadType rt = runspecRoadTypes.next();
+                    if (rt.roadTypeID >= 2 && rt.roadTypeID <= 5) {
+                        hasOnNetworkRoadType = true;
+                        break;
+                    }
+                } 
+                if (!hasOnNetworkRoadType) {
+                    RoadTypeScreen.setAllRoadTypes(runspec);
+                }
+
+            }
 		}
 	}
 
@@ -1945,17 +1967,17 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 					}
 					if(!found) {
 						if(hasRunning) {
-							String messageLine = "Running Exhaust requires a non-offnetwork road to be selected";
+							String messageLine = "Running Exhaust requires a non-offnetwork road to be selected (see Road Type panel)";
 							messages.add(messageLine);
 							isOk = false;
 						}
 						if(hasBrake) {
-							String messageLine = "Brakewear requires a non-offnetwork road to be selected";
+							String messageLine = "Brakewear requires a non-offnetwork road to be selected (see Road Type panel)";
 							messages.add(messageLine);
 							isOk = false;
 						}
 						if(hasTire) {
-							String messageLine = "Tirewear requires a non-offnetwork road to be selected";
+							String messageLine = "Tirewear requires a non-offnetwork road to be selected (see Road Type panel)";
 							messages.add(messageLine);
 							isOk = false;
 						}
@@ -2028,69 +2050,53 @@ public class PollutantsAndProcesses extends JPanel implements RunSpecEditor, Cel
 					boolean hasMethane = methane != null && selectedProcessPollutants.contains(methane);
 					boolean hasN2O = n2o != null && selectedProcessPollutants.contains(n2o);
 					boolean hasAtmCO2 = atmCO2 != null && selectedProcessPollutants.contains(atmCO2);
-
-					if(!hasMethane && !hasN2O && !hasAtmCO2) {
-						String messageLine = pollutantProcessAssociation.emissionProcess + "/"
-								+ pollutant + " requires ";
+					
+					if (hasMethane && hasN2O && hasAtmCO2) {
+						// All is well, nothing to complain about
+					} else {
+						// getting here doesn't mean we have a problem necessarily - the missing pollutant may not exist for this process
+						boolean isCO2eOk = true;
+						
+						// make a list of strings for pollutant dependencies
 						ArrayList<String> tempList = new ArrayList<String>();
-						if(atmCO2 != null) {
-							tempList.add(pollutantProcessAssociation.emissionProcess + "/" + "Atmospheric CO2");
-							requires(requiredAssociations,pollutantProcessAssociation.emissionProcess,atmCO2);
-						}
-						if(methane != null) {
+						
+						// check each possible GHG independently
+						if (!hasMethane && methane != null) {
 							tempList.add(pollutantProcessAssociation.emissionProcess + "/" + "Methane");
 							requires(requiredAssociations,pollutantProcessAssociation.emissionProcess,methane);
+							isCO2eOk = false;
 						}
-						if(n2o != null) {
+						if (!hasN2O && n2o != null) {
 							tempList.add(pollutantProcessAssociation.emissionProcess + "/" + "Nitrous Oxide");
 							requires(requiredAssociations,pollutantProcessAssociation.emissionProcess,n2o);
+							isCO2eOk = false;
 						}
-						for(int i=0;i<tempList.size();i++) {
-							if(i > 0) {
-								if(i == tempList.size()-1) {
-									if(i > 1) {
-										messageLine += ", and/or ";
+						if (!hasAtmCO2 && atmCO2 != null) {
+							tempList.add(pollutantProcessAssociation.emissionProcess + "/" + "Atmospheric CO2");
+							requires(requiredAssociations,pollutantProcessAssociation.emissionProcess,atmCO2);
+							isCO2eOk = false;
+						}
+						
+						// if we get here and aren't okay, make the message
+						if (!isCO2eOk) {
+							String messageLine = pollutantProcessAssociation.emissionProcess + "/"
+								+ pollutant + " requires ";
+							for(int i=0;i<tempList.size();i++) {
+								if(i > 0) {
+									if(i == tempList.size()-1) {
+										if(i > 1) {
+											messageLine += ", and ";
+										} else {
+											messageLine += " and ";
+										}
 									} else {
-										messageLine += " and/or ";
+										messageLine += ", ";
 									}
-								} else {
-									messageLine += ", ";
 								}
+								messageLine += tempList.get(i);
 							}
-							messageLine += tempList.get(i);
-						}
-						messages.add(messageLine);
-						isOk = false;
-					} else if(hasMethane && hasN2O && hasAtmCO2) {
-						// All is well, nothing to complain about.
-					} else {
-						// Leave isOk as it is.  This is a warning message.
-						String messageLine = pollutantProcessAssociation.emissionProcess + "/"
-								+ pollutant + " will not include ";
-						boolean hasPreviousPollutant = false;
-						if(!hasAtmCO2 && atmCO2 != null) {
-							if(hasPreviousPollutant) {
-								messageLine += " and ";
-							}
-							hasPreviousPollutant = true;
-							messageLine += pollutantProcessAssociation.emissionProcess + "/" + "Atmospheric CO2";
-						}
-						if(!hasMethane && methane != null) {
-							if(hasPreviousPollutant) {
-								messageLine += " and ";
-							}
-							hasPreviousPollutant = true;
-							messageLine += pollutantProcessAssociation.emissionProcess + "/" + "Methane";
-						}
-						if(!hasN2O && n2o != null) {
-							if(hasPreviousPollutant) {
-								messageLine += " and ";
-							}
-							hasPreviousPollutant = true;
-							messageLine += pollutantProcessAssociation.emissionProcess + "/" + "Nitrous Oxide";
-						}
-						if(hasPreviousPollutant) {
 							messages.add(messageLine);
+							isOk = false;
 						}
 					}
 				} else if(pollutant.databaseKey == 90) { // Atmospheric CO2

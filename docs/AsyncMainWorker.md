@@ -1,8 +1,8 @@
 # Running MOVES with Asynchronous Main and Worker Processes
 
-One way that MOVES takes advantage of concurrent processing is by splitting the MOVES worker from the main MOVES process. In a nutshell, the MOVES main process generates TODO files, which are picked up by 1 or more MOVES worker processes. The MOVES worker process processes the file and renames it as a DONE file when it is complete. The MOVES main process then picks up DONE files and performs final aggregation. See the [MOVES Overview Report](https://www.epa.gov/moves/moves-onroad-technical-reports) contains more information on MOVES structure.
+One way that MOVES takes advantage of concurrent processing is by splitting the MOVES worker from the main MOVES process. In a nutshell, the MOVES Main process generates TODO files, which are picked up by 1 or more MOVES worker processes. The MOVES worker  processes the file and renames it as a DONE file when it is complete. The MOVES Main process then picks up DONE files and performs final aggregation. The [MOVES Overview Report](https://www.epa.gov/moves/moves-onroad-technical-reports) contains more information on MOVES structure.
 
-If necessary, the MOVES main process can build TODO files separately from starting a worker, and DONE files can be picked up at a later point. **However, it is important to note that no unit conversion, aggregation, or post processing is performed in this mode.** Only use this feature if you understand these ramifications.
+If necessary, the MOVES Main process can build TODO files separately from starting a worker, and DONE files can be picked up at a later point. **However, it is important to note that no unit conversion, aggregation, or post processing is performed in this mode.** Only use this feature if you understand these ramifications.
 
 1. Use the maketodo command line option to build TODO files without starting a worker. These bundles will get saved to the folder specified as the "saveTODOPath" in `maketodo.txt`.
 

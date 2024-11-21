@@ -10,6 +10,8 @@
    -- MOVESOutput table structure modified by MJimenez 29Feb2012 add engTechID and sectorID for NONROAD
    -- MOVESActivityOutput table structure modified by MJimenez 29Feb2012 add engTechID and sectorID for NONROAD
    -- Merged Michele's changes with the changes done by Wes etc.
+   -- Added .translate_* tables in MOVES4
+   -- Specified utf8 for MOVES5
 */
 /* Creates tables in the MOVESOutput Database */
 DROP TABLE IF EXISTS MOVESOutput;
@@ -35,7 +37,7 @@ CREATE TABLE MOVESEventLog (
 	WhenStarted          INT UNSIGNED NOT NULL,
 	WhenStopped          INT UNSIGNED NULL,
 	Duration             INT UNSIGNED NULL
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci' DELAY_KEY_WRITE=1;
 
 -- ***********************************************************************************
 -- ***********************************************************************************
@@ -100,7 +102,7 @@ CREATE TABLE MOVESOutput (
 	emissionQuant        FLOAT NULL DEFAULT NULL,
 	emissionQuantMean    FLOAT NULL DEFAULT NULL,
 	emissionQuantSigma   FLOAT NULL  DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci' DELAY_KEY_WRITE=1;
 
 CREATE TABLE MOVESRun (
 	MOVESRunID           SMALLINT UNSIGNED NOT NULL auto_increment,
@@ -144,7 +146,7 @@ CREATE TABLE MOVESRun (
 	models               VARCHAR(40) NOT NULL DEFAULT 'onroad',
 
 	PRIMARY KEY (MOVESRunID)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci' DELAY_KEY_WRITE=1;
 
 CREATE TABLE MOVESError (
 	MOVESErrorID         INTEGER  UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -163,7 +165,7 @@ CREATE TABLE MOVESError (
 	PRIMARY KEY (MOVESErrorID),
 	KEY IX_MOVES_ERROR_ID (MOVESErrorID),
 	KEY IX_MOVES_RUN_ID (MOVESRunID)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci' DELAY_KEY_WRITE=1;
 
 -- ***********************************************************************************
 -- ***********************************************************************************
@@ -216,7 +218,7 @@ CREATE TABLE MOVESActivityOutput (
 	activity             FLOAT NULL DEFAULT NULL,
 	activityMean         FLOAT NULL DEFAULT NULL,
 	activitySigma        FLOAT NULL DEFAULT NULL 
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci' DELAY_KEY_WRITE=1;
 
 CREATE TABLE MOVESWorkersUsed (
 	MOVESRunID           SMALLINT UNSIGNED NOT NULL,
@@ -224,9 +226,8 @@ CREATE TABLE MOVESWorkersUsed (
 	workerComputerID     VARCHAR(255) NOT NULL,
 	workerID             VARCHAR(255) NOT NULL DEFAULT '',
 	bundleCount          INTEGER UNSIGNED NOT NULL DEFAULT '0',
-	failedBundleCount    INTEGER UNSIGNED NOT NULL DEFAULT '0',
-	PRIMARY KEY (MOVESRunID, workerVersion, workerComputerID, workerID)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+	failedBundleCount    INTEGER UNSIGNED NOT NULL DEFAULT '0'
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci' DELAY_KEY_WRITE=1;
 
 CREATE TABLE bundleTracking (
 	MOVESRunID           SMALLINT UNSIGNED NOT NULL,
@@ -262,7 +263,7 @@ CREATE TABLE bundleTracking (
 	-- There is no primary key in this table, but the following KEY is
 	-- useful when searching for performance bottlenecks.
 	KEY (MOVESRunID, hostType, loopableClassName)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci' DELAY_KEY_WRITE=1;
 
 CREATE TABLE MOVESTablesUsed (
 	MOVESRunID           SMALLINT UNSIGNED NOT NULL,
@@ -272,9 +273,8 @@ CREATE TABLE MOVESTablesUsed (
 	dataFileSize	     INTEGER UNSIGNED NULL DEFAULT NULL,
 	dataFileModificationDate DATETIME NULL DEFAULT NULL,
 	tableUseSequence	 INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-	PRIMARY KEY (MOVESRunID, databaseServer, databaseName, tableName),
 	KEY (MOVESRunID, tableUseSequence)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci' DELAY_KEY_WRITE=1;
 
 -- ***********************************************************************************
 -- ***********************************************************************************
@@ -304,7 +304,7 @@ CREATE TABLE RatePerDistance (
 	temperature          FLOAT NULL DEFAULT NULL,
 	relHumidity          FLOAT NULL DEFAULT NULL,
 	ratePerDistance      FLOAT NULL DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci' DELAY_KEY_WRITE=1;
 
 -- ***********************************************************************************
 -- ***********************************************************************************
@@ -332,7 +332,7 @@ CREATE TABLE RatePerVehicle (
 	temperature          FLOAT NULL DEFAULT NULL,
 	relHumidity          FLOAT NULL DEFAULT NULL,
 	ratePerVehicle       FLOAT NULL DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci' DELAY_KEY_WRITE=1;
 
 -- ***********************************************************************************
 -- ***********************************************************************************
@@ -358,7 +358,7 @@ CREATE TABLE RatePerProfile (
 	temperature          FLOAT NULL DEFAULT NULL,
 	relHumidity          FLOAT NULL DEFAULT NULL,
 	ratePerVehicle       FLOAT NULL DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci' DELAY_KEY_WRITE=1;
 
 -- ***********************************************************************************
 -- ***********************************************************************************
@@ -380,7 +380,7 @@ CREATE TABLE StartsPerVehicle (
 	fuelTypeID           SMALLINT UNSIGNED NULL DEFAULT NULL,
 	modelYearID          SMALLINT UNSIGNED NULL DEFAULT NULL,
 	startsPerVehicle     FLOAT NULL DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci' DELAY_KEY_WRITE=1;
 
 -- ***********************************************************************************
 -- ***********************************************************************************
@@ -406,7 +406,7 @@ CREATE TABLE RatePerStart (
 	temperature          FLOAT NULL DEFAULT NULL,
 	relHumidity          FLOAT NULL DEFAULT NULL,
 	ratePerStart         FLOAT NULL DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci' DELAY_KEY_WRITE=1;
 
 -- ***********************************************************************************
 -- ***********************************************************************************
@@ -434,7 +434,7 @@ CREATE TABLE RatePerHour (
 	temperature          FLOAT NULL DEFAULT NULL,
 	relHumidity          FLOAT NULL DEFAULT NULL,
 	ratePerHour          FLOAT NULL DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci' DELAY_KEY_WRITE=1;
 
 
 -- ***********************************************************************************
@@ -445,7 +445,7 @@ CREATE TABLE translate_activitytype (
 	activityTypeID       SMALLINT UNSIGNED NOT NULL PRIMARY KEY,
 	activityTypeName     VARCHAR(20) NOT NULL,
 	activityTypeDesc     VARCHAR(50) NULL DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci' DELAY_KEY_WRITE=1;
 INSERT INTO translate_activitytype
 SELECT activityTypeID, activityType, activityTypeDesc
 FROM ##defaultdb##.activitytype;
@@ -454,7 +454,7 @@ CREATE TABLE translate_avgspeedbin (
        avgSpeedBinID        SMALLINT NOT NULL PRIMARY KEY,
        avgSpeedBinName      VARCHAR(50) NULL,
        avgBinSpeed          FLOAT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci' DELAY_KEY_WRITE=1;
 INSERT INTO translate_avgspeedbin
 SELECT avgSpeedBinID, avgSpeedBinDesc, avgBinSpeed
 FROM ##defaultdb##.AvgSpeedBin;
@@ -463,7 +463,7 @@ CREATE TABLE translate_county (
        countyID             INTEGER NOT NULL PRIMARY KEY,
        stateID              SMALLINT NOT NULL,
        countyName           VARCHAR(50) NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci' DELAY_KEY_WRITE=1;
 -- INSERT INTO translate_county
 -- SELECT countyID, stateID, countyName
 -- FROM ##defaultdb##.county;
@@ -471,7 +471,7 @@ CREATE TABLE translate_county (
 CREATE TABLE translate_day (
        dayID                SMALLINT NOT NULL PRIMARY KEY,
        dayName              VARCHAR(10) NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci' DELAY_KEY_WRITE=1;
 INSERT INTO translate_day
 SELECT dayID, dayName
 FROM ##defaultdb##.DayOfAnyWeek;
@@ -480,7 +480,7 @@ CREATE TABLE translate_engtech (
   engTechID smallint(6) NOT NULL DEFAULT '0' PRIMARY KEY,
   engTechName varchar(50) DEFAULT NULL,
   engTechDesc varchar(80) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci' DELAY_KEY_WRITE=1;
 INSERT INTO translate_engtech
 SELECT engTechID, engTechName, engTechDesc
 FROM ##defaultdb##.enginetech
@@ -490,7 +490,7 @@ CREATE TABLE translate_fuelsubtype (
        fuelSubtypeID        SMALLINT NOT NULL PRIMARY KEY,
        fuelTypeID           SMALLINT NOT NULL,
        fuelSubtypeName      VARCHAR(50) NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci' DELAY_KEY_WRITE=1;
 INSERT INTO translate_fuelsubtype
 SELECT fuelSubtypeID, fuelTypeID, fuelSubtypeDesc
 FROM ##defaultdb##.FuelSubtype;
@@ -501,7 +501,7 @@ FROM ##defaultdb##.NRFuelSubtype;
 CREATE TABLE translate_fueltype (
        fuelTypeID           SMALLINT NOT NULL PRIMARY KEY,
        fuelTypeName         VARCHAR(50) NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci' DELAY_KEY_WRITE=1;
 INSERT INTO translate_fueltype
 SELECT fuelTypeID, fuelTypeDesc
 FROM ##defaultdb##.fueltype;
@@ -512,7 +512,7 @@ FROM ##defaultdb##.NRFuelType;
 CREATE TABLE translate_hp (
   hpID SMALLINT(6) NOT NULL PRIMARY KEY,
   hpName VARCHAR(20) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci' DELAY_KEY_WRITE=1;
 INSERT INTO translate_hp
 SELECT NRHPRangeBinID, binName
 FROM ##defaultdb##.nrHPRangeBin;
@@ -520,7 +520,7 @@ FROM ##defaultdb##.nrHPRangeBin;
 CREATE TABLE translate_nrscc (
        scc                CHAR(10) NOT NULL PRIMARY KEY,
        sccName            VARCHAR(40) NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci' DELAY_KEY_WRITE=1;
 INSERT INTO translate_nrscc
 SELECT scc, description
 FROM ##defaultdb##.nrSCC;
@@ -529,7 +529,7 @@ CREATE TABLE translate_pollutant (
        pollutantID          SMALLINT NOT NULL PRIMARY KEY,
        pollutantName        VARCHAR(50) NULL,
        pollutantShortName	VARCHAR(50) NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci' DELAY_KEY_WRITE=1;
 INSERT INTO translate_pollutant
 SELECT pollutantID, pollutantName, shortName
 FROM ##defaultdb##.pollutant
@@ -539,7 +539,7 @@ CREATE TABLE translate_process (
        processID            SMALLINT NOT NULL PRIMARY KEY,
        processName          VARCHAR(50) NULL,
        processShortName		VARCHAR(50) NULL 
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci' DELAY_KEY_WRITE=1;
 INSERT INTO translate_process
 SELECT processID, processName, shortName
 FROM ##defaultdb##.emissionprocess;
@@ -548,7 +548,7 @@ CREATE TABLE translate_regclass (
     regClassID SMALLINT NOT NULL PRIMARY KEY,
     regClassName VARCHAR(25) NULL ,
     regClassDesc VARCHAR(100) NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci' DELAY_KEY_WRITE=1;
 INSERT INTO translate_regclass
 SELECT regClassID, regClassName, regClassDesc
 FROM ##defaultdb##.RegulatoryClass
@@ -557,7 +557,7 @@ WHERE regClassID <> 0;
 CREATE TABLE translate_roadtype (
        roadTypeID           SMALLINT NOT NULL PRIMARY KEY,
        roadTypeName         VARCHAR(50) NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci' DELAY_KEY_WRITE=1;
 INSERT INTO translate_roadtype
 SELECT roadTypeID, roadDesc
 FROM ##defaultdb##.RoadType;
@@ -565,7 +565,7 @@ FROM ##defaultdb##.RoadType;
 CREATE TABLE translate_sector (
   sectorID smallint(6) NOT NULL PRIMARY KEY,
   sectorName varchar(40) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci' DELAY_KEY_WRITE=1;
 INSERT INTO translate_sector
 SELECT sectorID, description
 FROM ##defaultdb##.sector;
@@ -574,7 +574,7 @@ CREATE TABLE translate_sourcetype (
        sourceTypeID         SMALLINT NOT NULL PRIMARY KEY,
        HPMSVtypeID          SMALLINT NOT NULL,
        sourceTypeName       VARCHAR(50) NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci' DELAY_KEY_WRITE=1;
 INSERT INTO translate_sourcetype
 SELECT sourceTypeID, HPMSVtypeID, sourceTypeName
 FROM ##defaultdb##.sourceusetype;
@@ -583,7 +583,7 @@ CREATE TABLE translate_state (
        stateID              SMALLINT NOT NULL PRIMARY KEY,
        stateName            VARCHAR(25) NULL,
        stateAbbr            CHAR(2) NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci' DELAY_KEY_WRITE=1;
 INSERT INTO translate_state
 SELECT stateID, stateName, stateAbbr
 FROM ##defaultdb##.state;

@@ -215,6 +215,7 @@ public class GenericImporter extends ImporterBase {
 				"testStandardsID", "IMTestStandards",
 				"engTechID", "EngineTech",		
 				"dayID", "DayOfAnyWeek",
+                "fleetAvgGroupID", "FleetAvgGroup",
 
 				"NREquipTypeID", "NREquipmentType",
 				"growthPatternID", "NRGrowthPattern",

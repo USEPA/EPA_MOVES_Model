@@ -1,7 +1,7 @@
 /*
- Functions for the Base Rate Generator module.
- @author Wesley Faler
- @version 2017-07-03
+Functions for the Base Rate Generator module.
+@author Wesley Faler
+@version 2017-07-03
 */
 package baserategenerator
 
@@ -9,8 +9,8 @@ import (
 	"bufio"
 	"database/sql"
 	"fmt"
-	"os"
 	"math"
+	"os"
 	"path/filepath"
 	"strconv"
 	"sync"
@@ -35,8 +35,8 @@ const ALWAYS_USE_ROMD_TABLE = false
 // TempSourceTypeID is a temporary source type that works for a model year range and regclass combination.
 // OpModeIDOffset is used to make new operationg modes good just for the temporary source type.
 type SourceUseTypePhysicsMappingDetail struct {
-	RealSourceTypeID, TempSourceTypeID, OpModeIDOffset int
-	regClassID, beginModelYearID, endModelYearID int
+	RealSourceTypeID, TempSourceTypeID, OpModeIDOffset                  int
+	regClassID, beginModelYearID, endModelYearID                        int
 	rollingTermA, rotatingTermB, dragTermC, sourceMass, fixedMassFactor float64
 }
 
@@ -57,7 +57,7 @@ var SourceUseTypePhysicsMappingByRealSourceType map[int]*SourceUseTypePhysicsMap
 // Flags and Identifiers controlling the table join logic.
 type externalFlags struct {
 	keepOpModeID, useAvgSpeedBin, useAvgSpeedFraction, useSumSBD, useSumSBDRaw bool
-	processID, yearID, roadTypeID int
+	processID, yearID, roadTypeID                                              int
 }
 
 // Flags and Identifiers controlling the table join logic as read from the "-parameters=" command line option.
@@ -93,12 +93,12 @@ var avgSpeedDistribution map[avgSpeedDistributionKey]*avgSpeedDistributionDetail
 // Unique keys for RatesOpModeDistribution records.
 type romdKey struct {
 	sourceTypeID, polProcessID, roadTypeID, hourDayID, opModeID, avgSpeedBinID int
-	beginModelYearID, endModelYearID, regClassID int
+	beginModelYearID, endModelYearID, regClassID                               int
 }
 
 // RatesOpModeDistribution record
 type romdBlock struct {
-	key romdKey
+	key                                           romdKey
 	opModeFraction, avgBinSpeed, avgSpeedFraction float64
 }
 
@@ -113,10 +113,13 @@ var fileNumberGuard *sync.Mutex
 
 // Name of the table holding BaseRate data
 var baseRateTableName string
+
 // Path and base name of the temporary files holding BaseRate data
 var baseRateTableFileBase string
+
 // Name of the table holding BaseRateByAge data
 var baseRateByAgeTableName string
+
 // Path and base name of the temporary files holding BaseRateByAge data
 var baseRateByAgeTableFileBase string
 
@@ -127,9 +130,9 @@ type sbWeightedEmissionRateByAgeKey struct {
 
 // A record from the SBWeightedEmissionRate[ByAge] tables
 type sbWeightedEmissionRateByAgeDetail struct {
-	sourceTypeID, polProcessID, opModeID int
-	modelYearID, fuelTypeID, ageGroupID, regClassID int
-	sumSBD,	sumSBDRaw float64
+	sourceTypeID, polProcessID, opModeID                                 int
+	modelYearID, fuelTypeID, ageGroupID, regClassID                      int
+	sumSBD, sumSBDRaw                                                    float64
 	meanBaseRate, meanBaseRateIM, meanBaseRateACAdj, meanBaseRateIMACAdj float64
 }
 
@@ -159,9 +162,9 @@ var runSpecModelYear map[int]bool
 
 // Operating Mode
 type operatingMode struct {
-	opModeID int
-	VSPLower,VSPUpper,speedLower,speedUpper float64
-	isnullVSPLower,isnullVSPUpper,isnullSpeedLower,isnullSpeedUpper bool
+	opModeID                                                           int
+	VSPLower, VSPUpper, speedLower, speedUpper                         float64
+	isnullVSPLower, isnullVSPUpper, isnullSpeedLower, isnullSpeedUpper bool
 }
 
 // Operating mode defintions. Only modes > 1 and < 100 are present in this set.
@@ -178,11 +181,11 @@ func init() {
 	fileNumberGuard = new(sync.Mutex)
 	sbWeightedEmissionRateByAge = make(map[sbWeightedEmissionRateByAgeKey][]*sbWeightedEmissionRateByAgeDetail)
 	sbWeightedEmissionRate = make(map[sbWeightedEmissionRateByAgeKey][]*sbWeightedEmissionRateByAgeDetail)
-	runSpecRoadType = make([]int,0,20)
-	runSpecRoadTypeWithOffNetwork = make([]int,0,20)
-	runSpecHourDay = make([]int,0,48)
-	runSpecSourceType = make([]int,0,30)
-	runSpecPolProcessID = make([]int,0,500)
+	runSpecRoadType = make([]int, 0, 20)
+	runSpecRoadTypeWithOffNetwork = make([]int, 0, 20)
+	runSpecHourDay = make([]int, 0, 48)
+	runSpecSourceType = make([]int, 0, 30)
+	runSpecPolProcessID = make([]int, 0, 500)
 	runSpecModelYear = make(map[int]bool)
 	operatingModes = make(map[int]*operatingMode)
 }
@@ -196,8 +199,8 @@ func BaseRateGeneratorFromRatesOpModeDistribution(sqlToWrite chan string) {
 	}
 	setupTables()
 
-	romdForBaseRateQueue := make(chan *romdBlock,200000)
-	romdForBaseRateByAgeQueue := make(chan *romdBlock,200000)
+	romdForBaseRateQueue := make(chan *romdBlock, 200000)
+	romdForBaseRateByAgeQueue := make(chan *romdBlock, 200000)
 
 	shouldProcessDriveCycles := false
 	// EM - processID==9 added to make sure the drive cycles are processed for brakewear (as well as running) for EMT-633 12/21/2018
@@ -211,10 +214,10 @@ func BaseRateGeneratorFromRatesOpModeDistribution(sqlToWrite chan string) {
 
 	if shouldProcessDriveCycles {
 		globalevents.GeneratorStarting()
-		go processDriveCycles(romdForBaseRateQueue,romdForBaseRateByAgeQueue,sqlToWrite)
+		go processDriveCycles(romdForBaseRateQueue, romdForBaseRateByAgeQueue, sqlToWrite)
 	} else {
 		globalevents.GeneratorStarting()
-		go coreBaseRateGeneratorFromRatesOpModeDistribution(romdForBaseRateQueue,romdForBaseRateByAgeQueue)
+		go coreBaseRateGeneratorFromRatesOpModeDistribution(romdForBaseRateQueue, romdForBaseRateByAgeQueue)
 	}
 
 	globalevents.GeneratorStarting()
@@ -236,7 +239,7 @@ func readExternalFlags() bool {
 		fmt.Println("ERROR: Expected at least 8 CSV parameters, cannot proceed")
 		return false
 	}
-	for i:=0;i<len(configuration.Singleton.Parameters)-3;i++ {
+	for i := 0; i < len(configuration.Singleton.Parameters)-3; i++ {
 		switch configuration.Singleton.Parameters[i] {
 		case "yOp":
 			flags.keepOpModeID = true
@@ -291,7 +294,7 @@ func coreBaseRateGeneratorFromRatesOpModeDistribution(romdForBaseRateQueue, romd
 	// primary key (it is the exact desc of all fields so is fast to process).
 	// Without the ORDER BY, that natural order does not ensure the required sequence.
 	querySql := "select sourceTypeID,roadTypeID,avgSpeedBinID,hourDayID,polProcessID,opModeID,opModeFraction,coalesce(opModeFractionCV,0) as opModeFractionCV,avgBinSpeed,avgSpeedFraction" +
-			" from RatesOpModeDistribution"
+		" from RatesOpModeDistribution"
 	// Add WHERE with restrictions based upon passed parameters, some of which may be 0 and not used.
 	hasWhere := false
 	if flags.processID > 0 {
@@ -301,7 +304,7 @@ func coreBaseRateGeneratorFromRatesOpModeDistribution(romdForBaseRateQueue, romd
 			hasWhere = true
 			querySql += " where"
 		}
-		querySql += " (polProcessID % 100) = " +  strconv.Itoa(flags.processID)
+		querySql += " (polProcessID % 100) = " + strconv.Itoa(flags.processID)
 	}
 	if flags.roadTypeID > 0 {
 		if hasWhere {
@@ -310,33 +313,33 @@ func coreBaseRateGeneratorFromRatesOpModeDistribution(romdForBaseRateQueue, romd
 			hasWhere = true
 			querySql += " where"
 		}
-		querySql += " roadTypeID = " +  strconv.Itoa(flags.roadTypeID)
+		querySql += " roadTypeID = " + strconv.Itoa(flags.roadTypeID)
 	}
 	// Finish and query the table
 	querySql += " order by sourceTypeID desc, polProcessID desc, roadTypeID desc, hourDayID desc, opModeID desc, avgSpeedBinID desc"
 	rows, err := db.Query(querySql)
 	configuration.CheckErr(err)
-    defer rows.Close()
+	defer rows.Close()
 
-    rowCount := 0
+	rowCount := 0
 	queueCount := 0
-    outputRowCount := 0
-	var sourceTypeID,roadTypeID,avgSpeedBinID,hourDayID,polProcessID,opModeID int
-	var opModeFraction,opModeFractionCV,avgBinSpeed,avgSpeedFraction float64
+	outputRowCount := 0
+	var sourceTypeID, roadTypeID, avgSpeedBinID, hourDayID, polProcessID, opModeID int
+	var opModeFraction, opModeFractionCV, avgBinSpeed, avgSpeedFraction float64
 	var shouldWrite, didHandle bool
 	var avgSpeedKey avgSpeedDistributionKey
 
 	var previousSourceTypeID, previousPolProcesID int
 
-    for rows.Next() {
-    	if rowCount == 0 {
+	for rows.Next() {
+		if rowCount == 0 {
 			fmt.Println("Got first row from RatesOpModeDistribution")
-    	}
-    	rowCount++
-    	shouldWrite = false
-    	didHandle = false
+		}
+		rowCount++
+		shouldWrite = false
+		didHandle = false
 
-        err = rows.Scan(&sourceTypeID,&roadTypeID,&avgSpeedBinID,&hourDayID,&polProcessID,&opModeID,&opModeFraction,&opModeFractionCV,&avgBinSpeed,&avgSpeedFraction)
+		err = rows.Scan(&sourceTypeID, &roadTypeID, &avgSpeedBinID, &hourDayID, &polProcessID, &opModeID, &opModeFraction, &opModeFractionCV, &avgBinSpeed, &avgSpeedFraction)
 		configuration.CheckErr(err)
 
 		if previousSourceTypeID != sourceTypeID || previousPolProcesID != polProcessID {
@@ -369,22 +372,22 @@ func coreBaseRateGeneratorFromRatesOpModeDistribution(romdForBaseRateQueue, romd
 
 		// Change source types for any new operating modes
 		if !didHandle && tempSourceTypeDetail != nil &&
-				opModeID >= (0+tempSourceTypeDetail.OpModeIDOffset) && opModeID < (100+tempSourceTypeDetail.OpModeIDOffset) &&
-				(polProcessID < 0 || polProcessID % 100 == 1 || polProcessID % 100 == 9) {
+			opModeID >= (0+tempSourceTypeDetail.OpModeIDOffset) && opModeID < (100+tempSourceTypeDetail.OpModeIDOffset) &&
+			(polProcessID < 0 || polProcessID%100 == 1 || polProcessID%100 == 9) {
 			// This record should be updated
 			didHandle = true
 			shouldWrite = true
 			sourceTypeID = tempSourceTypeDetail.RealSourceTypeID
 		}
-		
+
 		// Promote old operating modes and change source types
 		// This statement must fail (which is ok and can be ignored) if
 		// entries exist with extended operating modes already. That is,
 		// if entries already exist with extended operating modes, they
 		// must be used and this record ignored.
 		if !didHandle && tempSourceTypeDetail != nil &&
-				opModeID >= 0 && opModeID < 100 &&
-				(polProcessID < 0 || polProcessID % 100 == 1 || polProcessID % 100 == 9) {
+			opModeID >= 0 && opModeID < 100 &&
+			(polProcessID < 0 || polProcessID%100 == 1 || polProcessID%100 == 9) {
 			// This record should be updated
 			didHandle = true
 			shouldWrite = true
@@ -393,8 +396,8 @@ func coreBaseRateGeneratorFromRatesOpModeDistribution(romdForBaseRateQueue, romd
 		}
 
 		if !didHandle && tempSourceTypeDetail != nil && tempSourceTypeDetail.OpModeIDOffset > 0 &&
-				opModeID >= 0 && opModeID < 100 &&
-				(polProcessID < 0 || polProcessID % 100 == 1 || polProcessID % 100 == 9) {
+			opModeID >= 0 && opModeID < 100 &&
+			(polProcessID < 0 || polProcessID%100 == 1 || polProcessID%100 == 9) {
 			// This record should be deleted
 			didHandle = true
 			shouldWrite = false
@@ -402,8 +405,8 @@ func coreBaseRateGeneratorFromRatesOpModeDistribution(romdForBaseRateQueue, romd
 
 		// // tempSourceTypeID never equals realSourceTypeID any more, so get rid of real source type operating modes
 		if !didHandle && tempSourceTypeDetail == nil && realSourceTypeDetail != nil && realSourceTypeDetail.OpModeIDOffset > 0 &&
-				opModeID >= 0 && opModeID < 100 &&
-				(polProcessID < 0 || polProcessID % 100 == 1 || polProcessID % 100 == 9) {
+			opModeID >= 0 && opModeID < 100 &&
+			(polProcessID < 0 || polProcessID%100 == 1 || polProcessID%100 == 9) {
 			// This record should be deleted
 			didHandle = true
 			shouldWrite = false
@@ -457,12 +460,12 @@ func coreBaseRateGeneratorFromRatesOpModeDistribution(romdForBaseRateQueue, romd
 				queueCount++
 			}
 		}
-    }
+	}
 	// Close the queues so downstream threads know that no more data is coming.
 	close(romdForBaseRateQueue)
 	close(romdForBaseRateByAgeQueue)
 
-	fmt.Println("Done reading RatesOpModeDistribution. Row Count=",rowCount,"Queue Count=",queueCount)
+	fmt.Println("Done reading RatesOpModeDistribution. Row Count=", rowCount, "Queue Count=", queueCount)
 }
 
 // Obtain a unique number for use as in naming a temporary file.
@@ -526,7 +529,7 @@ func (this *tempFiles) close() {
 // Grouping for accumulation of baseRate[ByAge] data.
 type baseRateOutputKey struct {
 	sourceTypeID, polProcessID, roadTypeID, hourDayID, avgSpeedBinID int
-	modelYearID, fuelTypeID, ageGroupID, regClassID, opModeID int
+	modelYearID, fuelTypeID, ageGroupID, regClassID, opModeID        int
 }
 
 // Data for a row in the BaseRate or BaseRateByAge tables.
@@ -544,38 +547,38 @@ func (this *baseRateOutputRecord) writeLine(useAge bool, files *tempFiles) {
 	// sourceTypeID, roadTypeID, avgSpeedBinID, hourDayID, polProcessID, modelYearID, fuelTypeID, ageGroupID, regClassID, opModeID,
 	// opModeFraction, opModeFractionRate, MeanBaseRate, MeanBaseRateIM, MeanBaseRateACAdj, MeanBaseRateIMACAdj, emissionRate, emissionRateIM, emissionRateACAdj, emissionRateIMACAdj, processID, pollutantID
 	line := strconv.Itoa(this.sourceTypeID) +
-			"\t" + strconv.Itoa(this.roadTypeID) +
-			"\t" + strconv.Itoa(this.avgSpeedBinID) +
-			"\t" + strconv.Itoa(this.hourDayID) +
-			"\t" + strconv.Itoa(this.polProcessID) +
-			"\t" + strconv.Itoa(this.modelYearID) +
-			"\t" + strconv.Itoa(this.fuelTypeID)
+		"\t" + strconv.Itoa(this.roadTypeID) +
+		"\t" + strconv.Itoa(this.avgSpeedBinID) +
+		"\t" + strconv.Itoa(this.hourDayID) +
+		"\t" + strconv.Itoa(this.polProcessID) +
+		"\t" + strconv.Itoa(this.modelYearID) +
+		"\t" + strconv.Itoa(this.fuelTypeID)
 	if useAge {
 		line += "\t" + strconv.Itoa(this.ageGroupID)
 	}
 	line += "\t" + strconv.Itoa(this.regClassID) +
-			"\t" + strconv.Itoa(this.opModeID) +
-			"\t" + strconv.FormatFloat(this.opModeFraction,'e',-1,64) +
-			"\t" + strconv.FormatFloat(this.opModeFractionRate,'e',-1,64) +
-			"\t" + strconv.FormatFloat(this.meanBaseRate,'e',-1,64) +
-			"\t" + strconv.FormatFloat(this.meanBaseRateIM,'e',-1,64) +
-			"\t" + strconv.FormatFloat(this.meanBaseRateACAdj,'e',-1,64) +
-			"\t" + strconv.FormatFloat(this.meanBaseRateIMACAdj,'e',-1,64) +
-			"\t" + strconv.FormatFloat(this.emissionRate,'e',-1,64) +
-			"\t" + strconv.FormatFloat(this.emissionRateIM,'e',-1,64) +
-			"\t" + strconv.FormatFloat(this.emissionRateACAdj,'e',-1,64) +
-			"\t" + strconv.FormatFloat(this.emissionRateIMACAdj,'e',-1,64) +
-			"\t" + strconv.Itoa(this.processID) +
-			"\t" + strconv.Itoa(this.pollutantID) +
-			"\n"
+		"\t" + strconv.Itoa(this.opModeID) +
+		"\t" + strconv.FormatFloat(this.opModeFraction, 'e', -1, 64) +
+		"\t" + strconv.FormatFloat(this.opModeFractionRate, 'e', -1, 64) +
+		"\t" + strconv.FormatFloat(this.meanBaseRate, 'e', -1, 64) +
+		"\t" + strconv.FormatFloat(this.meanBaseRateIM, 'e', -1, 64) +
+		"\t" + strconv.FormatFloat(this.meanBaseRateACAdj, 'e', -1, 64) +
+		"\t" + strconv.FormatFloat(this.meanBaseRateIMACAdj, 'e', -1, 64) +
+		"\t" + strconv.FormatFloat(this.emissionRate, 'e', -1, 64) +
+		"\t" + strconv.FormatFloat(this.emissionRateIM, 'e', -1, 64) +
+		"\t" + strconv.FormatFloat(this.emissionRateACAdj, 'e', -1, 64) +
+		"\t" + strconv.FormatFloat(this.emissionRateIMACAdj, 'e', -1, 64) +
+		"\t" + strconv.Itoa(this.processID) +
+		"\t" + strconv.Itoa(this.pollutantID) +
+		"\n"
 	files.writeLine(line)
 }
 
 // Write accumulated data to SQL files.
 func writeLines(outputRecords map[baseRateOutputKey]*baseRateOutputRecord, useAge bool, files *tempFiles) {
 	for k, v := range outputRecords {
-		delete(outputRecords,k)
-		v.writeLine(useAge,files)
+		delete(outputRecords, k)
+		v.writeLine(useAge, files)
 	}
 }
 
@@ -620,17 +623,17 @@ func makeBaseRateByAgeFromSourceBinRates(romdQueue chan *romdBlock, sqlToWrite c
 	defer globalevents.GeneratorDone()
 
 	outputRecords := make(map[baseRateOutputKey]*baseRateOutputRecord)
-	files := newTempFiles(baseRateByAgeTableFileBase,baseRateByAgeTableName,
-			"sourceTypeID, roadTypeID, avgSpeedBinID, hourDayID, polProcessID, modelYearID, fuelTypeID, ageGroupID, regClassID, opModeID," +
+	files := newTempFiles(baseRateByAgeTableFileBase, baseRateByAgeTableName,
+		"sourceTypeID, roadTypeID, avgSpeedBinID, hourDayID, polProcessID, modelYearID, fuelTypeID, ageGroupID, regClassID, opModeID,"+
 			"opModeFraction, opModeFractionRate, MeanBaseRate, MeanBaseRateIM, MeanBaseRateACAdj, MeanBaseRateIMACAdj, emissionRate, emissionRateIM, emissionRateACAdj, emissionRateIMACAdj, processID, pollutantID",
-			sqlToWrite)
+		sqlToWrite)
 	var romdCount, writeCount int
 
 	var currentKey, previousKey romdKey
 	hasPreviousKey := false
 
 	for romd := range romdQueue {
-    	romdCount++
+		romdCount++
 		// Look for changes in ROMD's key so accumulated data can write written to the database.
 		currentKey.sourceTypeID = romd.key.sourceTypeID
 		currentKey.polProcessID = romd.key.polProcessID
@@ -646,7 +649,7 @@ func makeBaseRateByAgeFromSourceBinRates(romdQueue chan *romdBlock, sqlToWrite c
 		// changes, all accumulated data can be written to disk as it
 		// will never be needed again.
 		if hasPreviousKey && currentKey != previousKey {
-			writeLines(outputRecords,true,files)
+			writeLines(outputRecords, true, files)
 		}
 		hasPreviousKey = true
 		previousKey = currentKey
@@ -659,17 +662,17 @@ func makeBaseRateByAgeFromSourceBinRates(romdQueue chan *romdBlock, sqlToWrite c
 		rates, found := sbWeightedEmissionRateByAge[sbKey]
 		if !found && romd.key.opModeID >= 1000 {
 			/*
-			The ratesopmodedistribution contains entries for all vehicle combinations, expressed as opmode offsets, that exist at any time, 
-			rather than just in the 30 year window of the runspec. However, other tables don't contain entries for these offset opmodes 
-			because they ARE based on the runspec window. On top of this, the Go code handles this too elegantly, looking for non-offset 
-			opmodes when it doesn't find the offset opmode that isn't relevant for the runspec. This leads to double-counting. 
-			Putting in a continue, instead of checking for a non-offset opmode, prevents this double-counting from taking place.
+				The ratesopmodedistribution contains entries for all vehicle combinations, expressed as opmode offsets, that exist at any time,
+				rather than just in the 40 year window of the runspec. However, other tables don't contain entries for these offset opmodes
+				because they ARE based on the runspec window. On top of this, the Go code handles this too elegantly, looking for non-offset
+				opmodes when it doesn't find the offset opmode that isn't relevant for the runspec. This leads to double-counting.
+				Putting in a continue, instead of checking for a non-offset opmode, prevents this double-counting from taking place.
 			*/
 			if (romd.key.polProcessID % 100) != 9 {
-				/* we only want to continue for non-brakewear polProcesses because the brakewear polProcessID has rates by op mode 
-				   rates only for non-offset operating mode IDs. We tried to write the code to never offset brakewear op modes in 
-				   the first place, but that doesn't work for reasons we don't fully understand 
-			    */
+				/* we only want to continue for non-brakewear polProcesses because the brakewear polProcessID has rates by op mode
+				   rates only for non-offset operating mode IDs. We tried to write the code to never offset brakewear op modes in
+				   the first place, but that doesn't work for reasons we don't fully understand
+				*/
 				continue
 			}
 			sbKey.opModeID = romd.key.opModeID % 100
@@ -684,7 +687,7 @@ func makeBaseRateByAgeFromSourceBinRates(romdQueue chan *romdBlock, sqlToWrite c
 				continue
 			}
 			if romd.key.beginModelYearID > 0 && romd.key.endModelYearID > 0 &&
-					(rate.modelYearID < romd.key.beginModelYearID || rate.modelYearID > romd.key.endModelYearID) {
+				(rate.modelYearID < romd.key.beginModelYearID || rate.modelYearID > romd.key.endModelYearID) {
 				continue
 			}
 			outputKey.fromRomdKey(&currentKey)
@@ -702,18 +705,18 @@ func makeBaseRateByAgeFromSourceBinRates(romdQueue chan *romdBlock, sqlToWrite c
 				}
 				outputRecord.hourDayID = romd.key.hourDayID
 				outputRecord.polProcessID = romd.key.polProcessID
-				outputRecord.processID = outputRecord.polProcessID % 100;
-				outputRecord.pollutantID = outputRecord.polProcessID / 100;
+				outputRecord.processID = outputRecord.polProcessID % 100
+				outputRecord.pollutantID = outputRecord.polProcessID / 100
 				/* if flags.keepOpModeID {
 					outputRecord.opModeID = romd.key.opModeID
 				} else {
 					outputRecord.opModeID = 0
 				} */
-				
+
 				// EM- the above check does not work, becuase MOVES is run not to keep the opModes
-				// regardless of whether its run in rates or inventory mode. The flags.keepOpModeID 
+				// regardless of whether its run in rates or inventory mode. The flags.keepOpModeID
 				// in other words, is always false. However, rates mode needs the opModeID to be kept.
-				// Therefore, if we put in a check on the keepAvgSpeedBinID (which does change from 
+				// Therefore, if we put in a check on the keepAvgSpeedBinID (which does change from
 				// rates to inventory, we should get the effect we're looking for without increasing
 				// the runtime for inventory mode.
 				if flags.useAvgSpeedBin || flags.keepOpModeID {
@@ -721,7 +724,6 @@ func makeBaseRateByAgeFromSourceBinRates(romdQueue chan *romdBlock, sqlToWrite c
 				} else {
 					outputRecord.opModeID = 0
 				}
-				
 
 				outputRecord.modelYearID = rate.modelYearID
 				outputRecord.fuelTypeID = rate.fuelTypeID
@@ -824,7 +826,7 @@ func makeBaseRateByAgeFromSourceBinRates(romdQueue chan *romdBlock, sqlToWrite c
 			if !flags.useAvgSpeedFraction {
 				avgSpeedFraction = 1
 			}
-			
+
 			t := opModeFraction * avgSpeedFraction * sumSBD
 			if flags.keepOpModeID {
 				outputRecord.opModeFraction += t * sumSBDRaw
@@ -854,11 +856,11 @@ func makeBaseRateByAgeFromSourceBinRates(romdQueue chan *romdBlock, sqlToWrite c
 				outputRecord.emissionRateIMACAdj += rate.meanBaseRateIMACAdj * t
 			}
 		}
-    }
-	writeLines(outputRecords,true,files)
+	}
+	writeLines(outputRecords, true, files)
 	files.close()
 
-	fmt.Println("makeBaseRateByAgeFromSourceBinRates done, romdCount=",romdCount,", writeCount=",writeCount)
+	fmt.Println("makeBaseRateByAgeFromSourceBinRates done, romdCount=", romdCount, ", writeCount=", writeCount)
 }
 
 // Populate the BaseRate table from source-bin weighted emission rates.
@@ -866,17 +868,17 @@ func makeBaseRateFromSourceBinRates(romdQueue chan *romdBlock, sqlToWrite chan s
 	defer globalevents.GeneratorDone()
 
 	outputRecords := make(map[baseRateOutputKey]*baseRateOutputRecord)
-	files := newTempFiles(baseRateTableFileBase,baseRateTableName,
-			"sourceTypeID, roadTypeID, avgSpeedBinID, hourDayID, polProcessID, modelYearID, fuelTypeID, regClassID, opModeID," +
+	files := newTempFiles(baseRateTableFileBase, baseRateTableName,
+		"sourceTypeID, roadTypeID, avgSpeedBinID, hourDayID, polProcessID, modelYearID, fuelTypeID, regClassID, opModeID,"+
 			"opModeFraction, opModeFractionRate, MeanBaseRate, MeanBaseRateIM, MeanBaseRateACAdj, MeanBaseRateIMACAdj, emissionRate, emissionRateIM, emissionRateACAdj, emissionRateIMACAdj, processID, pollutantID",
-			sqlToWrite)
+		sqlToWrite)
 	var romdCount, writeCount int
 
 	var currentKey, previousKey romdKey
 	hasPreviousKey := false
 
 	for romd := range romdQueue {
-    	romdCount++
+		romdCount++
 		// Look for changes in ROMD's key so accumulated data can write written to the database.
 		currentKey.sourceTypeID = romd.key.sourceTypeID
 		currentKey.polProcessID = romd.key.polProcessID
@@ -892,7 +894,7 @@ func makeBaseRateFromSourceBinRates(romdQueue chan *romdBlock, sqlToWrite chan s
 		// changes, all accumulated data can be written to disk as it
 		// will never be needed again.
 		if hasPreviousKey && currentKey != previousKey {
-			writeLines(outputRecords,false,files)
+			writeLines(outputRecords, false, files)
 		}
 		hasPreviousKey = true
 		previousKey = currentKey
@@ -905,12 +907,12 @@ func makeBaseRateFromSourceBinRates(romdQueue chan *romdBlock, sqlToWrite chan s
 		rates, found := sbWeightedEmissionRate[sbKey]
 		if !found && romd.key.opModeID >= 1000 {
 			/*
-			The ratesopmodedistribution contains entries for all vehicle combinations, expressed as opmode offsets, that exist at any time, 
-			rather than just in the 30 year window of the runspec. However, other tables don't contain entries for these offset opmodes 
-			because they ARE based on the runspec window. On top of this, the Go code handles this too elegantly, looking for non-offset 
-			opmodes when it doesn't find the offset opmode that isn't relevant for the runspec. This leads to double-counting. 
-			Putting in a continue, instead of checking for a non-offset opmode, prevents this double-counting from taking place. We are 
-			leaving the original code (commented out) for added context to this comment.
+				The ratesopmodedistribution contains entries for all vehicle combinations, expressed as opmode offsets, that exist at any time,
+				rather than just in the 40 year window of the runspec. However, other tables don't contain entries for these offset opmodes
+				because they ARE based on the runspec window. On top of this, the Go code handles this too elegantly, looking for non-offset
+				opmodes when it doesn't find the offset opmode that isn't relevant for the runspec. This leads to double-counting.
+				Putting in a continue, instead of checking for a non-offset opmode, prevents this double-counting from taking place. We are
+				leaving the original code (commented out) for added context to this comment.
 			*/
 			continue
 			// sbKey.opModeID = romd.key.opModeID % 100
@@ -921,20 +923,19 @@ func makeBaseRateFromSourceBinRates(romdQueue chan *romdBlock, sqlToWrite chan s
 		}
 		var outputKey baseRateOutputKey
 		var outputRecord *baseRateOutputRecord
-		
+
 		for _, rate := range rates {
 			if romd.key.regClassID > 0 && romd.key.regClassID != rate.regClassID {
 				continue
 			}
 			if romd.key.beginModelYearID > 0 && romd.key.endModelYearID > 0 &&
-					(rate.modelYearID < romd.key.beginModelYearID || rate.modelYearID > romd.key.endModelYearID) {
+				(rate.modelYearID < romd.key.beginModelYearID || rate.modelYearID > romd.key.endModelYearID) {
 				continue
 			}
 			outputKey.fromRomdKey(&currentKey)
 			outputKey.fromSBbyAge(rate)
 			outputRecord = outputRecords[outputKey]
-			
-			
+
 			if outputRecord == nil {
 				writeCount++
 				outputRecord = new(baseRateOutputRecord)
@@ -947,19 +948,18 @@ func makeBaseRateFromSourceBinRates(romdQueue chan *romdBlock, sqlToWrite chan s
 				}
 				outputRecord.hourDayID = romd.key.hourDayID
 				outputRecord.polProcessID = romd.key.polProcessID
-				outputRecord.processID = outputRecord.polProcessID % 100;
-				outputRecord.pollutantID = outputRecord.polProcessID / 100;
-				
-				
+				outputRecord.processID = outputRecord.polProcessID % 100
+				outputRecord.pollutantID = outputRecord.polProcessID / 100
+
 				/* if flags.keepOpModeID {
 					outputRecord.opModeID = romd.key.opModeID
 				} else {
 					outputRecord.opModeID = 0
 				} */
 				// EM- the above check does not work, becuase MOVES is run not to keep the opModes
-				// regardless of whether its run in rates or inventory mode. The flags.keepOpModeID 
+				// regardless of whether its run in rates or inventory mode. The flags.keepOpModeID
 				// in other words, is always false. However, rates mode needs the opModeID to be kept.
-				// Therefore, if we put in a check on the keepAvgSpeedBinID (which does change from 
+				// Therefore, if we put in a check on the keepAvgSpeedBinID (which does change from
 				// rates to inventory, we should get the effect we're looking for without increasing
 				// the runtime for inventory mode. This was copied from the makeBaseRateByAgeFromSourceBinRates
 				// function.
@@ -1079,17 +1079,17 @@ func makeBaseRateFromSourceBinRates(romdQueue chan *romdBlock, sqlToWrite chan s
 			outputRecord.opModeFractionRate += t
 
 			t = opModeFraction * avgSpeedFraction * sumSBDRaw
-			
+
 			//EM - for ONI, we need to write an exception to undo the weighting
 			//	This is becuase the weight causes the rates in ratePerVehicle to
 			//	disagree with inventory for refueling, which is tied to energy consumption
-			//	This is a corner case with a written exception, and should probably be 
-			//	refactored in the near-medium term. 
+			//	This is a corner case with a written exception, and should probably be
+			//	refactored in the near-medium term.
 			if flags.useAvgSpeedBin && outputRecord.roadTypeID == 1 && outputRecord.processID == 1 && outputRecord.pollutantID == 91 {
 				//We only use pollutantID 91 (total energy consumption) because that's what refueling is chaind to
 				t *= rate.sumSBDRaw
 			}
-			
+
 			outputRecord.meanBaseRate += rate.meanBaseRate * t
 			outputRecord.meanBaseRateIM += rate.meanBaseRateIM * t
 			outputRecord.meanBaseRateACAdj += rate.meanBaseRateACAdj * t
@@ -1110,11 +1110,11 @@ func makeBaseRateFromSourceBinRates(romdQueue chan *romdBlock, sqlToWrite chan s
 				outputRecord.emissionRateIMACAdj += rate.meanBaseRateIMACAdj * t
 			}
 		}
-    }
-	writeLines(outputRecords,false,files)
+	}
+	writeLines(outputRecords, false, files)
 	files.close()
 
-	fmt.Println("makeBaseRateFromSourceBinRates done, romdCount=",romdCount,",writeCount=",writeCount)
+	fmt.Println("makeBaseRateFromSourceBinRates done, romdCount=", romdCount, ",writeCount=", writeCount)
 }
 
 // Populate the BaseRate table from distance-based source-bin weighted emission rates.
@@ -1122,28 +1122,28 @@ func makeBaseRateFromDistanceRates(sqlToWrite chan string) {
 	defer globalevents.GeneratorDone()
 
 	outputRecords := make(map[baseRateOutputKey]*baseRateOutputRecord)
-	files := newTempFiles(baseRateTableFileBase,baseRateTableName,
-			"sourceTypeID, roadTypeID, avgSpeedBinID, hourDayID, polProcessID, modelYearID, fuelTypeID, regClassID, opModeID," +
+	files := newTempFiles(baseRateTableFileBase, baseRateTableName,
+		"sourceTypeID, roadTypeID, avgSpeedBinID, hourDayID, polProcessID, modelYearID, fuelTypeID, regClassID, opModeID,"+
 			"opModeFraction, opModeFractionRate, MeanBaseRate, MeanBaseRateIM, MeanBaseRateACAdj, MeanBaseRateIMACAdj, emissionRate, emissionRateIM, emissionRateACAdj, emissionRateIMACAdj, processID, pollutantID",
-			sqlToWrite)
+		sqlToWrite)
 
 	db := configuration.OpenExecutionDatabase()
 	defer db.Close()
 
 	fmt.Println("Querying SBWeightedDistanceRate...")
 	sql := "select sourceTypeID,avgSpeedBinID,polProcessID,modelYearID,fuelTypeID,regClassID," +
-			" meanBaseRate,meanBaseRateIM,meanBaseRateACAdj,meanBaseRateIMACAdj,sumSBD,sumSBDRaw" +
-			" from SBWeightedDistanceRate" +
-			" where mod(polProcessID,100)=" + strconv.Itoa(flags.processID) +
-			" order by sourceTypeID,polProcessID,modelYearID,fuelTypeID,regClassID,avgSpeedBinID"
+		" meanBaseRate,meanBaseRateIM,meanBaseRateACAdj,meanBaseRateIMACAdj,sumSBD,sumSBDRaw" +
+		" from SBWeightedDistanceRate" +
+		" where mod(polProcessID,100)=" + strconv.Itoa(flags.processID) +
+		" order by sourceTypeID,polProcessID,modelYearID,fuelTypeID,regClassID,avgSpeedBinID"
 	rows, err := db.Query(sql)
 	configuration.CheckErr(err)
 
 	defer rows.Close()
 	rowCount := 0
 
-	var sourceTypeID,avgSpeedBinID,polProcessID,modelYearID,fuelTypeID,regClassID int
-	var rateMeanBaseRate,rateMeanBaseRateIM,rateMeanBaseRateACAdj,rateMeanBaseRateIMACAdj,rateSumSBD,rateSumSBDRaw float64
+	var sourceTypeID, avgSpeedBinID, polProcessID, modelYearID, fuelTypeID, regClassID int
+	var rateMeanBaseRate, rateMeanBaseRateIM, rateMeanBaseRateACAdj, rateMeanBaseRateIMACAdj, rateSumSBD, rateSumSBDRaw float64
 	var roadTypeID, hourDayID int
 	var rateAvgBinSpeed, rateAvgSpeedFraction float64
 	var avgSpeedKey avgSpeedDistributionKey
@@ -1156,14 +1156,14 @@ func makeBaseRateFromDistanceRates(sqlToWrite chan string) {
 
 	for rows.Next() {
 		rowCount++
-		err = rows.Scan(&sourceTypeID,&avgSpeedBinID,&polProcessID,&modelYearID,&fuelTypeID,&regClassID,
-				&rateMeanBaseRate,&rateMeanBaseRateIM,&rateMeanBaseRateACAdj,&rateMeanBaseRateIMACAdj,&rateSumSBD,&rateSumSBDRaw)
+		err = rows.Scan(&sourceTypeID, &avgSpeedBinID, &polProcessID, &modelYearID, &fuelTypeID, &regClassID,
+			&rateMeanBaseRate, &rateMeanBaseRateIM, &rateMeanBaseRateACAdj, &rateMeanBaseRateIMACAdj, &rateSumSBD, &rateSumSBDRaw)
 		configuration.CheckErr(err)
 
 		currentKey.sourceTypeID = sourceTypeID
 		currentKey.polProcessID = polProcessID
 		if hasPreviousKey && currentKey != previousKey {
-			writeLines(outputRecords,false,files)
+			writeLines(outputRecords, false, files)
 		}
 		hasPreviousKey = true
 		previousKey = currentKey
@@ -1211,8 +1211,8 @@ func makeBaseRateFromDistanceRates(sqlToWrite chan string) {
 					}
 					outputRecord.ageGroupID = 0
 
-					outputRecord.processID = outputRecord.polProcessID % 100;
-					outputRecord.pollutantID = outputRecord.polProcessID / 100;
+					outputRecord.processID = outputRecord.polProcessID % 100
+					outputRecord.pollutantID = outputRecord.polProcessID / 100
 					if flags.keepOpModeID {
 						outputRecord.opModeID = 300
 					} else {
@@ -1339,10 +1339,10 @@ func makeBaseRateFromDistanceRates(sqlToWrite chan string) {
 			}
 		}
 	}
-	writeLines(outputRecords,false,files)
+	writeLines(outputRecords, false, files)
 	files.close()
 
-	fmt.Println("Done reading SBWeightedDistanceRate. Row Count=",rowCount)
+	fmt.Println("Done reading SBWeightedDistanceRate. Row Count=", rowCount)
 }
 
 // Create the required temporary table(s) and set and final SQL to move data to the primary table(s).
@@ -1390,7 +1390,7 @@ func readAvgSpeedBin(db *sql.DB) {
 		configuration.CheckErr(err)
 		avgSpeedBin[k] = d
 	}
-	fmt.Println("Done reading AvgSpeedBin. Row Count=",rowCount)
+	fmt.Println("Done reading AvgSpeedBin. Row Count=", rowCount)
 }
 
 // Read the DriveSchedule table into memory.
@@ -1410,15 +1410,15 @@ func readDriveSchedule(db *sql.DB) {
 		configuration.CheckErr(err)
 		driveSchedule[k] = d
 	}
-	fmt.Println("Done reading DriveSchedule. Row Count=",rowCount)
+	fmt.Println("Done reading DriveSchedule. Row Count=", rowCount)
 }
 
 // Read the AvgSpeedDistribution table into memory.
 func readAvgSpeedDistribution(db *sql.DB) {
 	fmt.Println("Querying AvgSpeedDistribution...")
 	sql := "select sourceTypeID,roadTypeID,hourDayID,avgSpeedBinID,avgSpeedFraction,avgBinSpeed" +
-			" from avgSpeedDistribution" +
-			" inner join avgSpeedBin using (avgSpeedBinID)"
+		" from avgSpeedDistribution" +
+		" inner join avgSpeedBin using (avgSpeedBinID)"
 	if flags.roadTypeID > 0 {
 		sql += " where roadTypeID=" + strconv.Itoa(flags.roadTypeID)
 	}
@@ -1435,21 +1435,21 @@ func readAvgSpeedDistribution(db *sql.DB) {
 		configuration.CheckErr(err)
 		avgSpeedDistribution[k] = d
 	}
-	fmt.Println("Done reading AvgSpeedDistribution. Row Count=",rowCount)
+	fmt.Println("Done reading AvgSpeedDistribution. Row Count=", rowCount)
 }
 
 // Read the SourceUseTypePhysicsMapping table into memory.
 func readSourceUseTypePhysicsMapping(db *sql.DB) {
 	fmt.Println("Querying SourceUseTypePhysicsMapping...")
-	SourceUseTypePhysicsMapping = make([]*SourceUseTypePhysicsMappingDetail,0,10000)
+	SourceUseTypePhysicsMapping = make([]*SourceUseTypePhysicsMappingDetail, 0, 10000)
 	SourceUseTypePhysicsMappingByTempSourceType = make(map[int]*SourceUseTypePhysicsMappingDetail)
 	SourceUseTypePhysicsMappingByRealSourceType = make(map[int]*SourceUseTypePhysicsMappingDetail)
 	rows, err := db.Query("select distinct realSourceTypeID, tempSourceTypeID, opModeIDOffset," +
-			" regClassID, beginModelYearID, endModelYearID," +
-			" rollingTermA, rotatingTermB, dragTermC, sourceMass, fixedMassFactor" +
-			" from sourceUseTypePhysicsMapping" +
-			//" where realSourceTypeID <> tempSourceTypeID" +
-			" order by realSourceTypeID, beginModelYearID")
+		" regClassID, beginModelYearID, endModelYearID," +
+		" rollingTermA, rotatingTermB, dragTermC, sourceMass, fixedMassFactor" +
+		" from sourceUseTypePhysicsMapping" +
+		//" where realSourceTypeID <> tempSourceTypeID" +
+		" order by realSourceTypeID, beginModelYearID")
 	configuration.CheckErr(err)
 
 	defer rows.Close()
@@ -1457,26 +1457,26 @@ func readSourceUseTypePhysicsMapping(db *sql.DB) {
 	for rows.Next() {
 		rowCount++
 		d := new(SourceUseTypePhysicsMappingDetail)
-		err = rows.Scan(&d.RealSourceTypeID,&d.TempSourceTypeID,&d.OpModeIDOffset,
-				&d.regClassID, &d.beginModelYearID, &d.endModelYearID,
-				&d.rollingTermA, &d.rotatingTermB, &d.dragTermC, &d.sourceMass, &d.fixedMassFactor)
+		err = rows.Scan(&d.RealSourceTypeID, &d.TempSourceTypeID, &d.OpModeIDOffset,
+			&d.regClassID, &d.beginModelYearID, &d.endModelYearID,
+			&d.rollingTermA, &d.rotatingTermB, &d.dragTermC, &d.sourceMass, &d.fixedMassFactor)
 		configuration.CheckErr(err)
-		SourceUseTypePhysicsMapping = append(SourceUseTypePhysicsMapping,d)
+		SourceUseTypePhysicsMapping = append(SourceUseTypePhysicsMapping, d)
 		SourceUseTypePhysicsMappingByTempSourceType[d.TempSourceTypeID] = d
 		SourceUseTypePhysicsMappingByRealSourceType[d.RealSourceTypeID] = d // ok to overwrite something else
 	}
-	fmt.Println("Done reading SourceUseTypePhysicsMapping. Row Count=",rowCount)
+	fmt.Println("Done reading SourceUseTypePhysicsMapping. Row Count=", rowCount)
 }
 
 // Read the SBWeightedEmissionRateByAge table into memory.
 func readSBWeightedEmissionRateByAge(db *sql.DB) {
 	fmt.Println("Querying SBWeightedEmissionRateByAge...")
 	rows, err := db.Query("select sourceTypeID, polProcessID, opModeID," +
-			" modelYearID, fuelTypeID, ageGroupID, regClassID," +
-			" sumSBD, sumSBDRaw, " +
-			" meanBaseRate, meanBaseRateIM, meanBaseRateACAdj, meanBaseRateIMACAdj " +
-			" from SBWeightedEmissionRateByAge" +
-			" where mod(polProcessID,100) = " + strconv.Itoa(flags.processID))
+		" modelYearID, fuelTypeID, ageGroupID, regClassID," +
+		" sumSBD, sumSBDRaw, " +
+		" meanBaseRate, meanBaseRateIM, meanBaseRateACAdj, meanBaseRateIMACAdj " +
+		" from SBWeightedEmissionRateByAge" +
+		" where mod(polProcessID,100) = " + strconv.Itoa(flags.processID))
 	configuration.CheckErr(err)
 
 	defer rows.Close()
@@ -1485,9 +1485,9 @@ func readSBWeightedEmissionRateByAge(db *sql.DB) {
 		rowCount++
 		d := new(sbWeightedEmissionRateByAgeDetail)
 		err = rows.Scan(&d.sourceTypeID, &d.polProcessID, &d.opModeID,
-					&d.modelYearID, &d.fuelTypeID, &d.ageGroupID, &d.regClassID,
-					&d.sumSBD, &d.sumSBDRaw,
-					&d.meanBaseRate, &d.meanBaseRateIM, &d.meanBaseRateACAdj, &d.meanBaseRateIMACAdj)
+			&d.modelYearID, &d.fuelTypeID, &d.ageGroupID, &d.regClassID,
+			&d.sumSBD, &d.sumSBDRaw,
+			&d.meanBaseRate, &d.meanBaseRateIM, &d.meanBaseRateACAdj, &d.meanBaseRateIMACAdj)
 		configuration.CheckErr(err)
 		var k sbWeightedEmissionRateByAgeKey
 		k.sourceTypeID = d.sourceTypeID
@@ -1495,23 +1495,23 @@ func readSBWeightedEmissionRateByAge(db *sql.DB) {
 		k.opModeID = d.opModeID
 		detailList, found := sbWeightedEmissionRateByAge[k]
 		if !found {
-			detailList = make([]*sbWeightedEmissionRateByAgeDetail,0,20)
+			detailList = make([]*sbWeightedEmissionRateByAgeDetail, 0, 20)
 		}
-		detailList = append(detailList,d)
+		detailList = append(detailList, d)
 		sbWeightedEmissionRateByAge[k] = detailList
 	}
-	fmt.Println("Done reading SBWeightedEmissionRateByAge. Row Count=",rowCount)
+	fmt.Println("Done reading SBWeightedEmissionRateByAge. Row Count=", rowCount)
 }
 
 // Read the SBWeightedEmissionRate table into memory.
 func readSBWeightedEmissionRate(db *sql.DB) {
 	fmt.Println("Querying SBWeightedEmissionRate...")
 	rows, err := db.Query("select sourceTypeID, polProcessID, opModeID," +
-			" modelYearID, fuelTypeID, regClassID," +
-			" sumSBD, sumSBDRaw, " +
-			" meanBaseRate, meanBaseRateIM, meanBaseRateACAdj, meanBaseRateIMACAdj " +
-			" from SBWeightedEmissionRate" +
-			" where mod(polProcessID,100) = " + strconv.Itoa(flags.processID))
+		" modelYearID, fuelTypeID, regClassID," +
+		" sumSBD, sumSBDRaw, " +
+		" meanBaseRate, meanBaseRateIM, meanBaseRateACAdj, meanBaseRateIMACAdj " +
+		" from SBWeightedEmissionRate" +
+		" where mod(polProcessID,100) = " + strconv.Itoa(flags.processID))
 	configuration.CheckErr(err)
 
 	defer rows.Close()
@@ -1520,9 +1520,9 @@ func readSBWeightedEmissionRate(db *sql.DB) {
 		rowCount++
 		d := new(sbWeightedEmissionRateByAgeDetail)
 		err = rows.Scan(&d.sourceTypeID, &d.polProcessID, &d.opModeID,
-					&d.modelYearID, &d.fuelTypeID, &d.regClassID,
-					&d.sumSBD, &d.sumSBDRaw,
-					&d.meanBaseRate, &d.meanBaseRateIM, &d.meanBaseRateACAdj, &d.meanBaseRateIMACAdj)
+			&d.modelYearID, &d.fuelTypeID, &d.regClassID,
+			&d.sumSBD, &d.sumSBDRaw,
+			&d.meanBaseRate, &d.meanBaseRateIM, &d.meanBaseRateACAdj, &d.meanBaseRateIMACAdj)
 		configuration.CheckErr(err)
 		var k sbWeightedEmissionRateByAgeKey
 		k.sourceTypeID = d.sourceTypeID
@@ -1530,30 +1530,30 @@ func readSBWeightedEmissionRate(db *sql.DB) {
 		k.opModeID = d.opModeID
 		detailList, found := sbWeightedEmissionRate[k]
 		if !found {
-			detailList = make([]*sbWeightedEmissionRateByAgeDetail,0,20)
+			detailList = make([]*sbWeightedEmissionRateByAgeDetail, 0, 20)
 		}
-		detailList = append(detailList,d)
+		detailList = append(detailList, d)
 		sbWeightedEmissionRate[k] = detailList
 
 		if k.opModeID >= 1000 {
 			k.opModeID = k.opModeID % 100
 			detailList, found := sbWeightedEmissionRate[k]
 			if !found {
-				detailList = make([]*sbWeightedEmissionRateByAgeDetail,0,20)
+				detailList = make([]*sbWeightedEmissionRateByAgeDetail, 0, 20)
 			}
-			detailList = append(detailList,d)
+			detailList = append(detailList, d)
 			sbWeightedEmissionRate[k] = detailList
 		}
 	}
-	fmt.Println("Done reading SBWeightedEmissionRate. Row Count=",rowCount)
+	fmt.Println("Done reading SBWeightedEmissionRate. Row Count=", rowCount)
 }
 
 // Read the runSpecRoadType table into memory.
 func readRunSpecRoadType(db *sql.DB) {
 	fmt.Println("Querying runSpecRoadType...")
 	sql := "select roadTypeID" +
-			" from runSpecRoadType" +
-			" where roadTypeID > 0 and roadTypeID < 100"
+		" from runSpecRoadType" +
+		" where roadTypeID > 0 and roadTypeID < 100"
 	if flags.roadTypeID > 0 {
 		sql += " and roadTypeID=" + strconv.Itoa(flags.roadTypeID)
 	}
@@ -1568,18 +1568,18 @@ func readRunSpecRoadType(db *sql.DB) {
 		err = rows.Scan(&roadTypeID)
 		configuration.CheckErr(err)
 		if roadTypeID != 1 {
-			runSpecRoadType = append(runSpecRoadType,roadTypeID)
+			runSpecRoadType = append(runSpecRoadType, roadTypeID)
 		}
-		runSpecRoadTypeWithOffNetwork = append(runSpecRoadTypeWithOffNetwork,roadTypeID)
+		runSpecRoadTypeWithOffNetwork = append(runSpecRoadTypeWithOffNetwork, roadTypeID)
 	}
-	fmt.Println("Done reading runSpecRoadType. Row Count=",rowCount)
+	fmt.Println("Done reading runSpecRoadType. Row Count=", rowCount)
 }
 
 // Read the runSpecHourDay table into memory.
 func readRunSpecHourDay(db *sql.DB) {
 	fmt.Println("Querying runSpecHourDay...")
 	sql := "select hourDayID" +
-			" from runSpecHourDay"
+		" from runSpecHourDay"
 	rows, err := db.Query(sql)
 	configuration.CheckErr(err)
 
@@ -1590,16 +1590,16 @@ func readRunSpecHourDay(db *sql.DB) {
 		hourDayID := 0
 		err = rows.Scan(&hourDayID)
 		configuration.CheckErr(err)
-		runSpecHourDay = append(runSpecHourDay,hourDayID)
+		runSpecHourDay = append(runSpecHourDay, hourDayID)
 	}
-	fmt.Println("Done reading runSpecHourDay. Row Count=",rowCount)
+	fmt.Println("Done reading runSpecHourDay. Row Count=", rowCount)
 }
 
 // Read the runSpecSourceType table into memory.
 func readRunSpecSourceType(db *sql.DB) {
 	fmt.Println("Querying runSpecSourceType...")
 	sql := "select sourceTypeID" +
-			" from runSpecSourceType"
+		" from runSpecSourceType"
 	rows, err := db.Query(sql)
 	configuration.CheckErr(err)
 
@@ -1610,9 +1610,9 @@ func readRunSpecSourceType(db *sql.DB) {
 		sourceTypeID := 0
 		err = rows.Scan(&sourceTypeID)
 		configuration.CheckErr(err)
-		runSpecSourceType = append(runSpecSourceType,sourceTypeID)
+		runSpecSourceType = append(runSpecSourceType, sourceTypeID)
 	}
-	fmt.Println("Done reading runSpecSourceType. Row Count=",rowCount)
+	fmt.Println("Done reading runSpecSourceType. Row Count=", rowCount)
 }
 
 // Read the runSpecPollutantProcess table into memory.
@@ -1621,11 +1621,11 @@ func readRunSpecSourceType(db *sql.DB) {
 func readRunSpecPollutantProcess(db *sql.DB) {
 	fmt.Println("Querying runSpecPollutantProcess...")
 	rows, err := db.Query("select distinct polProcessID" +
-			" from runspecpollutantprocess" +
-			" inner join opmodepolprocassoc using (polProcessID)" +
-			" where polProcessID > 0" +
-			" and opModeID >= 0 and opModeID < 100" +
-			" and mod(polProcessID,100)=" + strconv.Itoa(flags.processID))
+		" from runspecpollutantprocess" +
+		" inner join opmodepolprocassoc using (polProcessID)" +
+		" where polProcessID > 0" +
+		" and opModeID >= 0 and opModeID < 100" +
+		" and mod(polProcessID,100)=" + strconv.Itoa(flags.processID))
 	configuration.CheckErr(err)
 
 	defer rows.Close()
@@ -1635,9 +1635,9 @@ func readRunSpecPollutantProcess(db *sql.DB) {
 		polProcessID := 0
 		err = rows.Scan(&polProcessID)
 		configuration.CheckErr(err)
-		runSpecPolProcessID = append(runSpecPolProcessID,polProcessID)
+		runSpecPolProcessID = append(runSpecPolProcessID, polProcessID)
 	}
-	fmt.Println("Done reading runSpecPollutantProcess. Row Count=",rowCount)
+	fmt.Println("Done reading runSpecPollutantProcess. Row Count=", rowCount)
 }
 
 // Read the runSpecModelYear table into memory.
@@ -1655,7 +1655,7 @@ func readRunSpecModelYear(db *sql.DB) {
 		configuration.CheckErr(err)
 		runSpecModelYear[modelYearID] = true
 	}
-	fmt.Println("Done reading runSpecModelYear. Row Count=",rowCount)
+	fmt.Println("Done reading runSpecModelYear. Row Count=", rowCount)
 }
 
 // Read the DriveScheduleAssoc table into memory.
@@ -1678,21 +1678,21 @@ func readDriveScheduleAssoc(db *sql.DB) {
 		configuration.CheckErr(err)
 		detailList, found := driveScheduleAssoc[k]
 		if !found {
-			detailList = make([]int,0,20)
+			detailList = make([]int, 0, 20)
 		}
-		detailList = append(detailList,d)
+		detailList = append(detailList, d)
 		driveScheduleAssoc[k] = detailList
 	}
-	fmt.Println("Done reading DriveScheduleAssoc. Row Count=",rowCount)
+	fmt.Println("Done reading DriveScheduleAssoc. Row Count=", rowCount)
 }
 
 // Read the OperatingMode table into memory. Only modes > 1 and < 100 are read.
 func readOperatingMode(db *sql.DB) {
 	fmt.Println("Querying OperatingMode...")
 	sql := "select opModeID,ifnull(VSPLower,0),ifnull(VSPUpper,0),ifnull(speedLower,0),ifnull(speedUpper,0)," +
-	 		" isnull(VSPLower),isnull(VSPUpper),isnull(speedLower),isnull(speedUpper)" +
-			" from operatingMode" +
-			" where opModeID > 1 and opModeID < 100 and opModeID not in (26,36)"
+		" isnull(VSPLower),isnull(VSPUpper),isnull(speedLower),isnull(speedUpper)" +
+		" from operatingMode" +
+		" where opModeID > 1 and opModeID < 100 and opModeID not in (26,36)"
 	rows, err := db.Query(sql)
 	configuration.CheckErr(err)
 
@@ -1703,30 +1703,30 @@ func readOperatingMode(db *sql.DB) {
 	for rows.Next() {
 		rowCount++
 		d = new(operatingMode)
-		err = rows.Scan(&k,&d.VSPLower,&d.VSPUpper,&d.speedLower,&d.speedUpper,
-			&d.isnullVSPLower,&d.isnullVSPUpper,&d.isnullSpeedLower,&d.isnullSpeedUpper)
+		err = rows.Scan(&k, &d.VSPLower, &d.VSPUpper, &d.speedLower, &d.speedUpper,
+			&d.isnullVSPLower, &d.isnullVSPUpper, &d.isnullSpeedLower, &d.isnullSpeedUpper)
 		configuration.CheckErr(err)
 		d.opModeID = k
 		operatingModes[k] = d
 	}
-	fmt.Println("Done reading OperatingMode. Row Count=",rowCount)
+	fmt.Println("Done reading OperatingMode. Row Count=", rowCount)
 }
 
 // Unique key for a bracketed speedbin
 type DriveCycleBracketedBinKey struct {
-	pDetail *SourceUseTypePhysicsMappingDetail
+	pDetail                   *SourceUseTypePhysicsMappingDetail
 	roadTypeID, avgSpeedBinID int
 }
 
 // A bracketed speedbin
 type DriveCycleBracketedBinDetail struct {
 	scheduleFractions map[int]float64
-	opModeFractions map[int]float64
+	opModeFractions   map[int]float64
 }
 
 // Unique key for a physics/driveschedule combination
 type DriveScheduleOpModeDistributionKey struct {
-	pDetail *SourceUseTypePhysicsMappingDetail
+	pDetail         *SourceUseTypePhysicsMappingDetail
 	driveScheduleID int
 }
 
@@ -1737,8 +1737,8 @@ type DriveScheduleOpModeDistributionDetail struct {
 
 // Find drive cycles that bracket each source type, road type, and speed bin
 func findDriveCycles(db *sql.DB,
-		driveCycleBracketedBins map[DriveCycleBracketedBinKey]*DriveCycleBracketedBinDetail,
-		driveScheduleOpModeDistributions map[DriveScheduleOpModeDistributionKey]*DriveScheduleOpModeDistributionDetail) {
+	driveCycleBracketedBins map[DriveCycleBracketedBinKey]*DriveCycleBracketedBinDetail,
+	driveScheduleOpModeDistributions map[DriveScheduleOpModeDistributionKey]*DriveScheduleOpModeDistributionDetail) {
 	fmt.Println("findDriveCycles...")
 	defer fmt.Println("findDriveCycles Done.")
 
@@ -1787,34 +1787,34 @@ func findDriveCycles(db *sql.DB,
 				highDriveScheduleFraction = 1
 				// Complain about missing data
 				fmt.Println("WARNING: All driving cycles for avgSpeedBinID " + strconv.Itoa(avgSpeedBinID) +
-						" for sourcetype " + strconv.Itoa(srKey.sourceTypeID) +
-						" on roadtype " + strconv.Itoa(srKey.roadTypeID) +
-						" were too fast." +
-						" MOVES results for this speed were extrapolated from the closest available driving cycles.")
+					" for sourcetype " + strconv.Itoa(srKey.sourceTypeID) +
+					" on roadtype " + strconv.Itoa(srKey.roadTypeID) +
+					" were too fast." +
+					" MOVES results for this speed were extrapolated from the closest available driving cycles.")
 			} else if bestHighDriveScheduleID < 0 { // If no upper bounding cycle...
 				lowDriveScheduleFraction = 1
 				highDriveScheduleFraction = 0
 				// Complain about missing data
 				fmt.Println("WARNING: All driving cycles for avgSpeedBinID " + strconv.Itoa(avgSpeedBinID) +
-						" for sourcetype " + strconv.Itoa(srKey.sourceTypeID) +
-						" on roadtype " + strconv.Itoa(srKey.roadTypeID) +
-						" were too slow." +
-						" MOVES results for this speed were extrapolated from the closest available driving cycles.")
+					" for sourcetype " + strconv.Itoa(srKey.sourceTypeID) +
+					" on roadtype " + strconv.Itoa(srKey.roadTypeID) +
+					" were too slow." +
+					" MOVES results for this speed were extrapolated from the closest available driving cycles.")
 			} else {
 				// Assign proportions. Note the swapped variables.
 				lowDriveScheduleFraction = (bestHighDriveScheduleSpeed - avgBinSpeed) / totalSpan
 				highDriveScheduleFraction = (avgBinSpeed - bestLowDriveScheduleSpeed) / totalSpan
 			}
 
-			cyclesToUse := make([]int,0,2)
-			fractionsToUse := make([]float64,0,2)
+			cyclesToUse := make([]int, 0, 2)
+			fractionsToUse := make([]float64, 0, 2)
 			if lowDriveScheduleFraction > 0 {
-				cyclesToUse = append(cyclesToUse,bestLowDriveScheduleID)
-				fractionsToUse = append(fractionsToUse,lowDriveScheduleFraction)
+				cyclesToUse = append(cyclesToUse, bestLowDriveScheduleID)
+				fractionsToUse = append(fractionsToUse, lowDriveScheduleFraction)
 			}
 			if highDriveScheduleFraction > 0 {
-				cyclesToUse = append(cyclesToUse,bestHighDriveScheduleID)
-				fractionsToUse = append(fractionsToUse,highDriveScheduleFraction)
+				cyclesToUse = append(cyclesToUse, bestHighDriveScheduleID)
+				fractionsToUse = append(fractionsToUse, highDriveScheduleFraction)
 			}
 			// For every source type physics that applies to the base source type...
 			//var SourceUseTypePhysicsMapping []*SourceUseTypePhysicsMappingDetail
@@ -1829,7 +1829,7 @@ func findDriveCycles(db *sql.DB,
 					//fmt.Println("physrc",pDetail.TempSourceTypeID,"src",srKey.sourceTypeID,"road",srKey.roadTypeID,"bin",avgSpeedBinID,"schedule",scheduleID,"fraction",fractionToUse)
 
 					// Record the combinations of physics/driveschedule/roadtype/avgSpeedBin
-					dcbKey := DriveCycleBracketedBinKey{pDetail,srKey.roadTypeID,avgSpeedBinID}
+					dcbKey := DriveCycleBracketedBinKey{pDetail, srKey.roadTypeID, avgSpeedBinID}
 					dcbDetail := driveCycleBracketedBins[dcbKey]
 					if dcbDetail == nil {
 						dcbDetail = new(DriveCycleBracketedBinDetail)
@@ -1840,7 +1840,7 @@ func findDriveCycles(db *sql.DB,
 					dcbDetail.scheduleFractions[scheduleID] = fractionToUse
 
 					// Record the unique combinations of physics/driveschedule
-					dsodKey := DriveScheduleOpModeDistributionKey{pDetail,scheduleID}
+					dsodKey := DriveScheduleOpModeDistributionKey{pDetail, scheduleID}
 					dsodDetail := driveScheduleOpModeDistributions[dsodKey]
 					if dsodDetail == nil {
 						dsodDetail = new(DriveScheduleOpModeDistributionDetail)
@@ -1858,12 +1858,12 @@ func findDriveCycles(db *sql.DB,
 // 11609, it should stay operating mode 501. When used for any other pollutant/process,
 // it should be converted to opModeID 1 and summed into its fraction. Doing calculations this way
 // prevents any need to do second-by-second calculations for each pollutant/process.
-func calculateDriveCycleOpModeDistribution(db *sql.DB,pDetail *SourceUseTypePhysicsMappingDetail,
-		driveScheduleID int, opModeFractions map[int]float64) {
+func calculateDriveCycleOpModeDistribution(db *sql.DB, pDetail *SourceUseTypePhysicsMappingDetail,
+	driveScheduleID int, opModeFractions map[int]float64) {
 	type secondDetail struct {
-		hasOpMode bool
-		second, opModeID int
-		speed, acceleration, vsp float64
+		hasOpMode                 bool
+		second, opModeID          int
+		speed, acceleration, vsp  float64
 		speedMPH, accelerationMPH float64 // Miles Per Hour-based speed and acceleration
 	}
 	details := make(map[int]*secondDetail)
@@ -1872,9 +1872,9 @@ func calculateDriveCycleOpModeDistribution(db *sql.DB,pDetail *SourceUseTypePhys
 
 	shouldDebug := false
 	/*
-	if driveScheduleID==101 && pDetail.RealSourceTypeID==21 && pDetail.beginModelYearID==1960 {
-		shouldDebug = true
-	}
+		if driveScheduleID==101 && pDetail.RealSourceTypeID==21 && pDetail.beginModelYearID==1960 {
+			shouldDebug = true
+		}
 	*/
 
 	// Read the speed for each second...
@@ -1931,7 +1931,7 @@ func calculateDriveCycleOpModeDistribution(db *sql.DB,pDetail *SourceUseTypePhys
 	 * @algorithm Get the acceleration of every second beyond the first.
 	 * acceleration[t] = speed[t] - speed[t-1].
 	**/
-	for second := firstSecond+1; second <= lastSecond; second++ {
+	for second := firstSecond + 1; second <= lastSecond; second++ {
 		now := details[second]
 		then := details[second-1]
 		if now != nil && then != nil {
@@ -1976,7 +1976,7 @@ func calculateDriveCycleOpModeDistribution(db *sql.DB,pDetail *SourceUseTypePhys
 			 * @input sourceUseTypePhysicsMapping
 			**/
 			if !now.hasOpMode && pDetail.sourceMass > 0 && pDetail.fixedMassFactor > 0 {
-				now.vsp = (pDetail.rollingTermA * now.speedMPH + pDetail.rotatingTermB * math.Pow(now.speedMPH,2) + pDetail.dragTermC * math.Pow(now.speedMPH,3) + pDetail.sourceMass * now.speedMPH * now.accelerationMPH) / pDetail.fixedMassFactor
+				now.vsp = (pDetail.rollingTermA*now.speedMPH + pDetail.rotatingTermB*math.Pow(now.speedMPH, 2) + pDetail.dragTermC*math.Pow(now.speedMPH, 3) + pDetail.sourceMass*now.speedMPH*now.accelerationMPH) / pDetail.fixedMassFactor
 			}
 
 			/**
@@ -2018,19 +2018,19 @@ func calculateDriveCycleOpModeDistribution(db *sql.DB,pDetail *SourceUseTypePhys
 	}
 
 	if totalSeconds > 0 {
-		oneOverTotalSeconds := 1.0/float64(totalSeconds)
+		oneOverTotalSeconds := 1.0 / float64(totalSeconds)
 		if shouldDebug {
-			fmt.Println("driveScheduleID=",driveScheduleID," totalSeconds=",totalSeconds)
+			fmt.Println("driveScheduleID=", driveScheduleID, " totalSeconds=", totalSeconds)
 			fmt.Println("opModeID seconds")
 		}
 		for opModeID, secondsInOpMode := range opModeTotals {
 			opModeFractions[opModeID] = float64(secondsInOpMode) * oneOverTotalSeconds
 			if shouldDebug {
-				fmt.Println(opModeID," ",secondsInOpMode)
+				fmt.Println(opModeID, " ", secondsInOpMode)
 			}
 		}
 		if shouldDebug {
-			fmt.Println("end driveScheduleID=",driveScheduleID)
+			fmt.Println("end driveScheduleID=", driveScheduleID)
 		}
 	}
 }
@@ -2050,32 +2050,32 @@ func processDriveCycles(romdForBaseRateQueue, romdForBaseRateByAgeQueue chan *ro
 		createROMDTable(sqlToWrite)
 		romdTableName := "ratesOpModeDistributionDetail"
 		romdFileBase, _ := filepath.Abs(romdTableName)
-		files = newTempFiles(romdFileBase,romdTableName,
-				"sourceTypeID, polProcessID, roadTypeID, hourDayID, opModeID, avgSpeedBinID," +
-				"beginModelYearID, endModelYearID, regClassID," +
+		files = newTempFiles(romdFileBase, romdTableName,
+			"sourceTypeID, polProcessID, roadTypeID, hourDayID, opModeID, avgSpeedBinID,"+
+				"beginModelYearID, endModelYearID, regClassID,"+
 				"opModeFraction, avgBinSpeed, avgSpeedFraction",
-				sqlToWrite)
+			sqlToWrite)
 	}
 
 	driveCycleBracketedBins := make(map[DriveCycleBracketedBinKey]*DriveCycleBracketedBinDetail)
 	driveScheduleOpModeDistributions := make(map[DriveScheduleOpModeDistributionKey]*DriveScheduleOpModeDistributionDetail)
 
 	// Find the drive cycles to be used
-	findDriveCycles(db,driveCycleBracketedBins,driveScheduleOpModeDistributions)
-	fmt.Println("driveCycleBracketedBins=",len(driveCycleBracketedBins))
-	fmt.Println("driveScheduleOpModeDistributions=",len(driveScheduleOpModeDistributions))
+	findDriveCycles(db, driveCycleBracketedBins, driveScheduleOpModeDistributions)
+	fmt.Println("driveCycleBracketedBins=", len(driveCycleBracketedBins))
+	fmt.Println("driveScheduleOpModeDistributions=", len(driveScheduleOpModeDistributions))
 
 	// Calculate the operating mode distributions for each combination of physics/drivecycle
 	didPrint := false
 	for k, d := range driveScheduleOpModeDistributions {
-		calculateDriveCycleOpModeDistribution(db,k.pDetail,k.driveScheduleID,d.opModeFractions)
+		calculateDriveCycleOpModeDistribution(db, k.pDetail, k.driveScheduleID, d.opModeFractions)
 		if !didPrint && len(d.opModeFractions) > 0 {
 			didPrint = true
 			/*
-			fmt.Println("For drive schedule ",k.driveScheduleID)
-			for opModeID, opModeFraction := range d.opModeFractions {
-				fmt.Println("opmode[",opModeID,"]=",opModeFraction)
-			}
+				fmt.Println("For drive schedule ",k.driveScheduleID)
+				for opModeID, opModeFraction := range d.opModeFractions {
+					fmt.Println("opmode[",opModeID,"]=",opModeFraction)
+				}
 			*/
 		}
 	}
@@ -2083,7 +2083,7 @@ func processDriveCycles(romdForBaseRateQueue, romdForBaseRateByAgeQueue chan *ro
 	// Combine the drive cycle operating mode distributions.
 	for dcbKey, dcbDetail := range driveCycleBracketedBins {
 		for driveScheduleID, driveScheduleFraction := range dcbDetail.scheduleFractions {
-			dsoKey := DriveScheduleOpModeDistributionKey{dcbKey.pDetail,driveScheduleID}
+			dsoKey := DriveScheduleOpModeDistributionKey{dcbKey.pDetail, driveScheduleID}
 			dsoDetail := driveScheduleOpModeDistributions[dsoKey]
 			if dsoDetail == nil {
 				continue
@@ -2094,12 +2094,12 @@ func processDriveCycles(romdForBaseRateQueue, romdForBaseRateByAgeQueue chan *ro
 		}
 	}
 
-	opModesToIterate := make([]int,0,100)
-	opModesToIterate = append(opModesToIterate,0)
-	opModesToIterate = append(opModesToIterate,1)
-	opModesToIterate = append(opModesToIterate,501)
+	opModesToIterate := make([]int, 0, 100)
+	opModesToIterate = append(opModesToIterate, 0)
+	opModesToIterate = append(opModesToIterate, 1)
+	opModesToIterate = append(opModesToIterate, 501)
 	for opModeID, _ := range operatingModes {
-		opModesToIterate = append(opModesToIterate,opModeID)
+		opModesToIterate = append(opModesToIterate, opModeID)
 	}
 
 	// Speedup access to bracketed bins
@@ -2108,14 +2108,14 @@ func processDriveCycles(romdForBaseRateQueue, romdForBaseRateByAgeQueue chan *ro
 	}
 	driveCycleBracketedBinsFast := make(map[dcbFastKey][]*DriveCycleBracketedBinKey)
 	for dcbKey, _ := range driveCycleBracketedBins {
-		k := dcbFastKey{dcbKey.pDetail.RealSourceTypeID,dcbKey.roadTypeID,dcbKey.avgSpeedBinID}
+		k := dcbFastKey{dcbKey.pDetail.RealSourceTypeID, dcbKey.roadTypeID, dcbKey.avgSpeedBinID}
 		v, found := driveCycleBracketedBinsFast[k]
 		if !found {
-			v = make([]*DriveCycleBracketedBinKey,0,20)
+			v = make([]*DriveCycleBracketedBinKey, 0, 20)
 		}
 		var dk DriveCycleBracketedBinKey
 		dk = dcbKey
-		v = append(v,&dk)
+		v = append(v, &dk)
 		driveCycleBracketedBinsFast[k] = v
 	}
 
@@ -2128,9 +2128,9 @@ func processDriveCycles(romdForBaseRateQueue, romdForBaseRateByAgeQueue chan *ro
 	**/
 	idleFractionTableName := "drivingIdleFraction"
 	idleFractionFileBase, _ := filepath.Abs(idleFractionTableName)
-	idleFractionFiles := newTempFiles(idleFractionFileBase,idleFractionTableName,
-			"hourDayID,yearID,roadTypeID,sourceTypeID,drivingIdleFraction",
-			sqlToWrite)
+	idleFractionFiles := newTempFiles(idleFractionFileBase, idleFractionTableName,
+		"hourDayID,yearID,roadTypeID,sourceTypeID,drivingIdleFraction",
+		sqlToWrite)
 	var avgSpeedKey avgSpeedDistributionKey
 	var dcbfk dcbFastKey
 	for _, sourceTypeID := range runSpecSourceType {
@@ -2142,7 +2142,7 @@ func processDriveCycles(romdForBaseRateQueue, romdForBaseRateByAgeQueue chan *ro
 				notIdlingFraction := 0.0
 				for _, opModeID := range opModesToIterate {
 					for avgSpeedBinID, _ := range avgSpeedBin {
-						avgSpeedKey.sourceTypeID = sourceTypeID 
+						avgSpeedKey.sourceTypeID = sourceTypeID
 						avgSpeedKey.roadTypeID = roadTypeID
 						avgSpeedKey.hourDayID = hourDayID
 						avgSpeedKey.avgSpeedBinID = avgSpeedBinID
@@ -2185,11 +2185,11 @@ func processDriveCycles(romdForBaseRateQueue, romdForBaseRateByAgeQueue chan *ro
 					idlingFraction = idlingFraction / totalFraction
 					// Write the idling fraction
 					line := strconv.Itoa(hourDayID) +
-							"\t" + strconv.Itoa(flags.yearID) +
-							"\t" + strconv.Itoa(roadTypeID) +
-							"\t" + strconv.Itoa(sourceTypeID) +
-							"\t" + strconv.FormatFloat(idlingFraction,'e',-1,64) +
-							"\n"
+						"\t" + strconv.Itoa(flags.yearID) +
+						"\t" + strconv.Itoa(roadTypeID) +
+						"\t" + strconv.Itoa(sourceTypeID) +
+						"\t" + strconv.FormatFloat(idlingFraction, 'e', -1, 64) +
+						"\n"
 					idleFractionFiles.writeLine(line)
 				}
 			}
@@ -2202,7 +2202,7 @@ func processDriveCycles(romdForBaseRateQueue, romdForBaseRateByAgeQueue chan *ro
 	for dcbKey, _ := range driveCycleBracketedBins {
 		regClasses, found := regClassesBySourceType[dcbKey.pDetail.RealSourceTypeID]
 		if !found {
-			regClasses = make([]int,0,10)
+			regClasses = make([]int, 0, 10)
 		}
 		foundMatch := false
 		for _, r := range regClasses {
@@ -2212,11 +2212,11 @@ func processDriveCycles(romdForBaseRateQueue, romdForBaseRateByAgeQueue chan *ro
 			}
 		}
 		if !foundMatch {
-			regClasses = append(regClasses,dcbKey.pDetail.regClassID)
+			regClasses = append(regClasses, dcbKey.pDetail.regClassID)
 			regClassesBySourceType[dcbKey.pDetail.RealSourceTypeID] = regClasses
 		}
 	}
-		
+
 	// Enumerate the results, emitting them as RatesOpModeDistribution entries.
 	// This must be done for each pollutant/process and source type.
 	// Operating mode 501 is a special case for zero speed seconds. When used for pollutant/process
@@ -2234,7 +2234,7 @@ func processDriveCycles(romdForBaseRateQueue, romdForBaseRateByAgeQueue chan *ro
 	for _, sourceTypeID := range runSpecSourceType {
 		for _, polProcessID := range runSpecPolProcessID {
 			for _, roadTypeID := range runSpecRoadTypeWithOffNetwork {
-				if roadTypeID == 1 && polProcessID % 100 != 1 {
+				if roadTypeID == 1 && polProcessID%100 != 1 {
 					// Only Running Exhaust (processID=1) should use off network roads (roadTypeID=1) here
 					continue
 				}
@@ -2245,22 +2245,22 @@ func processDriveCycles(romdForBaseRateQueue, romdForBaseRateByAgeQueue chan *ro
 							for _, regClassID := range regClasses {
 								b := new(romdBlock)
 								b.avgSpeedFraction = 1.0 // 100% at the lowest speed bin
-								b.avgBinSpeed = 1.0 //EM - by setting this to 1 mph, the perdistance rate is now the same as the perhour rate. Easy math!
+								b.avgBinSpeed = 1.0      //EM - by setting this to 1 mph, the perdistance rate is now the same as the perhour rate. Easy math!
 								b.key.sourceTypeID = sourceTypeID
 								b.key.regClassID = regClassID
 								b.key.roadTypeID = roadTypeID
 								b.key.hourDayID = hourDayID
 								b.key.avgSpeedBinID = 0 //EM- in order for the workers to pick up emissions on roadTypeID 1, the avgSpeedBinID needs to be 0
 								b.key.polProcessID = polProcessID
-								b.key.beginModelYearID = 1960
+								b.key.beginModelYearID = 1950
 								b.key.endModelYearID = 2060
-								b.key.opModeID = 1 // Idle
+								b.key.opModeID = 1     // Idle
 								b.opModeFraction = 1.0 // 100% at idle
 								// Enqueue b
 								romdForBaseRateQueue <- b
 								romdForBaseRateByAgeQueue <- b
 								queueCount++
-		
+
 								if files != nil {
 									b.writeLine(files)
 								}
@@ -2274,7 +2274,7 @@ func processDriveCycles(romdForBaseRateQueue, romdForBaseRateByAgeQueue chan *ro
 						}
 						for avgSpeedBinID, _ := range avgSpeedBin {
 							avgSpeedKey.sourceTypeID = sourceTypeID // dcbKey.pDetail.RealSourceTypeID
-							avgSpeedKey.roadTypeID = roadTypeID // dcbKey.roadTypeID
+							avgSpeedKey.roadTypeID = roadTypeID     // dcbKey.roadTypeID
 							avgSpeedKey.hourDayID = hourDayID
 							avgSpeedKey.avgSpeedBinID = avgSpeedBinID // dcbKey.avgSpeedBinID
 							avgSpeedDetail, found := avgSpeedDistribution[avgSpeedKey]
@@ -2323,11 +2323,11 @@ func processDriveCycles(romdForBaseRateQueue, romdForBaseRateByAgeQueue chan *ro
 									romdForBaseRateQueue <- b
 									romdForBaseRateByAgeQueue <- b
 									queueCount++
-	
+
 									if files != nil {
 										b.writeLine(files)
 									}
-									}
+								}
 							}
 						}
 					}
@@ -2346,26 +2346,26 @@ func processDriveCycles(romdForBaseRateQueue, romdForBaseRateByAgeQueue chan *ro
 		idleFractionFiles.close()
 	}
 
-	fmt.Println("Done populating RatesOpModeDistribution. Queue Count=",queueCount)
+	fmt.Println("Done populating RatesOpModeDistribution. Queue Count=", queueCount)
 }
 
 // Create ROMD table to hold debugging information
 func createROMDTable(sqlToWrite chan string) {
 	globalevents.SqlStarting()
 	sqlToWrite <- "create table if not exists ratesOpModeDistributionDetail (" +
-			"sourceTypeID int," +
-			"polProcessID int," +
-			"roadTypeID int," +
-			"hourDayID int," +
-			"opModeID int," +
-			"avgSpeedBinID int," +
-			"beginModelYearID int," +
-			"endModelYearID int," +
-			"regClassID int," +
-			"opModeFraction double," +
-			"avgBinSpeed double," +
-			"avgSpeedFraction double" +
-			")"
+		"sourceTypeID int," +
+		"polProcessID int," +
+		"roadTypeID int," +
+		"hourDayID int," +
+		"opModeID int," +
+		"avgSpeedBinID int," +
+		"beginModelYearID int," +
+		"endModelYearID int," +
+		"regClassID int," +
+		"opModeFraction double," +
+		"avgBinSpeed double," +
+		"avgSpeedFraction double" +
+		")"
 }
 
 // Create a SQL-textual version of a romdBlock record.
@@ -2375,17 +2375,17 @@ func (this *romdBlock) writeLine(files *tempFiles) {
 	// beginModelYearID, endModelYearID, regClassID,
 	// opModeFraction, avgBinSpeed, avgSpeedFraction
 	line := strconv.Itoa(this.key.sourceTypeID) +
-			"\t" + strconv.Itoa(this.key.polProcessID) +
-			"\t" + strconv.Itoa(this.key.roadTypeID) +
-			"\t" + strconv.Itoa(this.key.hourDayID) +
-			"\t" + strconv.Itoa(this.key.opModeID) +
-			"\t" + strconv.Itoa(this.key.avgSpeedBinID) +
-			"\t" + strconv.Itoa(this.key.beginModelYearID) +
-			"\t" + strconv.Itoa(this.key.endModelYearID) +
-			"\t" + strconv.Itoa(this.key.regClassID) +
-			"\t" + strconv.FormatFloat(this.opModeFraction,'e',-1,64) +
-			"\t" + strconv.FormatFloat(this.avgBinSpeed,'e',-1,64) +
-			"\t" + strconv.FormatFloat(this.avgSpeedFraction,'e',-1,64) +
-			"\n"
+		"\t" + strconv.Itoa(this.key.polProcessID) +
+		"\t" + strconv.Itoa(this.key.roadTypeID) +
+		"\t" + strconv.Itoa(this.key.hourDayID) +
+		"\t" + strconv.Itoa(this.key.opModeID) +
+		"\t" + strconv.Itoa(this.key.avgSpeedBinID) +
+		"\t" + strconv.Itoa(this.key.beginModelYearID) +
+		"\t" + strconv.Itoa(this.key.endModelYearID) +
+		"\t" + strconv.Itoa(this.key.regClassID) +
+		"\t" + strconv.FormatFloat(this.opModeFraction, 'e', -1, 64) +
+		"\t" + strconv.FormatFloat(this.avgBinSpeed, 'e', -1, 64) +
+		"\t" + strconv.FormatFloat(this.avgSpeedFraction, 'e', -1, 64) +
+		"\n"
 	files.writeLine(line)
 }

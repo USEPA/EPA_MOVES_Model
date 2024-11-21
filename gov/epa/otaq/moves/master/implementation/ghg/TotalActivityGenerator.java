@@ -752,7 +752,7 @@ public class TotalActivityGenerator extends Generator {
 		PreparedStatement purgeStatement = null;
 		PreparedStatement age0Statement = null;
 		PreparedStatement ageXStatement = null;
-		PreparedStatement age30PlusStatement = null;
+		PreparedStatement age40PlusStatement = null;
 		try {
 			sql = "TRUNCATE SourceTypeAgePopulation2";
 			SQLRunner.executeSQL(db,sql);
@@ -821,7 +821,7 @@ public class TotalActivityGenerator extends Generator {
 
 			/**
 			 * @step 130
-			 * @algorithm Grow the population for 1 <= ageID < 30.
+			 * @algorithm Grow the population for 1 <= ageID < 40.
 			 * population[ageID,y] = population[y-1,ageID-1]*survivalRate[ageID]*migrationRate[y].
 			 * @output SourceTypeAgePopulation2
 			 * @input SourceTypeYear for year y
@@ -854,16 +854,16 @@ public class TotalActivityGenerator extends Generator {
 
 			/**
 			 * @step 130
-			 * @algorithm Grow the population ageID >= 30.
-			 * population[ageID,y] = population[ageID=29,y-1]*survivalRate[ageID=29]*migrationRate[y] + population[ageID=30,y]*survivalRate[ageID=30]*migrationRate[y].
+			 * @algorithm Grow the population ageID >= 40.
+			 * population[ageID,y] = population[ageID=29,y-1]*survivalRate[ageID=29]*migrationRate[y] + population[ageID=40,y]*survivalRate[ageID=40]*migrationRate[y].
 			 * @output SourceTypeAgePopulation2
 			 * @input sty SourceTypeYear for year y
 			 * @input sta SourceTypeAge for ageID=29
-			 * @input sta2 SourceTypeAge for ageID=30
+			 * @input sta2 SourceTypeAge for ageID=40
 			 * @input stap SourceTypeAgePopulation for year y-1 and ageID=29
-			 * @input stap2 SourceTypeAgePopulation for year y and ageID=30
+			 * @input stap2 SourceTypeAgePopulation for year y and ageID=40
 			**/
-			String age30PlusSql =
+			String age40PlusSql =
 					"INSERT INTO SourceTypeAgePopulation2 ("+
 						"yearID,"+
 						"sourceTypeID,"+
@@ -884,17 +884,17 @@ public class TotalActivityGenerator extends Generator {
 					"WHERE "+
 						"sty.yearID = ? AND "+
 						"sty.sourceTypeID = stap.sourceTypeID AND "+
-						"sta.ageID = 29 AND "+
+						"sta.ageID = 39 AND "+
 						"sta.sourceTypeID = stap.sourceTypeID AND "+
-						"sta2.ageID = 30 AND "+
+						"sta2.ageID = 40 AND "+
 						"sta2.sourceTypeID = stap.sourceTypeID AND "+
 						"sta.sourceTypeID = stap.sourceTypeID AND "+
 						"stap.yearID = sty.yearID-1 AND "+
-						"stap.ageID = 29 AND "+
+						"stap.ageID = 39 AND "+
 						"stap2.sourceTypeID = stap.sourceTypeID AND "+
 						"stap2.yearID = stap.yearID AND "+
-						"stap2.ageID = 30";
-			age30PlusStatement = db.prepareStatement(age30PlusSql);
+						"stap2.ageID = 40";
+			age40PlusStatement = db.prepareStatement(age40PlusSql);
 
 			int newYear = resultsYear;
 			if(resultsYear<baseYear) {
@@ -909,14 +909,14 @@ public class TotalActivityGenerator extends Generator {
 
 				SQLRunner.executeSQL(purgeStatement,purgeSql);
 
-				for (int sourceAge=1;sourceAge<30;sourceAge++) {
+				for (int sourceAge=1;sourceAge<40;sourceAge++) {
 					ageXStatement.setInt(1,newYear);
 					ageXStatement.setInt(2,sourceAge);
 					SQLRunner.executeSQL(ageXStatement,ageXSql);
 				}
 
-				age30PlusStatement.setInt(1,newYear);
-				SQLRunner.executeSQL(age30PlusStatement,age30PlusSql);
+				age40PlusStatement.setInt(1,newYear);
+				SQLRunner.executeSQL(age40PlusStatement,age40PlusSql);
 
 				SQLRunner.executeSQL(copyStatement, copySql);
 
@@ -1017,9 +1017,9 @@ public class TotalActivityGenerator extends Generator {
 					// Failure to close on a preparedStatment should not be an issue.
 				}
 			}
-			if(age30PlusStatement!=null) {
+			if(age40PlusStatement!=null) {
 				try {
-					age30PlusStatement.close();
+					age40PlusStatement.close();
 				} catch (SQLException e) {
 					// Failure to close on a preparedStatment should not be an issue.
 				}

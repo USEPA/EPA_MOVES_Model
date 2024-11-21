@@ -2154,7 +2154,7 @@ public class ExecutionRunSpec {
 			yearSQL += "(" + year + ")";
 
 			// Do on road selections
-			for(int age=0;age<=30;age++) { // ages 0-30, inclusive
+			for(int age=0;age<=40;age++) { // ages 0-40, inclusive
 				int modelYear = year - age;
 				Integer modelYearObject = Integer.valueOf(modelYear);
 				if(!onRoadModelYears.contains(modelYearObject)) {

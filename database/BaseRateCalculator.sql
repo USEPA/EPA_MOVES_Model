@@ -27,7 +27,7 @@ CREATE TABLE EmissionRateAdjustmentWorker
 	modelYearID				smallint(6)		not null,
 	EmissionRateAdjustment	double null default NULL,
 	primary key (polProcessID, sourceTypeID, fuelTypeID, regClassID, modelYearID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 TRUNCATE EmissionRateAdjustmentWorker;
 
 -- this is the table used by the worker; it only holds the rows necessary for this bundle
@@ -45,7 +45,7 @@ CREATE TABLE evefficiencyWorker
 	batteryEfficiency       double null default NULL,
 	chargingEfficiency		double null default NULL,
 	primary key (polProcessID, sourceTypeID, ageGroupID, regClassID, modelYearID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 TRUNCATE evefficiencyWorker;
 
 ##create.FuelType##;
@@ -59,7 +59,7 @@ create table if not exists LocalFuelSupply (
 	primary key (fuelFormulationID),
 	key (fuelTypeID, fuelSubtypeID, fuelFormulationID, marketShare),
 	key (fuelFormulationID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 TRUNCATE TABLE LocalFuelSupply;
 
 ##create.generalFuelRatio##;
@@ -110,7 +110,7 @@ create table if not exists universalActivity (
 	activity double,
 	primary key (sourceTypeID, hourDayID, modelYearID),
 	key (hourDayID, modelYearID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 truncate table universalActivity;
 
@@ -131,7 +131,7 @@ create table if not exists zoneACFactor (
 	modelYearID smallint(6) NOT NULL DEFAULT 0,
 	ACFactor double NOT NULL DEFAULT 0,
 	primary key (hourID, sourceTypeID, modelYearID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 TRUNCATE zoneACFactor;
 
 -- Section AggregateSMFR
@@ -143,7 +143,7 @@ create table if not exists smfrSBDSummary (
 	sbdTotal double not null,
 	primary key (sourceTypeID, modelYearID, fuelTypeID, regClassID),
 	key (modelYearID, sourceTypeID, fuelTypeID, regClassID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 truncate smfrSBDSummary;
 -- End Section AggregateSMFR
@@ -154,7 +154,7 @@ create table if not exists extendedIdleEmissionRateFraction (
 	modelYearID smallint not null,
 	hourFractionAdjust double not null,
 	primary key (modelYearID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 -- End Section AdjustExtendedIdleEmissionRate
 -- End Section Process90
 
@@ -165,12 +165,12 @@ create table if not exists apuEmissionRateFraction (
 	modelYearID smallint not null,
 	hourFractionAdjust double not null,
 	primary key (modelYearID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 create table if not exists shorepowerEmissionRateFraction (
 	modelYearID smallint not null,
 	hourFractionAdjust double not null,
 	primary key (modelYearID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 -- End Section AdjustAPUEmissionRate
 -- End Section Process91
 
@@ -197,7 +197,7 @@ INNER JOIN pollutantprocessassoc USING (polprocessID)
 INNER JOIN modelyear
 WHERE processID = ##context.iterProcess.databaseKey##
 AND pollutantID in (##pollutantIDs##)
-AND modelYearID >= ##context.year##-30
+AND modelYearID >= ##context.year## - 40
 AND modelYearID <= ##context.year##
 AND endmodelYearID >= modelYearID
 AND beginmodelYearID <= modelYearID;
@@ -219,7 +219,7 @@ INNER JOIN modelyear
 INNER JOIN agecategory a on (ageID = ##context.year##-modelYearID AND ev.ageGroupID = a.ageGroupID)
 WHERE processID = ##context.iterProcess.databaseKey##
 AND pollutantID in (##pollutantIDs##)
-AND modelYearID >= ##context.year##-30
+AND modelYearID >= ##context.year## - 40
 AND modelYearID <= ##context.year##
 AND endmodelYearID >= modelYearID
 AND beginmodelYearID <= modelYearID;
@@ -241,7 +241,7 @@ INNER JOIN ageCategory ac on (ac.ageGroupID = br.ageGroupID)
 WHERE processID = ##context.iterProcess.databaseKey##
 AND pollutantID in (##pollutantIDs##)
 AND modelYearID <= ##context.year##
-AND modelYearID >= ##context.year## - 30
+AND modelYearID >= ##context.year## - 40
 AND ageID = ##context.year## - modelYearID
 AND roadTypeID = ##context.iterLocation.roadTypeRecordID##;
 
@@ -259,7 +259,7 @@ FROM BaseRate_##context.iterProcess.databaseKey##_##context.year## br
 WHERE processID = ##context.iterProcess.databaseKey##
 AND pollutantID in (##pollutantIDs##)
 AND modelYearID <= ##context.year##
-AND modelYearID >= ##context.year## - 30
+AND modelYearID >= ##context.year## - 40
 AND roadTypeID = ##context.iterLocation.roadTypeRecordID##;
 -- End Section Inventory
 
@@ -280,7 +280,7 @@ INNER JOIN ageCategory ac on (ac.ageGroupID = br.ageGroupID)
 WHERE processID = ##context.iterProcess.databaseKey##
 AND pollutantID in (##pollutantIDs##)
 AND modelYearID <= ##context.year##
-AND modelYearID >= ##context.year## - 30
+AND modelYearID >= ##context.year## - 40
 AND ageID = ##context.year## - modelYearID
 AND roadTypeID = ##context.iterLocation.roadTypeRecordID##
 AND avgSpeedBinID = mod(##context.iterLocation.linkRecordID##,100);
@@ -299,7 +299,7 @@ FROM BaseRate_##context.iterProcess.databaseKey##_##context.year## br
 WHERE processID = ##context.iterProcess.databaseKey##
 AND pollutantID in (##pollutantIDs##)
 AND modelYearID <= ##context.year##
-AND modelYearID >= ##context.year## - 30
+AND modelYearID >= ##context.year## - 40
 AND roadTypeID = ##context.iterLocation.roadTypeRecordID##
 AND avgSpeedBinID = mod(##context.iterLocation.linkRecordID##,100);
 -- End Section NotProject
@@ -320,7 +320,7 @@ INNER JOIN ageCategory ac on (ac.ageGroupID = br.ageGroupID)
 WHERE processID = ##context.iterProcess.databaseKey##
 AND pollutantID in (##pollutantIDs##)
 AND modelYearID <= ##context.year##
-AND modelYearID >= ##context.year## - 30
+AND modelYearID >= ##context.year## - 40
 AND ageID = ##context.year## - modelYearID
 AND roadTypeID = ##context.iterLocation.roadTypeRecordID##;
 
@@ -338,7 +338,7 @@ FROM BaseRate_##context.iterProcess.databaseKey##_##context.year## br
 WHERE processID = ##context.iterProcess.databaseKey##
 AND pollutantID in (##pollutantIDs##)
 AND modelYearID <= ##context.year##
-AND modelYearID >= ##context.year## - 30
+AND modelYearID >= ##context.year## - 40
 AND roadTypeID = ##context.iterLocation.roadTypeRecordID##;
 -- End Section Project
 -- End Section Rates
@@ -407,7 +407,7 @@ into outfile '##generalFuelRatio##'
 from generalFuelRatio gfr
 where polProcessID in (##pollutantProcessIDs##)
 and minModelYearID <= ##context.year##
-and maxModelYearID >= ##context.year##-30
+and maxModelYearID >= ##context.year##- 40
 and fuelFormulationID in (
 	select ff.fuelFormulationID
 	from year
@@ -457,7 +457,7 @@ cache SELECT polProcessID, modelYearID, modelYearGroupID, fuelMYGroupID, IMModel
 INTO OUTFILE '##PollutantProcessMappedModelYear##'
 FROM PollutantProcessMappedModelYear
 WHERE modelYearID <= ##context.year##
-AND modelYearID >= ##context.year## - 30
+AND modelYearID >= ##context.year## - 40
 AND polProcessID IN (##pollutantProcessIDs##);
 
 cache SELECT * INTO OUTFILE '##PollutantProcessAssoc##'
@@ -468,7 +468,7 @@ AND polProcessID IN (##pollutantProcessIDs##);
 cache select * into outfile '##RunspecModelYearAge##'
 from RunspecModelYearAge
 where modelYearID <= ##context.year##
-and modelYearID >= ##context.year## - 30
+and modelYearID >= ##context.year## - 40
 and yearID = ##context.year##;
 
 cache select * into outfile '##RunSpecSourceFuelType##'
@@ -486,11 +486,8 @@ WHERE polProcessID IN (##pollutantProcessIDs##)
 AND fuelTypeID in (##macro.csv.all.fuelTypeID##);
 -- End Section Process2
 
-cache SELECT polProcessID, fuelTypeID,
-	tempAdjustTermA, tempAdjustTermACV,
-	tempAdjustTermB, tempAdjustTermBCV,
-	tempAdjustTermC, tempAdjustTermCCV,
-	minModelYearID, maxModelYearID
+cache SELECT polProcessID, fuelTypeID, regClassID, minModelYearID, maxModelYearID,
+	tempAdjustTermA, tempAdjustTermB, tempAdjustTermC
 INTO OUTFILE '##TemperatureAdjustment##'
 FROM TemperatureAdjustment
 WHERE polProcessID IN (##pollutantProcessIDs##)
@@ -582,7 +579,7 @@ inner join RunspecModelYearAge on (
 	beginModelYearID <= modelYearID
 	and endModelYearID >= modelYearID)
 where modelYearID <= ##context.year##
-and modelYearID >= ##context.year## - 30
+and modelYearID >= ##context.year## - 40
 and yearID = ##context.year##
 and opModeID = 200
 and fuelTypeID in (##macro.csv.all.fuelTypeID##)
@@ -618,7 +615,7 @@ inner join RunspecModelYearAge on (
 	beginModelYearID <= modelYearID
 	and endModelYearID >= modelYearID)
 where modelYearID <= ##context.year##
-and modelYearID >= ##context.year## - 30
+and modelYearID >= ##context.year## - 40
 and yearID = ##context.year##
 and opModeID = 201
 and fuelTypeID in (##macro.csv.all.fuelTypeID##)
@@ -635,7 +632,7 @@ inner join RunspecModelYearAge on (
 	beginModelYearID <= modelYearID
 	and endModelYearID >= modelYearID)
 where modelYearID <= ##context.year##
-and modelYearID >= ##context.year## - 30
+and modelYearID >= ##context.year## - 40
 and yearID = ##context.year##
 and opModeID = 203
 and fuelTypeID in (##macro.csv.all.fuelTypeID##)
@@ -663,7 +660,7 @@ SourceTypeModelYear, SourceBin, RunSpecSourceFuelType
 WHERE polProcessID IN (##sbdPolProcessID##)
 AND SourceBinDistribution.sourceTypeModelYearID = SourceTypeModelYear.sourceTypeModelYearID
 AND SourceTypeModelYear.modelYearID <= ##context.year##
-AND SourceTypeModelYear.modelYearID >= ##context.year## - 30
+AND SourceTypeModelYear.modelYearID >= ##context.year## - 40
 AND SourceTypeModelYear.sourceTypeID = RunSpecSourceFuelType.sourceTypeID
 AND SourceBinDistribution.SourceBinID = SourceBin.SourceBinID
 AND SourceBin.fuelTypeID = RunSpecSourceFuelType.fuelTypeID
@@ -688,7 +685,7 @@ CREATE TABLE IMCoverageMergedUngrouped (
 	sourceTypeID SMALLINT NOT NULL,
 	IMAdjustFract FLOAT,
 	key (processID,pollutantID,modelYearID,fuelTypeID,sourceTypeID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 -- @algorithm Disaggregate IMCoverage records, expanding model year ranges into individual model years. 
 -- IMAdjustFract[processID,pollutantID,modelYearID,fuelTypeID,sourceTypeID]=IMFactor*complianceFactor*0.01.
@@ -1395,7 +1392,7 @@ create table if not exists activityDetail (
 	activityRates double,
 	primary key (sourceTypeID, hourDayID, modelYearID, fuelTypeID, regClassID),
 	key (hourDayID, modelYearID, fuelTypeID, regClassID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 insert into activityDetail(hourDayID,modelYearID,sourceTypeID,fuelTypeID,regClassID,activity,activityRates)
 select u.hourDayID,u.modelYearID,u.sourceTypeID,fuelTypeID,regClassID,
@@ -1427,7 +1424,7 @@ create table activityTotal (
 	activityRatesTotal double,
 	primary key (hourDayID, modelYearID, sourceTypeID, fuelTypeID, regClassID),
 	key (hourDayID, sourceTypeID, modelYearID, fuelTypeID, regClassID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 insert into activityTotal (hourDayID,sourceTypeID,modelYearID,fuelTypeID,regClassID,activityTotal,activityRatesTotal)
 select hourDayID
@@ -1452,7 +1449,7 @@ create table if not exists activityWeight (
 	primary key (sourceTypeID, hourDayID, modelYearID, fuelTypeID, regClassID),
 	key (modelYearID, sourceTypeID, hourDayID, fuelTypeID, regClassID),
 	key (hourDayID, sourceTypeID, modelYearID, fuelTypeID, regClassID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 -- @algorithm When aggregating rates to remove source type, model year, fuel type, or regclass, calculate an activity distribution.
 -- smfrFraction[sourceTypeID,modelYearID,hourDayID,fuelTypeID,regClassID] = activity[sourceTypeID,modelYearID,hourDayID,fuelTypeID,regClassID] / activityTotal[aggregated]

@@ -1,6 +1,8 @@
 # MOVES Database Glossary
 
-Below is a list of the column names used in the MOVES default database followed by brief definitions. Also see the [MOVES Database Tables](MOVESDatabaseTables.md) document for schema descriptions for each table in the MOVES default database
+Below is a list of the column names used in the MOVES default database followed by brief definitions. Also see the [MOVES Database Tables](MOVESDatabaseTables.md) document for schema descriptions for each table in the MOVES default database.
+
+**adjustmentCap**     The maximum limit to how much the fleet averaging algorithm can increase emission rates from internal combustion engines
 
 **ageCategory**    A source age classification
 
@@ -58,7 +60,9 @@ Below is a list of the column names used in the MOVES default database followed 
 
 **etohThreshID**    an integer ID associated with an ethanol threshold or category of thresholds, which can be mapped to thresholds with the etohbin table
 
-**etohThreshID**    ID associated with an ethanol threshold or category of thresholds, which can be mapped to thresholds with the etohbin table
+**evMultiplier**    EPA greenhouse gas regulations define production multipliers available for certain alternative fuel vehicles. These multipliers allow manufacturers to increase the volume of credits created by each vehicle during the compliance process. This is important when calculating fleet average emission rates
+
+**fleetAvgGroupID**     an integer ID used when calculating electric vehicle fractions to determine fleet average emission rates. These IDs are assigned by regulatory class
 
 **fractionLifeused**    the fraction of a vehicle useful life that has passed. It can be greater than 1
 
@@ -70,7 +74,7 @@ Below is a list of the column names used in the MOVES default database followed 
 
 **fuelModelID**    an integer ID referring to a specific fuel effects model
 
-**fuelMYGroupID**    an integer ID referring to a specific fuel model year group, which can be found in the fuelmodelyeargroup table
+**fuelMYGroupID**    an integer ID referring to a specific fuel model year group, which can be found in the fuelmodelyeargroup table. Note, not all IDs are defined in fuelmodelyeargroup. In these instances, the ID can be decoded. If it is 4 digits long, it is a direct model year number, and no decoding is necessary. If it is 8 digits long, the first 4 digits are the begin model year and the last 4 digits are the end model year.
 
 **fuelParameterID**    an integer ID associated with a particular fuel parameter. These can be mapped to parameters with the fuelparameter table
 
@@ -114,9 +118,9 @@ Below is a list of the column names used in the MOVES default database followed 
 
 **imCoverage**    This table contains the information about the existence and effectiveness of vehicle I/M programs at specific times and places
 
-**imModelYearGroup**    a group of model years which are grouped for the purposes of categorization in regards to IM programs
+**imModelYearGroup**    this table defines the group of model years which are grouped for the purposes of categorization in regards to IM programs
 
-**imModelYearGroupID**    an integer ID referring to a specific IM model year group, which can be mapped using the immodelyeargroup table
+**imModelYearGroupID**    an integer ID referring to a specific IM model year group, which can be mapped using the immodelyeargroup table. Note, not all IDs are defined in immodelyeargroup. In these instances, the ID can be decoded. If it is 4 digits long, it is a direct model year number, and no decoding is necessary. If it is 8 digits long, the first 4 digits are the begin model year and the last 4 digits are the end model year.
 
 **imProgramID**    an integer ID referring to a specific IM program
 
@@ -164,9 +168,9 @@ Below is a list of the column names used in the MOVES default database followed 
 
 **minModelYearID**    synonym of beginModelYearID
 
-**modelYearGroup**    A group of model years, which may be specific to particular pollutant-processes. The idea is that different vintages of Source Types have emissions rate differences which are not fully captured by other source bin discriminators
+**modelYearGroup**    this table defines a group of model years, which may be specific to particular pollutant-processes. The idea is that different vintages of Source Types have emissions rate differences which are not fully captured by other source bin discriminators
 
-**modelYearGroupID**    an integer ID referring to a group of model years, which can be mapped using the modelyeargroup table
+**modelYearGroupID**    an integer ID referring to a group of model years, which can be mapped using the modelyeargroup table. Note, not all IDs are defined in modelyeargroup. In these instances, the ID can be decoded. If it is 4 digits long, it is a direct model year number, and no decoding is necessary. If it is 8 digits long, the first 4 digits are the begin model year and the last 4 digits are the end model year.
 
 **modelYearID**    refers to a specific model year
 

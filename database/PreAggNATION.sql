@@ -79,7 +79,7 @@ create table SurrogateActivity (
 	actFract double not null,
 	primary key (zoneID, countyID),
 	key (countyID, zoneID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 insert into SurrogateActivity (zoneID, countyID, actFract)
   SELECT zoneID, countyID, startAllocFactor as actFract from Zone;
@@ -100,7 +100,7 @@ create table SurrogateStateActivity (
 	stateID int not null,
 	actFract double not null,
 	primary key (stateID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 insert into SurrogateStateActivity (stateID, actFract)
 select c.stateID, 
@@ -122,7 +122,7 @@ create table SurrogateCountyActivity (
 	countyID int not null,
 	actFract double not null,
 	primary key (countyID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 insert into SurrogateCountyActivity (countyID, actFract)
 select countyID, 
@@ -144,7 +144,7 @@ create table SurrogateRegionActivity (
 	fuelYearID int not null,
 	actFract double not null,
 	primary key (fuelRegionID, fuelYearID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 insert into SurrogateRegionActivity (fuelRegionID, fuelYearID, actFract)
 select regionID as fuelRegionID, fuelYearID, sum(actFract)
@@ -157,7 +157,7 @@ drop table if exists SurrogateRegionActivityTotal;
 create table SurrogateRegionActivityTotal (
 	fuelYearID int not null primary key,
 	actFractTotal double not null
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 insert into SurrogateRegionActivityTotal (fuelYearID, actFractTotal)
 select fuelYearID, sum(actFract)
 from SurrogateRegionActivity
@@ -236,7 +236,8 @@ CREATE Table AggZoneMonthHour (
 	monthID SMALLINT,
 	hourID SMALLINT,
 	temperature DOUBLE,
-	relHumidity DOUBLE);
+	relHumidity DOUBLE
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 INSERT INTO AggZoneMonthHour	
   SELECT monthID, hourID, sum(temperature*actFract)/nationalActivityFraction as temperature,
     sum(relHumidity*actFract)/nationalActivityFraction AS relHumidity
@@ -276,7 +277,8 @@ FLUSH TABLE OpModeDistribution;
 -- SELECT "Making ZoneRoadType" AS MARKER_POINT;
 CREATE TABLE AggZoneRoadType (
 	roadTypeID SMALLINT,
-	SHOAllocFactor double);
+	SHOAllocFactor double
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 INSERT INTO AggZoneRoadType	
   SELECT  roadTypeID, sum(1.0000000000000 * SHOAllocFactor) AS SHOAllocFactor
   FROM ZoneRoadType 
@@ -297,7 +299,8 @@ CREATE TABLE AggFuelSupply (
 	fuelYearID SMALLINT,
 	monthGroupID SMALLINT,
 	fuelFormulationID INT(11),
-	haveFract double);
+	haveFract double
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 INSERT INTO AggFuelSupply
   SELECT FuelSupply.fuelYearID, monthGroupID,fuelFormulationID, 
     sum(marketShare*actFract) as haveFract
@@ -323,7 +326,8 @@ CREATE TABLE AggNRFuelSupply (
 	fuelYearID SMALLINT,
 	monthGroupID SMALLINT,
 	fuelFormulationID INT(11),
-	haveFract double);
+	haveFract double
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 INSERT INTO AggNRFuelSupply
   SELECT NRFuelSupply.fuelYearID, monthGroupID,fuelFormulationID, 
     sum(marketShare*actFract) as haveFract
@@ -367,7 +371,7 @@ CREATE TABLE AggFuelUsageFraction (
 	sourceBinFuelTypeID smallint,
 	fuelSupplyFuelTypeID smallint,
 	usageFraction double
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 INSERT INTO AggFuelUsageFraction
   SELECT f.fuelYearID, modelYearGroupID, sourceBinFuelTypeID, fuelSupplyFuelTypeID,
     sum(usageFraction*actFract) as usageFraction
@@ -407,7 +411,7 @@ CREATE TABLE IMCoverage (
   useIMyn char(1) NOT NULL default 'Y',
   complianceFactor float default NULL,
   KEY XPKIMCoverage (polProcessID,countyID,yearID,sourceTypeID,fuelTypeID,IMProgramID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 -- Add back all of the old IMCoverage records, but use the pseudo county's ID
 INSERT INTO IMCoverage (stateID, countyID, yearID, polProcessID, fuelTypeID,
@@ -434,7 +438,8 @@ CREATE TABLE AggSHO (
 	roadTypeID SMALLINT,
 	sourceTypeID SMALLINT,
 	SHO double,
-	distance double);
+	distance double
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 INSERT INTO AggSHO
   SELECT hourDayID, monthID, yearID, ageID, roadTypeID, sourceTypeID, 
     sum(SHO) AS SHO, sum(distance) AS distance
@@ -460,7 +465,8 @@ CREATE TABLE AggSourceHours (
 	ageID SMALLINT,
 	roadTypeID SMALLINT,
 	sourceTypeID SMALLINT,
-	sourceHours double);
+	sourceHours double
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 INSERT INTO AggSourceHours
   SELECT hourDayID, monthID, yearID, ageID, roadTypeID, sourceTypeID, 
     sum(sourceHours) AS sourceHours
@@ -484,7 +490,8 @@ CREATE TABLE AggStarts (
 	yearID SMALLINT,
 	ageID SMALLINT,
 	sourceTypeID SMALLINT,
-	starts double);
+	starts double
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 INSERT INTO AggStarts
   SELECT hourDayID, monthID, yearID, ageID, sourceTypeID, 
     sum(starts) AS starts
@@ -507,7 +514,8 @@ CREATE Table AggAverageTankTemperature (
 	monthID SMALLINT,
 	hourDayID SMALLINT,
 	opModeID SMALLINT,
-	averageTankTemperature FLOAT);
+	averageTankTemperature FLOAT
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 INSERT INTO AggAverageTankTemperature
   SELECT tankTemperatureGroupID, monthID, hourDayID, opModeID,
     sum(averageTankTemperature*actFract)/nationalActivityFraction as averageTankTemperature
@@ -533,7 +541,8 @@ CREATE Table AggSoakActivityFraction (
 	monthID SMALLINT,
 	hourDayID SMALLINT,
 	opModeID SMALLINT,
-	soakActivityFraction double);
+	soakActivityFraction double
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 INSERT INTO AggSoakActivityFraction
   SELECT sourceTypeID, monthID, hourDayID, opModeID,
     sum(soakActivityFraction*actFract)/nationalActivityFraction as soakActivityFraction
@@ -554,7 +563,8 @@ FLUSH TABLE SoakActivityFraction;
 CREATE Table AggColdSoakTankTemperature (
 	monthID SMALLINT,
 	hourID SMALLINT,
-	coldSoakTankTemperature FLOAT);
+	coldSoakTankTemperature FLOAT
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 INSERT INTO AggColdSoakTankTemperature
   SELECT monthID, hourID, sum(coldSoakTankTemperature*actFract)/nationalActivityFraction as coldSoakTankTemperature
   FROM ColdSoakTankTemperature INNER JOIN SurrogateActivity USING (zoneID) JOIN SurrogateActivityTotal
@@ -576,7 +586,8 @@ CREATE Table AggColdSoakInitialHourFraction (
 	monthID SMALLINT,
 	hourDayID SMALLINT,
 	initialHourDayID SMALLINT,
-	coldSoakInitialHourFraction FLOAT);
+	coldSoakInitialHourFraction FLOAT
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 INSERT INTO AggColdSoakInitialHourFraction
   SELECT sourceTypeID, monthID, hourDayID, initialHourDayID, sum(coldSoakInitialHourFraction*actFract)/nationalActivityFraction as coldSoakInitialHourFraction
   FROM ColdSoakInitialHourFraction INNER JOIN SurrogateActivity USING (zoneID) JOIN SurrogateActivityTotal
@@ -600,7 +611,8 @@ CREATE Table AggAverageTankGasoline (
 	fuelYearID SMALLINT,
 	monthGroupID SMALLINT,
 	ETOHVolume FLOAT,
-	RVP FLOAT);
+	RVP FLOAT
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 INSERT INTO AggAverageTankGasoline
   SELECT fuelTypeID, fuelYearID, monthGroupID, 
   	sum(ETOHVolume*actFract)/nationalActivityFraction as ETOHVolume,
@@ -695,7 +707,7 @@ CREATE TABLE AggHotellingHourFraction (
 	dayID SMALLINT,
 	hourID SMALLINT,
 	hourFraction double
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 INSERT INTO AggHotellingHourFraction
   SELECT dayID, hourID, sum(hourFraction*COALESCE(actFract, 1.0)) as hourFraction
   FROM OldHotellingHourFraction 
@@ -716,7 +728,7 @@ CREATE TABLE OldHotellingMonthAdjust
 CREATE TABLE AggHotellingMonthAdjust (
 	monthID SMALLINT,
 	monthAdjustment double
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 INSERT INTO AggHotellingMonthAdjust
   SELECT monthID, sum(monthAdjustment*COALESCE(actFract, 1.0)) as monthAdjustment
   FROM OldHotellingMonthAdjust 
@@ -739,7 +751,7 @@ CREATE TABLE AggHotellingHoursPerDay (
     yearID SMALLINT,
 	dayID SMALLINT,
 	hotellinghoursperday double
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 INSERT INTO AggHotellingHoursPerDay
   SELECT yearID, dayID, sum(hotellinghoursperday) as hotellinghoursperday
   FROM OldHotellingHoursPerDay
@@ -759,7 +771,7 @@ CREATE TABLE OldHotellingAgeFraction
 CREATE TABLE AggHotellingAgeFraction (
 	ageID SMALLINT,
 	ageFraction double
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 INSERT INTO AggHotellingAgeFraction
   SELECT ageID, sum(ageFraction*COALESCE(actFract, 1.0)) as ageFraction
   FROM OldHotellingAgeFraction 
@@ -783,7 +795,7 @@ CREATE TABLE AggHotellingActivityDistribution (
     endModelYearID SMALLINT,
     opModeID SMALLINT,
 	opModeFraction FLOAT
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 INSERT INTO AggHotellingActivityDistribution
   SELECT fuelTypeID, beginModelYearID, endModelYearID, opModeID, sum(opModeFraction*COALESCE(actFract, 1.0)) as opModeFraction
   FROM OldHotellingActivityDistribution 

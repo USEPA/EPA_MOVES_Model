@@ -700,10 +700,10 @@ public class FuelEffectsGenerator extends Generator {
 	ModelYearRange restrictToAllowedModelYears(int modelYearGroupID) {
 		int minModelYearID = modelYearGroupID / 10000;
 		int maxModelYearID = modelYearGroupID % 10000;
-		if(minModelYearID < 1960) {
-			minModelYearID = 1960;
+		if(minModelYearID < 1950) {
+			minModelYearID = 1950;
 		}
-		if(maxModelYearID < 1960 || maxModelYearID > 2060) {
+		if(maxModelYearID < 1950 || maxModelYearID > 2060) {
 			maxModelYearID = 2060;
 		}
 

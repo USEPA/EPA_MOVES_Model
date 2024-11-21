@@ -333,7 +333,7 @@ public class HotellingImporter extends ImporterBase {
 						"hotellingAgeFraction", "hotellingMonthAdjust", "hotellingHoursPerDay" } // required tables
 				);
 		shouldDoExecutionDataExport = false;
-		shouldDoDefaultDataExport = ImporterInstantiator.activeManager.isProject()? false : true;
+		shouldDoDefaultDataExport = true; //ImporterInstantiator.activeManager.isProject()? false : true;
 		subjectToExportRestrictions = false;
 
 		if(ImporterInstantiator.activeManager.isProject()) {

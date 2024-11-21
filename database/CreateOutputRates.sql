@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS BaseRateUnits (
 	meanBaseRateUnitsDenominator varchar(50) null default '',
 	emissionBaseRateUnitsNumerator varchar(50) null default '',
 	emissionBaseRateUnitsDenominator varchar(50) null default ''
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci' DELAY_KEY_WRITE=1;
 
 CREATE TABLE IF NOT EXISTS BaseRateOutput (
 	MOVESRunID           SMALLINT UNSIGNED NOT NULL,
@@ -38,4 +38,4 @@ CREATE TABLE IF NOT EXISTS BaseRateOutput (
 
 	meanBaseRate		 FLOAT NULL,
 	emissionRate		 FLOAT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci' DELAY_KEY_WRITE=1;

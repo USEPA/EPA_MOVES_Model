@@ -7,7 +7,7 @@ CREATE TABLE NRAgeCategory (
   ageCategoryName char(50) DEFAULT NULL,
   PRIMARY KEY (ageID),
   UNIQUE KEY XPKNRAgeCategory (ageID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE NRBaseYearEquipPopulation (
   sourceTypeID smallint(6) NOT NULL,
@@ -16,7 +16,7 @@ CREATE TABLE NRBaseYearEquipPopulation (
   NRBaseYearID smallint(6) NOT NULL,
   PRIMARY KEY (sourceTypeID,stateID),
   UNIQUE KEY XPKNRBaseYearEquipPopulation (sourceTypeID,stateID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE NRCrankCaseEmissionRatio (
   sourceTypeID smallint(6) NOT NULL,
@@ -29,7 +29,7 @@ CREATE TABLE NRCrankCaseEmissionRatio (
   UNIQUE KEY XPKNRProcessEmissionRate (sourceTypeID,polProcessID,sourceBinID),
   KEY INDEX1 (sourceTypeID,polProcessID,sourceBinID),
   KEY XPFnrCrankCaseEmissionRatio (sourceTypeID,polProcessID,sourceBinID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE NRDayAllocation (
   NREquipTypeID smallint(6) NOT NULL,
@@ -37,7 +37,7 @@ CREATE TABLE NRDayAllocation (
   dayFraction float NOT NULL,
   PRIMARY KEY (NREquipTypeID,dayID),
   UNIQUE KEY XPKNRDayAllocation (NREquipTypeID,dayID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE NRDeterioration (
   polProcessID int NOT NULL,
@@ -47,7 +47,7 @@ CREATE TABLE NRDeterioration (
   emissionCap smallint(6) NOT NULL,
   PRIMARY KEY (polProcessID,engTechID),
   UNIQUE KEY XPKNRDeterioration (polProcessID,engTechID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE NREngTechFraction (
   sourceTypeID smallint(6) NOT NULL,
@@ -57,7 +57,7 @@ CREATE TABLE NREngTechFraction (
   NREngTechFraction float NOT NULL,
   PRIMARY KEY (sourceTypeID,modelYearID,processID,engTechID),
   UNIQUE KEY XPKNREngTechFraction (sourceTypeID,modelYearID,processID,engTechID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE NREquipmentType (
   NREquipTypeID smallint(6) NOT NULL,
@@ -67,7 +67,7 @@ CREATE TABLE NREquipmentType (
   surrogateID smallint(6) DEFAULT NULL,
   PRIMARY KEY (NREquipTypeID),
   UNIQUE KEY XPKNREquipmentType (NREquipTypeID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE NREvapEmissionRate (
   sourceTypeID smallint(6) NOT NULL,
@@ -80,7 +80,7 @@ CREATE TABLE NREvapEmissionRate (
   UNIQUE KEY XPKNRProcessEmissionRate (sourceTypeID,polProcessID,sourceBinID),
   KEY INDEX1 (sourceTypeID,polProcessID,sourceBinID),
   KEY XPFnrEvapEmissionRate (sourceTypeID,polProcessID,sourceBinID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE NRExhaustEmissionRate (
   sourceTypeID smallint(6) NOT NULL,
@@ -91,7 +91,7 @@ CREATE TABLE NRExhaustEmissionRate (
   dataSourceId smallint(6) NOT NULL,
   PRIMARY KEY (sourceTypeID,polProcessID,sourceBinID),
   UNIQUE KEY XPKNRExhaustEmissionRate (sourceTypeID,polProcessID,sourceBinID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE NRFuelOxyAdjustment (
   strokes tinyint(4) NOT NULL,
@@ -100,7 +100,7 @@ CREATE TABLE NRFuelOxyAdjustment (
   NRFuelOxyAdjust float DEFAULT NULL,
   PRIMARY KEY (strokes,polProcessID,fuelTypeID),
   UNIQUE KEY XPKNRFuelOxyAdjustment (strokes,polProcessID,fuelTypeID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE NRGrowthIndex (
   growthPatternID smallint(6) NOT NULL,
@@ -108,14 +108,14 @@ CREATE TABLE NRGrowthIndex (
   growthIndex smallint(6) DEFAULT NULL,
   PRIMARY KEY (growthPatternID,yearID),
   UNIQUE KEY XPKNRGrowthIndex (growthPatternID,yearID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE NRGrowthPattern (
   growthPatternID smallint(6) NOT NULL,
   description char(80) DEFAULT NULL,
   PRIMARY KEY (growthPatternID),
   UNIQUE KEY XPKNRGrowthPattern (growthPatternID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE NRGrowthPatternFinder (
   SCC char(10) NOT NULL,
@@ -123,7 +123,7 @@ CREATE TABLE NRGrowthPatternFinder (
   growthPatternID smallint(6) NOT NULL,
   PRIMARY KEY (SCC,stateID),
   UNIQUE KEY XPKNRGrowthPatternFinder (SCC,stateID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE NRHourAllocation (
   NRHourAllocPatternID smallint(6) NOT NULL,
@@ -131,21 +131,21 @@ CREATE TABLE NRHourAllocation (
   hourFraction float NOT NULL,
   PRIMARY KEY (NRHourAllocPatternID,hourID),
   UNIQUE KEY XPKNRHourAllocation (NRHourAllocPatternID,hourID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE NRHourAllocPattern (
   NRHourAllocPatternID smallint(6) NOT NULL,
   description char(255) NOT NULL,
   PRIMARY KEY (NRHourAllocPatternID),
   UNIQUE KEY XPKNRHourAllocPattern (NRHourAllocPatternID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE NRHourPatternFinder (
   NREquipTypeID smallint(6) NOT NULL,
   NRHourAllocPatternID smallint(6) DEFAULT NULL,
   PRIMARY KEY (NREquipTypeID),
   UNIQUE KEY XPKNRHourPatternFinder (NREquipTypeID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE NRHPRangeBin (
   NRHPRangeBinID smallint(6) NOT NULL,
@@ -155,7 +155,7 @@ CREATE TABLE NRHPRangeBin (
   engSizeID smallint(6) NOT NULL,
   PRIMARY KEY (NRHPRangeBinID),
   UNIQUE KEY XPKNRHPRangeBin (NRHPRangeBinID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE NRMonthAllocation (
   NREquipTypeID smallint(6) NOT NULL,
@@ -164,7 +164,7 @@ CREATE TABLE NRMonthAllocation (
   monthFraction float NOT NULL,
   PRIMARY KEY (NREquipTypeID,stateID,monthID),
   UNIQUE KEY XPKNRMonthAllocation (NREquipTypeID,stateID,monthID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE NRPollutantProcessModelYear (
   polProcessID int NOT NULL,
@@ -172,7 +172,7 @@ CREATE TABLE NRPollutantProcessModelYear (
   modelYearGroupID int(11) NOT NULL,
   PRIMARY KEY (polProcessID,modelYearID),
   UNIQUE KEY XPKNRPollutantProcessModelYear (polProcessID,modelYearID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE NRProcessEmissionRate (
   sourceTypeID smallint(6) NOT NULL,
@@ -183,7 +183,7 @@ CREATE TABLE NRProcessEmissionRate (
   dataSourceId smallint(6) NOT NULL,
   PRIMARY KEY (sourceTypeID,polProcessID,sourceBinID),
   UNIQUE KEY XPKNRProcessEmissionRate (sourceTypeID,polProcessID,sourceBinID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE NRSCC (
   SCC char(10) NOT NULL,
@@ -193,7 +193,7 @@ CREATE TABLE NRSCC (
   fuelTypeID smallint(6) NOT NULL,
   PRIMARY KEY (SCC),
   UNIQUE KEY XPKNRSCC (SCC)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE NRScrappageCurve (
   NREquipTypeID smallint(6) NOT NULL,
@@ -201,7 +201,7 @@ CREATE TABLE NRScrappageCurve (
   percentageScrapped float DEFAULT NULL,
   PRIMARY KEY (NREquipTypeID,fractionLifeused),
   UNIQUE KEY XPKNRScrappageCurve (NREquipTypeID,fractionLifeused)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE NRSourceBin (
   sourceBinID bigint(20) NOT NULL,
@@ -211,7 +211,7 @@ CREATE TABLE NRSourceBin (
   engSizeID smallint(6) unsigned NOT NULL,
   PRIMARY KEY (sourceBinID),
   KEY Index_srcbin (fuelTypeID,engTechID,engSizeID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE NRSourceUseType (
   sourceTypeID smallint(6) NOT NULL,
@@ -247,7 +247,7 @@ CREATE TABLE NRSourceUseType (
   e10MarineVentHosePermAdjFac float DEFAULT NULL,
   PRIMARY KEY (sourceTypeID),
   UNIQUE KEY XPKNRSourceUseType (sourceTypeID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE NRStateSurrogateTotal (
   surrogateID smallint(6) NOT NULL,
@@ -256,7 +256,7 @@ CREATE TABLE NRStateSurrogateTotal (
   surrogateYearID smallint(6) DEFAULT NULL,
   PRIMARY KEY (surrogateID,stateID),
   UNIQUE KEY XPKNRStateSurrogateTotal (surrogateID,stateID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE NRSulfurAdjustment (
   fuelTypeID smallint(6) NOT NULL,
@@ -265,14 +265,14 @@ CREATE TABLE NRSulfurAdjustment (
   sulfatePMConversionFactor float NOT NULL,
   PRIMARY KEY (fuelTypeID,engTechID),
   UNIQUE KEY XPKNRSulfurAdjustment (fuelTypeID,engTechID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE NRSurrogate (
   surrogateID smallint(6) NOT NULL,
   description char(255) DEFAULT NULL,
   PRIMARY KEY (surrogateID),
   UNIQUE KEY XPKNRSurrogate (surrogateID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE NRTemperatureAdjustment (
   strokes tinyint(4) NOT NULL,
@@ -282,7 +282,7 @@ CREATE TABLE NRTemperatureAdjustment (
   NRTemperatureAdjustLT75 float DEFAULT NULL,
   PRIMARY KEY (strokes,polProcessID,fuelTypeID),
   UNIQUE KEY XPKNRTemperatureAdjustment (strokes,polProcessID,fuelTypeID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE NRTransientAdjustFactor (
   NREquipTypeID smallint(6) NOT NULL,
@@ -293,7 +293,7 @@ CREATE TABLE NRTransientAdjustFactor (
   NRTransientAdjustFactor float NOT NULL,
   PRIMARY KEY (NREquipTypeID,NRHPRangeBinID,polProcessID,fuelTypeID,engTechID),
   UNIQUE KEY XPKNRTransientAdjustFactor (NREquipTypeID,NRHPRangeBinID,polProcessID,fuelTypeID,engTechID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE NRYear (
   yearID SMALLINT NOT NULL,
@@ -301,7 +301,7 @@ CREATE TABLE NRYear (
   fuelYearID smallint NOT NULL DEFAULT '0',
   primary key (yearID),
   key (isBaseYear)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE NRZoneAllocation (
   surrogateID smallint(6) NOT NULL,
@@ -310,5 +310,5 @@ CREATE TABLE NRZoneAllocation (
   surrogateQuant float NOT NULL,
   PRIMARY KEY (surrogateID,stateID,zoneID),
   UNIQUE KEY XPKNRZoneAllocation (surrogateID,stateID,zoneID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 

@@ -513,7 +513,7 @@ public class MesoscaleLookupTotalActivityGenerator extends Generator {
 		PreparedStatement purgeStatement = null;
 		PreparedStatement age0Statement = null;
 		PreparedStatement ageXStatement = null;
-		PreparedStatement age30PlusStatement = null;
+		PreparedStatement age40PlusStatement = null;
 		try {
 			sql = "TRUNCATE SourceTypeAgePopulation2";
 			SQLRunner.executeSQL(db,sql);
@@ -588,7 +588,7 @@ public class MesoscaleLookupTotalActivityGenerator extends Generator {
 						"stap.ageID = sta.ageID";
 			ageXStatement = db.prepareStatement(ageXSql);
 
-			String age30PlusSql =
+			String age40PlusSql =
 					"INSERT INTO SourceTypeAgePopulation2 ("+
 						"yearID,"+
 						"sourceTypeID,"+
@@ -609,17 +609,17 @@ public class MesoscaleLookupTotalActivityGenerator extends Generator {
 					"WHERE "+
 						"sty.yearID = ? AND "+
 						"sty.sourceTypeID = stap.sourceTypeID AND "+
-						"sta.ageID = 29 AND "+
+						"sta.ageID = 39 AND "+
 						"sta.sourceTypeID = stap.sourceTypeID AND "+
-						"sta2.ageID = 30 AND "+
+						"sta2.ageID = 40 AND "+
 						"sta2.sourceTypeID = stap.sourceTypeID AND "+
 						"sta.sourceTypeID = stap.sourceTypeID AND "+
 						"stap.yearID = sty.yearID-1 AND "+
-						"stap.ageID = 29 AND "+
+						"stap.ageID = 39 AND "+
 						"stap2.sourceTypeID = stap.sourceTypeID AND "+
 						"stap2.yearID = stap.yearID AND "+
-						"stap2.ageID = 30";
-			age30PlusStatement = db.prepareStatement(age30PlusSql);
+						"stap2.ageID = 40";
+			age40PlusStatement = db.prepareStatement(age40PlusSql);
 
 			int newYear = resultsYear;
 			if(resultsYear<baseYear) {
@@ -634,14 +634,14 @@ public class MesoscaleLookupTotalActivityGenerator extends Generator {
 
 				SQLRunner.executeSQL(purgeStatement,purgeSql);
 
-				for (int sourceAge=1;sourceAge<30;sourceAge++) {
+				for (int sourceAge=1;sourceAge<40;sourceAge++) {
 					ageXStatement.setInt(1,newYear);
 					ageXStatement.setInt(2,sourceAge);
 					SQLRunner.executeSQL(ageXStatement,ageXSql);
 				}
 
-				age30PlusStatement.setInt(1,newYear);
-				SQLRunner.executeSQL(age30PlusStatement,age30PlusSql);
+				age40PlusStatement.setInt(1,newYear);
+				SQLRunner.executeSQL(age40PlusStatement,age40PlusSql);
 
 				SQLRunner.executeSQL(copyStatement, copySql);
 
@@ -693,9 +693,9 @@ public class MesoscaleLookupTotalActivityGenerator extends Generator {
 					// Failure to close on a preparedStatment should not be an issue.
 				}
 			}
-			if(age30PlusStatement!=null) {
+			if(age40PlusStatement!=null) {
 				try {
-					age30PlusStatement.close();
+					age40PlusStatement.close();
 				} catch (SQLException e) {
 					// Failure to close on a preparedStatment should not be an issue.
 				}

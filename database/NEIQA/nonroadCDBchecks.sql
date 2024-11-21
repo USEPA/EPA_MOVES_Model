@@ -60,7 +60,7 @@ CREATE TABLE CDB_Checks (
    msgType           char(50),
    msgDate           date,
    msgTime           time,
-   version       char(8),
+   version           char(22),
    sumKeyID          int(11),
    sumKeyDescription char(50)
  ) ENGINE=MyISAM;

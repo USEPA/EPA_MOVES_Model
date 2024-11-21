@@ -41,6 +41,9 @@ public class CO2AERunningStartExtendedIdleCalculator extends EmissionCalculator 
 		EmissionProcess startExhaust = EmissionProcess.findByID(2);
 		EmissionProcess extendedIdleExhaust = EmissionProcess.findByID(90);
 		EmissionProcess auxiliaryPowerExhaust = EmissionProcess.findByID(91);
+		EmissionProcess crankcaseRunningExhaust = EmissionProcess.findByID(15);
+		EmissionProcess crankcaseStartExhaust = EmissionProcess.findByID(16);
+		EmissionProcess crankcaseExtIdleExhaust = EmissionProcess.findByID(17);
 
 		EmissionCalculatorRegistration.register(atmoshpericCO2,runningExhaust,this);
 		EmissionCalculatorRegistration.register(equivalentCO2,runningExhaust,this);
@@ -53,6 +56,11 @@ public class CO2AERunningStartExtendedIdleCalculator extends EmissionCalculator 
 
 		EmissionCalculatorRegistration.register(atmoshpericCO2,auxiliaryPowerExhaust,this);
 		EmissionCalculatorRegistration.register(equivalentCO2,auxiliaryPowerExhaust,this);
+		
+		// add crankcase for CO2e becuase of methane
+		EmissionCalculatorRegistration.register(equivalentCO2,crankcaseRunningExhaust,this);
+		EmissionCalculatorRegistration.register(equivalentCO2,crankcaseStartExhaust,this);
+		EmissionCalculatorRegistration.register(equivalentCO2,crankcaseExtIdleExhaust,this);
 	}
 
 	/**
@@ -89,7 +97,13 @@ public class CO2AERunningStartExtendedIdleCalculator extends EmissionCalculator 
 			ExecutionRunSpec.theExecutionRunSpec.doesHavePollutantAndProcess(
 				equivalentCO2.pollutantName,"Extended Idle Exhaust") ||
 			ExecutionRunSpec.theExecutionRunSpec.doesHavePollutantAndProcess(
-				equivalentCO2.pollutantName,"Auxiliary Power Exhaust")) {
+				equivalentCO2.pollutantName,"Auxiliary Power Exhaust") ||
+			ExecutionRunSpec.theExecutionRunSpec.doesHavePollutantAndProcess(
+				equivalentCO2.pollutantName,"Crankcase Running Exhaust") ||
+			ExecutionRunSpec.theExecutionRunSpec.doesHavePollutantAndProcess(
+				equivalentCO2.pollutantName,"Crankcase Start Exhaust") ||
+			ExecutionRunSpec.theExecutionRunSpec.doesHavePollutantAndProcess(
+				equivalentCO2.pollutantName,"Crankcase Extended Idle Exhaust")) {
 					shouldCalcEquivalentCO2 = true;
 		}
 
@@ -154,7 +168,13 @@ public class CO2AERunningStartExtendedIdleCalculator extends EmissionCalculator 
 			ExecutionRunSpec.theExecutionRunSpec.doesHavePollutantAndProcess(
 				equivalentCO2.pollutantName,"Extended Idle Exhaust") ||
 			ExecutionRunSpec.theExecutionRunSpec.doesHavePollutantAndProcess(
-				equivalentCO2.pollutantName,"Auxiliary Power Exhaust")) {
+				equivalentCO2.pollutantName,"Auxiliary Power Exhaust") ||
+			ExecutionRunSpec.theExecutionRunSpec.doesHavePollutantAndProcess(
+				equivalentCO2.pollutantName,"Crankcase Running Exhaust") ||
+			ExecutionRunSpec.theExecutionRunSpec.doesHavePollutantAndProcess(
+				equivalentCO2.pollutantName,"Crankcase Start Exhaust") ||
+			ExecutionRunSpec.theExecutionRunSpec.doesHavePollutantAndProcess(
+				equivalentCO2.pollutantName,"Crankcase Extended Idle Exhaust")) {
 					shouldCalcEquivalentCO2 = true;
 			foundPollutant = true;
 		}
@@ -218,6 +238,27 @@ public class CO2AERunningStartExtendedIdleCalculator extends EmissionCalculator 
 					processIDsStep2 += ",";
 				}
 				processIDsStep2 += "91";
+			}
+			if (ExecutionRunSpec.theExecutionRunSpec.doesHavePollutantAndProcess(
+					equivalentCO2.pollutantName,"Crankcase Running Exhaust")) {
+				if(processIDsStep2.length() > 0) {
+					processIDsStep2 += ",";
+				}
+				processIDsStep2 += "15";
+			}
+			if (ExecutionRunSpec.theExecutionRunSpec.doesHavePollutantAndProcess(
+					equivalentCO2.pollutantName,"Crankcase Start Exhaust")) {
+				if(processIDsStep2.length() > 0) {
+					processIDsStep2 += ",";
+				}
+				processIDsStep2 += "16";
+			}
+			if (ExecutionRunSpec.theExecutionRunSpec.doesHavePollutantAndProcess(
+					equivalentCO2.pollutantName,"Crankcase Extended Idle Exhaust")) {
+				if(processIDsStep2.length() > 0) {
+					processIDsStep2 += ",";
+				}
+				processIDsStep2 += "17";
 			}
 			replacements.put("##CO2Step2processIDs##","mwo.processID IN (" +
 				processIDsStep2 + ") ");

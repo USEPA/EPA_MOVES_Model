@@ -440,7 +440,7 @@ public class DatabaseUtilities {
 	 * @throws IOException If an IO error occurs while working with a temporary data file.
 	**/
 	public static boolean copyTable(Connection source, Connection destination,
-			String tableName, String whereClause, boolean isErrorIfNotInSource)
+			String tableName, String whereClause, boolean isErrorIfNotInSource, boolean isDefaultDatabase)
 			throws SQLException, IOException {
 		String sourceDatabaseName = source.getCatalog();
 		String destinationDatabaseName = destination.getCatalog();
@@ -473,6 +473,16 @@ public class DatabaseUtilities {
 						canDoWholeTableCopy = true;
 					}
 				}
+			}
+
+            // Special case for copying the FleetAvgAdjustment table: 
+            //    If we are copying from the default database and data already exist in the destination,
+            //    do not copy anything
+			if(isDefaultDatabase && tableName.equalsIgnoreCase("FleetAvgAdjustment")) {
+                sql = "SELECT count(*) FROM " + tableName;
+                if (SQLRunner.executeScalar(destination, sql) > 0) {
+                    return false;
+                }
 			}
 
 			if(areSameServer(source,destination)) {

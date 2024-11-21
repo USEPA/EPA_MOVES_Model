@@ -71,7 +71,7 @@ public class MOVESProgress extends JPanel implements MOVESEngineListener, Action
 		boolean isShown = false;
 
 		public EstimatedTimeRemainingDialog(JFrame parent) {
-			super(parent, "Estimated Time Remaining");
+			super(parent, MOVESWindow.MOVES_VERSION + " - Estimated Time Remaining");
 			frame = parent;
 
 			getContentPane().setLayout(new BorderLayout());
@@ -225,10 +225,10 @@ public class MOVESProgress extends JPanel implements MOVESEngineListener, Action
 	 * @param shouldHideProgressBar Should the progress bar be initially hidden
 	**/
 	void createControls(boolean shouldHideProgressBar) {
-		ImageIcon movesLogo100 = new ImageIcon("gov/epa/otaq/moves/master/gui/images/MOVES4-logo-480.png");
-		ImageIcon movesLogo125 = new ImageIcon("gov/epa/otaq/moves/master/gui/images/MOVES4-logo-600.png");
-		ImageIcon movesLogo150 = new ImageIcon("gov/epa/otaq/moves/master/gui/images/MOVES4-logo-720.png");
-		ImageIcon movesLogo175 = new ImageIcon("gov/epa/otaq/moves/master/gui/images/MOVES4-logo-840.png");
+		ImageIcon movesLogo100 = new ImageIcon("gov/epa/otaq/moves/master/gui/images/MOVES5-logo-480.png");
+		ImageIcon movesLogo125 = new ImageIcon("gov/epa/otaq/moves/master/gui/images/MOVES5-logo-600.png");
+		ImageIcon movesLogo150 = new ImageIcon("gov/epa/otaq/moves/master/gui/images/MOVES5-logo-720.png");
+		ImageIcon movesLogo175 = new ImageIcon("gov/epa/otaq/moves/master/gui/images/MOVES5-logo-840.png");
 		BaseMultiResolutionImage bmri = new BaseMultiResolutionImage(movesLogo100.getImage(), movesLogo125.getImage(), movesLogo150.getImage(), movesLogo175.getImage());
 		movesLogo = new ImageIcon(bmri);
 		

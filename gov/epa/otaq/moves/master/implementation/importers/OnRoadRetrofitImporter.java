@@ -148,7 +148,7 @@ public class OnRoadRetrofitImporter extends ImporterBase {
 		 * @param value array of objects for each column in the template
 		 * @return true if the row should be written
 		**/
-		public boolean shouldWriteTemplateRow(Object[] values) {
+		public boolean shouldWriteTemplateRow(String tableName, Object[] values) {
 			// The retrofit importer should produce an empty template.
 			return false;
 		}

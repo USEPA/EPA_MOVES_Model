@@ -94,7 +94,7 @@ public class Configure extends JDialog implements ActionListener,
 	 * @param parent the parent frame to use for the panel.
 	**/
 	public Configure(JFrame parent) {
-		super(parent, "Configure MOVES");
+		super(parent, MOVESWindow.MOVES_VERSION + " - Configure MOVES");
 		frame = parent;
 
 		SystemConfiguration sysConfig = SystemConfiguration.getTheSystemConfiguration();

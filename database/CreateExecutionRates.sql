@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS RatesOpModeDistribution (
 	avgSpeedFraction 	 float not null default '0',
 
 	PRIMARY KEY (sourceTypeID, polProcessID, roadTypeID, hourDayID, opModeID, avgSpeedBinID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 -- Go-based	P RIMARY KEY (sourceTypeID, polProcessID, roadTypeID, hourDayID, opModeID, avgSpeedBinID)
 
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS SBWeightedEmissionRateByAge (
 	sumSBD				DOUBLE NULL,
 	sumSBDRaw			DOUBLE NULL,
 	unique key (sourceTypeID, polProcessID, opModeID, modelYearID, fuelTypeID, ageGroupID, regClassID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 TRUNCATE TABLE SBWeightedEmissionRateByAge;
 
@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS SBWeightedEmissionRate (
 	sumSBD				DOUBLE NULL,
 	sumSBDRaw			DOUBLE NULL,
 	unique key (sourceTypeID, polProcessID, opModeID, modelYearID, fuelTypeID, regClassID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 TRUNCATE TABLE SBWeightedEmissionRate;
 
@@ -91,7 +91,7 @@ CREATE TABLE IF NOT EXISTS SBWeightedDistanceRate (
 	sumSBD				DOUBLE NULL,
 	sumSBDRaw			DOUBLE NULL,
 	primary key (sourceTypeID, polProcessID, modelYearID, fuelTypeID, regClassID, avgSpeedBinID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 TRUNCATE TABLE SBWeightedDistanceRate;
 
@@ -106,7 +106,7 @@ create table if not exists distanceEmissionRate (
 	ratePerMile double not null,
 	ratePerSHO double not null,
 	primary key (sourceTypeID, polProcessID, modelYearID, fuelTypeID, avgSpeedBinID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 --	regClassID smallint not null,
 --	primary key (sourceTypeID, polProcessID, modelYearID, fuelTypeID, regClassID, avgSpeedBinID)
@@ -142,7 +142,7 @@ CREATE TABLE IF NOT EXISTS BaseRateByAge (
 	opModeFraction       FLOAT NULL,
 	opModeFractionRate   FLOAT NULL,
 	PRIMARY KEY (sourceTypeID, roadTypeID, avgSpeedBinID, hourDayID, polProcessID, modelYearID, fuelTypeID, ageGroupID, regClassID, opModeID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 TRUNCATE TABLE BaseRateByAge;
 
@@ -174,6 +174,6 @@ CREATE TABLE IF NOT EXISTS BaseRate (
 	opModeFraction       FLOAT NULL,
 	opModeFractionRate   FLOAT NULL,
 	PRIMARY KEY (sourceTypeID, roadTypeID, avgSpeedBinID, hourDayID, polProcessID, modelYearID, fuelTypeID, regClassID, opModeID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 TRUNCATE TABLE BaseRate;

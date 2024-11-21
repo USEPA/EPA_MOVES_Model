@@ -28,7 +28,7 @@ create table if not exists PMTotalMOVESWorkerOutputTemp (
 	roadTypeID           SMALLINT UNSIGNED NULL,
 	SCC                  CHAR(10) NULL,
 	emissionQuant        FLOAT NULL
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 -- Section PM10Total
 

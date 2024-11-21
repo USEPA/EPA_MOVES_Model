@@ -43,7 +43,7 @@ DROP TABLE IF EXISTS OldAverageTankTemperature;
 CREATE TABLE SourceTypeOrdering (
     sourceTypeID SMALLINT,
     orderPreference SMALLINT
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 INSERT INTO SourceTypeOrdering VALUES (21,1),(31,2),(32,3),(52,4),(61,5),(54,6),(62,7),(43,8),(53,9),(41,10),(42,11),(51,12),(11,13);
 
 
@@ -68,7 +68,8 @@ CREATE TABLE  HourWeighting2 (
 	sourceTypeID SMALLINT, 
 	dayID SMALLINT,
 	hourID SMALLINT,
-	actFract FLOAT);
+	actFract FLOAT
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 INSERT INTO HourWeighting2 (sourceTypeID, dayID, hourID, actFract)
   SELECT hvmtf.sourceTypeID, dayID, hourID, 
     ((sum(hourVMTFraction*roadTypeVMTFraction))/sum(roadTypeVMTFraction)) as actFract 
@@ -84,7 +85,8 @@ CREATE UNIQUE INDEX index1 ON HourWeighting2 (sourceTypeID, dayID, hourID);
 -- Explicit Creation of Intermediate File Found necessary to avoid significance problems
 CREATE Table  HourWeighting3 (
 	hourID SMALLINT,
-	actFract FLOAT);
+	actFract FLOAT
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 INSERT INTO HourWeighting3
   SELECT hourID, avg(actFract) as actFract 
     FROM HourWeighting2
@@ -99,7 +101,8 @@ SELECT "Making HourWeighting4" AS MARKER_POINT;
 CREATE Table HourWeighting4 (
 	dayID SMALLINT,
 	hourID SMALLINT,
-	actFract FLOAT);
+	actFract FLOAT
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 INSERT INTO HourWeighting4
   SELECT dayID, hourID, actFract 
   FROM HourWeighting2 
@@ -272,7 +275,8 @@ CREATE TABLE  AggZoneMonthHour (
 	monthID SMALLINT,
 	zoneID INTEGER,
 	temperature DOUBLE,
-	relHumidity DOUBLE);
+	relHumidity DOUBLE
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 INSERT INTO AggZoneMonthHour (monthID,zoneID,temperature,relHumidity)
   SELECT monthID, zoneID, 
     (sum(temperature*actFract)/sum(actFract)) AS temperature,
@@ -297,7 +301,8 @@ CREATE TABLE AggMonthGroupHour (
 	monthGroupID SMALLINT,
 	ACActivityTermA FLOAT,
 	ACActivityTermB FLOAT,
-	ACActivityTermC FLOAT);
+	ACActivityTermC FLOAT
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 INSERT INTO AggMonthGroupHour (monthGroupID,ACActivityTermA,ACActivityTermB,ACActivityTermC)
   SELECT monthGroupID, 
     (sum(ACActivityTermA*actFract)/sum(actFract)) AS ACActivityTermA,

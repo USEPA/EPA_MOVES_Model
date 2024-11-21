@@ -4,7 +4,7 @@ This document contains information about the contents of the MOVES code folder a
 
 ## amazon
 
-This folder contains jars and other code to help setup and to run MOVES on the cloud. 
+This folder contains jars and other code to help setup and to run MOVES in the cloud. 
 
 ## ant
 
@@ -14,39 +14,13 @@ Ant is the MOVES build tool and provides the easiest way of interfacing with MOV
 
 This folder contains code for the MOVES calculators that are written in Go. Every calculator runs the main package in this folder, `externalcalculator.go`, which references the other packages as necessary. 
 
-As a general rule, the Go calculators replace SQL code in the database folder. There is some SQL code in the database folder which builds the MOVES bundles for Go to pick up and process. Therefore some of the SQL code in the database folder is still run, even though a Go-equivalent calculator exists in this folder.
+In general, the Go calculators replace SQL code in the database folder. There is some SQL code in the database folder which builds the MOVES bundles for Go to pick up and process. Therefore some of the SQL code in the database folder is still run, even though a Go-equivalent calculator exists in this folder.
 
 ## database
 
-This folder contains many SQL scripts used by MOVES. Most of the scripts are calculators, some of of which are partially deprecated by the Go calculators. However, there are non-calculator scripts in this folder as well, such as pre-aggregation and the rates output post-processor. There are also some generator files, but like the SQL calculators, they have been at least partially replaced by the Go generators in the generators folder.
+This folder contains many SQL scripts used by MOVES. Most of the scripts are calculators, some of of which are partially deprecated by the Go calculators. However, there are non-calculator scripts in this folder as well, such as input data validators, pre-aggregation scripts, and the rates output post-processor. There are also some generator scripts, but like the SQL calculators, they have been at least partially replaced by the Go generators in the generators folder.
 
-### database/ConversionScripts
-
-This folder contains conversion scripts to help users convert input databases for MOVES3 to MOVES4 compatible input databases. These scripts can be accessed from the MOVES GUI under the Tools menu.
-
-### database/LEV_NLEVScripts
-
-This folder contains the template SQL scripts used to create the needed inputs for modeling emissions in states that have adopted LEV or NLEV standards. These scripts can be accessed from the MOVES GUI under the Tools menu.
-
-### database/NEIQA
-
-This folder contains the SQL scripts for the NEI Submissions QA Tool as well as the instructions for using them. These scripts are run via ant.
-
-### database/NonroadProcessingScripts
-
-This folder contains the post-processing scripts for nonroad runs. These scripts can be run from the MOVES GUI under the Post Processing menu.
-
-### database/ONITool
-
-This folder contains the SQL script for the ONI Tool as well as instructions for using it. This tool can be accessed from the MOVES GUI under the Tools menu.
-
-### database/OutputProcessingScripts
-
-This folder contains the post-processing scripts for MOVES onroad runs. These scripts can be run from the MOVES GUI under the Post Processing menu.
-
-### database/Setup
-
-This folder contains the scripts needed to configure MariaDB and load the MOVES default database without the installer.
+The database folders contains many folders within it, generally corresponding to MOVES tooling available through the GUI or command line. The `Setup` folder contains the scripts needed to configure MariaDB and load the MOVES default database without the installer.
 
 ## generators
 
@@ -58,7 +32,7 @@ This contains all the Java code for MOVES itself.
 
 ### gov/epa/otaq/moves/common
 
-This folder contains various dependencies that are shared throughout the MOVES Java code. As a general rule, it handles tasks like connecting to SQL, compiling, and doing simple data conversions and formatting.
+This folder contains various dependencies that are shared throughout the MOVES Java code. In general, it handles tasks like connecting to SQL, compiling, and doing simple data conversions and formatting.
 
 ### gov/epa/otaq/moves/master
 
@@ -74,11 +48,11 @@ This contains basic classes used through much of MOVES. Many of them get extende
 
 #### gov/epa/otaq/moves/master/gui
 
-This contains all of the code for the MOVES GUI. 
+This contains all of the code and supporting files, such as images, for the MOVES GUI. 
 
 #### gov/epa/otaq/moves/master/implementation
 
-This folder contains the specific implementations of many of the classes found in framework. This is where most of the "MOVES code" actually is--the classes that handle pollutant or process specific calculations live here. As a general rule, it contains both calculators and generators. Most of the SQL executed by the Java code is found in these files. Like the database folder, some of the code in the implementation folder is no longer used due to the introduction of the Go code in either the generators or calculators.
+This folder contains the specific implementations of many of the classes found in framework. This is where most of the "MOVES code" actually is--the classes that handle pollutant or process specific calculations live here. In general, it contains both calculators and generators. Most of the SQL executed by the Java code is found in these files. Like the database folder, some of the code in the implementation folder is no longer used due to the introduction of the Go code in either the generators or calculators.
 
 #### gov/epa/otaq/moves/master/nonroad
 
@@ -110,7 +84,7 @@ This folder is created when MOVES is installed using the standalone installer an
 
 ## jre
 
-This folder contains the components of the Java Runtime Environment necessary for running MOVES.
+This folder contains the components of the Java Runtime Environment necessary for running MOVES. If MOVES was cloned from GitHub, this folder will not exist. You can create it by running the `ant makejre` command.
 
 ## libs
 
@@ -158,4 +132,4 @@ This folder is created when MOVES is installed using the standalone installer an
 
 ## WorkerFolder
 
-This folder is normally empty. There is a flag in the Java code (gov\epa\otaq\moves\worker\framework\RemoteEmissionsCalculator.java) that will tell MOVES to save the worker bundles as its running. When this flag is on, the bundles are saved in this folder, unzipped, *after they have been processed*. This folder is very useful for debugging.
+This folder is normally empty. There is a flag in the Java code (`gov\epa\otaq\moves\worker\framework\RemoteEmissionsCalculator.java`) that will tell MOVES to save the worker bundles as its running. When this flag is on, the bundles are saved in this folder, unzipped, *after they have been processed*. This folder is very useful for debugging.

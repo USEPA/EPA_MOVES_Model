@@ -8,7 +8,7 @@ drop table if exists tempNewYear;
 create table if not exists tempNewYear (
   yearID smallint(6) not null default '0',
   primary key  (yearID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 insert into tempNewYear (yearID)
 select distinct yearID
@@ -22,7 +22,7 @@ create table if not exists tempYear (
   fuelYearID smallint(6) not null default '0',
   primary key  (yearID),
   key isBaseYear (isBaseYear)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 create table if not exists year (
   yearID smallint(6) not null default '0',
@@ -30,7 +30,7 @@ create table if not exists year (
   fuelYearID smallint(6) not null default '0',
   primary key  (yearID),
   key isBaseYear (isBaseYear)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 insert into tempYear (yearID, isBaseYear, fuelYearID)
 select y.yearID, 'Y' as isBaseYear, y.fuelYearID
@@ -103,17 +103,18 @@ select sourceTypeID, monthID, 0.0
 from ##defaultDatabase##.sourceUseType, ##defaultDatabase##.monthOfAnyYear
 where (select count(*) from monthVMTFraction where monthVMTFraction > 0) > 0;
 
--- Check sum to 1
+-- Make sure distributions don't sum to greater than 1
 insert into importTempMessages (message)
-select distinct concat('ERROR: Source type ',sourceTypeID,' monthVMTFraction is greater than 1.0') as errorMessage
+select distinct concat('ERROR: Source type ',sourceTypeID,' monthVMTFraction is greater than 1.0000') as errorMessage
 from monthVMTFraction
 group by sourceTypeID
 having round(sum(monthVMTFraction),4)>1.0000;
 
--- For non-zero fractions supplied, make sure they sum to 1
+-- Check that the supplied values sum to 1 if all months are in the runspec
 insert into importTempMessages (message)
-select distinct concat('Warning: Source type ',sourceTypeID,' monthVMTFraction is less than 1.0') as errorMessage
+select distinct concat('ERROR: Source type ',sourceTypeID,' monthVMTFraction does not sum to 1.0000') as errorMessage
 from monthVMTFraction
+where '##monthIDs##' = '1,2,3,4,5,6,7,8,9,10,11,12'
 group by sourceTypeID
 having round(sum(monthVMTFraction),4)<1.0000 and sum(monthVMTFraction)>0.0000;
 
@@ -133,17 +134,18 @@ from ##defaultDatabase##.sourceUseType, ##defaultDatabase##.monthOfAnyYear,
 	##defaultDatabase##.roadType, ##defaultDatabase##.dayOfAnyWeek
 where (select count(*) from dayVMTFraction where dayVMTFraction > 0) > 0;
 
--- Check sum to 1
+-- Make sure distributions don't sum to greater than 1
 insert into importTempMessages (message)
 select distinct concat('ERROR: Source type ',sourceTypeID,', month ',monthID,', road type ',roadTypeID,' dayVMTFraction is greater than 1.0') as errorMessage
 from dayVMTFraction
 group by sourceTypeID, monthID, roadTypeID
 having round(sum(dayVMTFraction),4)>1.0000;
 
--- For non-zero fractions supplied, make sure they sum to 1
+-- Check that the supplied values sum to 1 if all days are in the runspec
 insert into importTempMessages (message)
-select distinct concat('Warning: Source type ',sourceTypeID,', month ',monthID,', road type ',roadTypeID,' dayVMTFraction is less than 1.0') as errorMessage
+select distinct concat('ERROR: Source type ',sourceTypeID,', month ',monthID,', road type ',roadTypeID,' dayVMTFraction does not sum to 1.0000') as errorMessage
 from dayVMTFraction
+where '##dayIDs##' = '2,5'
 group by sourceTypeID, monthID, roadTypeID
 having round(sum(dayVMTFraction),4)<1.0000 and sum(dayVMTFraction)>0.0000;
 
@@ -162,17 +164,18 @@ select sourceTypeID, roadTypeID, dayID, hourID, 0.0
 from ##defaultDatabase##.sourceUseType, ##defaultDatabase##.roadType, ##defaultDatabase##.hourDay
 where (select count(*) from hourVMTFraction where hourVMTFraction > 0) > 0;
 
--- Check sum to 1
+-- Make sure distributions don't sum to greater than 1
 insert into importTempMessages (message)
 select distinct concat('ERROR: Source type ',sourceTypeID,', day ',dayID,', road type ',roadTypeID,' hourVMTFraction is greater than 1.0') as errorMessage
 from hourVMTFraction
 group by sourceTypeID, dayID, roadTypeID
 having round(sum(hourVMTFraction),4)>1.0000;
 
--- For non-zero fractions supplied, make sure they sum to 1
+-- Check that the supplied values sum to 1 if all hours are in the runspec
 insert into importTempMessages (message)
-select distinct concat('Warning: Source type ',sourceTypeID,', day ',dayID,', road type ',roadTypeID,' hourVMTFraction is less than 1.0') as errorMessage
+select distinct concat('ERROR: Source type ',sourceTypeID,', day ',dayID,', road type ',roadTypeID,' hourVMTFraction does not sum to 1.0000') as errorMessage
 from hourVMTFraction
+where '##hourIDs##' = '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24'
 group by sourceTypeID, dayID, roadTypeID
 having round(sum(hourVMTFraction),4)<1.0000 and sum(hourVMTFraction)>0.0000;
 

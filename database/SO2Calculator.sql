@@ -9,7 +9,7 @@
 drop table if exists so2RunSpecModelYear;
 create table if not exists so2RunSpecModelYear (
 	modelYearID smallint not null primary key
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 truncate so2RunSpecModelYear;
 
 drop table if exists so2PMOneCountyYearGeneralFuelRatio;
@@ -23,28 +23,28 @@ create table if not exists so2PMOneCountyYearGeneralFuelRatio (
 	yearID int not null,
 	fuelEffectRatio double not null default '0',
 	primary key (fuelTypeID, sourceTypeID, monthID, pollutantID, modelYearID, yearID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 truncate so2PMOneCountyYearGeneralFuelRatio;
 
 DROP TABLE IF EXISTS SO2CopyOfMonthOfAnyYear;
 CREATE TABLE SO2CopyOfMonthOfAnyYear (
 	monthID 		smallint(6),
 	monthGroupID 	smallint(6)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 DROP TABLE IF EXISTS SO2CopyOfPPA;
 CREATE TABLE SO2CopyOfPPA (
 	polProcessID	int,
 	processID		SMALLINT(6),	
 	pollutantID		SMALLINT(6)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 DROP TABLE IF EXISTS SO2CopyOfYear;
 CREATE TABLE SO2CopyOfYear (
        yearID        SMALLINT(6),
        isBaseYear    CHAR(1),
        fuelYearID    SMALLINT(6)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 DROP TABLE IF EXISTS SO2CopyOfFuelFormulation;
 CREATE TABLE SO2CopyOfFuelFormulation (
@@ -54,7 +54,7 @@ CREATE TABLE SO2CopyOfFuelFormulation (
        primary key (fuelFormulationID),
        key (fuelFormulationID, fuelSubtypeID),
        key (fuelSubtypeID, fuelFormulationID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 DROP TABLE IF EXISTS SO2CopyOfFuelSupply;
 CREATE TABLE SO2CopyOfFuelSupply (
@@ -64,13 +64,13 @@ CREATE TABLE SO2CopyOfFuelSupply (
 	fuelFormulationID		INT(11),
 	marketShare				float,
 	marketShareCV 			float
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 DROP TABLE IF EXISTS SO2CopyOfFuelType;
 CREATE TABLE SO2CopyOfFuelType (
        fuelTypeID        SMALLINT(6),
        primary key (fuelTypeID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 DROP TABLE IF EXISTS SO2CopyOfFuelSubType;
 CREATE TABLE SO2CopyOfFuelSubType (
@@ -80,7 +80,7 @@ CREATE TABLE SO2CopyOfFuelSubType (
        primary key (fuelSubTypeID),
        key (fuelTypeID, fuelSubTypeID),
        key (fuelSubTypeID, fuelTypeID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 DROP TABLE IF EXISTS CopyOfSO2EmissionRate;
 CREATE TABLE CopyOfSO2EmissionRate (
@@ -90,7 +90,7 @@ CREATE TABLE CopyOfSO2EmissionRate (
 	meanBaseRate 		float,
 	meanBaseRateCV		float,
 	dataSourceId		smallint(6)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 -- End Section Create Remote Tables for Extracted Data
 
@@ -172,7 +172,7 @@ CREATE TABLE SO2FuelCalculation1 (
 	fuelTypeID				SMALLINT(6), 
 	energyContent			FLOAT,
 	WsulfurLevel			FLOAT
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 -- @algorithm energyContent = sum(marketShare * energyContent) across the fuel supply.
 -- WsulfurLevel = sum(marketShare * sulfurLevel) across the fuel supply.
@@ -207,7 +207,7 @@ CREATE TABLE SO2FuelCalculation2 (
 	fuelTypeID				SMALLINT(6),
 	modelYearID				SMALLINT(6),
 	meanBaseRate			FLOAT
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 alter table CopyOfSO2EmissionRate add column minModelYearID smallint null;
 alter table CopyOfSO2EmissionRate add column maxModelYearID smallint null;

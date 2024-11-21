@@ -648,7 +648,7 @@ public class RunSpecXML {
 		String sql = "SELECT DISTINCT ft.fuelTypeID, ft.fuelTypeDesc, sut.sourceTypeID, "
                     +"sut.sourceTypeName FROM FuelType ft, SourceUseType sut, FuelEngTechAssoc "
                     +"feta WHERE ft.fuelTypeID = feta.fuelTypeID AND sut.sourceTypeID = "
-                    +"feta.sourceTypeID ORDER BY ft.fuelTypeDesc, sut.sourceTypeName";
+                    +"feta.sourceTypeID ORDER BY sut.sourceTypeID, ft.fuelTypeID";
 		SQLRunner.Query query = new SQLRunner.Query();
 		try {
             Connection db = DatabaseConnectionManager.checkOutConnection(MOVESDatabaseType.DEFAULT);
@@ -1653,6 +1653,11 @@ public class RunSpecXML {
 	 * @param node The Node object to handle.
 	**/
 	void processScaleInputDatabase(Node node) {
+        // do not parse ScaleInputDatabase tag if this version is not compatible, to avoid getting error messages
+        if (!runSpec.isCompatibleVersion(MOVESWindow.MOVES_VERSION)) {
+            return;
+        }
+
 		// This node should have two attributes and no subnodes
 		NamedNodeMap attributes = node.getAttributes();
 		String parsedServerName = null;
@@ -2484,6 +2489,25 @@ public class RunSpecXML {
 				runSpec.outputSHIdling = true;
 				runSpec.outputStarts = true;
 			}
+            // if CH4 crankcase running is selected and CO2e running is selected, add CO2e crankcase running
+            PollutantProcessAssociation methaneCrankcaseRunning = PollutantProcessAssociation.createByID(5, 15);
+            PollutantProcessAssociation co2eRunning = PollutantProcessAssociation.createByID(98, 1);
+            PollutantProcessAssociation co2eCrankcase = PollutantProcessAssociation.createByID(98, 15);
+            if(runSpec.pollutantProcessAssociations.contains(methaneCrankcaseRunning) && runSpec.pollutantProcessAssociations.contains(co2eRunning)) {
+                runSpec.pollutantProcessAssociations.add(co2eCrankcase);
+            }
+            // if CH4 crankcase starts is selected and CO2e running is selected, add CO2e crankcase starts
+            PollutantProcessAssociation methaneCrankcaseStarts = PollutantProcessAssociation.createByID(5, 16);
+            PollutantProcessAssociation co2eCrankcaseStarts = PollutantProcessAssociation.createByID(98, 16);
+            if(runSpec.pollutantProcessAssociations.contains(methaneCrankcaseStarts) && runSpec.pollutantProcessAssociations.contains(co2eRunning)) {
+                runSpec.pollutantProcessAssociations.add(co2eCrankcaseStarts);
+            }
+            // if CH4 crankcase extended idle is selected and CO2e running is selected, add CO2e crankcase extended idle
+            PollutantProcessAssociation methaneCrankcaseExtIdle = PollutantProcessAssociation.createByID(5, 17);
+            PollutantProcessAssociation co2eCrankcaseExtIdle = PollutantProcessAssociation.createByID(98, 17);
+            if(runSpec.pollutantProcessAssociations.contains(methaneCrankcaseExtIdle) && runSpec.pollutantProcessAssociations.contains(co2eRunning)) {
+                runSpec.pollutantProcessAssociations.add(co2eCrankcaseExtIdle);
+            }
 		}
 	}
 }

@@ -8,14 +8,14 @@
 DROP TABLE IF EXISTS NO2CopyOfSourceUseType;
 CREATE TABLE NO2CopyOfSourceUseType (
 	sourceTypeID	smallint(6)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 DROP TABLE IF EXISTS NO2CopyOfPPA;
 CREATE TABLE NO2CopyOfPPA (
 	polProcessID	int,
 	processID		smallint(6),	
 	pollutantID		smallint(6)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 DROP TABLE IF EXISTS NO2CopyOfPPMY;
 CREATE TABLE NO2CopyOfPPMY (
@@ -23,12 +23,12 @@ CREATE TABLE NO2CopyOfPPMY (
 	modelYearID			smallint(6),	
 	modelYearGroupID	int(11),
 	fuelMYGroupID		int(11)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 DROP TABLE IF EXISTS NO2CopyOfFuelType;
 CREATE TABLE NO2CopyOfFuelType (
        fuelTypeID        smallint(6)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 DROP TABLE IF EXISTS NO2CopyOfNONO2Ratio;
 CREATE TABLE NO2CopyOfNONO2Ratio (
@@ -39,7 +39,7 @@ CREATE TABLE NO2CopyOfNONO2Ratio (
 	NOxRatio 			float,
 	NOxRatioCV			float,
 	dataSourceId		smallint(6)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 -- End Section Create Remote Tables for Extracted Data
 
 -- Section Extract Data
@@ -62,7 +62,7 @@ cache SELECT polProcessID,modelYearID,modelYearGroupID,fuelMYGroupID
 INTO OUTFILE '##NO2CopyOfPPMY##' FROM pollutantprocessmappedmodelyear 
 WHERE polProcessID IN (3301, 3302, 3390, 3391)
 and modelYearID <= ##context.year##
-and modelYearID >= ##context.year## - 30;
+and modelYearID >= ##context.year## - 40;
 -- End Section Extract Data
 
 -- Section Local Data Removal
@@ -78,7 +78,7 @@ CREATE TABLE NO2Calculation1 (
 	fuelTypeID				smallint(6),
 	modelYearID				smallint(6),
 	NOxRatio				float
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 -- @algorithm To simplify future table joins, add dimensions to NOxRatio.
 INSERT INTO NO2Calculation1 (

@@ -114,7 +114,7 @@ AND SourceBin.sourceBinID = SourceBinDistribution.sourceBinID
 AND RunSpecSourceFuelType.sourceTypeID = SourceTypeModelYear.sourceTypeID
 AND SourceBinDistribution.sourceTypeModelYearID = SourceTypeModelYear.sourceTypeModelYearID
 AND SourceTypeModelYear.modelYearID <= ##context.year##
-AND SourceTypeModelYear.modelYearID >= ##context.year## - 30
+AND SourceTypeModelYear.modelYearID >= ##context.year## - 40
 AND EmissionRateByAge.polProcessID IN (##pollutantProcessIDs##);
 
 cache SELECT ff.* INTO OUTFILE '##FuelFormulation##'
@@ -181,13 +181,13 @@ WHERE processID=##context.iterProcess.databaseKey##;
 cache SELECT * INTO OUTFILE '##PollutantProcessModelYear##'
 FROM PollutantProcessModelYear
 WHERE modelYearID <= ##context.year##
-AND modelYearID >= ##context.year## - 30
+AND modelYearID >= ##context.year## - 40
 AND polProcessID IN (##pollutantProcessIDs##);
 
 cache SELECT * INTO OUTFILE '##PollutantProcessMappedModelYear##'
 FROM PollutantProcessMappedModelYear
 WHERE modelYearID <= ##context.year##
-AND modelYearID >= ##context.year## - 30
+AND modelYearID >= ##context.year## - 40
 AND polProcessID IN (##pollutantProcessIDs##);
 
 cache SELECT DISTINCT SourceBin.* INTO OUTFILE '##SourceBin##'
@@ -195,7 +195,7 @@ FROM SourceBinDistribution, SourceTypeModelYear, SourceBin, RunSpecSourceFuelTyp
 WHERE polProcessID IN (##pollutantProcessIDs##)
 AND SourceBinDistribution.sourceTypeModelYearID = SourceTypeModelYear.sourceTypeModelYearID
 AND SourceTypeModelYear.modelYearID <= ##context.year##
-AND SourceTypeModelYear.modelYearID >= ##context.year## - 30
+AND SourceTypeModelYear.modelYearID >= ##context.year## - 40
 AND SourceTypeModelYear.sourceTypeID = RunSpecSourceFuelType.sourceTypeID
 AND SourceBinDistribution.SourceBinID = SourceBin.SourceBinID
 AND SourceBin.fuelTypeID = RunSpecSourceFuelType.fuelTypeID;
@@ -206,7 +206,7 @@ SourceTypeModelYear, SourceBin, RunSpecSourceFuelType
 WHERE polProcessID IN (##pollutantProcessIDs##)
 AND SourceBinDistribution.sourceTypeModelYearID = SourceTypeModelYear.sourceTypeModelYearID
 AND SourceTypeModelYear.modelYearID <= ##context.year##
-AND SourceTypeModelYear.modelYearID >= ##context.year## - 30
+AND SourceTypeModelYear.modelYearID >= ##context.year## - 40
 AND SourceTypeModelYear.sourceTypeID = RunSpecSourceFuelType.sourceTypeID
 AND SourceBinDistribution.SourceBinID = SourceBin.SourceBinID
 AND SourceBin.fuelTypeID = RunSpecSourceFuelType.fuelTypeID;
@@ -215,7 +215,7 @@ cache SELECT SourceTypeModelYear.* INTO OUTFILE '##SourceTypeModelYear##'
 FROM SourceTypeModelYear,RunSpecSourceType
 WHERE SourceTypeModelYear.sourceTypeID = RunSpecSourceType.sourceTypeID
 AND modelYearID <= ##context.year##
-AND modelYearID >= ##context.year## - 30;
+AND modelYearID >= ##context.year## - 40;
 
 SELECT Starts.* INTO OUTFILE '##Starts##'
 FROM Starts
@@ -256,7 +256,7 @@ CREATE TABLE IMCoverageMergedUngrouped (
        fuelTypeID SMALLINT NOT NULL,
        sourceTypeID SMALLINT NOT NULL,
        IMAdjustFract FLOAT
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE INDEX XPKIMCoverageMergedUngrouped ON IMCoverageMergedUngrouped
 (
@@ -313,7 +313,7 @@ CREATE TABLE CountyFuelAdjustment (
 	sourceTypeID SMALLINT NOT NULL,
 	fuelFormulationID int(11) NOT NULL,
 	fuelAdjustment FLOAT
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE UNIQUE INDEX XPKCountyFuelAdjustment ON CountyFuelAdjustment
 (
@@ -371,7 +371,7 @@ CREATE TABLE CountyFuelAdjustmentWithFuelType (
 	fuelFormulationID INT(11) NOT NULL,
 	fuelTypeID SMALLINT NOT NULL,
 	fuelAdjustment FLOAT
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE UNIQUE INDEX XPKCountyFuelAdjustmentWithFuelType ON CountyFuelAdjustmentWithFuelType 
 (
@@ -403,7 +403,7 @@ CREATE TABLE FuelSupplyAdjustment (
 	sourceTypeID SMALLINT NOT NULL,
 	fuelTypeID SMALLINT NOT NULL,
 	fuelAdjustment FLOAT
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE UNIQUE INDEX XPKFuelSupplyAdjustment ON FuelSupplyAdjustment (
 	yearID ASC,
@@ -447,7 +447,7 @@ CREATE TABLE METStartAdjustment (
 	fuelTypeID SMALLINT NOT NULL,
 	opModeID SMALLINT NOT NULL,
 	temperatureAdjustment FLOAT
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 
 INSERT INTO METStartAdjustment (
@@ -495,7 +495,7 @@ CREATE TABLE EmissionRatesWithIMAndTemp (
       fuelTypeID SMALLINT NOT NULL,
 	  meanBaseRate FLOAT,
 	  meanBaseRateIM FLOAT
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE INDEX METStartAdjustment_New1 ON METStartAdjustment (
 	polProcessID ASC,
@@ -557,7 +557,7 @@ CREATE TABLE METSourceBinEmissionRates (
 	opModeID SMALLINT NOT NULL,
 	meanBaseRate FLOAT,
 	meanBaseRateIM FLOAT
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE INDEX EmissionRatesWithIMAndTemp3 ON EmissionRatesWithIMAndTemp (
       polProcessID ASC,
@@ -606,7 +606,7 @@ CREATE TABLE ActivityWeightedEmissionRate (
 	fuelTypeID SMALLINT NOT NULL,
 	meanBaseRate FLOAT,
 	meanBaseRateIM FLOAT
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 INSERT INTO ActivityWeightedEmissionRate (
       zoneID, yearID, monthID, dayID, hourID, polProcessID,
@@ -656,7 +656,7 @@ CREATE TABLE ActivityWeightedEmissionRate2 (
 	fuelTypeID SMALLINT NOT NULL,
 	meanBaseRate FLOAT,
 	meanBaseRateIM FLOAT
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 INSERT INTO ActivityWeightedEmissionRate2 (
   zoneID, yearID, monthID, dayID, hourID, polProcessID,
@@ -700,7 +700,7 @@ CREATE TABLE Starts2 (
 	sourceTypeID SMALLINT NOT NULL,
 	modelYearID SMALLINT NOT NULL,
 	starts FLOAT
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 INSERT INTO Starts2 (zoneID, monthID, hourID, dayID, yearID, 
 	sourceTypeID, modelYearID, starts) 

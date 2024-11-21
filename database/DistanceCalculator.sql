@@ -52,7 +52,7 @@ SourceTypeModelYear, SourceBin, RunSpecSourceFuelType
 WHERE polProcessID IN (##pollutantProcessIDs##)
 AND SourceBinDistribution.sourceTypeModelYearID = SourceTypeModelYear.sourceTypeModelYearID
 AND SourceTypeModelYear.modelYearID <= ##context.year##
-AND SourceTypeModelYear.modelYearID >= ##context.year## - 30
+AND SourceTypeModelYear.modelYearID >= ##context.year## - 40
 AND SourceTypeModelYear.sourceTypeID = RunSpecSourceFuelType.sourceTypeID
 AND SourceBinDistribution.SourceBinID = SourceBin.SourceBinID
 AND SourceBin.fuelTypeID = RunSpecSourceFuelType.fuelTypeID;
@@ -63,7 +63,7 @@ FROM SourceBinDistribution, SourceTypeModelYear, SourceBin, RunSpecSourceFuelTyp
 WHERE polProcessID IN (##pollutantProcessIDs##)
 AND SourceBinDistribution.sourceTypeModelYearID = SourceTypeModelYear.sourceTypeModelYearID
 AND SourceTypeModelYear.modelYearID <= ##context.year##
-AND SourceTypeModelYear.modelYearID >= ##context.year## - 30
+AND SourceTypeModelYear.modelYearID >= ##context.year## - 40
 AND SourceTypeModelYear.sourceTypeID = RunSpecSourceFuelType.sourceTypeID
 AND SourceBinDistribution.SourceBinID = SourceBin.SourceBinID
 AND SourceBin.fuelTypeID = RunSpecSourceFuelType.fuelTypeID;
@@ -83,7 +83,7 @@ INTO OUTFILE '##SourceTypeModelYear##'
 FROM SourceTypeModelYear,RunSpecSourceType
 WHERE SourceTypeModelYear.sourceTypeID = RunSpecSourceType.sourceTypeID
 AND modelYearID <= ##context.year##
-AND modelYearID >= ##context.year## - 30;
+AND modelYearID >= ##context.year## - 40;
 
 cache SELECT DISTINCT HourDay.* 
 INTO OUTFILE '##HourDay##'
@@ -113,7 +113,8 @@ CREATE TABLE SBD2 (
 	sourceTypeModelYearID INTEGER,
 	regClassID SMALLINT,
 	fuelTypeID SMALLINT,
-	fuelTypeActivityFraction FLOAT);
+	fuelTypeActivityFraction FLOAT
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 INSERT INTO SBD2 (
 	sourceTypeModelYearID,regClassID,fuelTypeID,fuelTypeActivityFraction )
 	SELECT sbd.sourceTypeModelYearID,sb.regClassID,sb.fuelTypeID,
@@ -138,7 +139,8 @@ CREATE TABLE SHO2 (
 	modelYearID SMALLINT,
 	linkID INTEGER,
 	sourceTypeID SMALLINT,
-	distance FLOAT);
+	distance FLOAT
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 INSERT INTO SHO2
 	SELECT sho.yearID, sho.monthID, hd.dayID, hd.hourID, (sho.yearID - sho.ageID), 
 		sho.linkID, sho.sourceTypeID, sho.distance

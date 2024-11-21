@@ -11,7 +11,7 @@
 drop table if exists runspecSourceTypeModelYearID;
 create table if not exists runspecSourceTypeModelYearID (
 	sourceTypeModelYearID int not null primary key
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 insert into runspecSourceTypeModelYearID (sourceTypeModelYearID)
 select sourceTypeID*10000 + modelYearID
@@ -30,7 +30,7 @@ create table if not exists RegClassSourceTypeFraction (
 	key (modelYearID, fuelTypeID, sourceTypeID),
 	key (modelYearID),
 	key (sourceTypeID, modelYearID, fuelTypeID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 -- regClassFraction is fraction of a [source type,fuel used,modelyear] that a regclass covers, (accounting for fuel type usage)
 -- Fix for MTEST-92: this table was originally not accounting for fuel usage fraction

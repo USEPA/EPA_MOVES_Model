@@ -49,7 +49,7 @@ drop table if exists OldTotalIdleFraction;
 CREATE TABLE SourceTypeOrdering (
     sourceTypeID SMALLINT,
     orderPreference SMALLINT
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 INSERT INTO SourceTypeOrdering VALUES (21,1),(31,2),(32,3),(52,4),(61,5),(54,6),(62,7),(43,8),(53,9),(41,10),(42,11),(51,12),(11,13);
 
 
@@ -61,7 +61,8 @@ INSERT INTO SourceTypeOrdering VALUES (21,1),(31,2),(32,3),(52,4),(61,5),(54,6),
 -- Create table explicitly to control column types and avoid significance problems
 CREATE TABLE MonthWeighting (
 	monthID SMALLINT,
-	actFract FLOAT);
+	actFract FLOAT
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 INSERT INTO MonthWeighting
   SELECT monthID, monthVMTFraction AS actFract
     FROM MonthVMTFraction 
@@ -71,7 +72,8 @@ CREATE UNIQUE INDEX index1 ON MonthWeighting (monthID);
 CREATE TABLE MonthWeightingBySourceType (
 	monthID SMALLINT,
     sourceTypeID SMALLINT,
-	actFract FLOAT);
+	actFract FLOAT
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 INSERT INTO MonthWeightingBySourceType
   SELECT monthID, sourceTypeID, monthVMTFraction AS actFract
     FROM MonthVMTFraction;
@@ -81,7 +83,8 @@ CREATE UNIQUE INDEX index1 ON MonthWeightingBySourceType (monthID, sourceTypeID)
 -- Create table explicitly to control column types and avoid significance problems
 CREATE TABLE MonthGroupWeighting (
 	monthGroupID SMALLINT,
-	actFract FLOAT);
+	actFract FLOAT
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 INSERT INTO MonthGroupWeighting
   SELECT monthGroupID, SUM(monthVMTFraction) AS actFract
     FROM MonthVMTFraction INNER JOIN MonthOfAnyYear USING (monthID)
@@ -256,7 +259,8 @@ FLUSH TABLE HotellingMonthAdjust;
 CREATE TABLE AggZoneMonthHour (
 	zoneID INTEGER,
 	temperature DOUBLE,
-	relHumidity DOUBLE);
+	relHumidity DOUBLE
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 INSERT INTO AggZoneMonthHour (zoneID,temperature,relHumidity)
   SELECT zoneID, 
     (sum(temperature*actFract)/sum(actFract)) AS temperature,
@@ -281,7 +285,8 @@ FLUSH TABLE ZoneMonthHour;
 CREATE TABLE AggMonthGroupHour (
 	ACActivityTermA FLOAT,
 	ACActivityTermB FLOAT,
-	ACActivityTermC FLOAT);
+	ACActivityTermC FLOAT
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 INSERT INTO AggMonthGroupHour (ACActivityTermA,ACActivityTermB,ACActivityTermC)
   SELECT 
     (sum(ACActivityTermA*actFract)/sum(actFract)) AS ACActivityTermA,
@@ -310,7 +315,7 @@ create table AggATRatio (
 	maxModelYearID int not null,
 	ageID int not null,
 	atRatio double null
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 insert into AggATRatio (fuelTypeID, fuelFormulationID, polProcessID, minModelYearID, maxModelYearID, ageID, 
 		atRatio)
 select fuelTypeID, fuelFormulationID, polProcessID, minModelYearID, maxModelYearID, ageID, 
@@ -325,12 +330,11 @@ select fuelTypeID, fuelFormulationID, polProcessID, minModelYearID, maxModelYear
 	ageID, 0 as monthGroupID, atRatio
 from AggATRatio;
 
-CREATE TABLE AggATBaseEmissions 
-(
+CREATE TABLE AggATBaseEmissions (
 	polProcessID			int		NOT NULL	default '0',
 	atBaseEmissions			float	NOT NULL	default '0',
 	primary key (polProcessID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 insert into AggATBaseEmissions (polProcessID, atBaseEmissions)
 select polProcessID, (sum(atBaseEmissions*actFract)/sum(actFract)) as atBaseEmissions
 from ATBaseEmissions
@@ -352,7 +356,8 @@ CREATE TABLE AggFuelSupply (
 	fuelYearID SMALLINT,
 	fuelFormulationID INT(11),
 	haveFract FLOAT,
-	fractDontHave FLOAT);
+	fractDontHave FLOAT
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 INSERT INTO AggFuelSupply
   SELECT fuelRegionID, fuelYearID, fuelFormulationID, 
     (sum(marketShare*actFract)/sum(actFract)) as haveFract,

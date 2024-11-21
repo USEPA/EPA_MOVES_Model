@@ -99,8 +99,9 @@ begin
 	drop table if exists tempYear;
 	create table if not exists tempYear (
 		year int not null primary key
-	);
-	insert into tempYear(year) values(1960),(1961),(1962),(1963),(1964),(1965),(1966),(1967)
+	) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
+	insert into tempYear(year) values(1950),(1951),(1952),(1953),(1954),(1955),(1956),(1957)
+		,(1958),(1959),(1960),(1961),(1962),(1963),(1964),(1965),(1966),(1967)
 		,(1968),(1969),(1970),(1971),(1972),(1973),(1974),(1975),(1976),(1977)
 		,(1978),(1979),(1980),(1981),(1982),(1983),(1984),(1985),(1986),(1987)
 		,(1988),(1989),(1990),(1991),(1992),(1993),(1994),(1995),(1996),(1997)
@@ -121,7 +122,7 @@ begin
 		opModeFraction float,
 		key (zoneID, fuelTypeID, modelYearID, opModeID),
 		key (zoneID, fuelTypeID, opModeID, modelYearID)
-	);
+	) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 	-- first, expand model year ranges
 	insert into tempHotellingActivityDistribution (zoneID, fuelTypeID, modelYearID, opModeID, opModeFraction)

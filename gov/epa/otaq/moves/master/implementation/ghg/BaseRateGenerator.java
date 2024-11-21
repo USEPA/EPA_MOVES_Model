@@ -260,6 +260,26 @@ public class BaseRateGenerator extends Generator {
 			projectStringWhere = "";
 		}
 
+        // The fleet average adjustment calculations use special copies of the default database's sty, stad, and svp tables
+        // This is because the algorithm uses the national EV fractions. AVFT inputs are typically for a specific county,
+        // so we don't want to use those. The only exception is when we are running with national pre-agg, because then any user 
+        // input data (AVFT, age distributions, etc.) should be national inputs
+        String sourceTypeYearTable = "sourcetypeyeardefault";
+        String sourceTypeAgeDistributionTable = "sourcetypeagedistributiondefault";
+        String sampleVehiclePopulationTable = "samplevehiclepopulationdefault";
+        TreeSet<GeographicSelection> geographicSelections = ExecutionRunSpec.theExecutionRunSpec.getGeographicSelections();
+        GeographicSelectionType geoType = null;
+        Iterator<GeographicSelection> iter = geographicSelections.iterator();
+        if(iter.hasNext()) {
+            geoType = ((GeographicSelection) iter.next()).type;
+        }
+        // When running at national pre-agg, use the normal sty, stad, and svp tables (which may include user input data)
+        if(geoType == GeographicSelectionType.NATION) {
+            sourceTypeYearTable = "sourcetypeyear";
+            sourceTypeAgeDistributionTable = "sourcetypeagedistribution";
+            sampleVehiclePopulationTable = "samplevehiclepopulation";
+        }
+
 		//boolean applyHotelling = processID == 91; OLD as of T1702
 		
 		String[] statements = {
@@ -281,43 +301,44 @@ public class BaseRateGenerator extends Generator {
 
 			/**
 			 * @step 010
-			 * @algorithm Create table to hold national LD EV Sales as a fraction of national total LD vehicles for use in adjusting
+			 * @algorithm Create table to hold national EV Sales by FleetAvgGroupID as a fraction of national total vehicles for use in adjusting
 			 *            EmissionRate and EmissionRateByAge values based on EV populations.
 			 *            These use copies of the default tables to ensure the national sales fraction is calculated correctly at all scales.
-			 * evSales=sum(sourceTypePopulation * age 0 fraction * LD EV stmyFraction) / sum(sourceTypePopulation * age 0 fraction * total LD stmyFraction)
-			 * @output evSalesFractionLD
+			 * evSales=sum(sourceTypePopulation * age 0 fraction * EV stmyFraction) / sum(sourceTypePopulation * age 0 fraction * total stmyFraction)
+			 * @output evSalesFraction
 			 * @input sourcetypeyeardefault
 			 * @input sourcetypeagedistributiondefault
 			 * @input samplevehiclepopulationdefault
+             * @input regulatoryclass
 			**/
 			"#CORE",
-			"DROP TABLE if EXISTS evSalesFractionLD",
-			"CREATE TABLE evSalesFractionLD "
-			+ "SELECT modelYearID, evsales/ldsales AS evFraction "
+			"DROP TABLE if EXISTS evSalesFraction",
+			"CREATE TABLE evSalesFraction "
+			+ "SELECT modelYearID, fleetAvgGroupID, evsales/sales AS evFraction "
 			+ "FROM ( "
-			+ "	SELECT modelYearID,  "
+			+ "	SELECT modelYearID, fleetAvgGroupID, "
 			+ "	       sum(sourceTypePopulation * ageFraction * stmyFraction) AS evsales "
-			+ "	FROM sourcetypeyeardefault sty "
-			+ "	JOIN sourcetypeagedistributiondefault stad USING (sourceTypeID, yearID) "
-			+ "	JOIN samplevehiclepopulationdefault svp ON (sty.sourceTypeID = svp.sourceTypeID AND "
-			+ "	                                            stad.yearID - stad.ageID = svp.modelYearID) "
+			+ "	FROM " + sourceTypeYearTable + " sty "
+			+ "	JOIN " + sourceTypeAgeDistributionTable + " stad USING (sourceTypeID, yearID) "
+			+ "	JOIN " + sampleVehiclePopulationTable + " svp ON (sty.sourceTypeID = svp.sourceTypeID AND "
+			+ "	                                                  stad.yearID - stad.ageID = svp.modelYearID) "
+            + " JOIN regulatoryclass USING (regClassID) "
 			+ "	WHERE ageID = 0 "
-			+ "	      AND regClassID IN (20, 30) "
 			+ "	      AND fuelTypeID = 9 "
-			+ "	      AND modelYearID <= " + year + " AND modelYearID >= " + (year - 30) + " "
-			+ "	GROUP BY modelYearID "
+			+ "	      AND modelYearID <= " + year + " AND modelYearID >= " + (year - 40) + " "
+			+ "	GROUP BY modelYearID, fleetAvgGroupID "
 			+ ") AS t1 JOIN ( "
-			+ "	SELECT modelYearID,  "
-			+ "	       sum(sourceTypePopulation * ageFraction * stmyFraction) AS ldsales "
-			+ "	FROM sourcetypeyeardefault sty "
-			+ "	JOIN sourcetypeagedistributiondefault stad USING (sourceTypeID, yearID) "
-			+ "	JOIN samplevehiclepopulationdefault svp ON (sty.sourceTypeID = svp.sourceTypeID AND "
-			+ "	                                            stad.yearID - stad.ageID = svp.modelYearID) "
+			+ "	SELECT modelYearID, fleetAvgGroupID, "
+			+ "	       sum(sourceTypePopulation * ageFraction * stmyFraction) AS sales "
+			+ "	FROM " + sourceTypeYearTable + " sty "
+			+ "	JOIN " + sourceTypeAgeDistributionTable + " stad USING (sourceTypeID, yearID) "
+			+ "	JOIN " + sampleVehiclePopulationTable + " svp ON (sty.sourceTypeID = svp.sourceTypeID AND "
+			+ "	                                                  stad.yearID - stad.ageID = svp.modelYearID) "
+            + " JOIN regulatoryclass USING (regClassID) "
 			+ "	WHERE ageID = 0 "
-			+ "	      AND regClassID IN (20, 30) "
-			+ "	      AND modelYearID <= " + year + " AND modelYearID >= " + (year - 30) + " "
-			+ "	GROUP BY modelYearID "
-			+ ") AS t2 USING (modelYearID) ",
+			+ "	      AND modelYearID <= " + year + " AND modelYearID >= " + (year - 40) + " "
+			+ "	GROUP BY modelYearID, fleetAvgGroupID "
+			+ ") AS t2 USING (modelYearID, fleetAvgGroupID) ",
 
 			/**
 			 * @step 010
@@ -486,59 +507,69 @@ public class BaseRateGenerator extends Generator {
 
 			/**
 			 * @step 010
-			 * @algorithm Adjust non-age-based rates by EV sales. The adjustmentWeight is actually a multiplier, so it increases the apparent total number of vehicles,
-			 *            which is why this equation is more complicated than just dividing the emission rate by (1 - evFraction * adjustmentWeight).
-			 * MeanBaseRate=MeanBaseRate * adjustment/(1 - (evFraction*adjustmentWeight)/((1-evFraction) + (evFraction*adjustmentWeight)))
-			 * MeanBaseRateIM=MeanBaseRateIM * adjustment/(1 - (evFraction*adjustmentWeight)/((1-evFraction) + (evFraction*adjustmentWeight)))
-			 * MeanBaseRateACAdj=MeanBaseRateACAdj * adjustment/(1 - (evFraction*adjustmentWeight)/((1-evFraction) + (evFraction*adjustmentWeight)))
-			 * MeanBaseRateIMACAdj=MeanBaseRateIMACAdj * adjustment/(1 - (evFraction*adjustmentWeight)/((1-evFraction) + (evFraction*adjustmentWeight)))
+			 * @algorithm Adjust non-age-based rates by EV sales. The evMultiplier increases the apparent total number of vehicles,
+			 *            which is why this equation is more complicated than just dividing the emission rate by (1 - evFraction * evMultiplier).
+             *            ICE backsliding may be capped to an upper limit. Therefore, apply the LEAST of the calculated adjustment and the adjustmentCap field
+             *            Note: LEAST returns NULL if any argument is NULL, so the actual code wraps the adjustmentCap in a COALESCE with an arbitrarily large number
+			 * MeanBaseRate=MeanBaseRate * LEAST(1 / (1 - (evFraction*evMultiplier)/((1-evFraction) + (evFraction*evMultiplier))), adjustmentCap)
+			 * MeanBaseRateIM=MeanBaseRateIM * LEAST(1 / (1 - (evFraction*evMultiplier)/((1-evFraction) + (evFraction*evMultiplier))), adjustmentCap)
+			 * MeanBaseRateACAdj=MeanBaseRateACAdj * LEAST(1 / /(1 - (evFraction*evMultiplier)/((1-evFraction) + (evFraction*evMultiplier))), adjustmentCap)
+			 * MeanBaseRateIMACAdj=MeanBaseRateIMACAdj * LEAST(1 / (1 - (evFraction*evMultiplier)/((1-evFraction) + (evFraction*evMultiplier))), adjustmentCap)
 			 * @output SBWeightedEmissionRate
-			 * @input evSalesFractionLD
-			 * @input evpopiceadjustld
+			 * @input evSalesFraction
+			 * @input fleetavgadjustment
 			**/
 			"#SBWeightedEmissionRate",
-			"CREATE INDEX IF NOT EXISTS `epialdjoin` ON sbweightedemissionrate (polProcessID, modelYearID)",
+			"CREATE INDEX IF NOT EXISTS `faajoin` ON sbweightedemissionrate (polProcessID, modelYearID)",
 			"UPDATE sbweightedemissionrate sbert, "
-			+ "       evSalesFractionLD sales, "
-			+ "       evpopiceadjustld epiald "
-			+ "SET sbert.meanBaseRate = sbert.meanBaseRate * epiald.adjustment / (1 - (sales.evFraction*epiald.adjustmentWeight)/((1-sales.evFraction) + (sales.evFraction*epiald.adjustmentWeight))), "
-			+ "    sbert.meanBaseRateIM = sbert.meanBaseRateIM * epiald.adjustment / (1 - (sales.evFraction*epiald.adjustmentWeight)/((1-sales.evFraction) + (sales.evFraction*epiald.adjustmentWeight))), "
-			+ "    sbert.meanBaseRateACAdj = sbert.meanBaseRateACAdj * epiald.adjustment / (1 - (sales.evFraction*epiald.adjustmentWeight)/((1-sales.evFraction) + (sales.evFraction*epiald.adjustmentWeight))), "
-			+ "    sbert.meanBaseRateIMACAdj = sbert.meanBaseRateIMACAdj * epiald.adjustment / (1 - (sales.evFraction*epiald.adjustmentWeight)/((1-sales.evFraction) + (sales.evFraction*epiald.adjustmentWeight))) "
-			+ "WHERE sbert.polProcessID = epiald.polProcessID "
+			+ "     evSalesFraction sales, "
+			+ "     fleetavgadjustment faa, "
+            + "     regulatoryclass rc "
+			+ "SET sbert.meanBaseRate = sbert.meanBaseRate * LEAST(1 / (1 - (sales.evFraction*faa.evMultiplier)/((1-sales.evFraction) + (sales.evFraction*faa.evMultiplier))), COALESCE(faa.adjustmentCap, 1e99)), "
+			+ "    sbert.meanBaseRateIM = sbert.meanBaseRateIM * LEAST(1 / (1 - (sales.evFraction*faa.evMultiplier)/((1-sales.evFraction) + (sales.evFraction*faa.evMultiplier))), COALESCE(faa.adjustmentCap, 1e99)), "
+			+ "    sbert.meanBaseRateACAdj = sbert.meanBaseRateACAdj * LEAST(1 / (1 - (sales.evFraction*faa.evMultiplier)/((1-sales.evFraction) + (sales.evFraction*faa.evMultiplier))), COALESCE(faa.adjustmentCap, 1e99)), "
+			+ "    sbert.meanBaseRateIMACAdj = sbert.meanBaseRateIMACAdj * LEAST(1 / (1 - (sales.evFraction*faa.evMultiplier)/((1-sales.evFraction) + (sales.evFraction*faa.evMultiplier))), COALESCE(faa.adjustmentCap, 1e99)) "
+			+ "WHERE sbert.polProcessID = faa.polProcessID "
 			+ "  AND sbert.modelYearID = sales.modelYearID "
-			+ "  AND sbert.modelYearID BETWEEN epiald.beginModelYearID AND epiald.endModelYearID "
+			+ "  AND sbert.modelYearID BETWEEN faa.beginModelYearID AND faa.endModelYearID "
+            + "  AND sbert.regClassID = rc.regClassID "
+            + "  AND rc.fleetAvgGroupID = sales.fleetAvgGroupID "
+            + "  AND sales.fleetAvgGroupID = faa.fleetAvgGroupID "
 			+ "  AND fuelTypeID <> 9 "
-			+ "  AND regClassID in (20,30) "
 			+ "  AND evFraction <> 1 ",
 
 			/**
 			 * @step 010
-			 * @algorithm Adjust age-based rates by EV sales.
-			 * MeanBaseRate=MeanBaseRate*adjustment/(1-evFraction*adjustmentWeight)
-			 * MeanBaseRateIM=MeanBaseRateIM*adjustment/(1-evFraction*adjustmentWeight)
-			 * MeanBaseRateACAdj=MeanBaseRateACAdj*adjustment/(1-evFraction*adjustmentWeight)
-			 * MeanBaseRateIMACAdj=MeanBaseRateIMACAdj*adjustment/(1-evFraction*adjustmentWeight)
+			 * @algorithm Adjust age-based rates by EV sales. The evMultiplier increases the apparent total number of vehicles,
+			 *            which is why this equation is more complicated than just dividing the emission rate by (1 - evFraction * evMultiplier).
+             *            ICE backsliding may be capped to an upper limit. Therefore, apply the LEAST of the calculated adjustment and the adjustmentCap field
+             *            Note: LEAST returns NULL if any argument is NULL, so the actual code wraps the adjustmentCap in a COALESCE with an arbitrarily large number
+			 * MeanBaseRate=MeanBaseRate * LEAST(1 / (1 - (evFraction*evMultiplier)/((1-evFraction) + (evFraction*evMultiplier))), adjustmentCap)
+			 * MeanBaseRateIM=MeanBaseRateIM * LEAST(1 / (1 - (evFraction*evMultiplier)/((1-evFraction) + (evFraction*evMultiplier))), adjustmentCap)
+			 * MeanBaseRateACAdj=MeanBaseRateACAdj * LEAST(1 / /(1 - (evFraction*evMultiplier)/((1-evFraction) + (evFraction*evMultiplier))), adjustmentCap)
+			 * MeanBaseRateIMACAdj=MeanBaseRateIMACAdj * LEAST(1 / (1 - (evFraction*evMultiplier)/((1-evFraction) + (evFraction*evMultiplier))), adjustmentCap)
 			 * @output SBWeightedEmissionRateByAge
-			 * @input evSalesFractionLD
-			 * @input evpopiceadjustld
+			 * @input evSalesFraction
+			 * @input fleetavgadjustment
 			**/
 			"#SBWeightedEmissionRateByAge",
-			"CREATE INDEX IF NOT EXISTS `epialdjoin` ON sbweightedemissionratebyage (polProcessID, modelYearID)",
+			"CREATE INDEX IF NOT EXISTS `faajoin` ON sbweightedemissionratebyage (polProcessID, modelYearID)",
 			"UPDATE sbweightedemissionratebyage sberbat, "
-			+ "       evSalesFractionLD sales, "
-			+ "       evpopiceadjustld epiald "
-			+ "SET sberbat.meanBaseRate = sberbat.meanBaseRate * epiald.adjustment / (1-sales.evFraction*epiald.adjustmentWeight), "
-			+ "    sberbat.meanBaseRateIM = sberbat.meanBaseRateIM * epiald.adjustment / (1-sales.evFraction*epiald.adjustmentWeight), "
-			+ "    sberbat.meanBaseRateACAdj = sberbat.meanBaseRateACAdj * epiald.adjustment / (1-sales.evFraction*epiald.adjustmentWeight), "
-			+ "    sberbat.meanBaseRateIMACAdj = sberbat.meanBaseRateIMACAdj * epiald.adjustment / (1-sales.evFraction*epiald.adjustmentWeight) "
-			+ "WHERE sberbat.polProcessID = epiald.polProcessID "
+			+ "     evSalesFraction sales, "
+			+ "     fleetavgadjustment faa, "
+            + "     regulatoryclass rc "
+			+ "SET sberbat.meanBaseRate = sberbat.meanBaseRate * LEAST(1 / (1 - (sales.evFraction*faa.evMultiplier)/((1-sales.evFraction) + (sales.evFraction*faa.evMultiplier))), COALESCE(faa.adjustmentCap, 1e99)), "
+			+ "    sberbat.meanBaseRateIM = sberbat.meanBaseRateIM * LEAST(1 / (1 - (sales.evFraction*faa.evMultiplier)/((1-sales.evFraction) + (sales.evFraction*faa.evMultiplier))), COALESCE(faa.adjustmentCap, 1e99)), "
+			+ "    sberbat.meanBaseRateACAdj = sberbat.meanBaseRateACAdj * LEAST(1 / (1 - (sales.evFraction*faa.evMultiplier)/((1-sales.evFraction) + (sales.evFraction*faa.evMultiplier))), COALESCE(faa.adjustmentCap, 1e99)), "
+			+ "    sberbat.meanBaseRateIMACAdj = sberbat.meanBaseRateIMACAdj * LEAST(1 / (1 - (sales.evFraction*faa.evMultiplier)/((1-sales.evFraction) + (sales.evFraction*faa.evMultiplier))), COALESCE(faa.adjustmentCap, 1e99)) "
+			+ "WHERE sberbat.polProcessID = faa.polProcessID "
 			+ "  AND sberbat.modelYearID = sales.modelYearID "
-			+ "  AND sberbat.modelYearID BETWEEN epiald.beginModelYearID AND epiald.endModelYearID "
+			+ "  AND sberbat.modelYearID BETWEEN faa.beginModelYearID AND faa.endModelYearID "
+            + "  AND sberbat.regClassID = rc.regClassID "
+            + "  AND rc.fleetAvgGroupID = sales.fleetAvgGroupID "
+            + "  AND sales.fleetAvgGroupID = faa.fleetAvgGroupID "
 			+ "  AND fuelTypeID <> 9 "
-			+ "  AND regClassID in (20,30) "
-			+ "  AND evFraction*adjustmentWeight <> 1 ",
-
+			+ "  AND evFraction <> 1 ",
 
 			/**
 			 * @step 020

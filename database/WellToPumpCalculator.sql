@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS WTPMonthofAnyYear (
        monthGroupID         SMALLINT NOT NULL,
 	UNIQUE INDEX XPKWTPMonthofAnyYear (
        monthID                        ASC)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 TRUNCATE TABLE WTPMonthofAnyYear;
 
 DROP TABLE IF EXISTS WTPFactorByFuelType;
@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS WTPFactorByFuelType (
     WTPFactorCV     FLOAT, 
 	UNIQUE INDEX XPKWTPFactor ( 
 		countyID, yearID, monthGroupID, pollutantID, fuelTypeID ) 
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 TRUNCATE TABLE WTPFactorByFuelType;
 -- End Section Create Remote Tables for Extracted Data
 
@@ -36,21 +36,21 @@ CREATE TABLE IF NOT EXISTS GREETWellToPumpBounds (
 	maxYearID		SMALLINT, 
 	UNIQUE INDEX XPKGREETWellToPumpBounds ( 
 		pollutantID, fuelSubTypeID ) 
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 CREATE TABLE IF NOT EXISTS GREETWellToPumpLo ( 
 	pollutantID		SMALLINT, 
 	fuelSubTypeID	SMALLINT, 
 	yearID			SMALLINT, 
 	UNIQUE INDEX XPKGREETWellToPumpLo ( 
 		pollutantID, fuelSubTypeID ) 
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 CREATE TABLE IF NOT EXISTS GREETWellToPumpHi ( 
 	pollutantID		SMALLINT, 
 	fuelSubTypeID	SMALLINT, 
 	yearID			SMALLINT, 
 	UNIQUE INDEX XPKGREETWellToPumpHi ( 
 		pollutantID, fuelSubTypeID ) 
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 DROP TABLE IF EXISTS WTPFactor;
 CREATE TABLE IF NOT EXISTS WTPFactor ( 
@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS WTPFactor (
     WTPFactorV      FLOAT,
 	UNIQUE INDEX XPKWTPFactor ( 
 		pollutantID, fuelSubTypeID, yearID ) 
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 DROP TABLE IF EXISTS WTPFactorByFuelType;
 CREATE TABLE IF NOT EXISTS WTPFactorByFuelType ( 
@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS WTPFactorByFuelType (
     WTPFactorCV              FLOAT, 
 	UNIQUE INDEX XPKWTPFactor ( 
 		countyID, yearID, monthGroupID, pollutantID, fuelTypeID ) 
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 TRUNCATE GREETWellToPumpBounds;
 

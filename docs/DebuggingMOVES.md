@@ -1,10 +1,10 @@
 # Debugging MOVES
 
-MOVES is a model with many interdependent components. Sometimes a given set of inputs results in unexpected results from a MOVES run. When you encounter results that suggest a problem with the model, there are several things that you can do to isolate the potential bug. This document provides some suggestions for isolating potential bugs in MOVES, which will be helpful even if you are just trying to communicate with MOVES experts. It also notes some tools in the code that can aid code testers in identifying the source of a confirmed bug.
+MOVES is a model with many interdependent components. Sometimes a given set of inputs results in unexpected output from a MOVES run. When you encounter results that suggest a problem with the model, there are several things that you can do to isolate the potential bug. This document provides some suggestions for isolating potential bugs in MOVES, which will be helpful even if you are just trying to communicate with the MOVES team. It also notes some tools in the code that can aid code testers in identifying the source of a confirmed bug.
 
 ## Isolating MOVES bugs
 
-The first step to diagnose a potential bug, is to identify the conditions that cause it to occur. In general this process involves confirming that the model inputs are valid, and then defining the scope of the potential issue.
+The first step to diagnose a potential bug is to identify the conditions that cause it to occur. In general this process involves confirming that the model inputs are valid, and then defining the scope of the potential issue.
 
 ### Check the RunSpec and input data
 
@@ -25,7 +25,7 @@ The most common mistakes in input databases have to do with allocation tables, w
 | 21           | 4          | 0.3                 |
 | 21           | 5          | 0.0                 |
 
-However, MOVES requires the second one, with an explicit 0 where the user does not want any activity. 
+However, MOVES requires an explicit 0 where the user does not want any activity. The first example will result in incorrect MOVES output.
 
 Another common mistake in input databases is using the incorrect units, or incorrect interpretation of the tables definitions. For example, MOVES has two types of "daily" inputs that can be confusing. The first is a true daily input, which corresponds to an average day for a given dayID - for dayID 5, that would be an average weekday. However, MOVES can also interpret an input for dayID 5 as total activity across all weekdays, which it refers to as "portion of week" inputs. Consider the following *startsperday* table:
 
@@ -38,7 +38,7 @@ If the units are *per average day*, then MOVES will calculate 220 total starts i
 
 ### Create the smallest set of runs that demonstrate the issue
 
-Testing MOVES is typically an iterative process. If a potential bug occurs in a large run, testing small changes in inputs could potentially take hours or days. Large input databases can be complicated to tweak without making mistakes, and large output datasets can be tricky to process and interpret. For these reasons it is extremely helpful to try to find the most minimal RunSpec and set of inputs that will reproduce the issue. Ideally, a test run in MOVES should only take a few minutes to complete, and the outputs should provide enough diagnostic information to demonstrate the scope of the issue. Below are some suggestions for how to reduce the scope of a MOVES run.
+Testing MOVES is typically an iterative process. If a potential bug occurs in a large run, testing small changes in inputs could potentially take hours or days. Large input databases can be complicated to tweak without making mistakes, and large output datasets can be tricky to process and interpret. For these reasons it is helpful to try to find the most minimal RunSpec and set of inputs that will reproduce the issue. Ideally, a test run in MOVES should only take a few minutes to complete, and the outputs should provide enough diagnostic information to demonstrate the scope of the issue. Below are some suggestions for how to reduce the scope of a MOVES run.
 
 #### Limit time span
 
@@ -54,11 +54,11 @@ Try to select the most limited set of pollutants and processes that generate the
 
 ### Create a simple test to confirm suspect behavior
 
-Once you have a minimal RunSpec that produces unexpected results, create a simple test to let you identify the suspected bug in your MOVES output. Typically, the easiest way to do this is to write a SQL query to demonstrate the issue.  The goal is for this test to be fast, easy to apply, and clear in its results so that you can demonstrate the issue to others, and enable them to reproduce the issue.
+Once you have a minimal RunSpec that produces unexpected results, create a simple test to let you identify the suspected bug in your MOVES output. Typically, the easiest way to do this is to write a SQL query to demonstrate the issue. The goal is for this test to be fast, easy to apply, and clear in its results so that you can demonstrate the issue to others, and enable them to reproduce the issue.
 
 ## Saving MOVES intermediate outputs
 
-When debugging MOVES code and algorithms it can be helpful to look at the intermediate data that MOVES calculates on its way to generating a final output.  Generally MOVES discards this data once it is done with it. However, there are settings in the source code that let you keep this data. Once you make these code changes you must recompile MOVES in order to keep the intermediate data.
+When debugging MOVES code and algorithms it can be helpful to look at the intermediate data that MOVES calculates on its way to generating a final output. Generally MOVES discards this data once it is done with it. However, there are settings in the source code that let you keep this data. Once you make these code changes you must recompile MOVES in order to keep the intermediate data.
 
 ### Save the execution database
 

@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS WTPCO2MonthofAnyYear (
        	noOfDays             SMALLINT NULL,
        	monthGroupID         SMALLINT NOT NULL,
 	PRIMARY KEY (monthID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 TRUNCATE TABLE WTPCO2MonthofAnyYear;
 
 DROP TABLE IF EXISTS GWTPCO2FactorByFuelType;
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS GWTPCO2FactorByFuelType (
 	fuelTypeID		SMALLINT NOT NULL,
 	sumCO2EmissionRate	FLOAT,
 	PRIMARY KEY (countyID, yearID, monthGroupID, pollutantID, fuelTypeID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 TRUNCATE TABLE GWTPCO2FactorByFuelType;
 -- End Section Create Remote Tables for Extracted Data
 
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS GWTPCO2FactorByFuelType (
 	fuelTypeID		SMALLINT NOT NULL,
 	sumCO2EmissionRate	FLOAT,
 	PRIMARY KEY (countyID, yearID, monthGroupID, pollutantID, fuelTypeID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 INSERT INTO GWTPCO2FactorByFuelType (
 	countyID, 

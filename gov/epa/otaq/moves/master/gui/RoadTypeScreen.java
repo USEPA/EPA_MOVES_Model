@@ -11,7 +11,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import gov.epa.otaq.moves.master.runspec.*;
-import java.util.TreeMap;
+
 import java.util.*;
 import java.sql.*;
 import gov.epa.otaq.moves.master.framework.*;
@@ -64,8 +64,10 @@ public class RoadTypeScreen extends JPanel implements ListSelectionListener,
 	boolean hasStartExhaust;
 	/** global variable used to disable delete all roads when Refueling processes are selected **/
 	boolean hasRefuelingLoss;
-	/** global variable used to disable delete all roads when mesoscale evap processes are selected **/
-	boolean hasMesoscaleEvap;
+	/** global variable used to disable delete all roads when Running process is selected **/
+	boolean hasRunningExhaust;
+	/** global variable used to disable delete all roads when evap processes are selected **/
+	boolean hasEvap;
 	/** true if the runspec has offroad selections **/
 	boolean hasOffRoadSelections;
 	/** true after road types have been loaded **/
@@ -252,6 +254,13 @@ public class RoadTypeScreen extends JPanel implements ListSelectionListener,
 
 	/** Helper method for enabling/disabling all buttons depending upon list selections **/
 	public void updateButtonStates() {
+        ModelDomain domain = null;
+        try {
+            domain = MOVESNavigation.singleton.parent.runSpec.domain;
+        } catch (Exception e) {
+            domain = ModelDomain.SINGLE_COUNTY; // assume county scale if there's a problem detecting what scale we're at
+        }
+
 		if(roadTypeList.getSelectedIndex() == -1) {
 			//No selection: enable/disable relevant controls.
 			roadTypeSelectAll.setEnabled(true);
@@ -273,9 +282,18 @@ public class RoadTypeScreen extends JPanel implements ListSelectionListener,
 			Object[] selectedItems = selectionList.getSelectedValuesList().toArray();
 			for(int i=0;i<selectedItems.length;i++) {
 				RoadType r = (RoadType)selectedItems[i];
+                // can't delete off-network road type if we've got off-network processes
 				if((r.roadTypeID == 1) &&
-						(hasExtendedIdleExhaust || hasStartExhaust || hasOffRoadSelections)) {
-					selectionDelete.setEnabled(false);
+						(hasExtendedIdleExhaust || hasStartExhaust || hasEvap || hasRefuelingLoss || hasOffRoadSelections)) {
+                    selectionDelete.setEnabled(false);
+				}
+                // can't delete off-network road type if we've got running due to ONI as long as we're not at project scale
+				if(r.roadTypeID == 1 && hasRunningExhaust && domain != ModelDomain.PROJECT){
+                    selectionDelete.setEnabled(false);
+                }
+                // can't delete any on-network road type if we've got running or refueling due to ONI (not applicable at project scale)
+				if((r.roadTypeID >= 2 && r.roadTypeID <= 5) && (hasRefuelingLoss || hasRunningExhaust) && (domain != ModelDomain.PROJECT)) {
+                    selectionDelete.setEnabled(false);
 				}
 			}
 		}
@@ -296,6 +314,9 @@ public class RoadTypeScreen extends JPanel implements ListSelectionListener,
 			MOVESNavigation.singleton.updateRunSpecSectionStatus();
 		}
 		updateButtonStates();
+
+        // Update the Pollutants and Processes panel status, because it can have a red X if you don't select the correct road types
+        MOVESNavigation.singleton.updatePollutantProcessRunSpecSectionStatus();
 	}
 
 	/** Handles the Road Type Select All button. **/
@@ -410,19 +431,22 @@ public class RoadTypeScreen extends JPanel implements ListSelectionListener,
 	**/
 	public void loadFromRunSpec(RunSpec runspec) {
 		loadRoadTypes();
-
+        hasRunningExhaust = false;
 		hasExtendedIdleExhaust = false;
 		hasStartExhaust = false;
 		hasRefuelingLoss = false;
-		hasMesoscaleEvap = false;
+		hasEvap = false;
 		for(Iterator<PollutantProcessAssociation> i=runspec.pollutantProcessAssociations.iterator();
 				i.hasNext();) {
 			PollutantProcessAssociation p = (PollutantProcessAssociation)i.next();
 			switch(p.emissionProcess.databaseKey) {
-				case 90: // 90== Extended Idle Exhaust by definition
+                case 1: // 1 == Running Exhaust
+                    hasRunningExhaust = true;
+                    break;
+				case 90: // 90== Extended Idle Exhaust
 					hasExtendedIdleExhaust = true;
 					break;
-				case 2: // 2== Start Exhaust by definition
+				case 2: // 2== Start Exhaust
 					hasStartExhaust = true;
 					break;
 				case 18: // 18 == Refueling Displacement Vapor Loss
@@ -432,20 +456,14 @@ public class RoadTypeScreen extends JPanel implements ListSelectionListener,
 					hasRefuelingLoss = true;
 					break;
 				case 11: // 11 == Evap Permeation
-					if(runspec.scale == ModelScale.MESOSCALE_LOOKUP) {
-						hasMesoscaleEvap = true;
-					}
+                    hasEvap = true;
 					break;
 				case 12: // 12 == Evap Fuel Vapor Venting
-					if(runspec.scale == ModelScale.MESOSCALE_LOOKUP) {
-						hasMesoscaleEvap = true;
-					}
-					break;
+                    hasEvap = true;
+                    break;
 				case 13: // 13 == Evap Fuel Leaks
-					if(runspec.scale == ModelScale.MESOSCALE_LOOKUP) {
-						hasMesoscaleEvap = true;
-					}
-					break;
+                    hasEvap = true;
+                    break;
 			}
 		}
 
@@ -597,6 +615,7 @@ public class RoadTypeScreen extends JPanel implements ListSelectionListener,
 		}
 		sections.remove(getName());
 		sections.put(getName(),status);
+
 		return status;
 	}
 

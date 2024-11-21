@@ -33,21 +33,21 @@ create table RefuelingFuelType (
 	monthID SMALLINT NOT NULL,
 	unique index XPKRefuelingFuelType (fuelTypeID, monthID),
 	key (monthID, fuelTypeID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 truncate table RefuelingFuelType;
 
 drop table if exists RefuelingRunSpecHour;
 create table RefuelingRunSpecHour (
 	hourID smallint(6) not null,
 	unique index XPKRefuelingRunSpecHour ( hourID )
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 truncate table RefuelingRunSpecHour;
 
 drop table if exists RefuelingRunSpecMonth;
 create table RefuelingRunSpecMonth (
 	monthID smallint(6) not null,
 	unique index XPKRefuelingRunSpecMonth ( monthID )
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 truncate table RefuelingRunSpecMonth;
 
 drop table if exists RefuelingCountyYear;
@@ -56,7 +56,7 @@ create table RefuelingCountyYear (
 	yearID               SMALLINT NOT NULL,
 	refuelingVaporProgramAdjust FLOAT NOT NULL DEFAULT 0.0,
 	refuelingSpillProgramAdjust FLOAT NOT NULL DEFAULT 0.0
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 truncate table RefuelingCountyYear;
 
 -- Section RefuelingDisplacementVaporLoss
@@ -64,7 +64,7 @@ drop table if exists RefuelingDisplacementPollutant;
 create table RefuelingDisplacementPollutant (
 	pollutantID smallint(6) not null,
 	unique index XPKRefuelingDisplacementPollutant (pollutantID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 truncate table RefuelingDisplacementPollutant;
 -- End Section RefuelingDisplacementVaporLoss
 
@@ -73,7 +73,7 @@ drop table if exists RefuelingSpillagePollutant;
 create table RefuelingSpillagePollutant (
 	pollutantID smallint(6) not null,
 	unique index XPKRefuelingSpillagePollutant (pollutantID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 truncate table RefuelingSpillagePollutant;
 -- End Section RefuelingSpillageLoss
 
@@ -99,7 +99,7 @@ CREATE TABLE refuelingFuelFormulation (
   T50 float DEFAULT NULL,
   T90 float DEFAULT NULL,
   PRIMARY KEY (fuelFormulationID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 truncate table refuelingFuelFormulation;
 
 drop table if exists refuelingFuelSubtype;
@@ -118,7 +118,7 @@ CREATE TABLE refuelingFuelSubtype (
   energyContent float DEFAULT NULL,
   PRIMARY KEY (fuelSubtypeID),
   KEY fuelTypeID (fuelTypeID,fuelSubtypeID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 truncate table refuelingFuelSubtype;
 
 drop table if exists refuelingFuelSupply;
@@ -134,7 +134,7 @@ CREATE TABLE refuelingFuelSupply (
   KEY yearID (fuelYearID),
   KEY monthGroupID (monthGroupID),
   KEY fuelSubtypeID (fuelFormulationID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 truncate table refuelingFuelSupply;
 
 drop table if exists refuelingMonthOfAnyYear;
@@ -147,7 +147,7 @@ CREATE TABLE refuelingMonthOfAnyYear (
   KEY monthGroupID (monthGroupID),
   KEY monthGroupID_2 (monthGroupID,monthID),
   KEY monthID (monthID,monthGroupID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 truncate table refuelingMonthOfAnyYear;
 
 drop table if exists refuelingZoneMonthHour;
@@ -164,7 +164,7 @@ CREATE TABLE refuelingZoneMonthHour (
   KEY monthID (monthID),
   KEY zoneID (zoneID),
   KEY hourID (hourID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 truncate table refuelingZoneMonthHour;
 
 -- End Section Create Remote Tables for Extracted Data
@@ -202,7 +202,7 @@ INTO OUTFILE '##SourceTypeTechAdjustment##'
 FROM SourceTypeTechAdjustment
 WHERE processID IN (##refuelingProcessIDs##)
 AND modelYearID <= MYMAP(##context.year##)
-AND modelYearID >= MYMAP(##context.year## - 30);
+AND modelYearID >= MYMAP(##context.year## - 40);
 
 cache SELECT
 	processID, MYRMAP(modelYearID) as modelYearID,
@@ -212,7 +212,7 @@ INTO OUTFILE '##RefuelingControlTechnology##'
 FROM RefuelingControlTechnology
 WHERE processID IN (##refuelingProcessIDs##)
 AND modelYearID <= MYMAP(##context.year##)
-AND modelYearID >= MYMAP(##context.year## - 30);
+AND modelYearID >= MYMAP(##context.year## - 40);
 
 cache SELECT * INTO OUTFILE '##RefuelingRunSpecHour##'
 FROM RunSpecHour;
@@ -301,7 +301,7 @@ create table RefuelingTemp (
 	key(hourID),
 	key(fuelTypeID),
 	unique index XPKRefuelingTemp (monthID,hourID,fuelTypeID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 -- @algorithm refuelingTemperature = 20.30 + 0.81 * hourly ambient temperature, 
 --            with the hourly ambient temperature bounded between vaporLowTLimit and upper bound of vaporHighTLimit
@@ -340,7 +340,7 @@ create table RefuelingAverageRVP (
 	key(monthID),
 	key(fuelTypeID),
 	unique index XPKRefuelingAverageRVP (monthID, fuelTypeID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 -- @algorithm averageRVP = sum(RVP * marketShare) across fuel formulations.
 insert into RefuelingAverageRVP (monthID, fuelTypeID, averageRVP)
@@ -400,7 +400,7 @@ create table RefuelingDisplacement (
 	key(monthID),
 	key(hourID),
 	unique index XPKRefuelingDisplacement (modelYearID, regClassID, sourceTypeID, fuelTypeID, ageID, monthID, hourID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 -- @algorithm Technology and Program adjustment of the refueling displacement vapor loss rate.
 -- adjustedVaporRate = displacedVaporRate * (1.0-refuelingVaporProgramAdjust)*(1.0-refuelingTechAdjustment) + controlledRefuelingRate*(1.0-refuelingVaporProgramAdjust)*refuelingTechAdjustment
@@ -452,7 +452,7 @@ create table RefuelingSpillage (
 	key(sourceTypeID),
 	key(modelYearID),
 	unique index XPKRefuelingSpillage (fuelTypeID, sourceTypeID, modelYearID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 -- @algorithm Technology and Program adjustment of the refueling spillage rate.
 -- adjustedSpillRate = (1.0-refuelingSpillProgramAdjust)*((1.0-refuelingTechAdjustment)*refuelingSpillRate).
@@ -490,7 +490,7 @@ create table RefuelingWorkerOutputTemp (
 	SCC                  CHAR(10) NULL,
 	emissionQuant        DOUBLE NULL,
 	emissionRate		 DOUBLE NULL
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 -- Section RefuelingDisplacementVaporLoss
 truncate RefuelingWorkerOutputTemp;

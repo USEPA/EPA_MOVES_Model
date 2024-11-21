@@ -102,7 +102,7 @@ AND SourceBin.sourceBinID = SourceBinDistribution.sourceBinID
 AND RunSpecSourceFuelType.sourceTypeID = SourceTypeModelYear.sourceTypeID
 AND SourceBinDistribution.sourceTypeModelYearID = SourceTypeModelYear.sourceTypeModelYearID
 AND SourceTypeModelYear.modelYearID <= ##context.year##
-AND SourceTypeModelYear.modelYearID >= ##context.year## - 30
+AND SourceTypeModelYear.modelYearID >= ##context.year## - 40
 AND EmissionRateByAge.polProcessID IN (##pollutantProcessIDs##)
 AND EmissionRateByAge.opModeID IN (150, 151, 300);
 
@@ -152,13 +152,13 @@ WHERE processID=##context.iterProcess.databaseKey##;
 cache SELECT * INTO OUTFILE '##PollutantProcessModelYear##'
 FROM PollutantProcessModelYear
 WHERE modelYearID <= ##context.year##
-AND modelYearID >= ##context.year## - 30
+AND modelYearID >= ##context.year## - 40
 AND polProcessID IN (##pollutantProcessIDs##);
 
 cache SELECT * INTO OUTFILE '##PollutantProcessMappedModelYear##'
 FROM PollutantProcessMappedModelYear
 WHERE modelYearID <= ##context.year##
-AND modelYearID >= ##context.year## - 30
+AND modelYearID >= ##context.year## - 40
 AND polProcessID IN (##pollutantProcessIDs##);
 
 cache SELECT * INTO OUTFILE '##RunSpecMonth##'
@@ -176,7 +176,7 @@ FROM SourceBinDistribution, SourceTypeModelYear, SourceBin, RunSpecSourceFuelTyp
 WHERE polProcessID IN (##pollutantProcessIDs##)
 AND SourceBinDistribution.sourceTypeModelYearID = SourceTypeModelYear.sourceTypeModelYearID
 AND SourceTypeModelYear.modelYearID <= ##context.year##
-AND SourceTypeModelYear.modelYearID >= ##context.year## - 30
+AND SourceTypeModelYear.modelYearID >= ##context.year## - 40
 AND SourceTypeModelYear.sourceTypeID = RunSpecSourceFuelType.sourceTypeID
 AND SourceBinDistribution.SourceBinID = SourceBin.SourceBinID
 AND SourceBin.fuelTypeID = RunSpecSourceFuelType.fuelTypeID;
@@ -187,7 +187,7 @@ SourceTypeModelYear, SourceBin, RunSpecSourceFuelType
 WHERE polProcessID IN (##pollutantProcessIDs##)
 AND SourceBinDistribution.sourceTypeModelYearID = SourceTypeModelYear.sourceTypeModelYearID
 AND SourceTypeModelYear.modelYearID <= ##context.year##
-AND SourceTypeModelYear.modelYearID >= ##context.year## - 30
+AND SourceTypeModelYear.modelYearID >= ##context.year## - 40
 AND SourceTypeModelYear.sourceTypeID = RunSpecSourceFuelType.sourceTypeID
 AND SourceBinDistribution.SourceBinID = SourceBin.SourceBinID
 AND SourceBin.fuelTypeID = RunSpecSourceFuelType.fuelTypeID;
@@ -201,7 +201,7 @@ cache SELECT SourceTypeModelYear.* INTO OUTFILE '##SourceTypeModelYear##'
 FROM SourceTypeModelYear,RunSpecSourceType
 WHERE SourceTypeModelYear.sourceTypeID = RunSpecSourceType.sourceTypeID
 AND modelYearID <= ##context.year##
-AND modelYearID >= ##context.year## - 30;
+AND modelYearID >= ##context.year## - 40;
 
 cache SELECT Year.* INTO OUTFILE '##Year##'
 FROM Year
@@ -216,7 +216,7 @@ cache select *
 into outfile '##RegClassSourceTypeFraction##'
 from RegClassSourceTypeFraction
 where modelYearID <= ##context.year##
-and modelYearID >= ##context.year## - 30;
+and modelYearID >= ##context.year## - 40;
 -- End Section WithRegClassID
 
 -- INSERT INTO EventLog (eventTime, eventName) SELECT NOW(), 'End Extracting Data';
@@ -240,7 +240,7 @@ CREATE TABLE IMCoverageMergedUngrouped (
        fuelTypeID SMALLINT NOT NULL,
        sourceTypeID SMALLINT NOT NULL,
        IMAdjustFract FLOAT
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE INDEX XPKIMCoverageMergedUngrouped ON IMCoverageMergedUngrouped
 (
@@ -305,7 +305,7 @@ create table WeightedMeanBaseRate (
 	weightedMeanBaseRate float not null,
 	weightedMeanBaseRateIM float not null,
 	primary key (polProcessID, sourceTypeID, regClassID, fuelTypeID, monthID, hourDayID, modelYearID, opModeID)
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 -- Now for all operating modes (formerly only for hot soaking and operating)
 -- Section WithRegClassID

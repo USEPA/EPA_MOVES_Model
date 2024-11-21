@@ -8,7 +8,7 @@ create table if not exists drivingIdleFraction (
 	sourceTypeID smallint not null,
 	drivingIdleFraction double not null,
 	primary key (hourDayID, roadTypeID, sourceTypeID, yearID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 -- *************************************************************************************
 -- The following tables are used in joins for calculations to filter the number of items
@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS RunSpecSourceType (
 	sourceTypeID SMALLINT NOT NULL,
 	UNIQUE INDEX NdxSourceTypeID (
 	sourceTypeID ASC)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 TRUNCATE TABLE RunSpecSourceType;
 
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS RunSpecRoadType (
 	roadTypeID SMALLINT NOT NULL,
 	UNIQUE INDEX NdxRoadTypeID (
 	roadTypeID ASC)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 TRUNCATE TABLE RunSpecRoadType;
 
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS RunSpecMonth (
 	monthID SMALLINT NOT NULL,
 	UNIQUE INDEX NdxMonthID (
 	monthID ASC)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 TRUNCATE TABLE RunSpecMonth;
 
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS RunSpecDay (
 	dayID SMALLINT NOT NULL,
 	UNIQUE INDEX NdxDayID (
 	dayID ASC)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 TRUNCATE TABLE RunSpecDay;
 
@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS RunSpecHour (
 	hourID SMALLINT NOT NULL,
 	UNIQUE INDEX NdxHourID (
 	hourID ASC)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 TRUNCATE TABLE RunSpecHour;
 
@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS RunSpecMonthGroup (
 	monthGroupID SMALLINT NOT NULL,
 	UNIQUE INDEX NdxMonthGroupID (
 	monthGroupID ASC)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 TRUNCATE TABLE RunSpecMonthGroup;
 
@@ -81,7 +81,7 @@ CREATE TABLE IF NOT EXISTS RunSpecYear (
 	yearID SMALLINT NOT NULL,
 	UNIQUE INDEX NdxHourID (
 	yearID ASC)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 TRUNCATE TABLE RunSpecYear;
 
@@ -95,7 +95,7 @@ CREATE TABLE IF NOT EXISTS RunSpecModelYearAge (
 	primary key (modelYearID, ageID, yearID),
 	key (yearID, modelYearID, ageID),
 	key (ageID, modelYearID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 TRUNCATE TABLE RunSpecModelYearAge;
 
@@ -109,7 +109,7 @@ CREATE TABLE IF NOT EXISTS RunSpecModelYearAgeGroup (
 	KEY yearID (yearID,modelYearID,ageGroupID),
 	KEY yearID2 (yearID,ageGroupID,modelYearID),
 	KEY ageID (ageGroupID,modelYearID,yearID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 TRUNCATE TABLE RunSpecModelYearAgeGroup;
 
@@ -117,7 +117,7 @@ drop table if exists RunSpecModelYear;
 
 CREATE TABLE IF NOT EXISTS RunSpecModelYear (
 	modelYearID SMALLINT NOT NULL primary key
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 TRUNCATE TABLE RunSpecModelYear;
 
@@ -129,7 +129,7 @@ CREATE TABLE IF NOT EXISTS RunSpecSourceFuelType (
 	UNIQUE INDEX NdxSourceFuelTypeID (
 	sourceTypeID, fuelTypeID),
 	unique key (fuelTypeID, sourceTypeID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 TRUNCATE TABLE RunSpecSourceFuelType;
 
@@ -139,7 +139,7 @@ CREATE TABLE IF NOT EXISTS RunSpecHourDay (
 	hourDayID SMALLINT NOT NULL,
 	UNIQUE INDEX NdxHourDayID (
 	hourDayID ASC)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 TRUNCATE TABLE RunSpecHourDay;
 
@@ -149,7 +149,7 @@ CREATE TABLE IF NOT EXISTS RunSpecState (
 	stateID SMALLINT NOT NULL,
 	UNIQUE INDEX NdxState (
 	stateID ASC)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 TRUNCATE TABLE RunSpecState;
 
@@ -159,7 +159,7 @@ CREATE TABLE IF NOT EXISTS RunSpecCounty (
 	countyID INTEGER NOT NULL,
 	UNIQUE INDEX NDXCounty (
 	countyID ASC)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 TRUNCATE TABLE RunSpecCounty;
 
@@ -169,7 +169,7 @@ CREATE TABLE IF NOT EXISTS RunSpecFuelRegion (
 	fuelRegionID INTEGER NOT NULL,
 	UNIQUE INDEX NDXFuelRegion (
 	fuelRegionID ASC)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 TRUNCATE TABLE RunSpecFuelRegion;
 
@@ -179,7 +179,7 @@ CREATE TABLE IF NOT EXISTS RunSpecZone (
 	zoneID INTEGER NOT NULL,
 	UNIQUE INDEX NdxZone (
 	zoneID ASC)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 TRUNCATE TABLE RunSpecZone;
 
@@ -189,7 +189,7 @@ CREATE TABLE IF NOT EXISTS RunSpecLink (
 	linkID INTEGER NOT NULL,
 	UNIQUE INDEX NdxLink (
 	linkID ASC)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 TRUNCATE TABLE RunSpecLink;
 
@@ -199,7 +199,7 @@ CREATE TABLE IF NOT EXISTS RunSpecPollutant (
 	pollutantID SMALLINT NOT NULL,
 	UNIQUE INDEX NdxPollutant (
 	pollutantID ASC)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 TRUNCATE TABLE RunSpecPollutant;
 
@@ -209,7 +209,7 @@ CREATE TABLE IF NOT EXISTS RunSpecProcess (
 	processID SMALLINT NOT NULL,
 	UNIQUE INDEX NdxProcess (
 	processID ASC)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 TRUNCATE TABLE RunSpecProcess;
 
@@ -219,7 +219,7 @@ CREATE TABLE IF NOT EXISTS RunSpecPollutantProcess (
 	polProcessID int NOT NULL,
 	UNIQUE INDEX NdxPolProcess (
 	polProcessID ASC)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 TRUNCATE TABLE RunSpecPollutantProcess;
 
@@ -250,7 +250,7 @@ CREATE TABLE IF NOT EXISTS RunSpecChainedTo (
 		inputPolProcessID,
 		outputPolProcessID
 	)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 TRUNCATE TABLE RunSpecChainedTo;
 
@@ -262,7 +262,7 @@ CREATE TABLE IF NOT EXISTS RunSpecSectorFuelType (
 	UNIQUE INDEX NdxSectorFuelTypeID (
 	sectorID, fuelTypeID),
 	unique key (fuelTypeID, sectorID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 TRUNCATE TABLE RunSpecSectorFuelType;
 
@@ -272,7 +272,7 @@ CREATE TABLE IF NOT EXISTS RunSpecSector (
 	sectorID SMALLINT NOT NULL,
 	UNIQUE INDEX NdxSectorID (
 	sectorID ASC)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 TRUNCATE TABLE RunSpecSector;
 
@@ -286,7 +286,7 @@ CREATE TABLE IF NOT EXISTS RunSpecNonRoadModelYearAge (
 	primary key (modelYearID, ageID, yearID),
 	key (yearID, modelYearID, ageID),
 	key (ageID, modelYearID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 TRUNCATE TABLE RunSpecNonRoadModelYearAge;
 
@@ -294,7 +294,7 @@ drop table if exists RunSpecNonRoadModelYear;
 
 CREATE TABLE IF NOT EXISTS RunSpecNonRoadModelYear (
 	modelYearID SMALLINT NOT NULL primary key
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 TRUNCATE TABLE RunSpecNonRoadModelYear;
 
@@ -325,7 +325,7 @@ CREATE TABLE IF NOT EXISTS RunSpecNonRoadChainedTo (
 		inputPolProcessID,
 		outputPolProcessID
 	)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 TRUNCATE TABLE RunSpecNonRoadChainedTo;
 
@@ -347,6 +347,6 @@ CREATE TABLE IF NOT EXISTS PollutantProcessMappedModelYear (
     key (polProcessID),
     key (modelYearID),
     primary key (polProcessID, modelYearID)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 TRUNCATE TABLE PollutantProcessMappedModelYear;

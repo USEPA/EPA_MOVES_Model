@@ -8,4 +8,4 @@ create table if not exists auditLog (
 	fullDescription varchar(4096) null,
 	key logByDate (whenHappened),
 	key logByImporter (importerName)
-);
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';

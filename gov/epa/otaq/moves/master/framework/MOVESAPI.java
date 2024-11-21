@@ -191,11 +191,11 @@ public class MOVESAPI implements MOVESEngineListener, MOVESEngine.CompletedListe
 		return theAPI;
 	}
 
-	/** TCP/IP port used on the socket designating a running master's presense **/
+	/** TCP/IP port used on the socket designating a running master's presence **/
 	private static final int MASTER_FLAG_PORT = 13131;
-	/** TCP/IP socket used to designate a running master's presense **/
+	/** TCP/IP socket used to designate a running master's presence **/
 	private static ServerSocket masterSocket = null;
-	/** Depth counter for designating a running master's presense **/
+	/** Depth counter for designating a running master's presence **/
 	private static int masterSocketCount = 0;
 
 	/** Indicate that a running master is present on this computer **/
@@ -210,12 +210,16 @@ public class MOVESAPI implements MOVESEngineListener, MOVESEngine.CompletedListe
 				 * MOVES was unable to create this socket, either because another MOVES Main is already running
 				 * or due to an operating system firewall rule that does not trust the MOVES application.
 				**/
-				if(e.toString().toLowerCase().contains("jvm_bind") || e.toString().toLowerCase().contains("net_bind")) {
+				if(e.toString().toLowerCase().contains("bind")) {
 					Logger.log(LogMessageCategory.ERROR,"MOVES was unable to bind to " + MASTER_FLAG_PORT + 
 													    ". Is MOVES already running on this computer or is a firewall rule causing this issue?");
+                    MOVESThread.signalAllToTerminate();
+				    System.exit(1);
 				} else {
 					// a different error has occurred
 					Logger.logError(e,"MOVES was unable to bind to " + MASTER_FLAG_PORT);
+                    MOVESThread.signalAllToTerminate();
+				    System.exit(1);
 				}
 
 			}

@@ -14,7 +14,7 @@ create table if not exists ATMonthGroup (
 	monthGroupID smallint(6) NOT NULL DEFAULT '0',
 	key (monthID, monthGroupID),
 	key (monthGroupID, monthID)
-) Engine=MEMORY;
+) Engine=MEMORY DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 -- Section UseMinorHAPRatio
 -- minorHAPRatio has fuelSubtypeID in the execution database, but the version
@@ -29,7 +29,7 @@ CREATE TABLE minorHAPRatio (
   monthID smallint(6) NOT NULL,
   atRatio double DEFAULT NULL,
   KEY (processID,fuelTypeID,modelYearID,monthID)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci' DELAY_KEY_WRITE=1;
 
 CREATE TABLE minorHAPRatioGo (
   processID smallint(6) NOT NULL,
@@ -38,7 +38,7 @@ CREATE TABLE minorHAPRatioGo (
   modelYearID smallint(6) NOT NULL,
   atRatio double DEFAULT NULL,
   KEY (processID,fuelSubTypeID,modelYearID)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci' DELAY_KEY_WRITE=1;
 -- End Section UseMinorHAPRatio
 
 -- Section UsePAHGasRatio
@@ -49,7 +49,7 @@ CREATE TABLE pahGasRatio (
   modelYearID smallint(6) NOT NULL DEFAULT '0',
   atRatio double DEFAULT NULL,
   KEY (processID,fuelTypeID,modelYearID)
-);
+ ) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 -- End Section UsePAHGasRatio
 
 -- Section UsePAHParticleRatio
@@ -60,7 +60,7 @@ CREATE TABLE pahParticleRatio (
   modelYearID smallint(6) NOT NULL DEFAULT '0',
   atRatio double DEFAULT NULL,
   KEY (processID,fuelTypeID,modelYearID)
-);
+ ) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 -- End Section UsePAHParticleRatio
 
 -- Section UseATRatioGas1
@@ -97,7 +97,7 @@ CREATE TABLE IF NOT EXISTS ATRatioGas1ChainedTo (
 		inputPolProcessID,
 		outputPolProcessID
 	)
-) Engine=MEMORY;
+) Engine=MEMORY DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE IF NOT EXISTS ATRatio (
   fuelTypeID smallint(6) NOT NULL,
@@ -113,7 +113,7 @@ CREATE TABLE IF NOT EXISTS ATRatio (
   KEY atratio_key1 (fuelFormulationID,polProcessID,minModelYearID),
   KEY atratio_key2 (polProcessID,fuelTypeID,monthID,minModelYearID,ageID,maxModelYearID,fuelFormulationID),
   KEY atratio_key3 (polProcessID,fuelTypeID,monthID,modelYearID,minModelYearID,maxModelYearID,fuelFormulationID)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci' DELAY_KEY_WRITE=1;
 
 TRUNCATE TABLE ATRatio;
 
@@ -125,7 +125,7 @@ CREATE TABLE IF NOT EXISTS AT1FuelSupply (
   yearID smallint(6) NOT NULL,
   fuelTypeID smallint(6) NOT NULL,
   KEY (monthID,fuelTypeID,fuelFormulationID,marketShare)
-) Engine=MEMORY;
+) Engine=MEMORY DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 TRUNCATE TABLE AT1FuelSupply;
 
@@ -137,7 +137,7 @@ CREATE TABLE IF NOT EXISTS AT1PollutantProcessModelYear (
   key (modelYearID),
   key (fuelMYGroupID),
   key (polProcessID, modelYearID, fuelMYGroupID)
-) Engine=MEMORY;
+) Engine=MEMORY DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 TRUNCATE TABLE AT1PollutantProcessModelYear;
 
@@ -177,7 +177,7 @@ CREATE TABLE IF NOT EXISTS ATRatioGas2ChainedTo (
 		inputPolProcessID,
 		outputPolProcessID
 	)
-) Engine=MEMORY;
+) Engine=MEMORY DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 ##create.ATRatioGas2##;
 TRUNCATE TABLE ATRatioGas2;
@@ -191,7 +191,7 @@ CREATE TABLE IF NOT EXISTS AT2FuelSupply (
   fuelTypeID smallint(6) NOT NULL,
   KEY (countyID,yearID,monthID,fuelTypeID,fuelSubtypeID),
   KEY (countyID,yearID,monthID,fuelSubtypeID)
-) Engine=MEMORY;
+) Engine=MEMORY DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 TRUNCATE TABLE AT2FuelSupply;
 -- End Section UseATRatioGas2
@@ -230,7 +230,7 @@ CREATE TABLE IF NOT EXISTS ATRatioNonGasChainedTo (
 		inputPolProcessID,
 		outputPolProcessID
 	)
-) Engine=MEMORY;
+) Engine=MEMORY DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE TABLE ATRatioNonGas (
   polProcessID int NOT NULL DEFAULT '0',
@@ -240,7 +240,7 @@ CREATE TABLE ATRatioNonGas (
   ATRatio double DEFAULT NULL,
   PRIMARY KEY (polProcessID,sourceTypeID,fuelSubtypeID,modelYearID),
   KEY (polProcessID,sourceTypeID,modelYearID,fuelSubtypeID)
-);
+ ) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 TRUNCATE TABLE ATRatioNonGas;
 
@@ -254,7 +254,7 @@ CREATE TABLE IF NOT EXISTS ATNonGasFuelSupply (
   fuelSubtypeID smallint(6) NOT NULL,
   KEY (countyID,yearID,monthID,fuelTypeID,fuelSubtypeID),
   KEY (countyID,yearID,monthID,fuelSubtypeID)
-);
+ ) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 TRUNCATE TABLE ATNonGasFuelSupply;
 -- End Section UseATRatioNonGas
@@ -282,7 +282,7 @@ inner join modelYear my on (
 	MYMAP(modelYearID) >= round(modelYearGroupID/10000,0)
 	and MYMAP(modelYearID) <= mod(modelYearGroupID,10000)
 	and modelYearID <= ##context.year##
-	and modelYearID >= ##context.year## - 30
+	and modelYearID >= ##context.year## - 40
 )
 inner join fuelFormulation ff using (fuelSubtypeID)
 inner join fuelSupply fs on (
@@ -305,7 +305,7 @@ inner join modelYear my on (
 	MYMAP(modelYearID) >= round(modelYearGroupID/10000,0)
 	and MYMAP(modelYearID) <= mod(modelYearGroupID,10000)
 	and modelYearID <= ##context.year##
-	and modelYearID >= ##context.year## - 30
+	and modelYearID >= ##context.year## - 40
 )
 where polProcessID in (##outputMinorHAPRatio##);
 -- End Section UseMinorHAPRatio
@@ -319,7 +319,7 @@ inner join modelYear my on (
 	MYMAP(modelYearID) >= round(modelYearGroupID/10000,0)
 	and MYMAP(modelYearID) <= mod(modelYearGroupID,10000)
 	and modelYearID <= ##context.year##
-	and modelYearID >= ##context.year## - 30
+	and modelYearID >= ##context.year## - 40
 )
 where polProcessID in (##outputPAHGasRatio##);
 -- End Section UsePAHGasRatio
@@ -333,7 +333,7 @@ inner join modelYear my on (
 	MYMAP(modelYearID) >= round(modelYearGroupID/10000,0)
 	and MYMAP(modelYearID) <= mod(modelYearGroupID,10000)
 	and modelYearID <= ##context.year##
-	and modelYearID >= ##context.year## - 30
+	and modelYearID >= ##context.year## - 40
 )
 where polProcessID in (##outputPAHParticleRatio##);
 -- End Section UsePAHParticleRatio
@@ -382,7 +382,7 @@ AND (##context.monthID## <= 0 OR RunSpecMonth.monthID = ##context.monthID##);
 cache SELECT polProcessID, modelYearID, fuelMYGroupID INTO OUTFILE '##AT1PollutantProcessModelYear##'
 FROM PollutantProcessModelYear
 WHERE modelYearID <= ##context.year##
-AND modelYearID >= ##context.year## - 30
+AND modelYearID >= ##context.year## - 40
 AND polProcessID IN (##inputATRatioGas1##);
 
 -- End Section UseATRatioGas1
@@ -420,7 +420,7 @@ inner join modelYear my on (
 	MYMAP(modelYearID) >= round(modelYearGroupID/10000,0)
 	and MYMAP(modelYearID) <= mod(modelYearGroupID,10000)
 	and modelYearID <= ##context.year##
-	and modelYearID >= ##context.year## - 30
+	and modelYearID >= ##context.year## - 40
 )
 WHERE polProcessID in (##outputATRatioNonGas##);
 
@@ -469,7 +469,7 @@ create table if not exists AirToxicsMOVESWorkerOutputTemp (
 	emissionQuant        double NULL,
 	emissionRate		 double NULL,
 	key (yearID,monthID,dayID,hourID,stateID,countyID,zoneID,linkID,pollutantID,processID,sourceTypeID,fuelTypeID,modelYearID,roadTypeID,SCC)
-);
+ ) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 CREATE INDEX MOVESWorkerOutput_A3 ON MOVESWorkerOutput (
 	pollutantID asc,

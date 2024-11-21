@@ -36,9 +36,10 @@ begin
 	drop table if exists tempYear;
 	create table if not exists tempYear (
 		year int not null primary key
-	);
+	) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 	
-	insert into tempYear(year) values(1960),(1961),(1962),(1963),(1964),(1965),(1966),(1967)
+	insert into tempYear(year) values(1950),(1951),(1952),(1953),(1954),(1955),(1956),(1957)
+		,(1958),(1959),(1960),(1961),(1962),(1963),(1964),(1965),(1966),(1967)
 		,(1968),(1969),(1970),(1971),(1972),(1973),(1974),(1975),(1976),(1977)
 		,(1978),(1979),(1980),(1981),(1982),(1983),(1984),(1985),(1986),(1987)
 		,(1988),(1989),(1990),(1991),(1992),(1993),(1994),(1995),(1996),(1997)
@@ -61,7 +62,7 @@ begin
 		modelYearID smallint not null,
 		totalIdleFraction double not null,
 		key (idleRegionID, countyTypeID, sourceTypeID, monthID, dayID, modelYearID)
-	);
+	) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 	insert into tempTotalIdleFraction (idleRegionID,countyTypeID,sourceTypeID,monthID,dayID,modelYearID,totalIdleFraction)
 	select idleRegionID,countyTypeID,sourceTypeID,monthID,dayID,year as modelYearID,totalIdleFraction
@@ -75,7 +76,7 @@ begin
 		modelYearID smallint not null,
 		totalIdleFraction double not null,
 		key (sourceTypeID, modelYearID)
-	);
+	) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 	insert into tempIdleModelYearGrouping (sourceTypeID,modelYearID,totalIdleFraction)
 	select sourceTypeID,year as modelYearID,totalIdleFraction
@@ -99,6 +100,39 @@ begin
 	from tempIdleModelYearGrouping
 	group by sourceTypeID, modelYearID
 	having count(*) > 1;
+
+    -- Complain about missing model years
+    insert into importTempMessages (message)
+	select distinct concat('ERROR: totalIdleFraction minimum model year is ',min(modelYearID),
+		' but should be 1950 for idle region ',idleRegionID,
+		', county type ',countyTypeID,', source type ',sourceTypeID,
+		', month ',monthID,', day ',dayID) as errorMessage
+	from tempTotalIdleFraction
+	group by idleRegionID, countyTypeID, sourceTypeID, monthID, dayID
+	having min(modelYearID) <> 1950;
+
+    insert into importTempMessages (message)
+	select distinct concat('ERROR: totalIdleFraction maximum model year is ',max(modelYearID),
+		' but should be 2060 for idle region ',idleRegionID,
+		', county type ',countyTypeID,', source type ',sourceTypeID,
+		', month ',monthID,', day ',dayID) as errorMessage
+	from tempTotalIdleFraction
+	group by idleRegionID, countyTypeID, sourceTypeID, monthID, dayID
+	having max(modelYearID) <> 2060;
+
+	insert into importTempMessages (message)
+	select distinct concat('ERROR: idleModelYearGrouping minimum model year is ',min(modelYearID),
+		' but should be 1950 for source type ',sourceTypeID) as errorMessage
+	from tempIdleModelYearGrouping
+	group by sourceTypeID
+	having min(modelYearID) <> 1950;
+
+	insert into importTempMessages (message)
+	select distinct concat('ERROR: idleModelYearGrouping maximum model year is ',max(modelYearID),
+		' but should be 2060 for source type ',sourceTypeID) as errorMessage
+	from tempIdleModelYearGrouping
+	group by sourceTypeID
+	having max(modelYearID) <> 2060;
 
 	-- Complain about a TIF of 1
 	insert into importTempMessages (message)

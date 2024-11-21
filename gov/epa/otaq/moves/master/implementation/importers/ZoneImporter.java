@@ -46,15 +46,15 @@ public class ZoneImporter extends ImporterBase {
 	**/
 	static String[] dataTableDescriptor = {
 		BasicDataHandler.BEGIN_TABLE, "zone",
-		"zoneID", "", "",
+		"zoneID", "ZoneDecode", ImporterManager.FILTER_ZONE, // use the ZoneDecode table, as using just "Zone" will conflict with the Zone input tab and decode table will fail to write
 		"countyID", "County", ImporterManager.FILTER_COUNTY,
 		"startAllocFactor", "", ImporterManager.FILTER_NON_NEGATIVE,
 		"idleAllocFactor", "", ImporterManager.FILTER_NON_NEGATIVE,
 		"SHPAllocFactor", "", ImporterManager.FILTER_NON_NEGATIVE,
 
 		BasicDataHandler.BEGIN_TABLE, "zoneroadtype",
-		"zoneID", "", ImporterManager.FILTER_ZONE,
-		"roadTypeID", "RoadType", "",
+		"zoneID", "ZoneDecode", ImporterManager.FILTER_ZONE, // use ZoneDecode. Even if this table is exported by itself, don't use the "Zone" tab as the name for the decode tab, as the Zone Importer will see that tab and try to import it as the Zone table
+		"roadTypeID", "RoadType", ImporterManager.FILTER_ROAD_TYPE_NOT_OFFNETWORK,
 		"SHOAllocFactor", "", ImporterManager.FILTER_NON_NEGATIVE
 	};
 

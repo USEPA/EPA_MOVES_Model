@@ -435,7 +435,7 @@ CREATE TABLE CDB_Checks (
    version           char(22),
    sumKeyID          int(11),
    sumKeyDescription char(50)
- ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ ) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 -- This table contains entries for every QA check, so if this script fails, looking at the last row
 -- should help determine where the error occurred.
@@ -446,7 +446,7 @@ create table QA_Checks_Log (
     version    char(8),
     msgDate    date,
     msgTime    time
-  ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+  ) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 -- The first set of rows in the the CDB_Checks simply list the tables we are checking along with 
 -- how many rows are in each table. This chunk creates the entries for each table; the number of
@@ -633,7 +633,7 @@ CREATE TABLE IF NOT EXISTS `auditlog` (
   `fullDescription`  varchar(4096) DEFAULT NULL,
   KEY `logByDate`     (`whenHappened`),
   KEY `logByImporter` (`importerName`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 DELAY_KEY_WRITE=1;
+) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci' DELAY_KEY_WRITE=1;
 
 -- geography
 CREATE TABLE IF NOT EXISTS `county` LIKE ##defaultdb##.county;
@@ -1633,7 +1633,7 @@ INSERT INTO QA_Checks_Log values ( 1507, 'OK', @hVersion, curDate(), curTime() )
   from (select distinct sourceTypeID, fuelTypeID, modelYearID
 		from ##defaultdb##.samplevehiclepopulation
         join `year`
-        where modelYearID between yearID-30 and yearID) as t1
+        where modelYearID between yearID - 40 and yearID) as t1
   left join avft using (sourceTypeID, fuelTypeID, modelYearID)
   join (select count(*) as n from avft) as t2
 	where fuelEngFraction is NULL and n > 0
@@ -1650,7 +1650,7 @@ INSERT INTO QA_Checks_Log values ( 1507, 'OK', @hVersion, curDate(), curTime() )
   from (select distinct sourceTypeID, fuelTypeID, modelYearID
 		from ##defaultdb##.samplevehiclepopulation
         join `year`
-        where modelYearID between yearID-30 and yearID) as t1
+        where modelYearID between yearID - 40 and yearID) as t1
   left join avft using (sourceTypeID, fuelTypeID, modelYearID)
   join (select count(*) as n from avft) as t2
 	where fuelEngFraction is NULL and n = 0

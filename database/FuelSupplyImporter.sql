@@ -424,7 +424,7 @@ begin
 				from ##defaultDatabase##.modelYear,
 				##defaultDatabase##.year
 				where yearID in (##yearIDs##)
-				and modelYearID >= yearID - 30
+				and modelYearID >= yearID - 40
 				and modelYearID <= yearID
 			)
 			order by t1.sourceTypeID, t1.modelYearID, t1.fuelTypeID;
@@ -439,7 +439,7 @@ begin
 										   from ##defaultDatabase##.modelYear,
 											    ##defaultDatabase##.year
 				                           where yearID in (##yearIDs##)
-				                             and modelYearID >= yearID - 30
+				                             and modelYearID >= yearID - 40
 				                             and modelYearID <= yearID)
 				GROUP BY sourceTypeID, modelYearID, fuelTypeID, engTechID
 				HAVING effectiveFraction = 0

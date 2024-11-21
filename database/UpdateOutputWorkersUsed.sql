@@ -14,8 +14,6 @@ CREATE TABLE MOVESWorkersUsed (
 	workerComputerID	VARCHAR(20) NOT NULL,
 	workerID			VARCHAR(10),
 	
-	PRIMARY KEY (MOVESRunID, workerVersion, workerComputerID, workerID),
-
 	bundleCount			INTEGER UNSIGNED NOT NULL DEFAULT 0,
 	failedBundleCount	INTEGER UNSIGNED NOT NULL DEFAULT 0
-);
+) Engine=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
