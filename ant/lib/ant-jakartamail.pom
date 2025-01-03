@@ -20,7 +20,7 @@
   Please contact us if you are not satisfied with the data contained in this POM.
   URL : https://ant.apache.org
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
   <parent>
     <groupId>org.apache.ant</groupId>
@@ -31,9 +31,12 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/m
   <modelVersion>4.0.0</modelVersion>
   <url>https://ant.apache.org/</url>
   <groupId>org.apache.ant</groupId>
-  <artifactId>ant-apache-resolver</artifactId>
+  <artifactId>ant-jakartamail</artifactId>
   <version>1.10.15</version>
-  <name>Apache Ant + Apache Resolver</name>
+  <name>Apache Ant + JakartaMail</name>
+  <description>implementation of the mail task based on Jakarta EE mail.
+    Required to send emails to SMTP servers using user/password combinations
+  or to send mail over SSL</description>
   <dependencies>
     <dependency>
       <groupId>org.apache.ant</groupId>
@@ -42,9 +45,11 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/m
       <scope>compile</scope>
     </dependency>
     <dependency>
-      <groupId>xml-resolver</groupId>
-      <artifactId>xml-resolver</artifactId>
-      <version>1.2</version>
+      <!-- This brings in the necessary dependencies.
+      See https://eclipse-ee4j.github.io/mail/ -->
+      <groupId>com.sun.mail</groupId>
+      <artifactId>jakarta.mail</artifactId>
+      <version>2.0.1</version>
       <scope>compile</scope>
     </dependency>
   </dependencies>
@@ -55,7 +60,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/m
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
           <includes>
-            <include>org/apache/tools/ant/types/resolver/*.java</include>
+            <include>org/apache/tools/ant/taskdefs/email/JakartaMimeMailer*</include>
           </includes>
         </configuration>
       </plugin>

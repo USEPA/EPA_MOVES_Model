@@ -1,3 +1,227 @@
+Changes from Ant 1.10.14 TO Ant 1.10.15
+=======================================
+
+Other changes:
+--------------
+
+ * exec task now logs the process' non-zero exit code at INFO
+   level instead of the previous ERROR level. The following
+   message from exec task is the one who's level has been changed:
+
+   Result: 1
+
+   Bugzilla Report 26453
+
+ * Removes direct references to com.sun.net.ssl.internal.ssl.Provider class
+   from the mail task, since that internal JDK class is no longer available
+   in recent versions of Java.
+   Bugzilla Report 68460
+
+ * <replaceregexp> has a new failOnError attribute which, when
+   enabled, makes the task throw a BuildException for certain error
+   cases that will only be logged otherwise.
+   Github Pull Request #206
+
+ * <ftp> task now has a new "useSecureDataChannel" attribute which
+   can be set to true, when ftps is enabled, to enable secure data
+   channel.
+   Bugzilla Report 68773
+
+Fixed bugs:
+-----------
+
+ * Fixes an regression, introduced in Ant 1.10.13, where pathconvert
+   would unintentionally trim the string output.
+   Bugzilla Report 67082
+
+ * Fixes a bug in <depend> task which would throw a ClassFormatError
+   if it encountered constant pool entry type 17.
+   Bugzilla Report 66552
+
+ * Launching ant.bat from within a Java program using java.lang.Runtime.exec()
+   could result in an unexpected failure. This has now been fixed.
+   Bugzilla Report 67417
+
+ * Fixes an issue in bootstrap.bat when trying to detect if the "javac"
+   command in the JDK supports the "--release" option.
+   Github Pull Request #205
+
+ * Fixes a bug in org.apache.tools.ant.taskdefs.email.EmailAddress which
+   would throw a java.lang.StringIndexOutOfBoundsException if the email
+   address passed to its constructor was an empty String.
+   Bugzilla Report 68462
+
+ * legacy-xml reporter of junitlauncher task was using a non-buffered
+   outputstream when generating the report. This introduces severe
+   performance penalties since the writes translate to native write
+   system calls. This has been fixed to use a BufferedOutputStream.
+   Github Pull Request #207
+
+
+Changes from Ant 1.10.13 TO Ant 1.10.14
+=======================================
+
+Changes that could break older environments:
+-------------------------------------------
+
+ * Resource#compareTo now invokes getName rather than toString as the
+   later may be costly (for example in the case of a StringResource).
+   Bugzilla Report 66496
+
+ * When using Java 18 or higher, Ant will no longer use Java SecurityManager
+   because it has been deprecated for removal and by default is disallowed
+   to be set at runtime https://openjdk.org/jeps/411.
+   This will mean that the "<permissions>" type is no longer functional when
+   using Java 18 or higher.
+   Furthermore, when using Java 18 or higher, if the build executes
+   tasks that call "java.lang.System.exit()" and if those tasks aren't
+   running in a forked VM of their own, then such tasks will now kill
+   the entire Ant build process. It is recommended that such tasks be
+   updated to launch in a forked JVM so that the System.exit() call
+   will not impact the JVM in which Ant process runs.
+
+Fixed bugs:
+-----------
+
+ * log only the stylesheet name in the xslt task.
+   Github Pull Request #199
+
+ * junitlauncher task's "test" and "listener" elements which take
+   a "outputDir" property were incorrectly resolving the outputDir
+   against the current working directory instead of the project's
+   basedir. This has now been fixed.
+   Bugzilla Report 66504  
+
+ * regexmapper would, in some cases, incorrectly consume backslash characters
+   from the "to" attribute, resulting in missing backslashes in the output.
+   This is now fixed.
+   Bugzilla Report 66468
+
+ * <fixcrlf>, <replace> and <replaceregexp> now try to preserve the
+   file permissions of the files they modify.
+   Bugzilla Report 66522
+
+ * junitlauncher task would fail if a forked test timed out even
+   if haltOnFailure was set to false. This is now fixed.
+   Bugzilla Report 66411
+
+ * fixes a bug in org.apache.tools.zip.ZipOutputStream where, even
+   when "zip64Mode" is set to "always", ZipOutputStream may not create
+   a CEN extra field data for the entry.
+   Bugzilla Report 66873
+
+ * legacy-xml listener of junitlauncher task wouldn't report certain
+   failures involving junit jupiter dynamic tests. This has now been
+   fixed.
+   Github Pull Request #122
+ 
+ * allow.class which was introduced in Ant 1.10.13 release, has been
+   removed from this 1.10.14 release. This class was introduced in
+   context of the SecurityManager changes in Ant 1.10.13, which have
+   now been reverted in Ant 1.10.14, since they caused several
+   regressions.
+   Bugzilla Reports 66828, 66951
+
+Other changes:
+--------------
+
+ * <fork> element of the junitlauncher task now has a new optional "java"
+   attribute which can be used to point to a different Java installation
+   for runnning the forked tests.
+   Bugzilla Report 66464
+
+ * made sure <echoproperties> sorts the echoed properties on JDK9+ as well.
+   Bugzilla Report 66588
+
+ * org.apache.tools.ant.taskdefs.Recorder class now introduces a
+   setLogLevel(LogLevel level) method.
+   Bugzilla Report 66238
+
+ * The <fork> element of junitlaunchertask now allows a "forkMode"
+   attribute. forkMode=perTestClass can now be used to launch
+   each test class in a separate forked JVM.
+   Bugzilla Report 65176
+
+Changes from Ant 1.10.12 TO Ant 1.10.13
+=======================================
+
+Changes that could break older environments:
+-------------------------------------------
+
+ * <get> has a new attribute authenticateOnRedirect that can be used to
+   prevent Ant from sending the configured credentials when following a
+   redirect. It is false by default, which means builds that rely on
+   credentials being used on the redirected URI may break.
+   Github Pull Request #173
+
+Fixed bugs:
+-----------
+
+ * the PropertyEnumerator change introduced in 1.10.9 proved to be not
+   fully backwards compatible when combined with certain custom
+   PropertyHelper implementations - for example when using AntXtras.
+   Bugzilla Report 65799
+
+ * legacy-xml reporter of the junitlauncher task now escapes ]]> when writing CDATA.
+   Bugzilla Report 65833
+
+ * <scp> may leak connections when trying to preserve the last modified
+   timestamps of files transferred recursively from a server.
+   Bugzilla Report 66001
+
+ * tstamp task would in certain cases parse the SOURCE_DATE_EPOCH environment variable
+   value to an incorrect date. This has now been fixed.
+   Github Pull Request #186
+
+ * fetch.xml didn't set up non-default repositories properly and thus
+   failed to download JAI.
+   Github Pull Request #191
+
+ * When building and installing Ant distribution from source, the build script
+   would change permissions on unrelated files in the destination directory.
+   This is now fixed and such unrelated files in the destination directory
+   will be left untouched.
+   Bugzilla Report 66164
+
+ * parsing tar entries with multiple NUL bytes in their name would
+   include garbage bytes as the name included all bytes up to the last
+   NUL rather than the first.
+   Github Pull Request #194
+
+ * loadresource might log warnings even though quiet was set to true
+   Bugzilla Report 65647
+
+ * javac task would add paths constructs containing wildcards to the
+   internally created argument file where wildcards are not allowed
+   Bugzilla Report 65621
+
+Other changes:
+--------------
+
+ * added an implementation of the MIME Mail sender based on the
+   repackaged Jakarta Mail package rather than javax Mail.
+   Github Pull Request #161
+
+ * The "listener" element in the junitlauncher task now supports
+   an "extension" attribute to control the filename extension
+   of the generated output file from the listener.
+   Github Pull Request #168
+
+ * <ftp> now supports FTPs.
+   Github Pull Request #170
+
+ * DirectoryScanner avoids listing directory contents when it known it
+   will never use the information retrieved. This may improve
+   performance in some special cases.
+   Bugzilla Report 66048
+
+ * <manifest> will now create the parent directory of the manifestFile
+   attribute if it doesn't exist.
+   Bugzilla Report 66231
+
+ * org.apache.tools.ant.BuildLogger now has a new method getMessageOutputLevel()
+   which returns the currently set message output level.
+
 Changes from Ant 1.10.11 TO Ant 1.10.12
 =======================================
 
