@@ -319,8 +319,8 @@ func StartSetup() {
 			apuEmissionRateFraction[k] = hourFractionAdjust
 		})
 	}
-	if _, err := os.Stat("ShorepowerEmissionRateFraction"); err == nil {
-		parse.ReadAndParseFile("ShorepowerEmissionRateFraction", func(parts []string) {
+	if _, err := os.Stat("shorepoweremissionratefraction"); err == nil {
+		parse.ReadAndParseFile("shorepoweremissionratefraction", func(parts []string) {
 			// modelYearID fuelTypeID hourFractionAdjust
 			if len(parts) < 3 {
 				return
