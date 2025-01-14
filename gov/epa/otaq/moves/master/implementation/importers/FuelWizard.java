@@ -16,9 +16,9 @@ import javax.swing.event.*;
 import javax.swing.table.*;
 import gov.epa.otaq.moves.common.*;
 import gov.epa.otaq.moves.master.gui.LayoutUtility;
+import gov.epa.otaq.moves.master.gui.MOVESWindow;
 import gov.epa.otaq.moves.master.implementation.general.RefineryModel;
 import gov.epa.otaq.moves.master.runspec.MassMeasurementSystem;
-import javax.swing.table.TableColumnModel;
 
 /**
  * MOVES Fuels Wizard modal dialog.
@@ -645,7 +645,7 @@ public class FuelWizard extends JDialog implements ActionListener, CellEditorLis
 	 * @param isNonroadToUse True when using Nonroad fuel supply
 	**/
 	public FuelWizard(JFrame parent, Connection dbToUse, boolean isNonroadToUse) {
-		super(parent, "Fuels Wizard");
+		super(parent, MOVESWindow.MOVES_VERSION + " - Fuels Wizard");
 		frame = parent;
 		db = dbToUse;
 		isNonroad = isNonroadToUse;

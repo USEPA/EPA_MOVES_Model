@@ -71,7 +71,7 @@ public class MOVESProgress extends JPanel implements MOVESEngineListener, Action
 		boolean isShown = false;
 
 		public EstimatedTimeRemainingDialog(JFrame parent) {
-			super(parent, "Estimated Time Remaining");
+			super(parent, MOVESWindow.MOVES_VERSION + " - Estimated Time Remaining");
 			frame = parent;
 
 			getContentPane().setLayout(new BorderLayout());

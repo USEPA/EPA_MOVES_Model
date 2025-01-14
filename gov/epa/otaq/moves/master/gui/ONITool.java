@@ -89,7 +89,7 @@ public class ONITool extends JDialog implements ActionListener {
 	 * @param parent the parent frame to use for the panel.
 	**/
 	public ONITool(JFrame parent) {
-		super(parent, "ONI Tool");
+		super(parent, MOVESWindow.MOVES_VERSION + " - ONI Tool");
 		frame = parent;
 		getContentPane().setLayout(new BorderLayout());
 		getContentPane().add(createPanel(), BorderLayout.CENTER);

@@ -146,7 +146,7 @@ public class SummaryReporter {
 		DefaultListModel<String> dataItemsSelectionModel;
 
 		public ReportParamGetter(JFrame win) {
-			super(win,"Specify Parameters for Summary Report");
+			super(win,MOVESWindow.MOVES_VERSION + " - Specify Parameters for Summary Report");
 			createControls();
 			arrangeControls();
 		}
@@ -841,7 +841,7 @@ public class SummaryReporter {
 		JButton closeButton;
 
 		public ScreenReport(JFrame win) {
-			super(win,"Screen Report");
+			super(win, MOVESWindow.MOVES_VERSION + " - Screen Report");
 			createControls();
 			arrangeControls();
 		}

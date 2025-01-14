@@ -107,7 +107,7 @@ public class Converter extends JDialog implements ActionListener {
 	 * @param modeToUse Default conversion mode
 	**/
 	public Converter(JFrame parent, int modeToUse) {
-		super(parent, "Convert Database");
+		super(parent, MOVESWindow.MOVES_VERSION + " - Convert Database");
 		frame = parent;
 		mode = modeToUse;
 

@@ -54,7 +54,7 @@ public class PDSpecGUI extends JDialog implements ActionListener, FocusListener 
 	 * @param parent the parent frame to use for the panel.
 	**/
 	public PDSpecGUI(JFrame parent) {
-		super(parent, "PDSpec Editor");
+		super(parent, MOVESWindow.MOVES_VERSION + " - PDSpec Editor");
 		frame = parent;
 
 		getContentPane().setLayout(new BorderLayout());
@@ -664,7 +664,7 @@ public class PDSpecGUI extends JDialog implements ActionListener, FocusListener 
 		 * Constructor.
 		**/
 		public PDSpecDetailGUI(PDSpecGUI parent) {
-			super(parent, "DONE File");
+			super(parent, MOVESWindow.MOVES_VERSION + " - DONE File");
 
 			getContentPane().setLayout(new BorderLayout());
 			getContentPane().add(createPanel(), BorderLayout.CENTER);

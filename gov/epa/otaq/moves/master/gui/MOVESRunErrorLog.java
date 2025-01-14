@@ -80,7 +80,7 @@ public class MOVESRunErrorLog extends JDialog implements ActionListener {
 	 * @param parent The parent of this dialog.
 	**/
 	public MOVESRunErrorLog(JFrame parent) {
-		super(parent, "MOVES Run Error Log");
+		super(parent, MOVESWindow.MOVES_VERSION + " - MOVES Run Error Log");
 		File runSpecFile = new File(((MOVESWindow)parent).runSpecFilePath);
 		//runSpecName = FileUtilities.getBaseFileName(runSpecFile);
 		runSpecName = FileUtilities.safeGetPath(runSpecFile);

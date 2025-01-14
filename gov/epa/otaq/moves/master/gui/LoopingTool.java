@@ -85,7 +85,7 @@ public class LoopingTool extends JDialog implements ActionListener {
 	**/
 	public LoopingTool(JFrame parent, RunSpec runSpecToUse,
 			boolean isRunSpecReadyToUse) {
-		super(parent, "Multiple RunSpec Creator");
+		super(parent, MOVESWindow.MOVES_VERSION + " - Multiple RunSpec Creator");
 		frame = parent;
 		runSpec = runSpecToUse;
 		isRunSpecReady = isRunSpecReadyToUse;

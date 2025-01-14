@@ -909,7 +909,7 @@ public class InternalControlStrategies extends JPanel implements RunSpecEditor, 
 		 * @param parent the parent frame to use for the dialog.
 		**/
 		public DescriptionDialog(JFrame parent) {
-			super(parent, "Edit Description");
+			super(parent, MOVESWindow.MOVES_VERSION + " - Edit Description");
 			frame = parent;
 
 			getContentPane().setLayout(new BorderLayout());

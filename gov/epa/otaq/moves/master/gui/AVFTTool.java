@@ -24,6 +24,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import gov.epa.otaq.moves.common.*;
 import gov.epa.otaq.moves.master.framework.*;
+import gov.epa.otaq.moves.master.gui.MOVESWindow;
 import gov.epa.otaq.moves.master.runspec.*;
 import gov.epa.otaq.moves.master.framework.importers.ImporterManager;
 import gov.epa.otaq.moves.master.framework.importers.TableFileLinkagePart;
@@ -140,7 +141,7 @@ public class AVFTTool extends JDialog implements ActionListener {
 	 * @param modeToUse Default conversion mode
 	**/
 	public AVFTTool(JFrame parent) {
-		super(parent, "AVFT Tool");
+		super(parent, MOVESWindow.MOVES_VERSION + " - AVFT Tool");
 		frame = parent;
 
 		getContentPane().setLayout(new BorderLayout());

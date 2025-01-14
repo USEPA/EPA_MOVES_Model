@@ -91,7 +91,7 @@ public class LoginDialog extends JDialog implements ActionListener {
 	 * @param parent the parent frame to use for the panel.
 	**/
 	public LoginDialog(JFrame parent) {
-		super(parent, "Set Database Login");
+		super(parent, MOVESWindow.MOVES_VERSION + " - Set Database Login");
 		frame = parent;
 
 		getContentPane().setLayout(new BorderLayout());

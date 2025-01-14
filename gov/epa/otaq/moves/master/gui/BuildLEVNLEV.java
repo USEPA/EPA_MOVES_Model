@@ -90,7 +90,7 @@ public class BuildLEVNLEV extends JDialog implements ActionListener {
 	 * @param modeToUse Default mode to use
 	**/
 	public BuildLEVNLEV(JFrame parent, int modeToUse) {
-		super(parent, modeToUse == MOVES4_MyLEVs ? "Build LEV Database" : "Build NLEV Database");
+		super(parent, modeToUse == MOVES4_MyLEVs ? MOVESWindow.MOVES_VERSION + " - Build LEV Database" : MOVESWindow.MOVES_VERSION + " - Build NLEV Database");
 		frame = parent;
 		mode = modeToUse;
 		switch(mode) {

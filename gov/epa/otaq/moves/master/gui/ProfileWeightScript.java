@@ -95,7 +95,7 @@ public class ProfileWeightScript extends JDialog implements ActionListener {
 	 * @param modeToUse Default conversion mode
 	**/
 	public ProfileWeightScript(JFrame parent) {
-		super(parent, "Speciation Profile Scripts");
+		super(parent, MOVESWindow.MOVES_VERSION + " - Speciation Profile Scripts");
 		frame = parent;
 
 		getContentPane().setLayout(new BorderLayout());

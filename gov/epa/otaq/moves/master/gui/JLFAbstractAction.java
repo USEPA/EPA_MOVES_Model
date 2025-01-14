@@ -48,6 +48,7 @@ public abstract class JLFAbstractAction extends AbstractAction {
 	 * Note: Eventually this key belongs in the javax.swing.Action interface.
 	**/
 	public static final String LARGE_ICON = "LargeIcon";
+	public static final String TITLE = "Title";
 
 	//
 	// These next public methods may belong in the AbstractAction class.
@@ -75,6 +76,33 @@ public abstract class JLFAbstractAction extends AbstractAction {
 	**/
 	public String getLongDescription()  {
 		return (String)getValue(Action.LONG_DESCRIPTION);
+	}
+
+	/** 
+	 * Gets the value from the key Action.NAME
+	 * @return the value of the action name key or "" if the value is null.
+	**/
+	public String getName()  {
+		String result = (String)getValue(Action.NAME);
+        if (result == null) {
+            result = "";
+        }
+        return result;
+	}
+
+	/** 
+	 * Gets either the TITLE (if set) or NAME (otherwise), prepended with the model name
+	 * @return "" if both TITLE and NAME are blank.
+	**/
+	public String getTitle()  {
+		String result = (String)getValue(TITLE);
+        if (result == null) {
+            result = getName();
+        }
+        if (!result.equals("")) {
+            result = MOVESWindow.MOVES_VERSION + " - " + result;
+        }
+        return result;
 	}
 	
 	/* Should finish the implementation and add get/set methods for all the 
