@@ -12,6 +12,12 @@ begin
 	declare isOk int default 1;
 	declare howMany int default 0;
 
+	-- Check for non-positive linkIDs
+	insert into importTempMessages (message)
+	select concat('ERROR: Found linkID ', linkID, '. LinkID values must be positive numbers') as errorMessage
+	from link
+	where (linkID <= 0);
+
 	-- Check for missing road types
 	insert into importTempMessages (message)
 	select concat('ERROR: Link ',linkID,' is missing its roadTypeID') as errorMessage
