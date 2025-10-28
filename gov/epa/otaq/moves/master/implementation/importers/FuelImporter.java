@@ -577,7 +577,12 @@ public class FuelImporter extends ImporterBase {
 			requiredTables = new String[] { "FuelSupply", "FuelFormulation", "AVFT" };
 		}
 
-		customButtonNames = new String[]{"AVFT Tool", "Fuels Wizard"};
+		// only show AVFT Tool for onroad
+		if(!isNonroad) {
+			customButtonNames = new String[]{"AVFT Tool", "Fuels Wizard"};
+		} else {
+			customButtonNames = new String[]{"Fuels Wizard"};
+		}
 
 		shouldDoExecutionDataExport = false;
 		shouldDoDefaultDataExport = true;

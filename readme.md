@@ -12,9 +12,9 @@ This repository contains all of the source code and data required to compile and
 
 MOVES uses MariaDB, Java, and Go. To run MOVES from the source code (i.e., without running the installer), you will need the following:
 
-* [MariaDB](https://mariadb.org/download/?t=mariadb&p=mariadb&r=10.11.5) (version 10.11 is recommended)
+* [MariaDB](https://mariadb.org/download/?t=mariadb&p=mariadb&r=11.4.8) (either version 10.11 or 11.4 are recommended)
 * [Java JDK](https://learn.microsoft.com/en-us/java/openjdk/download#openjdk-17) (version 17 is recommended)
-* [Go](https://golang.org/dl) (version 1.13 or later)
+* [Go](https://golang.org/dl) (version 1.21 or later)
 
 To get set up:
 
@@ -33,9 +33,9 @@ To get set up:
     secure-file-priv=''
     sql_mode=STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
     lower_case_table_names=1
-    character-set-server=utf8
-    collation-server=utf8_unicode_ci
-    init-connect='SET NAMES utf8'
+    character-set-server=utf8mb4
+    collation-server=utf8mb4_unicode_ci
+    init-connect='SET NAMES utf8mb4'
     ```
     Restart the MariaDB service after modifying this file.
 

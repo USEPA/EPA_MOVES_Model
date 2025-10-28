@@ -44,7 +44,7 @@ public class InstanceCounter {
 			if(instanceSocketCount == 0) {
 				for(int i=0;i<8192;i++) {
 					try {
-						instanceSocket = new ServerSocket(BASE_FLAG_PORT+i);
+						instanceSocket = new ServerSocket(BASE_FLAG_PORT+i, 0, InetAddress.getLoopbackAddress());
 						instanceID = 1 + i;
 						break;
 					} catch(Exception e) {

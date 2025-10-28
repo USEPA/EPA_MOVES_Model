@@ -1619,7 +1619,7 @@ public class SummaryReporter {
             // extra checks to make sure we have all the information we need to provide correct monthly or annual summaries
             boolean isDaySelected = false;
             boolean isMonthSelected = false;
-            for (int i=1; i<categoryFieldSelections.size(); i++) {
+            for (int i=0; i<categoryFieldSelections.size(); i++) {
 				if (((String) categoryFieldSelections.get(i)).equalsIgnoreCase("dayID")) {
                     isDaySelected = true;
                 }
@@ -1781,15 +1781,20 @@ public class SummaryReporter {
 			// construct text string listing category fields
 			// suitable for inclusion in MySQL statements
 			// we can assume there is at least one category field
-            boolean isDaySelected = false;
 			String catFieldList = "`" + (String) categoryFieldSelections.get(0) + "`";
 			for (int i=1; i<categoryFieldSelections.size(); i++) {
 				catFieldList = catFieldList + ", `" + ((String) categoryFieldSelections.get(i)) + "`";
-                if (((String) categoryFieldSelections.get(i)).toLowerCase().equals("dayid")) {
+			}
+            //System.out.println(catFieldList);
+
+            // see if dayID is included in the summary report columns
+            boolean isDaySelected = false;
+            for (int i=0; i<categoryFieldSelections.size(); i++) {
+				if (((String) categoryFieldSelections.get(i)).equalsIgnoreCase("dayID")) {
                     isDaySelected = true;
                 }
 			}
-            //System.out.println(catFieldList);
+
             // if dayID is not selected, we are aggregating over it. If dayID is NULL in the output database,
             // that means it has already been taken care of and we don't need to do anything. Otherwise:
             //    If outputTimePeriod is (Hour, Day), also need to multiply emissionQuant by dayID to get to "Part of Week" level

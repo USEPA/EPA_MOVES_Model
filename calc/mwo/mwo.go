@@ -2,13 +2,13 @@
 package mwo
 
 import (
-	"calc/globalevents"
-	"os"
 	"bufio"
-	"strconv"
-	"fmt"
-	"sync/atomic"
 	"bytes"
+	"calc/globalevents"
+	"fmt"
+	"os"
+	"strconv"
+	"sync/atomic"
 )
 
 // Pollutant/Process IDs that are needed.
@@ -47,7 +47,7 @@ var AgeGroups map[int]int
 // Context of the current bundle
 type MWOConstants struct {
 	StateID, CountyID, ZoneID, LinkID int
-	YearID, MonthID int
+	YearID, MonthID                   int
 }
 
 // Context of the current bundle
@@ -61,21 +61,21 @@ type FuelSupplyKey struct {
 // Default for fuel supply lookup
 type FuelSupplyDetail struct {
 	FuelSubTypeID, FuelFormulationID int
-	MarketShare float64
+	MarketShare                      float64
 
 	FuelFormulation *FuelFormulation
 }
 
 // Fuel tyupe
 type FuelType struct {
-	FuelTypeID int
-	FuelDensity float64
+	FuelTypeID                int
+	FuelDensity               float64
 	SubjectToEvapCalculations bool
 }
 
 // Fuel subtype
 type FuelSubType struct {
-	FuelSubTypeID, FuelTypeID int
+	FuelSubTypeID, FuelTypeID                                                                                int
 	FuelSubtypePetroleumFraction, FuelSubtypeFossilFraction, CarbonContent, OxidationFraction, EnergyContent float64
 
 	FuelType *FuelType
@@ -83,25 +83,25 @@ type FuelSubType struct {
 
 // Fuel formulation
 type FuelFormulation struct {
-	FuelFormulationID, FuelSubTypeID int
-	RVP, SulfurLevel float64
-	ETOHVolume, MTBEVolume, ETBEVolume, TAMEVolume float64
-	AromaticContent, OlefinContent, BenzeneContent float64
-	E200, E300 float64
+	FuelFormulationID, FuelSubTypeID                                 int
+	RVP, SulfurLevel                                                 float64
+	ETOHVolume, MTBEVolume, ETBEVolume, TAMEVolume                   float64
+	AromaticContent, OlefinContent, BenzeneContent                   float64
+	E200, E300                                                       float64
 	VolToWtPercentOxy, BioDieselEsterVolume, CetaneIndex, PAHContent float64
-	T50, T90 float64
+	T50, T90                                                         float64
 
-	FuelTypeID int
+	FuelTypeID  int
 	FuelSubType *FuelSubType
 
 	// HCSpeciation calculator
 	ETOHThreshID int
-	OxyThreshID int
+	OxyThreshID  int
 }
 
 // SCC defaults for Nonroad
 type NRSCCDetail struct {
-	SCC string
+	SCC                       string
 	NREquipTypeID, FuelTypeID int
 }
 
@@ -119,11 +119,11 @@ var NRHPCategory map[NRHPCategoryKey]uint8
 // Key information for an emissions data block
 type MWOKey struct {
 	YearID, MonthID, DayID, HourID, StateID, CountyID, ZoneID, LinkID, RoadTypeID int
-	SourceTypeID, RegClassID, FuelTypeID, ModelYearID int
-	SCC string
-	EngTechID, SectorID, HPID int
-	PollutantID, ProcessID int
-	
+	SourceTypeID, RegClassID, FuelTypeID, ModelYearID                             int
+	SCC                                                                           string
+	EngTechID, SectorID, HPID                                                     int
+	PollutantID, ProcessID                                                        int
+
 	//EM - add this to the MOWKey to allow writing of data in Rates mode 12/20/2018
 	AvgSpeedBinID int //this comes from the MWOBaseRate type, where it was removed
 
@@ -134,25 +134,25 @@ type MWOKey struct {
 // Emissions quantity
 type MWOEmission struct {
 	FuelSubTypeID, FuelFormulationID int
-	EmissionQuant, EmissionRate float64
+	EmissionQuant, EmissionRate      float64
 }
 
 // Base Rates
 type MWOBaseRate struct {
 	//AvgSpeedBinID int //EM - this was moved into the MOWKey struct as part of the bugfix for EMT-809 12/20/2018
-	FuelSubTypeID, FuelFormulationID int
-	MarketShare float64
-	MeanBaseRate, MeanBaseRateIM float64
-	EmissionRate, EmissionRateIM float64
+	FuelSubTypeID, FuelFormulationID       int
+	MarketShare                            float64
+	MeanBaseRate, MeanBaseRateIM           float64
+	EmissionRate, EmissionRateIM           float64
 	MeanBaseRateACAdj, MeanBaseRateIMACAdj float64
 	EmissionRateACAdj, EmissionRateIMACAdj float64
 }
 
 // Operating Mode and fractions for base rate calculation
 type MWOOpMode struct {
-	OpModeID int
+	OpModeID                             int
 	GeneralFraction, GeneralFractionRate float64
-	BaseRates []*MWOBaseRate
+	BaseRates                            []*MWOBaseRate
 }
 
 // Emissions for a fuel subtype
@@ -163,10 +163,10 @@ type FuelSubTypeBlock struct {
 // Emissions for a fuel type
 type FuelBlock struct {
 	TotalEmissionQuant, TotalEmissionRate float64
-	Key MWOKey
-	HasBeenWritten, NeedsGFRE bool
-	Emissions []*MWOEmission
-	TotalsByFuelSubType map[int]*FuelSubTypeBlock
+	Key                                   MWOKey
+	HasBeenWritten, NeedsGFRE             bool
+	Emissions                             []*MWOEmission
+	TotalsByFuelSubType                   map[int]*FuelSubTypeBlock
 
 	// Fields used by base rate calculations
 	OpMode *MWOOpMode
@@ -184,10 +184,10 @@ type MWOBlock struct {
 // Key information for an activity data block
 type MWOActivityKey struct {
 	YearID, MonthID, DayID, HourID, StateID, CountyID, ZoneID, LinkID, RoadTypeID int
-	SourceTypeID, RegClassID, FuelTypeID, ModelYearID int
-	SCC string
-	EngTechID, SectorID, HPID int
-	ActivityTypeID int
+	SourceTypeID, RegClassID, FuelTypeID, ModelYearID                             int
+	SCC                                                                           string
+	EngTechID, SectorID, HPID                                                     int
+	ActivityTypeID                                                                int
 
 	// Derived values often used for lookups
 	HourDayID, AgeID, AgeGroupID int
@@ -196,7 +196,7 @@ type MWOActivityKey struct {
 // Activity detail
 type MWOActivity struct {
 	FuelSubTypeID, FuelFormulationID int
-	Activity float64
+	Activity                         float64
 }
 
 // Activity for a fuel subtype
@@ -206,11 +206,11 @@ type ActivityFuelSubTypeBlock struct {
 
 // Activity for a fuel type
 type ActivityFuelBlock struct {
-	TotalActivity float64
-	Key MWOActivityKey
+	TotalActivity             float64
+	Key                       MWOActivityKey
 	HasBeenWritten, NeedsGFRE bool
-	Activity []*MWOActivity
-	TotalsByFuelSubType map[int]*ActivityFuelSubTypeBlock
+	Activity                  []*MWOActivity
+	TotalsByFuelSubType       map[int]*ActivityFuelSubTypeBlock
 }
 
 // A group of activity records. Records are read from the MOVES worker and placed into
@@ -223,31 +223,31 @@ type MWOActivityBlock struct {
 // The pollution output file
 var outputFile *os.File
 
-//EM - this is the rates mode output file for rates fix EMT-809 12/20/2018
+// EM - this is the rates mode output file for rates fix EMT-809 12/20/2018
 var baseRateOutputFile *os.File
 
 // Writer to the pollution output file
 var outputWriter *bufio.Writer
 
-//EM - this is the rates output writer for EMT-809 12/20/2018
+// EM - this is the rates output writer for EMT-809 12/20/2018
 var baseRateOutputWriter *bufio.Writer
 
 // Number of lines written to the pollution output file
-var linesWritten int32
+var linesWritten *atomic.Int64
 
 // Number of MWOEmission objects processed to make the pollution output file
-var emissionBlocksConsidered int32
+var emissionBlocksConsidered *atomic.Int64
 
 // Number of FuelBlock objects processed to make the pollution output file
-var fuelBlocksConsidered int32
+var fuelBlocksConsidered *atomic.Int64
 
 // Number of MWOBlock objects processed to make the pollution output file
-var mwoBlocksConsidered int32
+var mwoBlocksConsidered *atomic.Int64
 
 // Buffered data to be written to the pollution output file
 var outputBuffer bytes.Buffer
 
-//EM - this is the buffered data to write the rates file for EMT-809 12/20/2018
+// EM - this is the buffered data to write the rates file for EMT-809 12/20/2018
 var baseRateOutputBuffer bytes.Buffer
 
 // The activity output file
@@ -257,16 +257,16 @@ var activityOutputFile *os.File
 var activityOutputWriter *bufio.Writer
 
 // Number of lines written to the activity output file
-var activityLinesWritten int32
+var activityLinesWritten *atomic.Int64
 
 // Number of MWOActivity objects processed to the make the activity output file
-var activityBlocksConsidered int32
+var activityBlocksConsidered *atomic.Int64
 
 // Number of ActivityFuelBlock objects processed to the make the activity output file
-var activityFuelBlocksConsidered int32
+var activityFuelBlocksConsidered *atomic.Int64
 
 // Number of MWOActivityBlock objects processed to make the activity output file
-var mwoActivityBlocksConsidered int32
+var mwoActivityBlocksConsidered *atomic.Int64
 
 // Buffered data to be written to the activity output file
 var activityBuffer bytes.Buffer
@@ -278,10 +278,10 @@ var detailOutputFile *os.File
 var detailOutputWriter *bufio.Writer
 
 // Number of lines written to the detailed pollution output file
-var detailLinesWritten int32
+var detailLinesWritten *atomic.Int64
 
-//EM - number of lines written to the base rate output file as part of rates fix EMT-809 12/20/2018
-var baseRateLinesWritten int32
+// EM - number of lines written to the base rate output file as part of rates fix EMT-809 12/20/2018
+var baseRateLinesWritten *atomic.Int64
 
 // Buffered data to be written to the detailed pollution output file
 var detailOutputBuffer bytes.Buffer
@@ -320,19 +320,30 @@ func init() {
 
 	NRHPCategory = make(map[NRHPCategoryKey]uint8)
 
-	mwoPermissions = make(chan int,10000)
-	mwoActivityPermissions = make(chan int,10000)
+	mwoPermissions = make(chan int, 10000)
+	mwoActivityPermissions = make(chan int, 10000)
 
-	bufferMaxSize = 4*1024*1024
+	bufferMaxSize = 4 * 1024 * 1024
 	bufferWriteLimit = bufferMaxSize - 2048
+
+	linesWritten = &atomic.Int64{}
+	emissionBlocksConsidered = &atomic.Int64{}
+	fuelBlocksConsidered = &atomic.Int64{}
+	mwoBlocksConsidered = &atomic.Int64{}
+	activityLinesWritten = &atomic.Int64{}
+	activityBlocksConsidered = &atomic.Int64{}
+	activityFuelBlocksConsidered = &atomic.Int64{}
+	mwoActivityBlocksConsidered = &atomic.Int64{}
+	detailLinesWritten = &atomic.Int64{}
+	baseRateLinesWritten = &atomic.Int64{}
 }
 
 // Add permissions to create MWOBlock objects
 func AddBlockPermissions(howManyBlocks int) {
-	if(howManyBlocks > cap(mwoPermissions)) {
+	if howManyBlocks > cap(mwoPermissions) {
 		howManyBlocks = cap(mwoPermissions)
 	}
-	for i:=0; i<howManyBlocks; i++ {
+	for i := 0; i < howManyBlocks; i++ {
 		mwoPermissions <- 1
 	}
 }
@@ -349,12 +360,12 @@ func (b *MWOBlock) Recycle() {
 // Create a new MWOBlock object, waiting for permission to do so.
 func New() *MWOBlock {
 	// Get permission to create another block
-	<- mwoPermissions
+	<-mwoPermissions
 
 	// TODO Use data from a recycled block, including a recycled slice that has been set to 0 length
 	b := new(MWOBlock)
 	const defaultFuelBlocksPerMWOBlock = 5
-	b.FuelBlocks = make([]*FuelBlock,0,defaultFuelBlocksPerMWOBlock)
+	b.FuelBlocks = make([]*FuelBlock, 0, defaultFuelBlocksPerMWOBlock)
 	return b
 }
 
@@ -367,10 +378,10 @@ func NewFuelBlock(other *FuelBlock) *FuelBlock {
 	fb.NeedsGFRE = true
 	if other != nil {
 		fb.Key = other.Key
-		fb.Emissions = make([]*MWOEmission,0,cap(other.Emissions))
+		fb.Emissions = make([]*MWOEmission, 0, cap(other.Emissions))
 	} else {
 		// Leave fb.Key with default values
-		fb.Emissions = make([]*MWOEmission,0,defaultEmissionsPerFuelBlock)
+		fb.Emissions = make([]*MWOEmission, 0, defaultEmissionsPerFuelBlock)
 	}
 	if NeedsModule("FuelSubType") {
 		fb.TotalsByFuelSubType = make(map[int]*FuelSubTypeBlock)
@@ -382,19 +393,19 @@ func NewFuelBlock(other *FuelBlock) *FuelBlock {
 // Add a new FuelBlock to an existing MWOBlock.
 func (b *MWOBlock) Add() *FuelBlock {
 	fb := NewFuelBlock(nil)
-	b.FuelBlocks = append(b.FuelBlocks,fb)
+	b.FuelBlocks = append(b.FuelBlocks, fb)
 	return fb
 }
 
 // Add an existing FuelBlock to an existing MWOBlock.
 func (b *MWOBlock) AddFuelBlock(fb *FuelBlock) {
-	b.FuelBlocks = append(b.FuelBlocks,fb)
+	b.FuelBlocks = append(b.FuelBlocks, fb)
 }
 
 // Add items needed for base rate calculations
 func (fb *FuelBlock) SetupForBaseRates() {
 	fb.OpMode = new(MWOOpMode)
-	fb.OpMode.BaseRates = make([]*MWOBaseRate,0,defaultEmissionsPerFuelBlock)
+	fb.OpMode.BaseRates = make([]*MWOBaseRate, 0, defaultEmissionsPerFuelBlock)
 }
 
 // Add detailed emissions (a MWOEmission object) to a FuelBlock.
@@ -407,7 +418,7 @@ func (fb *FuelBlock) Add(fuelSubTypeID, fuelFormulationID int, emissionQuant, em
 	e.EmissionRate = emissionRate
 	fb.TotalEmissionQuant += emissionQuant
 	fb.TotalEmissionRate += emissionRate
-	fb.Emissions = append(fb.Emissions,e)
+	fb.Emissions = append(fb.Emissions, e)
 	if fb.TotalsByFuelSubType != nil {
 		var fst = fb.TotalsByFuelSubType[fuelSubTypeID]
 		if fst == nil {
@@ -425,7 +436,7 @@ func (fb *FuelBlock) Add(fuelSubTypeID, fuelFormulationID int, emissionQuant, em
 func (fb *FuelBlock) AddEmission(e *MWOEmission) {
 	fb.TotalEmissionQuant += e.EmissionQuant
 	fb.TotalEmissionRate += e.EmissionRate
-	fb.Emissions = append(fb.Emissions,e)
+	fb.Emissions = append(fb.Emissions, e)
 	if fb.TotalsByFuelSubType != nil {
 		var fst = fb.TotalsByFuelSubType[e.FuelSubTypeID]
 		if fst == nil {
@@ -463,8 +474,8 @@ func (fb *FuelBlock) SetAsInput() {
 
 // Compute the calculated values of a MWOKey. Such values streamline lookups.
 func (k *MWOKey) CalcIDs() {
-	k.PolProcessID = k.PollutantID * 100 + k.ProcessID
-	k.HourDayID = k.HourID * 10 + k.DayID
+	k.PolProcessID = k.PollutantID*100 + k.ProcessID
+	k.HourDayID = k.HourID*10 + k.DayID
 	k.AgeID = k.YearID - k.ModelYearID
 	k.AgeGroupID = AgeGroups[k.AgeID]
 }
@@ -517,10 +528,10 @@ func NewEmissionSum(other1 *MWOEmission, other2 *MWOEmission) *MWOEmission {
 
 // Add permissions to create MWOActivityBlock objects
 func AddActivityBlockPermissions(howManyBlocks int) {
-	if(howManyBlocks > cap(mwoActivityPermissions)) {
+	if howManyBlocks > cap(mwoActivityPermissions) {
 		howManyBlocks = cap(mwoActivityPermissions)
 	}
-	for i:=0; i<howManyBlocks; i++ {
+	for i := 0; i < howManyBlocks; i++ {
 		mwoActivityPermissions <- 1
 	}
 }
@@ -537,12 +548,12 @@ func (b *MWOActivityBlock) Recycle() {
 // Create a new MWOBlock object, waiting for permission to do so.
 func NewActivityBlock() *MWOActivityBlock {
 	// Get permission to create another block
-	<- mwoActivityPermissions
+	<-mwoActivityPermissions
 
 	// TODO Use data from a recycled block, including a recycled slice that has been set to 0 length
 	b := new(MWOActivityBlock)
 	const defaultFuelBlocksPerMWOBlock = 5
-	b.ActivityFuelBlocks = make([]*ActivityFuelBlock,0,defaultFuelBlocksPerMWOBlock)
+	b.ActivityFuelBlocks = make([]*ActivityFuelBlock, 0, defaultFuelBlocksPerMWOBlock)
 	return b
 }
 
@@ -554,10 +565,10 @@ func NewActivityFuelBlock(other *ActivityFuelBlock) *ActivityFuelBlock {
 	fb.NeedsGFRE = true
 	if other != nil {
 		fb.Key = other.Key
-		fb.Activity = make([]*MWOActivity,0,cap(other.Activity))
+		fb.Activity = make([]*MWOActivity, 0, cap(other.Activity))
 	} else {
 		// Leave fb.Key with default values
-		fb.Activity = make([]*MWOActivity,0,defaultEmissionsPerFuelBlock)
+		fb.Activity = make([]*MWOActivity, 0, defaultEmissionsPerFuelBlock)
 	}
 	if NeedsModule("FuelSubType") {
 		fb.TotalsByFuelSubType = make(map[int]*ActivityFuelSubTypeBlock)
@@ -569,13 +580,13 @@ func NewActivityFuelBlock(other *ActivityFuelBlock) *ActivityFuelBlock {
 // Add a new ActivityFuelBlock to a MWOActivityBlock.
 func (b *MWOActivityBlock) Add() *ActivityFuelBlock {
 	fb := NewActivityFuelBlock(nil)
-	b.ActivityFuelBlocks = append(b.ActivityFuelBlocks,fb)
+	b.ActivityFuelBlocks = append(b.ActivityFuelBlocks, fb)
 	return fb
 }
 
 // Add an existing ActivityFuelBlock to a MWOActivityBlock.
 func (b *MWOActivityBlock) AddActivityFuelBlock(fb *ActivityFuelBlock) {
-	b.ActivityFuelBlocks = append(b.ActivityFuelBlocks,fb)
+	b.ActivityFuelBlocks = append(b.ActivityFuelBlocks, fb)
 }
 
 // Add detailed activity (a MWOActivity object) to an ActivityFuelBlock.
@@ -586,7 +597,7 @@ func (fb *ActivityFuelBlock) Add(fuelSubTypeID, fuelFormulationID int, activity 
 	e.FuelFormulationID = fuelFormulationID
 	e.Activity = activity
 	fb.TotalActivity += activity
-	fb.Activity = append(fb.Activity,e)
+	fb.Activity = append(fb.Activity, e)
 	if fb.TotalsByFuelSubType != nil {
 		var fst = fb.TotalsByFuelSubType[fuelSubTypeID]
 		if fst == nil {
@@ -601,7 +612,7 @@ func (fb *ActivityFuelBlock) Add(fuelSubTypeID, fuelFormulationID int, activity 
 // Add an existing MWOActivity object to an ActivityFuelBlock.
 func (fb *ActivityFuelBlock) AddActivity(e *MWOActivity) {
 	fb.TotalActivity += e.Activity
-	fb.Activity = append(fb.Activity,e)
+	fb.Activity = append(fb.Activity, e)
 	if fb.TotalsByFuelSubType != nil {
 		var fst = fb.TotalsByFuelSubType[e.FuelSubTypeID]
 		if fst == nil {
@@ -621,7 +632,7 @@ func (fb *ActivityFuelBlock) SetAsInput() {
 
 // Compute the calculated values of a MWOKey. Such values streamline lookups.
 func (k *MWOActivityKey) CalcIDs() {
-	k.HourDayID = k.HourID * 10 + k.DayID
+	k.HourDayID = k.HourID*10 + k.DayID
 	k.AgeID = k.YearID - k.ModelYearID
 	k.AgeGroupID = AgeGroups[k.AgeID]
 }
@@ -669,15 +680,15 @@ func NewActivitySum(other1 *MWOActivity, other2 *MWOActivity) *MWOActivity {
 
 // EndOfChain builds the goroutines that write pollution data to disk.
 func EndOfChain(inputBlocks chan *MWOBlock, blocksToWrite chan *MWOBlock) {
-	for i := 0; i<3; i++ {
-		go endOfChainCore(inputBlocks,blocksToWrite)
+	for i := 0; i < 3; i++ {
+		go endOfChainCore(inputBlocks, blocksToWrite)
 	}
 }
 
 // Move pollution blocks to the queue for writing to disk, notifying the global event system.
 func endOfChainCore(inputBlocks chan *MWOBlock, blocksToWrite chan *MWOBlock) {
 	for {
-		b := <- inputBlocks
+		b := <-inputBlocks
 		globalevents.MWOWriteStarted()
 		blocksToWrite <- b
 		globalevents.MWOBlockDone()
@@ -686,15 +697,15 @@ func endOfChainCore(inputBlocks chan *MWOBlock, blocksToWrite chan *MWOBlock) {
 
 // EndOfActivityChain builds the goroutines that write activity data to disk.
 func EndOfActivityChain(inputBlocks chan *MWOActivityBlock, blocksToWrite chan *MWOActivityBlock) {
-	for i := 0; i<3; i++ {
-		go endOfActivityChainCore(inputBlocks,blocksToWrite)
+	for i := 0; i < 3; i++ {
+		go endOfActivityChainCore(inputBlocks, blocksToWrite)
 	}
 }
 
 // Move activity blocks to the queue for writing to disk, notifying the global event system.
 func endOfActivityChainCore(inputBlocks chan *MWOActivityBlock, blocksToWrite chan *MWOActivityBlock) {
 	for {
-		b := <- inputBlocks
+		b := <-inputBlocks
 		globalevents.MWOActivityWriteStarted()
 		blocksToWrite <- b
 		globalevents.MWOActivityBlockDone()
@@ -721,7 +732,7 @@ func StartWriting(fileName string, blocksToWrite chan *MWOBlock, needsDetailOutp
 	}
 	outputFile = f
 	outputWriter = bufio.NewWriter(outputFile)
-	
+
 	//EM - this block also added for EMT-809 rates fix 12/29/2018
 	bf, berr := os.Create("newbaserateoutput")
 	if berr != nil {
@@ -738,10 +749,10 @@ func StartWriting(fileName string, blocksToWrite chan *MWOBlock, needsDetailOutp
 		}
 		detailOutputFile = df
 		detailOutputWriter = bufio.NewWriter(detailOutputFile)
-		fmt.Println("Started writing detail output to: ",detailFileName)
+		fmt.Println("Started writing detail output to: ", detailFileName)
 	}
 	go writeCore(blocksToWrite)
-	fmt.Println("Started writing output to: ",fileName)
+	fmt.Println("Started writing output to: ", fileName)
 }
 
 // Write pending data to the pollution files and close all access to the pollution output files.
@@ -754,7 +765,7 @@ func FinishWriting() {
 
 	outputWriter.Flush()
 	outputFile.Close()
-	
+
 	//EM - add a similar block to ensure the rates file gets written as well for EMT-809 12/20/2018
 	if baseRateOutputBuffer.Len() > 0 {
 		baseRateOutputBuffer.WriteTo(baseRateOutputWriter)
@@ -776,11 +787,11 @@ func FinishWriting() {
 		detailOutputFile.Close()
 	}
 
-	fmt.Printf("Considered %d MWOBlocks for writing.\n",mwoBlocksConsidered)
-	fmt.Printf("Considered %d FuelBlocks for writing.\n",fuelBlocksConsidered)
-	fmt.Printf("Considered %d MWOEmissions for writing.\n",emissionBlocksConsidered)
-	fmt.Printf("Wrote %d lines to the output file.\n",linesWritten)
-	fmt.Printf("Wrote %d lines to the detail output file.\n",detailLinesWritten)
+	fmt.Printf("Considered %d MWOBlocks for writing.\n", mwoBlocksConsidered)
+	fmt.Printf("Considered %d FuelBlocks for writing.\n", fuelBlocksConsidered)
+	fmt.Printf("Considered %d MWOEmissions for writing.\n", emissionBlocksConsidered)
+	fmt.Printf("Wrote %d lines to the output file.\n", linesWritten)
+	fmt.Printf("Wrote %d lines to the detail output file.\n", detailLinesWritten)
 	//EM - add this line to track rates file lines written as part of EMT-809 12/20/2018
 	fmt.Printf("Wrote %d lines to the base rate output file.\n", baseRateLinesWritten)
 }
@@ -790,78 +801,77 @@ func FinishWriting() {
 func writeCore(blocksToWrite chan *MWOBlock) {
 	//The following blcok comment written by Evan Murray:
 	/* There is a notable omission of any opmodes from the writing of this file, which may seems surpsising
-			becuase techinically they are included in the fb.Key. However, an earlier function assigns the 
+			becuase techinically they are included in the fb.Key. However, an earlier function assigns the
 			pointer to nil, so that the FuelBlock is no longer carrying the opmode data. This does make the
 			code faster and more lightweight, but it comes at the cost of having opModeID out of reach of the
 			master becuase it can't be written into the temp files.
-	 This aggregation is done in the baseratecalculator, in teh aggregateOpModes function, called by the 
+	 This aggregation is done in the baseratecalculator, in teh aggregateOpModes function, called by the
 			aggregateAndApplyActivity function, which is in turn called by the StartCalculating function. This is
 			called in a goroutine, and passes the data to subsequenct goroutines. It may be possible to just not
 			use the aggregateOpModes function in aggregateAndApplyActivity if we ever want to write OpModes here, but
-			this is unlikely to work due to all the subsequent function calls and will probably come with a heavy 
+			this is unlikely to work due to all the subsequent function calls and will probably come with a heavy
 			computation time cost.
 	*/
 
 	//EM - this checks to see if the rates file should be written as part of EMT-809 12/20/2018
 	shouldWriteRates := NeedsModule("BRC_Rates")
-	
+
 	for {
-		b := <- blocksToWrite
-		atomic.AddInt32(&mwoBlocksConsidered,1)
+		b := <-blocksToWrite
+		mwoBlocksConsidered.Add(1)
 		for _, fb := range b.FuelBlocks {
-			atomic.AddInt32(&fuelBlocksConsidered,1)
-			atomic.AddInt32(&emissionBlocksConsidered,int32(len(fb.Emissions)))
+			fuelBlocksConsidered.Add(1)
+			emissionBlocksConsidered.Add(int64(len(fb.Emissions)))
 			/*
-			if fb.Key.PollutantID >= 10000 { // Skip pseudo-pollutants
-				continue
-			}
+				if fb.Key.PollutantID >= 10000 { // Skip pseudo-pollutants
+					continue
+				}
 			*/
-			
-			
+
 			//EM - this code actually writes the rate file row if necessary for EMT-809
 			if shouldWriteRates { // If rates-mode output is required...
 				/*
-				0,1: MOVESRunID,iterationID,
-				2,3,4: yearID,monthID,hourDayID,
-				5,6: zoneID,linkID,
-				7,8: pollutantID,processID,
-				9,10: sourceTypeID,regClassID,
-				11,12: fuelTypeID,modelYearID,
-				13,14: roadTypeID,SCC,
-				15: avgSpeedBinID,
-				16,17: meanBaseRate,emissionRate
+					0,1: MOVESRunID,iterationID,
+					2,3,4: yearID,monthID,hourDayID,
+					5,6: zoneID,linkID,
+					7,8: pollutantID,processID,
+					9,10: sourceTypeID,regClassID,
+					11,12: fuelTypeID,modelYearID,
+					13,14: roadTypeID,SCC,
+					15: avgSpeedBinID,
+					16,17: meanBaseRate,emissionRate
 				*/
 				for _, e := range fb.Emissions {
 					line := "0\t0\t" +
 						strconv.Itoa(fb.Key.YearID) + "\t" + strconv.Itoa(fb.Key.MonthID) + "\t" + strconv.Itoa(fb.Key.HourDayID) + "\t" +
 						strconv.Itoa(fb.Key.ZoneID) + "\t" + strconv.Itoa(fb.Key.LinkID) + "\t" +
-						strconv.Itoa(fb.Key.PollutantID) + "\t" + strconv.Itoa(fb.Key.ProcessID) + "\t" + 
+						strconv.Itoa(fb.Key.PollutantID) + "\t" + strconv.Itoa(fb.Key.ProcessID) + "\t" +
 						strconv.Itoa(fb.Key.SourceTypeID) + "\t" + strconv.Itoa(fb.Key.RegClassID) + "\t" +
-						strconv.Itoa(fb.Key.FuelTypeID) + "\t" + strconv.Itoa(fb.Key.ModelYearID) + "\t" + 
+						strconv.Itoa(fb.Key.FuelTypeID) + "\t" + strconv.Itoa(fb.Key.ModelYearID) + "\t" +
 						strconv.Itoa(fb.Key.RoadTypeID) + "\t" + fb.Key.SCC + "\t" +
-						strconv.Itoa(fb.Key.AvgSpeedBinID) + "\t" + 
-						strconv.FormatFloat(e.EmissionQuant,'e',-1,64) + "\t" + strconv.FormatFloat(e.EmissionRate,'e',-1,64) + "\n"
+						strconv.Itoa(fb.Key.AvgSpeedBinID) + "\t" +
+						strconv.FormatFloat(e.EmissionQuant, 'e', -1, 64) + "\t" + strconv.FormatFloat(e.EmissionRate, 'e', -1, 64) + "\n"
 					baseRateOutputBuffer.WriteString(line)
-					atomic.AddInt32(&baseRateLinesWritten,1)
+					baseRateLinesWritten.Add(1)
 				}
 				if baseRateOutputBuffer.Len() >= bufferWriteLimit {
 					baseRateOutputBuffer.WriteTo(baseRateOutputWriter)
 					baseRateOutputBuffer.Reset()
 				}
 			}
-			
+
 			if detailOutputFile != nil { // If full detailed logging is required at the fuel formulation level...
 				/*
-				0,1: MOVESRunID,iterationID,
-				2,3,4,5: yearID,monthID,dayID,hourID,
-				6,7,8,9: stateID,countyID,zoneID,linkID,
-				10,11: pollutantID,processID,
-				12,13: sourceTypeID,regClassID,
-				14,15: fuelTypeID,modelYearID,
-				16,17: roadTypeID,SCC,
-				18,19,20: engTechID,sectorID,hpID,
-				21,22: emissionQuant,emissionRate
-				23,24: fuelSubTypeID, fuelFormulationID
+					0,1: MOVESRunID,iterationID,
+					2,3,4,5: yearID,monthID,dayID,hourID,
+					6,7,8,9: stateID,countyID,zoneID,linkID,
+					10,11: pollutantID,processID,
+					12,13: sourceTypeID,regClassID,
+					14,15: fuelTypeID,modelYearID,
+					16,17: roadTypeID,SCC,
+					18,19,20: engTechID,sectorID,hpID,
+					21,22: emissionQuant,emissionRate
+					23,24: fuelSubTypeID, fuelFormulationID
 				*/
 				for _, e := range fb.Emissions {
 					line := "0\t0\t" +
@@ -870,11 +880,11 @@ func writeCore(blocksToWrite chan *MWOBlock) {
 						strconv.Itoa(fb.Key.PollutantID) + "\t" + strconv.Itoa(fb.Key.ProcessID) + "\t" + strconv.Itoa(fb.Key.SourceTypeID) + "\t" + strconv.Itoa(fb.Key.RegClassID) + "\t" +
 						strconv.Itoa(fb.Key.FuelTypeID) + "\t" + strconv.Itoa(fb.Key.ModelYearID) + "\t" + strconv.Itoa(fb.Key.RoadTypeID) + "\t" + fb.Key.SCC + "\t" +
 						strconv.Itoa(fb.Key.EngTechID) + "\t" + strconv.Itoa(fb.Key.SectorID) + "\t" + strconv.Itoa(fb.Key.HPID) + "\t" +
-						strconv.FormatFloat(e.EmissionQuant,'e',-1,64) + "\t" + strconv.FormatFloat(e.EmissionRate,'e',-1,64) + "\t" +
+						strconv.FormatFloat(e.EmissionQuant, 'e', -1, 64) + "\t" + strconv.FormatFloat(e.EmissionRate, 'e', -1, 64) + "\t" +
 						strconv.Itoa(e.FuelSubTypeID) + "\t" + strconv.Itoa(e.FuelFormulationID) + "\n"
 					//detailOutputWriter.WriteString(line)
 					detailOutputBuffer.WriteString(line)
-					atomic.AddInt32(&detailLinesWritten,1)
+					detailLinesWritten.Add(1)
 				}
 				if detailOutputBuffer.Len() >= bufferWriteLimit {
 					detailOutputBuffer.WriteTo(detailOutputWriter)
@@ -887,16 +897,16 @@ func writeCore(blocksToWrite chan *MWOBlock) {
 			// information that should be written.
 			if !fb.HasBeenWritten || fb.TotalsByFuelSubType != nil {
 				/*
-				0,1: MOVESRunID,iterationID,
-				2,3,4,5: yearID,monthID,dayID,hourID,
-				6,7,8,9: stateID,countyID,zoneID,linkID,
-				10,11: pollutantID,processID,
-				12,13: sourceTypeID,regClassID,
-				14,15: fuelTypeID,modelYearID,
-				16,17: roadTypeID,SCC,
-				18,19,20: engTechID,sectorID,hpID,
-				21,22: emissionQuant,emissionRate
-				[23: fuelSubTypeID]
+					0,1: MOVESRunID,iterationID,
+					2,3,4,5: yearID,monthID,dayID,hourID,
+					6,7,8,9: stateID,countyID,zoneID,linkID,
+					10,11: pollutantID,processID,
+					12,13: sourceTypeID,regClassID,
+					14,15: fuelTypeID,modelYearID,
+					16,17: roadTypeID,SCC,
+					18,19,20: engTechID,sectorID,hpID,
+					21,22: emissionQuant,emissionRate
+					[23: fuelSubTypeID]
 				*/
 				linePrefix := "0\t0\t" +
 					strconv.Itoa(fb.Key.YearID) + "\t" + strconv.Itoa(fb.Key.MonthID) + "\t" + strconv.Itoa(fb.Key.DayID) + "\t" + strconv.Itoa(fb.Key.HourID) + "\t" +
@@ -907,18 +917,18 @@ func writeCore(blocksToWrite chan *MWOBlock) {
 				if fb.TotalsByFuelSubType != nil {
 					for fuelSubTypeID, fst := range fb.TotalsByFuelSubType {
 						line := linePrefix +
-							strconv.FormatFloat(fst.TotalEmissionQuant,'e',-1,64) + "\t" + strconv.FormatFloat(fst.TotalEmissionRate,'e',-1,64) +  "\t" +
+							strconv.FormatFloat(fst.TotalEmissionQuant, 'e', -1, 64) + "\t" + strconv.FormatFloat(fst.TotalEmissionRate, 'e', -1, 64) + "\t" +
 							strconv.Itoa(fuelSubTypeID) + "\n"
 						//outputWriter.WriteString(line)
 						outputBuffer.WriteString(line)
-						atomic.AddInt32(&linesWritten,1)
+						linesWritten.Add(1)
 					}
 				} else {
 					line := linePrefix +
-						strconv.FormatFloat(fb.TotalEmissionQuant,'e',-1,64) + "\t" + strconv.FormatFloat(fb.TotalEmissionRate,'e',-1,64) + "\n"
+						strconv.FormatFloat(fb.TotalEmissionQuant, 'e', -1, 64) + "\t" + strconv.FormatFloat(fb.TotalEmissionRate, 'e', -1, 64) + "\n"
 					//outputWriter.WriteString(line)
 					outputBuffer.WriteString(line)
-					atomic.AddInt32(&linesWritten,1)
+					linesWritten.Add(1)
 				}
 				if outputBuffer.Len() >= bufferWriteLimit {
 					outputBuffer.WriteTo(outputWriter)
@@ -946,7 +956,7 @@ func StartActivityWriting(fileName string, blocksToWrite chan *MWOActivityBlock)
 	activityOutputWriter = bufio.NewWriter(activityOutputFile)
 
 	go writeActivityCore(blocksToWrite)
-	fmt.Println("Started writing activity output to: ",fileName)
+	fmt.Println("Started writing activity output to: ", fileName)
 }
 
 // Write pending data to the pollution files and close all access to the pollution output files.
@@ -959,36 +969,36 @@ func FinishActivityWriting() {
 	activityOutputWriter.Flush()
 	activityOutputFile.Close()
 
-	fmt.Printf("Considered %d MWOActivityBlocks for writing.\n",mwoActivityBlocksConsidered)
-	fmt.Printf("Considered %d ActivityFuelBlocks for writing.\n",activityFuelBlocksConsidered)
-	fmt.Printf("Considered %d MWOActivity for writing.\n",activityBlocksConsidered)
-	fmt.Printf("Wrote %d lines to the activity output file.\n",activityLinesWritten)
+	fmt.Printf("Considered %d MWOActivityBlocks for writing.\n", mwoActivityBlocksConsidered)
+	fmt.Printf("Considered %d ActivityFuelBlocks for writing.\n", activityFuelBlocksConsidered)
+	fmt.Printf("Considered %d MWOActivity for writing.\n", activityBlocksConsidered)
+	fmt.Printf("Wrote %d lines to the activity output file.\n", activityLinesWritten)
 }
 
 // Write an activity block to the activity output file.
 // The activity block is recycled when done.
 func writeActivityCore(blocksToWrite chan *MWOActivityBlock) {
 	for {
-		b := <- blocksToWrite
-		atomic.AddInt32(&mwoActivityBlocksConsidered,1)
+		b := <-blocksToWrite
+		mwoActivityBlocksConsidered.Add(1)
 		for _, fb := range b.ActivityFuelBlocks {
-			atomic.AddInt32(&activityFuelBlocksConsidered,1)
-			atomic.AddInt32(&activityBlocksConsidered,int32(len(fb.Activity)))
+			activityFuelBlocksConsidered.Add(1)
+			activityBlocksConsidered.Add(int64(len(fb.Activity)))
 			// Write anything not already written.
 			// Always write data when it needs to be split by fuel subtype. Do this because input
 			// data is by fuel type only, not fuel subtype, so even the fuel subtype split is new
 			// information that should be written.
 			if !fb.HasBeenWritten || fb.TotalsByFuelSubType != nil {
 				/*
-				0,1: MOVESRunID,iterationID,
-				2,3,4,5: yearID,monthID,dayID,hourID,
-				6,7,8,9: stateID,countyID,zoneID,linkID,
-				10,11: sourceTypeID,regClassID,
-				12,13: fuelTypeID,modelYearID,
-				14,15: roadTypeID,SCC,
-				16,17,18: engTechID,sectorID,hpID,
-				19,20: activityTypeID,activity
-				[21: fuelSubTypeID]
+					0,1: MOVESRunID,iterationID,
+					2,3,4,5: yearID,monthID,dayID,hourID,
+					6,7,8,9: stateID,countyID,zoneID,linkID,
+					10,11: sourceTypeID,regClassID,
+					12,13: fuelTypeID,modelYearID,
+					14,15: roadTypeID,SCC,
+					16,17,18: engTechID,sectorID,hpID,
+					19,20: activityTypeID,activity
+					[21: fuelSubTypeID]
 				*/
 				linePrefix := "0\t0\t" +
 					strconv.Itoa(fb.Key.YearID) + "\t" + strconv.Itoa(fb.Key.MonthID) + "\t" + strconv.Itoa(fb.Key.DayID) + "\t" + strconv.Itoa(fb.Key.HourID) + "\t" +
@@ -1000,17 +1010,17 @@ func writeActivityCore(blocksToWrite chan *MWOActivityBlock) {
 				if fb.TotalsByFuelSubType != nil {
 					for fuelSubTypeID, fst := range fb.TotalsByFuelSubType {
 						line := linePrefix +
-							strconv.FormatFloat(fst.TotalActivity,'e',-1,64) + "\t" + strconv.Itoa(fuelSubTypeID) + "\n"
+							strconv.FormatFloat(fst.TotalActivity, 'e', -1, 64) + "\t" + strconv.Itoa(fuelSubTypeID) + "\n"
 						//activityOutputWriter.WriteString(line)
 						activityBuffer.WriteString(line)
-						atomic.AddInt32(&activityLinesWritten,1)
+						activityLinesWritten.Add(1)
 					}
 				} else {
 					line := linePrefix +
-						strconv.FormatFloat(fb.TotalActivity,'e',-1,64) + "\n"
+						strconv.FormatFloat(fb.TotalActivity, 'e', -1, 64) + "\n"
 					//activityOutputWriter.WriteString(line)
 					activityBuffer.WriteString(line)
-					atomic.AddInt32(&activityLinesWritten,1)
+					activityLinesWritten.Add(1)
 				}
 				if activityBuffer.Len() >= bufferWriteLimit {
 					activityBuffer.WriteTo(activityOutputWriter)

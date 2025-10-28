@@ -138,11 +138,34 @@ public class Scale extends JPanel implements ActionListener, RunSpecEditor {
 		scenarioLabel.setName("scenarioLabel");
 
 		scenarioText = new JTextField(40);
+		// limit the field to 40 characters or less
+		scenarioText.setDocument(new javax.swing.text.PlainDocument() {
+			@Override
+			public void insertString(int offs, String str, javax.swing.text.AttributeSet a) throws javax.swing.text.BadLocationException {
+				if(str == null) return;
+				if(getLength() + str.length() <= 40) {
+					super.insertString(offs, str, a);
+				} else {
+					// Only insert up to the limit
+					int available = 40 - getLength();
+					if(available > 0) {
+						super.insertString(offs, str.substring(0, available), a);
+					}
+				}
+			}
+		});
+		// the field should be highlighted in red if we are in rates mode and it is currently empty
 		scenarioText.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent e) {
-            	scenarioRequiredLabel.setVisible(scenarioText.isVisible() && scenarioText.getText().length() == 0);
+				if (scenarioText.isVisible() && scenarioText.getText().length() == 0) {
+					scenarioText.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+				} else {
+					scenarioText.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+				}
+				MOVESNavigation.singleton.updateRunSpecSectionStatus();
             }
         });
+		
 
 		scenarioLabel.setLabelFor(scenarioText);
 		ToolTipHelper.add(scenarioText,
@@ -332,7 +355,7 @@ public class Scale extends JPanel implements ActionListener, RunSpecEditor {
 			panel3.add(scenarioText, new GridBagConstraints(1, 3, 3, 1, 0.0, 0.0,
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				new Insets(0, 0, 0, 0), 0, 0));
-			scenarioRequiredLabel = new JLabel("*Required when Emission Rates is selected*", SwingConstants.CENTER);
+			scenarioRequiredLabel = new JLabel("*Enter a scenario description (40 characters or less)*", SwingConstants.CENTER);
 			panel3.add(scenarioRequiredLabel, new GridBagConstraints(2, 2, 2, 1, 0.0, 0.0,
 					GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 					new Insets(0, 0, 0, 5), 0, 0));
@@ -659,6 +682,7 @@ public class Scale extends JPanel implements ActionListener, RunSpecEditor {
 			MOVESNavigation.singleton.onScaleChange(this,ModelScale.MACROSCALE);
 			loadedScale = ModelScale.MACROSCALE;
 		}
+		scenarioText.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
 	}
 
 	/**
@@ -668,6 +692,14 @@ public class Scale extends JPanel implements ActionListener, RunSpecEditor {
 		if(loadedScale != ModelScale.MESOSCALE_LOOKUP) {
 			MOVESNavigation.singleton.onScaleChange(this,ModelScale.MESOSCALE_LOOKUP);
 			loadedScale = ModelScale.MESOSCALE_LOOKUP;
+		}
+		// which switching between rates and inventory mode, make sure the scenario text field is red and focused if needed
+		scenarioRequiredLabel.setVisible(scenarioText.isVisible());
+		if (scenarioText.isVisible() && scenarioText.getText().length() == 0) {
+			scenarioText.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+			scenarioText.grabFocus();
+		} else {
+			scenarioText.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
 		}
 	}
 

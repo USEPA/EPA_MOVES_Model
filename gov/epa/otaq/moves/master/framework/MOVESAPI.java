@@ -202,7 +202,7 @@ public class MOVESAPI implements MOVESEngineListener, MOVESEngine.CompletedListe
 	public static void setupFlagForMaster() {
 		if(masterSocketCount == 0) {
 			try {
-				masterSocket = new ServerSocket(MASTER_FLAG_PORT);
+				masterSocket = new ServerSocket(MASTER_FLAG_PORT, 0, InetAddress.getLoopbackAddress());
 			} catch(Exception e) {
 				/**
 				 * @explain The MOVES main program uses a TCP/IP socket to signal the fact that
@@ -243,7 +243,7 @@ public class MOVESAPI implements MOVESEngineListener, MOVESEngine.CompletedListe
 	public static boolean hasMasterOnThisComputer() {
 		ServerSocket s = null;
 		try {
-			s = new ServerSocket(MASTER_FLAG_PORT);
+			s = new ServerSocket(MASTER_FLAG_PORT, 0, InetAddress.getLoopbackAddress());
 			// If we got this far, there was no master already running
 			return false;
 		} catch(Exception e) {
@@ -300,6 +300,7 @@ public class MOVESAPI implements MOVESEngineListener, MOVESEngine.CompletedListe
 	**/
 	public void runApplication(String commandLineArgs[]) {
 		try {
+            PowerManagement.INSTANCE.preventSleep();
 			setupFlagForMaster();
 
 			boolean isError = false;
@@ -323,6 +324,7 @@ public class MOVESAPI implements MOVESEngineListener, MOVESEngine.CompletedListe
 			}
 		} finally {
 			shutdownFlagForMaster();
+            PowerManagement.INSTANCE.allowSleep();
 		}
 	}
 

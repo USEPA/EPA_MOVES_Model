@@ -12,7 +12,6 @@ import gov.epa.otaq.moves.common.Logger;
 import gov.epa.otaq.moves.common.LogMessageCategory;
 import gov.epa.otaq.moves.common.PerformanceProfiler;
 import gov.epa.otaq.moves.common.MOVESThread;
-import gov.epa.otaq.moves.worker.framework.WorkerConfiguration;
 import gov.epa.otaq.moves.worker.framework.*;
 import java.net.*;
 import java.util.LinkedList;
@@ -251,7 +250,7 @@ public class WorkerGUI {
 	public static boolean hasWorkerOnThisComputer() {
 		ServerSocket s = null;
 		try {
-			s = new ServerSocket(WORKER_FLAG_PORT);
+			s = new ServerSocket(WORKER_FLAG_PORT, 0, InetAddress.getLoopbackAddress());
 			// If we got this far, there was no worker already running
 			return false;
 		} catch(Exception e) {
@@ -272,7 +271,7 @@ public class WorkerGUI {
 	public static void setupFlagForWorker() {
 		if(workerSocketCount == 0) {
 			try {
-				workerSocket = new ServerSocket(WORKER_FLAG_PORT);
+				workerSocket = new ServerSocket(WORKER_FLAG_PORT, 0, InetAddress.getLoopbackAddress());
 				Logger.log(LogMessageCategory.INFO,"Setting worker flag for " + WorkerConfiguration.theWorkerConfiguration.distributedWorkerId + 
 												   " on port " + WORKER_FLAG_PORT);
 			} catch(Exception e) {

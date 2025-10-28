@@ -289,6 +289,7 @@ public class MOVESEngine implements LogHandler {
 	**/
 	private boolean launchCore(RunSpec runSpec, String runSpecFileName, Integer numberOfDONEFiles)
 			throws InterruptedException, SQLException {
+        PowerManagement.INSTANCE.preventSleep();
 		shouldStopProcessing = false;
 		if(pdEntry == null) {
 			Logger.log(LogMessageCategory.INFO,"***Starting MOVES run***");
@@ -1287,6 +1288,7 @@ public class MOVESEngine implements LogHandler {
 			}
 			Logger.log(LogMessageCategory.INFO,"MOVESEngineCompletionChecker is shutting down");
 			Logger.log(LogMessageCategory.INFO,"***Finished MOVES run***");
+            PowerManagement.INSTANCE.allowSleep();
 			System.out.flush();
 		}
 
