@@ -10,9 +10,12 @@ INSERT IGNORE INTO EngineSize (engSizeID, engSizeName) VALUES (1, "displacement 
 
 
 --OperatingMode
+-- opMode 33: "VSP< 6; 50<=Speed" means VSPLower=NULL, VSPUpper=6, speedLower=50, speedUpper=NULL.
+-- The original values (6, 50, NULL, NULL) had VSPUpper and speedLower swapped, making opMode 33
+-- match "6 <= VSP < 50, any speed" — a broad catch-all that overlaps all narrow VSP modes.
 REPLACE INTO OperatingMode (opModeID, opModeName, VSPLower, VSPUpper, speedLower, 
 	speedUpper, brakeRate1Sec, brakeRate3Sec) VALUES (33, "Cruise/Acceleration; VSP< 6; 50<=Speed", 
-	6, 50, NULL, NULL, NULL, NULL);
+	NULL, 6, 50, NULL, NULL, NULL);
 REPLACE INTO OperatingMode (opModeID, opModeName, VSPLower, VSPUpper, speedLower, 
 	speedUpper, brakeRate1Sec, brakeRate3Sec) VALUES (36, "Cruise/Acceleration; 12 <= VSP; 50<=Speed", 
 	12, NULL, 50, NULL, NULL, NULL);
