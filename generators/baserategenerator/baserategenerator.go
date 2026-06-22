@@ -171,10 +171,8 @@ type operatingMode struct {
 // Operating mode definitions. Only modes > 1 and < 100 are present in this set.
 var operatingModes map[int]*operatingMode
 
-// operatingModeIDsSorted holds the keys of operatingModes in ascending sorted order.
-// Populated once by readOperatingMode() for deterministic first-match iteration.
-// Go map iteration order is randomized per process; ranging over the map directly
-// produces non-deterministic opMode assignments on platforms with strong ASLR (macOS, Linux).
+// operatingModeIDsSorted holds the keys of operatingModes in ascending sorted order,
+// used by assignOpModeID for deterministic first-match iteration.
 var operatingModeIDsSorted []int
 
 // Create global variables
@@ -1718,7 +1716,6 @@ func readOperatingMode(db *sql.DB) {
 	}
 	fmt.Println("Done reading OperatingMode. Row Count=", rowCount)
 
-	// Build sorted ID slice for deterministic first-match iteration in assignOpModeID.
 	operatingModeIDsSorted = make([]int, 0, len(operatingModes))
 	for id := range operatingModes {
 		operatingModeIDsSorted = append(operatingModeIDsSorted, id)
@@ -1867,12 +1864,8 @@ func findDriveCycles(db *sql.DB,
 	}
 }
 
-// assignOpModeID returns the first-matching opModeID for the given VSP and speed by
-// iterating operatingModeIDsSorted in ascending order. Returns -1 if no mode matches.
-// Using a pre-sorted slice (rather than ranging over the operatingModes map directly)
-// ensures deterministic first-match results on all platforms. Go randomizes map iteration
-// order per process startup; on macOS and Linux with aggressive ASLR this causes different
-// opMode assignments — and therefore different emission rates — on every run.
+// assignOpModeID returns the first-matching opModeID for the given VSP and speed.
+// Returns -1 if no mode matches.
 func assignOpModeID(vsp, speed float64) int {
 	for _, opModeID := range operatingModeIDsSorted {
 		d := operatingModes[opModeID]
