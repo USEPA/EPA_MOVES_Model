@@ -12,6 +12,7 @@ import (
 	"math"
 	"os"
 	"path/filepath"
+	"sort"
 	"strconv"
 	"sync"
 
@@ -167,8 +168,14 @@ type operatingMode struct {
 	isnullVSPLower, isnullVSPUpper, isnullSpeedLower, isnullSpeedUpper bool
 }
 
-// Operating mode defintions. Only modes > 1 and < 100 are present in this set.
+// Operating mode definitions. Only modes > 1 and < 100 are present in this set.
 var operatingModes map[int]*operatingMode
+
+// operatingModeIDsSorted holds the keys of operatingModes in ascending sorted order.
+// Populated once by readOperatingMode() for deterministic first-match iteration.
+// Go map iteration order is randomized per process; ranging over the map directly
+// produces non-deterministic opMode assignments on platforms with strong ASLR (macOS, Linux).
+var operatingModeIDsSorted []int
 
 // Create global variables
 func init() {
@@ -1710,6 +1717,13 @@ func readOperatingMode(db *sql.DB) {
 		operatingModes[k] = d
 	}
 	fmt.Println("Done reading OperatingMode. Row Count=", rowCount)
+
+	// Build sorted ID slice for deterministic first-match iteration in assignOpModeID.
+	operatingModeIDsSorted = make([]int, 0, len(operatingModes))
+	for id := range operatingModes {
+		operatingModeIDsSorted = append(operatingModeIDsSorted, id)
+	}
+	sort.Ints(operatingModeIDsSorted)
 }
 
 // Unique key for a bracketed speedbin
@@ -1853,6 +1867,32 @@ func findDriveCycles(db *sql.DB,
 	}
 }
 
+// assignOpModeID returns the first-matching opModeID for the given VSP and speed by
+// iterating operatingModeIDsSorted in ascending order. Returns -1 if no mode matches.
+// Using a pre-sorted slice (rather than ranging over the operatingModes map directly)
+// ensures deterministic first-match results on all platforms. Go randomizes map iteration
+// order per process startup; on macOS and Linux with aggressive ASLR this causes different
+// opMode assignments — and therefore different emission rates — on every run.
+func assignOpModeID(vsp, speed float64) int {
+	for _, opModeID := range operatingModeIDsSorted {
+		d := operatingModes[opModeID]
+		if !d.isnullVSPLower && !(vsp >= d.VSPLower) {
+			continue
+		}
+		if !d.isnullVSPUpper && !(vsp < d.VSPUpper) {
+			continue
+		}
+		if !d.isnullSpeedLower && !(speed >= d.speedLower) {
+			continue
+		}
+		if !d.isnullSpeedUpper && !(speed < d.speedUpper) {
+			continue
+		}
+		return opModeID
+	}
+	return -1
+}
+
 // Calculate the operating mode distribution for a drive cycle given the physics factors to be used.
 // Operating mode 501 is a special case for zero speed seconds. When used for pollutant/process
 // 11609, it should stay operating mode 501. When used for any other pollutant/process,
@@ -1986,30 +2026,13 @@ func calculateDriveCycleOpModeDistribution(db *sql.DB, pDetail *SourceUseTypePhy
 			 * @output opModeID
 			 * @condition 1 < opModeID < 100, opModeID not previously assigned
 			**/
-			if !now.hasOpMode {
-				for opModeID, d := range operatingModes {
-					if !d.isnullVSPLower && !(now.vsp >= d.VSPLower) {
-						// If VSPLower matters and now's VSP doesn't fit, try another operating mode.
-						continue
+				if !now.hasOpMode {
+					id := assignOpModeID(now.vsp, now.speed)
+					if id >= 0 {
+						now.hasOpMode = true
+						now.opModeID = id
 					}
-					if !d.isnullVSPUpper && !(now.vsp < d.VSPUpper) {
-						// If VSPUpper matters and now's VSP doesn't fit, try another operating mode.
-						continue
-					}
-					if !d.isnullSpeedLower && !(now.speed >= d.speedLower) {
-						// If speedLower matters and now's speed doesn't fit, try another operating mode.
-						continue
-					}
-					if !d.isnullSpeedUpper && !(now.speed < d.speedUpper) {
-						// If speedUpper matters and now's speed doesn't fit, try another operating mode.
-						continue
-					}
-					// Everything that matters matches now's information, so use the operating mode.
-					now.hasOpMode = true
-					now.opModeID = opModeID
-					break // Dont' try another operating mode
 				}
-			}
 		}
 		if now != nil && now.hasOpMode && second > 0 { // ">0" clause added to mimic quirk of Java code
 			opModeTotals[now.opModeID] = 1 + opModeTotals[now.opModeID]

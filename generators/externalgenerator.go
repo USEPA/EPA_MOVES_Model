@@ -23,6 +23,14 @@ import (
 // main arranges for command line arguments, the reading of supporting data to memory, creates
 // all channels and threads, and terminates the application when all operations have completed.
 func main() {
+	// Force single OS thread to make goroutine scheduling deterministic across platforms.
+	// Generator.java hardcodes GOMAXPROCS=4 in the child process environment. The 16
+	// concurrent SQL writer goroutines (StartWriting(16,...)) can race to win INSERT IGNORE
+	// for duplicate primary keys, and the winner varies by run on platforms with strong ASLR
+	// (macOS, Linux). GOMAXPROCS=1 causes goroutines to yield only at channel ops and
+	// syscalls, eliminating the scheduling race without affecting throughput.
+	runtime.GOMAXPROCS(1)
+
 	start := time.Now()
 	var memory runtime.MemStats
 	var maxMemory uint64
