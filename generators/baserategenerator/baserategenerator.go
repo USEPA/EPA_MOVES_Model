@@ -2019,13 +2019,13 @@ func calculateDriveCycleOpModeDistribution(db *sql.DB, pDetail *SourceUseTypePhy
 			 * @output opModeID
 			 * @condition 1 < opModeID < 100, opModeID not previously assigned
 			**/
-				if !now.hasOpMode {
-					id := assignOpModeID(now.vsp, now.speed)
-					if id >= 0 {
-						now.hasOpMode = true
-						now.opModeID = id
-					}
+			if !now.hasOpMode {
+				id := assignOpModeID(now.vsp, now.speed)
+				if id >= 0 {
+					now.hasOpMode = true
+					now.opModeID = id
 				}
+			}
 		}
 		if now != nil && now.hasOpMode && second > 0 { // ">0" clause added to mimic quirk of Java code
 			opModeTotals[now.opModeID] = 1 + opModeTotals[now.opModeID]
