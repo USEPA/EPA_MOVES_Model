@@ -23,8 +23,6 @@ import (
 // main arranges for command line arguments, the reading of supporting data to memory, creates
 // all channels and threads, and terminates the application when all operations have completed.
 func main() {
-	runtime.GOMAXPROCS(1)
-
 	start := time.Now()
 	var memory runtime.MemStats
 	var maxMemory uint64
