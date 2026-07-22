@@ -12,6 +12,7 @@ import (
 	"math"
 	"os"
 	"path/filepath"
+	"sort"
 	"strconv"
 	"sync"
 
@@ -2035,6 +2036,35 @@ func calculateDriveCycleOpModeDistribution(db *sql.DB, pDetail *SourceUseTypePhy
 	}
 }
 
+// combineDriveScheduleOpModeFractions adds the drive-schedule-weighted operating
+// mode fractions into dest. For each driveScheduleID present in scheduleFractions,
+// opModeFractions(driveScheduleID) supplies that schedule's per-opMode fractions,
+// each weighted by the schedule's fraction and summed into dest.
+//
+// The driveScheduleIDs are visited in ascending order so the floating-point
+// accumulation into dest[opModeID] is performed in a fixed, reproducible order.
+// Summing in Go's randomized map-iteration order would instead make the result
+// vary by roughly one unit in the last place from run to run, since
+// floating-point addition is not associative.
+func combineDriveScheduleOpModeFractions(dest, scheduleFractions map[int]float64,
+	opModeFractions func(driveScheduleID int) map[int]float64) {
+	driveScheduleIDs := make([]int, 0, len(scheduleFractions))
+	for driveScheduleID := range scheduleFractions {
+		driveScheduleIDs = append(driveScheduleIDs, driveScheduleID)
+	}
+	sort.Ints(driveScheduleIDs)
+	for _, driveScheduleID := range driveScheduleIDs {
+		driveScheduleFraction := scheduleFractions[driveScheduleID]
+		src := opModeFractions(driveScheduleID)
+		if src == nil {
+			continue
+		}
+		for opModeID, opModeFraction := range src {
+			dest[opModeID] = dest[opModeID] + driveScheduleFraction*opModeFraction
+		}
+	}
+}
+
 // Make operating mode distributions for drive cycles
 func processDriveCycles(romdForBaseRateQueue, romdForBaseRateByAgeQueue chan *romdBlock, sqlToWrite chan string) {
 	fmt.Println("processDriveCycles...")
@@ -2080,27 +2110,46 @@ func processDriveCycles(romdForBaseRateQueue, romdForBaseRateByAgeQueue chan *ro
 		}
 	}
 
-	// Combine the drive cycle operating mode distributions.
+	// Combine the drive cycle operating mode distributions. The accumulation is
+	// delegated to combineDriveScheduleOpModeFractions, which sums over
+	// driveScheduleID in ascending order so the floating-point result is
+	// identical across runs and platforms. Ranging over the scheduleFractions
+	// map directly would sum the terms in Go's randomized map-iteration order,
+	// making the result vary by roughly one ULP per run.
 	for dcbKey, dcbDetail := range driveCycleBracketedBins {
-		for driveScheduleID, driveScheduleFraction := range dcbDetail.scheduleFractions {
-			dsoKey := DriveScheduleOpModeDistributionKey{dcbKey.pDetail, driveScheduleID}
-			dsoDetail := driveScheduleOpModeDistributions[dsoKey]
-			if dsoDetail == nil {
-				continue
-			}
-			for opModeID, opModeFraction := range dsoDetail.opModeFractions {
-				dcbDetail.opModeFractions[opModeID] = dcbDetail.opModeFractions[opModeID] + driveScheduleFraction*opModeFraction
-			}
-		}
+		pDetail := dcbKey.pDetail
+		combineDriveScheduleOpModeFractions(dcbDetail.opModeFractions, dcbDetail.scheduleFractions,
+			func(driveScheduleID int) map[int]float64 {
+				dsoDetail := driveScheduleOpModeDistributions[DriveScheduleOpModeDistributionKey{pDetail, driveScheduleID}]
+				if dsoDetail == nil {
+					return nil
+				}
+				return dsoDetail.opModeFractions
+			})
 	}
 
 	opModesToIterate := make([]int, 0, 100)
 	opModesToIterate = append(opModesToIterate, 0)
 	opModesToIterate = append(opModesToIterate, 1)
 	opModesToIterate = append(opModesToIterate, 501)
-	for opModeID, _ := range operatingModes {
+	for opModeID := range operatingModes {
 		opModesToIterate = append(opModesToIterate, opModeID)
 	}
+	// Sort so the drivingIdleFraction accumulation below sums its terms in a
+	// fixed order across runs. opModeIDs 0, 1, and 501 are always present and
+	// operatingModes holds only 1 < id < 100, so no duplicates are introduced.
+	// Downstream enumeration requires only that opModeID form the outer grouping
+	// level, which any total order (including ascending) satisfies.
+	sort.Ints(opModesToIterate)
+
+	// avgSpeedBin keys in ascending order, used below so the drivingIdleFraction
+	// accumulation and the RatesOpModeDistribution enumeration iterate speed bins
+	// deterministically rather than in randomized map order.
+	avgSpeedBinIDsSorted := make([]int, 0, len(avgSpeedBin))
+	for avgSpeedBinID := range avgSpeedBin {
+		avgSpeedBinIDsSorted = append(avgSpeedBinIDsSorted, avgSpeedBinID)
+	}
+	sort.Ints(avgSpeedBinIDsSorted)
 
 	// Speedup access to bracketed bins
 	type dcbFastKey struct {
@@ -2117,6 +2166,16 @@ func processDriveCycles(romdForBaseRateQueue, romdForBaseRateByAgeQueue chan *ro
 		dk = dcbKey
 		v = append(v, &dk)
 		driveCycleBracketedBinsFast[k] = v
+	}
+	// Sort each bucket so the drivingIdleFraction accumulation that ranges over
+	// these slices sums its terms in a fixed order. Within a bucket roadTypeID
+	// and avgSpeedBinID are constant, so ordering by the physics detail's unique
+	// TempSourceTypeID gives a stable total order. The slices are otherwise built
+	// in randomized map-iteration order.
+	for _, v := range driveCycleBracketedBinsFast {
+		sort.Slice(v, func(i, j int) bool {
+			return v[i].pDetail.TempSourceTypeID < v[j].pDetail.TempSourceTypeID
+		})
 	}
 
 	// Store the idle fractions, needed for off-network idling (ONI).
@@ -2141,7 +2200,7 @@ func processDriveCycles(romdForBaseRateQueue, romdForBaseRateByAgeQueue chan *ro
 				idlingFraction := 0.0
 				notIdlingFraction := 0.0
 				for _, opModeID := range opModesToIterate {
-					for avgSpeedBinID, _ := range avgSpeedBin {
+					for _, avgSpeedBinID := range avgSpeedBinIDsSorted {
 						avgSpeedKey.sourceTypeID = sourceTypeID
 						avgSpeedKey.roadTypeID = roadTypeID
 						avgSpeedKey.hourDayID = hourDayID
@@ -2272,7 +2331,7 @@ func processDriveCycles(romdForBaseRateQueue, romdForBaseRateByAgeQueue chan *ro
 						if polProcessID != 11609 && opModeID == 501 {
 							continue
 						}
-						for avgSpeedBinID, _ := range avgSpeedBin {
+						for _, avgSpeedBinID := range avgSpeedBinIDsSorted {
 							avgSpeedKey.sourceTypeID = sourceTypeID // dcbKey.pDetail.RealSourceTypeID
 							avgSpeedKey.roadTypeID = roadTypeID     // dcbKey.roadTypeID
 							avgSpeedKey.hourDayID = hourDayID
