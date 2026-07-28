@@ -20,7 +20,6 @@ import java.io.*;
 import java.util.*;
 import gov.epa.otaq.moves.common.*;
 import gov.epa.otaq.moves.master.framework.*;
-import gov.epa.otaq.moves.master.runspec.*;
 
 /**
  * Select and execute a database conversion script given the current default
@@ -29,18 +28,19 @@ import gov.epa.otaq.moves.master.runspec.*;
  * @author  	Bill Shaw (508 compliance mods)
  * @author  	John Covey (Task 1903)
  * @author		Mike Kender (Task 2003)
- * @version 	2022-11-16
+ * @author		Daniel Bizer-Cox
+ * @version 	2026-03-31
 **/
 public class Converter extends JDialog implements ActionListener {
-	/** Mode for conversion of a MOVES3 CDM/PDM database into a MOVES5 database **/
-	public static final int MODE_3_TO_5 = 1;
-	/** Mode for conversion of a MOVES4 CDM/PDM database into a MOVES5 database **/
-	public static final int MODE_4_TO_5 = 2;
+	/** Mode for conversion of a MOVES4 CDM/PDM database into a MOVES6 database **/
+	public static final int MODE_4_TO_6 = 1;
+	/** Mode for conversion of a MOVES5 CDM/PDM database into a MOVES6 database **/
+	public static final int MODE_5_TO_6 = 2;
 
 	/** The parent JFrame which invokes this dialog. **/
 	JFrame frame;
 	/** Default conversion mode **/
-	int mode = MODE_4_TO_5;
+	int mode = MODE_5_TO_6;
 
 	/** Instructions display **/
 	JTextPane instructionsTextPane;
@@ -212,18 +212,18 @@ public class Converter extends JDialog implements ActionListener {
 			//---- instructionsTextPane ----
             String movesVersion = "";
 			switch(mode) {
-				case MODE_3_TO_5:
-                    movesVersion = "MOVES3";
-					break;
-                case MODE_4_TO_5:
+				case MODE_4_TO_6:
                     movesVersion = "MOVES4";
+					break;
+                case MODE_5_TO_6:
+                    movesVersion = "MOVES5";
                     break;
 				default:
                     movesVersion = "MOVES";
 			}
             doc.insertString(doc.getLength(),
                 "This tool converts " + movesVersion + " input databases for County, Project,"
-                + " and Nonroad runs into the MOVES5 format. "
+                + " and Nonroad runs into the MOVES6 format. "
                 + "\r\n\r\n"
                 + "Use the default conversion script listed below unless you have a customized"
                 + " conversion script to use instead. In this advanced use case, use the \"Browse\""
@@ -243,7 +243,7 @@ public class Converter extends JDialog implements ActionListener {
             normal);
             doc.insertString(doc.getLength(),
                 "Note that additional work is needed before using the converted input databases"
-                + " with MOVES5. Click the \"Open Help\" button for more information.",
+                + " with MOVES6. Click the \"Open Help\" button for more information.",
                 bold);
 			instructionsTextPane.setEditable(false);
 			instructionsTextPane.setBackground(UIManager.getColor("Panel.background"));
@@ -428,17 +428,16 @@ public class Converter extends JDialog implements ActionListener {
 		try {
 			File file = null;
 			switch(mode) {
-				case MODE_3_TO_5:
-					file = new File("database/ConversionScripts/Convert_MOVES3_input_to_MOVES5.sql");
+				case MODE_4_TO_6:
+					file = new File("database/ConversionScripts/Convert_MOVES4_input_to_MOVES6.sql");
 					break;
-                case MODE_4_TO_5:
-                    file = new File("database/ConversionScripts/Convert_MOVES4_input_to_MOVES5.sql");
+                case MODE_5_TO_6:
+                    file = new File("database/ConversionScripts/Convert_MOVES5_input_to_MOVES6.sql");
                     break;
 			}
 			if(file == null || !file.exists()) {
 				return;
 			}
-			String filePath = file.getCanonicalPath();
 			controlFileText.setText(""); // clear this in case something goes wrong and we
 										 // cannot load the data
 			controlFileFullPath = "";
@@ -645,26 +644,6 @@ public class Converter extends JDialog implements ActionListener {
 			messageListModel.addElement(m);
 		}
         saveMessagesButton.setEnabled(messageListModel.size() > 0);
-	}
-
-	/**
-	 * Add a database name to a combobox but only if it isn't already in the the lists.
-	 * @param newDatabaseName name of the database to attempt to place into the database combo box.
-	 * @param combobox a listing of database names on screen
-	 * @return the object either added to or already in the list.  This will be the object
-	 * the should be selected.
-	**/
-	private String addIfNotInComboBox(String newDatabaseName, ExtendedComboBox<String> combobox) {
-		newDatabaseName = newDatabaseName.trim();
-		ComboBoxModel model = combobox.getModel();
-		for(int i = 0; i < model.getSize(); i++) {
-			String t = (String)model.getElementAt(i);
-			if(t.equalsIgnoreCase(newDatabaseName)) {
-				return t;
-			}
-		}
-		combobox.addItem(newDatabaseName);
-		return newDatabaseName;
 	}
 
 	/**

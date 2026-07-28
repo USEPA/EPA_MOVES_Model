@@ -6,19 +6,19 @@ This readme contains a table of contents of MOVES help files, notes, and code do
 * [Quick Start Guide To Accessing MariaDB Data](QuickStartGuideToAccessingMariaDBData.pdf): Tips for users who are transitioning from MySQL and MySQL Workbench to MariaDB and HeidiSQL
 * [Command Line MOVES](CommandLineMOVES.md): A brief guide on how to run MOVES from the command line
 * [Tips for Faster MOVES Runs](TipsForFasterMOVESRuns.pdf): Suggestions for how to structure MOVES runs to be as efficient as possible
-* [Apportioning EV Output](ApportioningEVOutput.md): Explains how to apportion MOVES EV energy consumption, activity, and emissions between battery and fuel cell electric vehicles
+* [Apportioning ZEV Output](ApportioningZEVOutput.md): Explains how to apportion MOVES ZEV energy consumption, activity, and emissions between battery and fuel cell electric vehicles
 
 ## MOVES Cheat Sheets:
 
 These PDF cheat sheets summarize common tables and values used to create MOVES runs and interpret their outputs. 
 
-* [Onroad Cheat Sheet](MOVES5CheatsheetOnroad.pdf)
-* [Nonroad Cheat Sheet](MOVES5CheatsheetNonroad.pdf)
+* [Onroad Cheat Sheet](MOVES6CheatsheetOnroad.pdf)
+* [Nonroad Cheat Sheet](MOVES6CheatsheetNonroad.pdf)
 * [SQL Tip Sheet](SQLTipSheet.pdf): Cheat sheet for SQL syntax
 
 ## Help for MOVES Tools:
 
-* [Converting MOVES4 input databases to MOVES5](../database/ConversionScripts/InputDatabaseConversionHelp.pdf): Information on steps needed to convert MOVES4 input databases to the MOVES5 format (as well as converting MOVES3 input databases to MOVES5)
+* [Converting input databases to MOVES6](../database/ConversionScripts/InputDatabaseConversionHelp.pdf): Information on steps needed to convert MOVES4 input databases to the MOVES6 format, as well as converting MOVES5 input databases to MOVES6
 * [AVFT Tool](../gov/epa/otaq/moves/master/gui/avfttool/AVFTToolHelp.pdf): Instructions on how to use the AVFT Tool for building the AVFT input table
 * [Building LEV and NLEV input databases](../database/LEV_NLEVScripts/InstructionsForLEV_NLEV_Tool.pdf): Instructions on how to use the LEV/NLEV Tool in the MOVES GUI
 * [National Emissions Inventory Submissions QA Tool](NEIQAInstructions.md): Instructions and documentation for the NEI Submissions QA Tool
@@ -31,7 +31,7 @@ These PDF cheat sheets summarize common tables and values used to create MOVES r
 
 * [MOVES Database Glossary](MOVESGlossary.md): Glossary of the column names used in the MOVES default database
 * [MOVES Database Tables](MOVESDatabaseTables.md): Schema descriptions for each table in the MOVES default database
-* [MOVES Input/Output Database Changes](InputOutputDBchanges.md): Description of the schema changes to MOVES County Scale and Project Scale input databases, as well as MOVES output databases
+* [MOVES Input/Output Database Changes](InputOutputDBChanges.md): Description of the schema changes to MOVES County Scale and Project Scale input databases, as well as MOVES output databases
 * [Anatomy of a RunSpec](AnatomyOfARunspec.md): An overview of all of the fields contained in a MOVES RunSpec
 * [MOVES Code: Folder by Folder](FolderByFolder.md): Descriptions of the contents within the folders in the MOVES source code directory
 * [Debugging MOVES](DebuggingMOVES.md): Tips for troubleshooting and debugging unexpected behavior in MOVES runs

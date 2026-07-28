@@ -104,10 +104,10 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 	BuildLEVAction buildLEVAction;
 	/** Build NLEV Database Action **/
 	BuildNLEVAction buildNLEVAction;
-	/** Convert 3->5 Database Action **/
-	Convert3To5Action convert3To5Action;
-	/** Convert 4->5 Database Action **/
-	Convert4To5Action convert4To5Action;
+	/** Convert 4->6 Database Action **/
+	Convert4To6Action convert4To6Action;
+	/** Convert 5->6 Database Action **/
+	Convert5To6Action convert5To6Action;
 	/** AVFT Tool Action **/
 	AVFTToolAction avftToolAction;
 	/** Run ONI Tool Action **/
@@ -224,7 +224,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 	/** Name of output file that performance profiles are written to **/
 	static final String PERFORMANCE_PROFILER_FILE_NAME = "guiprofile.txt";
 	/** Date of the Current Release **/
-	public static final String MOVES_VERSION = "MOVES5.0.1";
+	public static final String MOVES_VERSION = "MOVES6.0.0-ReleaseCandidate3";
 	/** directory where output db processing scripts are located **/
 	static final String DB_SCRIPTS_DIR = "database" + File.separator + "OutputProcessingScripts";
 	static final String DB_NONROAD_SCRIPTS_DIR = "database" + File.separator + "NonroadProcessingScripts";
@@ -323,7 +323,16 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 			if(MOVESEngine.theInstance.pdEntry == null) {
 				JOptionPane.showMessageDialog(this,
 						"Run has ended. Output database was: " +
-						MOVESAPI.getTheAPI().getRunSpec().outputDatabase.databaseName,
+						MOVESAPI.getTheAPI().getRunSpec().outputDatabase.databaseName +
+						"\n\nThe MOVES6 Release Candidate is made available for testing purposes " + 
+						"\nto allow modelers to become familiar with changes between MOVES5 and " +
+						"\nMOVES6 before MOVES6 is officially released.  Results from the " + 
+						"\nrelease candidate version may not be used in work for state " +
+						"\nimplementation plans, conformity determinations, or for any other " + 
+						"\nregulatory purpose. " +
+						"\n\nResults from the official MOVES6 may differ from the results of this " +
+						"\nrelease candidate.  Until the official version of MOVES6 is available, " +
+						"\nMOVES5 is the latest version of MOVES for regulatory purposes. ",
 						"Run Completion",JOptionPane.INFORMATION_MESSAGE);
 			} else {
 				JOptionPane.showMessageDialog(this,
@@ -505,10 +514,10 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		buildLEVAction.addActionListener(this);
 		buildNLEVAction = new BuildNLEVAction();
 		buildNLEVAction.addActionListener(this);
-		convert3To5Action = new Convert3To5Action();
-		convert3To5Action.addActionListener(this);
-		convert4To5Action = new Convert4To5Action();
-		convert4To5Action.addActionListener(this);
+		convert4To6Action = new Convert4To6Action();
+		convert4To6Action.addActionListener(this);
+		convert5To6Action = new Convert5To6Action();
+		convert5To6Action.addActionListener(this);
 		avftToolAction = new AVFTToolAction();
 		avftToolAction.addActionListener(this);
 		oniToolAction = new ONIToolAction();
@@ -662,9 +671,9 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 		menuItem = toolsMenu.add(pdSpecGUIAction);
 		menuItem.addMouseListener(mouseHandler);
 		toolsMenu.addSeparator();
-		menuItem = toolsMenu.add(convert3To5Action);
+		menuItem = toolsMenu.add(convert4To6Action);
 		menuItem.addMouseListener(mouseHandler);
-		menuItem = toolsMenu.add(convert4To5Action);
+		menuItem = toolsMenu.add(convert5To6Action);
 		menuItem.addMouseListener(mouseHandler);
 		menuItem = toolsMenu.add(avftToolAction);
 		menuItem.addMouseListener(mouseHandler);
@@ -784,10 +793,10 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 			handleBuilderAction(BuildLEVNLEV.LEV_MODE);
 		} else if (command.equals(buildNLEVAction.getActionCommand())) {
 			handleBuilderAction(BuildLEVNLEV.NLEV_MODE);
-		} else if (command.equals(convert3To5Action.getActionCommand())) {
-			handleConverterAction(Converter.MODE_3_TO_5);
-		} else if (command.equals(convert4To5Action.getActionCommand())) {
-			handleConverterAction(Converter.MODE_4_TO_5);
+		} else if (command.equals(convert4To6Action.getActionCommand())) {
+			handleConverterAction(Converter.MODE_4_TO_6);
+		} else if (command.equals(convert5To6Action.getActionCommand())) {
+			handleConverterAction(Converter.MODE_5_TO_6);
 		} else if (command.equals(avftToolAction.getActionCommand())) {
 			handleAVFTAction();
 		} else if (command.equals(oniToolAction.getActionCommand())) {
@@ -1553,7 +1562,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 	/** Handles the Open Onroad CheatSheet menu action. **/
 	void handleOpenOnroadCheatSheetAction() {
 		try {
-			File file = new File("docs/MOVES5CheatsheetOnroad.pdf");
+			File file = new File("docs/MOVES6CheatsheetOnroad.pdf");
 			if(!file.exists()) {
 				Logger.log(LogMessageCategory.ERROR, "Could not find the onroad cheatsheet file at: " + file.getAbsolutePath());
 				return;
@@ -1570,7 +1579,7 @@ public class MOVESWindow extends JFrame implements ActionListener, LogHandler,
 	/** Handles the Open Website menu action. **/
 	void handleOpenNonroadCheatSheetAction() {
 		try {
-			File file = new File("docs/MOVES5CheatsheetNonroad.pdf");
+			File file = new File("docs/MOVES6CheatsheetNonroad.pdf");
 			if(!file.exists()) {
 				Logger.log(LogMessageCategory.ERROR, "Could not find the nonroad cheatsheet file at: " + file.getAbsolutePath());
 				return;

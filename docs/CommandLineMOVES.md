@@ -6,17 +6,16 @@ While the easiest way to interact with MOVES is via its graphical user interface
 
 ## Set up the command environment
 
-The first step to running MOVES from the command line is to set up the shell environment to point to all of the resources it needs to run MOVES. Open the Windows command prompt and navigate to the MOVES directory. By default, the path is `C:\Users\Public\EPA\MOVES\MOVES5`. The command to change directories is `cd`:
+The first step to running MOVES from the command line is to set up the shell environment to point to all of the resources it needs to run MOVES. Open the Windows command prompt and navigate to the MOVES directory. By default, the path is `C:\Users\Public\EPA\MOVES\MOVES6.0`. The command to change directories is `cd`:
 
 ```cmd
-C:\> cd C:\Users\Public\EPA\MOVES\MOVES5
-
+C:\> cd C:\Users\Public\EPA\MOVES\MOVES6.0
 ```
 
 Then, enter the name `setenv` to run the setenv.bat script, which will set up your environment for you:
 
 ```cmd
-C:\Users\Public\EPA\MOVES\MOVES5> setenv
+C:\Users\Public\EPA\MOVES\MOVES6.0> setenv
 ```
 
 This will execute the setenv.bat script without displaying anything to the command window. The script tells the Windows command shell where to find the Java Runtime Environment (JRE) bundled with MOVES and where to find the Ant utility.
@@ -84,7 +83,7 @@ Below is a sample MOVES batch script for running multiple RunSpecs sequentially.
 set RunSpecDir=%CD%
 
 :: Set MOVES install location
-set MOVESDir=C:\Users\Public\EPA\MOVES\MOVES5
+set MOVESDir=C:\Users\Public\EPA\MOVES\MOVES6.0
 
 :: Set up MOVES environment
 cd /d %MOVESDir%
@@ -112,7 +111,7 @@ The example script below is like the previous script, except that this script al
 set RunSpecDir=%CD%
 
 :: Set MOVES install location
-set MOVESDir=C:\Users\Public\EPA\MOVES\MOVES5
+set MOVESDir=C:\Users\Public\EPA\MOVES\MOVES6.0
 
 :: Set up MOVES environment
 cd /d %MOVESDir%
@@ -158,12 +157,12 @@ ant dbimporter -Dimport="c:\mydbimporter.xml"
 
 MOVES includes an Ant command to convert input databases from previous versions of MOVES to the current version, which can save time if you need to do this for many databases. Please see the help file at [database\ConversionScripts\InputDatabaseConversionHelp.pdf](../database/ConversionScripts/InputDatabaseConversionHelp.pdf) for more information on the uses and limitations of this feature. Note that more work is needed after running this command before the converted database can be used with MOVES.
 
-The following command can be used to convert a MOVES4 input database to the MOVES5 format:
+The following command can be used to convert a MOVES4 input database to the MOVES6 format:
 ```cmd
-ant convert4_db_to_5 -Dinput=m4_in -Doutput=m5_in
+ant convert4_db_to_6 -Dinput=m4_in -Doutput=m6_in
 ```
 
-`-Dinput` is used to specify the old input database name, and `-Doutput` is used to specify the name for the new, converted database. `convert4_db_to_5` tells Ant to use the conversion scripts for going from MOVES4 to MOVES5.
+`-Dinput` is used to specify the old input database name, and `-Doutput` is used to specify the name for the new, converted database. `convert4_db_to_6` tells Ant to use the conversion scripts for going from MOVES4 to MOVES6.
 
 ## Compiling MOVES
 

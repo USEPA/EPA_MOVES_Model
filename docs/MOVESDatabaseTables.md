@@ -2688,9 +2688,9 @@ sourceUseTypePhysics contains the road load coefficients for every source type t
 | regClassID       | smallint(6) | NO   | PRI |         |                                                |
 | beginModelYearID | smallint(6) | NO   | PRI |         |                                                |
 | endModelYearID   | smallint(6) | NO   | PRI |         |                                                |
-| rollingTermA     | float       | YES  |     |         | kW/(m/s)                                       |
-| rotatingTermB    | float       | YES  |     |         | kW/(m/s)^2                                     |
-| dragTermC        | float       | YES  |     |         | kW/(m/s)^3                                     |
+| rollingTermA     | float       | YES  |     |         | kW/(m/s), equal to a kN                        |
+| rotatingTermB    | float       | YES  |     |         | kW/(m/s)^2, equal to a kN/(m/s)                |
+| dragTermC        | float       | YES  |     |         | kW/(m/s)^3, equal to a kN/(m/s)^2              |
 | sourceMass       | float       | YES  |     |         | metric tons                                    |
 | fixedMassFactor  | float       | YES  |     |         | unitless, but can be thought of as metric tons |
 

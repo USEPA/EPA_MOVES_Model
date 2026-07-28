@@ -30,7 +30,7 @@ public class AboutAction extends JLFAbstractAction {
 	/** Constant short description text. **/
 	static final String SHORT_DESCRIPTION_ABOUT = "About MOVES";
 	/** Constant long description text. **/
-	static final String LONG_DESCRIPTION_ABOUT = "MOVES5";
+	static final String LONG_DESCRIPTION_ABOUT = "MOVES6";
 	/** Constant mnemonic key. **/
 	static final int MNEMONIC_KEY_ABOUT = 'A';
 

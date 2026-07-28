@@ -1,3 +1,14 @@
+The MOVES6 Release Candidate is made available for testing purposes
+to allow modelers to become familiar with changes between MOVES5 and
+MOVES6 before MOVES6 is officially released.  Results from the
+release candidate version may not be used in work for state
+implementation plans, conformity determinations, or for any other
+regulatory purpose.
+
+Results from the official MOVES6 may differ from the results of this
+release candidate.  Until the official version of MOVES6 is available,
+MOVES5 is the latest version of MOVES for regulatory purposes.
+
 Copyright U.S. Environmental Protection Agency
 Licensed for use pursuant to the GNU General Public License (GPL)
 For information about the GPL see http://www.gnu.org/licenses/gpl.html

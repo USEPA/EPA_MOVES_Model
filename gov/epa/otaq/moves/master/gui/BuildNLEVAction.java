@@ -20,10 +20,10 @@ public class BuildNLEVAction extends JLFAbstractAction {
 			"Build NLEV Input Database";
 	/** Constant short description text. **/
 	static final String SHORT_DESCRIPTION =
-			"Start the Database Builder GUI";
+			"Build NLEV Input Database";
 	/** Constant long description text. **/
 	static final String LONG_DESCRIPTION =
-			"Use scripts to build NLEV input database";
+			"Build NLEV Input Database";
 	/** Constant mnemonic key. **/
 	static final int MNEMONIC_KEY = 'N';
 

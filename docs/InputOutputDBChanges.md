@@ -1,6 +1,8 @@
 # MOVES Input/Output Database Schema Changes
 
-This document outlines changes between MOVES4 and MOVES5 that have been made to input and output databases. All tables mentioned are further documented in the [MOVES Database Documentation](MOVESDatabaseTables.md) and specific columns are defined in the [MOVES Database Glossary](MOVESGlossary.md). More information on how to build valid input databases can be found in the [Technical Guidance](https://www.epa.gov/state-and-local-transportation/policy-and-technical-guidance-state-and-local-transportation#emission) for state and local users. 
+This document outlines changes between MOVES4 and MOVES5 that have been made to input and output databases. All tables mentioned are further documented in the [MOVES Database Documentation](MOVESDatabaseTables.md) and specific columns are defined in the [MOVES Database Glossary](MOVESGlossary.md). More information on how to build valid input databases can be found in the [Technical Guidance](https://www.epa.gov/state-and-local-transportation/policy-and-technical-guidance-state-and-local-transportation#emission) for state and local users.
+
+Note that there are no database schema differences between MOVES5 and MOVES6.
 
 ## Input Database Changes
 

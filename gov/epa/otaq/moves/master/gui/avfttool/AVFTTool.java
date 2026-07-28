@@ -1409,6 +1409,21 @@ public class AVFTTool extends JDialog implements ActionListener, FocusListener {
                 messages.add("\tMore information is available in moveslog.txt");
             }
 
+            // Run error checking
+            sql = "call AVFTTool_CheckUserInputs()";
+            try {
+                DatabaseUtilities.executeSqlStmtWithMessages(sql, manager.database, messages);
+            } catch (SQLException e) {
+                String stackTrace = "";
+                for (StackTraceElement ste : e.getStackTrace()) {
+                    stackTrace += "\n" + ste.toString();
+                }
+                Logger.log(LogMessageCategory.ERROR, e.toString() + stackTrace);
+                messages.add("ERROR: encountered SQL error in \"" + sql + "\":");
+                messages.add("\t" + e.getMessage());
+                messages.add("\tMore information is available in moveslog.txt");
+            }
+
             // run gap-filling stored procedures
             if (runGapFillingProcedure(11, gapFillingMethod11Combo, lastCompleteMY, enable11Check.isSelected()) &&
                 runGapFillingProcedure(21, gapFillingMethod21Combo, lastCompleteMY, enable21Check.isSelected()) &&

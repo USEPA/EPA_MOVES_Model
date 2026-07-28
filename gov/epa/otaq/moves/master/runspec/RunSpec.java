@@ -141,6 +141,11 @@ public class RunSpec {
 	 * when this happens.
 	**/
 	public boolean hadIntercityBuses = false;
+	/**
+	 * Scale input databases are not loaded if the RunSpec major version doesn't match this
+	 * version of MOVES. When this happens, this flag is set to true to warn the user.
+	**/
+	public boolean hadScaleInputDatabase = false;
 
 	/** Constructor **/
 	public RunSpec() {
@@ -364,7 +369,10 @@ public class RunSpec {
 
         // go through list of compatible major versions
         // Note: "version" is RunSpec version, "other" is current model version
-        if (getMajorVersionString(version).equalsIgnoreCase("MOVES4") && getMajorVersionString(other).equalsIgnoreCase("MOVES5")) {
+        if (getMajorVersionString(version).equalsIgnoreCase("MOVES4") && getMajorVersionString(other).equalsIgnoreCase("MOVES6")) {
+            return true;
+        }
+        if (getMajorVersionString(version).equalsIgnoreCase("MOVES5") && getMajorVersionString(other).equalsIgnoreCase("MOVES6")) {
             return true;
         }
 		return false;

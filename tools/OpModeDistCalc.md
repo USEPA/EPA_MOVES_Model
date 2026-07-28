@@ -4,19 +4,17 @@ The MOVES Default Scale Operating Mode Calculator (called OpModeDistCalc) calcul
 
 When running MOVES at default scale, there is no way to access the underlying operating mode distributions, in full, that are used to calculate emissions from activity. The primary use case for this tool, therefore, is to support calculations and emission rate analysis outside of MOVES where users may want to manually map an operating mode distribution to emission rates in a way that MOVES doesn't support by default. 
 
-More specifically, OpModeDistCalc replicates the MOVES activity calculations for calculating vehicle miles traveled (VMT) and source hours operating (SHO) at the level of detail needed to calculate emissions, which is by speed bin and operating mode. The output for this tool may optionally include detail by engine technology or by MOVES drive cycle. Like operating modes, these fields are generally not written in MOVES output. It then saves this output to a csv file. More detail on the calculation of activity and operating mode distributions can be found in the MOVES Vehicle Population and Activity Technical Report.
+More specifically, OpModeDistCalc replicates the MOVES activity calculations for calculating vehicle miles traveled (VMT) and source hours operating (SHO) at the level of detail needed to calculate emissions, which includes speed bin and operating mode. The output for this tool may optionally include detail by engine technology or by MOVES drive cycle. Like operating modes, these fields are generally not written in MOVES output. It then saves this output to a csv file. More detail on the calculation of activity and operating mode distributions can be found in the MOVES Vehicle Population and Activity Technical Report.
 
 **This tool is currently in Beta development. This is not to be used for regulatory purposes. If you have any difficulties using this tool, or have any related feedback, please open an issue on GitHub or email us at mobile@epa.gov.**
 
 There are several notes about OpModeDistCalc which are important to know when running the tool:
 
-1. Because OpModeDistCalc is designed and intended only for use with MOVES Default Scale, it will run only for a Default Scale runspec and ignore any user-specified database. 
+1. Because OpModeDistCalc is designed and intended only for use with MOVES Default Scale, it should only be used with Default Scale runspecs. 
 
-2. OpModeDistCalc is intended for calculating onroad operating mode distributions, and therefore does not estimate off-network idle (ONI) activity.
+2. OpModeDistCalc is multithreaded and performs all calculations in memory. When running OpModeDistCalc, especially for larger runspecs, expect significant CPU usage and increases in memory. 
 
-3. OpModeDistCalc is multithreaded and performs all calculations in memory. When running OpModeDistCalc, especially for larger runspecs, expect significant CPU usage and increases in memory. 
-
-4. OpModeDistCalc can calculate national average operating mode distributions or county-specific operating mode distributions. It does not run at the state level. To calculate a state-level operating mode distribution, run every county in the state and aggregate the results manually.
+3. OpModeDistCalc can calculate national average operating mode distributions or county-specific operating mode distributions. It does not run at the state level. To calculate a state-level operating mode distribution, run every county in the state and aggregate the results manually.
 
 ## Command Line Interface
 
@@ -34,15 +32,14 @@ Flags are passed using two dashes (`--`), the flag name, an equal sign, and then
 | -------------- | ------------------------------------------------------------ | --------------------------------------------------------- |
 | `runspec`      | Path to MOVES default scale runspec (full absolute path preferred)         | No default value - necessary for run        |
 | `outputFolder` | Path to folder for OpModeCalc to write the resulting data and log files (full absolute path preferred) | No default value - necessary for run. Folder must already exist.             |
-| `dbName`       | MOVES database to use                                        | `movesdb20241112` (this is the MOVES5.0.0 default database) |
-| `mariaUname`   | User MariaDB username                                        | `moves`                                                    |
-| `mariaUpass`   | User's MariaDB password                                      | `moves`                                                   |
+| `dbName`       | MOVES database to use                                        | None. If nothing is provided, it will be read from MOVESConfiguration.txt  |
+| `mariaUname`   | User MariaDB username                                        | `moves`                                                     |
+| `mariaUpass`   | User's MariaDB password                                      | `moves`                                                     |
 | `mariaPort`    | The port which is used to connect to the MariaDB server      | The port used by the MOVES installation. When this cannot be determined, the assumed fallback port is 3306.    |
 | `aggEngTechs`  | Boolean indicating whether to aggregate engine technology or keep it in the output. | `true` |
 | `aggCycles`    | Boolean indicating whether to aggregate drive cycles or keep them in the output. | `true` |
 | `aggSpeeds`    | Boolean indicating whether to aggregate speed bin or keep them in the output. | `true` |
 | `aggOpModes`   | Boolean indicating whether to aggregate operating modes or keep them in the output | `false` |
-| `includeONI`   | Boolean indicating whether to account for ONI in calculating SHO | `true` |
 
 ### Examples
 
@@ -52,7 +49,7 @@ Below is an example of a call to OpModeCalc with the minimum required number of 
 OpModeDistCalc --runspec="./tools/example/examplerunspec.mrs" --outputFolder="./tools/example/"
 ```
 
-This run will use the default MariaDB connection settings as well as the default aggregation behavior for speed bins and operating modes (which would be aggregated and included, respectively). The run will be using the default database for MOVES4.0.1.
+This run will use the default MariaDB connection settings as well as the default aggregation behavior for speed bins and operating modes (which would be aggregated and included, respectively). The run will be using the default database for MOVES6.
 
 Users can alter the aggregation behavior, or make them more explicit, using the flags. For example, the following command will aggregate both operating modes and speed bins in the calculation of VMT and SHO.
 
@@ -60,7 +57,7 @@ Users can alter the aggregation behavior, or make them more explicit, using the 
 OpModeDistCalc --runspec="./tools/example/examplerunspec.mrs" --outputFolder="./tools/example/" --aggSpeeds="true" --aggOpModes="true"
 ```
 
-Users may specify any database using the `dbName` flag. For example, the following command will use the MOVES4.0.0 default database.
+Users may specify any database using the `dbName` flag. For example, the following command will use the MOVES5 default database (which must be installed for this command to work).
 
 ```
 OpModeDistCalc --runspec="./tools/example/examplerunspec.mrs" --outputFolder="./tools/example/" --dbName="movesdb20241112"
