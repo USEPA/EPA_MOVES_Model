@@ -224,6 +224,11 @@ func calculate(inputBlocks chan *mwo.MWOBlock, outputBlocks chan *mwo.MWOBlock) 
 					continue
 				}
 				totalOxygenate := ff.MTBEVolume + ff.ETBEVolume + ff.TAMEVolume + ff.ETOHVolume
+				// The altTHC branches below deliberately use E10's factors even though the
+				// fuel is E70 or E85, so the oxygenate term takes E10's 10 percent ethanol by
+				// volume rather than this formulation's. See HCSpeciationCalculator.sql lines
+				// 763, 766, 862 and 865, and the @algorithm comments on those branches.
+				altTotalOxygenate := ff.MTBEVolume + ff.ETBEVolume + ff.TAMEVolume + 10
 				emissions := make(map[int]*mwo.MWOEmission)
 				ppid := 0
 
@@ -318,7 +323,7 @@ func calculate(inputBlocks chan *mwo.MWOBlock, outputBlocks chan *mwo.MWOBlock) 
 						if(mwo.NeededPolProcessIDs[ppid]) {
 							hcs := HCSpeciation[HCSpeciationKey{ppid,12,fb.Key.RegClassID,fb.Key.ModelYearID}]
 							if hcs != nil {
-								factor := hcs.speciationConstant + hcs.oxySpeciation * ff.VolToWtPercentOxy * totalOxygenate
+								factor := hcs.speciationConstant + hcs.oxySpeciation * ff.VolToWtPercentOxy * altTotalOxygenate
 								emissions[80] = mwo.NewEmissionScaled(emissions[10079],factor)
 							} else {
 								emissions[80] = mwo.NewEmissionScaled(e,0)
@@ -337,7 +342,7 @@ func calculate(inputBlocks chan *mwo.MWOBlock, outputBlocks chan *mwo.MWOBlock) 
 						if(mwo.NeededPolProcessIDs[ppid]) {
 							hcs := HCSpeciation[HCSpeciationKey{ppid,12,fb.Key.RegClassID,fb.Key.ModelYearID}]
 							if hcs != nil {
-								factor := hcs.speciationConstant + hcs.oxySpeciation * ff.VolToWtPercentOxy * totalOxygenate
+								factor := hcs.speciationConstant + hcs.oxySpeciation * ff.VolToWtPercentOxy * altTotalOxygenate
 								emissions[87] = mwo.NewEmissionScaled(emissions[10079],factor)
 							} else {
 								emissions[87] = mwo.NewEmissionScaled(e,0)
