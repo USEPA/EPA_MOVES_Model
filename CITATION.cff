@@ -1,13 +1,13 @@
 cff-version: 1.2.0
-message: "To cite MOVES5, use the metadata from this file."
+message: "To cite MOVES6, use the metadata from this file."
 authors:
   - name: "USEPA"
-title: "Motor Vehicle Emission Simulator: MOVES5"
+title: "Motor Vehicle Emission Simulator: MOVES6"
 type: software
 identifiers:
   - type: other
     value: "Office of Transportation and Air Quality. US Environmental Protection Agency. Ann Arbor, MI."
     description: "Publisher"
 url: "https://www.epa.gov/moves"
-version: 5.0.0
-date-released: 2024-11-21
+version: 6.0.0
+date-released: 2026-10-15

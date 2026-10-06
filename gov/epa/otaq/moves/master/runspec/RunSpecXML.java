@@ -1653,11 +1653,6 @@ public class RunSpecXML {
 	 * @param node The Node object to handle.
 	**/
 	void processScaleInputDatabase(Node node) {
-        // do not parse ScaleInputDatabase tag if this version is not compatible, to avoid getting error messages
-        if (!runSpec.isCompatibleVersion(MOVESWindow.MOVES_VERSION)) {
-            return;
-        }
-
 		// This node should have two attributes and no subnodes
 		NamedNodeMap attributes = node.getAttributes();
 		String parsedServerName = null;
@@ -1674,6 +1669,11 @@ public class RunSpecXML {
 			}
 		}
 		if(parsedServerName != null && parsedDatabaseName != null) {
+			// do not save the ScaleInputDatabase information if this is a different version to avoid getting error messages
+			if (!parsedDatabaseName.equals("") && !runSpec.isSameMajorVersion(MOVESWindow.MOVES_VERSION)) {
+				runSpec.hadScaleInputDatabase = true;
+				return;
+			}
 			runSpec.scaleInputDatabase = new DatabaseSelection();
 			runSpec.scaleInputDatabase.serverName = parsedServerName;
 			runSpec.scaleInputDatabase.databaseName = parsedDatabaseName;

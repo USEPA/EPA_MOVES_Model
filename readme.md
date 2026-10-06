@@ -1,10 +1,10 @@
-# MOVES5
+# MOVES6
 
 EPA's MOtor Vehicle Emission Simulator (MOVES) is a state-of-the-science emission modeling system that estimates emissions for mobile sources at the national, county, and project level for criteria air pollutants, greenhouse gases, and air toxics, available under EPA's Open Source Software policy. 
 
-MOVES5 (available at https://github.com/USEPA/EPA_MOVES_Model and https://www.epa.gov/moves/latest-version-motor-vehicle-emission-simulator-moves) is the latest version of MOVES available for regulatory purposes. For more information, see [MOVES5 Policy Guidance: Use of MOVES for State Implementation Plan Development, Transportation Conformity, General Conformity, and Other Purposes (EPA-420-B-24-038)](https://www.epa.gov/moves/latest-version-motor-vehicle-emission-simulator-moves#guidance). 
+MOVES6 (available at https://github.com/USEPA/EPA_MOVES_Model and https://www.epa.gov/moves/latest-version-motor-vehicle-emission-simulator-moves) is the latest version of MOVES available for regulatory purposes. For more information, see [MOVES6 Policy Guidance: Use of MOVES for State Implementation Plan Development, Transportation Conformity, General Conformity, and Other Purposes (EPA-403-B-26-001)](https://www.epa.gov/moves/latest-version-motor-vehicle-emission-simulator-moves#guidance). 
 
-For additional information on MOVES, visit EPA's [MOVES website](https://www.epa.gov/moves). A standard installer for MOVES is available [here](https://www.epa.gov/moves/latest-version-motor-vehicle-emission-simulator-moves#download). Or, to compile and MOVES from source, follow the instructions below.
+For additional information on MOVES, visit EPA's [MOVES website](https://www.epa.gov/moves). A standard installer for MOVES is available [here](https://www.epa.gov/moves/latest-version-motor-vehicle-emission-simulator-moves#download). Or, to compile and run MOVES from source, follow the instructions below.
 
 ### Requirements and Set Up
 
@@ -12,7 +12,7 @@ This repository contains all of the source code and data required to compile and
 
 MOVES uses MariaDB, Java, and Go. To run MOVES from the source code (i.e., without running the installer), you will need the following:
 
-* [MariaDB](https://mariadb.org/download/?t=mariadb&p=mariadb&r=11.4.8) (either version 10.11 or 11.4 are recommended)
+* [MariaDB](https://mariadb.org/download/?t=mariadb&o=true&p=mariadb&r=11.4.13) (either version 10.11 or 11.4 are recommended)
 * [Java JDK](https://learn.microsoft.com/en-us/java/openjdk/download#openjdk-17) (version 17 is recommended)
 * [Go](https://golang.org/dl) (version 1.21 or later)
 
@@ -75,11 +75,11 @@ Additional resources listed below are available at the MOVES website:
 * [MOVES Training](https://www.epa.gov/moves/moves-training-sessions#training): Contains on-your-own training modules for using MOVES
 * [MOVES FAQ](https://www.epa.gov/moves/frequent-questions-about-moves-and-related-models): Frequent asked questions about MOVES and related models
 
-If you have questions or feedback about MOVES, [email the MOVES inbox](mailto:mobile@epa.gov).
+If you have questions or feedback about MOVES, [email the MOVES inbox](mailto:moves@epa.gov).
 
 ### Previous MOVES Versions
 
-Previous versions of MOVES going back to the MOVES2014b December 2018 Technical Update can be accessed on GitHub at [MOVES Releases](https://github.com/USEPA/EPA_MOVES_Model/releases). Older versions of MOVES are available at the [MOVES website](https://www.epa.gov/moves/previous-moves-versions-and-documentation).
+Previous versions of MOVES going back to MOVES3 can be accessed on GitHub at [MOVES Releases](https://github.com/USEPA/EPA_MOVES_Model/releases). Previous versions of MOVES are also available at the [MOVES website](https://www.epa.gov/moves/previous-moves-versions-and-documentation).
 
 ### License
 

@@ -459,10 +459,10 @@ public class MOVESNavigation extends JPanel implements ItemListener {
 													  "from scratch using County Scale with a single county. If you\r\n" +
 												      "need a reference for the selections made in this RunSpec, you\r\n" + 
 												      "can use the File > Print... feature.",
-						"Custom Domain Error Message",
-						JOptionPane.ERROR_MESSAGE);
+					"Custom Domain Error Message",
+					JOptionPane.ERROR_MESSAGE);
 			} else if (!parent.runSpec.isCompatibleVersion(MOVESWindow.MOVES_VERSION)) {
-			JOptionPane.showMessageDialog(parent, "Warning: The loaded RunSpec was created with " + parent.runSpec.getMajorVersionString() + ",\r\n" +
+				JOptionPane.showMessageDialog(parent, "Warning: The loaded RunSpec was created with " + parent.runSpec.getMajorVersionString() + ",\r\n" +
 			                                      "which may not be compatible with this version of MOVES. To\r\n" +
 												  "avoid compatibility issues, you may need to recreate this\r\n" +
 												  "RunSpec using this version of MOVES. If you need a reference\r\n" +
@@ -470,7 +470,14 @@ public class MOVESNavigation extends JPanel implements ItemListener {
 												  "File > Print... feature.",
 					"RunSpec Version Message",
 					JOptionPane.WARNING_MESSAGE);
-			}
+			} else if (!parent.runSpec.isSameMajorVersion(MOVESWindow.MOVES_VERSION) && parent.runSpec.hadScaleInputDatabase) {
+				JOptionPane.showMessageDialog(parent, "Warning: The loaded RunSpec was created with " + parent.runSpec.getMajorVersionString() + ".\r\n" +
+						                              "The input database should be converted before being used with\r\n" + 
+													  "this version of MOVES. See the Technical Guidance for more\r\n" + 
+													  "information.",
+					"RunSpec Version Message",
+					JOptionPane.WARNING_MESSAGE);
+			} 
 		}
 	}
 

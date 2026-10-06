@@ -1,8 +1,7 @@
 -- --------------------------------------------------------------------------------------
--- Doc string
+-- create the default AVFT table from the sample vehicle population data
 -- --------------------------------------------------------------------------------------
 drop procedure if exists AVFTTool_CreateDefaultAVFT;
-
 BeginBlock
 create procedure AVFTTool_CreateDefaultAVFT()
 begin
@@ -12,6 +11,26 @@ begin
     SELECT sourceTypeID, modelYearID, fuelTypeID, engTechID, SUM(stmyFraction) AS fuelEngFraction
     FROM ##defaultdb##.samplevehiclepopulation
     GROUP BY sourceTypeID, modelYearID, fuelTypeID, engTechID;
+end
+EndBlock
+
+-- --------------------------------------------------------------------------------------
+-- check for errors in user inputs
+-- --------------------------------------------------------------------------------------
+BeginBlock
+create procedure AVFTTool_CheckUserInputs()
+begin
+    INSERT INTO messages
+    SELECT CONCAT('Warning: MOVES cannot model the following sourceTypeID/fuelTypeID/engTechID combinations: ', sourceTypeID, ' / ', fuelTypeID, ' / ', engTechID, '. Tool will drop these rows before gap-filling.') AS message
+    FROM inputAVFT i
+    LEFT JOIN defaultAVFT d USING (sourceTypeID, modelYearID, fuelTypeID, engTechID)
+    WHERE d.fuelEngFraction IS NULL
+    GROUP BY sourceTypeID, fuelTypeID, engTechID;
+
+    DELETE inputAVFT
+    FROM inputAVFT
+    LEFT JOIN defaultAVFT USING (sourceTypeID, modelYearID, fuelTypeID, engTechID)
+    WHERE defaultAVFT.fuelEngFraction IS NULL;
 end
 EndBlock
 

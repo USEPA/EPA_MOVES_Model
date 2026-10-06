@@ -1,15 +1,15 @@
 -- --------------------------------------------------------------------------------------
--- This script is run by the MOVES GUI to convert a MOVES3 County, Project, or Nonroad
--- input database to the MOVES5 format.
+-- This script is run by the MOVES GUI to convert a MOVES4 County, Project, or Nonroad
+-- input database to the MOVES6 format.
 -- No changes are made to the original input database.
 -- This script is run in the context of the new database (i.e., after it has been created
 --     and the equivalent of a "USE my_new_database;" statement has been executed).
 -- The MOVES GUI replaces ##defaultdb## with the name of the default database and
---     ##inputdb## with the name of the original MOVES3 CDM or PDM database.
+--     ##inputdb## with the name of the original MOVES4 CDM or PDM database.
 -- Messages to be displayed to the user can be inserted into the convertTempMessages
 --     table, which has one VARCHAR(1000) column. This table is managed by the MOVES GUI.
 --
--- Last updated: 9/23/2024
+-- Last updated: 3/31/2026
 -- --------------------------------------------------------------------------------------
 
 
@@ -118,6 +118,7 @@ DROP TABLE sourcetypeagedistribution_tmp40;
 
 end
 EndBlock
+
 
 drop procedure if exists DBConverter;
 
@@ -286,7 +287,7 @@ begin
         insert ignore into dayvmtfraction select * from ##inputdb##.dayvmtfraction WHERE roadTypeID <> 1;
 	end if;
     if (dayvmtfractionTableRows > 0) then
-		insert into auditlog VALUES (NOW(), 'Converter', 'transferred dayvmtfraction table', 'Ignored roadTypeID 1 values (not necessary for MOVES5)');
+		insert into auditlog VALUES (NOW(), 'Converter', 'transferred dayvmtfraction table', 'Ignored roadTypeID 1 values (not necessary for MOVES6)');
 	end if;
 
 	-- driveschedulesecondlink: no schema changes and input data can be transferred as-is
@@ -321,50 +322,31 @@ begin
 		create table fuelusagefraction like ##defaultdb##.fuelusagefraction;
 	end if;
     if (fuelusagefractionTableRows > 0) then
-	    insert into convertTempMessages VALUES ('FuelusageFraction table not transferred. Export the defaults and modify as necessary.');
-		insert into auditlog VALUES (NOW(), 'Converter', 'did not transfer FuelusageFraction table', 'Export the defaults and modify as necessary');
+	    insert into convertTempMessages VALUES ('FuelUsageFraction table not transferred. Export the defaults and modify as necessary.');
+		insert into auditlog VALUES (NOW(), 'Converter', 'did not transfer FuelUsageFraction table', 'Export the defaults and modify as necessary');
 	end if;
 	
-	-- hotellingactivitydistribution: MOVES3 versions of this table only have diesel values.
-    --                                If the table exists, create it.
-    --                                If it contains data: transfer the data and assign the diesel fuel type, extend
-    --                                back to MY1950 if it covers MY1960, then insert default values for missing 
-    --                                source types. This last part is tricky, because the default values are for 
-    --                                zoneID 990000, so we'll need to insert rows for all zones present.
+	-- hotellingactivitydistribution: no schema changes. However, if data contain MY1960, extend back to MY1950
     if (hotellingactivitydistributionTableRows >= 0) then
 		create table hotellingactivitydistribution like ##defaultdb##.hotellingactivitydistribution;
+        insert ignore into hotellingactivitydistribution select * from ##inputdb##.hotellingactivitydistribution;
 	end if;
     if (hotellingactivitydistributionTableRows > 0) then
-        insert ignore into hotellingactivitydistribution
-            select zoneID, 2 as fuelTypeID, beginModelYearID, endModelYearID, opModeID, opModeFraction
-            from ##inputdb##.hotellingactivitydistribution;
-
         if ((select count(*) from hotellingactivitydistribution WHERE beginModelYearID = 1960) > 0) then
             update hotellingactivitydistribution set beginModelYearID = 1950 WHERE beginModelYearID = 1960;
-		    insert into auditlog VALUES (NOW(), 'Converter', 'transferred hotellingactivitydistribution table', 'Using defaults for non-diesel fuels, and updated beginModelYearID from 1960 to 1950');
+		    insert into auditlog VALUES (NOW(), 'Converter', 'transferred hotellingactivitydistribution table', 'Updated beginModelYearID from 1960 to 1950');
         else
-		    insert into auditlog VALUES (NOW(), 'Converter', 'transferred hotellingactivitydistribution table', 'Using defaults for non-diesel fuels');
+		    insert into auditlog VALUES (NOW(), 'Converter', 'transferred hotellingactivitydistribution table', '');
         end if;
-
-        drop table if exists hotellingactivitydistribution_tmp;
-        create table hotellingactivitydistribution_tmp (zoneID int not NULL, PRIMARY KEY (zoneID) USING BTREE) ENGINE=MYISAM;
-        insert ignore into hotellingactivitydistribution_tmp 
-            select distinct zoneID from ##inputdb##.hotellingactivitydistribution;
-        insert ignore into hotellingactivitydistribution
-            select had_t.zoneID, fuelTypeID, beginModelYearID, endModelYearID, opModeID, opModeFraction 
-            from ##defaultdb##.hotellingactivitydistribution had, hotellingactivitydistribution_tmp had_t
-            where fuelTypeID <> 2; 
-        drop table if exists hotellingactivitydistribution_tmp;
-        insert into convertTempMessages VALUES ('HotellingActivityDistribution data for diesel were transfered, and default values were imported for other fuel types.');
 	end if;
 	
-	-- hotellingagefraction: no schema changes, but the MOVES3 data are not compatible with MOVES5
+	-- hotellingagefraction: no schema changes, but the MOVES4 data are not compatible with MOVES6
     if (hotellingagefractionTableRows >= 0) then
 		create table hotellingagefraction like ##defaultdb##.hotellingagefraction;
 	end if;
     if (hotellingagefractionTableRows > 0) then
-	    insert into convertTempMessages VALUES ('HotellingAgeFraction table not transferred. MOVES5 requires data that varies by age to include ages 0-40.');
-		insert into auditlog VALUES (NOW(), 'Converter', 'could not transfer hotellingagefraction table', 'Data must be reanalyzed for MOVES5');
+	    insert into convertTempMessages VALUES ('HotellingAgeFraction table not transferred. MOVES6 requires data that varies by age to include ages 0-40.');
+		insert into auditlog VALUES (NOW(), 'Converter', 'could not transfer hotellingagefraction table', 'Data must be reanalyzed for MOVES6');
 	end if;
 	
 	-- hotellinghourfraction: no schema changes and input data can be transferred as-is
@@ -400,7 +382,7 @@ begin
         insert ignore into hourvmtfraction select * from ##inputdb##.hourvmtfraction WHERE roadTypeID <> 1;
 	end if;
     if (hourvmtfractionTableRows > 0) then
-		insert into auditlog VALUES (NOW(), 'Converter', 'transferred hourvmtfraction table', 'Ignored roadTypeID 1 values (not necessary for MOVES5)');
+		insert into auditlog VALUES (NOW(), 'Converter', 'transferred hourvmtfraction table', 'Ignored roadTypeID 1 values (not necessary for MOVES6)');
 	end if;
 
 	-- hpmsvtypeday: no schema changes and input data can be transferred as-is
@@ -476,8 +458,8 @@ begin
 	end if;
     if (imcoverageTableRows > 0) then
         update imcoverage set begModelYearID = 1950 WHERE begModelYearID = 1960;
-	    insert into convertTempMessages VALUES ('IMCoverage data transferred. If these were based on MOVES3 defaults, clear these data in the new input'),
-                                               ('     database, export the MOVES5 defaults, and modify as necessary.');
+	    insert into convertTempMessages VALUES ('IMCoverage data transferred. If these were based on MOVES4 defaults, clear these data in the new input'),
+                                               ('     database, export the MOVES6 defaults, and modify as necessary.');
 		insert into auditlog VALUES (NOW(), 'Converter', 'transferred imcoverage table', 'Additional work may be necessary. See converter help for more information');
 	end if;
 
@@ -552,7 +534,7 @@ begin
     if (sourcetypeagedistributionTableRows > 0) then
         call DBConverter_agedisthelper();
 	    insert into convertTempMessages VALUES ('SourceTypeAgeDistribution values transferred. Age fractions for 30-40 estimated based on the provided'),
-                                               ('     fractions for age 30. Note that the MOVES5 default age distributions for long-haul source types (53 and 62)'),
+                                               ('     fractions for age 30. Note that the MOVES6 default age distributions for long-haul source types (53 and 62)'),
                                                ('     were used instead transferring over the data from the source database.');
 		insert into auditlog VALUES (NOW(), 'Converter', 'transferred SourceTypeAgeDistribution table', 'See converter help for more information regarding this table');
 	end if;
@@ -584,22 +566,22 @@ begin
 		insert into auditlog VALUES (NOW(), 'Converter', 'transferred sourcetypeyearvmt table', '');
 	end if;
 
-	-- starts: no schema changes, but the MOVES3 data are not compatible with MOVES5
+	-- starts: no schema changes, but the MOVES4 data are not compatible with MOVES6
     if (startsTableRows >= 0) then
 		create table starts like ##defaultdb##.starts;
 	end if;
     if (startsTableRows > 0) then
-    	insert into convertTempMessages VALUES ('Starts table not transferred. MOVES5 requires data that varies by age to include ages 0-40.');
-		insert into auditlog VALUES (NOW(), 'Converter', 'could not transfer starts table', 'Data must be reanalyzed for MOVES5');
+    	insert into convertTempMessages VALUES ('Starts table not transferred. MOVES6 requires data that varies by age to include ages 0-40.');
+		insert into auditlog VALUES (NOW(), 'Converter', 'could not transfer starts table', 'Data must be reanalyzed for MOVES6');
 	end if;
 
-	-- startsageadjustment: no schema changes, but the MOVES3 data are not compatible with MOVES5
+	-- startsageadjustment: no schema changes, but the MOVES4 data are not compatible with MOVES6
     if (startsageadjustmentTableRows >= 0) then
 		create table startsageadjustment like ##defaultdb##.startsageadjustment;
 	end if;
     if (startsageadjustmentTableRows > 0) then
-    	insert into convertTempMessages VALUES ('StartsAgeAdjustment table not transferred. MOVES5 requires data that varies by age to include ages 0-40.');
-		insert into auditlog VALUES (NOW(), 'Converter', 'could not transfer startsageadjustment table', 'Data must be reanalyzed for MOVES5');
+    	insert into convertTempMessages VALUES ('StartsAgeAdjustment table not transferred. MOVES6 requires data that varies by age to include ages 0-40.');
+		insert into auditlog VALUES (NOW(), 'Converter', 'could not transfer startsageadjustment table', 'Data must be reanalyzed for MOVES6');
 	end if;
 
 	-- startshourfraction: no schema changes and input data can be transferred as-is
@@ -620,6 +602,8 @@ begin
 		insert into auditlog VALUES (NOW(), 'Converter', 'transferred startsmonthadjust table', '');
 	end if;
 
+	-- startsopmodedistribution: no schema changes. Need to estimate soak distributions for ages 31-40
+    --                           based on age 30
     if (startsopmodedistributionTableRows >= 0) then
 		create table startsopmodedistribution like ##defaultdb##.startsopmodedistribution;
         insert ignore into startsopmodedistribution select * from ##inputdb##.startsopmodedistribution;
@@ -677,11 +661,10 @@ begin
 		insert into auditlog VALUES (NOW(), 'Converter', 'transferred zone table', '');
 	end if;
     
-	-- zonemonthhour: this table has a schema change, but the changed columns are always null, so the input data can still be transfered
+	-- zonemonthhour: no schema changes and input data can be transferred as-is
     if (zonemonthhourTableRows >= 0) then
 		create table zonemonthhour like ##defaultdb##.zonemonthhour;
-        insert ignore into zonemonthhour (monthID, zoneID, hourID, temperature, relHumidity)
-		select monthID, zoneID, hourID, temperature, relHumidity from ##inputdb##.zonemonthhour;
+        insert ignore into zonemonthhour select * from ##inputdb##.zonemonthhour;
 	end if;
     if (zonemonthhourTableRows > 0) then
 		insert into auditlog VALUES (NOW(), 'Converter', 'transferred zonemonthhour table', '');

@@ -417,10 +417,10 @@ public class BuildLEVNLEV extends JDialog implements ActionListener {
 			File file = null;
 			switch(mode) {
 				case LEV_MODE:
-					file = new File("database/LEV_NLEVScripts/MOVES5_MyLEVs_Template.sql");
+					file = new File("database/LEV_NLEVScripts/LEV_Template.sql");
 					break;
 				default:
-					file = new File("database/LEV_NLEVScripts/MOVES5_MyNLEVs.sql");
+					file = new File("database/LEV_NLEVScripts/NLEV.sql");
 					break;
 			}
 			if(file == null || !file.exists()) {
@@ -584,46 +584,6 @@ public class BuildLEVNLEV extends JDialog implements ActionListener {
 	/** Handle the Done button **/
 	void handleDoneButton() {
 		dispose();
-	}
-
-	/**
-	 * Add a database name to inputDatabaseCombo and newDatabaseCombo but only if it isn't already in the
-	 * the lists.
-	 * @param newDatabaseName name of the database to attempt to place into the database combo boxes.
-	 * @return the object either added to or already in the list.  This will be the object
-	 * the should be selected.
-	**/
-	private String addIfNotInComboBox(String newDatabaseName) {
-		String a = null;
-		String b = addIfNotInComboBox(newDatabaseName,newDatabaseCombo);
-		if(a == null) {
-			if(b == null) {
-				return null;
-			}
-			return b;
-		} else {
-			return a;
-		}
-	}
-
-	/**
-	 * Add a database name to a combobox but only if it isn't already in the the lists.
-	 * @param newDatabaseName name of the database to attempt to place into the database combo box.
-	 * @param combobox a listing of database names on screen
-	 * @return the object either added to or already in the list.  This will be the object
-	 * the should be selected.
-	**/
-	private String addIfNotInComboBox(String newDatabaseName, ExtendedComboBox<String> combobox) {
-		newDatabaseName = newDatabaseName.trim();
-		ComboBoxModel model = combobox.getModel();
-		for(int i = 0; i < model.getSize(); i++) {
-			String t = (String)model.getElementAt(i);
-			if(t.equalsIgnoreCase(newDatabaseName)) {
-				return t;
-			}
-		}
-		combobox.addItem(newDatabaseName);
-		return newDatabaseName;
 	}
 
 	/**

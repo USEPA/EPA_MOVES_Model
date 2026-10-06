@@ -7,7 +7,7 @@ MOVES RunSpecs are formatted as xml and follow standard xml conventions.  Each h
 ## Runspec
 
 ```xml
-<runspec version="MOVES5.0.0">
+<runspec version="MOVES6.0.0">
     ...
 </runspec>
 ```

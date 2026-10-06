@@ -2260,15 +2260,15 @@ CREATE UNIQUE INDEX XPKRegulatoryClass ON RegulatoryClass
        regClassID                     ASC
 );
 
-create table region (
-	regionID int not null,
-	VV smallint(6),
-	WW smallint(6),
-	XX smallint(6),
-	YY smallint(6),
-	ZZ smallint(6),
-	description varchar(150),
-	primary key (regionID)
+CREATE TABLE region (
+    regionID INT NOT NULL,
+    VV SMALLINT(6),
+    WW CHAR(2),
+    XX CHAR(2),
+    YY CHAR(2),
+    ZZ CHAR(2),
+    description VARCHAR(150),
+    PRIMARY KEY (regionID)
 ) ENGINE=MyISAM DEFAULT CHARSET='utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 create table regionCode (

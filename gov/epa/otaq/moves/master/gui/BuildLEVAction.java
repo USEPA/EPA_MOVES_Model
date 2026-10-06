@@ -20,10 +20,10 @@ public class BuildLEVAction extends JLFAbstractAction {
 			"Build LEV Input Database";
 	/** Constant short description text. **/
 	static final String SHORT_DESCRIPTION =
-			"Start the Database Builder GUI";
+			"Build LEV Input Database";
 	/** Constant long description text. **/
 	static final String LONG_DESCRIPTION =
-			"Use scripts to build LEV input database";
+			"Build LEV Input Database";
 	/** Constant mnemonic key. **/
 	static final int MNEMONIC_KEY = 'L';
 

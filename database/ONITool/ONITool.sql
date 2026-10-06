@@ -145,7 +145,7 @@ ONITOOL_PROCEDURE: begin
 	-- ---------------------------------
 	
 	-- Start with user TotalIdleFractions
-	CREATE TABLE IF NOT EXISTS ##tempdb##.totalidlefraction like ##inputdb##.totalidlefraction;
+	CREATE TABLE IF NOT EXISTS ##tempdb##.totalidlefraction like ##defaultdb##.totalidlefraction;
 	INSERT INTO ##tempdb##.totalidlefraction SELECT * from ##inputdb##.totalidlefraction;
 	
 	-- Grab the default TotalIdleFractions if the user did not enter their own

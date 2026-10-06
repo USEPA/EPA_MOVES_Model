@@ -1,7 +1,4 @@
 -- ###################################################################
--- Template name: MOVES5_MyLEVs_Template.sql
--- Template date: 11/7/2024
--- 
 -- This is a template script to be used in conjunction with the LEV
 -- Tool in MOVES. To access the tool, open the Tools menu in MOVES, 
 -- and select "Build LEV Input Database". The full instructions for

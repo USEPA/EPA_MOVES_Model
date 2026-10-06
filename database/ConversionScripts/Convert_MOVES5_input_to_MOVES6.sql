@@ -1,123 +1,16 @@
 -- --------------------------------------------------------------------------------------
--- This script is run by the MOVES GUI to convert a MOVES4 County, Project, or Nonroad
--- input database to the MOVES5 format.
+-- This script is run by the MOVES GUI to convert a MOVES5 County, Project, or Nonroad
+-- input database to the MOVES6 format.
 -- No changes are made to the original input database.
 -- This script is run in the context of the new database (i.e., after it has been created
 --     and the equivalent of a "USE my_new_database;" statement has been executed).
 -- The MOVES GUI replaces ##defaultdb## with the name of the default database and
---     ##inputdb## with the name of the original MOVES4 CDM or PDM database.
+--     ##inputdb## with the name of the original MOVES5 CDM or PDM database.
 -- Messages to be displayed to the user can be inserted into the convertTempMessages
 --     table, which has one VARCHAR(1000) column. This table is managed by the MOVES GUI.
 --
--- Last updated: 9/19/2024
+-- Last updated: 3/31/2026
 -- --------------------------------------------------------------------------------------
-
-
-drop procedure if exists DBConverter_agedisthelper;
-BeginBlock
-create procedure DBConverter_agedisthelper()
-begin
-
--- create table that contains the maximum age by source type.
--- Ages beyond these ages will be assumed to have an ageFraction of 0
-CREATE TABLE maxage_tmp (sourceTypeID INT, maxAgeID INT);
-INSERT INTO maxage_tmp VALUES (11,52),(21,62),(31,57),(32,55),(41,51),(42,51),(43,34),(51,35),(52,56),(53,56),(54,44),(61,43),(62,39);
-
--- create temporary source type age distribution table to do our calculations in
-CREATE TABLE sourcetypeagedistribution_tmp LIKE sourcetypeagedistribution;
-INSERT INTO sourcetypeagedistribution_tmp SELECT * FROM sourcetypeagedistribution;
-
--- create temporary table to help add ages for interim calculations
-CREATE TABLE ages_tmp (ageID INT);
-INSERT INTO ages_tmp VALUES (31),(32),(33),(34),(35),(36),(37),(38),(39),(40),(41),(42),(43),(44),(45),(46),(47),(48),(49),(50),(51),(52),(53),(54),(55),(56),(57),(58),(59),(60),(61),(62),(63),(64),(65),(66),(67),(68),(69),(70);
-
--- create rows for ages 31-70 (no source type has ages over age 70)
-INSERT INTO sourcetypeagedistribution_tmp
-SELECT sourceTypeID, yearID, ages_tmp.ageID, 0 AS ageFraction
-FROM sourcetypeagedistribution stad, ages_tmp
-WHERE stad.ageID = 0;
-ALTER TABLE sourcetypeagedistribution_tmp ORDER BY sourceTypeID, yearID, ageID;
-
--- create temporary column to hold our interim calculations
-ALTER TABLE sourcetypeagedistribution_tmp ADD COLUMN interimAgeFraction DOUBLE;
-
--- no change for ageFractions associated with ageIDs 0-29
-UPDATE sourcetypeagedistribution_tmp SET interimAgeFraction = ageFraction
-WHERE ageID BETWEEN 0 AND 29;
-
--- Need to estimate ages 30-40. Input data's ageFraction for age 30 represents all ages 30+. Therefore, we will 
--- spread out the ageFraction for age 30 across ages 30-39, and put the remainder in age 40, which will represent
--- all ages 40.
--- For simplicity, we will estimate a linear trend for ages 30+. From our national analysis, we have average maximum 
--- vehicle age by source type. Using this, we will assume that all age fractions beyond the maximum age are 0.
--- This allows us to set two constraints on our linear trend:
---     * The ageFraction for MaxAge+1 must be 0
---     * The integral of the linear trend from [30, MaxAge] must equal the "tail" value (the original age 30 fraction)
--- To solve for the linear trend, we can use the geometric area of a triangle: A = 0.5*b*h 
---     * A is the area and therefore the "tail" value
---     * b is the number of ages that we are extending through, or MaxAge + 2 - 30
---     * h is the new value at age 30.
--- We need to calculate h before we can calculate the rest of the ages:
---     new ageID 30 fraction = original ageID 30 fraction * 2 / (MaxAge + 2 - 30)
-UPDATE sourcetypeagedistribution_tmp stad_tmp, maxage_tmp
-SET stad_tmp.interimAgeFraction = stad_tmp.ageFraction * 2 / ((maxAgeID+2) - 30)
-WHERE stad_tmp.sourceTypeID = maxage_tmp.sourceTypeID 
-  AND stad_tmp.ageID = 30;
-
--- Now that we have the new age 30 fraction, we can linearly interpolate between the following two points:
--- (x1=30, y1=new age 30 fraction) and (x2=maxAge+1, y2=0)
--- Linear interpolation form: (y1-y2)/(x1-x2) * (x-x1) + y1
--- new ageID [31+] fraction = (new ageID 30 fraction - 0) / (30-(maxAge+1)) * (ageID-30) + new ageID 30 fraction
-UPDATE sourcetypeagedistribution_tmp stad_tmp, maxage_tmp,
-       sourcetypeagedistribution_tmp age30
-SET stad_tmp.interimAgeFraction = age30.interimAgeFraction/(30-(maxAgeID+1)) * (stad_tmp.ageID-30) + age30.interimAgeFraction
-WHERE stad_tmp.sourceTypeID = maxage_tmp.sourceTypeID 
-  AND stad_tmp.sourceTypeID = age30.sourceTypeID
-  AND stad_tmp.ageID BETWEEN 30 AND maxAgeID
-  AND age30.ageID = 30 
-  AND stad_tmp.yearID = age30.yearID;
-
--- The above query will result in NULLs for source types that have a max ageID less than 40. Convert these to 0s.
-UPDATE sourcetypeagedistribution_tmp stad_tmp
-SET interimAgeFraction = COALESCE(interimAgeFraction, 0);
-
--- MOVES can only estimate up to age 40, so group the age40+ values into age 40 and then drop ages > 40
-CREATE TABLE sourcetypeagedistribution_tmp40
-	SELECT sourceTypeID, yearID, SUM(interimAgeFraction) AS age40
-	FROM sourcetypeagedistribution_tmp
-	WHERE ageID >= 40
-	GROUP BY sourceTypeID, yearID;
-UPDATE sourcetypeagedistribution_tmp stad_tmp, sourcetypeagedistribution_tmp40 stad_tmp40
-SET stad_tmp.interimAgeFraction = stad_tmp40.age40
-WHERE stad_tmp.sourceTypeID = stad_tmp40.sourceTypeID
-  AND stad_tmp.yearID = stad_tmp40.yearID
-  AND stad_tmp.ageID = 40;
-DELETE FROM sourcetypeagedistribution_tmp
-WHERE ageID > 40;
-
--- replace input database's version of sourcetypeagedistribution with ours
-TRUNCATE TABLE sourcetypeagedistribution;
-INSERT INTO sourcetypeagedistribution (sourceTypeID, yearID, ageID, ageFraction)
-SELECT sourceTypeID, yearID, ageID, interimAgeFraction
-FROM sourcetypeagedistribution_tmp;
-
--- drop long-haul age distributions and replace with default ones
-DELETE FROM sourcetypeagedistribution WHERE sourceTypeID IN (53, 62);
-INSERT INTO sourcetypeagedistribution
-    SELECT * FROM ##defaultdb##.sourcetypeagedistribution
-    WHERE sourceTypeID IN (53, 62) AND yearID IN (SELECT DISTINCT yearID FROM sourcetypeagedistribution);
-
--- order resulting table
-ALTER TABLE sourcetypeagedistribution ORDER BY sourceTypeID, yearID, ageID;
-
--- clean up
-DROP TABLE ages_tmp;
-DROP TABLE maxage_tmp;
-DROP TABLE sourcetypeagedistribution_tmp;
-DROP TABLE sourcetypeagedistribution_tmp40;
-
-end
-EndBlock
 
 
 drop procedure if exists DBConverter;
@@ -287,7 +180,7 @@ begin
         insert ignore into dayvmtfraction select * from ##inputdb##.dayvmtfraction WHERE roadTypeID <> 1;
 	end if;
     if (dayvmtfractionTableRows > 0) then
-		insert into auditlog VALUES (NOW(), 'Converter', 'transferred dayvmtfraction table', 'Ignored roadTypeID 1 values (not necessary for MOVES5)');
+		insert into auditlog VALUES (NOW(), 'Converter', 'transferred dayvmtfraction table', 'Ignored roadTypeID 1 values (not necessary for MOVES6)');
 	end if;
 
 	-- driveschedulesecondlink: no schema changes and input data can be transferred as-is
@@ -322,31 +215,26 @@ begin
 		create table fuelusagefraction like ##defaultdb##.fuelusagefraction;
 	end if;
     if (fuelusagefractionTableRows > 0) then
-	    insert into convertTempMessages VALUES ('FuelusageFraction table not transferred. Export the defaults and modify as necessary.');
-		insert into auditlog VALUES (NOW(), 'Converter', 'did not transfer FuelusageFraction table', 'Export the defaults and modify as necessary');
+	    insert into convertTempMessages VALUES ('FuelUsageFraction table not transferred. Export the defaults and modify as necessary.');
+		insert into auditlog VALUES (NOW(), 'Converter', 'did not transfer FuelUsageFraction table', 'Export the defaults and modify as necessary');
 	end if;
-	
-	-- hotellingactivitydistribution: no schema changes. However, if data contain MY1960, extend back to MY1950
+
+	-- hotellingactivitydistribution: no schema changes and input data can be transferred as-is
     if (hotellingactivitydistributionTableRows >= 0) then
 		create table hotellingactivitydistribution like ##defaultdb##.hotellingactivitydistribution;
         insert ignore into hotellingactivitydistribution select * from ##inputdb##.hotellingactivitydistribution;
 	end if;
     if (hotellingactivitydistributionTableRows > 0) then
-        if ((select count(*) from hotellingactivitydistribution WHERE beginModelYearID = 1960) > 0) then
-            update hotellingactivitydistribution set beginModelYearID = 1950 WHERE beginModelYearID = 1960;
-		    insert into auditlog VALUES (NOW(), 'Converter', 'transferred hotellingactivitydistribution table', 'Updated beginModelYearID from 1960 to 1950');
-        else
-		    insert into auditlog VALUES (NOW(), 'Converter', 'transferred hotellingactivitydistribution table', '');
-        end if;
+		insert into auditlog VALUES (NOW(), 'Converter', 'transferred hotellingactivitydistribution table', '');
 	end if;
-	
-	-- hotellingagefraction: no schema changes, but the MOVES4 data are not compatible with MOVES5
+
+	-- hotellingagefraction: no schema changes and input data can be transferred as-is
     if (hotellingagefractionTableRows >= 0) then
 		create table hotellingagefraction like ##defaultdb##.hotellingagefraction;
+        insert ignore into hotellingagefraction select * from ##inputdb##.hotellingagefraction;
 	end if;
     if (hotellingagefractionTableRows > 0) then
-	    insert into convertTempMessages VALUES ('HotellingAgeFraction table not transferred. MOVES5 requires data that varies by age to include ages 0-40.');
-		insert into auditlog VALUES (NOW(), 'Converter', 'could not transfer hotellingagefraction table', 'Data must be reanalyzed for MOVES5');
+		insert into auditlog VALUES (NOW(), 'Converter', 'transferred hotellingagefraction table', '');
 	end if;
 	
 	-- hotellinghourfraction: no schema changes and input data can be transferred as-is
@@ -376,13 +264,13 @@ begin
 		insert into auditlog VALUES (NOW(), 'Converter', 'transferred hotellingmonthadjust table', '');
 	end if;
 	
-	-- hourvmtfraction: no schema changes, but we removed the requirement for roadTypeID 1 rows in this table, so do not include those when transferring data
+	-- hourvmtfraction: no schema changes and input data can be transferred as-is
     if (hourvmtfractionTableRows >= 0) then
 		create table hourvmtfraction like ##defaultdb##.hourvmtfraction;
-        insert ignore into hourvmtfraction select * from ##inputdb##.hourvmtfraction WHERE roadTypeID <> 1;
+        insert ignore into hourvmtfraction select * from ##inputdb##.hourvmtfraction;
 	end if;
     if (hourvmtfractionTableRows > 0) then
-		insert into auditlog VALUES (NOW(), 'Converter', 'transferred hourvmtfraction table', 'Ignored roadTypeID 1 values (not necessary for MOVES5)');
+		insert into auditlog VALUES (NOW(), 'Converter', 'transferred hourvmtfraction table', '');
 	end if;
 
 	-- hpmsvtypeday: no schema changes and input data can be transferred as-is
@@ -412,18 +300,13 @@ begin
 		insert into auditlog VALUES (NOW(), 'Converter', 'transferred idledayadjust table', '');
 	end if;
 	
-	-- idlemodelyeargrouping: no schema changes. However, if data contain MY1960, extend back to MY1950
+	-- idlemodelyeargrouping: no schema changes and input data can be transferred as-is
     if (idlemodelyeargroupingTableRows >= 0) then
 		create table idlemodelyeargrouping like ##defaultdb##.idlemodelyeargrouping;
         insert ignore into idlemodelyeargrouping select * from ##inputdb##.idlemodelyeargrouping;
 	end if;
     if (idlemodelyeargroupingTableRows > 0) then
-        if ((select count(*) from idlemodelyeargrouping WHERE minModelYearID = 1960) > 0) then
-            update idlemodelyeargrouping set minModelYearID = 1950 WHERE minModelYearID = 1960;
-		    insert into auditlog VALUES (NOW(), 'Converter', 'transferred idlemodelyeargrouping table', 'Updated minModelYearID from 1960 to 1950');
-        else
-		    insert into auditlog VALUES (NOW(), 'Converter', 'transferred idlemodelyeargrouping table', '');
-        end if;
+		insert into auditlog VALUES (NOW(), 'Converter', 'transferred idlemodelyeargrouping table', '');
 	end if;
 	
 	-- idlemonthadjust: no schema changes and input data can be transferred as-is
@@ -435,33 +318,23 @@ begin
 		insert into auditlog VALUES (NOW(), 'Converter', 'transferred idlemonthadjust table', '');
 	end if;
 	
-	-- totalidlefraction: no schema changes. However, if data contain MY1960, extend back to MY1950
+	-- totalidlefraction: no schema changes and input data can be transferred as-is
     if (totalidlefractionTableRows >= 0) then
 		create table totalidlefraction like ##defaultdb##.totalidlefraction;
         insert ignore into totalidlefraction select * from ##inputdb##.totalidlefraction;
 	end if;
     if (totalidlefractionTableRows > 0) then
-        if ((select count(*) from totalidlefraction WHERE minModelYearID = 1960) > 0) then
-            update totalidlefraction set minModelYearID = 1950 WHERE minModelYearID = 1960;
-		    insert into auditlog VALUES (NOW(), 'Converter', 'transferred totalidlefraction table', 'Updated minModelYearID from 1960 to 1950');
-        else
-		    insert into auditlog VALUES (NOW(), 'Converter', 'transferred totalidlefraction table', '');
-        end if;
+		insert into auditlog VALUES (NOW(), 'Converter', 'transferred totalidlefraction table', '');
 	end if;
-
-	-- imcoverage: if original input db values are based on MOVES defaults, user should clear this data in
-    --             the new input db, export the new default values, and reimport them.
-    --             Note: the converter updates programs that apply to MY1960 to apply to MY1950 as well.
+	
+	-- imcoverage: the default data did not change between MOVES5 and MOVES6, so data can be copied over as-is with no warning
     if (imcoverageTableRows >= 0) then
 		create table imcoverage like ##defaultdb##.imcoverage;
         insert ignore into imcoverage select * from ##inputdb##.imcoverage;
 	end if;
     if (imcoverageTableRows > 0) then
-        update imcoverage set begModelYearID = 1950 WHERE begModelYearID = 1960;
-	    insert into convertTempMessages VALUES ('IMCoverage data transferred. If these were based on MOVES4 defaults, clear these data in the new input'),
-                                               ('     database, export the MOVES5 defaults, and modify as necessary.');
-		insert into auditlog VALUES (NOW(), 'Converter', 'transferred imcoverage table', 'Additional work may be necessary. See converter help for more information');
-	end if;
+		insert into auditlog VALUES (NOW(), 'Converter', 'transferred imcoverage table', '');
+	end if;	
 
 	-- link: no schema changes and input data can be transferred as-is
     if (linkTableRows >= 0) then
@@ -532,10 +405,15 @@ begin
         insert ignore into sourcetypeagedistribution select * from ##inputdb##.sourcetypeagedistribution;
 	end if;
     if (sourcetypeagedistributionTableRows > 0) then
-        call DBConverter_agedisthelper();
-	    insert into convertTempMessages VALUES ('SourceTypeAgeDistribution values transferred. Age fractions for 30-40 estimated based on the provided'),
-                                               ('     fractions for age 30. Note that the MOVES5 default age distributions for long-haul source types (53 and 62)'),
-                                               ('     were used instead transferring over the data from the source database.');
+		-- drop long-haul age distributions and replace with default ones, then order the resulting table
+		DELETE FROM sourcetypeagedistribution WHERE sourceTypeID IN (53, 62);
+		INSERT INTO sourcetypeagedistribution
+			SELECT * FROM ##defaultdb##.sourcetypeagedistribution
+			WHERE sourceTypeID IN (53, 62) AND yearID IN (SELECT DISTINCT yearID FROM sourcetypeagedistribution);
+		ALTER TABLE sourcetypeagedistribution ORDER BY sourceTypeID, yearID, ageID;
+
+	    insert into convertTempMessages VALUES ('SourceTypeAgeDistribution values transferred. Note that the MOVES6 default age distributions for long-haul'),
+                                               ('     source types (53 and 62) were used instead transferring over the data from the source database.');
 		insert into auditlog VALUES (NOW(), 'Converter', 'transferred SourceTypeAgeDistribution table', 'See converter help for more information regarding this table');
 	end if;
     
@@ -565,23 +443,23 @@ begin
     if (sourcetypeyearvmtTableRows > 0) then
 		insert into auditlog VALUES (NOW(), 'Converter', 'transferred sourcetypeyearvmt table', '');
 	end if;
-
-	-- starts: no schema changes, but the MOVES4 data are not compatible with MOVES5
+    
+	-- starts: no schema changes and input data can be transferred as-is
     if (startsTableRows >= 0) then
 		create table starts like ##defaultdb##.starts;
+        insert ignore into starts select * from ##inputdb##.starts;
 	end if;
     if (startsTableRows > 0) then
-    	insert into convertTempMessages VALUES ('Starts table not transferred. MOVES5 requires data that varies by age to include ages 0-40.');
-		insert into auditlog VALUES (NOW(), 'Converter', 'could not transfer starts table', 'Data must be reanalyzed for MOVES5');
+		insert into auditlog VALUES (NOW(), 'Converter', 'transferred starts table', '');
 	end if;
-
-	-- startsageadjustment: no schema changes, but the MOVES4 data are not compatible with MOVES5
+    
+	-- startsageadjustment: no schema changes and input data can be transferred as-is
     if (startsageadjustmentTableRows >= 0) then
 		create table startsageadjustment like ##defaultdb##.startsageadjustment;
+        insert ignore into startsageadjustment select * from ##inputdb##.startsageadjustment;
 	end if;
     if (startsageadjustmentTableRows > 0) then
-    	insert into convertTempMessages VALUES ('StartsAgeAdjustment table not transferred. MOVES5 requires data that varies by age to include ages 0-40.');
-		insert into auditlog VALUES (NOW(), 'Converter', 'could not transfer startsageadjustment table', 'Data must be reanalyzed for MOVES5');
+		insert into auditlog VALUES (NOW(), 'Converter', 'transferred startsageadjustment table', '');
 	end if;
 
 	-- startshourfraction: no schema changes and input data can be transferred as-is
@@ -602,18 +480,13 @@ begin
 		insert into auditlog VALUES (NOW(), 'Converter', 'transferred startsmonthadjust table', '');
 	end if;
 
-	-- startsopmodedistribution: no schema changes. Need to estimate soak distributions for ages 31-40
-    --                           based on age 30
+	-- startsopmodedistribution: no schema changes and input data can be transferred as-is
     if (startsopmodedistributionTableRows >= 0) then
 		create table startsopmodedistribution like ##defaultdb##.startsopmodedistribution;
         insert ignore into startsopmodedistribution select * from ##inputdb##.startsopmodedistribution;
-        insert ignore into startsopmodedistribution 
-            select dayID, hourID, sourceTypeID, ac.ageID, opModeID, opModeFraction, isUserInput
-            from startsopmodedistribution sod, ##defaultdb##.agecategory ac
-            where sod.ageID = 30 and ac.ageID between 31 and 40;
 	end if;
     if (startsopmodedistributionTableRows > 0) then
-		insert into auditlog VALUES (NOW(), 'Converter', 'transferred startsopmodedistribution table', 'duplicated age 30 soak distributions for ages 31-40');
+		insert into auditlog VALUES (NOW(), 'Converter', 'transferred startsopmodedistribution table', '');
 	end if;
 
 	-- startsperday: no schema changes and input data can be transferred as-is
@@ -764,4 +637,3 @@ EndBlock
 
 call DBConverter();
 drop procedure if exists DBConverter;
-drop procedure if exists DBConverter_agedisthelper;

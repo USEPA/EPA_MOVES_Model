@@ -1,7 +1,4 @@
 -- ###################################################################
--- MOVES5_MyNLEVs.sql
--- 11/16/2022
--- 
 -- This script is intended to be used in conjunction with the NLEV
 -- Tool in MOVES. To access the tool, open the Tools menu in MOVES, 
 -- and select "Build NLEV Input Database". The full instructions for
