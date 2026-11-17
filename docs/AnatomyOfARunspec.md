@@ -113,9 +113,8 @@ The **day** subelement indicates the types of days for the model to run. Up to t
 
 Valid entries for *id* are:
 
-* 2 - this indicates weekday days
-
-* 5 - this indicates weekend days
+* 2 - this indicates the weekend day type
+* 5 - this indicates the weekday day type
 
 ### beginhour
 
@@ -198,7 +197,7 @@ Values for *roadtypeid* and *roadtypename* should be taken from the `roadtype` t
 Valid entries for *modelCombination* are:
 
 * M1 - this denotes an onroad run
-* M2 -  this denotes a nonroad run
+* M2 - this denotes a nonroad run
 
 ## Pollutant process associations
 
